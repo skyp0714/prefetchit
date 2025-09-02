@@ -8,20 +8,11 @@ from statistics import mean, variance, stdev
 from collections import defaultdict
 
 # Regex patterns for metrics we want to aggregate
-RE_TIME_TSC = re.compile(r"Time\(monotonic\):\s*(\d+)\s*ns,\s*TSC:\s*(\d+)\s*cycles")
-RE_RAW      = re.compile(r"Raw\s+Cycles/ns:\s*([0-9]*\.?[0-9]+)\s*\|\s*ns/task\(raw\):\s*([0-9]*\.?[0-9]+)")
-RE_FIXED    = re.compile(r"Time\(from fixed freq\):\s*(\d+)\s*ns\s*\|\s*ns/task\(fixed\):\s*([0-9]*\.?[0-9]+)")
-RE_FREQ     = re.compile(r"Fixed\s+CPU\s+freq:\s*([0-9]*\.?[0-9]+)\s*MHz")
-
-METRIC_KEYS = [
-    "time_ns",
-    "tsc_cycles",
-    "cycles_per_ns_raw",
-    "ns_per_task_raw",
-    "time_ns_fixed",
-    "ns_per_task_fixed",
-    "fixed_mhz",
-]
+RE_L1I_MISS = re.compile(r"L1I-load-misses:\s*(\d+)")
+RE_ITLB_MISS = re.compile(r"iTLB-load-misses:\s*(\d+)")
+RE_INSTRUCTIONS = re.compile(r"Instructions:\s*(\d+)")
+RE_FIXED = re.compile(r"Time\(from fixed freq\):\s*(\d+)\s*ns\s*\|\s*ns/task\(fixed\):\s*([0-9]*\.?[0-9]+)")
+RE_FREQ = re.compile(r"Fixed\s+CPU\s+freq:\s*([0-9]*\.?[0-9]+)\s*MHz")
 
 
 def run_once(cmd: str):
@@ -36,21 +27,33 @@ def run_once(cmd: str):
 
 def parse_metrics(output: str):
     m = {}
-    m_time = RE_TIME_TSC.search(output)
-    if m_time:
-        m["time_ns"] = int(m_time.group(1))
-        m["tsc_cycles"] = int(m_time.group(2))
-    m_raw = RE_RAW.search(output)
-    if m_raw:
-        m["cycles_per_ns_raw"] = float(m_raw.group(1))
-        m["ns_per_task_raw"] = float(m_raw.group(2))
+    
+    # L1I cache misses
+    m_l1i = RE_L1I_MISS.search(output)
+    if m_l1i:
+        m["l1i_misses"] = int(m_l1i.group(1))
+    
+    # iTLB misses
+    m_itlb = RE_ITLB_MISS.search(output)
+    if m_itlb:
+        m["itlb_misses"] = int(m_itlb.group(1))
+    
+    # Instructions
+    m_insts = RE_INSTRUCTIONS.search(output)
+    if m_insts:
+        m["instructions"] = int(m_insts.group(1))
+    
+    # Fixed frequency timing
     m_fixed = RE_FIXED.search(output)
     if m_fixed:
         m["time_ns_fixed"] = int(m_fixed.group(1))
         m["ns_per_task_fixed"] = float(m_fixed.group(2))
+    
+    # CPU frequency
     m_freq = RE_FREQ.search(output)
     if m_freq:
-        m["fixed_mhz"] = float(m_freq.group(1))
+        m["freq_mhz"] = float(m_freq.group(1))
+    
     return m
 
 
@@ -81,10 +84,15 @@ def compute_stats(records):
 
 def main():
     ap = argparse.ArgumentParser(description="Run lat_bench multiple times and compute mean/stdev/variance of metrics")
-    ap.add_argument("--cmd", default="./lat_bench 1 256 28 0", help="Command to execute per run (use quotes). Include 'sudo ' if needed.")
+    ap.add_argument("--cmd", default="./lat_bench 1 256 28 1", help="Command to execute per run (use quotes). Include 'sudo ' if needed.")
     ap.add_argument("--iters", type=int, default=100, help="Number of iterations")
     ap.add_argument("--print-each", action="store_true", help="Print raw output of each run")
     args = ap.parse_args()
+
+    # Print command being executed
+    print(f"Command: {args.cmd}")
+    print(f"Iterations: {args.iters}")
+    print()
 
     records = []
     for i in range(args.iters):
@@ -100,22 +108,22 @@ def main():
 
     stats = compute_stats(records)
 
-    # Summary
-    print("\nSummary (mean, stdev, variance) over", args.iters, "runs")
-    def pr(key, unit=""):
+    # Summary - only report the requested fields
+    print(f"Summary (mean ± stdev) over {args.iters} runs:")
+    def pr(key, unit="", name=None):
+        display_name = name or key
         if key in stats:
             s = stats[key]
-            print(f"- {key}: mean={s['mean']:.2f}{unit}, stdev={s['stdev']:.2f}{unit}")
+            print(f"  {display_name}: {s['mean']:.2f} ± {s['stdev']:.2f}{unit}")
         else:
-            print(f"- {key}: n/a")
+            print(f"  {display_name}: n/a")
 
-    pr("time_ns", " ns")
-    pr("tsc_cycles", " cycles")
-    pr("cycles_per_ns_raw", " cyc/ns")
-    pr("ns_per_task_raw", " ns/task")
-    pr("time_ns_fixed", " ns")
-    pr("ns_per_task_fixed", " ns/task")
-    pr("fixed_mhz", " MHz")
+    pr("l1i_misses", "", "L1I cache misses")
+    pr("itlb_misses", "", "iTLB misses") 
+    pr("instructions", "", "Instructions")
+    pr("freq_mhz", " MHz", "CPU frequency")
+    pr("time_ns_fixed", " ns", "Time (fixed freq)")
+    pr("ns_per_task_fixed", " ns/task", "ns/task (fixed freq)")
 
 if __name__ == "__main__":
     main()
