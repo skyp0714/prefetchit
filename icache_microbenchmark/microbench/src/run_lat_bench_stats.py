@@ -7,12 +7,28 @@ import shlex
 from statistics import mean, variance, stdev
 from collections import defaultdict
 
-# Regex patterns for metrics we want to aggregate
-RE_L1I_MISS = re.compile(r"L1I-load-misses:\s*(\d+)")
-RE_ITLB_MISS = re.compile(r"iTLB-load-misses:\s*(\d+)")
-RE_INSTRUCTIONS = re.compile(r"Instructions:\s*(\d+)")
-RE_FIXED = re.compile(r"Time\(from fixed freq\):\s*(\d+)\s*ns\s*\|\s*ns/task\(fixed\):\s*([0-9]*\.?[0-9]+)")
-RE_FREQ = re.compile(r"Fixed\s+CPU\s+freq:\s*([0-9]*\.?[0-9]+)\s*MHz")
+# Flexible metric patterns - order independent parsing
+METRIC_PATTERNS = {
+    # Cache and instruction metrics
+    'l1i_misses': re.compile(r"L1I-load-misses:\s*(\d+)"),
+    'itlb_misses': re.compile(r"iTLB-load-misses:\s*(\d+)"),
+    'instructions': re.compile(r"Instructions:\s*(\d+)"),
+    
+    # MPKI metrics (optional)
+    'l1i_mpki': re.compile(r"L1I-load-misses:.*MPKI=([0-9]*\.?[0-9]+)"),
+    'itlb_mpki': re.compile(r"iTLB-load-misses:.*MPKI=([0-9]*\.?[0-9]+)"),
+    
+    # Timing metrics  
+    'time_monotonic_ns': re.compile(r"Time\(monotonic\):\s*(\d+)\s*ns"),
+    'tsc_cycles': re.compile(r"TSC:\s*(\d+)\s*cycles"),
+    'cycles_per_ns_raw': re.compile(r"Raw\s+Cycles/ns:\s*([0-9]*\.?[0-9]+)"),
+    'ns_per_task_raw': re.compile(r"ns/task\(raw\):\s*([0-9]*\.?[0-9]+)"),
+    
+    # Fixed frequency metrics (optional)
+    'time_ns_fixed': re.compile(r"Time\(from fixed freq\):\s*(\d+)\s*ns"),
+    'ns_per_task_fixed': re.compile(r"ns/task\(fixed\):\s*([0-9]*\.?[0-9]+)"),
+    'freq_mhz': re.compile(r"Fixed\s+CPU\s+freq:\s*([0-9]*\.?[0-9]+)\s*MHz"),
+}
 
 
 def run_once(cmd: str):
@@ -26,35 +42,24 @@ def run_once(cmd: str):
 
 
 def parse_metrics(output: str):
-    m = {}
+    """Parse all available metrics from output using flexible regex patterns"""
+    metrics = {}
     
-    # L1I cache misses
-    m_l1i = RE_L1I_MISS.search(output)
-    if m_l1i:
-        m["l1i_misses"] = int(m_l1i.group(1))
+    # Try to match each metric pattern
+    for metric_name, pattern in METRIC_PATTERNS.items():
+        match = pattern.search(output)
+        if match:
+            try:
+                # Convert to appropriate type
+                value = match.group(1)
+                if '.' in value or 'mpki' in metric_name or 'cycles_per_ns' in metric_name or 'ns_per_task' in metric_name:
+                    metrics[metric_name] = float(value)
+                else:
+                    metrics[metric_name] = int(value)
+            except (ValueError, IndexError):
+                continue  # Skip invalid matches
     
-    # iTLB misses
-    m_itlb = RE_ITLB_MISS.search(output)
-    if m_itlb:
-        m["itlb_misses"] = int(m_itlb.group(1))
-    
-    # Instructions
-    m_insts = RE_INSTRUCTIONS.search(output)
-    if m_insts:
-        m["instructions"] = int(m_insts.group(1))
-    
-    # Fixed frequency timing
-    m_fixed = RE_FIXED.search(output)
-    if m_fixed:
-        m["time_ns_fixed"] = int(m_fixed.group(1))
-        m["ns_per_task_fixed"] = float(m_fixed.group(2))
-    
-    # CPU frequency
-    m_freq = RE_FREQ.search(output)
-    if m_freq:
-        m["freq_mhz"] = float(m_freq.group(1))
-    
-    return m
+    return metrics
 
 
 def compute_stats(records):
@@ -84,7 +89,7 @@ def compute_stats(records):
 
 def main():
     ap = argparse.ArgumentParser(description="Run lat_bench multiple times and compute mean/stdev/variance of metrics")
-    ap.add_argument("--cmd", default="./lat_bench 1 256 28 0", help="Command to execute per run (use quotes). Include 'sudo ' if needed.")
+    ap.add_argument("--cmd", default="./lat_bench 1 256 28 1", help="Command to execute per run (use quotes). Include 'sudo ' if needed.")
     ap.add_argument("--iters", type=int, default=100, help="Number of iterations")
     ap.add_argument("--print-each", action="store_true", help="Print raw output of each run")
     args = ap.parse_args()
@@ -108,22 +113,37 @@ def main():
 
     stats = compute_stats(records)
 
-    # Summary - only report the requested fields
+    # Summary - dynamically show all available metrics
     print(f"Summary (mean ± stdev) over {args.iters} runs:")
-    def pr(key, unit="", name=None):
-        display_name = name or key
-        if key in stats:
-            s = stats[key]
+    
+    # Define display order and names for metrics
+    METRIC_DISPLAY = {
+        'l1i_misses': ('L1I cache misses', ''),
+        'itlb_misses': ('iTLB misses', ''), 
+        'instructions': ('Instructions', ''),
+        'l1i_mpki': ('L1I MPKI', ''),
+        'itlb_mpki': ('iTLB MPKI', ''),
+        'time_monotonic_ns': ('Time (monotonic)', ' ns'),
+        'tsc_cycles': ('TSC cycles', ''),
+        'cycles_per_ns_raw': ('Cycles/ns (raw)', ''),
+        'ns_per_task_raw': ('ns/task (raw)', ' ns'),
+        'freq_mhz': ('CPU frequency', ' MHz'),
+        'time_ns_fixed': ('Time (fixed freq)', ' ns'),
+        'ns_per_task_fixed': ('ns/task (fixed freq)', ' ns'),
+    }
+    
+    # Show metrics in preferred order, but only if available
+    for metric_key, (display_name, unit) in METRIC_DISPLAY.items():
+        if metric_key in stats:
+            s = stats[metric_key]
             print(f"  {display_name}: {s['mean']:.2f} ± {s['stdev']:.2f}{unit}")
-        else:
-            print(f"  {display_name}: n/a")
-
-    pr("l1i_misses", "", "L1I cache misses")
-    pr("itlb_misses", "", "iTLB misses") 
-    pr("instructions", "", "Instructions")
-    pr("freq_mhz", " MHz", "CPU frequency")
-    pr("time_ns_fixed", " ns", "Time (fixed freq)")
-    pr("ns_per_task_fixed", " ns/task", "ns/task (fixed freq)")
+    
+    # Show any additional metrics not in the display list
+    shown_keys = set(METRIC_DISPLAY.keys())
+    for metric_key in sorted(stats.keys()):
+        if metric_key not in shown_keys:
+            s = stats[metric_key]
+            print(f"  {metric_key}: {s['mean']:.2f} ± {s['stdev']:.2f}")
 
 if __name__ == "__main__":
     main()

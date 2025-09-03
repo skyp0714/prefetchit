@@ -45,7 +45,7 @@ static bool has_prefetchi(void){
 }
 
 #ifndef TASK_NOP_B
-#define TASK_NOP_B 64
+#define TASK_NOP_B 0
 #endif
 #define STR2(x) #x
 #define STR(x) STR2(x)
@@ -92,10 +92,16 @@ static bool has_prefetchi(void){
   X(240) X(241) X(242) X(243) X(244) X(245) X(246) X(247) X(248) X(249) X(250) X(251) X(252) X(253) X(254) X(255)
 #endif
 
-// Forward declarations (symbol names are used for prefetch)
-#define DECL_TASK(N) void task_##N(void);
-TASKS(DECL_TASK)
-#undef DECL_TASK
+// Task and prefetch function declarations
+#define DECL_TASK_AND_PREFETCH(N)                              \
+  void task_##N(void) __attribute__((noinline,used));          \
+  void task_##N(void);                                         \
+  static inline void prefetch_task_##N(void) {                 \
+    __builtin_ia32_prefetchi(task_##N, 3);                     \
+  }
+
+TASKS(DECL_TASK_AND_PREFETCH)
+#undef DECL_TASK_AND_PREFETCH
 
 // ---------- PREFETCHI (intrinsic path) ----------
 #if defined(ENABLE_PREFETCHI_INTRIN)
@@ -104,17 +110,6 @@ TASKS(DECL_TASK)
 #define PREFETCHI_HINT _MM_HINT_IT0  
 #endif
 
-// Direct function pointer prefetch - zero switch overhead
-__attribute__((target("prefetchi"), always_inline))
-static inline void prefetch_i_by_fn(TaskFn fn) {
-    if (fn) {
-        #if PREFETCHI_HINT == _MM_HINT_IT0
-            __builtin_ia32_prefetchi((void*)fn, 3);
-        #else
-            __builtin_ia32_prefetchi((void*)fn, 2);
-        #endif
-    }
-}
 #endif  // ENABLE_PREFETCHI_INTRIN
 
 // ---------- NOP window ----------
@@ -140,57 +135,21 @@ static inline __attribute__((always_inline)) void emit_nops_exact(int n) {
     }
 }
 
-// ---------- prefetch injection ----------
-// Now handled directly in run_queue() with look-ahead prefetch
-
-// ---------- prefetch_all_tasks ----------
-// __attribute__((noinline))
-// void prefetch_all_tasks(void) {
-// #if defined(ENABLE_PREFETCHI_INTRIN)
-//   // Iterate all tasks via TASKS
-//   #define TO_FN(N) task_##N,
-//   static TaskFn const all[] = { TASKS(TO_FN) };
-//   #undef TO_FN
-//   for (unsigned i = 0; i < sizeof(all)/sizeof(all[0]); ++i)
-//     prefetch_i_symbol(all[i]);
-// #else
-//   (void)0;
-// #endif
-// }
+// ---------- prefetch all tasks ----------
+__attribute__((noinline))
+void prefetch_all_tasks(void) {
+#if defined(ENABLE_PREFETCHI_INTRIN)
+    // Prefetch all 256 task functions using RIP-relative addressing
+    // This can be used to warm up the instruction cache before benchmarking
+    #define PREFETCH_TASK(N) __builtin_ia32_prefetchi(task_##N, 3);
+    TASKS(PREFETCH_TASK)
+    #undef PREFETCH_TASK
+#endif
+}
 
 // ---------- task definitions ----------
 #define DEFINE_TASK(N) \
 void __attribute__((noinline, section(TASKS_SECTION), aligned(TASK_CODE_ALIGN))) task_##N(void) { \
-    /* More complex computation with varied patterns */ \
-    uint64_t x = (uint64_t)(0x9e3779b97f4a7c15ULL ^ (N * 1315423911u)); \
-    uint64_t y = (uint64_t)(0x6c078965ULL ^ (N * 2654435769u)); \
-    uint64_t z = (uint64_t)(0x1f83d9abfb41bd6bULL ^ (N * 3141592653u)); \
-    \
-    /* Extended computation loop with more complex operations */ \
-    for (int i = 0; i < 256 + (N % 13); ++i) { \
-        /* Multiple arithmetic and bitwise operations */ \
-        x ^= (x << ((N % 5) + 1)) + (y >> ((N % 3) + 2)); \
-        y += (uint64_t)(i * (N + 7) + 0x27d4eb2d) ^ (z << ((N % 4) + 1)); \
-        z ^= (z >> ((N % 6) + 1)) + (x & 0xF0F0F0F0F0F0F0F0ULL); \
-        \
-        /* Additional branching based on task number */ \
-        if ((N + i) % 3 == 0) { \
-            x = (x * 0x5DEECE66DULL + 0xBULL) & 0xFFFFFFFFFFFFULL; \
-        } else if ((N + i) % 5 == 0) { \
-            y = y ^ (y >> 17) ^ (y >> 31); \
-        } else { \
-            z = z + (z << 3) + (z >> 7); \
-        } \
-        \
-        /* Memory access pattern simulation */ \
-        volatile uint64_t temp = x + y + z; \
-        (void)temp; /* Prevent optimization */ \
-    } \
-    \
-    /* Final computation with function-specific constants */ \
-    x = (x ^ y ^ z) + (N * 0x12345678ULL); \
-    g_sink += x; \
-    \
     /* Extended NOP padding for larger instruction footprint */ \
     asm volatile( \
         ".rept "  STR(TASK_NOP_B) "\n\t" \
@@ -206,15 +165,23 @@ TASKS(DEF_TASK)
 
 
 // ---------- queue ----------
+typedef void (*PrefetchFn)(void);
+
 typedef struct {
     TaskFn fn;
-    int    id; // symbol id (index into TASKS order)
+    PrefetchFn prefetch_fn;
+    int    id; // symbol id (index into TASKS order)  
 } QueueItem;
 
-// Change queue to carry (fn, id)
+// Task and prefetch function arrays
 #define TASK_ELEM(N) task_##N,
 TaskFn const kAllTasks[] = { TASKS(TASK_ELEM) };
 #undef TASK_ELEM
+
+#define PREFETCH_ELEM(N) prefetch_task_##N,
+PrefetchFn const kAllPrefetch[] = { TASKS(PREFETCH_ELEM) };
+#undef PREFETCH_ELEM
+
 enum { kNumTasks = (int)(sizeof(kAllTasks)/sizeof(kAllTasks[0])) };
 
 static QueueItem* build_queue(int count) {
@@ -223,25 +190,26 @@ static QueueItem* build_queue(int count) {
     for (int i = 0; i < count; ++i) {
         int id = i % kNumTasks;
         q[i].fn = kAllTasks[id];
+        q[i].prefetch_fn = kAllPrefetch[id];
         q[i].id = id;
     }
     return q;
 }
 static inline void run_queue(QueueItem* q, int len) {
-    for (int i = 0; i < len; ++i) {
+    for (int i = 0; i < len-2; ++i) {
         const QueueItem it = q[i];
         
-        // Prefetch the NEXT function in the queue (look-ahead prefetch)
-        if (g_prefetch_enable) {
-            emit_nops_exact(g_prefetch_pos);
-            // prefetch_i_by_fn(q[i].fn);
-            __builtin_ia32_prefetchi((void*)it.fn, 3);
-            emit_nops_exact(PREFETCH_NOPS_WINDOW - g_prefetch_pos);
-        } else {
-            // Keep NOP window consistent even when not prefetching
-            emit_nops_exact(g_prefetch_pos);
-            emit_nops_exact(PREFETCH_NOPS_WINDOW - g_prefetch_pos);
-        }
+        // Prefetch the NEXT function in the queue using dedicated prefetch function
+        // if (g_prefetch_enable) {
+        //     emit_nops_exact(g_prefetch_pos);
+        //     // Use RIP-relative prefetch function for next task
+        //     q[i+2].prefetch_fn();
+        //     emit_nops_exact(PREFETCH_NOPS_WINDOW - g_prefetch_pos);
+        // } else {
+        //     // Keep NOP window consistent even when not prefetching
+        //     emit_nops_exact(g_prefetch_pos);
+        //     emit_nops_exact(PREFETCH_NOPS_WINDOW - g_prefetch_pos);
+        // }
         
         it.fn();
     }
@@ -272,17 +240,19 @@ int main(int argc, char** argv) {
     elevate_realtime(rt_prio);
     lock_and_prefault(8ull * 1024 * 1024);
 
-    uint64_t fixed_hz = 0;
-    bool freq_locked = (geteuid() == 0) && lock_cpu_freq(cpu, &fixed_hz);
-    if (!freq_locked) {
-        fprintf(stderr, "WARN: CPU freq lock failed or not root; proceeding without fixed freq.\n");
-    }
+    // uint64_t fixed_hz = 0;
+    // bool freq_locked = (geteuid() == 0) && lock_cpu_freq(cpu, &fixed_hz);
+    // if (!freq_locked) {
+    //     fprintf(stderr, "WARN: CPU freq lock failed or not root; proceeding without fixed freq.\n");
+    // }
 
     QueueItem* queue = build_queue(qlen);
     if (!queue) {
         fprintf(stderr, "FATAL: queue alloc failed\n");
         return 1;
     }
+
+    if (g_prefetch_enable) prefetch_all_tasks();
 
     // --- perf icache metrics setup (simplified) ---
     PerfGroup pg = perf_group_open();
@@ -324,21 +294,21 @@ int main(int argc, char** argv) {
 
     printf("Ran %llu tasks (%d funcs RR) in %d rounds on CPU %d\n",
            (unsigned long long)ops, kNumTasks, rounds, cpu);
-    printf("Time(monotonic): %llu ns, TSC: %llu cycles\n",
-           (unsigned long long)ns, (unsigned long long)cyc);
+    // printf("Time(monotonic): %llu ns, TSC: %llu cycles\n",
+    //        (unsigned long long)ns, (unsigned long long)cyc);
 
     if (ns) {
         double cyc_per_ns   = (double)cyc / (double)ns;
         double ns_per_task  = (double)ns  / (double)ops;
         printf("Raw Cycles/ns: %.3f  |  ns/task(raw): %.3f\n", cyc_per_ns, ns_per_task);
     }
-    if (freq_locked && fixed_hz) {
-        long double fixed_ns = (long double)cyc * 1.0e9L / (long double)fixed_hz;
-        long double fixed_ns_per_task = fixed_ns / (long double)ops;
-        printf("Fixed CPU freq: %.3f MHz\n", (double)fixed_hz / 1.0e6);
-        printf("Time(from fixed freq): %.0Lf ns  |  ns/task(fixed): %.3Lf\n",
-               fixed_ns, fixed_ns_per_task);
-    }
+    // if (freq_locked && fixed_hz) {
+    //     long double fixed_ns = (long double)cyc * 1.0e9L / (long double)fixed_hz;
+    //     long double fixed_ns_per_task = fixed_ns / (long double)ops;
+    //     printf("Fixed CPU freq: %.3f MHz\n", (double)fixed_hz / 1.0e6);
+    //     printf("Time(from fixed freq): %.0Lf ns  |  ns/task(fixed): %.3Lf\n",
+    //            fixed_ns, fixed_ns_per_task);
+    // }
 
     printf("sink=%llu\n", (unsigned long long)g_sink);
 
