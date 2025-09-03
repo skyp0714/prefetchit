@@ -45,7 +45,7 @@ static bool has_prefetchi(void){
 }
 
 #ifndef TASK_NOP_B
-#define TASK_NOP_B 128
+#define TASK_NOP_B 64
 #endif
 #define STR2(x) #x
 #define STR(x) STR2(x)
@@ -54,11 +54,11 @@ static bool has_prefetchi(void){
 #define TASKS_SECTION ".text.tasks"
 #endif
 #ifndef TASK_CODE_ALIGN
-#define TASK_CODE_ALIGN 256
+#define TASK_CODE_ALIGN 128
 #endif
 
 #ifndef CODE_PAD_B
-#define CODE_PAD_B 256
+#define CODE_PAD_B 4096
 #endif
 
 #define INSERT_TASK_PAD(NAME, B)                                         \
@@ -104,15 +104,15 @@ TASKS(DECL_TASK)
 #define PREFETCHI_HINT _MM_HINT_IT0  
 #endif
 
-// Prefetch by symbol id (emits prefetchit0/1 to &task_N)
+// Direct function pointer prefetch - zero switch overhead
 __attribute__((target("prefetchi"), always_inline))
-static inline void prefetch_i_by_id(int id) {
-    // Must use function symbols directly for instruction prefetch
-    switch (id) {
-    #define CASE_PREFETCH(N) case N: _mm_prefetch(task_##N, PREFETCHI_HINT); break;
-        TASKS(CASE_PREFETCH)
-    #undef CASE_PREFETCH
-    default: break;
+static inline void prefetch_i_by_fn(TaskFn fn) {
+    if (fn) {
+        #if PREFETCHI_HINT == _MM_HINT_IT0
+            __builtin_ia32_prefetchi((void*)fn, 3);
+        #else
+            __builtin_ia32_prefetchi((void*)fn, 2);
+        #endif
     }
 }
 #endif  // ENABLE_PREFETCHI_INTRIN
@@ -141,18 +141,7 @@ static inline __attribute__((always_inline)) void emit_nops_exact(int n) {
 }
 
 // ---------- prefetch injection ----------
-// Replace pointer-based prefetch with symbol-id based one
-static inline void pre_call_dummy_by_id(int id, int pos) {
-    if (pos < 0) pos = 0;
-    if (pos > PREFETCH_NOPS_WINDOW) pos = PREFETCH_NOPS_WINDOW;
-    emit_nops_exact(pos);
-    if (g_prefetch_enable) {
-    #if defined(ENABLE_PREFETCHI_INTRIN)
-        prefetch_i_by_id(id);
-    #endif
-    }
-    emit_nops_exact(PREFETCH_NOPS_WINDOW - pos);
-}
+// Now handled directly in run_queue() with look-ahead prefetch
 
 // ---------- prefetch_all_tasks ----------
 // __attribute__((noinline))
@@ -172,13 +161,37 @@ static inline void pre_call_dummy_by_id(int id, int pos) {
 // ---------- task definitions ----------
 #define DEFINE_TASK(N) \
 void __attribute__((noinline, section(TASKS_SECTION), aligned(TASK_CODE_ALIGN))) task_##N(void) { \
+    /* More complex computation with varied patterns */ \
     uint64_t x = (uint64_t)(0x9e3779b97f4a7c15ULL ^ (N * 1315423911u)); \
-    for (int i = 0; i < 128 + (N % 7); ++i) { \
-        x ^= (x << ((N % 5) + 1)); \
-        x += (uint64_t)(i * (N + 3) + 0x27d4eb2d); \
-        x ^= (x >> ((N % 6) + 1)); \
+    uint64_t y = (uint64_t)(0x6c078965ULL ^ (N * 2654435769u)); \
+    uint64_t z = (uint64_t)(0x1f83d9abfb41bd6bULL ^ (N * 3141592653u)); \
+    \
+    /* Extended computation loop with more complex operations */ \
+    for (int i = 0; i < 256 + (N % 13); ++i) { \
+        /* Multiple arithmetic and bitwise operations */ \
+        x ^= (x << ((N % 5) + 1)) + (y >> ((N % 3) + 2)); \
+        y += (uint64_t)(i * (N + 7) + 0x27d4eb2d) ^ (z << ((N % 4) + 1)); \
+        z ^= (z >> ((N % 6) + 1)) + (x & 0xF0F0F0F0F0F0F0F0ULL); \
+        \
+        /* Additional branching based on task number */ \
+        if ((N + i) % 3 == 0) { \
+            x = (x * 0x5DEECE66DULL + 0xBULL) & 0xFFFFFFFFFFFFULL; \
+        } else if ((N + i) % 5 == 0) { \
+            y = y ^ (y >> 17) ^ (y >> 31); \
+        } else { \
+            z = z + (z << 3) + (z >> 7); \
+        } \
+        \
+        /* Memory access pattern simulation */ \
+        volatile uint64_t temp = x + y + z; \
+        (void)temp; /* Prevent optimization */ \
     } \
+    \
+    /* Final computation with function-specific constants */ \
+    x = (x ^ y ^ z) + (N * 0x12345678ULL); \
     g_sink += x; \
+    \
+    /* Extended NOP padding for larger instruction footprint */ \
     asm volatile( \
         ".rept "  STR(TASK_NOP_B) "\n\t" \
         "nop\n\t" \
@@ -200,7 +213,7 @@ typedef struct {
 
 // Change queue to carry (fn, id)
 #define TASK_ELEM(N) task_##N,
-static TaskFn const kAllTasks[] = { TASKS(TASK_ELEM) };
+TaskFn const kAllTasks[] = { TASKS(TASK_ELEM) };
 #undef TASK_ELEM
 enum { kNumTasks = (int)(sizeof(kAllTasks)/sizeof(kAllTasks[0])) };
 
@@ -217,7 +230,19 @@ static QueueItem* build_queue(int count) {
 static inline void run_queue(QueueItem* q, int len) {
     for (int i = 0; i < len; ++i) {
         const QueueItem it = q[i];
-        pre_call_dummy_by_id(it.id, g_prefetch_pos);
+        
+        // Prefetch the NEXT function in the queue (look-ahead prefetch)
+        if (g_prefetch_enable) {
+            emit_nops_exact(g_prefetch_pos);
+            // prefetch_i_by_fn(q[i].fn);
+            __builtin_ia32_prefetchi((void*)it.fn, 3);
+            emit_nops_exact(PREFETCH_NOPS_WINDOW - g_prefetch_pos);
+        } else {
+            // Keep NOP window consistent even when not prefetching
+            emit_nops_exact(g_prefetch_pos);
+            emit_nops_exact(PREFETCH_NOPS_WINDOW - g_prefetch_pos);
+        }
+        
         it.fn();
     }
 }
@@ -316,6 +341,9 @@ int main(int argc, char** argv) {
     }
 
     printf("sink=%llu\n", (unsigned long long)g_sink);
+
+    // Flush instruction cache to clear prefetched instructions
+    // flush_icache();
 
     // perf fd cleanup
     perf_group_close(&pg);

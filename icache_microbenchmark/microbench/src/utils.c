@@ -16,6 +16,7 @@
 #include <linux/perf_event.h>
 #include <sys/ioctl.h>
 #include <sys/syscall.h>
+#include <string.h>
 
 // ---------- sys helpers ----------
 bool pin_to_cpu(int cpu) {
@@ -125,6 +126,105 @@ uint64_t now_ns(void) {
     struct timespec ts;
     clock_gettime(CLOCK_MONOTONIC_RAW, &ts);
     return (uint64_t)ts.tv_sec * 1000000000ull + (uint64_t)ts.tv_nsec;
+}
+
+// ---------- Cache management ----------
+CacheSizes detect_cache_sizes(void) {
+    CacheSizes sizes = {0};
+    
+    // Try to detect via CPUID first (more reliable)
+    uint32_t eax, ebx, ecx, edx;
+    
+    // Check if CPUID cache info is available (leaf 4)
+    eax = 4; ecx = 0;  // L1 instruction cache
+    __asm__ volatile("cpuid" : "=a"(eax), "=b"(ebx), "=c"(ecx), "=d"(edx) : "a"(eax), "c"(ecx));
+    
+    if ((eax & 0x1F) == 2) {  // Instruction cache type
+        uint32_t ways = ((ebx >> 22) & 0x3FF) + 1;
+        uint32_t line_size = (ebx & 0xFFF) + 1;
+        uint32_t sets = ecx + 1;
+        sizes.l1i_size = ways * line_size * sets;
+    } else {
+        sizes.l1i_size = 32 * 1024;  // Default 32KB
+    }
+    
+    // Try L2 cache (leaf 4, index 1)
+    eax = 4; ecx = 1;
+    __asm__ volatile("cpuid" : "=a"(eax), "=b"(ebx), "=c"(ecx), "=d"(edx) : "a"(eax), "c"(ecx));
+    
+    if ((eax & 0x1F) == 3) {  // Unified cache type
+        uint32_t ways = ((ebx >> 22) & 0x3FF) + 1;
+        uint32_t line_size = (ebx & 0xFFF) + 1;
+        uint32_t sets = ecx + 1;
+        sizes.l2_size = ways * line_size * sets;
+    } else {
+        sizes.l2_size = 256 * 1024;  // Default 256KB
+    }
+    
+    // Try L3 cache (leaf 4, index 2)
+    eax = 4; ecx = 2;
+    __asm__ volatile("cpuid" : "=a"(eax), "=b"(ebx), "=c"(ecx), "=d"(edx) : "a"(eax), "c"(ecx));
+    
+    if ((eax & 0x1F) == 3) {  // Unified cache type
+        uint32_t ways = ((ebx >> 22) & 0x3FF) + 1;
+        uint32_t line_size = (ebx & 0xFFF) + 1;
+        uint32_t sets = ecx + 1;
+        sizes.l3_size = ways * line_size * sets;
+    } else {
+        sizes.l3_size = 8 * 1024 * 1024;  // Default 8MB
+    }
+    
+    return sizes;
+}
+
+void flush_icache(void) {
+    // Detect actual cache sizes via CPUID
+    CacheSizes sizes = detect_cache_sizes();
+    
+    // L2 is unified (data + instruction), so we need to account for both
+    // Use L1I + L2 total size, with 2x multiplier for complete eviction
+    const size_t FLUSH_SIZE = (sizes.l1i_size + sizes.l2_size) * 2;
+    
+    fprintf(stderr, "INFO: Detected cache sizes - L1I: %uKB, L2: %uKB, L3: %uMB\n",
+            sizes.l1i_size / 1024, sizes.l2_size / 1024, sizes.l3_size / (1024*1024));
+    fprintf(stderr, "INFO: Flushing instruction caches with %.1f MB of code\n", 
+            (double)FLUSH_SIZE / (1024.0 * 1024.0));
+    
+    // Allocate executable memory
+    void* flush_mem = mmap(NULL, FLUSH_SIZE, PROT_READ | PROT_WRITE | PROT_EXEC,
+                          MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+    
+    if (flush_mem == MAP_FAILED) {
+        fprintf(stderr, "WARN: icache flush failed to allocate memory: %s\n", strerror(errno));
+        return;
+    }
+    
+    // Fill with varied NOP patterns to avoid optimization
+    unsigned char* code = (unsigned char*)flush_mem;
+    for (size_t i = 0; i < FLUSH_SIZE - 1; i += 4) {
+        code[i]   = 0x90;  // NOP
+        code[i+1] = 0x90;  // NOP  
+        code[i+2] = 0x66;  // 16-bit prefix
+        code[i+3] = 0x90;  // NOP (becomes 2-byte NOP with prefix)
+    }
+    // Add return instruction at the end
+    code[FLUSH_SIZE - 1] = 0xC3;  // RET
+    
+    // Memory barrier to ensure writes are complete
+    __builtin___clear_cache((char*)flush_mem, (char*)flush_mem + FLUSH_SIZE);
+    
+    // Execute the code to force instruction cache population/eviction
+    void (*flush_func)(void) = (void(*)(void))flush_mem;
+    
+    uint64_t start_ns = now_ns();
+    flush_func();
+    uint64_t end_ns = now_ns();
+    
+    fprintf(stderr, "INFO: I-cache flush completed in %llu ns\n", 
+            (unsigned long long)(end_ns - start_ns));
+    
+    // Clean up
+    munmap(flush_mem, FLUSH_SIZE);
 }
 
 // ---------- Performance counters ----------

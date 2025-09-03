@@ -20,6 +20,16 @@ bool lock_cpu_freq(int cpu, uint64_t* hz_out);
 // Timer utilities
 uint64_t now_ns(void);
 
+// Cache management
+typedef struct {
+    uint32_t l1i_size;    // L1I cache size in bytes
+    uint32_t l2_size;     // L2 cache size in bytes (unified)
+    uint32_t l3_size;     // L3 cache size in bytes (unified)
+} CacheSizes;
+
+CacheSizes detect_cache_sizes(void);
+void flush_icache(void);
+
 // Performance counters
 typedef struct PerfGroup {
     int leader;    // INSTRUCTIONS (leader)
