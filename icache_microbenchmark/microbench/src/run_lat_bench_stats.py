@@ -90,7 +90,7 @@ def compute_stats(records):
 def main():
     ap = argparse.ArgumentParser(description="Run lat_bench multiple times and compute mean/stdev/variance of metrics")
     ap.add_argument("--cmd", default="./lat_bench 1 256 28 1", help="Command to execute per run (use quotes). Include 'sudo ' if needed.")
-    ap.add_argument("--iters", type=int, default=100, help="Number of iterations")
+    ap.add_argument("--iters", type=int, default=1000, help="Number of iterations")
     ap.add_argument("--print-each", action="store_true", help="Print raw output of each run")
     args = ap.parse_args()
 

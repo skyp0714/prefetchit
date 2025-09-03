@@ -1,6 +1,6 @@
 // latency.c  (C11/gnu11)
 // Build example:
-//   gcc -march=x86-64-v4 -m64 -no-pie -fno-plt -mprefetchi \
+//   gcc -O2 -march=x86-64-v4 -m64 -no-pie -fno-plt -mprefetchi \
 //          -DENABLE_PREFETCHI_INTRIN latency.c utils.c -o lat_bench
 // Optional:  -DPREFETCHI_HINT=_MM_HINT_IT1
 // check prefetch instruction in objdump:
@@ -45,7 +45,7 @@ static bool has_prefetchi(void){
 }
 
 #ifndef TASK_NOP_B
-#define TASK_NOP_B 0
+#define TASK_NOP_B 8
 #endif
 #define STR2(x) #x
 #define STR(x) STR2(x)
@@ -54,11 +54,11 @@ static bool has_prefetchi(void){
 #define TASKS_SECTION ".text.tasks"
 #endif
 #ifndef TASK_CODE_ALIGN
-#define TASK_CODE_ALIGN 128
+#define TASK_CODE_ALIGN 32
 #endif
 
 #ifndef CODE_PAD_B
-#define CODE_PAD_B 4096
+#define CODE_PAD_B 0
 #endif
 
 #define INSERT_TASK_PAD(NAME, B)                                         \
@@ -92,16 +92,13 @@ static bool has_prefetchi(void){
   X(240) X(241) X(242) X(243) X(244) X(245) X(246) X(247) X(248) X(249) X(250) X(251) X(252) X(253) X(254) X(255)
 #endif
 
-// Task and prefetch function declarations
-#define DECL_TASK_AND_PREFETCH(N)                              \
+// Task function declarations
+#define DECL_TASK(N)                                           \
   void task_##N(void) __attribute__((noinline,used));          \
-  void task_##N(void);                                         \
-  static inline void prefetch_task_##N(void) {                 \
-    __builtin_ia32_prefetchi(task_##N, 3);                     \
-  }
+  void task_##N(void);
 
-TASKS(DECL_TASK_AND_PREFETCH)
-#undef DECL_TASK_AND_PREFETCH
+TASKS(DECL_TASK)
+#undef DECL_TASK
 
 // ---------- PREFETCHI (intrinsic path) ----------
 #if defined(ENABLE_PREFETCHI_INTRIN)
@@ -136,18 +133,19 @@ static inline __attribute__((always_inline)) void emit_nops_exact(int n) {
 }
 
 // ---------- prefetch all tasks ----------
-__attribute__((noinline))
-void prefetch_all_tasks(void) {
-#if defined(ENABLE_PREFETCHI_INTRIN)
-    // Prefetch all 256 task functions using RIP-relative addressing
-    // This can be used to warm up the instruction cache before benchmarking
-    #define PREFETCH_TASK(N) __builtin_ia32_prefetchi(task_##N, 3);
-    TASKS(PREFETCH_TASK)
-    #undef PREFETCH_TASK
-#endif
-}
+// __attribute__((noinline))
+// void prefetch_all_tasks(void) {
+// #if defined(ENABLE_PREFETCHI_INTRIN)
+//     // Prefetch all 256 task functions using RIP-relative addressing
+//     // This can be used to warm up the instruction cache before benchmarking
+//     #define PREFETCH_TASK(N) __builtin_ia32_prefetchi(task_##N, 3);
+//     TASKS(PREFETCH_TASK)
+//     #undef PREFETCH_TASK
+// #endif
+// }
 
 // ---------- task definitions ----------
+
 #define DEFINE_TASK(N) \
 void __attribute__((noinline, section(TASKS_SECTION), aligned(TASK_CODE_ALIGN))) task_##N(void) { \
     /* Extended NOP padding for larger instruction footprint */ \
@@ -164,54 +162,29 @@ TASKS(DEF_TASK)
 #undef DEF_TASK
 
 
-// ---------- queue ----------
-typedef void (*PrefetchFn)(void);
-
-typedef struct {
-    TaskFn fn;
-    PrefetchFn prefetch_fn;
-    int    id; // symbol id (index into TASKS order)  
-} QueueItem;
-
-// Task and prefetch function arrays
+// ---------- task array ----------
 #define TASK_ELEM(N) task_##N,
 TaskFn const kAllTasks[] = { TASKS(TASK_ELEM) };
 #undef TASK_ELEM
 
-#define PREFETCH_ELEM(N) prefetch_task_##N,
-PrefetchFn const kAllPrefetch[] = { TASKS(PREFETCH_ELEM) };
-#undef PREFETCH_ELEM
-
 enum { kNumTasks = (int)(sizeof(kAllTasks)/sizeof(kAllTasks[0])) };
-
-static QueueItem* build_queue(int count) {
-    QueueItem* q = (QueueItem*)malloc((size_t)count * sizeof(QueueItem));
-    if (!q) return NULL;
-    for (int i = 0; i < count; ++i) {
-        int id = i % kNumTasks;
-        q[i].fn = kAllTasks[id];
-        q[i].prefetch_fn = kAllPrefetch[id];
-        q[i].id = id;
-    }
-    return q;
-}
-static inline void run_queue(QueueItem* q, int len) {
-    for (int i = 0; i < len-2; ++i) {
-        const QueueItem it = q[i];
+static inline void run_tasks(int len) {
+    for (int i = 0; i < len; ++i) {
+        TaskFn current_task = kAllTasks[i % kNumTasks];
         
-        // Prefetch the NEXT function in the queue using dedicated prefetch function
-        // if (g_prefetch_enable) {
-        //     emit_nops_exact(g_prefetch_pos);
-        //     // Use RIP-relative prefetch function for next task
-        //     q[i+2].prefetch_fn();
-        //     emit_nops_exact(PREFETCH_NOPS_WINDOW - g_prefetch_pos);
-        // } else {
-        //     // Keep NOP window consistent even when not prefetching
-        //     emit_nops_exact(g_prefetch_pos);
-        //     emit_nops_exact(PREFETCH_NOPS_WINDOW - g_prefetch_pos);
-        // }
+        // Prefetch the NEXT function in the queue
+        if (g_prefetch_enable) {
+            // TaskFn next_task = kAllTasks[(i + 1) % kNumTasks];
+            emit_nops_exact(g_prefetch_pos);
+            __builtin_ia32_prefetchi(current_task, 3);
+            emit_nops_exact(PREFETCH_NOPS_WINDOW - g_prefetch_pos);
+        } else {
+            // Keep NOP window consistent even when not prefetching
+            emit_nops_exact(g_prefetch_pos);
+            emit_nops_exact(PREFETCH_NOPS_WINDOW - g_prefetch_pos);
+        }
         
-        it.fn();
+        current_task();
     }
 }
 
@@ -245,14 +218,9 @@ int main(int argc, char** argv) {
     // if (!freq_locked) {
     //     fprintf(stderr, "WARN: CPU freq lock failed or not root; proceeding without fixed freq.\n");
     // }
+    
+    // if (g_prefetch_enable) prefetch_all_tasks();
 
-    QueueItem* queue = build_queue(qlen);
-    if (!queue) {
-        fprintf(stderr, "FATAL: queue alloc failed\n");
-        return 1;
-    }
-
-    if (g_prefetch_enable) prefetch_all_tasks();
 
     // --- perf icache metrics setup (simplified) ---
     PerfGroup pg = perf_group_open();
@@ -260,7 +228,7 @@ int main(int argc, char** argv) {
 
     uint64_t tsc_start = rdtsc_begin();
     uint64_t ns_start  = now_ns();
-    for (int r = 0; r < rounds; ++r) run_queue(queue, qlen);
+    for (int r = 0; r < rounds; ++r) run_tasks(qlen);
     uint64_t ns_end    = now_ns();
     uint64_t tsc_end   = rdtsc_end();
 
@@ -318,6 +286,5 @@ int main(int argc, char** argv) {
     // perf fd cleanup
     perf_group_close(&pg);
 
-    free(queue);
     return 0;
 }
