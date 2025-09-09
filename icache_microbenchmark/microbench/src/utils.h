@@ -5,6 +5,10 @@
 #include <stdbool.h>
 #include <sys/types.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 // System utilities
 bool pin_to_cpu(int cpu);
 bool elevate_realtime(int prio);
@@ -42,5 +46,9 @@ void perf_group_enable(int leader_fd);
 void perf_group_disable(int leader_fd);
 void perf_group_read(const PerfGroup* pg, uint64_t* l1i, uint64_t* itlb, uint64_t* insn);
 void perf_group_close(PerfGroup* pg);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // UTILS_H

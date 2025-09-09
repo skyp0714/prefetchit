@@ -1,10 +1,12 @@
 // latency.c  (C11/gnu11)
 // Build example:
 //   gcc -O2 -march=x86-64-v4 -m64 -no-pie -fno-plt -mprefetchi \
-//          -DENABLE_PREFETCHI_INTRIN latency.c utils.c -o lat_bench
+//          -DENABLE_PREFETCHI latency.c utils.c -o lat_bench
 // Optional:  -DPREFETCHI_HINT=_MM_HINT_IT1
 // check prefetch instruction in objdump:
 // objdump -d -Mintel ./lat_bench | grep -n 'prefetchit'
+// Run example:
+//   ./lat_bench [rounds] [qlen] [prefetch_nops]
 
 #define _GNU_SOURCE
 #define _DEFAULT_SOURCE 
@@ -16,6 +18,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include "utils.h"
+#include "tasks.h"
 
 typedef void (*TaskFn)(void);
 static volatile uint64_t g_sink = 0;
@@ -44,78 +47,27 @@ static bool has_prefetchi(void){
     return ((edx >> 14) & 1u) != 0;
 }
 
-#ifndef TASK_NOP_B
-#define TASK_NOP_B 8
-#endif
-#define STR2(x) #x
-#define STR(x) STR2(x)
 
-#ifndef TASKS_SECTION
-#define TASKS_SECTION ".text.tasks"
-#endif
-#ifndef TASK_CODE_ALIGN
-#define TASK_CODE_ALIGN 32
-#endif
-
-#ifndef CODE_PAD_B
-#define CODE_PAD_B 0
-#endif
-
-#define INSERT_TASK_PAD(NAME, B)                                         \
-  asm(                                                                    \
-    ".pushsection " TASKS_SECTION ",\"ax\",@progbits\n\t"                 \
-    ".p2align 6\n\t"                                                      \
-    ".globl " #NAME "\n\t"                                                \
-    ".type  " #NAME ", @function\n\t"                                     \
-    #NAME ":\n\t"                                                         \
-    ".fill " STR(B) ", 1, 0x90\n\t" /* B bytes of NOP (0x90) */           \
-    ".size  " #NAME ", . - " #NAME "\n\t"                                 \
-    ".popsection\n\t" )
-
-#ifndef TASKS
-#define TASKS(X) \
-  X(0)   X(1)   X(2)   X(3)   X(4)   X(5)   X(6)   X(7)   X(8)   X(9)   X(10)  X(11)  X(12)  X(13)  X(14)  X(15)  \
-  X(16)  X(17)  X(18)  X(19)  X(20)  X(21)  X(22)  X(23)  X(24)  X(25)  X(26)  X(27)  X(28)  X(29)  X(30)  X(31)  \
-  X(32)  X(33)  X(34)  X(35)  X(36)  X(37)  X(38)  X(39)  X(40)  X(41)  X(42)  X(43)  X(44)  X(45)  X(46)  X(47)  \
-  X(48)  X(49)  X(50)  X(51)  X(52)  X(53)  X(54)  X(55)  X(56)  X(57)  X(58)  X(59)  X(60)  X(61)  X(62)  X(63)  \
-  X(64)  X(65)  X(66)  X(67)  X(68)  X(69)  X(70)  X(71)  X(72)  X(73)  X(74)  X(75)  X(76)  X(77)  X(78)  X(79)  \
-  X(80)  X(81)  X(82)  X(83)  X(84)  X(85)  X(86)  X(87)  X(88)  X(89)  X(90)  X(91)  X(92)  X(93)  X(94)  X(95)  \
-  X(96)  X(97)  X(98)  X(99)  X(100) X(101) X(102) X(103) X(104) X(105) X(106) X(107) X(108) X(109) X(110) X(111) \
-  X(112) X(113) X(114) X(115) X(116) X(117) X(118) X(119) X(120) X(121) X(122) X(123) X(124) X(125) X(126) X(127) \
-  X(128) X(129) X(130) X(131) X(132) X(133) X(134) X(135) X(136) X(137) X(138) X(139) X(140) X(141) X(142) X(143) \
-  X(144) X(145) X(146) X(147) X(148) X(149) X(150) X(151) X(152) X(153) X(154) X(155) X(156) X(157) X(158) X(159) \
-  X(160) X(161) X(162) X(163) X(164) X(165) X(166) X(167) X(168) X(169) X(170) X(171) X(172) X(173) X(174) X(175) \
-  X(176) X(177) X(178) X(179) X(180) X(181) X(182) X(183) X(184) X(185) X(186) X(187) X(188) X(189) X(190) X(191) \
-  X(192) X(193) X(194) X(195) X(196) X(197) X(198) X(199) X(200) X(201) X(202) X(203) X(204) X(205) X(206) X(207) \
-  X(208) X(209) X(210) X(211) X(212) X(213) X(214) X(215) X(216) X(217) X(218) X(219) X(220) X(221) X(222) X(223) \
-  X(224) X(225) X(226) X(227) X(228) X(229) X(230) X(231) X(232) X(233) X(234) X(235) X(236) X(237) X(238) X(239) \
-  X(240) X(241) X(242) X(243) X(244) X(245) X(246) X(247) X(248) X(249) X(250) X(251) X(252) X(253) X(254) X(255)
-#endif
 
 // Task function declarations
-#define DECL_TASK(N)                                           \
-  void task_##N(void) __attribute__((noinline,used));          \
-  void task_##N(void);
-
 TASKS(DECL_TASK)
-#undef DECL_TASK
+
+#if defined(ENABLE_PREFETCHI)
+// Prefetch function declarations
+TASKS(DECL_PREFETCH_TASK)
+#endif
 
 // ---------- PREFETCHI (intrinsic path) ----------
-#if defined(ENABLE_PREFETCHI_INTRIN)
+#if defined(ENABLE_PREFETCHI)
 #include <x86intrin.h>
 #ifndef PREFETCHI_HINT
 #define PREFETCHI_HINT _MM_HINT_IT0  
 #endif
 
-#endif  // ENABLE_PREFETCHI_INTRIN
+#endif  // ENABLE_PREFETCHI
 
 // ---------- NOP window ----------
-#define PREFETCH_NOPS_WINDOW 32
 static int g_prefetch_pos = PREFETCH_NOPS_WINDOW / 2;
-static int g_prefetch_enable = 1;
-
-#define EMIT_NOPS_CASE(N) case N: asm volatile( \
-    ".rept " STR(N) "\n\t" "nop\n\t" ".endr\n\t" ::: "memory"); break;
 
 static inline __attribute__((always_inline)) void emit_nops_exact(int n) {
     switch (n) {
@@ -135,7 +87,7 @@ static inline __attribute__((always_inline)) void emit_nops_exact(int n) {
 // ---------- prefetch all tasks ----------
 // __attribute__((noinline))
 // void prefetch_all_tasks(void) {
-// #if defined(ENABLE_PREFETCHI_INTRIN)
+// #if defined(ENABLE_PREFETCHI)
 //     // Prefetch all 256 task functions using RIP-relative addressing
 //     // This can be used to warm up the instruction cache before benchmarking
 //     #define PREFETCH_TASK(N) __builtin_ia32_prefetchi(task_##N, 3);
@@ -144,22 +96,28 @@ static inline __attribute__((always_inline)) void emit_nops_exact(int n) {
 // #endif
 // }
 
+#if defined(ENABLE_PREFETCHI)
+// ---------- prefetch all prefetch tasks ----------
+__attribute__((noinline))
+void prefetch_all_prefetch_tasks(void) {
+    // Prefetch all prefetch_task functions to warm up instruction cache
+    #define PREFETCH_PREFETCH_TASK(N) __builtin_ia32_prefetchi(prefetch_task_##N, 3);
+    TASKS(PREFETCH_PREFETCH_TASK)
+    #undef PREFETCH_PREFETCH_TASK
+}
+#endif
+
 // ---------- task definitions ----------
-
-#define DEFINE_TASK(N) \
-void __attribute__((noinline, section(TASKS_SECTION), aligned(TASK_CODE_ALIGN))) task_##N(void) { \
-    /* Extended NOP padding for larger instruction footprint */ \
-    asm volatile( \
-        ".rept "  STR(TASK_NOP_B) "\n\t" \
-        "nop\n\t" \
-        ".endr\n\t" ::: "memory"); \
-} \
-\
-INSERT_TASK_PAD(task_pad_##N, CODE_PAD_B);
-
 #define DEF_TASK(N) DEFINE_TASK(N)
 TASKS(DEF_TASK)
 #undef DEF_TASK
+
+#if defined(ENABLE_PREFETCHI)
+// ---------- prefetch function definitions ----------
+#define DEF_PREFETCH_TASK(N) DEFINE_PREFETCH_TASK(N)
+TASKS(DEF_PREFETCH_TASK)
+#undef DEF_PREFETCH_TASK
+#endif
 
 
 // ---------- task array ----------
@@ -167,22 +125,24 @@ TASKS(DEF_TASK)
 TaskFn const kAllTasks[] = { TASKS(TASK_ELEM) };
 #undef TASK_ELEM
 
+#if defined(ENABLE_PREFETCHI)
+// ---------- prefetch function array ----------
+#define PREFETCH_TASK_ELEM(N) prefetch_task_##N,
+TaskFn const kAllPrefetchTasks[] = { TASKS(PREFETCH_TASK_ELEM) };
+#undef PREFETCH_TASK_ELEM
+#endif
+
 enum { kNumTasks = (int)(sizeof(kAllTasks)/sizeof(kAllTasks[0])) };
 static inline void run_tasks(int len) {
     for (int i = 0; i < len; ++i) {
         TaskFn current_task = kAllTasks[i % kNumTasks];
         
-        // Prefetch the NEXT function in the queue
-        if (g_prefetch_enable) {
-            // TaskFn next_task = kAllTasks[(i + 1) % kNumTasks];
-            emit_nops_exact(g_prefetch_pos);
-            __builtin_ia32_prefetchi(current_task, 3);
-            emit_nops_exact(PREFETCH_NOPS_WINDOW - g_prefetch_pos);
-        } else {
-            // Keep NOP window consistent even when not prefetching
-            emit_nops_exact(g_prefetch_pos);
-            emit_nops_exact(PREFETCH_NOPS_WINDOW - g_prefetch_pos);
-        }
+        // emit_nops_exact(g_prefetch_pos);
+#if defined(ENABLE_PREFETCHI)
+        TaskFn prefetch_fn = kAllPrefetchTasks[(i + 1) % kNumTasks];
+        prefetch_fn();
+#endif
+        // emit_nops_exact(PREFETCH_NOPS_WINDOW - g_prefetch_pos);
         
         current_task();
     }
@@ -192,14 +152,13 @@ static inline void run_tasks(int len) {
 // ---------- main ----------
 int main(int argc, char** argv) {
     int cpu = 0;
-    int rounds = 1;
-    int qlen = 256;
+    int rounds = 100;
+    int qlen = 4096;
     int rt_prio = 80;
 
     if (argc > 1) { int v = atoi(argv[1]); if (v > 0) rounds = v; }
     if (argc > 2) { int v = atoi(argv[2]); if (v > 0) qlen   = v; }
     if (argc > 3) { int p = atoi(argv[3]); if (p < 0) p = 0; if (p > PREFETCH_NOPS_WINDOW) p = PREFETCH_NOPS_WINDOW; g_prefetch_pos = p; }
-    if (argc > 4) { int e = atoi(argv[4]); g_prefetch_enable = (e != 0); }
 
     bool cpu_has = has_prefetchi();
     fprintf(stderr, "INFO: CPU PREFETCHI (prefetchit0/1) support: %s\n", cpu_has ? "yes" : "no");
@@ -221,40 +180,67 @@ int main(int argc, char** argv) {
     
     // if (g_prefetch_enable) prefetch_all_tasks();
 
+// #if defined(ENABLE_PREFETCHI)
+//     // Prefetch all prefetch_task functions to warm up instruction cache
+//     prefetch_all_prefetch_tasks();
+// #endif
 
+#ifdef PERF_COLLECT
     // --- perf icache metrics setup (simplified) ---
     PerfGroup pg = perf_group_open();
     if (pg.leader >= 0) perf_group_enable(pg.leader);
+#endif
 
     uint64_t tsc_start = rdtsc_begin();
     uint64_t ns_start  = now_ns();
-    for (int r = 0; r < rounds; ++r) run_tasks(qlen);
+    for (int r = 0; r < rounds; ++r) run_tasks(qlen*rounds);
     uint64_t ns_end    = now_ns();
     uint64_t tsc_end   = rdtsc_end();
 
+#ifdef PERF_COLLECT
     if (pg.leader >= 0) perf_group_disable(pg.leader);
+#endif
 
+#ifdef PERF_COLLECT
     uint64_t l1i_miss_val = 0, itlb_miss_val = 0, insn_val = 0;
     perf_group_read(&pg, &l1i_miss_val, &itlb_miss_val, &insn_val);
+#endif
 
-    // Report: absolute misses and MPKI
+#ifdef PERF_COLLECT
+    // Report: absolute misses, MPKI, and miss rates
     if (pg.l1i_miss >= 0) {
         double mpki = (insn_val ? (double)l1i_miss_val * 1000.0 / (double)insn_val : 0.0);
-        printf("L1I-load-misses: %llu  (MPKI=%.3f)\n",
-               (unsigned long long)l1i_miss_val, mpki);
+        
+        // Calculate i-cache miss rate: misses / total_accesses
+        // Estimate total accesses as instructions (assuming each instruction needs to be fetched)
+        double miss_rate = 0.0;
+        if (insn_val > 0) {
+            miss_rate = (double)l1i_miss_val / (double)insn_val;
+        }
+        
+        printf("L1I-load-misses: %llu  (MPKI=%.3f, Miss-Rate=%.4f%%)\n",
+               (unsigned long long)l1i_miss_val, mpki, miss_rate * 100.0);
     } else {
         printf("L1I-load-misses: N/A\n");
     }
     if (pg.itlb_miss >= 0) {
         double mpki = (insn_val ? (double)itlb_miss_val * 1000.0 / (double)insn_val : 0.0);
-        printf("iTLB-load-misses: %llu  (MPKI=%.3f)\n",
-               (unsigned long long)itlb_miss_val, mpki);
+        
+        // Calculate iTLB miss rate similar to i-cache
+        double miss_rate = 0.0;
+        if (insn_val > 0) {
+            miss_rate = (double)itlb_miss_val / (double)insn_val;
+        }
+        
+        printf("iTLB-load-misses: %llu  (MPKI=%.3f, Miss-Rate=%.4f%%)\n",
+               (unsigned long long)itlb_miss_val, mpki, miss_rate * 100.0);
     } else {
         printf("iTLB-load-misses: N/A\n");
     }
     if (pg.leader >= 0) {
         printf("Instructions: %llu\n", (unsigned long long)insn_val);
     }
+#endif
 
     uint64_t ns  = ns_end - ns_start;
     uint64_t cyc = tsc_end - tsc_start;
@@ -283,8 +269,10 @@ int main(int argc, char** argv) {
     // Flush instruction cache to clear prefetched instructions
     // flush_icache();
 
+#ifdef PERF_COLLECT
     // perf fd cleanup
     perf_group_close(&pg);
+#endif
 
     return 0;
 }
