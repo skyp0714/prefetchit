@@ -84,17 +84,17 @@ static inline __attribute__((always_inline)) void emit_nops_exact(int n) {
     }
 }
 
+#if defined(ENABLE_PREFETCHI)
 // ---------- prefetch all tasks ----------
-// __attribute__((noinline))
-// void prefetch_all_tasks(void) {
-// #if defined(ENABLE_PREFETCHI)
-//     // Prefetch all 256 task functions using RIP-relative addressing
-//     // This can be used to warm up the instruction cache before benchmarking
-//     #define PREFETCH_TASK(N) __builtin_ia32_prefetchi(task_##N, 3);
-//     TASKS(PREFETCH_TASK)
-//     #undef PREFETCH_TASK
-// #endif
-// }
+__attribute__((noinline))
+void prefetch_all_tasks(void) {
+    // Prefetch all task functions using RIP-relative addressing
+    // This can be used to warm up the instruction cache before benchmarking
+    #define PREFETCH_TASK(N) __builtin_ia32_prefetchi(task_##N, 3);
+    TASKS(PREFETCH_TASK)
+    #undef PREFETCH_TASK
+}
+#endif
 
 #if defined(ENABLE_PREFETCHI)
 // ---------- prefetch all prefetch tasks ----------
@@ -138,10 +138,10 @@ static inline void run_tasks(int len) {
         TaskFn current_task = kAllTasks[i % kNumTasks];
         
         // emit_nops_exact(g_prefetch_pos);
-#if defined(ENABLE_PREFETCHI)
-        TaskFn prefetch_fn = kAllPrefetchTasks[(i + 1) % kNumTasks];
-        prefetch_fn();
-#endif
+// #if defined(ENABLE_PREFETCHI)
+//         TaskFn prefetch_fn = kAllPrefetchTasks[(i + 2) % kNumTasks];
+//         prefetch_fn();
+// #endif
         // emit_nops_exact(PREFETCH_NOPS_WINDOW - g_prefetch_pos);
         
         current_task();
@@ -159,6 +159,13 @@ int main(int argc, char** argv) {
     if (argc > 1) { int v = atoi(argv[1]); if (v > 0) rounds = v; }
     if (argc > 2) { int v = atoi(argv[2]); if (v > 0) qlen   = v; }
     if (argc > 3) { int p = atoi(argv[3]); if (p < 0) p = 0; if (p > PREFETCH_NOPS_WINDOW) p = PREFETCH_NOPS_WINDOW; g_prefetch_pos = p; }
+
+// #if defined(ENABLE_PREFETCHI)
+//     // Prefetch all task functions to warm up instruction cache
+//     prefetch_all_tasks();
+//     // Prefetch all prefetch_task functions to warm up instruction cache
+//     prefetch_all_prefetch_tasks();
+// #endif
 
     bool cpu_has = has_prefetchi();
     fprintf(stderr, "INFO: CPU PREFETCHI (prefetchit0/1) support: %s\n", cpu_has ? "yes" : "no");
@@ -180,10 +187,6 @@ int main(int argc, char** argv) {
     
     // if (g_prefetch_enable) prefetch_all_tasks();
 
-// #if defined(ENABLE_PREFETCHI)
-//     // Prefetch all prefetch_task functions to warm up instruction cache
-//     prefetch_all_prefetch_tasks();
-// #endif
 
 #ifdef PERF_COLLECT
     // --- perf icache metrics setup (simplified) ---

@@ -61,7 +61,7 @@ INSERT_TASK_PAD(task_pad_##N, CODE_PAD_B);
 #if defined(ENABLE_PREFETCHI)
 // Prefetch function definition macro
 #define DEFINE_PREFETCH_TASK(N) \
-void __attribute__((noinline)) prefetch_task_##N(void) { \
+void __attribute__((noinline, section(".text"))) prefetch_task_##N(void) { \
     __builtin_ia32_prefetchi(task_##N, 3); \
 }
 #endif
