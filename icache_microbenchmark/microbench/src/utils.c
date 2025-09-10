@@ -241,7 +241,7 @@ static int open_cache_evt(uint32_t cache, uint32_t op, uint32_t res, int group_f
     pe.disabled = 1;
     pe.exclude_kernel = 1;
     pe.exclude_hv = 1;
-    return perf_event_open_sys(&pe, 0 /*self*/, -1 /*any cpu*/, group_fd, 0);
+    return perf_event_open_sys(&pe, 0 /*self*/, 0 /*CPU 0*/, group_fd, 0);
 }
 
 static int open_hw_evt(uint64_t hw_config, int group_fd) {
@@ -253,7 +253,7 @@ static int open_hw_evt(uint64_t hw_config, int group_fd) {
     pe.disabled = 1;
     pe.exclude_kernel = 1;
     pe.exclude_hv = 1;
-    return perf_event_open_sys(&pe, 0 /*self*/, -1 /*any cpu*/, group_fd, 0);
+    return perf_event_open_sys(&pe, 0 /*self*/, 0 /*CPU 0*/, group_fd, 0);
 }
 
 static int read_counter64(int fd, uint64_t* out) {

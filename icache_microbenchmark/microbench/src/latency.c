@@ -164,7 +164,10 @@ int main(int argc, char** argv) {
 //     // Prefetch all task functions to warm up instruction cache
 //     prefetch_all_tasks();
 //     // Prefetch all prefetch_task functions to warm up instruction cache
-//     prefetch_all_prefetch_tasks();
+//     // prefetch_all_prefetch_tasks();
+    
+//     // Memory barrier to ensure prefetch operations complete
+//     __asm__ volatile("mfence" ::: "memory");
 // #endif
 
     bool cpu_has = has_prefetchi();
