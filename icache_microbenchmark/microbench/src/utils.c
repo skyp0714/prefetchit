@@ -232,6 +232,9 @@ static int perf_event_open_sys(struct perf_event_attr* attr, pid_t pid, int cpu,
     return (int)syscall(SYS_perf_event_open, attr, pid, cpu, group_fd, flags);
 }
 
+static pid_t g_perf_tid = 0;
+static int g_perf_cpu = -1;
+
 static int open_cache_evt(uint32_t cache, uint32_t op, uint32_t res, int group_fd) {
     struct perf_event_attr pe;
     memset(&pe, 0, sizeof(pe));
@@ -241,7 +244,7 @@ static int open_cache_evt(uint32_t cache, uint32_t op, uint32_t res, int group_f
     pe.disabled = 1;
     pe.exclude_kernel = 1;
     pe.exclude_hv = 1;
-    return perf_event_open_sys(&pe, 0 /*self*/, 0 /*CPU 0*/, group_fd, 0);
+    return perf_event_open_sys(&pe, g_perf_tid, g_perf_cpu, group_fd, 0);
 }
 
 static int open_hw_evt(uint64_t hw_config, int group_fd) {
@@ -253,7 +256,7 @@ static int open_hw_evt(uint64_t hw_config, int group_fd) {
     pe.disabled = 1;
     pe.exclude_kernel = 1;
     pe.exclude_hv = 1;
-    return perf_event_open_sys(&pe, 0 /*self*/, 0 /*CPU 0*/, group_fd, 0);
+    return perf_event_open_sys(&pe, g_perf_tid, g_perf_cpu, group_fd, 0);
 }
 
 static int read_counter64(int fd, uint64_t* out) {
@@ -261,7 +264,9 @@ static int read_counter64(int fd, uint64_t* out) {
     return (r == (ssize_t)sizeof(*out)) ? 0 : -1;
 }
 
-PerfGroup perf_group_open(void) {
+PerfGroup perf_group_open(pid_t tid, int cpu) {
+    g_perf_tid = tid;
+    g_perf_cpu = cpu;
     PerfGroup pg = { .leader = -1, .l1i_miss = -1, .itlb_miss = -1 };
     // Leader: INSTRUCTIONS
     int leader = open_hw_evt(PERF_COUNT_HW_INSTRUCTIONS, -1);

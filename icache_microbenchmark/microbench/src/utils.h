@@ -41,7 +41,7 @@ typedef struct PerfGroup {
     int itlb_miss; // member
 } PerfGroup;
 
-PerfGroup perf_group_open(void);
+PerfGroup perf_group_open(pid_t tid, int cpu);
 void perf_group_enable(int leader_fd);
 void perf_group_disable(int leader_fd);
 void perf_group_read(const PerfGroup* pg, uint64_t* l1i, uint64_t* itlb, uint64_t* insn);

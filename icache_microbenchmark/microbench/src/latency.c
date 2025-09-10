@@ -17,11 +17,14 @@
 #include <signal.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include <sys/types.h>
+#include <unistd.h>
 #include "utils.h"
 #include "tasks.h"
 
 typedef void (*TaskFn)(void);
 static volatile uint64_t g_sink = 0;
+static volatile bool g_prefetch_thread_running = true;
 
 // ---------- TSC helpers ----------
 static inline uint64_t rdtsc_begin(void) {
@@ -105,6 +108,31 @@ void prefetch_all_prefetch_tasks(void) {
     TASKS(PREFETCH_PREFETCH_TASK)
     #undef PREFETCH_PREFETCH_TASK
 }
+
+// ---------- background prefetch thread ----------
+void* prefetch_thread_func(void* arg) {
+    // Pin this thread to CPU 64 (hyperthreading pair of CPU 0)
+    pin_to_cpu(0);
+    
+    // Verify which CPU we're actually running on
+    // int actual_cpu = sched_getcpu();
+    // fprintf(stderr, "INFO: Prefetch thread pinned to CPU %d, actually running on CPU %d\n", 0, actual_cpu);
+    
+    // uint64_t prefetch_cycles = 0;
+    
+    // Continuously prefetch all tasks in round-robin fashion
+    while (g_prefetch_thread_running) {
+        #define PREFETCH_TASK_THREAD(N) __builtin_ia32_prefetchi(task_##N, 3);
+        TASKS(PREFETCH_TASK_THREAD)
+        #undef PREFETCH_TASK_THREAD
+        // prefetch_cycles++;
+    }
+    
+    // fprintf(stderr, "INFO: Prefetch thread completed %llu prefetch cycles\n", 
+    //         (unsigned long long)prefetch_cycles);
+    
+    return NULL;
+}
 #endif
 
 // ---------- task definitions ----------
@@ -182,6 +210,16 @@ int main(int argc, char** argv) {
     elevate_realtime(rt_prio);
     lock_and_prefault(8ull * 1024 * 1024);
 
+#if defined(ENABLE_PREFETCHI)
+    // Create background prefetch thread on CPU 64
+    pthread_t prefetch_thread;
+    if (pthread_create(&prefetch_thread, NULL, prefetch_thread_func, NULL) != 0) {
+        fprintf(stderr, "WARN: Failed to create prefetch thread\n");
+    } else {
+        fprintf(stderr, "INFO: Background prefetch thread started on CPU 64\n");
+    }
+#endif
+
     // uint64_t fixed_hz = 0;
     // bool freq_locked = (geteuid() == 0) && lock_cpu_freq(cpu, &fixed_hz);
     // if (!freq_locked) {
@@ -193,7 +231,8 @@ int main(int argc, char** argv) {
 
 #ifdef PERF_COLLECT
     // --- perf icache metrics setup (simplified) ---
-    PerfGroup pg = perf_group_open();
+    pid_t main_tid = gettid();
+    PerfGroup pg = perf_group_open(main_tid, cpu);
     if (pg.leader >= 0) perf_group_enable(pg.leader);
 #endif
 
@@ -271,6 +310,11 @@ int main(int argc, char** argv) {
     // }
 
     printf("sink=%llu\n", (unsigned long long)g_sink);
+
+#if defined(ENABLE_PREFETCHI)
+    // Stop background prefetch thread
+    g_prefetch_thread_running = false;
+#endif
 
     // Flush instruction cache to clear prefetched instructions
     // flush_icache();
