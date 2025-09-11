@@ -10,12 +10,12 @@
 #define TASKS_SECTION ".text.tasks"
 #endif
 
-#ifndef TASK_CODE_ALIGN
-#define TASK_CODE_ALIGN 64
-#endif
+// #ifndef TASK_CODE_ALIGN
+// #define TASK_CODE_ALIGN 256
+// #endif
 
 #ifndef CODE_PAD_B
-#define CODE_PAD_B 64
+#define CODE_PAD_B 256
 #endif
 
 // String conversion macros
@@ -48,7 +48,7 @@
 
 // Task definition macro
 #define DEFINE_TASK(N) \
-void __attribute__((noinline, section(TASKS_SECTION), aligned(TASK_CODE_ALIGN))) task_##N(void) { \
+void __attribute__((noinline, section(TASKS_SECTION))) task_##N(void) { \
     /* Extended NOP padding for larger instruction footprint */ \
     asm volatile( \
         ".rept "  STR(TASK_NOP_B) "\n\t" \
@@ -61,7 +61,7 @@ INSERT_TASK_PAD(task_pad_##N, CODE_PAD_B);
 #if defined(ENABLE_PREFETCHI)
 // Prefetch function definition macro
 #define DEFINE_PREFETCH_TASK(N) \
-void __attribute__((noinline, section(".text"))) prefetch_task_##N(void) { \
+void __attribute__((noinline)) prefetch_task_##N(void) { \
     __builtin_ia32_prefetchi(task_##N, 3); \
 }
 #endif

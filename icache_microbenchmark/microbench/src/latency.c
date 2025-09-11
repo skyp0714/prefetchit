@@ -23,7 +23,6 @@
 #include "tasks.h"
 
 typedef void (*TaskFn)(void);
-static volatile uint64_t g_sink = 0;
 static volatile bool g_prefetch_thread_running = true;
 
 // ---------- TSC helpers ----------
@@ -70,7 +69,7 @@ TASKS(DECL_PREFETCH_TASK)
 #endif  // ENABLE_PREFETCHI
 
 // ---------- NOP window ----------
-static int g_prefetch_pos = PREFETCH_NOPS_WINDOW / 2;
+// static int g_prefetch_pos = PREFETCH_NOPS_WINDOW / 2;
 
 static inline __attribute__((always_inline)) void emit_nops_exact(int n) {
     switch (n) {
@@ -112,7 +111,7 @@ void prefetch_all_prefetch_tasks(void) {
 // ---------- background prefetch thread ----------
 void* prefetch_thread_func(void* arg) {
     // Pin this thread to CPU 64 (hyperthreading pair of CPU 0)
-    pin_to_cpu(0);
+    pin_to_cpu(64);
     
     // Verify which CPU we're actually running on
     // int actual_cpu = sched_getcpu();
@@ -179,6 +178,9 @@ static inline void run_tasks(int len) {
 
 // ---------- main ----------
 int main(int argc, char** argv) {
+    // Flush instruction cache at startup for consistent measurements
+    // flush_instruction_cache();
+    
     int cpu = 0;
     int rounds = 100;
     int qlen = 4096;
@@ -186,17 +188,18 @@ int main(int argc, char** argv) {
 
     if (argc > 1) { int v = atoi(argv[1]); if (v > 0) rounds = v; }
     if (argc > 2) { int v = atoi(argv[2]); if (v > 0) qlen   = v; }
-    if (argc > 3) { int p = atoi(argv[3]); if (p < 0) p = 0; if (p > PREFETCH_NOPS_WINDOW) p = PREFETCH_NOPS_WINDOW; g_prefetch_pos = p; }
+    // if (argc > 3) { int p = atoi(argv[3]); if (p < 0) p = 0; if (p > PREFETCH_NOPS_WINDOW) p = PREFETCH_NOPS_WINDOW; g_prefetch_pos = p; }
 
-// #if defined(ENABLE_PREFETCHI)
-//     // Prefetch all task functions to warm up instruction cache
-//     prefetch_all_tasks();
-//     // Prefetch all prefetch_task functions to warm up instruction cache
-//     // prefetch_all_prefetch_tasks();
+#if defined(ENABLE_PREFETCHI)
+    // Prefetch all task functions to warm up instruction cache
+    prefetch_all_tasks();
+    // Prefetch all prefetch_task functions to warm up instruction cache
+    // prefetch_all_prefetch_tasks();
     
-//     // Memory barrier to ensure prefetch operations complete
-//     __asm__ volatile("mfence" ::: "memory");
-// #endif
+    // Memory barrier to ensure prefetch operations complete
+    // __asm__ volatile("mfence" ::: "memory");
+    // TODO: sleep for a while
+#endif
 
     bool cpu_has = has_prefetchi();
     fprintf(stderr, "INFO: CPU PREFETCHI (prefetchit0/1) support: %s\n", cpu_has ? "yes" : "no");
@@ -293,14 +296,14 @@ int main(int argc, char** argv) {
 
     printf("Ran %llu tasks (%d funcs RR) in %d rounds on CPU %d\n",
            (unsigned long long)ops, kNumTasks, rounds, cpu);
-    // printf("Time(monotonic): %llu ns, TSC: %llu cycles\n",
-    //        (unsigned long long)ns, (unsigned long long)cyc);
+    printf("Time(roi): %llu ns, TSC: %llu cycles\n",
+           (unsigned long long)ns, (unsigned long long)cyc);
 
-    if (ns) {
-        double cyc_per_ns   = (double)cyc / (double)ns;
-        double ns_per_task  = (double)ns  / (double)ops;
-        printf("Raw Cycles/ns: %.3f  |  ns/task(raw): %.3f\n", cyc_per_ns, ns_per_task);
-    }
+    // if (ns) {
+    //     double cyc_per_ns   = (double)cyc / (double)ns;
+    //     double ns_per_task  = (double)ns  / (double)ops;
+    //     printf("Raw Cycles/ns: %.3f  |  ns/task(raw): %.3f\n", cyc_per_ns, ns_per_task);
+    // }
     // if (freq_locked && fixed_hz) {
     //     long double fixed_ns = (long double)cyc * 1.0e9L / (long double)fixed_hz;
     //     long double fixed_ns_per_task = fixed_ns / (long double)ops;
@@ -309,7 +312,6 @@ int main(int argc, char** argv) {
     //            fixed_ns, fixed_ns_per_task);
     // }
 
-    printf("sink=%llu\n", (unsigned long long)g_sink);
 
 #if defined(ENABLE_PREFETCHI)
     // Stop background prefetch thread
