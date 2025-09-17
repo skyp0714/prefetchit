@@ -197,8 +197,8 @@ int main(int argc, char** argv) {
     // prefetch_all_prefetch_tasks();
     
     // Memory barrier to ensure prefetch operations complete
-    // __asm__ volatile("mfence" ::: "memory");
-    // TODO: sleep for a while
+    // Sleep briefly to allow prefetch instructions to fetch into cache
+    usleep(10); // 10us sleep
 #endif
 
     bool cpu_has = has_prefetchi();
@@ -213,23 +213,21 @@ int main(int argc, char** argv) {
     elevate_realtime(rt_prio);
     lock_and_prefault(8ull * 1024 * 1024);
 
-#if defined(ENABLE_PREFETCHI)
-    // Create background prefetch thread on CPU 64
-    pthread_t prefetch_thread;
-    if (pthread_create(&prefetch_thread, NULL, prefetch_thread_func, NULL) != 0) {
-        fprintf(stderr, "WARN: Failed to create prefetch thread\n");
-    } else {
-        fprintf(stderr, "INFO: Background prefetch thread started on CPU 64\n");
-    }
-#endif
+// #if defined(ENABLE_PREFETCHI)
+//     // Create background prefetch thread on CPU 64
+//     pthread_t prefetch_thread;
+//     if (pthread_create(&prefetch_thread, NULL, prefetch_thread_func, NULL) != 0) {
+//         fprintf(stderr, "WARN: Failed to create prefetch thread\n");
+//     } else {
+//         fprintf(stderr, "INFO: Background prefetch thread started on CPU 64\n");
+//     }
+// #endif
 
     // uint64_t fixed_hz = 0;
     // bool freq_locked = (geteuid() == 0) && lock_cpu_freq(cpu, &fixed_hz);
     // if (!freq_locked) {
     //     fprintf(stderr, "WARN: CPU freq lock failed or not root; proceeding without fixed freq.\n");
     // }
-    
-    // if (g_prefetch_enable) prefetch_all_tasks();
 
 
 #ifdef PERF_COLLECT
@@ -241,7 +239,7 @@ int main(int argc, char** argv) {
 
     uint64_t tsc_start = rdtsc_begin();
     uint64_t ns_start  = now_ns();
-    for (int r = 0; r < rounds; ++r) run_tasks(qlen*rounds);
+    run_tasks(qlen*rounds);
     uint64_t ns_end    = now_ns();
     uint64_t tsc_end   = rdtsc_end();
 
