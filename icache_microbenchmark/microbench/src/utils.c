@@ -259,6 +259,18 @@ static int open_hw_evt(uint64_t hw_config, int group_fd) {
     return perf_event_open_sys(&pe, g_perf_tid, g_perf_cpu, group_fd, 0);
 }
 
+static int open_raw_evt(uint64_t raw_config, int group_fd) {
+    struct perf_event_attr pe;
+    memset(&pe, 0, sizeof(pe));
+    pe.type = PERF_TYPE_RAW;
+    pe.size = sizeof(pe);
+    pe.config = raw_config;
+    pe.disabled = 1;
+    pe.exclude_kernel = 1;
+    pe.exclude_hv = 1;
+    return perf_event_open_sys(&pe, g_perf_tid, g_perf_cpu, group_fd, 0);
+}
+
 static int read_counter64(int fd, uint64_t* out) {
     ssize_t r = read(fd, out, sizeof(*out));
     return (r == (ssize_t)sizeof(*out)) ? 0 : -1;
@@ -267,7 +279,7 @@ static int read_counter64(int fd, uint64_t* out) {
 PerfGroup perf_group_open(pid_t tid, int cpu) {
     g_perf_tid = tid;
     g_perf_cpu = cpu;
-    PerfGroup pg = { .leader = -1, .l1i_miss = -1, .itlb_miss = -1 };
+    PerfGroup pg = { .leader = -1, .l1i_miss = -1, .itlb_miss = -1, .l2_lines_in = -1 };
     // Leader: INSTRUCTIONS
     int leader = open_hw_evt(PERF_COUNT_HW_INSTRUCTIONS, -1);
     if (leader < 0) {
@@ -288,9 +300,14 @@ PerfGroup perf_group_open(pid_t tid, int cpu) {
                               pg.leader);
     if (itlb >= 0) pg.itlb_miss = itlb;
 
-    fprintf(stderr, "INFO: perf opened. members: L1I=%s, ITLB=%s\n",
+    // L2_lines_in.all: EventSel=25H UMask=1FH (raw event 0x1F25)
+    int l2_lines_in = open_raw_evt(0x1F25, pg.leader);
+    if (l2_lines_in >= 0) pg.l2_lines_in = l2_lines_in;
+
+    fprintf(stderr, "INFO: perf opened. members: L1I=%s, ITLB=%s, L2_lines_in=%s\n",
             (pg.l1i_miss >= 0 ? "ok" : "N/A"),
-            (pg.itlb_miss >= 0 ? "ok" : "N/A"));
+            (pg.itlb_miss >= 0 ? "ok" : "N/A"),
+            (pg.l2_lines_in >= 0 ? "ok" : "N/A"));
     return pg;
 }
 
@@ -307,15 +324,17 @@ void perf_group_disable(int leader_fd) {
     }
 }
 
-void perf_group_read(const PerfGroup* pg, uint64_t* l1i, uint64_t* itlb, uint64_t* insn) {
-    if (l1i)  { *l1i  = 0; if (pg->l1i_miss  >= 0) (void)read_counter64(pg->l1i_miss,  l1i); }
-    if (itlb) { *itlb = 0; if (pg->itlb_miss >= 0) (void)read_counter64(pg->itlb_miss, itlb); }
-    if (insn) { *insn = 0; if (pg->leader    >= 0) (void)read_counter64(pg->leader,    insn); }
+void perf_group_read(const PerfGroup* pg, uint64_t* l1i, uint64_t* itlb, uint64_t* l2_lines_in, uint64_t* insn) {
+    if (l1i)         { *l1i         = 0; if (pg->l1i_miss     >= 0) (void)read_counter64(pg->l1i_miss,     l1i); }
+    if (itlb)        { *itlb        = 0; if (pg->itlb_miss    >= 0) (void)read_counter64(pg->itlb_miss,    itlb); }
+    if (l2_lines_in) { *l2_lines_in = 0; if (pg->l2_lines_in >= 0) (void)read_counter64(pg->l2_lines_in, l2_lines_in); }
+    if (insn)        { *insn        = 0; if (pg->leader       >= 0) (void)read_counter64(pg->leader,       insn); }
 }
 
 void perf_group_close(PerfGroup* pg) {
     if (!pg) return;
-    if (pg->l1i_miss  >= 0) { close(pg->l1i_miss);  pg->l1i_miss = -1; }
-    if (pg->itlb_miss >= 0) { close(pg->itlb_miss); pg->itlb_miss = -1; }
-    if (pg->leader    >= 0) { close(pg->leader);    pg->leader = -1; }
+    if (pg->l1i_miss     >= 0) { close(pg->l1i_miss);     pg->l1i_miss = -1; }
+    if (pg->itlb_miss    >= 0) { close(pg->itlb_miss);    pg->itlb_miss = -1; }
+    if (pg->l2_lines_in  >= 0) { close(pg->l2_lines_in);  pg->l2_lines_in = -1; }
+    if (pg->leader       >= 0) { close(pg->leader);       pg->leader = -1; }
 }

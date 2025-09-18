@@ -36,15 +36,16 @@ void flush_icache(void);
 
 // Performance counters
 typedef struct PerfGroup {
-    int leader;    // INSTRUCTIONS (leader)
-    int l1i_miss;  // member
-    int itlb_miss; // member
+    int leader;       // INSTRUCTIONS (leader)
+    int l1i_miss;     // member
+    int itlb_miss;    // member
+    int l2_lines_in;  // member: L2_lines_in.all
 } PerfGroup;
 
 PerfGroup perf_group_open(pid_t tid, int cpu);
 void perf_group_enable(int leader_fd);
 void perf_group_disable(int leader_fd);
-void perf_group_read(const PerfGroup* pg, uint64_t* l1i, uint64_t* itlb, uint64_t* insn);
+void perf_group_read(const PerfGroup* pg, uint64_t* l1i, uint64_t* itlb, uint64_t* l2_lines_in, uint64_t* insn);
 void perf_group_close(PerfGroup* pg);
 
 #ifdef __cplusplus

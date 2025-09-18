@@ -1,6 +1,6 @@
 // latency.c  (C11/gnu11)
 // Build example:
-//   gcc -O2 -march=x86-64-v4 -m64 -no-pie -fno-plt -mprefetchi \
+//   gcc -O2 -march=graniterapids -m64 -no-pie -fno-plt -mprefetchi \
 //          -DENABLE_PREFETCHI latency.c utils.c -o lat_bench
 // Optional:  -DPREFETCHI_HINT=_MM_HINT_IT1
 // check prefetch instruction in objdump:
@@ -190,16 +190,6 @@ int main(int argc, char** argv) {
     if (argc > 2) { int v = atoi(argv[2]); if (v > 0) qlen   = v; }
     // if (argc > 3) { int p = atoi(argv[3]); if (p < 0) p = 0; if (p > PREFETCH_NOPS_WINDOW) p = PREFETCH_NOPS_WINDOW; g_prefetch_pos = p; }
 
-#if defined(ENABLE_PREFETCHI)
-    // Prefetch all task functions to warm up instruction cache
-    prefetch_all_tasks();
-    // Prefetch all prefetch_task functions to warm up instruction cache
-    // prefetch_all_prefetch_tasks();
-    
-    // Memory barrier to ensure prefetch operations complete
-    // Sleep briefly to allow prefetch instructions to fetch into cache
-    usleep(10); // 10us sleep
-#endif
 
     bool cpu_has = has_prefetchi();
     fprintf(stderr, "INFO: CPU PREFETCHI (prefetchit0/1) support: %s\n", cpu_has ? "yes" : "no");
@@ -237,6 +227,17 @@ int main(int argc, char** argv) {
     if (pg.leader >= 0) perf_group_enable(pg.leader);
 #endif
 
+#if defined(ENABLE_PREFETCHI)
+    // Prefetch all task functions to warm up instruction cache
+    prefetch_all_tasks();
+    // Prefetch all prefetch_task functions to warm up instruction cache
+    // prefetch_all_prefetch_tasks();
+    
+    // Memory barrier to ensure prefetch operations complete
+    // Sleep briefly to allow prefetch instructions to fetch into cache
+    // usleep(10); // 10us sleep
+#endif
+
     uint64_t tsc_start = rdtsc_begin();
     uint64_t ns_start  = now_ns();
     run_tasks(qlen*rounds);
@@ -248,8 +249,8 @@ int main(int argc, char** argv) {
 #endif
 
 #ifdef PERF_COLLECT
-    uint64_t l1i_miss_val = 0, itlb_miss_val = 0, insn_val = 0;
-    perf_group_read(&pg, &l1i_miss_val, &itlb_miss_val, &insn_val);
+    uint64_t l1i_miss_val = 0, itlb_miss_val = 0, l2_lines_in_val = 0, insn_val = 0;
+    perf_group_read(&pg, &l1i_miss_val, &itlb_miss_val, &l2_lines_in_val, &insn_val);
 #endif
 
 #ifdef PERF_COLLECT
@@ -282,6 +283,12 @@ int main(int argc, char** argv) {
                (unsigned long long)itlb_miss_val, mpki, miss_rate * 100.0);
     } else {
         printf("iTLB-load-misses: N/A\n");
+    }
+    if (pg.l2_lines_in >= 0) {
+        printf("L2-lines-in.all: %llu \n",
+               (unsigned long long)l2_lines_in_val);
+    } else {
+        printf("L2-lines-in.all: N/A\n");
     }
     if (pg.leader >= 0) {
         printf("Instructions: %llu\n", (unsigned long long)insn_val);

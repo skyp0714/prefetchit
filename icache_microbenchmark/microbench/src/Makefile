@@ -2,7 +2,7 @@
 # Builds four versions with different flag combinations
 
 CC = gcc
-CFLAGS = -march=x86-64-v4 -m64 -no-pie -fno-plt -mprefetchi
+CFLAGS = -march=graniterapids -m64 -no-pie -fno-plt -mprefetchi
 SOURCES = latency.c utils.c
 
 # Target names for the four binary variants
