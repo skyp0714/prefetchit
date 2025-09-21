@@ -358,17 +358,17 @@ int main() {
   lock_and_prefault(8ull * 1024 * 1024);
 
   // Prefetch distant bar function
-  _mm_prefetch(bar, _MM_HINT_IT1);
-  _mm_prefetch(foo, _MM_HINT_IT1);
-  _mm_prefetch(baz, _MM_HINT_IT1);
-  // dummy_32_instructions(1);
-  complex_function(1);
+  _mm_prefetch(bar, _MM_HINT_IT0);
+  _mm_prefetch(foo, _MM_HINT_IT0);
+  _mm_prefetch(baz, _MM_HINT_IT0);
+  dummy_256_instructions(1);
+//   complex_function(1);
   // bar(1);
   // foo(1);
   // baz(1);
 
   // 256 NOPs to allow prefetch to complete before monitoring starts
-  // nop_delay_256();
+//   nop_delay_256();
   // spin_loop_1000_cycles();
   // usleep(1);
 
@@ -405,8 +405,8 @@ int main() {
     perf_group_disable(pg.leader);
   }
 
-  uint64_t l1i_miss_val = 0, itlb_miss_val = 0, l2_lines_in_val = 0, insn_val = 0;
-  perf_group_read(&pg, &l1i_miss_val, &itlb_miss_val, &l2_lines_in_val, &insn_val);
+  uint64_t l1i_miss_val = 0, itlb_miss_val = 0, l2_lines_in_val = 0, l2_miss_val = 0, insn_val = 0;
+  perf_group_read(&pg, &l1i_miss_val, &itlb_miss_val, &l2_lines_in_val, &l2_miss_val, &insn_val);
 
   // Report results
   if (pg.l1i_miss >= 0) {
@@ -432,6 +432,15 @@ int main() {
            (unsigned long long)l2_lines_in_val);
   } else {
     printf("L2-lines-in.all: N/A\n");
+  }
+
+  if (pg.l2_miss >= 0) {
+    double mpki = (insn_val ? (double)l2_miss_val * 1000.0 / (double)insn_val : 0.0);
+    double miss_rate = (insn_val > 0) ? (double)l2_miss_val / (double)insn_val : 0.0;
+    printf("L2-misses: %llu  (MPKI=%.3f, Miss-Rate=%.4f%%)\n",
+           (unsigned long long)l2_miss_val, mpki, miss_rate * 100.0);
+  } else {
+    printf("L2-misses: N/A\n");
   }
 
   if (pg.leader >= 0) {

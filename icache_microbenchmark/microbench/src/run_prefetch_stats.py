@@ -34,22 +34,43 @@ def compile_prefetch_test():
         return False
 
 def run_prefetch_test():
-    """Run prefetch_test once and extract the execution time cycles."""
+    """Run prefetch_test once and extract metrics."""
     try:
         result = subprocess.run(["./prefetch_test"], capture_output=True, text=True, check=True)
 
-        # Look for the execution time line in the output
-        # Expected format: "bar(1) execution time: XXXXX cycles"
+        metrics = {}
+
+        # Parse execution time
         for line in result.stdout.split('\n'):
             if "execution time:" in line and "cycles" in line:
-                # Extract the number using regex
                 match = re.search(r'execution time:\s*(\d+)\s*cycles', line)
                 if match:
-                    return int(match.group(1))
+                    metrics['cycles'] = int(match.group(1))
 
-        print(f"Warning: Could not find execution time in output:")
-        print(result.stdout)
-        return None
+            # Parse L1I misses
+            elif line.startswith("L1I-load-misses:") and "MPKI=" in line:
+                match = re.search(r'L1I-load-misses:\s*(\d+)', line)
+                if match:
+                    metrics['l1i_misses'] = int(match.group(1))
+
+            # Parse iTLB misses
+            elif line.startswith("iTLB-load-misses:") and "MPKI=" in line:
+                match = re.search(r'iTLB-load-misses:\s*(\d+)', line)
+                if match:
+                    metrics['itlb_misses'] = int(match.group(1))
+
+            # Parse L2 misses
+            elif line.startswith("L2-misses:") and "MPKI=" in line:
+                match = re.search(r'L2-misses:\s*(\d+)', line)
+                if match:
+                    metrics['l2_misses'] = int(match.group(1))
+
+        if 'cycles' not in metrics:
+            print(f"Warning: Could not find execution time in output:")
+            print(result.stdout)
+            return None
+
+        return metrics
 
     except subprocess.CalledProcessError as e:
         print(f"Error running prefetch_test:")
@@ -83,7 +104,7 @@ def main():
 
     # Run the test multiple times (compile + run each iteration)
     print(f"Running {iterations} iterations (recompiling each time)...")
-    cycles_list = []
+    metrics_list = []
     failed_runs = 0
     compilation_failures = 0
 
@@ -100,16 +121,16 @@ def main():
                 break
             continue
 
-        cycles = run_prefetch_test()
-        if cycles is not None:
-            cycles_list.append(cycles)
+        metrics = run_prefetch_test()
+        if metrics is not None:
+            metrics_list.append(metrics)
         else:
             failed_runs += 1
             if failed_runs > 5:  # Stop if too many failures
                 print(f"Too many failed runs ({failed_runs}). Stopping.")
                 break
 
-    if not cycles_list:
+    if not metrics_list:
         print("No successful runs. Exiting.")
         sys.exit(1)
 
@@ -118,50 +139,54 @@ def main():
     print("RESULTS")
     print("=" * 60)
 
-    mean_cycles = statistics.mean(cycles_list)
-    median_cycles = statistics.median(cycles_list)
-    min_cycles = min(cycles_list)
-    max_cycles = max(cycles_list)
-
-    if len(cycles_list) > 1:
-        stdev_cycles = statistics.stdev(cycles_list)
-        variance_cycles = statistics.variance(cycles_list)
-    else:
-        stdev_cycles = 0
-        variance_cycles = 0
-
-    successful_runs = len(cycles_list)
-
+    successful_runs = len(metrics_list)
     print(f"Successful runs:     {successful_runs}/{iterations}")
     if failed_runs > 0:
         print(f"Failed runs:         {failed_runs}")
     if compilation_failures > 0:
         print(f"Compilation failures: {compilation_failures}")
     print()
-    print(f"Mean execution time: {mean_cycles:.2f} cycles")
-    print(f"Median:              {median_cycles:.2f} cycles")
-    print(f"Standard deviation:  {stdev_cycles:.2f} cycles")
-    print(f"Variance:            {variance_cycles:.2f}")
-    print(f"Min:                 {min_cycles} cycles")
-    print(f"Max:                 {max_cycles} cycles")
-    print(f"Range:               {max_cycles - min_cycles} cycles")
 
-    if successful_runs > 1:
-        cv = (stdev_cycles / mean_cycles) * 100  # Coefficient of variation
-        print(f"Coefficient of var:  {cv:.2f}%")
+    # Extract metric arrays
+    cycles_list = [m['cycles'] for m in metrics_list]
+    l1i_list = [m.get('l1i_misses', 0) for m in metrics_list]
+    itlb_list = [m.get('itlb_misses', 0) for m in metrics_list]
+    l2_list = [m.get('l2_misses', 0) for m in metrics_list]
 
-    # Additional statistics
-    if successful_runs >= 10:
-        print("\nPercentiles:")
-        for p in [10, 25, 75, 90, 95, 99]:
-            if successful_runs > p:
-                percentile_val = sorted(cycles_list)[int(successful_runs * p / 100)]
-                print(f"  {p}th percentile:    {percentile_val} cycles")
+    def calc_stats(values):
+        """Calculate mean, stdev, and 99th percentile for a metric."""
+        if not values:
+            return "      N/A ", "      N/A ", "      N/A "
+
+        mean_val = statistics.mean(values)
+        stdev_val = statistics.stdev(values) if len(values) > 1 else 0.0
+        sorted_vals = sorted(values)
+        p99_idx = int(len(sorted_vals) * 0.99)
+        p99_val = sorted_vals[p99_idx] if p99_idx < len(sorted_vals) else sorted_vals[-1]
+
+        return f"{mean_val:10.2f}", f"{stdev_val:10.2f}", f"{p99_val:10.2f}"
+
+    # Calculate statistics for each metric
+    cycles_mean, cycles_std, cycles_99p = calc_stats(cycles_list)
+    l1i_mean, l1i_std, l1i_99p = calc_stats(l1i_list)
+    itlb_mean, itlb_std, itlb_99p = calc_stats(itlb_list)
+    l2_mean, l2_std, l2_99p = calc_stats(l2_list)
+
+    # Print table header
+    print("Metric                    Mean     StdDev        99p")
+    print("-" * 52)
+
+    # Print table rows
+    print(f"Execution Time (cyc) {cycles_mean} {cycles_std} {cycles_99p}")
+    print(f"L1I Misses           {l1i_mean} {l1i_std} {l1i_99p}")
+    print(f"iTLB Misses          {itlb_mean} {itlb_std} {itlb_99p}")
+    print(f"L2 Misses            {l2_mean} {l2_std} {l2_99p}")
 
     # Raw data for analysis (optional)
     if len(sys.argv) > 2 and sys.argv[2] == "--raw":
-        print(f"\nRaw data ({successful_runs} values):")
-        print(cycles_list)
+        print(f"\nRaw data ({successful_runs} runs):")
+        for i, m in enumerate(metrics_list):
+            print(f"  Run {i+1}: {m}")
 
 if __name__ == "__main__":
     main()
