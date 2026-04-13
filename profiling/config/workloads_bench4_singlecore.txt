@@ -1,0 +1,4 @@
+tomcat_core.csv:DACAPO_CONVERGE=1 MAX_ITERATIONS=10 WATCHDOG_SECS=3600 ./runscript/run_tomcat.sh
+finagle_http_core.csv:RUN_SECONDS=300 ./runscript/run_finagle_http.sh
+finagle_chirper_core.csv:RUN_SECONDS=300 ./runscript/run_finagle_chirper.sh
+verilator_qsort_core.csv:REPEAT_COUNT=4 MAX_CYCLES=500000000 ./runscript/run_verilator_qsort.sh
