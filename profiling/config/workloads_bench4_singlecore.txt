@@ -1,4 +1,6 @@
-tomcat_core.csv:DACAPO_CONVERGE=1 MAX_ITERATIONS=10 WATCHDOG_SECS=3600 ./runscript/run_tomcat.sh
-finagle_http_core.csv:RUN_SECONDS=300 ./runscript/run_finagle_http.sh
-finagle_chirper_core.csv:RUN_SECONDS=300 ./runscript/run_finagle_chirper.sh
-verilator_qsort_core.csv:REPEAT_COUNT=4 MAX_CYCLES=500000000 ./runscript/run_verilator_qsort.sh
+tomcat_core.csv:PERF_DELAY_MS=300000 DACAPO_CONVERGE=1 MAX_ITERATIONS=10 WATCHDOG_SECS=3600 ./runscript/run_tomcat.sh
+# finagle steady-state: GraalVM CE 17 + ~3min warmup delay before perf
+finagle_http_core.csv:PERF_DELAY_MS=180000 RUN_SECONDS=480 FINAGLE_PRINT_COMPILATION=1 ./runscript/run_finagle_http.sh
+finagle_chirper_core.csv:PERF_DELAY_MS=180000 RUN_SECONDS=480 FINAGLE_PRINT_COMPILATION=1 ./runscript/run_finagle_chirper.sh
+# export CHIPYARD_CONFIG=<your large multicore BOOM config> before running flow
+verilator_qsort_core.csv:PERF_DELAY_MS=0 REPEAT_COUNT=1 MAX_CYCLES=80000 VERILATOR_TIMEOUT_SECS=1200 ./runscript/run_verilator_qsort.sh

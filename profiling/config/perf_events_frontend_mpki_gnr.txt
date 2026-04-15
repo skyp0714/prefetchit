@@ -1,0 +1,5 @@
+# alias|perf_event
+L1I_CODE_RD|cpu/event=0x24,umask=0xe4,name=L1I_CODE_RD/
+L2I_CODE_RD_MISS|cpu/event=0x24,umask=0x24,name=L2I_CODE_RD_MISS/
+ITLB_WALK|cpu/event=0x11,umask=0x0e,name=ITLB_WALK/
+ITLB_STLB_HIT|cpu/event=0x11,umask=0x20,name=ITLB_STLB_HIT/

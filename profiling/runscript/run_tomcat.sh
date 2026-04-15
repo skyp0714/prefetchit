@@ -14,6 +14,9 @@ DACAPO_ARGS=(
   -s "${SIZE:-default}"
   --watchdog "${WATCHDOG_SECS:-3600}"
 )
+if [[ "${DACAPO_IGNORE_VALIDATION:-1}" == "1" ]]; then
+  DACAPO_ARGS+=(--ignore-validation)
+fi
 if [[ "${DACAPO_CONVERGE:-0}" == "1" ]]; then
   DACAPO_ARGS+=(
     -C
