@@ -1,0 +1,10 @@
+# Unified benchmark list (main profiling set)
+# format: <output_csv_path_relative_to_results/>:<env/workload command>
+
+benchmark_profiling/csv/tomcat_core.csv:PERF_DELAY_MS=300000 DACAPO_CONVERGE=1 MAX_ITERATIONS=10 WATCHDOG_SECS=3600 ./runscript/bench/run_tomcat.sh
+benchmark_profiling/csv/finagle_http_core.csv:PERF_DELAY_MS=180000 RUN_SECONDS=480 FINAGLE_PRINT_COMPILATION=1 ./runscript/bench/run_finagle_http.sh
+benchmark_profiling/csv/finagle_chirper_core.csv:PERF_DELAY_MS=180000 RUN_SECONDS=480 FINAGLE_PRINT_COMPILATION=1 ./runscript/bench/run_finagle_chirper.sh
+benchmark_profiling/csv/verilator_qsort_core.csv:PERF_DELAY_MS=0 REPEAT_COUNT=1 MAX_CYCLES=80000 VERILATOR_TIMEOUT_SECS=1200 ./runscript/bench/run_verilator_qsort.sh
+benchmark_profiling/csv/spec602_core.csv:PERF_DELAY_MS=0 ./runscript/bench/run_spec_602_gcc_s.sh
+benchmark_profiling/csv/spec605_core.csv:PERF_DELAY_MS=0 ./runscript/bench/run_spec_605_mcf_s.sh
+benchmark_profiling/csv/spec641_core.csv:PERF_DELAY_MS=0 ./runscript/bench/run_spec_641_leela_s.sh
