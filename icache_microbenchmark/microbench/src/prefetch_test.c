@@ -1,4 +1,4 @@
-// prefetchi_test.c
+// prefetch_test.c
 // build: clang -march=graniterapids -m64 -no-pie -fno-plt -mprefetchi prefetch_test.c utils.c -o prefetch_test
 // check: objdump -dr -Mintel prefetch_test
 #define _GNU_SOURCE
@@ -358,9 +358,9 @@ int main() {
   lock_and_prefault(8ull * 1024 * 1024);
 
   // Prefetch distant bar function
-  _mm_prefetch(bar, _MM_HINT_IT0);
-  _mm_prefetch(foo, _MM_HINT_IT0);
-  _mm_prefetch(baz, _MM_HINT_IT0);
+  __builtin_ia32_prefetchi(bar, 3);
+  __builtin_ia32_prefetchi(foo, 3);
+  __builtin_ia32_prefetchi(baz, 3);
   dummy_256_instructions(1);
 //   complex_function(1);
   // bar(1);

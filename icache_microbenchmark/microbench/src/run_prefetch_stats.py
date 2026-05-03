@@ -14,7 +14,8 @@ def compile_prefetch_test():
     """Compile the prefetch_test program."""
     try:
         cmd = [
-            "gcc",
+            "clang",
+            "-O2",
             "-march=graniterapids",
             "-m64",
             "-no-pie",
@@ -28,7 +29,7 @@ def compile_prefetch_test():
         result = subprocess.run(cmd, capture_output=True, text=True, check=True)
         return True
     except subprocess.CalledProcessError as e:
-        print(f"✗ Compilation failed:")
+        print("Compilation failed:")
         print(f"stdout: {e.stdout}")
         print(f"stderr: {e.stderr}")
         return False
@@ -98,7 +99,7 @@ def main():
 
     # Check if we need root privileges for optimal results
     if os.geteuid() != 0:
-        print("⚠️  Warning: Running without root privileges.")
+        print("Warning: Running without root privileges.")
         print("   For best results, run with sudo for CPU frequency locking.")
         print()
 

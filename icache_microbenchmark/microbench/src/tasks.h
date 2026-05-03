@@ -72,7 +72,7 @@ void __attribute__((noinline)) prefetch_task_##N(void) { \
 #define EMIT_NOPS_CASE(N) case N: asm volatile( \
     ".rept " STR(N) "\n\t" "nop\n\t" ".endr\n\t" ::: "memory"); break;
 
-// Task generation macro - defines all 4096 tasks (task_0 through task_4095)
+// Task generation macro - defines all 1024 tasks (task_0 through task_1023)
 #ifndef TASKS
 #define TASKS(X) \
   X(0) X(1) X(2) X(3) X(4) X(5) X(6) X(7) X(8) X(9) X(10) X(11) X(12) X(13) X(14) X(15) \

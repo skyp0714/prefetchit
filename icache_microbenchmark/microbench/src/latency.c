@@ -6,7 +6,7 @@
 // check prefetch instruction in objdump:
 // objdump -d -Mintel ./lat_bench | grep -n 'prefetchit'
 // Run example:
-//   ./lat_bench [rounds] [qlen] [prefetch_nops]
+//   ./lat_bench [rounds] [qlen]
 
 #define _GNU_SOURCE
 #define _DEFAULT_SOURCE 
@@ -62,10 +62,6 @@ TASKS(DECL_PREFETCH_TASK)
 // ---------- PREFETCHI (intrinsic path) ----------
 #if defined(ENABLE_PREFETCHI)
 #include <x86intrin.h>
-#ifndef PREFETCHI_HINT
-#define PREFETCHI_HINT _MM_HINT_IT0  
-#endif
-
 #endif  // ENABLE_PREFETCHI
 
 // ---------- NOP window ----------
@@ -220,13 +216,6 @@ int main(int argc, char** argv) {
     // }
 
 
-#ifdef PERF_COLLECT
-    // --- perf icache metrics setup (simplified) ---
-    pid_t main_tid = gettid();
-    PerfGroup pg = perf_group_open(main_tid, cpu);
-    if (pg.leader >= 0) perf_group_enable(pg.leader);
-#endif
-
 #if defined(ENABLE_PREFETCHI)
     // Prefetch all task functions to warm up instruction cache
     prefetch_all_tasks();
@@ -236,6 +225,13 @@ int main(int argc, char** argv) {
     // Memory barrier to ensure prefetch operations complete
     // Sleep briefly to allow prefetch instructions to fetch into cache
     // usleep(10); // 10us sleep
+#endif
+
+#ifdef PERF_COLLECT
+    // --- perf icache metrics setup (simplified) ---
+    pid_t main_tid = gettid();
+    PerfGroup pg = perf_group_open(main_tid, cpu);
+    if (pg.leader >= 0) perf_group_enable(pg.leader);
 #endif
 
     uint64_t tsc_start = rdtsc_begin();
@@ -249,8 +245,8 @@ int main(int argc, char** argv) {
 #endif
 
 #ifdef PERF_COLLECT
-    uint64_t l1i_miss_val = 0, itlb_miss_val = 0, l2_lines_in_val = 0, insn_val = 0;
-    perf_group_read(&pg, &l1i_miss_val, &itlb_miss_val, &l2_lines_in_val, &insn_val);
+    uint64_t l1i_miss_val = 0, itlb_miss_val = 0, l2_lines_in_val = 0, l2_miss_val = 0, insn_val = 0;
+    perf_group_read(&pg, &l1i_miss_val, &itlb_miss_val, &l2_lines_in_val, &l2_miss_val, &insn_val);
 #endif
 
 #ifdef PERF_COLLECT
@@ -289,6 +285,14 @@ int main(int argc, char** argv) {
                (unsigned long long)l2_lines_in_val);
     } else {
         printf("L2-lines-in.all: N/A\n");
+    }
+    if (pg.l2_miss >= 0) {
+        double mpki = (insn_val ? (double)l2_miss_val * 1000.0 / (double)insn_val : 0.0);
+        double miss_rate = (insn_val > 0) ? (double)l2_miss_val / (double)insn_val : 0.0;
+        printf("L2-misses: %llu  (MPKI=%.3f, Miss-Rate=%.4f%%)\n",
+               (unsigned long long)l2_miss_val, mpki, miss_rate * 100.0);
+    } else {
+        printf("L2-misses: N/A\n");
     }
     if (pg.leader >= 0) {
         printf("Instructions: %llu\n", (unsigned long long)insn_val);

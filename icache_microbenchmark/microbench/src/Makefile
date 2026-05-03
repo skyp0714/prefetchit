@@ -1,8 +1,9 @@
 # Makefile for latency benchmark with multiple configurations
 # Builds four versions with different flag combinations
 
-CC = gcc
-CFLAGS = -march=graniterapids -m64 -no-pie -fno-plt -mprefetchi
+CC = clang
+ARCH ?= graniterapids
+CFLAGS ?= -O2 -march=$(ARCH) -m64 -no-pie -fno-plt -mprefetchi
 SOURCES = latency.c utils.c
 
 # Target names for the four binary variants
@@ -48,5 +49,5 @@ help:
 	@echo "Usage examples:"
 	@echo "  make                   # Build all versions"
 	@echo "  make $(TARGET_PREFETCH)  # Build only prefetch version"
-	@echo "  ./$(TARGET_BASE) 1 256 16        # Run basic version"
-	@echo "  ./$(TARGET_BOTH) 1 256 16        # Run full-featured version"
+	@echo "  ./$(TARGET_BASE) 1 4096        # Run basic version"
+	@echo "  ./$(TARGET_BOTH) 1 4096        # Run full-featured version"

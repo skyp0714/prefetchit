@@ -3,7 +3,6 @@ import argparse
 import subprocess
 import sys
 import re
-import shlex
 from statistics import mean, variance, stdev
 from collections import defaultdict
 
@@ -12,13 +11,17 @@ METRIC_PATTERNS = {
     # Cache and instruction metrics
     'l1i_misses': re.compile(r"L1I-load-misses:\s*(\d+)"),
     'itlb_misses': re.compile(r"iTLB-load-misses:\s*(\d+)"),
+    'l2_lines_in': re.compile(r"L2-lines-in\.all:\s*(\d+)"),
+    'l2_misses': re.compile(r"L2-misses:\s*(\d+)"),
     'instructions': re.compile(r"Instructions:\s*(\d+)"),
     
     # MPKI metrics (optional)
     'l1i_mpki': re.compile(r"L1I-load-misses:.*MPKI=([0-9]*\.?[0-9]+)"),
     'itlb_mpki': re.compile(r"iTLB-load-misses:.*MPKI=([0-9]*\.?[0-9]+)"),
+    'l2_mpki': re.compile(r"L2-misses:.*MPKI=([0-9]*\.?[0-9]+)"),
     
     # Timing metrics  
+    'time_roi_ns': re.compile(r"Time\(roi\):\s*(\d+)\s*ns"),
     'time_monotonic_ns': re.compile(r"Time\(monotonic\):\s*(\d+)\s*ns"),
     'tsc_cycles': re.compile(r"TSC:\s*(\d+)\s*cycles"),
     'cycles_per_ns_raw': re.compile(r"Raw\s+Cycles/ns:\s*([0-9]*\.?[0-9]+)"),
@@ -89,7 +92,7 @@ def compute_stats(records):
 
 def main():
     ap = argparse.ArgumentParser(description="Run lat_bench multiple times and compute mean/stdev/variance of metrics")
-    ap.add_argument("--cmd", default="./lat_bench 1 256 28 1", help="Command to execute per run (use quotes). Include 'sudo ' if needed.")
+    ap.add_argument("--cmd", default="./lat_bench_perf 1 4096", help="Command to execute per run (use quotes). Include 'sudo ' if needed.")
     ap.add_argument("--iters", type=int, default=1000, help="Number of iterations")
     ap.add_argument("--print-each", action="store_true", help="Print raw output of each run")
     args = ap.parse_args()
@@ -120,9 +123,13 @@ def main():
     METRIC_DISPLAY = {
         'l1i_misses': ('L1I cache misses', ''),
         'itlb_misses': ('iTLB misses', ''), 
+        'l2_lines_in': ('L2 lines in', ''),
+        'l2_misses': ('L2 misses', ''),
         'instructions': ('Instructions', ''),
         'l1i_mpki': ('L1I MPKI', ''),
         'itlb_mpki': ('iTLB MPKI', ''),
+        'l2_mpki': ('L2 MPKI', ''),
+        'time_roi_ns': ('Time (ROI)', ' ns'),
         'time_monotonic_ns': ('Time (monotonic)', ' ns'),
         'tsc_cycles': ('TSC cycles', ''),
         'cycles_per_ns_raw': ('Cycles/ns (raw)', ''),
