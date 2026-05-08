@@ -342,6 +342,10 @@ def is_resolved_target(key: TargetKey) -> bool:
     return bool(key.function and key.file and key.line > 0 and not key.file.startswith("<"))
 
 
+def is_resolved_loc(loc: SourceLoc) -> bool:
+    return bool(loc.file and loc.line > 0 and not loc.file.startswith("<"))
+
+
 def choose_top_targets(
     target_addr_counts: Counter,
     target_locs: dict[int, SourceLoc],
@@ -495,8 +499,18 @@ def main() -> None:
             site_meta[target_key][site_addr].branch_types[branch_type] += 1
             site_meta[target_key][site_addr].depths[depth] += 1
 
+    all_site_addrs = {
+        site_addr
+        for site_map in samples_by_site.values()
+        for site_addr in site_map.keys()
+    }
+    site_locs = resolve_addrs(args.addr2line, binary, all_site_addrs)
+    for target_key, site_map in list(samples_by_site.items()):
+        for site_addr in list(site_map.keys()):
+            if not is_resolved_loc(site_locs.get(site_addr, SourceLoc(function="", file="", line=0))):
+                del site_map[site_addr]
+
     selected_rows = []
-    site_addrs = set()
     for target_rank, (target_key, target_count) in enumerate(top_targets, start=1):
         selected = greedy_select_sites(
             samples_by_site.get(target_key, {}),
@@ -510,9 +524,6 @@ def main() -> None:
             row["target_samples"] = target_count
             row["site_rank"] = site_rank
             selected_rows.append(row)
-            site_addrs.add(row["site_addr"])
-
-    site_locs = resolve_addrs(args.addr2line, binary, site_addrs)
 
     injections = []
     injection_csv = []

@@ -18,6 +18,7 @@
 #include "llvm/Support/raw_ostream.h"
 
 #include <algorithm>
+#include <cstdlib>
 #include <cstdint>
 #include <map>
 #include <optional>
@@ -72,6 +73,13 @@ struct InjectionStats {
   unsigned MissingSiteFunction = 0;
   unsigned MissingSiteLocation = 0;
 };
+
+static std::string getPlanPath() {
+  if (!PrefetchITPlanPath.empty())
+    return PrefetchITPlanPath;
+  const char *EnvPath = std::getenv("PREFETCHIT_PLAN");
+  return EnvPath ? std::string(EnvPath) : std::string();
+}
 
 static std::string getString(const json::Object &Obj, StringRef Key) {
   if (std::optional<StringRef> Value = Obj.getString(Key))
@@ -196,10 +204,23 @@ static bool pathMatches(StringRef ActualRaw, StringRef WantedRaw) {
   if (Actual == Wanted)
     return true;
 
+  StringRef GeneratedNeedle = "/generated-src/";
+  StringRef ActualRef(Actual);
+  StringRef WantedRef(Wanted);
+  if (ActualRef.contains(GeneratedNeedle) && WantedRef.contains(GeneratedNeedle)) {
+    StringRef ActualGenerated = ActualRef.split(GeneratedNeedle).second;
+    StringRef WantedGenerated = WantedRef.split(GeneratedNeedle).second;
+    if (ActualGenerated == WantedGenerated)
+      return true;
+  }
+
   std::string ActualSuffix = "/" + Actual;
   std::string WantedSuffix = "/" + Wanted;
-  return StringRef(ActualSuffix).ends_with(WantedSuffix) ||
-         StringRef(WantedSuffix).ends_with(ActualSuffix);
+  if (StringRef(ActualSuffix).ends_with(WantedSuffix) ||
+      StringRef(WantedSuffix).ends_with(ActualSuffix))
+    return true;
+
+  return sys::path::filename(Actual) == sys::path::filename(Wanted);
 }
 
 static std::string debugPath(const DILocation &Loc) {
@@ -352,12 +373,13 @@ static void insertPrefetchBefore(Module &M, Instruction &SiteI,
 class PrefetchITPass : public PassInfoMixin<PrefetchITPass> {
 public:
   PreservedAnalyses run(Module &M, ModuleAnalysisManager &) {
-    if (PrefetchITPlanPath.empty()) {
-      errs() << "prefetchit-inject: missing -prefetchit-plan\n";
+    std::string PlanPath = getPlanPath();
+    if (PlanPath.empty()) {
+      errs() << "prefetchit-inject: missing -prefetchit-plan or PREFETCHIT_PLAN\n";
       return PreservedAnalyses::all();
     }
 
-    std::optional<Plan> Loaded = loadPlan(PrefetchITPlanPath);
+    std::optional<Plan> Loaded = loadPlan(PlanPath);
     if (!Loaded)
       return PreservedAnalyses::all();
 
@@ -446,16 +468,24 @@ public:
   }
 };
 
+static void addPrefetchITPass(ModulePassManager &MPM) {
+  MPM.addPass(PrefetchITPass());
+}
+
 } // namespace
 
 extern "C" LLVM_ATTRIBUTE_WEAK PassPluginLibraryInfo llvmGetPassPluginInfo() {
   return {LLVM_PLUGIN_API_VERSION, "PrefetchITPass", LLVM_VERSION_STRING,
           [](PassBuilder &PB) {
+            PB.registerPipelineStartEPCallback(
+                [](ModulePassManager &MPM, OptimizationLevel) {
+                  addPrefetchITPass(MPM);
+                });
             PB.registerPipelineParsingCallback(
                 [](StringRef Name, ModulePassManager &MPM,
                    ArrayRef<PassBuilder::PipelineElement>) {
                   if (Name == "prefetchit-inject") {
-                    MPM.addPass(PrefetchITPass());
+                    addPrefetchITPass(MPM);
                     return true;
                   }
                   return false;
