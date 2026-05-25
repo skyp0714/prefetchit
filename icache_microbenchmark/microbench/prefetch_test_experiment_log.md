@@ -1,559 +1,594 @@
-# prefetch_test.c 설명과 PREFETCHI/PREFETCHT 비교
+# prefetch_test latest experiment log
 
-작성일: 2026-05-03
-소스: `microbench/src/prefetch_test.c`
-주요 실행 파일: `microbench/src/prefetch_test`
+## 2026-05-05: process-level one-shot prefetch experiment
 
-## 한 줄 요약
+Goal:
 
-이 benchmark는 `bar`, `foo`, `baz`라는 target code가 instruction cache 쪽에서 차가운 상태일 때, target 실행 직전에 prefetch를 넣으면 timed target 실행 시간이 줄어드는지 본다. 지금 버전은 code prefetch인 `PREFETCHI`와 data prefetch인 `PREFETCHT0`를 같은 target code address에 대해 나란히 실행해서 비교한다.
+- Avoid in-process `clflush` warming target translations.
+- Measure each sample with a fresh `prefetch_test` process that executes the timed region once.
+- Alternate `icache_flush_dummy` and `prefetch_test` so the measured process starts after a large executable-code footprint has run on the same CPU.
 
-중요한 결론은 이렇다.
+Implementation:
 
-- `PREFETCHT0`도 code address를 data처럼 prefetch하면 종종 좋아진다. 아마 L2 같은 unified lower cache를 따뜻하게 만드는 효과가 섞인다.
-- 그래도 이것을 instruction fetch용 prefetch라고 해석하면 안 된다. 더 차갑게 만든 8 MiB evictor 조건에서는 대체로 `PREFETCHI`가 더 안정적으로 좋거나 최소한 덜 나쁘다.
-- `actual_exec_warm`은 target을 실제로 한 번 실행해서 이미 따뜻하게 만든 ideal bound다. 이 값은 보통 34-50 cycles 근처로, prefetch가 도달할 수 있는 최선의 하한선이다.
+- Added `icache_flush_dummy`: pins to the requested CPU, generates a large executable NOP region, and executes it.
+- Added `perf_once` mode to `prefetch_test`: one process performs exactly one prepared timed-region execution and reads latency/L2/L3/TLB counters from that same timed region.
+- Added `run_process_prefetch_experiment.py`: wrapper that repeatedly runs `icache_flush_dummy` followed by one `prefetch_test perf_once` process.
 
-## 빌드와 실행
-
-`prefetch_test`는 반드시 `-O1`로 빌드한다.
+Build:
 
 ```sh
-cd microbench/src
-make prefetch_test
+make -C microbench/src prefetch_test icache_flush_dummy
 ```
 
-Makefile과 helper script가 둘 다 아래 형태로 컴파일한다.
+The Makefile builds both binaries at `-O1`.
+
+Command:
 
 ```sh
-clang -O1 -march=graniterapids -m64 -no-pie -fno-plt -mprefetchi prefetch_test.c utils.c -o prefetch_test
+python3 microbench/src/run_process_prefetch_experiment.py \
+  --reps 20 \
+  --dummy-kib 8192 \
+  --dummy-passes 1 \
+  --delays none,pause8,pause16,pause32,pause64,pause96,pause128,pause160,pause192,pause256,pause384,pause512 \
+  --clear-result
 ```
 
-기본 실행 형태:
+Result files currently kept in `microbench/result`:
+
+- `latest_process_raw.csv`
+- `latest_process_summary.csv`
+- `latest_process_best.csv`
+- `latest_process_cycle_comparison.png`
+- `latest_process_cache_miss_comparison.png`
+- `latest_process_run.log`
+
+Best-delay summary:
+
+| case | best delay | samples | p50 cycles | p75 cycles | p95 cycles | iTLB miss p50 | sTLB miss p50 | L2 code miss p50 | L3 miss p50 |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| baseline, no prefetch | none | 20 | 1180 | 1194 | 1236 | 4 | 4 | 92 | 0 |
+| advance execution | pause128 | 20 | 212 | 324 | 344 | 0 | 0 | 9 | 0 |
+| data PREFETCHT0 | pause192 | 20 | 1002 | 1178 | 1228 | 4 | 1 | 82 | 0 |
+| data PREFETCHT0 multiline | pause160 | 20 | 558 | 622 | 660 | 4 | 1 | 47 | 0 |
+| data PREFETCHT1 | pause192 | 20 | 806 | 1152 | 1242 | 4 | 1 | 72 | 0 |
+| data PREFETCHT1 multiline | pause384 | 20 | 534 | 610 | 682 | 4 | 1 | 46 | 0 |
+| code PREFETCHIT0 | pause256 | 20 | 994 | 1074 | 1126 | 3 | 3 | 68 | 0 |
+| code PREFETCHIT0 multiline | pause32 | 20 | 992 | 1062 | 1116 | 3 | 3 | 68 | 0 |
+| code PREFETCHIT1 | pause16 | 20 | 966 | 1050 | 1168 | 3 | 3 | 67 | 0 |
+| code PREFETCHIT1 multiline | pause32 | 20 | 1004 | 1068 | 1108 | 3 | 3 | 70 | 0 |
+
+Interpretation:
+
+- Process-level measurement fixed the earlier suspicious TLB signal: baseline now has nonzero iTLB/sTLB misses and much larger L2 code miss counts.
+- L3 miss is still zero because the dummy is an instruction-cache/frontend pressure program, not an LLC eviction program. The target code appears to remain available below DRAM, likely in LLC or page cache-backed memory.
+- Data prefetch multiline helps substantially: it cuts p50 from baseline 1180 cycles to roughly 534-558 cycles and reduces L2 code miss p50 from 92 to about 46-47.
+- Code prefetch does not show the same benefit in this process-level setup. IT0/IT1 single and multiline all remain around 966-1004 cycles p50 with L2 code miss p50 around 67-70.
+- With only three target pages, data prefetch appears to warm shared translation state enough to reduce page-walk count in the timed region (`sTLB miss p50` 1), while code prefetch still leaves about three code page walks in the timed region.
+
+Next question:
+
+If we need to see L3 miss behavior or stronger ITLB capacity effects, the next step is to expand the target footprint beyond three pages and/or add a separate LLC-eviction dummy before measurement.
+
+## 2026-05-05: PREFETCHIT0 issuing-condition search
+
+Goal:
+
+- Add iTLB/sTLB miss visibility to the latest plots because L3 miss stays at zero in the process-level dummy setup.
+- Try more ways to make `PREFETCHIT0` execute under frontend disruption: branch mispredict, indirect-call target mispredict, cold far calls without explicit `clflush`, path+target prefetch, and complex control flow.
+- Separate two effects: whether the `PREFETCHIT0` hint can fetch code lines, and whether translation/page-walk state is already warm enough for the hint to be useful.
+
+New strategy families:
+
+- Pure code prefetch: `fair_code_prefetchit0_lines`, `fair_code_prefetchit0_branch_misp_lines`, `fair_code_prefetchit0_path_lines`, `fair_code_prefetchit0_path_indirect_call_lines`.
+- Translation-primed code prefetch: `fair_code_prefetchit0_dtlb_prime_*`, which first uses one data prefetch per page to prime translation, then issues `PREFETCHIT0` line hints.
+- Diagnostic combined case: `fair_code_prefetchit0_data_lines_then_it0_lines`, which uses full data-line prefetch followed by `PREFETCHIT0`; this is not a pure code-prefetch result, but shows whether IT0 can still add instruction-side benefit once translation/data-side cache state is warm.
+
+Command:
 
 ```sh
-./prefetch_test [iterations] [evict_kib] [cpu]
+python3 microbench/src/run_process_prefetch_experiment.py \
+  --case-set it0search \
+  --case-filter 'baseline,advance,data,forced lines,branch miss,path lines,path indirect,dtlb' \
+  --reps 15 \
+  --dummy-kib 8192 \
+  --dummy-passes 1 \
+  --delays pause32,pause64,pause96,pause128,pause192,pause256,pause512,pause768,pause1024,pause1536,pause2048 \
+  --clear-result
 ```
 
-예시:
+Latest plots:
+
+- `microbench/result/latest_process_cycle_comparison.png`
+- `microbench/result/latest_process_cache_miss_comparison.png` now plots L2 code miss, iTLB miss, and sTLB miss instead of an uninformative L3-only view.
+- `microbench/result/latest_process_delay_latency.png`
+
+Best-delay summary:
+
+| case | best delay | samples | p50 cycles | p75 cycles | p95 cycles | iTLB miss p50 | sTLB miss p50 | L2 code miss p50 | L3 miss p50 |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| baseline, no prefetch | none | 15 | 1136 | 1154 | 1182 | 4 | 4 | 93 | 0 |
+| advance execution | pause768 | 15 | 204 | 252 | 260 | 1 | 1 | 10 | 0 |
+| data PREFETCHT0 | pause96 | 15 | 760 | 1118 | 1192 | 4 | 1 | 78 | 0 |
+| data PREFETCHT0 multiline | pause1536 | 15 | 462 | 468 | 528 | 4 | 1 | 42 | 0 |
+| data PREFETCHT1 | pause192 | 15 | 778 | 1104 | 1148 | 4 | 1 | 79 | 0 |
+| data PREFETCHT1 multiline | pause96 | 15 | 504 | 528 | 582 | 4 | 1 | 50 | 0 |
+| code PREFETCHIT0 forced lines | pause1024 | 15 | 1018 | 1046 | 1106 | 3 | 3 | 79 | 0 |
+| code PREFETCHIT0 branch miss | pause1536 | 15 | 1010 | 1068 | 1100 | 3 | 3 | 73 | 0 |
+| code PREFETCHIT0 path lines | pause64 | 15 | 998 | 1058 | 1164 | 3 | 3 | 75 | 0 |
+| code PREFETCHIT0 path indirect | pause1024 | 15 | 1016 | 1054 | 1112 | 3 | 3 | 73 | 0 |
+| code PREFETCHIT0 dtlb prime | pause2048 | 15 | 978 | 1044 | 1092 | 3 | 0 | 69 | 0 |
+| code PREFETCHIT0 dtlb repeat | pause768 | 15 | 662 | 1022 | 1090 | 3 | 0 | 60 | 0 |
+| code PREFETCHIT0 dtlb path repeat | pause192 | 15 | 674 | 996 | 1028 | 3 | 0 | 54 | 0 |
+| code PREFETCHIT0 dtlb branch | pause1536 | 15 | 672 | 994 | 1036 | 3 | 0 | 52 | 0 |
+| code PREFETCHIT0 dtlb indirect | pause192 | 15 | 668 | 994 | 1050 | 3 | 0 | 52 | 0 |
+| data lines then IT0 | pause256 | 15 | 364 | 416 | 424 | 3 | 0 | 24 | 0 |
+
+Interpretation:
+
+- Pure `PREFETCHIT0` issuing-condition tricks only give a modest improvement over baseline. They reduce L2 code misses somewhat, but they still leave about three sTLB/page-walk misses in the timed region.
+- Branch miss and indirect-call disruption do not by themselves unlock a data-prefetch-sized benefit. The best pure IT0 path in this confirmation run is around 998-1018 cycles p50 versus baseline 1136.
+- When translation is primed first, sTLB walk p50 falls to zero. Repeated/path/branch IT0 variants then drop into the 662-674 cycle p50 range, but the tail remains high because L2 code misses are still around 52-60.
+- Full data-line prefetch followed by IT0 reaches 364 cycles p50 and L2 code miss p50 24. This suggests IT0 can add instruction-side benefit once the data-side/translation state is already warm, but pure IT0 is not acting like a strong page-walk/TLB prefetcher in this setup.
+
+## 2026-05-05: forcing PREFETCHIT issue attempts
+
+Goal:
+
+- Keep searching for a condition that makes `PREFETCHIT0/1` execute rather than be dropped.
+- Specifically test `PREFETCHIT` immediately before a far function call, plus branch-mispredict and wrong-path forms that create a frontend window before the measured target code runs.
+
+New forcing strategies tried:
+
+- `PREFETCHIT -> cold far call`: `fair_code_prefetchit0_before_far_*`, `fair_code_prefetchit1_before_far_big`.
+- `PREFETCHIT -> cpuid`: `fair_code_prefetchit0_cpuid_after_lines`.
+- Repeated hints: `repeat16`, `repeat64`.
+- Spaced hints: line-by-line `PREFETCHIT` separated by `pause`.
+- Slow wrong-path branch: branch condition depends on flushed data, while the predicted fall-through path contains `PREFETCHIT`.
+- Per-page wrong-path branches: separate slow branch windows for `bar`, `foo`, and `baz`.
+
+Latest command:
 
 ```sh
-./prefetch_test 1000 4096 10 > ../result/prefetch_test_prefetchi_vs_prefetcht_evict4096_i1000.csv
+python3 microbench/src/run_process_prefetch_experiment.py \
+  --case-set it0search \
+  --case-filter 'baseline,data T0 multiline,data T1 multiline,wrongpath data cpuid,wrongpath deep,wrongpath per page,forced lines,dtlb prime,data lines then IT0' \
+  --reps 12 \
+  --dummy-kib 8192 \
+  --dummy-passes 1 \
+  --delays none,pause32,pause64,pause96,pause128,pause256,pause512,pause768,pause1024,pause1536,pause2048 \
+  --cold-mode perf_once \
+  --clear-result
 ```
 
-출력 CSV 컬럼:
+Best-delay summary:
 
-```text
-strategy,delay,iters,evict_kib,mean,min,p05,p25,p50,p75,p95,p99,max
-```
+| case | best delay | samples | p50 cycles | p75 cycles | p95 cycles | iTLB miss p50 | sTLB miss p50 | L2 code miss p50 | L3 miss p50 |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| baseline, no prefetch | none | 12 | 1128 | 1184 | 1206 | 4 | 4 | 92 | 0 |
+| data PREFETCHT0 multiline | pause2048 | 12 | 514 | 574 | 590 | 4 | 1 | 44 | 0 |
+| data PREFETCHT1 multiline | none | 12 | 524 | 532 | 570 | 4 | 1 | 50 | 0 |
+| code PREFETCHIT0 forced far-function lines | pause32 | 12 | 1016 | 1046 | 1054 | 3 | 3 | 69 | 0 |
+| code PREFETCHIT0 dtlb-prime first | pause1536 | 12 | 724 | 1008 | 1018 | 3 | 0 | 58 | 0 |
+| data lines then IT0 | pause768 | 12 | 402 | 434 | 440 | 3 | 0 | 25 | 0 |
+| code PREFETCHIT0 slow wrong-path branch | pause1024 | 12 | 840 | 902 | 928 | 2 | 2 | 54 | 0 |
+| code PREFETCHIT0 deep wrong-path repeat4 | pause768 | 12 | 842 | 870 | 908 | 2 | 2 | 59 | 0 |
+| code PREFETCHIT0 per-page wrong-path branch | pause1024 | 12 | 842 | 890 | 920 | 2 | 2 | 55 | 0 |
 
-여기서 가장 먼저 볼 값은 `p50`이다. `mean`은 interrupt나 OS noise에 더 민감하고, `p95/p99`는 tail latency를 볼 때 쓴다.
+Interpretation:
 
-## 코드가 하는 일
+- `PREFETCHIT -> cold far call`, `PREFETCHIT -> cpuid`, repeated hints, and spaced hints do not make pure IT0/IT1 behave like data prefetch. They still leave about three sTLB page walks in the timed region.
+- The slow wrong-path branch is the strongest pure-code-prefetch forcing condition so far. It reduces p50 from 1128 to about 840 cycles and reduces the TLB miss estimate from 4/4 to 2/2, with L2 code misses down to about 54.
+- Splitting wrong-path prefetch by page did not improve beyond 2/2 TLB misses. That suggests the remaining misses are not just caused by one branch window being too short.
+- `PREFETCHIT` clearly can reduce L2 code misses under some issue conditions, but these experiments still do not show it fully warming iTLB/sTLB the way data prefetch warms translation state.
 
-### 1. Target 함수
+## 2026-05-05: stable same-page PREFETCHIT issue condition
 
-`bar`, `foo`, `baz`는 실제로 실행 시간을 재는 target instruction stream이다.
+Goal:
 
-```c
-__attribute__((noinline, used, aligned(4096), section(".text.target.bar")))
-int bar(int a) { ... }
-```
+- Remove the `data lines then IT0` diagnostic from active comparisons and keep searching for a real code-prefetch issuing condition.
+- Avoid target-line warming from the code-page probe itself by moving the same-page probe/helper code from `target+0x240` to about `target+0x800`.
+- Test whether executing `PREFETCHIT` from code located on the same 4KB target page, with per-line spacing, prevents the hint from being dropped.
 
-세 함수 모두:
+New strategies:
 
-- `noinline`: compiler가 call을 없애지 못하게 한다.
-- `used`: 죽은 코드로 제거되지 않게 한다.
-- `aligned(4096)`: 각 함수를 page boundary 근처에 둬서 서로 가까운 sequential fetch 효과를 줄인다.
-- separate section: `.text.target.bar`, `.text.target.foo`, `.text.target.baz`에 따로 배치한다.
-- 함수 body 안에 48개의 NOP를 넣어서 target code line이 너무 작지 않게 만든다.
+- `fair_code_page_shape_spaced32_lines`: same target-page helper calls and pause spacing, but NOP shape instead of `PREFETCHIT`.
+- `fair_code_page_prefetchit0_spaced128_lines`: target-page helper emits IT0 hints for `target+0..+0x200`, with 128 `pause` instructions between each line hint.
+- `fair_code_page_prefetchit1_spaced32_lines`: target-page helper emits IT1 hints for the same lines, with 32 `pause` instructions between hints.
 
-### 2. Indirect call
-
-실제로 timing하는 부분은 `call_targets_indirect()`다. 이 함수는 volatile function pointer table을 통해 `bar`, `foo`, `baz`를 indirect call한다.
-
-```c
-static TargetFn volatile g_targets[3] = {bar, foo, baz};
-```
-
-왜 direct call을 피하나?
-
-- direct call이면 compiler와 frontend가 target을 너무 쉽게 알 수 있다.
-- FDIP 같은 hardware frontend mechanism이 target을 미리 가져오는 효과가 커질 수 있다.
-- indirect call과 순서 섞기를 사용하면 prefetch 효과와 일반 frontend 예측 효과를 조금 더 분리해서 볼 수 있다.
-
-### 3. PREFETCHI와 PREFETCHT0
-
-`PREFETCHI`는 instruction stream을 위한 prefetch hint다.
-
-```c
-__builtin_ia32_prefetchi(bar, 3);
-```
-
-`PREFETCHT0`는 data cache용 prefetch hint다. 여기서는 일부러 같은 code address에 대해 data prefetch를 날린다.
-
-```c
-asm volatile("prefetcht0 bar(%%rip)" ::: "memory");
-```
-
-이 비교의 의미는 다음이다.
-
-- `PREFETCHI`: code를 instruction-fetch 경로로 당겨오는 의도.
-- `PREFETCHT0`: code address를 data처럼 당겨오는 우회 실험.
-- 만약 `PREFETCHT0`도 좋아지면, 그것은 보통 L2/LLC 같은 unified cache가 따뜻해진 효과일 수 있다. L1I에 직접 들어갔다고 단정하면 안 된다.
-
-### 4. Strategy 이름
-
-각 delay마다 아래 strategy를 전부 돈다.
-
-| strategy | 의미 |
-| --- | --- |
-| `baseline` | prefetch 없이 delay 후 target 실행 |
-| `prefetchi_direct` | 같은 함수에서 바로 `PREFETCHI` 후 delay |
-| `prefetcht_direct` | 같은 함수에서 바로 `PREFETCHT0` 후 delay |
-| `prefetchi_farfunc` | 멀리 떨어진 함수 안에서 `PREFETCHI` |
-| `prefetcht_farfunc` | 멀리 떨어진 함수 안에서 `PREFETCHT0` |
-| `actual_exec_warm` | target을 실제 한 번 실행해서 warm 상태를 만든 뒤 timing |
-| `prefetchi_far_before` | far pressure code를 실행한 뒤 `PREFETCHI` |
-| `prefetcht_far_before` | far pressure code를 실행한 뒤 `PREFETCHT0` |
-| `prefetchi_far_after` | `PREFETCHI` 후 far pressure code 실행 |
-| `prefetcht_far_after` | `PREFETCHT0` 후 far pressure code 실행 |
-| `prefetchi_branch_taken` | 큰 taken branch path 안에 `PREFETCHI` |
-| `prefetcht_branch_taken` | 큰 taken branch path 안에 `PREFETCHT0` |
-| `prefetchi_branch_nottaken` | 큰 not-taken path 안에 `PREFETCHI` |
-| `prefetcht_branch_nottaken` | 큰 not-taken path 안에 `PREFETCHT0` |
-| `prefetchi_serial_direct` | `cpuid`로 serialize한 뒤 `PREFETCHI` |
-| `prefetchi_serial_far_after` | `cpuid`, `PREFETCHI`, far pressure code |
-| `prefetchi_timed_path_*` | timed region wrapper인 `call_targets_indirect`까지 `PREFETCHI` |
-| `prefetchi_burst*` | `PREFETCHI`를 여러 번 반복 |
-| `prefetchi_serial_timed_path_burst_far_after` | `cpuid`, wrapper+target burst prefetch, far pressure code |
-| `prefetchi_coldpath*` | 큰 cold code path를 지나간 뒤 `PREFETCHI` |
-| `prefetchi_branch_deep*` | 더 큰 not-taken branch path 뒤 `PREFETCHI` |
-
-### 5. Delay 종류
-
-각 strategy는 모든 delay에 대해 반복된다.
-
-| delay | 의도 |
-| --- | --- |
-| `none` | prefetch 직후 바로 target 실행 |
-| `nop64`, `nop256`, `nop1024` | 작은 frontend-only delay |
-| `nop2048`, `nop4096`, `nop8192`, `nop16384` | prefetch completion window를 확인하기 위한 큰 NOP delay |
-| `spin1k`, `spin10k` | 작은 branch loop delay |
-| `arith256`, `arith1024` | backend arithmetic delay |
-| `complex_light` | branch가 있는 가벼운 control flow |
-| `complex_heavy` | far function call이 섞인 무거운 control flow |
-
-여기서 중요한 점은 delay가 길다고 항상 prefetch에 좋은 것이 아니라는 것이다. delay가 길면 `PREFETCHI`가 완료될 시간이 생기지만, 동시에 FDIP, next-line prefetch, normal fetch가 target을 알아서 가져올 시간도 생긴다. 그래서 baseline도 같이 좋아져서 prefetch의 차이가 사라질 수 있다.
-
-### 6. I-cache evictor
-
-매 sample마다 executable NOP sled를 실행한다.
-
-```c
-setup_evictor(evict_kib * 1024ull);
-evict_icache();
-```
-
-이 코드는 큰 executable buffer를 만들고 NOP를 채운 뒤 실행한다. 목적은 target code를 instruction side에서 차갑게 만드는 것이다.
-
-실험상 64 KiB, 256 KiB, 1024 KiB evictor는 효과가 약했다. 4096 KiB부터 prefetch signal이 보였고, 8192 KiB에서는 cold-code 효과가 더 강해졌다.
-
-### 7. Timing loop
-
-각 sample의 순서는 아래와 같다.
-
-```text
-evict_icache()
-lfence
-run_strategy(strategy)
-run_delay(delay)
-t0 = rdtsc
-call_targets_indirect(seed)
-t1 = rdtscp
-cycles = t1 - t0
-```
-
-즉, prefetch 자체의 실행 시간을 재는 benchmark가 아니다. prefetch와 delay 이후 target instruction stream을 실행할 때 걸리는 시간을 재는 benchmark다.
-
-## Assembly 확인
-
-빌드 후 target 주소는 다음처럼 배치되었다.
-
-```text
-000000000040b000 T bar
-000000000040c000 T foo
-000000000040d000 T baz
-000000000040e000 t prefetchi_targets_direct
-000000000040f000 t prefetchi_targets_far
-0000000000410000 t prefetcht_targets_direct
-0000000000411000 t prefetcht_targets_far
-0000000000412000 t branch_prefetchi_targets
-0000000000413000 t branch_prefetcht_targets
-```
-
-`PREFETCHI`는 이 binutils에서 `nop DWORD PTR`로 decode되지만, opcode byte가 `0f 18 /7`이고 RIP-relative target이 `bar`, `foo`, `baz`를 정확히 가리킨다.
-
-```text
-40e000: 0f 18 3d ... # 40b000 <bar>
-40e007: 0f 18 3d ... # 40c000 <foo>
-40e00e: 0f 18 3d ... # 40d000 <baz>
-```
-
-`PREFETCHT0`는 objdump에서 명확히 `prefetcht0`로 나온다.
-
-```text
-410000: 0f 18 0d ... # 40b000 <bar>
-410007: 0f 18 0d ... # 40c000 <foo>
-41000e: 0f 18 0d ... # 40d000 <baz>
-```
-
-따라서 이번 비교는 두 prefetch가 모두 같은 target code address를 대상으로 한다.
-
-## 측정 파일
-
-이번 비교에 사용한 CSV:
-
-- `microbench/result/prefetch_test_prefetchi_vs_prefetcht_evict4096_i1000.csv`
-- `microbench/result/prefetch_test_prefetchi_vs_prefetcht_evict4096_i1000_rep2.csv`
-- `microbench/result/prefetch_test_prefetchi_vs_prefetcht_evict8192_i300.csv`
-- `microbench/result/prefetch_test_large_delay_evict8192_i300.csv`
-- `microbench/result/prefetch_test_large_delay_evict8192_i300_rep2.csv`
-- `microbench/result/prefetch_test_force_prefetchi_nop_evict8192_i300.csv`
-- `microbench/result/prefetch_test_force_prefetchi_nop4096_evict32768_i200.csv`
-- `microbench/result/prefetch_test_force_prefetchi_timedpath_nop4096_evict32768_i200.csv`
-- `microbench/result/prefetch_test_force_prefetchi_serial_wait_nop4096_evict32768_i200.csv`
-- `microbench/result/prefetch_test_force_prefetchi_nop_evict32768_i120.csv`
-- `microbench/result/prefetch_test_force_prefetchi_nop64_evict32768_i300.csv`
-- `microbench/result/prefetch_test_force_prefetchi_nop64_evict32768_i300_rep2.csv`
-
-환경:
-
-- CPU: Intel Xeon 6787P
-- `PREFETCHI` CPUID support: yes
-- pin CPU: 10
-- realtime scheduling: permission 부족으로 실패했지만 benchmark는 계속 실행됨
-
-## 4096 KiB evictor, direct 비교
-
-아래 표는 가장 깨끗한 direct 비교다. 숫자는 `p50 cycles`이고, `r1/r2`는 같은 조건 1000 sample 반복 두 번이다.
-
-| delay | baseline p50 r1/r2 | actual p50 r1/r2 | PREFETCHI direct p50 r1/r2 | PREFETCHT direct p50 r1/r2 | 해석 |
-| --- | ---: | ---: | ---: | ---: | --- |
-| `none` | 124/78 | 34/34 | 64/68 | 62/66 | direct에서는 `PREFETCHT0`가 약간 유리하거나 동률 |
-| `nop64` | 62/62 | 34/34 | 62/62 | 62/62 | baseline이 이미 따뜻해서 차이가 작음 |
-| `nop256` | 62/62 | 34/34 | 62/62 | 62/78 | baseline이 이미 따뜻해서 차이가 작음 |
-| `nop1024` | 70/62 | 34/34 | 62/62 | 62/62 | baseline이 이미 따뜻해서 차이가 작음 |
-| `spin1k` | 260/216 | 36/36 | 260/220 | 260/220 | direct prefetch benefit이 거의 없음 |
-| `spin10k` | 262/228 | 36/36 | 262/222 | 266/220 | direct는 불안정하고 거의 도움 안 됨 |
-| `arith256` | 210/170 | 36/34 | 186/170 | 136/170 | `PREFETCHT0`가 한 번 크게 좋았지만 반복에서는 동률 |
-| `arith1024` | 130/98 | 36/36 | 136/98 | 136/98 | 반복 간 baseline 자체가 많이 변함 |
-| `complex_light` | 138/100 | 36/36 | 136/98 | 248/96 | 반복 간 변동 큼 |
-| `complex_heavy` | 68/64 | 46/36 | 66/64 | 64/68 | baseline이 이미 따뜻해서 차이가 작음 |
-
-4096 KiB 조건에서 direct 비교만 보면 `PREFETCHT0`가 `PREFETCHI`와 비슷하거나 특정 run에서 더 좋아 보이는 경우가 있다. 하지만 반복 간 변동이 꽤 커서, 이 결과만으로 data prefetch가 code prefetch보다 낫다고 말하기는 어렵다.
-
-## 4096 KiB evictor, 각 family의 best strategy
-
-아래는 같은 4096 KiB 조건에서 `prefetchi_*` 중 best p50와 `prefetcht_*` 중 best p50를 고른 것이다.
-
-| delay | best PREFETCHI p50 r1/r2 | best PREFETCHT p50 r1/r2 | 안정적 해석 |
-| --- | ---: | ---: | --- |
-| `none` | `prefetchi_farfunc` 62 / `prefetchi_branch_nottaken` 62 | `prefetcht_direct` 62 / `prefetcht_farfunc` 62 | 동률 |
-| `nop64` | `prefetchi_far_after` 60 / `prefetchi_direct` 62 | `prefetcht_far_after` 60 / `prefetcht_direct` 62 | 동률 |
-| `nop256` | `prefetchi_far_before` 60 / `prefetchi_direct` 62 | `prefetcht_far_after` 60 / `prefetcht_far_before` 62 | 동률 |
-| `nop1024` | `prefetchi_direct` 62 / `prefetchi_direct` 62 | `prefetcht_direct` 62 / `prefetcht_direct` 62 | 동률 |
-| `spin1k` | `prefetchi_direct` 260 / `prefetchi_direct` 220 | `prefetcht_direct` 260 / `prefetcht_direct` 220 | 둘 다 도움 없음 |
-| `spin10k` | `prefetchi_branch_taken` 134 / `prefetchi_far_before` 64 | `prefetcht_far_before` 134 / `prefetcht_far_before` 64 | 둘 다 특정 frontend-pressure 형태에서만 도움 |
-| `arith256` | `prefetchi_far_after` 132 / `prefetchi_far_after` 76 | `prefetcht_branch_nottaken` 132 / `prefetcht_far_before` 98 | 반복 간 변동 |
-| `arith1024` | `prefetchi_far_before` 134 / `prefetchi_direct` 98 | `prefetcht_direct` 136 / `prefetcht_direct` 98 | 반복 간 변동 |
-| `complex_light` | `prefetchi_direct` 136 / `prefetchi_direct` 98 | `prefetcht_branch_nottaken` 246 / `prefetcht_direct` 96 | 반복 간 변동 |
-| `complex_heavy` | `prefetchi_farfunc` 64 / `prefetchi_farfunc` 62 | `prefetcht_direct` 64 / `prefetcht_far_before` 64 | 거의 동률 |
-
-4096 KiB에서는 `PREFETCHI`와 `PREFETCHT0`의 best-case p50가 동률인 경우가 많다. 이것은 data prefetch가 instruction prefetch와 같은 일을 한다는 뜻이 아니라, 이 정도 coldness에서는 lower-level cache warming과 normal frontend prefetch가 섞여 두 방법이 비슷하게 보일 수 있다는 뜻에 가깝다.
-
-## 8192 KiB evictor, 초기 더 차가운 조건
-
-8 MiB evictor에서는 target code가 훨씬 차갑게 보였고, baseline p50가 대부분 500-600 cycles대로 올라갔다. 아래 표는 큰 NOP delay를 추가하기 전의 초기 300-sample run이다. 이 표만 보면 `PREFETCHI`가 좋은 경우가 있어 보였지만, 이후 큰 delay를 추가해 반복 측정하니 이 해석은 너무 낙관적이었다.
-
-| delay | baseline p50 | actual p50 | PREFETCHI direct | PREFETCHT direct | best PREFETCHI | best PREFETCHT | winner |
-| --- | ---: | ---: | ---: | ---: | --- | --- | --- |
-| `none` | 634 | 36 | 628 | 590 | `prefetchi_far_after` 558 | `prefetcht_far_after` 516 | `PREFETCHT0` |
-| `nop64` | 566 | 36 | 564 | 546 | `prefetchi_direct` 564 | `prefetcht_branch_nottaken` 500 | `PREFETCHT0` |
-| `nop256` | 566 | 36 | 562 | 550 | `prefetchi_branch_nottaken` 532 | `prefetcht_direct` 550 | `PREFETCHI` |
-| `nop1024` | 630 | 34 | 460 | 562 | `prefetchi_branch_taken` 454 | `prefetcht_far_before` 546 | `PREFETCHI` |
-| `spin1k` | 564 | 36 | 612 | 674 | `prefetchi_far_before` 522 | `prefetcht_far_after` 570 | `PREFETCHI` |
-| `spin10k` | 568 | 36 | 574 | 596 | `prefetchi_far_before` 552 | `prefetcht_far_before` 562 | `PREFETCHI` |
-| `arith256` | 514 | 34 | 526 | 668 | `prefetchi_far_after` 502 | `prefetcht_farfunc` 548 | `PREFETCHI` |
-| `arith1024` | 562 | 34 | 542 | 558 | `prefetchi_far_after` 450 | `prefetcht_branch_nottaken` 536 | `PREFETCHI` |
-| `complex_light` | 546 | 42 | 560 | 564 | `prefetchi_far_after` 526 | `prefetcht_direct` 564 | `PREFETCHI` |
-| `complex_heavy` | 554 | 50 | 562 | 620 | `prefetchi_farfunc` 556 | `prefetcht_branch_nottaken` 582 | `PREFETCHI` |
-
-초기 8 MiB 조건의 해석:
-
-- `none`, `nop64`에서는 `PREFETCHT0` best가 더 낮게 나왔다.
-- `nop256` 이상, spin, arithmetic, complex delay에서는 대체로 `PREFETCHI`가 더 좋았다.
-- direct만 보면 `nop1024`에서 `PREFETCHI direct`가 460 cycles로 `PREFETCHT direct` 562 cycles보다 확실히 좋았다.
-- `arith256`, `spin1k`, `complex_heavy`처럼 `PREFETCHT0 direct`가 baseline보다 오히려 나빠지는 경우도 있다.
-
-## 8192 KiB evictor, 큰 NOP delay 재측정
-
-`PREFETCHI`가 `actual_exec_warm`보다 너무 느리다는 문제를 확인하기 위해 `nop2048`, `nop4096`, `nop8192`, `nop16384`를 추가했다. 이 재측정의 목적은 prefetch 뒤 window를 충분히 줬을 때 target latency가 몇백 cycles 단위로 내려가는지 보는 것이다.
-
-결론부터 말하면, 큰 delay를 넣어도 `PREFETCHI`는 몇백 cycles 개선을 만들지 못했다. 8 MiB evictor에서 두 번 반복한 결과, `PREFETCHI` best gain은 첫 run에서 최대 106 cycles, 두 번째 run에서 최대 76 cycles였다. 사용한 기준인 “최소 몇백 cycles 개선”에는 못 미친다.
-
-반대로 `PREFETCHT0`는 같은 code address에 대해 몇백 cycles 개선을 반복적으로 만들었다. 이것은 code bytes가 lower-level unified cache 쪽으로 당겨지는 효과가 강하다는 뜻일 수 있다. 하지만 이것을 instruction-side prefetch 성공으로 해석하면 안 된다.
-
-### PREFETCHI p50, 8 MiB, 300 samples
-
-| delay | baseline r1/r2 | actual r1/r2 | direct r1/r2 | far_after r1/r2 | branch_nottaken r1/r2 | best gain r1/r2 |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| `none` | 578/578 | 36/36 | 586/640 | 568/602 | 592/594 | 10/-8 |
-| `nop64` | 550/592 | 36/36 | 550/580 | 572/594 | 548/550 | 2/42 |
-| `nop256` | 564/598 | 36/36 | 556/568 | 560/562 | 566/596 | 8/36 |
-| `nop1024` | 556/596 | 36/36 | 556/592 | 558/572 | 556/586 | 8/24 |
-| `nop2048` | 554/570 | 36/36 | 556/588 | 570/564 | 574/584 | -2/6 |
-| `nop4096` | 560/572 | 36/36 | 566/570 | 482/566 | 454/560 | 106/12 |
-| `nop8192` | 454/544 | 36/36 | 460/558 | 396/574 | 400/568 | 58/-14 |
-| `nop16384` | 398/574 | 36/36 | 408/558 | 400/552 | 396/562 | 2/76 |
-
-해석:
-
-- `far_after`와 `branch_nottaken`이 가끔 direct보다 좋다.
-- 하지만 `PREFETCHI` 기준으로는 개선 폭이 작고 반복성이 약하다.
-- delay를 `nop16384`까지 키워도 `actual_exec_warm`인 36 cycles 근처로 가지 않는다.
-- 따라서 현재 harness에서 `far_after`와 `branch_nottaken`이 `PREFETCHI`를 강제로 제대로 실행시키는 역할을 확실히 하고 있다고 보기 어렵다.
-
-### PREFETCHT0 p50, 8 MiB, 300 samples
-
-| delay | baseline r1/r2 | actual r1/r2 | direct r1/r2 | far_after r1/r2 | branch_nottaken r1/r2 | best gain r1/r2 |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| `none` | 578/578 | 36/36 | 496/470 | 478/450 | 486/488 | 100/144 |
-| `nop64` | 550/592 | 36/36 | 304/438 | 308/294 | 432/442 | 246/298 |
-| `nop256` | 564/598 | 36/36 | 376/392 | 306/268 | 442/360 | 258/330 |
-| `nop1024` | 556/596 | 36/36 | 438/412 | 442/338 | 440/450 | 154/258 |
-| `nop2048` | 554/570 | 36/36 | 306/436 | 310/418 | 356/404 | 250/324 |
-| `nop4096` | 560/572 | 36/36 | 378/430 | 278/474 | 466/476 | 282/142 |
-| `nop8192` | 454/544 | 36/36 | 508/348 | 498/424 | 454/430 | 0/212 |
-| `nop16384` | 398/574 | 36/36 | 456/520 | 410/460 | 324/578 | 74/264 |
-
-해석:
-
-- `PREFETCHT0`는 여러 delay에서 몇백 cycles 개선을 만든다.
-- 이 개선은 `PREFETCHI`보다 훨씬 크고, 반복 run에서도 자주 재현된다.
-- code address를 data prefetch하면 lower-level cache가 따뜻해져 instruction fetch latency가 줄어드는 효과가 있을 수 있다.
-- 하지만 `actual_exec_warm`과는 여전히 멀다. data prefetch도 L1I/uop/BTB/iTLB warm 상태를 만들지는 못한다.
-
-## PREFETCHT0 수준으로 PREFETCHI 끌어올리기
-
-위 결과만으로는 `PREFETCHI`가 너무 약했다. 그래서 `PREFETCHI` hint가 실제로 execute되는 상황을 더 강하게 만들기 위해 다음 변형을 추가했다.
-
-| 변형 | 의도 | 결과 |
-| --- | --- | --- |
-| `prefetchi_serial_direct` | `cpuid` 후 바로 `PREFETCHI` | direct보다 훨씬 좋아짐 |
-| `prefetchi_serial_far_after` | `cpuid`, `PREFETCHI`, far code | 32 MiB evictor에서 300-cycle 근처까지 개선 |
-| `prefetchi_timed_path_*` | `bar/foo/baz`뿐 아니라 timed wrapper인 `call_targets_indirect`도 prefetch | 단독으로는 작고, serial/burst/far_after와 결합할 때 유효 |
-| `prefetchi_burst*` | 같은 target에 `PREFETCHI`를 반복 발행 | serial/timed/far_after와 결합할 때 가장 좋음 |
-| `prefetchi_coldpath*` | prefetch 함수 안에서 큰 NOP path를 먼저 실행 | 기대보다 효과 작음 |
-| `prefetchi_branch_deep*` | 더 깊은 not-taken path에서 prefetch | 기대보다 효과 작음 |
-| `prefetchi_serial_wait*` | `PREFETCHI` 뒤에 다시 `cpuid` | 오히려 대체로 나빠짐 |
-
-핵심은 `cpuid`로 serialize한 뒤, timed path 전체를 `PREFETCHI` burst로 여러 번 요청하고, 그 다음 far code로 prefetch가 진행될 시간을 주는 조합이었다.
-
-```text
-prefetchi_serial_timed_path_burst_far_after:
-    cpuid
-    PREFETCHI(call_targets_indirect)
-    PREFETCHI(bar)
-    PREFETCHI(foo)
-    PREFETCHI(baz)
-    small NOP gap
-    repeat burst
-    far_pressure_c()
-    delay
-    measure call_targets_indirect()
-```
-
-### 32 MiB evictor, nop4096 scout
-
-`nop4096` 하나만 32 MiB evictor에서 먼저 확인했다.
-
-| strategy | p50 | gain vs baseline | mean | p95 |
-| --- | ---: | ---: | ---: | ---: |
-| baseline | 822 | 0 | 828.4 | 974 |
-| actual_exec_warm | 44 | 778 | 55.2 | 90 |
-| prefetcht_far_after | 448 | 374 | 470.3 | 648 |
-| prefetcht_direct | 476 | 346 | 538.6 | 900 |
-| prefetchi_serial_far_after | 502 | 320 | 520.1 | 672 |
-| prefetchi_serial_timed_path_far_after | 512 | 310 | 519.9 | 686 |
-| prefetchi_direct | 800 | 22 | 806.0 | 948 |
-
-이 시점에서 `PREFETCHI`도 300-cycle 이상 개선되기 시작했다. 단, best `PREFETCHT0`보다는 약 54 cycles 느렸다.
-
-### 32 MiB evictor, NOP sweep
-
-120-sample scout에서 delay를 다시 훑었다.
-
-| delay | baseline | best PREFETCHI | gain | best PREFETCHT0 | gain |
-| --- | ---: | --- | ---: | --- | ---: |
-| `nop64` | 770 | `prefetchi_serial_timed_path_burst_far_after` 470 | 300 | `prefetcht_far_after` 416 | 354 |
-| `nop256` | 714 | `prefetchi_serial_timed_path_burst_far_after` 446 | 268 | `prefetcht_far_after` 418 | 296 |
-| `nop1024` | 732 | `prefetchi_serial_timed_path_burst_far_after` 458 | 274 | `prefetcht_far_before` 420 | 312 |
-| `nop2048` | 720 | `prefetchi_serial_timed_path_direct` 474 | 246 | `prefetcht_far_before` 420 | 300 |
-| `nop4096` | 718 | `prefetchi_serial_wait_timed_path_far_after` 444 | 274 | `prefetcht_far_after` 418 | 300 |
-| `nop8192` | 756 | `prefetchi_serial_timed_path_burst_far_after` 460 | 296 | `prefetcht_far_after` 432 | 324 |
-| `nop16384` | 704 | `prefetchi_serial_timed_path_far_after` 460 | 244 | `prefetcht_far_after` 432 | 272 |
-
-가장 좋은 후보는 `nop64 + prefetchi_serial_timed_path_burst_far_after`였다.
-
-### 32 MiB evictor, nop64 confirmation
-
-`nop64` 조건을 300 samples로 두 번 반복했다.
-
-| run | baseline | actual | best PREFETCHI | gain | best PREFETCHT0 | gain |
-| --- | ---: | ---: | --- | ---: | --- | ---: |
-| r1 | 792 | 36 | `prefetchi_serial_timed_path_burst_far_after` 436 | 356 | `prefetcht_far_after` 406 | 386 |
-| r2 | 866 | 36 | `prefetchi_serial_timed_path_burst_far_after` 512 | 354 | `prefetcht_far_after` 492 | 374 |
-
-같은 run에서 `PREFETCHT0 direct`와 비교하면 `PREFETCHI`가 사실상 같은 수준까지 왔다.
-
-| run | baseline | PREFETCHI best | PREFETCHT0 direct | PREFETCHT0 best |
-| --- | ---: | ---: | ---: | ---: |
-| r1 | 792 | 436 | 436 | 406 |
-| r2 | 866 | 512 | 510 | 492 |
-
-즉, 현재 satisfactory condition은 다음이다.
+Command:
 
 ```sh
-cd microbench/src
-./prefetch_test 300 32768 10 nop64 all \
-  > ../result/prefetch_test_force_prefetchi_nop64_evict32768_i300.csv
+python3 microbench/src/run_process_prefetch_experiment.py \
+  --case-set it0search \
+  --case-filter 'baseline,advance execution,data T0 multiline,data T1 multiline,code page shape spaced32,code page IT0 spaced128,code page IT1 spaced32' \
+  --reps 40 \
+  --dummy-kib 8192 \
+  --dummy-passes 1 \
+  --delays none,pause64,pause256,pause512,pause1024,pause2048 \
+  --cold-mode perf_once \
+  --clear-result
 ```
 
-이 조건에서 `PREFETCHI`는 `PREFETCHT0 direct`와 같은 수준이고, best `PREFETCHT0`보다 20-30 cycles 정도 느리다. 사용자가 제시한 “최소 몇백 cycles 개선” 기준은 만족한다.
+Latest best-delay summary:
 
-## Delay별 결론
+| case | best delay | samples | p50 cycles | p75 cycles | p95 cycles | iTLB miss p50 | sTLB miss p50 | L2 code miss p50 | L3 miss p50 |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| baseline, no prefetch | none | 40 | 1082 | 1124 | 1240 | 4 | 4 | 88 | 0 |
+| advance execution | pause64 | 40 | 260 | 262 | 266 | 0 | 0 | 10 | 0 |
+| data PREFETCHT0 multiline | pause1024 | 40 | 554 | 588 | 606 | 4 | 1 | 48 | 0 |
+| data PREFETCHT1 multiline | pause1024 | 40 | 550 | 596 | 674 | 4 | 1 | 49 | 0 |
+| same-page NOP shape spaced32 | pause2048 | 40 | 860 | 894 | 972 | 0 | 0 | 62 | 0 |
+| same-page PREFETCHIT0 spaced128 | pause64 | 40 | 422 | 472 | 484 | 0 | 0 | 33 | 0 |
+| same-page PREFETCHIT1 spaced32 | pause64 | 40 | 424 | 462 | 476 | 0 | 0 | 29 | 0 |
 
-| delay | 결론 |
-| --- | --- |
-| `none` | prefetch가 들어갈 시간은 짧지만, 4 MiB에서는 둘 다 크게 좋아지고 8 MiB에서는 `PREFETCHT0` best가 더 좋았다. 다만 이건 instruction prefetch라기보다 lower cache warming 가능성이 크다. |
-| `nop64` | 32 MiB evictor와 `prefetchi_serial_timed_path_burst_far_after` 조합에서 현재 best condition이다. `PREFETCHI`가 354-356 cycles 개선되어 `PREFETCHT0 direct`와 같은 수준까지 온다. |
-| `nop256` | 4 MiB에서는 둘 다 동률에 가깝다. 8 MiB에서는 `PREFETCHI` best가 더 좋다. |
-| `nop1024` | 초기 run에서는 `PREFETCHI direct`가 좋아 보였지만, 큰 delay 추가 후 반복에서는 몇백 cycles gain이 재현되지 않았다. |
-| `nop2048` | `PREFETCHI`는 거의 개선이 없고, `PREFETCHT0`는 반복적으로 큰 gain을 보였다. |
-| `nop4096` | `PREFETCHI branch_nottaken`이 첫 run에서 106 cycles 개선했지만 두 번째 run에서는 12 cycles뿐이었다. `PREFETCHT0`는 142-282 cycles gain을 보였다. |
-| `nop8192` | `PREFETCHI` 개선은 작거나 음수다. 너무 긴 NOP delay가 baseline 자체도 바꿔서 해석이 흐려진다. |
-| `nop16384` | delay를 매우 크게 줘도 `PREFETCHI`가 actual bound 근처로 가지 않는다. delay 부족만이 원인은 아닌 것으로 보인다. |
-| `spin1k` | direct prefetch는 거의 도움이 없다. 8 MiB best에서도 `PREFETCHI`가 덜 나쁘지만, 이 delay는 만족스럽지 않다. |
-| `spin10k` | direct는 별로지만 far-before 같은 frontend-pressure 형태에서는 둘 다 좋아질 수 있다. 그래도 8 MiB에서는 `PREFETCHI`가 약간 우세하다. |
-| `arith256` | 4 MiB direct에서는 `PREFETCHT0`가 한 번 크게 좋았지만 반복에서 사라졌다. 8 MiB에서는 `PREFETCHI`가 더 안정적으로 낫다. |
-| `arith1024` | 4 MiB에서는 baseline 변동이 크다. 8 MiB에서는 `PREFETCHI far_after`가 best다. |
-| `complex_light` | 4 MiB 결과가 매우 불안정하다. 8 MiB에서는 `PREFETCHI`가 낫다. |
-| `complex_heavy` | 4 MiB에서는 baseline이 이미 따뜻하게 나와 차이가 작다. 8 MiB에서는 `PREFETCHI`가 덜 나쁘거나 더 좋다. |
+Assembly check:
 
-## 최종 해석
+- Same-page helpers are placed inside the target pages. For example `bar=0x41d000`, `bar_page_prefetchit0_spaced128_lines=0x41dac0`, and `bar_page_prefetchit1_spaced32_lines=0x41dd40`.
+- GNU objdump still decodes the new PREFETCHI opcode as `nop`, but the bytes are correct:
+  - IT0 uses `0f 18 /7`, e.g. `0f 18 3d ... # 41d000 <bar>`.
+  - IT1 uses `0f 18 /6`, e.g. `0f 18 35 ... # 41d000 <bar>`.
+  - The target operands cover `bar/foo/baz + 0, 64, ..., 512`.
 
-`PREFETCHT0(data)`는 code address에 대해 실행해도 성능 이득을 만들 수 있다. 특히 큰 delay를 추가한 8 MiB evictor 재측정에서는 `PREFETCHT0`가 몇백 cycles 개선을 반복적으로 만들었다.
+Interpretation:
 
-`PREFETCHI(code)`는 단순 direct, far_after, branch_nottaken만으로는 기대한 크기의 이득을 만들지 못했다. 하지만 `cpuid` serialization, timed path 전체 prefetch, burst prefetch, far_after를 결합하면 `PREFETCHT0 direct`와 같은 수준의 이득이 나온다. 현재 best는 `32 MiB evictor + nop64 + prefetchi_serial_timed_path_burst_far_after`다.
+- This is the first stable condition found where code prefetch beats data prefetch in this setup: IT0/IT1 same-page spaced helpers reach about 422-424 cycles p50 versus data multiline around 550 cycles.
+- The same-page NOP shape still warms iTLB/sTLB by executing code on the target pages, but it remains much slower at 860 cycles p50. The additional drop to about 422 cycles is therefore attributable to the `PREFETCHIT` line hints rather than page execution alone.
+- The required condition appears to be: execute the hint from an already fetched/executing code stream on the same target page, and give each line hint enough spacing for the frontend prefetch machinery to accept it. External far-call, branch-miss, and wrong-path approaches remained intermittent or weak by comparison.
 
-따라서 지금 결과를 가장 보수적으로 쓰면:
+## 2026-05-05: non-helper PREFETCHIT condition with fixed direct target calls
 
-- 단순 `PREFETCHI direct`는 여전히 거의 효과가 없다.
-- `far_after`와 `branch_nottaken`만으로는 부족하고, `cpuid`로 frontend/backend를 비운 뒤 timed path 전체를 burst로 prefetch해야 큰 효과가 나온다.
-- 현재 best `PREFETCHI`는 사용자가 원하는 “최소 몇백 cycles 개선” 기준을 만족한다.
-- `PREFETCHT0`의 큰 gain은 lower-level cache warming 효과로 보인다. instruction-side prefetch 성공으로 해석하면 위험하다.
-- `actual_exec_warm`은 여전히 36 cycles 근처이므로, prefetch가 실제 execution warm 상태 전체를 만드는 것은 아니다.
+Goal:
 
-## 다시 실험할 때 추천 명령
+- Stop treating same-page helper results as proof of `PREFETCHIT`, because executing helper code on the target page can warm target-page iTLB/STLB state by itself.
+- Keep all three targets in the timed region, but remove indirect-call/order noise by adding `perf_once_fixed_targets_flush_targets`.
+- Search non-helper issue conditions: repeated IT0 bursts, far cold-call windows, branch/far pressure, and different delay types.
+
+Important code changes:
+
+- Added `call_targets_fixed(seed)`, which times `bar -> foo -> baz` directly.
+- Added `fixed_targets` cold mode; `perf_once_fixed_targets_flush_targets` runs one process per sample, flushes target code before prefetch, and times all three target functions once.
+- Added non-helper IT0 variants:
+  - `fair_code_prefetchit0_burst8_spaced32`
+  - `fair_code_prefetchit0_before_far_cpuid_after`
+  - `fair_code_prefetchit0_before_branch_misp_far`
+  - `fair_code_prefetchit0_tlb_offset_call_window_burst4_post10`
+- Added exact `--case-filter =strategy_name` matching in `run_process_prefetch_experiment.py` to avoid accidentally sweeping every IT0 case.
+
+Final command:
 
 ```sh
-cd microbench/src
-make prefetch_test
-
-# 4 MiB, 반복성 확인용
-./prefetch_test 1000 4096 10 > ../result/prefetch_test_prefetchi_vs_prefetcht_evict4096_i1000_new.csv
-
-# 더 차갑게 만든 비교
-./prefetch_test 300 8192 10 > ../result/prefetch_test_prefetchi_vs_prefetcht_evict8192_i300_new.csv
-
-# 큰 delay 포함 비교
-./prefetch_test 300 8192 10 > ../result/prefetch_test_large_delay_evict8192_i300_new.csv
-
-# 현재 best PREFETCHI 조건
-./prefetch_test 300 32768 10 nop64 all > ../result/prefetch_test_force_prefetchi_nop64_evict32768_i300_new.csv
-
-# helper 요약
-python3 run_prefetch_stats.py 300 8192 10 ../result/prefetch_test_prefetchi_vs_prefetcht_summary_check.csv
+sudo -E python3 microbench/src/run_process_prefetch_experiment.py \
+  --case-set it0search \
+  --case-filter '=baseline,=fair_advance_execution,=fair_data_prefetcht0_lines,=fair_data_prefetcht1_lines,=fair_code_prefetchit0_lines,=fair_code_prefetchit0_before_far_cpuid_after,=fair_code_prefetchit0_before_branch_misp_far,=fair_code_prefetchit0_burst8_spaced32,=fair_code_prefetchit0_tlb_offset_call_window_burst4_post10' \
+  --reps 100 \
+  --dummy-kib 8192 \
+  --dummy-passes 1 \
+  --delays none,pause8192,complex_heavy,branch1024 \
+  --cold-mode perf_once_fixed_targets_flush_targets \
+  --clear-result
 ```
 
-`run_prefetch_stats.py`는 이제 delay마다 best `PREFETCHI`와 best `PREFETCHT0`도 같이 요약한다.
+Latest best-delay summary:
 
-## 2026-05-04: current farcall-repeat2 apples-to-apples 비교
+| case | best delay | samples | p50 cycles | p75 cycles | p95 cycles | iTLB miss p50 | sTLB miss p50 | L2 code miss p50 | L3 miss p50 |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| baseline, no prefetch | none | 100 | 1780 | 2126 | 2324 | 5 | 1 | 74 | 44 |
+| advance execution | complex_heavy | 100 | 156 | 158 | 208 | 0 | 0 | 0 | 0 |
+| data PREFETCHT0 multiline | complex_heavy | 100 | 234 | 236 | 240 | 4 | 1 | 22 | 4 |
+| data PREFETCHT1 multiline | none | 100 | 236 | 364 | 446 | 5 | 1 | 32 | 6 |
+| code PREFETCHIT0 far forced lines | none | 100 | 1226 | 1512 | 1896 | 3 | 0 | 72 | 34 |
+| code PREFETCHIT0 before far call | complex_heavy | 100 | 1208 | 1416 | 1810 | 3 | 0 | 63 | 32 |
+| code PREFETCHIT0 before branch/far pressure | branch1024 | 100 | 1196 | 1424 | 1876 | 3 | 0 | 71 | 30 |
+| code PREFETCHIT0 burst8 | pause8192 | 100 | 1252 | 1424 | 1788 | 5 | 0 | 72 | 33 |
+| code PREFETCHIT0 TLB-offset call-window burst | none | 100 | 1230 | 1476 | 1810 | 6 | 0 | 70 | 33 |
 
-빌드:
+Interpretation:
+
+- This is the first non-helper condition with a stable few-hundred-cycle `PREFETCHIT` benefit. The best IT0 case improves p50 from 1780 to 1196 cycles, about 584 cycles.
+- Unlike the same-page helper result, these strategies do not execute code on the target pages before the timed region. The timed region still executes all three targets.
+- The strongest condition is not just "more burst." It combines a frontend-disrupting setup with enough post-prefetch window:
+  - `fair_code_prefetchit0_before_branch_misp_far` + `branch1024` delay: best p50.
+  - `fair_code_prefetchit0_before_far_cpuid_after` + `complex_heavy` delay: best L2-code-miss reduction among IT0 cases.
+- Data prefetch is still much stronger for full line fill: data T0/T1 reach about 234-236 cycles and L3 miss p50 around 4-6.
+- The non-helper IT0 evidence is nevertheless now clear: p50 improves by about 570-580 cycles, sTLB misses disappear, L2 code misses drop, and L3 misses drop from 44 to about 30-32.
+
+Follow-up final validation:
+
+- A broader fixed-direct search found that several non-helper IT0 shapes are similar once noise is reduced.
+- The final `latest_*` files were regenerated with `reps=100`, `perf_once_fixed_targets_flush_targets`, and exact-case filtering.
+
+Final latest best-delay summary:
+
+| case | best delay | samples | p50 cycles | p75 cycles | p95 cycles | iTLB miss p50 | sTLB miss p50 | L2 code miss p50 | L3 miss p50 |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| baseline, no prefetch | none | 100 | 1736 | 1920 | 2230 | 5 | 1 | 74 | 44 |
+| advance execution | complex_heavy | 100 | 156 | 158 | 162 | 0 | 0 | 0 | 0 |
+| data PREFETCHT0 multiline | pause8192 | 100 | 232 | 236 | 242 | 5 | 1 | 28 | 4 |
+| data PREFETCHT1 multiline | branch1024 | 100 | 236 | 436 | 464 | 7 | 1 | 32 | 6 |
+| code PREFETCHIT0 forced lines | complex_heavy | 100 | 1220 | 1460 | 1706 | 3 | 0 | 66 | 33 |
+| code PREFETCHIT0 before far big | branch1024 | 100 | 1220 | 1386 | 1704 | 6 | 0 | 67 | 31 |
+| code PREFETCHIT0 before far call + cpuid after | complex_heavy | 100 | 1216 | 1416 | 1764 | 3 | 0 | 64 | 34 |
+| code PREFETCHIT0 before branch/far pressure | branch1024 | 100 | 1216 | 1408 | 1898 | 5 | 0 | 71 | 34 |
+| code PREFETCHIT0 spaced32 + cpuid after | branch1024 | 100 | 1252 | 1416 | 1864 | 5 | 0 | 69 | 32 |
+| code PREFETCHIT0 burst4 | arith2048 | 100 | 1202 | 1390 | 1700 | 5 | 0 | 70 | 32 |
+| code PREFETCHIT0 TLB-offset far burst8 | arith2048 | 100 | 1204 | 1414 | 1696 | 3 | 0 | 69 | 32 |
+
+Final interpretation:
+
+- The best stable non-helper condition is now `fair_code_prefetchit0_burst4_spaced32` with `arith2048`: p50 improves from 1736 to 1202 cycles, a 534-cycle gain.
+- `fair_code_prefetchit0_tlb_offset_far_burst8_spaced32` is nearly identical at 1204 cycles and has the best p95 among IT0 cases.
+- The effect remains well below data prefetch and advance execution, but it is no longer a tiny/intermittent signal: sTLB misses are eliminated, L3 miss p50 drops from 44 to 31-34, and p50 latency drops by about 500 cycles across multiple IT0 shapes.
+
+## 2026-05-06: best-only final plot and generic iTLB accounting
+
+Goal:
+
+- Keep searching for a condition where code prefetch beats data `PREFETCHT0`.
+- Also require frontend TLB misses to disappear.
+- Regenerate plots with only the best code-prefetch case, not every attempted shape.
+
+Additional attempts:
+
+- Added fixed timed-path IT0 variants that prefetch `call_targets_fixed`, `call_measured_targets`, and the three target pages.
+- Added inline pointer-chase wrong-path variants so the branch could be predicted before a long data dependency resolved.
+- Re-tested no-internal-`clflush` and no-dummy-flush modes as sanity checks.
+
+Outcome of non-helper attempts:
+
+- Fixed-path and inline-chase variants did not beat data `PREFETCHT0`.
+- Best non-helper variants still stayed around 1100-1600 cycles p50 under `perf_once_fixed_targets_flush_targets`.
+- The same-page IT0 helper remains the only condition found so far that beats data `PREFETCHT0` in this benchmark shape. This is an upper-bound style case because executing the helper on the target page can itself warm frontend translation/cache state.
+
+Perf accounting change:
+
+- `itlb_miss_p50` now uses generic `iTLB-load-misses`.
+- `stlb_miss_p50` uses `itlb_misses.walk_completed`, i.e. completed page walks after an sTLB miss.
+- The older raw `ITLB_MISSES.STLB_HIT + WALK_COMPLETED` estimate was too conservative for the user-facing "iTLB/sTLB miss" columns.
+
+Final command:
 
 ```sh
-cd microbench/src
-make prefetch_test
+sudo -E python3 microbench/src/run_process_prefetch_experiment.py \
+  --result-dir microbench/result \
+  --case-set it0search \
+  --case-filter '=baseline,=fair_advance_execution,=fair_data_prefetcht0_lines,=fair_code_page_prefetchit0_spaced32_lines' \
+  --reps 100 \
+  --dummy-kib 8192 \
+  --dummy-passes 1 \
+  --delays none,pause64,pause512,pause2048,pause8192,arith2048,branch1024,complex_heavy,chase256 \
+  --cold-mode perf_once_fixed_targets_flush_targets \
+  --clear-result
 ```
 
-현재 binary는 `clang -O1 -march=graniterapids -m64 -no-pie -fno-plt -mprefetchi`로 빌드된다.
+Latest best-delay summary:
 
-### 추가한 비교군
+| case | best delay | samples | p50 cycles | p75 cycles | p95 cycles | iTLB miss p50 | sTLB miss p50 | L2 code miss p50 | L3 miss p50 |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| baseline, no prefetch | none | 100 | 1822 | 2048 | 2302 | 1 | 1 | 77 | 45 |
+| advance execution | branch1024 | 100 | 158 | 158 | 162 | 0 | 0 | 8 | 0 |
+| data PREFETCHT0 multiline | complex_heavy | 100 | 236 | 240 | 242 | 1 | 1 | 21 | 4 |
+| same-page PREFETCHIT0 spaced32 | complex_heavy | 100 | 212 | 218 | 218 | 0 | 0 | 20 | 0 |
 
-- `prefetcht1` single/multiline/farcall-repeat2 경로를 추가했다.
-- `apples_actual_exec`는 timed region과 같은 target을 미리 한 번 실행한다.
-- `*_farcall_burst_repeat2_nof`는 single-line hint를 `cold farcall + hot farcall`로 2회 실행한다.
-- `*_farcall_lines_repeat2_nof`는 target당 8개 line hint를 `cold farcall + hot farcall`로 2회 실행한다.
+Final interpretation:
 
-### one-target mode, pause64
+- The best-only plot now shows only baseline, advance execution, data `PREFETCHT0`, and the best IT0 case.
+- Best IT0 p50 is 212 cycles, beating data `PREFETCHT0` p50 236 cycles by 24 cycles.
+- Generic iTLB and sTLB misses are both 0 for the best IT0 case.
+- Because the winning case is same-page, it should be treated as an upper-bound condition rather than clean proof that a non-helper `PREFETCHIT` independently warmed the iTLB.
 
-명령:
+## 2026-05-06: helper excluded, non-helper search continued
+
+Correction:
+
+- The same-page helper result is excluded from the current plots and should not be used as proof that non-helper `PREFETCHIT` executed. Executing helper code on the target pages can warm target-page frontend state by itself.
+- The current final `microbench/result/latest_*` files contain only baseline, advance execution, data `PREFETCHT0`, and the best non-helper IT0 case.
+
+Additional non-helper attempts:
+
+- Added far-code TLB-miss functions on separate 64KB-aligned pages and tested `PREFETCHIT; PREFETCHIT; far call; far call`.
+- Made the far-code TLB miss stronger with `mprotect(PROT_NONE) -> mprotect(PROT_READ|PROT_EXEC)` on the far pages.
+- Split far calls into A/B before `PREFETCHIT` and C/D after `PREFETCHIT`.
+- Put `PREFETCHIT` in a far prefetch function and executed that function after flushing/shooting down its own code page.
+- Re-tested branch wrong-path, slow control-flow, pointer-chase, target-page-offset, adjacent-page, and two-phase `PREFETCHIT` variants.
+- Earlier JIT/register-address forms are not used in the current source; later tests keep JIT excluded.
+
+Latest final command:
 
 ```sh
-./prefetch_test 1000 0 10 "=pause64" \
-  "=apples_actual_exec,=apples_base_farcall_burst_repeat2_nof,=apples_prefetchit0_farcall_burst_repeat2_nof,=apples_prefetchit1_farcall_burst_repeat2_nof,=apples_prefetcht0_farcall_burst_repeat2_nof,=apples_prefetcht1_farcall_burst_repeat2_nof,=apples_base_farcall_lines_repeat2_nof,=apples_prefetchit0_farcall_lines_repeat2_nof,=apples_prefetchit1_farcall_lines_repeat2_nof,=apples_prefetcht0_farcall_lines_repeat2_nof,=apples_prefetcht1_farcall_lines_repeat2_nof" \
-  flush_targets_one_target > ../result/prefetch_test_apples_current_pause64_i1000.csv
+sudo -E python3 microbench/src/run_process_prefetch_experiment.py \
+  --result-dir microbench/result \
+  --case-set it0search \
+  --case-filter '=baseline,=fair_advance_execution,=fair_data_prefetcht0_lines,=fair_code_prefetchit0_p2_far_tlb2' \
+  --reps 100 \
+  --dummy-kib 8192 \
+  --dummy-passes 1 \
+  --delays none,pause64,pause512,pause2048,pause8192,arith2048,branch1024,complex_heavy,chase256 \
+  --cold-mode perf_once_fixed_targets_flush_targets \
+  --clear-result
 ```
 
-| strategy | p50 | p75 | p95 | p99 |
-| --- | ---: | ---: | ---: | ---: |
-| actual run | 58 | 60 | 60 | 84 |
-| base single-shape | 808 | 1018 | 1274 | 1452 |
-| PREFETCHIT0 single | 90 | 722 | 1072 | 1150 |
-| PREFETCHIT1 single | 284 | 922 | 1260 | 1510 |
-| PREFETCHT0 single | 954 | 1094 | 1420 | 1510 |
-| PREFETCHT1 single | 896 | 1102 | 1336 | 1516 |
-| base multiline-shape | 1030 | 1096 | 1488 | 1538 |
-| PREFETCHIT0 multiline | 90 | 92 | 92 | 92 |
-| PREFETCHIT1 multiline | 90 | 90 | 92 | 92 |
-| PREFETCHT0 multiline | 366 | 678 | 796 | 802 |
-| PREFETCHT1 multiline | 362 | 578 | 792 | 800 |
+Latest helper-free best-delay summary:
 
-결론: current forced-execution 조건에서 instruction prefetch는 multiline일 때만 actual bound 근처에 안정적으로 붙는다. data prefetch는 multiline으로도 p50/p75/tail이 훨씬 느리다.
+| case | best delay | samples | p50 cycles | p75 cycles | p95 cycles | iTLB miss p50 | sTLB miss p50 | L2 code miss p50 | L3 miss p50 |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| baseline, no prefetch | none | 100 | 1942 | 2208 | 2426 | 1 | 1 | 86 | 46 |
+| advance execution | arith2048 | 100 | 158 | 162 | 162 | 0 | 0 | 8 | 0 |
+| data PREFETCHT0 multiline | arith2048 | 100 | 236 | 238 | 242 | 1 | 1 | 25 | 5 |
+| non-helper code PREFETCHIT0 P/P + far TLB calls | none | 100 | 1320 | 1480 | 1884 | 0 | 0 | 72 | 36 |
 
-### IT1 multiline vs data T1 multiline window
+Interpretation:
 
-명령:
+- The best helper-free IT0 case eliminates iTLB/sTLB misses, so `PREFETCHIT` or the surrounding far-call setup is affecting translation state.
+- It still does not show data-prefetch-like code-line fill: L2 code miss p50 remains 72 versus data `PREFETCHT0` at 25.
+- Under the current `flush, prefetch, delay, timed fixed foo/bar/baz` shape, helper-free IT0 remains much slower than data `PREFETCHT0` despite many issue-window attempts.
+
+## 2026-05-06: strong TLB-cold branch search, helper/JIT excluded
+
+Correction to the older notes:
+
+- JIT variants were removed from the current source and are not part of this round.
+- Same-page helper/page-prime cases are excluded from the interpretation because executing helper code on a target page can warm target-page frontend/TLB state by itself.
+- The current TLB-cold baseline uses `perf_once_fixed_targets_flush_targets_shootdown_targets_measure_serial`, which flushes target code, performs target-page TLB shootdown with `mprotect`, and serializes before the timed region.
+
+TLB-cold sanity matrix:
+
+| cold mode | p50 cycles | iTLB miss p50 | sTLB miss p50 | L2 code miss p50 | L3 miss p50 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| fixed targets + serial | 656 | 8 | 6 | 42 | 0 |
+| fixed targets + flush targets + serial | 1676 | 2 | 2 | 81 | 27 |
+| fixed targets + shootdown targets + serial | 738 | 5 | 4 | 67 | 0 |
+| fixed targets + flush + shootdown + serial | 1724 | 6 | 6 | 56 | 25 |
+
+Strong TLB-cold branch tests:
+
+| case | best delay | p50 cycles | iTLB miss p50 | sTLB miss p50 | L2 code miss p50 | L3 miss p50 |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| baseline | none | 1662-1928 | 3 | 3 | 76-86 | 41-44 |
+| data `PREFETCHT0` multiline | best of tested delays | 226-228 | 0 | 0 | 27-31 | 4-6 |
+| code IT0 fixed P/P + strong far | best of tested delays | 1438-1460 | 3 | 3 | 63-76 | 36-39 |
+| code IT0 nested branch/window | best of tested delays | 1614-1754 | 3 | 3 | 69-82 | 43 |
+| code IT0 branch actual path | best of tested delays | 1724-1754 | 3 | 3 | 76-82 | 43 |
+| code IT0 far branch actual | best of tested delays | 1346-1420 | 3 | 3 | 64-69 | 35-37 |
+| code IT0 branch-to-farpath | best of tested delays | 1710-1776 | 3 | 3 | 78-84 | 43-45 |
+
+TLB-gate diagnostic without target TLB shootdown:
+
+| case | best delay | p50 cycles | iTLB miss p50 | sTLB miss p50 | L2 code miss p50 | L3 miss p50 |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| baseline | none | 1484 | 0 | 0 | 83 | 39 |
+| data `PREFETCHT0` multiline | spin100k | 228 | 0 | 0 | 29 | 6 |
+| code IT0 fixed P/P + strong far | pause32768 | 1248 | 0 | 0 | 61 | 30 |
+| code IT0 branch actual | branch8192 | 1260 | 0 | 0 | 63 | 30 |
+| code IT0 branch farpath | spin100k | 1310 | 0 | 0 | 67 | 29 |
+
+Current interpretation:
+
+- The TLB issue is now reproducible: strong cold baseline shows target translation misses, while `flush_targets` without shootdown does not.
+- Branch redirection, nested branches, and far branch targets do not make IT0 warm target translation under strong TLB-cold conditions; iTLB/sTLB miss p50 stays at 3/3.
+- IT0 gives a moderate cache-line benefit when target TLB is already warm or not forcibly shot down, but it remains far from data `PREFETCHT0`.
+- The clean current hypothesis is that on this CPU, `PREFETCHIT` is still treated as a hint that can be dropped on cold target translation; data `PREFETCHT0` can trigger data-side translation/page-walk state and therefore reaches the target code lines much more reliably.
+
+## 2026-05-06: interleaved round schedule correction
+
+Correction:
+
+- The older process wrapper randomized all jobs within each repetition. Every sample still had a flush dummy before it, but baseline/T0/IT0/actual were not measured in a fixed adjacent sequence.
+- The wrapper now defaults to `--schedule round`, which runs each repetition as:
+  `flush -> baseline -> flush -> data T0 -> flush -> code IT0 -> flush -> advance execution -> flush`.
+- Added `case_set=core` so the case order is exactly baseline, data T0 multiline, non-helper code IT0, advance execution.
+- The raw CSV now includes `slot`, making the within-repetition order auditable.
+
+Latest command:
 
 ```sh
-./prefetch_test 1000 0 10 \
-  "=none,=pause8,=pause16,=pause32,=pause48,=pause64,=pause96,=pause128,=pause160,=pause192,=pause224,=pause256,=pause384,=pause512,=pause768,=pause1024,=pause1536,=pause2048,=pause4096" \
-  "=apples_actual_exec,=apples_base_farcall_lines_repeat2_nof,=apples_prefetchit1_farcall_lines_repeat2_nof,=apples_prefetcht1_farcall_lines_repeat2_nof" \
-  flush_targets_one_target > ../result/prefetch_test_it1_vs_t1_window_pause_i1000.csv
+sudo -E python3 microbench/src/run_process_prefetch_experiment.py \
+  --result-dir microbench/result \
+  --case-set core \
+  --reps 24 \
+  --dummy-kib 32768 \
+  --dummy-passes 2 \
+  --delays pause8192,pause32768,pause65536,arith8192,arith32768,branch8192,spin100k \
+  --cold-mode perf_once_fixed_targets_flush_targets_shootdown_targets_measure_serial \
+  --schedule round \
+  --clear-result
 ```
 
-`PREFETCHIT1 multiline`은 p50은 delay 없이도 90 cycles지만 tail이 남는다. p95/p99 기준으로는 `pause48`부터 92 cycles 근처로 안정화된다. `PREFETCHT1 multiline`은 delay를 `pause4096`까지 늘려도 p50이 300-700 cycles대이고 p95/p99는 700-800 cycles대라 code-side warm state를 만들지 못한다.
+Latest best-delay summary:
 
-### all-target timed mode, pause64
+| case | best delay | samples | p50 cycles | p75 cycles | p95 cycles | iTLB miss p50 | sTLB miss p50 | L2 code miss p50 | L3 miss p50 |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| baseline | spin100k | 24 | 1664 | 1864 | 2026 | 3 | 3 | 77 | 44 |
+| data `PREFETCHT0` multiline | pause8192 | 24 | 228 | 234 | 334 | 0 | 0 | 29 | 4 |
+| code `PREFETCHIT0` fixed P/P + strong far | branch8192 | 24 | 1506 | 1704 | 2062 | 3 | 3 | 69 | 37 |
+| advance execution | spin100k | 24 | 162 | 162 | 162 | 0 | 0 | 9 | 0 |
 
-명령:
+Same-delay interpretation:
+
+- The round schedule confirms the earlier direction under a cleaner ordering.
+- Data `PREFETCHT0` remains close to 228-232 cycles for all tested delays and clears iTLB/sTLB misses.
+- Non-helper code `PREFETCHIT0` improves over same-delay baseline in some rows, best at `branch8192` with 1506 cycles versus baseline 1764 cycles, but iTLB/sTLB miss p50 remains 3/3.
+- Therefore the interleaved run still supports the translation-drop interpretation for IT0 under strong target TLB coldness.
+
+## 2026-05-06: O0 cpuid/far-function retry and T0 TLB explanation
+
+Changes:
+
+- Added `prefetch_test_o0`, built with `-O0 -march=graniterapids -m64 -no-pie -fno-plt -mprefetchi`.
+- Added prepare-region counters:
+  - `prep_itlb_walk_p50`: `ITLB_MISSES.WALK_COMPLETED` during `prepare_measurement`.
+  - `prep_dtlb_walk_p50`: `DTLB_LOAD_MISSES.WALK_COMPLETED` during `prepare_measurement`.
+- Added new IT0 cpuid/far combinations:
+  - `fair_code_prefetchit0_cpuid_p2_cpuid_far`
+  - `fair_code_prefetchit0_cpuid_p2_far_cpuid`
+  - `fair_code_prefetchit0_far_cpuid_p2_far`
+  - `fair_code_prefetchit0_cpuid_far_p2_far_cpuid`
+
+Latest command:
 
 ```sh
-./prefetch_test 1000 0 10 "=pause64" \
-  "=apples_actual_exec,=apples_base_farcall_burst_repeat2_nof,=apples_prefetchit0_farcall_burst_repeat2_nof,=apples_prefetchit1_farcall_burst_repeat2_nof,=apples_prefetcht0_farcall_burst_repeat2_nof,=apples_prefetcht1_farcall_burst_repeat2_nof,=apples_base_farcall_lines_repeat2_nof,=apples_prefetchit0_farcall_lines_repeat2_nof,=apples_prefetchit1_farcall_lines_repeat2_nof,=apples_prefetcht0_farcall_lines_repeat2_nof,=apples_prefetcht1_farcall_lines_repeat2_nof" \
-  flush_targets > ../result/prefetch_test_apples_current_alltargets_pause64_i1000.csv
+sudo -E python3 microbench/src/run_process_prefetch_experiment.py \
+  --prefetch-bin microbench/src/prefetch_test_o0 \
+  --result-dir microbench/result \
+  --case-set cpuidfar \
+  --reps 24 \
+  --dummy-kib 32768 \
+  --dummy-passes 2 \
+  --delays pause8192,pause32768,branch8192,spin100k \
+  --cold-mode prep_perf_once_fixed_targets_flush_targets_shootdown_targets_measure_serial \
+  --schedule round \
+  --clear-result
 ```
 
-세 target을 모두 timed region에서 실행하면 actual bound는 p50 150 cycles, p99 172 cycles이다. `PREFETCHIT0/1 multiline`은 p50 172, p99 174로 actual bound 근처에 붙는다. data prefetch multiline은 p50은 172로 좋아지지만 p95/p99가 300 cycles대로 남는다.
+Latest O0 best-delay summary:
+
+| case | best delay | samples | p50 cycles | p75 cycles | p95 cycles | iTLB miss p50 | sTLB miss p50 | L2 code miss p50 | L3 miss p50 | prep iTLB walk p50 | prep DTLB walk p50 |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| baseline | spin100k | 24 | 1892 | 2090 | 2312 | 3 | 3 | 68 | 44 | 5 | 1 |
+| data `PREFETCHT0` multiline | branch8192 | 24 | 280 | 280 | 284 | 0 | 0 | 27 | 5 | 6 | 4 |
+| code IT0 P/P far cpuid | pause32768 | 24 | 1720 | 1978 | 2108 | 3 | 3 | 66 | 44 | 7 | 1 |
+| code IT0 P/P strong far | pause32768 | 24 | 1582 | 1878 | 2276 | 2 | 2 | 61 | 30 | 9 | 1 |
+| code IT0 fixed P/P strong far | pause32768 | 24 | 1500 | 1792 | 2024 | 2 | 2 | 47 | 30 | 11 | 1 |
+| code IT0 cpuid-P/P-cpuid-far | branch8192 | 24 | 1528 | 1898 | 2230 | 2 | 2 | 57 | 30 | 10 | 1 |
+| code IT0 cpuid-P/P-far-cpuid | pause8192 | 24 | 1572 | 1840 | 2160 | 3 | 3 | 58 | 30 | 10 | 1 |
+| code IT0 far-cpuid-P/P-far | spin100k | 24 | 1582 | 1930 | 2120 | 2 | 2 | 68 | 30 | 12 | 1 |
+| code IT0 cpuid-far-P/P-far-cpuid | pause32768 | 24 | 1552 | 1988 | 2270 | 2 | 2 | 62 | 30 | 12 | 1 |
+| advance execution | spin100k | 24 | 194 | 198 | 200 | 0 | 0 | 5 | 0 | 9 | 1 |
+
+Interpretation:
+
+- T0's timed iTLB miss count being 0 is explained by prepare-region data-side page walks: data `PREFETCHT0` has `prep_dtlb_walk_p50=4`, while baseline and IT0 variants stay at `1`.
+- Those extra data-side walks happen before the timed region and cover the target code pages, so the timed instruction fetch sees no completed code page walks.
+- O0 and the new cpuid/far combinations improve IT0 somewhat versus baseline, but the best clean IT0 still leaves 2/2 timed iTLB/sTLB misses and remains far slower than data T0.
+
+## 2026-05-07: conditional-branch window search
+
+Changes:
+
+- Added prepare-region `branch-misses` counting as `prep_branch_miss_p50`.
+- Added conditional branch-window variants around `PREFETCHIT0`:
+  - near target/fall-through/wrong-path offsets `o0..o16`
+  - slow dependent-load branch windows with offset `o0..o8`
+  - far-aligned branch target blocks
+  - prefetch-before-far-branch windows
+  - multi-branch far-storm windows
+  - both-path windows where wrong-path and recovery-path both contain prefetch
+- Added same-window `PREFETCHT0` controls and a `bar_only` measurement mode.
+
+Key observations:
+
+| test | p50 cycles | iTLB/sTLB p50 | L2 code miss p50 | L3 miss p50 | prep branch miss p50 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 3-target baseline | ~1850-2000 | 3/3 | ~68-79 | ~44-46 | ~30 |
+| 3-target data T0 in same branch windows | ~278-280 | 0/0 | ~25-29 | 0-7 | ~56-60 |
+| 3-target IT0/IT1 branch windows | ~1900-2000 | 3/3 | ~68-81 | ~44-46 | ~39-59 |
+| bar-only baseline | 480 | 1/1 | 33 | 14 | 33 |
+| bar-only branch-storm no-prefetch control | 468 | 1/1 | 31 | 14 | 62 |
+| bar-only IT0 branch-storm | 480 | 1/1 | 32 | 16 | 61 |
+| bar-only data T0 branch-storm | 116 | 0/0 | 19 | 0 | 61 |
+
+Interpretation:
+
+- The branch-window machinery is definitely producing branch misses; `prep_branch_miss_p50` rises from about 30 to 56-62 in the storm variants.
+- The exact same windows execute data prefetch successfully: latency collapses to ~116 cycles for bar-only and ~280 cycles for three targets, with timed iTLB/sTLB and L3 misses removed.
+- IT0/IT1 do not show a corresponding counter movement. The small bar-only improvement seen before adding the no-prefetch control was reproduced by the no-prefetch branch-storm shape, so it is not attributable to `PREFETCHIT`.
+- Current evidence says these conditional branch-mispredict windows are not sufficient to make `PREFETCHIT0/1` warm the target code lines or target iTLB entries on this Xeon 6787P setup.

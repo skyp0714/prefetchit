@@ -279,7 +279,22 @@ static int read_counter64(int fd, uint64_t* out) {
 PerfGroup perf_group_open(pid_t tid, int cpu) {
     g_perf_tid = tid;
     g_perf_cpu = cpu;
-    PerfGroup pg = { .leader = -1, .l1i_miss = -1, .itlb_miss = -1, .l2_lines_in = -1, .l2_miss = -1 };
+    PerfGroup pg = {
+        .leader = -1,
+        .l1i_miss = -1,
+        .itlb_miss = -1,
+        .itlb_stlb_hit = -1,
+        .itlb_walk = -1,
+        .dtlb_load_walk = -1,
+        .branch_miss = -1,
+        .l2_lines_in = -1,
+        .l2_miss = -1,
+        .l2_code_rd = -1,
+        .l2_code_miss = -1,
+        .l2_all_miss = -1,
+        .llc_load_miss = -1,
+        .llc_miss = -1
+    };
     // Leader: INSTRUCTIONS
     int leader = open_hw_evt(PERF_COUNT_HW_INSTRUCTIONS, -1);
     if (leader < 0) {
@@ -291,28 +306,76 @@ PerfGroup perf_group_open(pid_t tid, int cpu) {
     int l1i = open_cache_evt(PERF_COUNT_HW_CACHE_L1I,
                              PERF_COUNT_HW_CACHE_OP_READ,
                              PERF_COUNT_HW_CACHE_RESULT_MISS,
-                             pg.leader);
+                             -1);
     if (l1i >= 0) pg.l1i_miss = l1i;
 
     int itlb = open_cache_evt(PERF_COUNT_HW_CACHE_ITLB,
                               PERF_COUNT_HW_CACHE_OP_READ,
                               PERF_COUNT_HW_CACHE_RESULT_MISS,
-                              pg.leader);
+                              -1);
     if (itlb >= 0) pg.itlb_miss = itlb;
 
-    // L2_lines_in.all: EventSel=25H UMask=1FH (raw event 0x1F25)
-    int l2_lines_in = open_raw_evt(0x1F25, pg.leader);
+    // Raw STLB-hit counter kept for exploratory runs; current CSV uses the
+    // generic iTLB-load-misses plus WALK_COMPLETED as the sTLB miss proxy.
+    int itlb_stlb_hit = open_raw_evt(0x2011, -1);
+    if (itlb_stlb_hit >= 0) pg.itlb_stlb_hit = itlb_stlb_hit;
+
+    // Intel Granite Rapids: ITLB_MISSES.WALK_COMPLETED event=0x11, umask=0x0e.
+    // A completed code page walk means the instruction fetch also missed STLB.
+    int itlb_walk = open_raw_evt(0x0E11, -1);
+    if (itlb_walk >= 0) pg.itlb_walk = itlb_walk;
+
+    // Intel Granite Rapids: DTLB_LOAD_MISSES.WALK_COMPLETED event=0x12, umask=0x0e.
+    int dtlb_load_walk = open_raw_evt(0x0E12, -1);
+    if (dtlb_load_walk >= 0) pg.dtlb_load_walk = dtlb_load_walk;
+
+    int branch_miss = open_hw_evt(PERF_COUNT_HW_BRANCH_MISSES, -1);
+    if (branch_miss >= 0) pg.branch_miss = branch_miss;
+
+    // Legacy raw counters kept for older experiments. Current plots use the
+    // named local perf events below because these raw aliases are not listed.
+    int l2_lines_in = open_raw_evt(0x1F25, -1);
     if (l2_lines_in >= 0) pg.l2_lines_in = l2_lines_in;
 
-    // L2 miss: EventSel=C6H UMask=03H (raw event 0x03C6)
-    int l2_miss = open_raw_evt(0x03C6, pg.leader);
+    int l2_miss = open_raw_evt(0x03C6, -1);
     if (l2_miss >= 0) pg.l2_miss = l2_miss;
 
-    fprintf(stderr, "INFO: perf opened. members: L1I=%s, ITLB=%s, L2_lines_in=%s, L2_miss=%s\n",
+    // Local perf resolves l2_rqsts.all_code_rd as event=0x24, umask=0xe4.
+    int l2_code_rd = open_raw_evt(0xE424, -1);
+    if (l2_code_rd >= 0) pg.l2_code_rd = l2_code_rd;
+
+    // Intel Granite Rapids: L2_RQSTS.CODE_RD_MISS event=0x24, umask=0x24.
+    int l2_code_miss = open_raw_evt(0x2424, -1);
+    if (l2_code_miss >= 0) pg.l2_code_miss = l2_code_miss;
+
+    // Intel Granite Rapids: L2_RQSTS.MISS event=0x24, umask=0x3f.
+    int l2_all_miss = open_raw_evt(0x3F24, -1);
+    if (l2_all_miss >= 0) pg.l2_all_miss = l2_all_miss;
+
+    int llc_load_miss = open_cache_evt(PERF_COUNT_HW_CACHE_LL,
+                                       PERF_COUNT_HW_CACHE_OP_READ,
+                                       PERF_COUNT_HW_CACHE_RESULT_MISS,
+                                       -1);
+    if (llc_load_miss >= 0) pg.llc_load_miss = llc_load_miss;
+
+    // Local perf resolves longest_lat_cache.miss as event=0x2e, umask=0x41.
+    int llc_miss = open_raw_evt(0x412E, -1);
+    if (llc_miss >= 0) pg.llc_miss = llc_miss;
+
+    fprintf(stderr, "INFO: perf opened. members: L1I=%s, ITLB_generic=%s, ITLB_STLB_HIT=%s, ITLB_WALK=%s, DTLB_LOAD_WALK=%s, BR_MISS=%s, L2_lines_in=%s, L2_miss=%s, L2_code_rd=%s, L2_code_miss=%s, L2_all_miss=%s, LLC_load_miss=%s, LLC_miss=%s\n",
             (pg.l1i_miss >= 0 ? "ok" : "N/A"),
             (pg.itlb_miss >= 0 ? "ok" : "N/A"),
+            (pg.itlb_stlb_hit >= 0 ? "ok" : "N/A"),
+            (pg.itlb_walk >= 0 ? "ok" : "N/A"),
+            (pg.dtlb_load_walk >= 0 ? "ok" : "N/A"),
+            (pg.branch_miss >= 0 ? "ok" : "N/A"),
             (pg.l2_lines_in >= 0 ? "ok" : "N/A"),
-            (pg.l2_miss >= 0 ? "ok" : "N/A"));
+            (pg.l2_miss >= 0 ? "ok" : "N/A"),
+            (pg.l2_code_rd >= 0 ? "ok" : "N/A"),
+            (pg.l2_code_miss >= 0 ? "ok" : "N/A"),
+            (pg.l2_all_miss >= 0 ? "ok" : "N/A"),
+            (pg.llc_load_miss >= 0 ? "ok" : "N/A"),
+            (pg.llc_miss >= 0 ? "ok" : "N/A"));
     return pg;
 }
 
@@ -329,6 +392,67 @@ void perf_group_disable(int leader_fd) {
     }
 }
 
+static void perf_fd_reset_enable(int fd) {
+    if (fd >= 0) {
+        ioctl(fd, PERF_EVENT_IOC_RESET, 0);
+        ioctl(fd, PERF_EVENT_IOC_ENABLE, 0);
+    }
+}
+
+static void perf_fd_disable(int fd) {
+    if (fd >= 0) {
+        ioctl(fd, PERF_EVENT_IOC_DISABLE, 0);
+    }
+}
+
+void perf_counter_reset_enable(int fd) {
+    perf_fd_reset_enable(fd);
+}
+
+void perf_counter_disable(int fd) {
+    perf_fd_disable(fd);
+}
+
+uint64_t perf_counter_read_value(int fd) {
+    uint64_t value = 0;
+    if (fd >= 0) {
+        (void)read_counter64(fd, &value);
+    }
+    return value;
+}
+
+void perf_group_enable_all(const PerfGroup* pg) {
+    if (!pg) return;
+    perf_fd_reset_enable(pg->leader);
+    perf_fd_reset_enable(pg->l1i_miss);
+    perf_fd_reset_enable(pg->itlb_miss);
+    perf_fd_reset_enable(pg->itlb_stlb_hit);
+    perf_fd_reset_enable(pg->itlb_walk);
+    perf_fd_reset_enable(pg->l2_lines_in);
+    perf_fd_reset_enable(pg->l2_miss);
+    perf_fd_reset_enable(pg->l2_code_rd);
+    perf_fd_reset_enable(pg->l2_code_miss);
+    perf_fd_reset_enable(pg->l2_all_miss);
+    perf_fd_reset_enable(pg->llc_load_miss);
+    perf_fd_reset_enable(pg->llc_miss);
+}
+
+void perf_group_disable_all(const PerfGroup* pg) {
+    if (!pg) return;
+    perf_fd_disable(pg->llc_miss);
+    perf_fd_disable(pg->llc_load_miss);
+    perf_fd_disable(pg->l2_all_miss);
+    perf_fd_disable(pg->l2_code_miss);
+    perf_fd_disable(pg->l2_code_rd);
+    perf_fd_disable(pg->l2_miss);
+    perf_fd_disable(pg->l2_lines_in);
+    perf_fd_disable(pg->itlb_walk);
+    perf_fd_disable(pg->itlb_stlb_hit);
+    perf_fd_disable(pg->itlb_miss);
+    perf_fd_disable(pg->l1i_miss);
+    perf_fd_disable(pg->leader);
+}
+
 void perf_group_read(const PerfGroup* pg, uint64_t* l1i, uint64_t* itlb, uint64_t* l2_lines_in, uint64_t* l2_miss, uint64_t* insn) {
     if (l1i)         { *l1i         = 0; if (pg->l1i_miss     >= 0) (void)read_counter64(pg->l1i_miss,     l1i); }
     if (itlb)        { *itlb        = 0; if (pg->itlb_miss    >= 0) (void)read_counter64(pg->itlb_miss,    itlb); }
@@ -337,11 +461,43 @@ void perf_group_read(const PerfGroup* pg, uint64_t* l1i, uint64_t* itlb, uint64_
     if (insn)        { *insn        = 0; if (pg->leader       >= 0) (void)read_counter64(pg->leader,       insn); }
 }
 
+void perf_group_read_extended(const PerfGroup* pg, uint64_t* l1i, uint64_t* itlb,
+                              uint64_t* l2_lines_in, uint64_t* l2_miss,
+                              uint64_t* l2_code_rd, uint64_t* llc_load_miss,
+                              uint64_t* llc_miss, uint64_t* insn) {
+    perf_group_read(pg, l1i, itlb, l2_lines_in, l2_miss, insn);
+    if (l2_code_rd)    { *l2_code_rd    = 0; if (pg->l2_code_rd    >= 0) (void)read_counter64(pg->l2_code_rd,    l2_code_rd); }
+    if (llc_load_miss) { *llc_load_miss = 0; if (pg->llc_load_miss >= 0) (void)read_counter64(pg->llc_load_miss, llc_load_miss); }
+    if (llc_miss)      { *llc_miss      = 0; if (pg->llc_miss      >= 0) (void)read_counter64(pg->llc_miss,      llc_miss); }
+}
+
+void perf_group_read_tlb(const PerfGroup* pg, uint64_t* itlb_stlb_hit,
+                         uint64_t* itlb_walk) {
+    if (itlb_stlb_hit) { *itlb_stlb_hit = 0; if (pg->itlb_stlb_hit >= 0) (void)read_counter64(pg->itlb_stlb_hit, itlb_stlb_hit); }
+    if (itlb_walk)     { *itlb_walk     = 0; if (pg->itlb_walk     >= 0) (void)read_counter64(pg->itlb_walk,     itlb_walk); }
+}
+
+void perf_group_read_misses(const PerfGroup* pg, uint64_t* l2_code_miss,
+                            uint64_t* l2_all_miss, uint64_t* llc_miss) {
+    if (l2_code_miss) { *l2_code_miss = 0; if (pg->l2_code_miss >= 0) (void)read_counter64(pg->l2_code_miss, l2_code_miss); }
+    if (l2_all_miss)  { *l2_all_miss  = 0; if (pg->l2_all_miss  >= 0) (void)read_counter64(pg->l2_all_miss,  l2_all_miss); }
+    if (llc_miss)     { *llc_miss     = 0; if (pg->llc_miss     >= 0) (void)read_counter64(pg->llc_miss,     llc_miss); }
+}
+
 void perf_group_close(PerfGroup* pg) {
     if (!pg) return;
     if (pg->l1i_miss     >= 0) { close(pg->l1i_miss);     pg->l1i_miss = -1; }
     if (pg->itlb_miss    >= 0) { close(pg->itlb_miss);    pg->itlb_miss = -1; }
+    if (pg->itlb_stlb_hit >= 0) { close(pg->itlb_stlb_hit); pg->itlb_stlb_hit = -1; }
+    if (pg->itlb_walk    >= 0) { close(pg->itlb_walk);    pg->itlb_walk = -1; }
+    if (pg->dtlb_load_walk >= 0) { close(pg->dtlb_load_walk); pg->dtlb_load_walk = -1; }
+    if (pg->branch_miss  >= 0) { close(pg->branch_miss);  pg->branch_miss = -1; }
     if (pg->l2_lines_in  >= 0) { close(pg->l2_lines_in);  pg->l2_lines_in = -1; }
     if (pg->l2_miss      >= 0) { close(pg->l2_miss);      pg->l2_miss = -1; }
+    if (pg->l2_code_rd   >= 0) { close(pg->l2_code_rd);   pg->l2_code_rd = -1; }
+    if (pg->l2_code_miss >= 0) { close(pg->l2_code_miss); pg->l2_code_miss = -1; }
+    if (pg->l2_all_miss  >= 0) { close(pg->l2_all_miss);  pg->l2_all_miss = -1; }
+    if (pg->llc_load_miss >= 0) { close(pg->llc_load_miss); pg->llc_load_miss = -1; }
+    if (pg->llc_miss     >= 0) { close(pg->llc_miss);     pg->llc_miss = -1; }
     if (pg->leader       >= 0) { close(pg->leader);       pg->leader = -1; }
 }
