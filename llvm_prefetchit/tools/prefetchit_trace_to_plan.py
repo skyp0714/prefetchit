@@ -18,14 +18,118 @@ from typing import Iterable
 
 ENTRY_MIN_SLASHES = 7
 NM_LINE_RE = re.compile(r"^([0-9a-fA-F]+)\s+([A-Za-z])\s+(.+)$")
+NM_SIZE_LINE_RE = re.compile(
+    r"^([0-9a-fA-F]+)\s+([0-9a-fA-F]+)\s+([A-Za-z])\s+(.+)$"
+)
 SYM_OFF_RE = re.compile(r"^(.*)\+0x([0-9a-fA-F]+)$")
 LOC_RE = re.compile(r"^(.*):([0-9]+)(?:\s+.*)?$")
 TEXT_SYMBOL_TYPES = set("tTwW")
+PREFETCH_MNEMONICS = (
+    "prefetcht0",
+    "prefetcht1",
+    "prefetcht2",
+    "prefetchnta",
+    "prefetchit0",
+    "prefetchit1",
+)
+
+
+def parse_byte_offsets(raw: str) -> list[int]:
+    offsets: list[int] = []
+    for item in raw.split(","):
+        text = item.strip()
+        if not text:
+            continue
+        try:
+            value = int(text, 0)
+        except ValueError as exc:
+            raise argparse.ArgumentTypeError(f"invalid byte offset {text!r}") from exc
+        if value < 0:
+            raise argparse.ArgumentTypeError("prefetch byte offsets must be non-negative")
+        offsets.append(value)
+    if not offsets:
+        raise argparse.ArgumentTypeError("at least one prefetch byte offset is required")
+    # Preserve the user's order but remove duplicates. Order matters for the
+    # emitted assembly because nearby cachelines should be prefetched first.
+    deduped: list[int] = []
+    seen: set[int] = set()
+    for value in offsets:
+        if value in seen:
+            continue
+        seen.add(value)
+        deduped.append(value)
+    return deduped
+
+
+def parse_branch_depth_policy(raw: str) -> dict[str, tuple[int, int]]:
+    policy: dict[str, tuple[int, int]] = {}
+    if not raw.strip():
+        return policy
+    for item in raw.split(","):
+        text = item.strip()
+        if not text:
+            continue
+        if ":" not in text:
+            raise argparse.ArgumentTypeError(
+                f"invalid branch-depth policy item {text!r}; expected BRANCH:min-max"
+            )
+        branch, window = text.split(":", 1)
+        branch = branch.strip().upper()
+        if not branch:
+            raise argparse.ArgumentTypeError("branch-depth policy branch type is empty")
+        if "-" in window:
+            lo_text, hi_text = window.split("-", 1)
+        else:
+            lo_text = hi_text = window
+        try:
+            lo = int(lo_text, 0)
+            hi = int(hi_text, 0)
+        except ValueError as exc:
+            raise argparse.ArgumentTypeError(
+                f"invalid branch-depth window {window!r}"
+            ) from exc
+        if lo <= 0 or hi <= 0 or lo > hi:
+            raise argparse.ArgumentTypeError(
+                f"invalid branch-depth window {window!r}; need 1 <= min <= max"
+            )
+        policy[branch] = (lo, hi)
+    return policy
+
+
+def parse_branch_type_filter(raw: str) -> set[str]:
+    branch_types: set[str] = set()
+    if not raw.strip():
+        return branch_types
+    for item in raw.split(","):
+        text = item.strip().upper()
+        if text:
+            branch_types.add(text)
+    return branch_types
+
+
+def branch_depth_allowed(
+    policy: dict[str, tuple[int, int]],
+    branch_type: str,
+    depth: int,
+    default_min: int,
+    default_max: int,
+) -> bool:
+    key = (branch_type or "UNKNOWN").upper()
+    lo, hi = policy.get(key, policy.get("DEFAULT", (default_min, default_max)))
+    return lo <= depth <= hi
+
+
+def branch_type_allowed(branch_type_filter: set[str], branch_type: str) -> bool:
+    if not branch_type_filter:
+        return True
+    key = (branch_type or "UNKNOWN").upper()
+    return key in branch_type_filter
 
 
 @dataclass(frozen=True)
 class Symbol:
     addr: int
+    size: int
     typ: str
     raw: str
     demangled: str
@@ -48,10 +152,18 @@ class SourceLoc:
 
 
 @dataclass(frozen=True)
+class TraceInput:
+    trace_dir: Path
+    lbr_sym: Path
+    lbr_raw: Path | None
+
+
+@dataclass(frozen=True)
 class TargetKey:
     function: str
     file: str
     line: int
+    cacheline64: int
 
 
 @dataclass
@@ -103,13 +215,33 @@ class SymbolIndex:
         sym = self.lookup_name(name)
         if sym is None:
             return None
-        return sym.addr + off, sym
+        addr = sym.addr + off
+        if not self.addr_in_symbol(addr, sym):
+            return None
+        return addr, sym
 
     def symbol_at(self, addr: int) -> Symbol | None:
         idx = bisect.bisect_right(self.addrs, addr) - 1
         if idx < 0:
             return None
-        return self.symbols[idx]
+        start = self.symbols[idx].addr
+        while idx >= 0 and self.symbols[idx].addr == start:
+            sym = self.symbols[idx]
+            if self.addr_in_symbol(addr, sym):
+                return sym
+            idx -= 1
+        return None
+
+    def addr_in_symbol(self, addr: int, sym: Symbol) -> bool:
+        if addr < sym.addr:
+            return False
+        if sym.size > 0:
+            return addr < sym.addr + sym.size
+
+        # A zero-sized assembler label is only safe at its exact address. Do
+        # not infer an open-ended function range: that was the source of plans
+        # which addressed .eh_frame/data as symbol+large_offset.
+        return addr == sym.addr
 
 
 def strip_args(name: str) -> str:
@@ -127,13 +259,46 @@ def parse_args() -> argparse.Namespace:
     ap = argparse.ArgumentParser(
         description="Build a prefetchit.plan.v1 JSON file from current PEBS/LBR traces."
     )
-    ap.add_argument("--trace-dir", required=True, help="Directory containing lbr_symbolic_dump.txt")
+    ap.add_argument(
+        "--trace-dir",
+        action="append",
+        required=True,
+        help=(
+            "Directory containing lbr_symbolic_dump.txt. May be passed more "
+            "than once; all samples are aggregated before target selection."
+        ),
+    )
     ap.add_argument("--binary", required=True, help="Profiled executable with symbols/debug info")
+    ap.add_argument(
+        "--validation-binary",
+        default="",
+        help=(
+            "Optional uninjected binary produced by the exact compiler/link settings used for "
+            "the planned rebuild. Targets whose mangled-symbol offset is outside this binary's "
+            "function are discarded before coverage selection."
+        ),
+    )
     ap.add_argument("--output", required=True, help="Output JSON plan path")
     ap.add_argument("--lbr-sym", default="", help="Override symbolic LBR dump path")
     ap.add_argument("--lbr-raw", default="", help="Override raw LBR dump path")
     ap.add_argument("--top-k", type=int, default=10, help="Top miss targets to select")
+    ap.add_argument(
+        "--target-coverage-pct",
+        type=float,
+        default=0.0,
+        help=(
+            "Select enough hottest target cachelines to cover this percentage "
+            "of aggregated samples. Overrides --top-k when > 0. Use 50, 75, or 100 "
+            "for the new coverage-based experiments."
+        ),
+    )
     ap.add_argument("--depth", type=int, default=16, help="Maximum LBR depth to inspect")
+    ap.add_argument(
+        "--depth-min",
+        type=int,
+        default=1,
+        help="Minimum LBR depth to use for injection-site candidates",
+    )
     ap.add_argument(
         "--site-budget-per-target",
         type=int,
@@ -146,9 +311,85 @@ def parse_args() -> argparse.Namespace:
         default=1000,
         help="Top-count candidate pool used by greedy coverage selection; <=0 means all candidates",
     )
+    ap.add_argument(
+        "--selection-mode",
+        choices=("greedy", "top-sites", "per-depth", "all-paths"),
+        default="greedy",
+        help=(
+            "Site selection policy. greedy preserves the old max-new-coverage "
+            "behavior; top-sites keeps the hottest sites even if they cover the "
+            "same samples; per-depth keeps hot sites independently at each LBR depth; "
+            "all-paths emits every resolved LBR[d].from site for each selected target."
+        ),
+    )
+    ap.add_argument(
+        "--sites-per-depth",
+        type=int,
+        default=1,
+        help="For --selection-mode per-depth, keep this many hot sites per depth/target",
+    )
+    ap.add_argument(
+        "--branch-depth-policy",
+        type=parse_branch_depth_policy,
+        default=parse_branch_depth_policy(""),
+        help=(
+            "Optional branch-type-specific LBR depth windows, for example "
+            "'CALL:2-8,IND_CALL:2-8,COND:4-16,UNCOND:4-16,RET:8-32,IND:4-24'. "
+            "Types not listed use --depth-min/--depth."
+        ),
+    )
+    ap.add_argument(
+        "--branch-type-filter",
+        type=parse_branch_type_filter,
+        default=parse_branch_type_filter(""),
+        help=(
+            "Optional comma-separated branch-type allow-list for injection "
+            "candidate sites, for example 'RET' or 'COND,CALL'. Empty means all "
+            "branch types."
+        ),
+    )
+    ap.add_argument(
+        "--sample-branch-type-filter",
+        type=parse_branch_type_filter,
+        default=parse_branch_type_filter(""),
+        help=(
+            "Optional comma-separated branch-type allow-list for the sampled "
+            "miss target branch, i.e. LBR[0]. Empty means all target branch "
+            "types. This is distinct from --branch-type-filter, which filters "
+            "injection candidate sites."
+        ),
+    )
+    ap.add_argument(
+        "--target-ip-source",
+        choices=("lbr-to", "sample-ip"),
+        default="lbr-to",
+        help=(
+            "Address used as the prefetch target for each selected sample. "
+            "'lbr-to' preserves the historical LBR[0].to behavior; "
+            "'sample-ip' uses the actual PEBS sample IP and keeps LBR[0] only "
+            "for branch-type filtering and site history."
+        ),
+    )
     ap.add_argument("--addr2line", default="llvm-addr2line-19")
     ap.add_argument("--nm", default="nm")
     ap.add_argument("--summary-dir", default="", help="Directory for CSV summaries")
+    ap.add_argument(
+        "--prefetch-mnemonic",
+        choices=PREFETCH_MNEMONICS,
+        default="prefetcht1",
+        help="Prefetch instruction mnemonic to request in the LLVM pass plan",
+    )
+    ap.add_argument(
+        "--prefetch-byte-offsets",
+        type=parse_byte_offsets,
+        default=parse_byte_offsets("0"),
+        help=(
+            "Comma-separated byte offsets from the LLVM target block label. "
+            "Use values such as 0,64,128,192 to prefetch multiple nearby "
+            "I-cache lines when source-line debug info is coarser than the "
+            "sampled miss PC."
+        ),
+    )
     ap.add_argument(
         "--allow-unresolved-targets",
         action="store_true",
@@ -156,8 +397,18 @@ def parse_args() -> argparse.Namespace:
     )
     ap.add_argument("--max-samples", type=int, default=0, help="Testing/debug limit")
     args = ap.parse_args()
-    if args.top_k <= 0 or args.depth <= 0 or args.site_budget_per_target <= 0:
-        raise SystemExit("--top-k, --depth, and --site-budget-per-target must be positive")
+    if args.top_k <= 0 or args.depth <= 0:
+        raise SystemExit("--top-k and --depth must be positive")
+    if args.selection_mode != "all-paths" and args.site_budget_per_target <= 0:
+        raise SystemExit("--site-budget-per-target must be positive unless --selection-mode all-paths")
+    if args.selection_mode == "all-paths" and args.site_budget_per_target < 0:
+        raise SystemExit("--site-budget-per-target must be non-negative")
+    if args.target_coverage_pct < 0.0 or args.target_coverage_pct > 100.0:
+        raise SystemExit("--target-coverage-pct must be in [0, 100]")
+    if args.depth_min <= 0 or args.depth_min > args.depth:
+        raise SystemExit("--depth-min must be positive and <= --depth")
+    if args.sites_per_depth <= 0:
+        raise SystemExit("--sites-per-depth must be positive")
     return args
 
 
@@ -173,22 +424,23 @@ def run_text(args: list[str]) -> list[str]:
     return proc.stdout.splitlines()
 
 
-def parse_nm_lines(lines: Iterable[str]) -> dict[tuple[str, str], str]:
-    out: dict[tuple[str, str], str] = {}
+def parse_nm_lines(lines: Iterable[str]) -> dict[tuple[str, str, str], str]:
+    out: dict[tuple[str, str, str], str] = {}
     for line in lines:
-        match = NM_LINE_RE.match(line)
+        match = NM_SIZE_LINE_RE.match(line)
         if not match:
             continue
-        addr, typ, name = match.groups()
+        addr, size, typ, name = match.groups()
         if typ not in TEXT_SYMBOL_TYPES:
             continue
-        out[(addr, typ)] = name.strip()
+        out[(addr, size, typ)] = name.strip()
     return out
 
 
 def build_symbol_index(nm_bin: str, binary: Path) -> SymbolIndex:
-    raw_by_key = parse_nm_lines(run_text([nm_bin, "-n", str(binary)]))
-    dem_by_key = parse_nm_lines(run_text([nm_bin, "-n", "-C", str(binary)]))
+    nm_args = [nm_bin, "-n", "-S", "--defined-only"]
+    raw_by_key = parse_nm_lines(run_text(nm_args + [str(binary)]))
+    dem_by_key = parse_nm_lines(run_text(nm_args + ["-C", str(binary)]))
 
     symbols: list[Symbol] = []
     for key, raw_name in raw_by_key.items():
@@ -196,7 +448,10 @@ def build_symbol_index(nm_bin: str, binary: Path) -> SymbolIndex:
         if not dem_name:
             continue
         addr = int(key[0], 16)
-        symbols.append(Symbol(addr=addr, typ=key[1], raw=raw_name, demangled=dem_name))
+        size = int(key[1], 16)
+        symbols.append(
+            Symbol(addr=addr, size=size, typ=key[2], raw=raw_name, demangled=dem_name)
+        )
     if not symbols:
         raise RuntimeError(f"no text symbols found in {binary}")
     return SymbolIndex(symbols)
@@ -241,6 +496,16 @@ def parse_entries(line: str, raw: bool) -> list[BranchEntry]:
     return out
 
 
+def parse_sample_ip(line: str) -> int | None:
+    first = line.strip().split(None, 1)[0] if line.strip() else ""
+    if not first:
+        return None
+    try:
+        return int(first, 16)
+    except ValueError:
+        return None
+
+
 def infer_binary_addr(
     sym_text: str,
     raw_addr: int | None,
@@ -262,6 +527,7 @@ def iter_trace_samples(
     lbr_raw: Path | None,
     symbols: SymbolIndex,
     depth: int,
+    target_ip_source: str,
     max_samples: int = 0,
 ):
     raw_fh = lbr_raw.open("r", encoding="utf-8", errors="replace") if lbr_raw else None
@@ -281,10 +547,19 @@ def iter_trace_samples(
                 if target_resolved is None:
                     continue
                 target_addr = target_resolved[0]
+                target_branch_type = target_entry.branch_type or (
+                    raw_entries[0].branch_type if raw_entries else "UNKNOWN"
+                )
 
                 load_bias = None
                 if raw_entries and raw_entries[0].raw_to_addr is not None:
                     load_bias = raw_entries[0].raw_to_addr - target_addr
+                if target_ip_source == "sample-ip":
+                    sample_ip = parse_sample_ip(raw_line or sym_line)
+                    if sample_ip is not None and load_bias is not None:
+                        sample_addr = sample_ip - load_bias
+                        if sample_addr >= 0 and symbols.symbol_at(sample_addr) is not None:
+                            target_addr = sample_addr
 
                 candidates: list[tuple[int, str, int]] = []
                 upto = min(depth, len(sym_entries))
@@ -298,10 +573,43 @@ def iter_trace_samples(
                     branch_type = sym_entry.branch_type or (raw_entry.branch_type if raw_entry else "UNKNOWN")
                     candidates.append((site_addr, branch_type, pos + 1))
 
-                yield idx, target_addr, candidates
+                yield idx, target_addr, target_branch_type, candidates
     finally:
         if raw_fh is not None:
             raw_fh.close()
+
+
+def make_trace_inputs(args: argparse.Namespace) -> list[TraceInput]:
+    if (args.lbr_sym or args.lbr_raw) and len(args.trace_dir) != 1:
+        raise RuntimeError("--lbr-sym/--lbr-raw overrides are only supported with one --trace-dir")
+
+    traces: list[TraceInput] = []
+    for raw_dir in args.trace_dir:
+        trace_dir = Path(raw_dir).resolve()
+        lbr_sym = Path(args.lbr_sym).resolve() if args.lbr_sym else trace_dir / "lbr_symbolic_dump.txt"
+        lbr_raw = Path(args.lbr_raw).resolve() if args.lbr_raw else trace_dir / "lbr_raw_dump.txt"
+        if not lbr_sym.exists():
+            raise RuntimeError(f"missing symbolic LBR dump: {lbr_sym}")
+        if not lbr_raw.exists():
+            lbr_raw = None
+        traces.append(TraceInput(trace_dir=trace_dir, lbr_sym=lbr_sym, lbr_raw=lbr_raw))
+    return traces
+
+
+def iter_all_trace_samples(
+    traces: list[TraceInput],
+    symbols: SymbolIndex,
+    depth: int,
+    target_ip_source: str,
+    max_samples: int = 0,
+):
+    global_idx = 0
+    for trace_idx, trace in enumerate(traces):
+        for _, target_addr, target_branch_type, candidates in iter_trace_samples(
+            trace.lbr_sym, trace.lbr_raw, symbols, depth, target_ip_source, max_samples
+        ):
+            yield global_idx, trace_idx, target_addr, target_branch_type, candidates
+            global_idx += 1
 
 
 def parse_loc(raw: str) -> tuple[str, int]:
@@ -334,8 +642,20 @@ def resolve_addrs(addr2line_bin: str, binary: Path, addrs: Iterable[int]) -> dic
 def target_key_for_addr(addr: int, locs: dict[int, SourceLoc], symbols: SymbolIndex) -> TargetKey:
     loc = locs.get(addr, SourceLoc(function="", file="", line=0))
     sym = symbols.symbol_at(addr)
-    function = loc.function if loc.function and loc.function != "??" else (sym.demangled if sym else "")
-    return TargetKey(function=function, file=loc.file, line=loc.line)
+    # Use the containing text symbol as the target identity. addr2line often
+    # reports inlined helper functions such as VL_NOT_W at the same header line
+    # for many different generated Verilator functions. If we group only by
+    # inline function:file:line, one "target" can actually represent hundreds
+    # of distinct PCs, and the pass can only prefetch one representative block.
+    #
+    # The LLVM pass already carries the inlined file/line for debug-location
+    # matching, but it finds the containing IR Function through the mangled
+    # symbol. Keeping that symbol in the key makes the plan's target coverage
+    # match the actual prefetchable PC locations much more closely.
+    function = sym.demangled if sym else ""
+    if not function:
+        function = loc.function if loc.function and loc.function != "??" else ""
+    return TargetKey(function=function, file=loc.file, line=loc.line, cacheline64=addr & ~0x3F)
 
 
 def is_resolved_target(key: TargetKey) -> bool:
@@ -351,6 +671,7 @@ def choose_top_targets(
     target_locs: dict[int, SourceLoc],
     symbols: SymbolIndex,
     top_k: int,
+    target_coverage_pct: float,
     allow_unresolved: bool,
 ):
     counts_by_key: Counter = Counter()
@@ -368,8 +689,35 @@ def choose_top_targets(
             counts_by_key[key] += count
             addr_counts_by_key[key][addr] += count
 
-    top = counts_by_key.most_common(top_k)
+    ordered = counts_by_key.most_common()
+    if target_coverage_pct > 0.0:
+        total = sum(counts_by_key.values())
+        threshold = total * target_coverage_pct / 100.0
+        cumulative = 0
+        top = []
+        for key, count in ordered:
+            top.append((key, count))
+            cumulative += count
+            if target_coverage_pct < 100.0 and cumulative >= threshold:
+                break
+    else:
+        top = ordered[:top_k]
     return top, addr_counts_by_key
+
+
+def target_valid_in_binary(
+    addr: int,
+    profiled_symbols: SymbolIndex,
+    validation_symbols: SymbolIndex,
+) -> bool:
+    profiled_sym = profiled_symbols.symbol_at(addr)
+    if profiled_sym is None:
+        return False
+    validation_sym = validation_symbols.lookup_name(profiled_sym.raw)
+    if validation_sym is None:
+        return False
+    offset = addr - profiled_sym.addr
+    return validation_symbols.addr_in_symbol(validation_sym.addr + offset, validation_sym)
 
 
 def greedy_select_sites(
@@ -415,9 +763,110 @@ def greedy_select_sites(
     return selected
 
 
+def append_selected_site(
+    selected: list[dict],
+    selected_sites: set[int],
+    remaining: set[int],
+    target_sample_count: int,
+    site_addr: int,
+    sample_set: set[int],
+) -> None:
+    if site_addr in selected_sites:
+        return
+    selected_sites.add(site_addr)
+    new_cover = len(sample_set & remaining)
+    remaining -= sample_set
+    selected.append(
+        {
+            "site_addr": site_addr,
+            "site_samples": len(sample_set),
+            "new_covered_samples": new_cover,
+            "cumulative_covered_samples": target_sample_count - len(remaining),
+        }
+    )
+
+
+def top_sites_select_sites(
+    samples_by_site: dict[int, set[int]],
+    target_samples: set[int],
+    budget: int,
+    candidate_pool: int,
+):
+    pool_items = sorted(samples_by_site.items(), key=lambda kv: (-len(kv[1]), kv[0]))
+    if candidate_pool > 0:
+        pool_items = pool_items[:candidate_pool]
+
+    remaining = set(target_samples)
+    selected: list[dict] = []
+    selected_sites: set[int] = set()
+    for site_addr, sample_set in pool_items:
+        if len(selected) >= budget:
+            break
+        append_selected_site(
+            selected, selected_sites, remaining, len(target_samples), site_addr, sample_set
+        )
+    return selected
+
+
+def per_depth_select_sites(
+    samples_by_site: dict[int, set[int]],
+    target_samples: set[int],
+    site_meta: dict[int, SiteMeta],
+    budget: int,
+    depth_min: int,
+    depth_max: int,
+    sites_per_depth: int,
+):
+    remaining = set(target_samples)
+    selected: list[dict] = []
+    selected_sites: set[int] = set()
+
+    for depth in range(depth_min, depth_max + 1):
+        candidates = []
+        for site_addr, sample_set in samples_by_site.items():
+            depth_hits = site_meta[site_addr].depths.get(depth, 0)
+            if depth_hits <= 0:
+                continue
+            candidates.append((site_addr, sample_set, depth_hits))
+        candidates.sort(key=lambda row: (-row[2], -len(row[1]), row[0]))
+
+        kept_at_depth = 0
+        for site_addr, sample_set, _ in candidates:
+            if len(selected) >= budget:
+                return selected
+            if site_addr in selected_sites:
+                continue
+            append_selected_site(
+                selected, selected_sites, remaining, len(target_samples), site_addr, sample_set
+            )
+            kept_at_depth += 1
+            if kept_at_depth >= sites_per_depth:
+                break
+    return selected
+
+
+def all_paths_select_sites(
+    samples_by_site: dict[int, set[int]],
+    target_samples: set[int],
+):
+    remaining = set(target_samples)
+    selected: list[dict] = []
+    selected_sites: set[int] = set()
+    for site_addr, sample_set in sorted(samples_by_site.items(), key=lambda kv: (-len(kv[1]), kv[0])):
+        append_selected_site(
+            selected, selected_sites, remaining, len(target_samples), site_addr, sample_set
+        )
+    return selected
+
+
 def loc_to_json(loc: SourceLoc, sym: Symbol | None, addr: int) -> dict:
+    sym_addr = sym.addr if sym else 0
     return {
         "addr": hex(addr),
+        "cacheline64": hex(addr & ~0x3F),
+        "cacheline_offset": addr & 0x3F,
+        "symbol_offset": hex(addr - sym_addr) if sym else "",
+        "symbol_size": hex(sym.size) if sym else "",
         "mangled": sym.raw if sym else "",
         "demangled": sym.demangled if sym else loc.function,
         "function": loc.function,
@@ -437,30 +886,43 @@ def write_csv(path: Path, rows: list[dict], fieldnames: list[str]) -> None:
 
 def main() -> None:
     args = parse_args()
-    trace_dir = Path(args.trace_dir).resolve()
     binary = Path(args.binary).resolve()
     output = Path(args.output).resolve()
-    lbr_sym = Path(args.lbr_sym).resolve() if args.lbr_sym else trace_dir / "lbr_symbolic_dump.txt"
-    lbr_raw = Path(args.lbr_raw).resolve() if args.lbr_raw else trace_dir / "lbr_raw_dump.txt"
-    if not lbr_raw.exists():
-        lbr_raw = None
-
-    if not lbr_sym.exists():
-        raise RuntimeError(f"missing symbolic LBR dump: {lbr_sym}")
     if not binary.exists():
         raise RuntimeError(f"missing binary: {binary}")
 
+    traces = make_trace_inputs(args)
     symbols = build_symbol_index(args.nm, binary)
+    validation_binary = Path(args.validation_binary).resolve() if args.validation_binary else None
+    if validation_binary is not None and not validation_binary.exists():
+        raise RuntimeError(f"missing validation binary: {validation_binary}")
+    validation_symbols = (
+        build_symbol_index(args.nm, validation_binary) if validation_binary is not None else None
+    )
 
-    total_lines = 0
+    scanned_samples = 0
     parsed_samples = 0
     target_addr_counts: Counter = Counter()
-    for sample_idx, target_addr, _ in iter_trace_samples(
-        lbr_sym, lbr_raw, symbols, args.depth, args.max_samples
+    for _, _, target_addr, target_branch_type, _ in iter_all_trace_samples(
+        traces, symbols, args.depth, args.target_ip_source, args.max_samples
     ):
-        total_lines = max(total_lines, sample_idx + 1)
+        scanned_samples += 1
+        if not branch_type_allowed(args.sample_branch_type_filter, target_branch_type):
+            continue
         parsed_samples += 1
         target_addr_counts[target_addr] += 1
+
+    validation_rejected_addresses = 0
+    validation_rejected_samples = 0
+    if validation_symbols is not None:
+        validated_counts: Counter = Counter()
+        for target_addr, count in target_addr_counts.items():
+            if target_valid_in_binary(target_addr, symbols, validation_symbols):
+                validated_counts[target_addr] = count
+            else:
+                validation_rejected_addresses += 1
+                validation_rejected_samples += count
+        target_addr_counts = validated_counts
 
     target_locs = resolve_addrs(args.addr2line, binary, target_addr_counts.keys())
     top_targets, addr_counts_by_key = choose_top_targets(
@@ -468,6 +930,7 @@ def main() -> None:
         target_locs,
         symbols,
         args.top_k,
+        args.target_coverage_pct,
         args.allow_unresolved_targets,
     )
     selected_target_keys = {key for key, _ in top_targets}
@@ -483,15 +946,27 @@ def main() -> None:
         lambda: defaultdict(lambda: SiteMeta(branch_types=Counter(), depths=Counter()))
     )
 
-    for sample_idx, target_addr, candidates in iter_trace_samples(
-        lbr_sym, lbr_raw, symbols, args.depth, args.max_samples
+    for sample_idx, _, target_addr, target_branch_type, candidates in iter_all_trace_samples(
+        traces, symbols, args.depth, args.target_ip_source, args.max_samples
     ):
+        if not branch_type_allowed(args.sample_branch_type_filter, target_branch_type):
+            continue
         target_key = addr_to_key.get(target_addr)
         if target_key not in selected_target_keys:
             continue
         target_samples[target_key].add(sample_idx)
         seen_sites: set[int] = set()
         for site_addr, branch_type, depth in candidates:
+            if not branch_type_allowed(args.branch_type_filter, branch_type):
+                continue
+            if not branch_depth_allowed(
+                args.branch_depth_policy,
+                branch_type,
+                depth,
+                args.depth_min,
+                args.depth,
+            ):
+                continue
             if site_addr in seen_sites:
                 continue
             seen_sites.add(site_addr)
@@ -510,20 +985,45 @@ def main() -> None:
             if not is_resolved_loc(site_locs.get(site_addr, SourceLoc(function="", file="", line=0))):
                 del site_map[site_addr]
 
-    selected_rows = []
+    selected_rows_by_target: dict[TargetKey, list[dict]] = defaultdict(list)
     for target_rank, (target_key, target_count) in enumerate(top_targets, start=1):
-        selected = greedy_select_sites(
-            samples_by_site.get(target_key, {}),
-            target_samples.get(target_key, set()),
-            args.site_budget_per_target,
-            args.candidate_pool,
-        )
+        target_site_samples = samples_by_site.get(target_key, {})
+        target_sample_set = target_samples.get(target_key, set())
+        if args.selection_mode == "greedy":
+            selected = greedy_select_sites(
+                target_site_samples,
+                target_sample_set,
+                args.site_budget_per_target,
+                args.candidate_pool,
+            )
+        elif args.selection_mode == "top-sites":
+            selected = top_sites_select_sites(
+                target_site_samples,
+                target_sample_set,
+                args.site_budget_per_target,
+                args.candidate_pool,
+            )
+        elif args.selection_mode == "per-depth":
+            selected = per_depth_select_sites(
+                target_site_samples,
+                target_sample_set,
+                site_meta.get(target_key, {}),
+                args.site_budget_per_target,
+                args.depth_min,
+                args.depth,
+                args.sites_per_depth,
+            )
+        else:
+            selected = all_paths_select_sites(
+                target_site_samples,
+                target_sample_set,
+            )
         for site_rank, row in enumerate(selected, start=1):
             row["target_key"] = target_key
             row["target_rank"] = target_rank
             row["target_samples"] = target_count
             row["site_rank"] = site_rank
-            selected_rows.append(row)
+            selected_rows_by_target[target_key].append(row)
 
     injections = []
     injection_csv = []
@@ -540,11 +1040,13 @@ def main() -> None:
                 "file": target_key.file,
                 "line": target_key.line,
                 "addr": hex(rep_addr),
+                "cacheline64": hex(target_key.cacheline64),
                 "mangled": target_sym.raw if target_sym else "",
+                "symbol_size": hex(target_sym.size) if target_sym else "",
             }
         )
 
-        for selected in [r for r in selected_rows if r["target_key"] == target_key]:
+        for selected in selected_rows_by_target.get(target_key, []):
             site_addr = selected["site_addr"]
             meta = site_meta[target_key][site_addr]
             branch_type = meta.branch_types.most_common(1)[0][0] if meta.branch_types else "UNKNOWN"
@@ -559,6 +1061,7 @@ def main() -> None:
             injection = {
                 "target_rank": selected["target_rank"],
                 "site_rank": selected["site_rank"],
+                "prefetch_mnemonic": args.prefetch_mnemonic,
                 "samples": selected["site_samples"],
                 "new_covered_samples": selected["new_covered_samples"],
                 "cumulative_covered_samples": selected["cumulative_covered_samples"],
@@ -579,9 +1082,11 @@ def main() -> None:
                     "target_function": target_key.function,
                     "target_file": target_key.file,
                     "target_line": target_key.line,
+                    "target_cacheline64": hex(target_key.cacheline64),
                     "site_function": site_loc.function,
                     "site_file": site_loc.file,
                     "site_line": site_loc.line,
+                    "site_cacheline64": hex(site_addr & ~0x3F),
                     "branch_type": branch_type,
                     "lbr_depth": depth,
                     "samples": selected["site_samples"],
@@ -594,21 +1099,46 @@ def main() -> None:
 
     plan = {
         "schema": "prefetchit.plan.v1",
-        "trace_dir": str(trace_dir),
+        "prefetch": {
+            "mnemonic": args.prefetch_mnemonic,
+            "operand": "pc-relative-symbol-offset",
+            "byte_offsets": args.prefetch_byte_offsets,
+            "offset_mode": "target-symbol-offset",
+        },
+        "trace_dir": str(traces[0].trace_dir),
+        "trace_dirs": [str(t.trace_dir) for t in traces],
         "binary": str(binary),
+        "validation_binary": str(validation_binary) if validation_binary is not None else "",
         "options": {
             "top_k": args.top_k,
+            "target_coverage_pct": args.target_coverage_pct,
             "depth": args.depth,
+            "depth_min": args.depth_min,
             "site_budget_per_target": args.site_budget_per_target,
             "candidate_pool": args.candidate_pool,
+            "selection_mode": args.selection_mode,
+            "sites_per_depth": args.sites_per_depth,
             "allow_unresolved_targets": args.allow_unresolved_targets,
+            "prefetch_mnemonic": args.prefetch_mnemonic,
+            "prefetch_byte_offsets": args.prefetch_byte_offsets,
+            "branch_depth_policy": {
+                key: [lo, hi] for key, (lo, hi) in sorted(args.branch_depth_policy.items())
+            },
+            "branch_type_filter": sorted(args.branch_type_filter),
+            "sample_branch_type_filter": sorted(args.sample_branch_type_filter),
+            "target_ip_source": args.target_ip_source,
+            "validation_binary": str(validation_binary) if validation_binary is not None else "",
         },
         "stats": {
-            "input_lines_seen": total_lines,
+            "input_traces": len(traces),
+            "scanned_samples": scanned_samples,
             "parsed_samples": parsed_samples,
             "unique_target_addresses": len(target_addr_counts),
+            "validation_rejected_target_addresses": validation_rejected_addresses,
+            "validation_rejected_target_samples": validation_rejected_samples,
             "selected_targets": len(top_targets),
             "selected_injections": len(injections),
+            "planned_prefetches": len(injections) * len(args.prefetch_byte_offsets),
         },
         "injections": injections,
     }
@@ -620,7 +1150,17 @@ def main() -> None:
     write_csv(
         summary_dir / "selected_top_targets.csv",
         top_csv,
-        ["rank", "samples", "function", "file", "line", "addr", "mangled"],
+        [
+            "rank",
+            "samples",
+            "function",
+            "file",
+            "line",
+            "addr",
+            "cacheline64",
+            "mangled",
+            "symbol_size",
+        ],
     )
     write_csv(
         summary_dir / "selected_injection_sites.csv",
@@ -631,9 +1171,11 @@ def main() -> None:
             "target_function",
             "target_file",
             "target_line",
+            "target_cacheline64",
             "site_function",
             "site_file",
             "site_line",
+            "site_cacheline64",
             "branch_type",
             "lbr_depth",
             "samples",
