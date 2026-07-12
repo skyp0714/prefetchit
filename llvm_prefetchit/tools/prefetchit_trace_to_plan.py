@@ -612,6 +612,77 @@ def iter_all_trace_samples(
             global_idx += 1
 
 
+def audit_lbr0_targets(
+    traces: list[TraceInput],
+    symbols: SymbolIndex,
+    max_samples: int = 0,
+):
+    """Count the newest LBR branch targets before any planner filtering."""
+    target_counts: Counter = Counter()
+    target_branch_types: dict[str, Counter] = defaultdict(Counter)
+    target_resolutions: dict[str, tuple[int, Symbol] | None] = {}
+    trace_lines = 0
+    samples_with_lbr = 0
+
+    for trace in traces:
+        with trace.lbr_sym.open("r", encoding="utf-8", errors="replace") as handle:
+            for idx, line in enumerate(handle):
+                if max_samples and idx >= max_samples:
+                    break
+                trace_lines += 1
+                entries = parse_entries(line, raw=False)
+                if not entries:
+                    continue
+                samples_with_lbr += 1
+                newest = entries[0]
+                raw_target = newest.to_raw
+                target_counts[raw_target] += 1
+                target_branch_types[raw_target][newest.branch_type or "UNKNOWN"] += 1
+                if raw_target not in target_resolutions:
+                    target_resolutions[raw_target] = symbols.lookup_addr(raw_target)
+
+    rows = []
+    cumulative = 0
+    total = sum(target_counts.values())
+    for rank, (raw_target, count) in enumerate(target_counts.most_common(), start=1):
+        cumulative += count
+        resolved = target_resolutions[raw_target]
+        if resolved is None:
+            addr = None
+            symbol = None
+        else:
+            addr, symbol = resolved
+        rows.append(
+            {
+                "rank": rank,
+                "samples": count,
+                "cumulative_samples": cumulative,
+                "cumulative_coverage_pct": 100.0 * cumulative / total if total else 0.0,
+                "raw_lbr0_to": raw_target,
+                "branch_type": target_branch_types[raw_target].most_common(1)[0][0],
+                "binary_resolved": int(resolved is not None),
+                "addr": hex(addr) if addr is not None else "",
+                "cacheline64": hex(addr & ~0x3F) if addr is not None else "",
+                "mangled": symbol.raw if symbol is not None else "",
+                "demangled": symbol.demangled if symbol is not None else "",
+            }
+        )
+
+    resolved_rows = [row for row in rows if row["binary_resolved"]]
+    resolved_samples = sum(int(row["samples"]) for row in resolved_rows)
+    return {
+        "trace_lines": trace_lines,
+        "samples_with_lbr": samples_with_lbr,
+        "unique_symbolic_targets": len(target_counts),
+        "binary_resolved_samples": resolved_samples,
+        "binary_unresolved_samples": total - resolved_samples,
+        "unique_binary_resolved_addresses": len({row["addr"] for row in resolved_rows}),
+        "unique_binary_resolved_cachelines": len(
+            {row["cacheline64"] for row in resolved_rows}
+        ),
+    }, rows
+
+
 def parse_loc(raw: str) -> tuple[str, int]:
     text = raw.strip()
     if not text or text.startswith("??"):
@@ -900,6 +971,8 @@ def main() -> None:
         build_symbol_index(args.nm, validation_binary) if validation_binary is not None else None
     )
 
+    lbr0_audit, lbr0_rows = audit_lbr0_targets(traces, symbols, args.max_samples)
+
     scanned_samples = 0
     parsed_samples = 0
     target_addr_counts: Counter = Counter()
@@ -912,6 +985,7 @@ def main() -> None:
         parsed_samples += 1
         target_addr_counts[target_addr] += 1
 
+    prevalidation_target_addr_counts = target_addr_counts.copy()
     validation_rejected_addresses = 0
     validation_rejected_samples = 0
     if validation_symbols is not None:
@@ -925,6 +999,12 @@ def main() -> None:
         target_addr_counts = validated_counts
 
     target_locs = resolve_addrs(args.addr2line, binary, target_addr_counts.keys())
+    all_target_key_counts: Counter = Counter()
+    all_target_key_addrs: dict[TargetKey, Counter] = defaultdict(Counter)
+    for addr, count in target_addr_counts.items():
+        key = target_key_for_addr(addr, target_locs, symbols)
+        all_target_key_counts[key] += count
+        all_target_key_addrs[key][addr] += count
     top_targets, addr_counts_by_key = choose_top_targets(
         target_addr_counts,
         target_locs,
@@ -979,11 +1059,25 @@ def main() -> None:
         for site_map in samples_by_site.values()
         for site_addr in site_map.keys()
     }
+    candidate_targets_before_source_resolution = sum(
+        bool(site_map) for site_map in samples_by_site.values()
+    )
+    candidate_sites_before_source_resolution = len(all_site_addrs)
     site_locs = resolve_addrs(args.addr2line, binary, all_site_addrs)
     for target_key, site_map in list(samples_by_site.items()):
         for site_addr in list(site_map.keys()):
             if not is_resolved_loc(site_locs.get(site_addr, SourceLoc(function="", file="", line=0))):
                 del site_map[site_addr]
+    candidate_targets_after_source_resolution = sum(
+        bool(site_map) for site_map in samples_by_site.values()
+    )
+    candidate_sites_after_source_resolution = len(
+        {
+            site_addr
+            for site_map in samples_by_site.values()
+            for site_addr in site_map
+        }
+    )
 
     selected_rows_by_target: dict[TargetKey, list[dict]] = defaultdict(list)
     for target_rank, (target_key, target_count) in enumerate(top_targets, start=1):
@@ -1097,6 +1191,51 @@ def main() -> None:
                 }
             )
 
+    validated_target_samples = sum(target_addr_counts.values())
+    selected_target_samples = sum(count for _, count in top_targets)
+    selected_targets_with_injections = sum(
+        bool(selected_rows_by_target.get(target_key)) for target_key, _ in top_targets
+    )
+    covered_selected_target_samples = sum(
+        max(
+            (
+                int(row["cumulative_covered_samples"])
+                for row in selected_rows_by_target.get(target_key, [])
+            ),
+            default=0,
+        )
+        for target_key, _ in top_targets
+    )
+
+    selected_target_keys = {key for key, _ in top_targets}
+    all_target_rows = []
+    cumulative_target_samples = 0
+    for rank, (key, count) in enumerate(all_target_key_counts.most_common(), start=1):
+        cumulative_target_samples += count
+        rep_addr = all_target_key_addrs[key].most_common(1)[0][0]
+        sym = symbols.symbol_at(rep_addr)
+        all_target_rows.append(
+            {
+                "rank": rank,
+                "samples": count,
+                "cumulative_samples": cumulative_target_samples,
+                "cumulative_coverage_pct": (
+                    100.0 * cumulative_target_samples / validated_target_samples
+                    if validated_target_samples
+                    else 0.0
+                ),
+                "selected": int(key in selected_target_keys),
+                "source_resolved": int(is_resolved_target(key)),
+                "function": key.function,
+                "file": key.file,
+                "line": key.line,
+                "addr": hex(rep_addr),
+                "cacheline64": hex(key.cacheline64),
+                "mangled": sym.raw if sym else "",
+                "address_count": len(all_target_key_addrs[key]),
+            }
+        )
+
     plan = {
         "schema": "prefetchit.plan.v1",
         "prefetch": {
@@ -1131,13 +1270,60 @@ def main() -> None:
         },
         "stats": {
             "input_traces": len(traces),
+            "lbr0_trace_lines": lbr0_audit["trace_lines"],
+            "lbr0_samples_with_branch_stack": lbr0_audit["samples_with_lbr"],
+            "lbr0_unique_symbolic_targets": lbr0_audit["unique_symbolic_targets"],
+            "lbr0_binary_resolved_samples": lbr0_audit["binary_resolved_samples"],
+            "lbr0_binary_unresolved_samples": lbr0_audit["binary_unresolved_samples"],
+            "lbr0_unique_binary_resolved_addresses": lbr0_audit[
+                "unique_binary_resolved_addresses"
+            ],
+            "lbr0_unique_binary_resolved_cachelines": lbr0_audit[
+                "unique_binary_resolved_cachelines"
+            ],
             "scanned_samples": scanned_samples,
             "parsed_samples": parsed_samples,
+            "prevalidation_target_samples": sum(prevalidation_target_addr_counts.values()),
+            "prevalidation_unique_target_addresses": len(prevalidation_target_addr_counts),
+            "prevalidation_unique_target_cachelines": len(
+                {addr & ~0x3F for addr in prevalidation_target_addr_counts}
+            ),
+            "validated_target_samples": validated_target_samples,
             "unique_target_addresses": len(target_addr_counts),
+            "unique_target_cachelines": len({addr & ~0x3F for addr in target_addr_counts}),
+            "unique_target_keys": len(all_target_key_counts),
+            "source_resolved_target_keys": sum(
+                is_resolved_target(key) for key in all_target_key_counts
+            ),
             "validation_rejected_target_addresses": validation_rejected_addresses,
             "validation_rejected_target_samples": validation_rejected_samples,
             "selected_targets": len(top_targets),
+            "selected_target_samples": selected_target_samples,
+            "selected_target_coverage_pct": (
+                100.0 * selected_target_samples / validated_target_samples
+                if validated_target_samples
+                else 0.0
+            ),
+            "candidate_targets_before_source_resolution": (
+                candidate_targets_before_source_resolution
+            ),
+            "candidate_sites_before_source_resolution": (
+                candidate_sites_before_source_resolution
+            ),
+            "candidate_targets_after_source_resolution": (
+                candidate_targets_after_source_resolution
+            ),
+            "candidate_sites_after_source_resolution": (
+                candidate_sites_after_source_resolution
+            ),
+            "selected_targets_with_injections": selected_targets_with_injections,
             "selected_injections": len(injections),
+            "covered_selected_target_samples": covered_selected_target_samples,
+            "selected_site_dynamic_coverage_pct": (
+                100.0 * covered_selected_target_samples / selected_target_samples
+                if selected_target_samples
+                else 0.0
+            ),
             "planned_prefetches": len(injections) * len(args.prefetch_byte_offsets),
         },
         "injections": injections,
@@ -1147,6 +1333,42 @@ def main() -> None:
     output.write_text(json.dumps(plan, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
     summary_dir = Path(args.summary_dir).resolve() if args.summary_dir else output.parent
+    write_csv(
+        summary_dir / "all_lbr0_targets.csv",
+        lbr0_rows,
+        [
+            "rank",
+            "samples",
+            "cumulative_samples",
+            "cumulative_coverage_pct",
+            "raw_lbr0_to",
+            "branch_type",
+            "binary_resolved",
+            "addr",
+            "cacheline64",
+            "mangled",
+            "demangled",
+        ],
+    )
+    write_csv(
+        summary_dir / "all_target_cachelines.csv",
+        all_target_rows,
+        [
+            "rank",
+            "samples",
+            "cumulative_samples",
+            "cumulative_coverage_pct",
+            "selected",
+            "source_resolved",
+            "function",
+            "file",
+            "line",
+            "addr",
+            "cacheline64",
+            "mangled",
+            "address_count",
+        ],
+    )
     write_csv(
         summary_dir / "selected_top_targets.csv",
         top_csv,

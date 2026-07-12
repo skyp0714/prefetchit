@@ -166,4 +166,6 @@ grep -Fq 'prefetcht1	target+16(%rip)' "${TMP_DIR}/smoke.symbol.s"
 grep -Fq 'prefetcht1	target+80(%rip)' "${TMP_DIR}/smoke.symbol.s"
 grep -Fq 'prefetcht1	target+144(%rip)' "${TMP_DIR}/smoke.symbol.s"
 
+python3 "${ROOT_DIR}/tests/test_trace_to_plan.py"
+
 echo "[ok] smoke test passed"
