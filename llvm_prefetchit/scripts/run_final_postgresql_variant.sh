@@ -8,7 +8,7 @@ fi
 
 ROOT="/home/hnpark2/prefetchit"
 COMMON="${ROOT}/llvm_prefetchit/scripts/final_campaign_common.sh"
-DATA="${ROOT}/llvm_prefetchit/work/datacenter_goal_20260708/postgres/data_base"
+DATA_TEMPLATE="${POSTGRES_DATA_TEMPLATE:-${ROOT}/llvm_prefetchit/work/datacenter_goal_20260708/postgres/data_base}"
 PIN_SO="${ROOT}/llvm_prefetchit/tools/pthread_core_pin.so"
 LABEL="$1"
 POSTGRES="$(readlink -f "$2")"
@@ -17,17 +17,24 @@ PGBENCH="${PREFIX}/bin/pgbench"
 PG_ISREADY="${PREFIX}/bin/pg_isready"
 OUT="$(readlink -m "$3")"
 DURATION="${DURATION:-60}"
+WARMUP_DURATION="${WARMUP_DURATION:-20}"
 PORT="${PORT:-55433}"
 SOCKET_DIR="${SOCKET_DIR:-/tmp/prefetchit_pg_${PORT}_$$}"
+RUN_DATA="${POSTGRES_RUN_DATA:-/tmp/prefetchit_pgdata_${PORT}_$$}"
 CLIENTS="${CLIENTS:-8}"
 CLIENT_THREADS="${CLIENT_THREADS:-${CLIENTS}}"
 QUERY_MODE="${QUERY_MODE:-prepared}"
+PGBENCH_BUILTIN="${PGBENCH_BUILTIN:-tpcb-like}"
+PGBENCH_SCRIPT="${PGBENCH_SCRIPT:-}"
+PGBENCH_TRANSACTIONS="${PGBENCH_TRANSACTIONS:-0}"
+PGBENCH_WARMUP_SEED="${PGBENCH_WARMUP_SEED:-2026071301}"
+PGBENCH_SEED="${PGBENCH_SEED:-2026071302}"
 PROFILE_RECORD="${PROFILE_RECORD:-0}"
 PROFILE_SAMPLE_PERIOD="${PROFILE_SAMPLE_PERIOD:-10000}"
 SERVER_CORES="1-30"
 CLIENT_CORES="31-70"
 ALL_CORES="0-70"
-EVENT='cpu/event=0x24,umask=0x24,name=L2I_CODE_RD_MISS/'
+EVENT='cpu/event=0x24,umask=0x24,name=L2I_CODE_RD_MISS/u'
 PROFILE_EVENT='cpu/event=0x24,umask=0x24,name=L2I_CODE_RD_MISS/upp'
 
 # shellcheck source=/dev/null
@@ -52,18 +59,37 @@ cleanup() {
     kill "${pid}" >/dev/null 2>&1 || true
     wait "${pid}" >/dev/null 2>&1 || true
   done
-  rm -rf "${SOCKET_DIR}"
+  rm -rf "${SOCKET_DIR}" "${RUN_DATA}"
 }
 trap cleanup EXIT INT TERM
 
 mkdir -p "${OUT}" "${SOCKET_DIR}"
 rm -f "${OUT}"/*.log "${OUT}"/*.csv "${OUT}"/*.json "${SOCKET_DIR}"/.s.PGSQL.*
 [[ -x "${POSTGRES}" && -x "${PGBENCH}" && -x "${PG_ISREADY}" && -f "${PIN_SO}" ]]
+[[ -d "${DATA_TEMPLATE}" && ! -e "${DATA_TEMPLATE}/postmaster.pid" ]]
+[[ ! -e "${RUN_DATA}" ]]
+mkdir -p "${RUN_DATA}"
+cp -a --reflink=auto "${DATA_TEMPLATE}/." "${RUN_DATA}/"
+chmod 700 "${RUN_DATA}"
+DATA="${RUN_DATA}"
 fc_assert_frequency "${ALL_CORES}" "${OUT}/frequency_start.csv"
+
+workload_args=(-b "${PGBENCH_BUILTIN}")
+if [[ -n "${PGBENCH_SCRIPT}" ]]; then
+  PGBENCH_SCRIPT="$(readlink -f "${PGBENCH_SCRIPT}")"
+  [[ -s "${PGBENCH_SCRIPT}" ]]
+  workload_args=(-f "${PGBENCH_SCRIPT}")
+fi
+roi_limit_args=(-T "$((DURATION + 8))")
+if ((PGBENCH_TRANSACTIONS > 0)); then
+  roi_limit_args=(-t "${PGBENCH_TRANSACTIONS}")
+fi
 
 taskset -c 1 env LD_PRELOAD="${PIN_SO}" PREFETCHIT_THREAD_PIN_CORES=2-30 \
   LD_LIBRARY_PATH="${PREFIX}/lib${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}" \
   "${POSTGRES}" -D "${DATA}" -p "${PORT}" -k "${SOCKET_DIR}" \
+  -c autovacuum=off -c checkpoint_timeout=1h -c max_wal_size=10GB \
+  -c bgwriter_lru_maxpages=0 \
   > "${OUT}/postgres.log" 2>&1 &
 SERVER_PID="$!"
 fc_start_tree_pinner "${SERVER_PID}" "${SERVER_CORES}" "${OUT}/server_pinner.log"
@@ -76,12 +102,16 @@ done
 "${PG_ISREADY}" -h "${SOCKET_DIR}" -p "${PORT}" >/dev/null
 
 taskset -c 31 env LD_PRELOAD="${PIN_SO}" PREFETCHIT_THREAD_PIN_CORES=32-70 \
-  "${PGBENCH}" -h "${SOCKET_DIR}" -p "${PORT}" -c "${CLIENTS}" -j "${CLIENT_THREADS}" -T 20 -M "${QUERY_MODE}" \
+  "${PGBENCH}" -h "${SOCKET_DIR}" -p "${PORT}" -c "${CLIENTS}" -j "${CLIENT_THREADS}" \
+  -n "${workload_args[@]}" \
+  -T "${WARMUP_DURATION}" -M "${QUERY_MODE}" --random-seed="${PGBENCH_WARMUP_SEED}" \
   postgres > "${OUT}/warmup.log" 2>&1
 
 taskset -c 31 env LD_PRELOAD="${PIN_SO}" PREFETCHIT_THREAD_PIN_CORES=32-70 \
   "${PGBENCH}" -h "${SOCKET_DIR}" -p "${PORT}" -c "${CLIENTS}" -j "${CLIENT_THREADS}" \
-  -T "$((DURATION + 8))" -M "${QUERY_MODE}" postgres > "${OUT}/pgbench.log" 2>&1 &
+  -n "${workload_args[@]}" \
+  "${roi_limit_args[@]}" -M "${QUERY_MODE}" --random-seed="${PGBENCH_SEED}" \
+  postgres > "${OUT}/pgbench.log" 2>&1 &
 CLIENT_PID="$!"
 fc_start_pinner "${CLIENT_PID}" "${CLIENT_CORES}" "${OUT}/client_pinner.log"
 PINNERS+=("${FC_PINNER_PID}")
@@ -132,13 +162,19 @@ fc_audit_tree_affinity "${SERVER_PID}" "${SERVER_CORES}" "${OUT}/server_affinity
 fc_assert_frequency "${ALL_CORES}" "${OUT}/frequency_end.csv" || audit_ok=0
 if rg -q 'ERROR' "${OUT}"/*_pinner.log; then audit_ok=0; fi
 
-python3 - "${OUT}" "${LABEL}" "${POSTGRES}" "${DURATION}" "${client_rc}" "${audit_ok}" \
+python3 - "${OUT}" "${LABEL}" "${POSTGRES}" "${DATA_TEMPLATE}" \
+  "${DURATION}" "${WARMUP_DURATION}" \
+  "${client_rc}" "${audit_ok}" \
   "${CLIENTS}" "${CLIENT_THREADS}" "${QUERY_MODE}" \
+  "${PGBENCH_BUILTIN}" "${PGBENCH_SCRIPT}" "${PGBENCH_TRANSACTIONS}" \
+  "${PGBENCH_WARMUP_SEED}" "${PGBENCH_SEED}" \
   "${PROFILE_RECORD}" "${PROFILE_SAMPLE_PERIOD}" "${record_rc}" <<'PY'
 import csv, json, re, sys
 from pathlib import Path
-(out, label, binary, duration, client_rc, audit_ok, clients, client_threads,
- query_mode, profile_record, profile_sample_period, record_rc) = sys.argv[1:]
+(out, label, binary, data_template, duration, warmup_duration, client_rc, audit_ok,
+ clients, client_threads, query_mode, pgbench_builtin, pgbench_script,
+ transactions, warmup_seed, seed, profile_record, profile_sample_period,
+ record_rc) = sys.argv[1:]
 out = Path(out)
 events = {}
 migration_sources = []
@@ -162,8 +198,12 @@ for row in csv.reader((out / "perf.csv").open()):
 text = (out / "pgbench.log").read_text(errors="replace")
 tps_match = re.search(r"^tps = ([0-9.]+)", text, re.M)
 failed_match = re.search(r"number of failed transactions: ([0-9]+)", text)
+processed_match = re.search(r"number of transactions actually processed: ([0-9]+)", text)
+latency_match = re.search(r"latency average = ([0-9.]+) ms", text)
 tps = float(tps_match.group(1)) if tps_match else 0.0
 failed = int(failed_match.group(1)) if failed_match else -1
+processed = int(processed_match.group(1)) if processed_match else 0
+latency_ms = float(latency_match.group(1)) if latency_match else 0.0
 instructions = events.get("instructions", 0.0)
 cycles = events.get("cycles", 0.0)
 misses = events.get("L2I_CODE_RD_MISS", 0.0)
@@ -181,16 +221,26 @@ profile_data = out / "l2miss_profile.data"
 profile_ok = int(profile_record) == 0 or (
     int(record_rc) == 0 and profile_data.is_file() and profile_data.stat().st_size > 0
 )
+expected = int(clients) * int(transactions) if int(transactions) > 0 else 0
+fixed_work_ok = expected == 0 or processed == expected
 valid = int(int(client_rc) == 0 and int(audit_ok) == 1 and failed == 0 and
-            tps > 0 and pinner_corrections == 0 and profile_ok)
+            tps > 0 and pinner_corrections == 0 and profile_ok and fixed_work_ok)
 result = {
     "benchmark": "postgresql", "label": label, "binary": binary,
-    "duration_s": int(duration), "clients": int(clients),
+    "data_template": data_template,
+    "duration_s": int(duration), "warmup_duration_s": int(warmup_duration),
+    "clients": int(clients),
     "client_threads": int(client_threads), "query_mode": query_mode,
+    "pgbench_builtin": pgbench_builtin, "pgbench_script": pgbench_script,
+    "transactions_per_client": int(transactions),
+    "pgbench_warmup_seed": warmup_seed, "pgbench_seed": seed,
     "profile_record": int(profile_record),
     "profile_sample_period": int(profile_sample_period),
     "record_rc": int(record_rc),
-    "tps": tps, "failed_transactions": failed,
+    "tps": tps, "latency_average_ms": latency_ms,
+    "processed_transactions": processed,
+    "application_runtime_s": processed / tps if tps else 0.0,
+    "failed_transactions": failed,
     "instructions": instructions, "cycles": cycles, "l2i_misses": misses,
     "l2i_mpki": 1000 * misses / instructions if instructions else 0.0,
     "ipc": instructions / cycles if cycles else 0.0,

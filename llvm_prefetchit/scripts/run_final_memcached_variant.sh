@@ -32,7 +32,7 @@ PROFILE_SAMPLE_PERIOD="${PROFILE_SAMPLE_PERIOD:-10000}"
 SERVICE_CORES="1-24"
 CLIENT_CORES="25-40"
 ALL_CORES="0-40"
-EVENT='cpu/event=0x24,umask=0x24,name=L2I_CODE_RD_MISS/'
+EVENT='cpu/event=0x24,umask=0x24,name=L2I_CODE_RD_MISS/u'
 PROFILE_EVENT='cpu/event=0x24,umask=0x24,name=L2I_CODE_RD_MISS/upp'
 
 # shellcheck source=/dev/null

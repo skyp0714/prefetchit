@@ -24,3 +24,10 @@ add_llvm_pass_plugin(PrefetchITPass
 
 target_include_directories(PrefetchITPass PRIVATE ${LLVM_INCLUDE_DIRS})
 target_compile_definitions(PrefetchITPass PRIVATE ${LLVM_DEFINITIONS})
+
+set(PREFETCHIT_DEFAULT_PLAN "" CACHE STRING
+    "Optional plan path embedded in this plugin build")
+if(PREFETCHIT_DEFAULT_PLAN)
+  target_compile_definitions(PrefetchITPass PRIVATE
+    PREFETCHIT_DEFAULT_PLAN="${PREFETCHIT_DEFAULT_PLAN}")
+endif()

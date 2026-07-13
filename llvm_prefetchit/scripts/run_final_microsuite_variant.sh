@@ -33,7 +33,7 @@ LEAF_CORES="9-20"
 MID_CORES="21-55"
 CLIENT_CORES="56-70"
 ALL_CORES="0-70"
-EVENT='cpu/event=0x24,umask=0x24,name=L2I_CODE_RD_MISS/'
+EVENT='cpu/event=0x24,umask=0x24,name=L2I_CODE_RD_MISS/u'
 PROFILE_EVENT='cpu/event=0x24,umask=0x24,name=L2I_CODE_RD_MISS/upp'
 GRPC_CORE_CAP_SO="${ROOT}/llvm_prefetchit/tools/grpc_core_cap.so"
 THREAD_PIN_SO="${ROOT}/llvm_prefetchit/tools/pthread_core_pin.so"

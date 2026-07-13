@@ -31,6 +31,10 @@
 
 using namespace llvm;
 
+#ifndef PREFETCHIT_DEFAULT_PLAN
+#define PREFETCHIT_DEFAULT_PLAN ""
+#endif
+
 static cl::opt<std::string> PrefetchITPlanPath(
     "prefetchit-plan",
     cl::desc("Path to a prefetchit.plan.v1 JSON file"),
@@ -82,6 +86,7 @@ struct Plan {
   std::string DefaultMnemonic = DefaultPrefetchMnemonic.str();
   std::string OperandMode = "pc-relative-symbol-offset";
   std::vector<int64_t> ByteOffsets = {0};
+  unsigned LeadInstructions = 0;
   std::vector<InjectionSpec> Injections;
 };
 
@@ -95,6 +100,7 @@ struct InjectionStats {
   unsigned BlockAddressTarget = 0;
   unsigned TargetBlockEntry = 0;
   unsigned TargetBlockSplit = 0;
+  unsigned LeadAdjustedSites = 0;
   unsigned MissingTargetFunction = 0;
   unsigned MissingTargetLocation = 0;
   unsigned MissingTargetSymbolOffset = 0;
@@ -106,7 +112,9 @@ static std::string getPlanPath() {
   if (!PrefetchITPlanPath.empty())
     return PrefetchITPlanPath;
   const char *EnvPath = std::getenv("PREFETCHIT_PLAN");
-  return EnvPath ? std::string(EnvPath) : std::string();
+  if (EnvPath && *EnvPath)
+    return std::string(EnvPath);
+  return PREFETCHIT_DEFAULT_PLAN;
 }
 
 static std::string lowerTrim(StringRef Raw) {
@@ -276,6 +284,7 @@ static std::optional<Plan> loadPlan(StringRef Path) {
   Loaded.DefaultMnemonic = *NormalizedRootMnemonic;
   if (const json::Object *PrefetchObj = Root->getObject("prefetch")) {
     Loaded.ByteOffsets = getIntegerArray(*PrefetchObj, "byte_offsets", {0});
+    Loaded.LeadInstructions = getUnsigned(*PrefetchObj, "lead_instructions");
     std::string Operand = getString(*PrefetchObj, "operand");
     if (!Operand.empty())
       Loaded.OperandMode = Operand;
@@ -586,6 +595,26 @@ static std::string escapeInlineAsmSymbol(StringRef Symbol) {
   return Out;
 }
 
+static Instruction *moveInsertionEarlier(Instruction &SiteI,
+                                         unsigned LeadInstructions) {
+  if (LeadInstructions == 0)
+    return &SiteI;
+
+  BasicBlock &BB = *SiteI.getParent();
+  BasicBlock::iterator First = BB.getFirstInsertionPt();
+  BasicBlock::iterator It = SiteI.getIterator();
+  if (First == BB.end() || It == First)
+    return &SiteI;
+
+  unsigned Moved = 0;
+  while (It != First && Moved < LeadInstructions) {
+    --It;
+    if (!isa<DbgInfoIntrinsic>(&*It))
+      ++Moved;
+  }
+  return &*It;
+}
+
 static void insertPrefetchBeforeBlockAddress(Module &M, Instruction &SiteI,
                                              Function &TargetF,
                                              BasicBlock &TargetBB,
@@ -691,6 +720,7 @@ public:
         errs() << ",";
       errs() << Loaded->ByteOffsets[I];
     }
+    errs() << " lead_instructions=" << Loaded->LeadInstructions;
     if (OverrideMnemonic)
       errs() << " override_mnemonic=" << *OverrideMnemonic;
     errs() << "\n";
@@ -800,10 +830,14 @@ public:
       unsigned &UseCount = SiteUseCounts[SKey];
       Instruction *SiteI = SiteCandidates[UseCount % SiteCandidates.size()];
       ++UseCount;
+      Instruction *InsertionI =
+          moveInsertionEarlier(*SiteI, Loaded->LeadInstructions);
+      if (InsertionI != SiteI)
+        ++Stats.LeadAdjustedSites;
 
       for (int64_t ByteOffset : Loaded->ByteOffsets) {
         std::string InsertKey =
-            std::to_string(reinterpret_cast<uintptr_t>(SiteI)) + "->" +
+            std::to_string(reinterpret_cast<uintptr_t>(InsertionI)) + "->" +
             TKey + ":" + Mnemonic + ":" + std::to_string(ByteOffset);
         if (!Inserted.insert(InsertKey).second) {
           ++Stats.Duplicate;
@@ -811,14 +845,14 @@ public:
         }
 
         if (PreferSymbolOffset &&
-            insertPrefetchBeforeSymbolOffset(M, *SiteI, Spec.Target, Mnemonic,
-                                             ByteOffset)) {
+            insertPrefetchBeforeSymbolOffset(M, *InsertionI, Spec.Target,
+                                             Mnemonic, ByteOffset)) {
           ++Stats.SymbolOffsetTarget;
           if (!findFunction(M, Spec.Target))
             ++Stats.CrossModuleSymbolOffsetTarget;
         } else if (PreferGotSymbolOffset &&
-                   insertPrefetchBeforeGotSymbolOffset(M, *SiteI, Spec.Target,
-                                                       Mnemonic, ByteOffset)) {
+                   insertPrefetchBeforeGotSymbolOffset(
+                       M, *InsertionI, Spec.Target, Mnemonic, ByteOffset)) {
           ++Stats.GotSymbolOffsetTarget;
         } else {
           if (PreferSymbolOffset || PreferGotSymbolOffset)
@@ -853,7 +887,7 @@ public:
               ++Stats.TargetBlockEntry;
             TargetBlocks[TKey] = TargetBB;
           }
-          insertPrefetchBeforeBlockAddress(M, *SiteI, *TargetF, *TargetBB,
+          insertPrefetchBeforeBlockAddress(M, *InsertionI, *TargetF, *TargetBB,
                                            Mnemonic, ByteOffset);
           ++Stats.BlockAddressTarget;
         }
@@ -871,6 +905,7 @@ public:
            << " blockaddress_target=" << Stats.BlockAddressTarget
            << " target_block_entry=" << Stats.TargetBlockEntry
            << " target_block_split=" << Stats.TargetBlockSplit
+           << " lead_adjusted_sites=" << Stats.LeadAdjustedSites
            << " missing_target_fn=" << Stats.MissingTargetFunction
            << " missing_target_loc=" << Stats.MissingTargetLocation
            << " missing_target_symbol_offset="

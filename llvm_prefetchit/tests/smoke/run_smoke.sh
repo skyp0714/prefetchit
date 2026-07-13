@@ -84,7 +84,8 @@ cat > "${TMP_DIR}/prefetchit.symbol.plan.json" <<JSON
   "prefetch": {
     "mnemonic": "prefetcht1",
     "operand": "pc-relative-symbol-offset",
-    "byte_offsets": [0, 64, 128]
+    "byte_offsets": [0, 64, 128],
+    "lead_instructions": 2
   },
   "injections": [
     {
@@ -161,6 +162,7 @@ grep -q 'prefetcht1 target+0x10(%rip)' "${TMP_DIR}/smoke.symbol.ll"
 grep -q 'prefetcht1 target+0x50(%rip)' "${TMP_DIR}/smoke.symbol.ll"
 grep -q 'prefetcht1 target+0x90(%rip)' "${TMP_DIR}/smoke.symbol.ll"
 grep -q 'symbol_offset_target=3' "${TMP_DIR}/opt.symbol.log"
+grep -q 'lead_adjusted_sites=1' "${TMP_DIR}/opt.symbol.log"
 "${LLC_BIN}" "${TMP_DIR}/smoke.symbol.ll" -o "${TMP_DIR}/smoke.symbol.s"
 grep -Fq 'prefetcht1	target+16(%rip)' "${TMP_DIR}/smoke.symbol.s"
 grep -Fq 'prefetcht1	target+80(%rip)' "${TMP_DIR}/smoke.symbol.s"
