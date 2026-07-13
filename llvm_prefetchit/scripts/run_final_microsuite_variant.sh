@@ -363,6 +363,10 @@ pinner_errors = sum(
     path.read_text(errors="replace").count("ERROR")
     for path in root.glob("*_pinner.log")
 )
+pinner_corrections = sum(
+    path.read_text(errors="replace").count("CORRECT repin")
+    for path in root.glob("*_pinner.log")
+)
 
 def tids(path):
     with path.open(newline="") as handle:
@@ -394,12 +398,14 @@ row = {
     "ipc": instructions / cycles if cycles else 0,
     "context_switches": int(events.get("context-switches", -1)),
     "cpu_migrations": int(migrations),
+    "migration_policy": "allow-pthread-creation-placement; reject-runtime-repin",
     "mid_tids": tids(root / "mid_affinity_measure.csv"),
     "leaf_tids": tids(root / "leaf_affinity_measure.csv"),
     "client_tids": tids(root / "client_affinity_measure.csv"),
     "client_rc": int(client_rc),
     "audit_ok": int(audit_ok),
     "pinner_errors": pinner_errors,
+    "pinner_corrections": pinner_corrections,
     "valid": int(
         int(client_rc) == 0
         and int(record_rc) == 0
@@ -407,8 +413,8 @@ row = {
         and math.isfinite(qps)
         and qps > 0
         and failed == 0
-        and migrations == 0
         and pinner_errors == 0
+        and pinner_corrections == 0
         and (
             int(profile_record) == 0
             or (root / "l2miss_profile.data").stat().st_size > 0

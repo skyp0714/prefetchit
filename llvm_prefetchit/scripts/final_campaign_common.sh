@@ -140,6 +140,8 @@ fc_start_pinner() {
         if [[ "${current_allowed}" == "${core}" ]]; then
           continue
         fi
+        printf "[%(%F %T)T] CORRECT repin pid=%s tid=%s from=%s to=%s\n" \
+          -1 "${pid}" "${tid}" "${current_allowed:-unknown}" "${core}" >> "${log}"
         if ! taskset -pc "${core}" "${tid}" >/dev/null 2>&1; then
           if [[ -d "/proc/${pid}/task/${tid}" ]]; then
             printf "[%(%F %T)T] ERROR taskset-failed pid=%s tid=%s core=%s\n" -1 "${pid}" "${tid}" "${core}" >> "${log}"
@@ -229,6 +231,8 @@ fc_start_tree_pinner() {
         if [[ "${current_allowed}" == "${core}" ]]; then
           continue
         fi
+        printf "[%(%F %T)T] CORRECT repin pid=%s tid=%s from=%s to=%s\n" \
+          -1 "${pid}" "${tid}" "${current_allowed:-unknown}" "${core}" >> "${log}"
         if ! taskset -pc "${core}" "${tid}" >/dev/null 2>&1; then
           if [[ -d "/proc/${pid}/task/${tid}" || -d "/proc/${tid}" ]]; then
             printf "[%(%F %T)T] ERROR taskset-failed pid=%s tid=%s core=%s\n" \
