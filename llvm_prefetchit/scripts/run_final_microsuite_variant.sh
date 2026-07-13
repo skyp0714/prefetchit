@@ -290,6 +290,10 @@ fc_audit_pid_affinity "${MID_PID}" "${MID_CORES}" "${OUT}/mid_affinity_measure.c
 fc_audit_pid_affinity "${LEAF_PID}" "${LEAF_CORES}" "${OUT}/leaf_affinity_measure.csv" || audit_ok=0
 [[ -z "${MEM_PID}" ]] || fc_audit_pid_affinity "${MEM_PID}" "${MEM_CORES}" "${OUT}/mem_affinity_measure.csv" || audit_ok=0
 fc_audit_pid_affinity "${CLIENT_PID}" "${CLIENT_CORES}" "${OUT}/client_affinity_measure.csv" || audit_ok=0
+for pinner_log in "${OUT}"/*_pinner.log; do
+  [[ -f "${pinner_log}" ]] || continue
+  printf '[%(%F %T)T] MEASUREMENT_START\n' -1 >> "${pinner_log}"
+done
 
 record_rc=0
 if ((PROFILE_RECORD == 1)); then
@@ -363,10 +367,16 @@ pinner_errors = sum(
     path.read_text(errors="replace").count("ERROR")
     for path in root.glob("*_pinner.log")
 )
-pinner_corrections = sum(
-    path.read_text(errors="replace").count("CORRECT repin")
-    for path in root.glob("*_pinner.log")
-)
+def correction_counts(path):
+    text = path.read_text(errors="replace")
+    total = text.count("CORRECT repin")
+    marker = text.rfind("MEASUREMENT_START")
+    runtime = text[marker:].count("CORRECT repin") if marker >= 0 else total
+    return total, runtime
+
+correction_pairs = [correction_counts(path) for path in root.glob("*_pinner.log")]
+pinner_corrections_total = sum(pair[0] for pair in correction_pairs)
+pinner_corrections = sum(pair[1] for pair in correction_pairs)
 
 def tids(path):
     with path.open(newline="") as handle:
@@ -405,6 +415,7 @@ row = {
     "client_rc": int(client_rc),
     "audit_ok": int(audit_ok),
     "pinner_errors": pinner_errors,
+    "pinner_corrections_total": pinner_corrections_total,
     "pinner_corrections": pinner_corrections,
     "valid": int(
         int(client_rc) == 0
