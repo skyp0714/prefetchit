@@ -46,6 +46,12 @@ def parse_args() -> argparse.Namespace:
     ap.add_argument("--depth", type=int, default=24)
     ap.add_argument("--depth-min", type=int, default=4)
     ap.add_argument("--site-budget-per-target", type=int, default=8)
+    ap.add_argument(
+        "--selection-mode",
+        choices=("top-sites", "greedy"),
+        default="top-sites",
+        help="Site selection policy; greedy maximizes marginal sample coverage",
+    )
     ap.add_argument("--prefetch-mnemonic", default="prefetcht0")
     ap.add_argument("--prefetch-byte-offsets", default="0")
     ap.add_argument("--addr2line", default="llvm-addr2line-19")
@@ -294,6 +300,8 @@ def main() -> None:
     injections = []
     top_rows = []
     site_rows = []
+    covered_selected_target_samples = 0
+    selected_target_samples = 0
     for target_rank, ((public, target_offset), target_count) in enumerate(selected_targets, 1):
         target_key = (public, target_offset)
         top_rows.append(
@@ -311,11 +319,35 @@ def main() -> None:
             for addr, sample_set in samples_by_site[target_key].items()
             if loc_ok(addr)
         }
-        pool = sorted(site_map.items(), key=lambda kv: (-len(kv[1]), kv[0]))[
-            : args.site_budget_per_target
-        ]
-        covered = set()
-        for site_rank, (site_addr, sample_set) in enumerate(pool, 1):
+        target_samples = set().union(*site_map.values()) if site_map else set()
+        if args.selection_mode == "greedy":
+            selected_sites = p2p.greedy_select_sites(
+                site_map,
+                target_samples,
+                args.site_budget_per_target,
+                candidate_pool=0,
+            )
+        else:
+            selected_sites = []
+            remaining = set(target_samples)
+            for site_addr, sample_set in sorted(
+                site_map.items(), key=lambda kv: (-len(kv[1]), kv[0])
+            )[: args.site_budget_per_target]:
+                new_cover = len(sample_set & remaining)
+                remaining -= sample_set
+                selected_sites.append(
+                    {
+                        "site_addr": site_addr,
+                        "site_samples": len(sample_set),
+                        "new_covered_samples": new_cover,
+                        "cumulative_covered_samples": len(target_samples) - len(remaining),
+                    }
+                )
+
+        selected_target_samples += target_count
+        for site_rank, selected_site in enumerate(selected_sites, 1):
+            site_addr = selected_site["site_addr"]
+            sample_set = site_map[site_addr]
             meta = site_meta[target_key][site_addr]
             branch_type = (
                 meta["branch_types"].most_common(1)[0][0]
@@ -323,18 +355,18 @@ def main() -> None:
                 else "UNKNOWN"
             )
             depth = meta["depths"].most_common(1)[0][0] if meta["depths"] else 0
-            new_cover = len(sample_set - covered)
-            covered |= set(sample_set)
+            new_cover = selected_site["new_covered_samples"]
+            cumulative_covered = selected_site["cumulative_covered_samples"]
             site_loc = site_locs.get(site_addr, p2p.SourceLoc(function="", file="", line=0))
             site_sym = symbols.symbol_at(site_addr)
-            coverage_pct = 100.0 * len(covered) / target_count if target_count else 0.0
+            coverage_pct = 100.0 * cumulative_covered / target_count if target_count else 0.0
             injection = {
                 "target_rank": target_rank,
                 "site_rank": site_rank,
                 "prefetch_mnemonic": args.prefetch_mnemonic,
                 "samples": len(sample_set),
                 "new_covered_samples": new_cover,
-                "cumulative_covered_samples": len(covered),
+                "cumulative_covered_samples": cumulative_covered,
                 "cumulative_coverage_pct": round(coverage_pct, 4),
                 "target": {
                     "addr": hex(target_offset),
@@ -375,6 +407,10 @@ def main() -> None:
                     "site_mangled": site_sym.raw if site_sym else "",
                 }
             )
+        if selected_sites:
+            covered_selected_target_samples += selected_sites[-1][
+                "cumulative_covered_samples"
+            ]
 
     plan = {
         "schema": "prefetchit.plan.v1",
@@ -391,6 +427,7 @@ def main() -> None:
             "depth": args.depth,
             "depth_min": args.depth_min,
             "site_budget_per_target": args.site_budget_per_target,
+            "selection_mode": args.selection_mode,
             "prefetch_mnemonic": args.prefetch_mnemonic,
             "prefetch_byte_offsets": byte_offsets,
         },
@@ -411,6 +448,13 @@ def main() -> None:
             "selected_targets": len(selected_targets),
             "selected_injections": len(injections),
             "planned_prefetches": len(injections) * len(byte_offsets),
+            "selected_target_samples": selected_target_samples,
+            "covered_selected_target_samples": covered_selected_target_samples,
+            "selected_site_dynamic_coverage_pct": (
+                100.0 * covered_selected_target_samples / selected_target_samples
+                if selected_target_samples
+                else 0.0
+            ),
         },
         "injections": injections,
     }
