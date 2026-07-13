@@ -23,6 +23,8 @@ MEASURE_SETTLE_DURATION="${MEASURE_SETTLE_DURATION:-0}"
 GRPC_CORE_CAP="${GRPC_CORE_CAP:-0}"
 PROFILE_RECORD="${PROFILE_RECORD:-0}"
 PROFILE_SAMPLE_PERIOD="${PROFILE_SAMPLE_PERIOD:-50000}"
+DISABLE_ASLR="${DISABLE_ASLR:-0}"
+ROUTER_PREPOPULATE="${ROUTER_PREPOPULATE:-0}"
 DEPTH="${DEPTH:-32}"
 PARALLELISM="${PARALLELISM:-4}"
 DISPATCH="${DISPATCH:-4}"
@@ -42,6 +44,11 @@ THREAD_PIN_SO="${ROOT}/llvm_prefetchit/tools/pthread_core_pin.so"
 source "${COMMON}"
 export LD_LIBRARY_PATH="${DEPROOT}/usr/lib:${DEPROOT}/usr/lib/x86_64-linux-gnu${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}"
 export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1
+
+ASLR_PREFIX=()
+if ((DISABLE_ASLR == 1)); then
+  ASLR_PREFIX=(setarch "$(uname -m)" -R)
+fi
 
 MEM_PID=""
 LEAF_PID=""
@@ -136,18 +143,25 @@ fc_assert_frequency "${ALL_CORES}" "${OUT}/frequency_start.csv"
 case "${BENCHMARK}" in
   router)
     printf '127.0.0.1:61251\n' > "${OUT}/leaf_ips.txt"
-    taskset -c 1 "${MEM_ENV[@]}" memcached -p 61211 -u "${USER}" -t 2 -m 256 >"${OUT}/memcached.log" 2>&1 &
+    taskset -c 1 "${ASLR_PREFIX[@]}" "${MEM_ENV[@]}" \
+      memcached -p 61211 -u "${USER}" -t 2 -m 256 >"${OUT}/memcached.log" 2>&1 &
     MEM_PID="$!"
     start_pinner "${MEM_PID}" "${MEM_CORES}" memcached
+    wait_port 61211 "${MEM_PID}"
+    if ((ROUTER_PREPOPULATE == 1)); then
+      python3 "${ROOT}/llvm_prefetchit/tools/populate_router_memcached.py" \
+        --input "${DATA}/router_queries.bin" --port 61211 \
+        > "${OUT}/memcached_population.json"
+    fi
 
-    taskset -c 9 "${LEAF_ENV[@]}" \
+    taskset -c 9 "${ASLR_PREFIX[@]}" "${LEAF_ENV[@]}" \
       "${SRC}/Router/lookup_service/service/lookup_server" \
       127.0.0.1:61251 61211 2 1 >"${OUT}/leaf.log" 2>&1 &
     LEAF_PID="$!"
     start_pinner "${LEAF_PID}" "${LEAF_CORES}" leaf
     wait_port 61251 "${LEAF_PID}"
 
-    taskset -c 21 "${MID_ENV[@]}" "${MID_BINARY}" \
+    taskset -c 21 "${ASLR_PREFIX[@]}" "${MID_ENV[@]}" "${MID_BINARY}" \
       1 "${OUT}/leaf_ips.txt" 127.0.0.1:61250 \
       "${PARALLELISM}" "${DISPATCH}" "${RESPONSES}" 1 \
       >"${OUT}/mid.log" 2>&1 &
@@ -162,7 +176,7 @@ case "${BENCHMARK}" in
     ;;
   setalgebra)
     printf '127.0.0.1:62251\n' > "${OUT}/leaf_ips.txt"
-    taskset -c 9 "${LEAF_ENV[@]}" \
+    taskset -c 9 "${ASLR_PREFIX[@]}" "${LEAF_ENV[@]}" \
       "${SRC}/SetAlgebra/intersection_service/service/intersection_server" \
       127.0.0.1:62251 "${DATA}/set_dataset.txt" 2 1 1 \
       >"${OUT}/leaf.log" 2>&1 &
@@ -170,7 +184,7 @@ case "${BENCHMARK}" in
     start_pinner "${LEAF_PID}" "${LEAF_CORES}" leaf
     wait_port 62251 "${LEAF_PID}"
 
-    taskset -c 21 "${MID_ENV[@]}" "${MID_BINARY}" \
+    taskset -c 21 "${ASLR_PREFIX[@]}" "${MID_ENV[@]}" "${MID_BINARY}" \
       1 "${OUT}/leaf_ips.txt" 127.0.0.1:62250 \
       "${PARALLELISM}" "${DISPATCH}" "${RESPONSES}" \
       >"${OUT}/mid.log" 2>&1 &
@@ -187,7 +201,7 @@ case "${BENCHMARK}" in
     HD_DATA="${ROOT}/llvm_prefetchit/work/datacenter_goal_20260708/microsuite/hdsearch_synth_data_8192"
     HD_LOADGEN="${HD_LOADGEN:-${SRC}/HDSearch/load_generator/load_generator_closed_loop}"
     printf '127.0.0.1:64251\n' > "${OUT}/leaf_ips.txt"
-    taskset -c 9 "${LEAF_ENV[@]}" \
+    taskset -c 9 "${ASLR_PREFIX[@]}" "${LEAF_ENV[@]}" \
       "${SRC}/HDSearch/bucket_service/service/bucket_server" \
       "${HD_DATA}/dataset.bin" 127.0.0.1:64251 2 1 0 1 \
       >"${OUT}/leaf.log" 2>&1 &
@@ -195,7 +209,7 @@ case "${BENCHMARK}" in
     start_pinner "${LEAF_PID}" "${LEAF_CORES}" leaf
     wait_port 64251 "${LEAF_PID}"
 
-    taskset -c 21 "${MID_ENV[@]}" "${MID_BINARY}" \
+    taskset -c 21 "${ASLR_PREFIX[@]}" "${MID_ENV[@]}" "${MID_BINARY}" \
       "${HD_HASH_TABLES:-8}" "${HD_KEY_LENGTH:-12}" "${HD_PROBES:-2}" \
       1 "${OUT}/leaf_ips.txt" "${HD_DATA}/dataset.bin" 2 \
       127.0.0.1:64250 "${PARALLELISM}" "${DISPATCH}" "${RESPONSES}" 0 \
@@ -212,7 +226,7 @@ case "${BENCHMARK}" in
     ;;
   recommend)
     printf '127.0.0.1:63251\n' > "${OUT}/leaf_ips.txt"
-    taskset -c 9 "${LEAF_ENV[@]}" \
+    taskset -c 9 "${ASLR_PREFIX[@]}" "${LEAF_ENV[@]}" \
       "${SRC}/Recommend/cf_service/service/cf_server" \
       "${DATA}/recommend_dataset.csv" 127.0.0.1:63251 1 2 1 1 \
       >"${OUT}/leaf.log" 2>&1 &
@@ -220,7 +234,7 @@ case "${BENCHMARK}" in
     start_pinner "${LEAF_PID}" "${LEAF_CORES}" leaf
     wait_port 63251 "${LEAF_PID}"
 
-    taskset -c 21 "${MID_ENV[@]}" "${MID_BINARY}" \
+    taskset -c 21 "${ASLR_PREFIX[@]}" "${MID_ENV[@]}" "${MID_BINARY}" \
       1 "${OUT}/leaf_ips.txt" 127.0.0.1:63250 \
       "${PARALLELISM}" "${DISPATCH}" "${RESPONSES}" \
       >"${OUT}/mid.log" 2>&1 &
@@ -253,7 +267,8 @@ if ((PREWARM_DURATION > 0)); then
   done
   ((replaced == 1)) || { echo 'could not set prewarm duration' >&2; exit 1; }
   PREWARM_COMMAND[$((duration_index + 1))]="${PREWARM_DEPTH}"
-  taskset -c 56 "${CLIENT_ENV[@]}" "${PREWARM_COMMAND[@]}" >"${OUT}/prewarm_loadgen.log" 2>&1 &
+  taskset -c 56 "${ASLR_PREFIX[@]}" "${CLIENT_ENV[@]}" \
+    "${PREWARM_COMMAND[@]}" >"${OUT}/prewarm_loadgen.log" 2>&1 &
   CLIENT_PID="$!"
   start_pinner "${CLIENT_PID}" "${CLIENT_CORES}" prewarm_client
   set +e
@@ -280,7 +295,8 @@ if ((MEASURE_SETTLE_DURATION > 0)); then
   ((replaced == 1)) || { echo 'could not extend measurement duration' >&2; exit 1; }
 fi
 
-taskset -c 56 "${CLIENT_ENV[@]}" "${MEASURE_COMMAND[@]}" >"${OUT}/loadgen.log" 2>&1 &
+taskset -c 56 "${ASLR_PREFIX[@]}" "${CLIENT_ENV[@]}" \
+  "${MEASURE_COMMAND[@]}" >"${OUT}/loadgen.log" 2>&1 &
 CLIENT_PID="$!"
 start_pinner "${CLIENT_PID}" "${CLIENT_CORES}" client
 
@@ -327,7 +343,7 @@ fc_assert_frequency "${ALL_CORES}" "${OUT}/frequency_end.csv" || audit_ok=0
 python3 - "${OUT}" "${BENCHMARK}" "${LABEL}" "${MID_BINARY}" "${DURATION}" "${DEPTH}" \
   "${PARALLELISM}" "${DISPATCH}" "${RESPONSES}" "${PREWARM_DURATION}" "${PREWARM_DEPTH}" \
   "${MEASURE_SETTLE_DURATION}" "${GRPC_CORE_CAP}" "${PROFILE_RECORD}" "${PROFILE_SAMPLE_PERIOD}" "${record_rc}" \
-  "${client_rc}" "${audit_ok}" <<'PY'
+  "${DISABLE_ASLR}" "${ROUTER_PREPOPULATE}" "${client_rc}" "${audit_ok}" <<'PY'
 import csv
 import json
 import math
@@ -338,7 +354,8 @@ import sys
 (out, benchmark, label, binary, duration, depth, parallelism, dispatch,
  responses_cfg, prewarm_duration, prewarm_depth, measure_settle_duration,
  grpc_core_cap, profile_record,
- profile_sample_period, record_rc, client_rc, audit_ok) = sys.argv[1:]
+ profile_sample_period, record_rc, disable_aslr, router_prepopulate,
+ client_rc, audit_ok) = sys.argv[1:]
 root = pathlib.Path(out)
 text = (root / "loadgen.log").read_text(errors="replace")
 numbers = [
@@ -394,6 +411,8 @@ row = {
     "grpc_core_cap": int(grpc_core_cap),
     "profile_record": int(profile_record),
     "profile_sample_period": int(profile_sample_period),
+    "disable_aslr": int(disable_aslr),
+    "router_prepopulate": int(router_prepopulate),
     "record_rc": int(record_rc),
     "depth": int(depth),
     "parallelism": int(parallelism),
@@ -425,6 +444,7 @@ row = {
         and math.isfinite(qps)
         and qps > 0
         and failed == 0
+        and int(migrations) == 0
         and pinner_errors == 0
         and pinner_corrections == 0
         and (

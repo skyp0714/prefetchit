@@ -19,6 +19,8 @@ PREWARM_DURATION="${PREWARM_DURATION:-0}"
 PREWARM_DEPTH="${PREWARM_DEPTH:-32}"
 MEASURE_SETTLE_DURATION="${MEASURE_SETTLE_DURATION:-25}"
 GRPC_CORE_CAP="${GRPC_CORE_CAP:-6}"
+DISABLE_ASLR="${DISABLE_ASLR:-0}"
+ROUTER_PREPOPULATE="${ROUTER_PREPOPULATE:-0}"
 EXPECTED_MID_TIDS="${EXPECTED_MID_TIDS:-0}"
 REQUIRE_MATCHED_MID_TIDS="${REQUIRE_MATCHED_MID_TIDS:-0}"
 DEPTH="${DEPTH:-32}"
@@ -41,6 +43,7 @@ run_valid() {
       PREWARM_DEPTH="${PREWARM_DEPTH}" \
       MEASURE_SETTLE_DURATION="${MEASURE_SETTLE_DURATION}" \
       GRPC_CORE_CAP="${GRPC_CORE_CAP}" \
+      DISABLE_ASLR="${DISABLE_ASLR}" ROUTER_PREPOPULATE="${ROUTER_PREPOPULATE}" \
       DEPTH="${DEPTH}" PARALLELISM="${PARALLELISM}" DISPATCH="${DISPATCH}" \
       RESPONSES="${RESPONSES}" \
       "${RUNNER}" "${BENCHMARK}" "pair${pair}_${variant}" "${binary}" "${run}"
@@ -88,7 +91,7 @@ done
 
 python3 - "${OUT}" "${DURATION}" "${PREWARM_DURATION}" \
   "${MEASURE_SETTLE_DURATION}" "${GRPC_CORE_CAP}" "${EXPECTED_MID_TIDS}" \
-  "${REQUIRE_MATCHED_MID_TIDS}" <<'PY'
+  "${REQUIRE_MATCHED_MID_TIDS}" "${DISABLE_ASLR}" "${ROUTER_PREPOPULATE}" <<'PY'
 import csv
 import json
 import math
@@ -104,6 +107,8 @@ root = pathlib.Path(sys.argv[1])
     grpc_core_cap,
     expected_mid_tids,
     require_matched_mid_tids,
+    disable_aslr,
+    router_prepopulate,
 ) = (
     int(value) for value in sys.argv[2:]
 )
@@ -157,6 +162,8 @@ summary = {
         "grpc_core_cap": grpc_core_cap,
         "expected_mid_tids": expected_mid_tids,
         "require_matched_mid_tids": require_matched_mid_tids,
+        "disable_aslr": disable_aslr,
+        "router_prepopulate": router_prepopulate,
     },
     "speedup": stats([row["speedup"] for row in pair_rows]),
     "l2i_reduction_pct": stats([row["l2i_reduction_pct"] for row in pair_rows]),

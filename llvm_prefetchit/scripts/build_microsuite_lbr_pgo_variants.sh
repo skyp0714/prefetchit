@@ -16,6 +16,7 @@ BENCHMARK="$1"
 PLANS="$(readlink -f "$2")"
 OUT="$(readlink -m "$3")"
 GRPC_MAX_THREADS="${GRPC_MAX_THREADS:-8}"
+FULL_REBUILD="${FULL_REBUILD:-0}"
 
 COMMON_FLAGS=(
   -O3 -g -fno-omit-frame-pointer -pthread -fopenmp=libgomp -Wall
@@ -62,6 +63,22 @@ case "${BENCHMARK}" in
       -DPREFETCHIT_HD_LSH_DATA_LINES=0 -DPREFETCHIT_HD_LSH_LOOKAHEAD=0
       -DPREFETCHIT_HD_LSH_PREFETCH_LOCALITY=3
     )
+    if ((FULL_REBUILD == 1)); then
+      REBUILD_SOURCES=(
+        "${SRC}/protoc_files/lookup.pb.cc"
+        "${SRC}/protoc_files/lookup.grpc.pb.cc"
+        "${SRC}/protoc_files/router.pb.cc"
+        "${SRC}/protoc_files/router.grpc.pb.cc"
+        "${SRC}/mid_tier_service/src/spookyhash.cc"
+        "${SRC}/lookup_service/service/helper_files/client_helper.cc"
+        "${SRC}/mid_tier_service/service/helper_files/router_server_helper.cc"
+        "${SRC}/mid_tier_service/service/helper_files/timing.cc"
+        "${SRC}/mid_tier_service/service/helper_files/utils.cc"
+        "${MAIN}"
+      )
+      LINK_PREFIX=()
+      LINK_MIDDLE=()
+    fi
     ;;
   setalgebra)
     SRC="${SUITE}/SetAlgebra"

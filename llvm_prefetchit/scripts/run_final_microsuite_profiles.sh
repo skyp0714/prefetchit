@@ -18,7 +18,10 @@ REPS="${REPS:-5}"
 DURATION="${DURATION:-30}"
 PREWARM_DURATION="${PREWARM_DURATION:-120}"
 PREWARM_DEPTH="${PREWARM_DEPTH:-64}"
+MEASURE_SETTLE_DURATION="${MEASURE_SETTLE_DURATION:-25}"
 GRPC_CORE_CAP="${GRPC_CORE_CAP:-6}"
+DISABLE_ASLR="${DISABLE_ASLR:-0}"
+ROUTER_PREPOPULATE="${ROUTER_PREPOPULATE:-0}"
 DEPTH="${DEPTH:-32}"
 PARALLELISM="${PARALLELISM:-4}"
 DISPATCH="${DISPATCH:-4}"
@@ -29,9 +32,10 @@ EVENT='cpu/event=0x24,umask=0x24,name=L2I_CODE_RD_MISS/upp'
 
 mkdir -p "${OUT}"
 sha256sum "${BINARY}" > "${OUT}/profile_binary.sha256"
-printf 'benchmark=%s\nbinary=%s\nreps=%s\nduration_s=%s\nprewarm_duration_s=%s\nprewarm_depth=%s\ngrpc_core_cap=%s\ndepth=%s\nparallelism=%s\ndispatch=%s\nresponses=%s\nsample_period=%s\nmax_attempts_per_rep=%s\n' \
+printf 'benchmark=%s\nbinary=%s\nreps=%s\nduration_s=%s\nprewarm_duration_s=%s\nprewarm_depth=%s\nmeasure_settle_duration_s=%s\ngrpc_core_cap=%s\ndisable_aslr=%s\nrouter_prepopulate=%s\ndepth=%s\nparallelism=%s\ndispatch=%s\nresponses=%s\nsample_period=%s\nmax_attempts_per_rep=%s\n' \
   "${BENCHMARK}" "${BINARY}" "${REPS}" "${DURATION}" "${PREWARM_DURATION}" \
-  "${PREWARM_DEPTH}" "${GRPC_CORE_CAP}" "${DEPTH}" "${PARALLELISM}" \
+  "${PREWARM_DEPTH}" "${MEASURE_SETTLE_DURATION}" "${GRPC_CORE_CAP}" \
+  "${DISABLE_ASLR}" "${ROUTER_PREPOPULATE}" "${DEPTH}" "${PARALLELISM}" \
   "${DISPATCH}" "${RESPONSES}" "${PROFILE_SAMPLE_PERIOD}" \
   "${MAX_ATTEMPTS_PER_REP}" > "${OUT}/campaign.conf"
 printf 'rep,attempt,status,samples,qps,cpu_migrations,mid_tids,trace_dir\n' > "${OUT}/profiles.csv"
@@ -49,6 +53,8 @@ for rep in $(seq 1 "${REPS}"); do
     PROFILE_RECORD=1 PROFILE_SAMPLE_PERIOD="${PROFILE_SAMPLE_PERIOD}" \
       DURATION="${DURATION}" PREWARM_DURATION="${PREWARM_DURATION}" \
       PREWARM_DEPTH="${PREWARM_DEPTH}" GRPC_CORE_CAP="${GRPC_CORE_CAP}" \
+      MEASURE_SETTLE_DURATION="${MEASURE_SETTLE_DURATION}" \
+      DISABLE_ASLR="${DISABLE_ASLR}" ROUTER_PREPOPULATE="${ROUTER_PREPOPULATE}" \
       DEPTH="${DEPTH}" PARALLELISM="${PARALLELISM}" DISPATCH="${DISPATCH}" \
       RESPONSES="${RESPONSES}" \
       "${RUNNER}" "${BENCHMARK}" "profile_rep${rep}" "${BINARY}" "${run}"

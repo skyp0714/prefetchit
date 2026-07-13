@@ -17,6 +17,15 @@ EXTERNAL_PLANNER="${ROOT}/tools/prefetchit_external_got_plan.py"
 MERGER="${ROOT}/tools/merge_prefetch_plans.py"
 DERIVER="${ROOT}/tools/derive_prefetch_plan.py"
 READELF="${READELF:-llvm-readelf-19}"
+SELECTION_MODE="${SELECTION_MODE:-top-sites}"
+
+case "${SELECTION_MODE}" in
+  top-sites|greedy) ;;
+  *)
+    echo "unsupported SELECTION_MODE=${SELECTION_MODE}; expected top-sites or greedy" >&2
+    exit 2
+    ;;
+esac
 
 [[ -x "${BINARY}" && -x "${SOURCE_BINARY}" ]] || {
   echo "missing executable binary: validation=${BINARY} source=${SOURCE_BINARY}" >&2
@@ -65,6 +74,7 @@ mkdir -p "${OUT}/base" "${OUT}/variants"
   printf 'validation_sha256=%s\n' "$(sha256sum "${BINARY}" | awk '{print $1}')"
   printf 'source_binary=%s\n' "${SOURCE_BINARY}"
   printf 'source_sha256=%s\n' "$(sha256sum "${SOURCE_BINARY}" | awk '{print $1}')"
+  printf 'selection_mode=%s\n' "${SELECTION_MODE}"
 } > "${OUT}/binary_layout.conf"
 printf 'benchmark,label,coverage_pct,depth_min,depth_max,site_budget,byte_offsets,injections,prefetches,targets,plan\n' \
   > "${OUT}/plan_matrix.csv"
@@ -93,7 +103,7 @@ for coverage in 25 50 75 100; do
       --validation-binary "${BINARY}" --output "${base}/internal/prefetchit.plan.json" \
       --summary-dir "${base}/internal" --top-k 999999 --target-coverage-pct "${coverage}" \
       --depth-min 1 --depth 32 --site-budget-per-target 32 --candidate-pool 0 \
-      --selection-mode top-sites --target-ip-source lbr-to --allow-unresolved-targets \
+      --selection-mode "${SELECTION_MODE}" --target-ip-source lbr-to --allow-unresolved-targets \
       --prefetch-mnemonic prefetcht1 --prefetch-byte-offsets 0 \
       > "${base}/internal/plan.log" 2>&1
   fi
@@ -101,7 +111,8 @@ for coverage in 25 50 75 100; do
     python3 "${EXTERNAL_PLANNER}" "${trace_args[@]}" --binary "${BINARY}" \
       --output "${base}/external/prefetchit.plan.json" --summary-dir "${base}/external" \
       --target-coverage-pct "${coverage}" --depth-min 1 --depth 32 \
-      --site-budget-per-target 32 --prefetch-mnemonic prefetcht1 \
+      --site-budget-per-target 32 --selection-mode "${SELECTION_MODE}" \
+      --prefetch-mnemonic prefetcht1 \
       --prefetch-byte-offsets 0 > "${base}/external/plan.log" 2>&1
   fi
   python3 "${MERGER}" --label "${BENCHMARK}_cov${coverage}_full" \
@@ -122,6 +133,19 @@ done
 for depth_min in 4 8; do
   derive 100 "${depth_min}" 32 16 0 "cov100_d${depth_min}_32_b16_o0"
   derive 100 "${depth_min}" 32 16 0,64 "cov100_d${depth_min}_32_b16_o064"
+done
+
+# Lower-coverage plans are usually the best overhead/timeliness tradeoff. Keep
+# explicit earlier-history variants so screens can remove depth-1--3 sites.
+for coverage in 25 50; do
+  for depth_min in 4 8; do
+    for budget in 4 8; do
+      derive "${coverage}" "${depth_min}" 32 "${budget}" 0 \
+        "cov${coverage}_d${depth_min}_32_b${budget}_o0"
+      derive "${coverage}" "${depth_min}" 32 "${budget}" 0,64 \
+        "cov${coverage}_d${depth_min}_32_b${budget}_o064"
+    done
+  done
 done
 
 python3 - "${BENCHMARK}" "${PROFILES}" "${OUT}" "${BINARY}" "${SOURCE_BINARY}" <<'PY'
