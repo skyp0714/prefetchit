@@ -119,6 +119,50 @@ static void *run_pinned(void *opaque) {
     return result;
 }
 
+static int make_pinned_attr(const pthread_attr_t *source,
+                            pthread_attr_t *pinned_attr, int core) {
+    cpu_set_t mask;
+
+    if (pthread_attr_init(pinned_attr) != 0) {
+        return 0;
+    }
+    if (source != NULL) {
+        int value;
+        size_t size;
+        struct sched_param sched;
+
+        if (pthread_attr_getdetachstate(source, &value) == 0) {
+            pthread_attr_setdetachstate(pinned_attr, value);
+        }
+        if (pthread_attr_getguardsize(source, &size) == 0) {
+            pthread_attr_setguardsize(pinned_attr, size);
+        }
+        if (pthread_attr_getscope(source, &value) == 0) {
+            pthread_attr_setscope(pinned_attr, value);
+        }
+        if (pthread_attr_getschedpolicy(source, &value) == 0) {
+            pthread_attr_setschedpolicy(pinned_attr, value);
+        }
+        if (pthread_attr_getschedparam(source, &sched) == 0) {
+            pthread_attr_setschedparam(pinned_attr, &sched);
+        }
+        if (pthread_attr_getinheritsched(source, &value) == 0) {
+            pthread_attr_setinheritsched(pinned_attr, value);
+        }
+        if (pthread_attr_getstacksize(source, &size) == 0) {
+            pthread_attr_setstacksize(pinned_attr, size);
+        }
+    }
+
+    CPU_ZERO(&mask);
+    CPU_SET(core, &mask);
+    if (pthread_attr_setaffinity_np(pinned_attr, sizeof(mask), &mask) != 0) {
+        pthread_attr_destroy(pinned_attr);
+        return 0;
+    }
+    return 1;
+}
+
 int pthread_create(pthread_t *thread, const pthread_attr_t *attr,
                    void *(*start_routine)(void *), void *argument) {
     struct pinned_start *start;
@@ -149,18 +193,9 @@ int pthread_create(pthread_t *thread, const pthread_attr_t *attr,
     start->argument = argument;
     start->core = pin_cores[index];
     start->core_index = index;
-    if (attr == NULL) {
-        cpu_set_t mask;
-        CPU_ZERO(&mask);
-        CPU_SET(start->core, &mask);
-        if (pthread_attr_init(&pinned_attr) == 0) {
-            if (pthread_attr_setaffinity_np(&pinned_attr, sizeof(mask), &mask) == 0) {
-                create_attr = &pinned_attr;
-                has_pinned_attr = 1;
-            } else {
-                pthread_attr_destroy(&pinned_attr);
-            }
-        }
+    if (make_pinned_attr(attr, &pinned_attr, start->core)) {
+        create_attr = &pinned_attr;
+        has_pinned_attr = 1;
     }
     int rc = real_pthread_create(thread, create_attr, run_pinned, start);
     if (has_pinned_attr) {
