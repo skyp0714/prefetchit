@@ -88,9 +88,9 @@ PGO_UPDATES = {
         "pgo_mpki_baseline": math.nan,
         "pgo_mpki_prefetch": math.nan,
         "pgo_mpki_reduction_pct": math.nan,
-        "pgo_variant": "corrected coverage matrix generation in progress",
-        "pgo_status": "in progress: 3 valid profiles complete; injection not measured",
-        "pgo_evidence": "results/pgo_lbr_path_20260712/profiles/postgresql",
+        "pgo_variant": "40-plan cov25/50/75/100, budget 4/8/16/32, target-only/+next matrix",
+        "pgo_status": "matrix complete with layout-matched DWARF companion; performance pending",
+        "pgo_evidence": "results/pgo_lbr_path_20260712/matrices/postgresql/audit_summary.json",
     },
 }
 
@@ -310,6 +310,40 @@ def build_coverage_details() -> list[dict[str, object]]:
     return rows
 
 
+def build_plan_audit() -> list[dict[str, object]]:
+    rows: list[dict[str, object]] = []
+    for benchmark, directory in PROFILE_DIRS.items():
+        path = CAMPAIGN / "matrices" / directory.replace("_exact", "") / "audit_summary.json"
+        if not path.exists():
+            path = CAMPAIGN / "matrices" / benchmark.lower() / "audit_summary.json"
+        if not path.exists():
+            continue
+        with path.open(encoding="utf-8") as handle:
+            audit = json.load(handle)
+        for coverage in [25, 50, 75, 100]:
+            item = audit.get(f"cov{coverage}")
+            if not item:
+                continue
+            internal = item["internal"]
+            external = item["external"]
+            combined = item["combined"]
+            rows.append({
+                "benchmark": benchmark,
+                "coverage_pct": coverage,
+                "internal_targets": internal.get("selected_targets", 0),
+                "internal_targets_with_injections": internal.get("selected_targets_with_injections", 0),
+                "internal_source_resolved_sites": internal.get("candidate_sites_after_source_resolution", 0),
+                "internal_injections": internal.get("selected_injections", 0),
+                "external_targets": external.get("selected_targets", 0),
+                "external_injections": external.get("selected_injections", 0),
+                "combined_targets": combined.get("selected_targets", 0),
+                "combined_injections": combined.get("selected_injections", 0),
+                "selected_site_dynamic_coverage_pct": internal.get("selected_site_dynamic_coverage_pct", ""),
+                "evidence": str(path.relative_to(ROOT)),
+            })
+    return rows
+
+
 def plot(rows: list[dict[str, object]], metric: str, error: str, ylabel: str, filename: str) -> None:
     by_name = {str(row["benchmark"]): row for row in rows}
     selected = [by_name[name] for name in GRAPH_ORDER]
@@ -393,7 +427,11 @@ def fmt(value: object, digits: int = 3, suffix: str = "") -> str:
     return f"{number(value):.{digits}f}{suffix}" if finite(value) else "-"
 
 
-def write_report(rows: list[dict[str, object]], coverage: list[dict[str, object]]) -> None:
+def write_report(
+    rows: list[dict[str, object]],
+    coverage: list[dict[str, object]],
+    plan_audit: list[dict[str, object]],
+) -> None:
     table = [
         "| suite | benchmark | method | speedup | PGO speedup | lines | L2I MPKI base -> pref | target policy | cannot inject / status | manual code change |",
         "|---|---|---|---:|---:|---:|---:|---|---|---|",
@@ -423,6 +461,23 @@ def write_report(rows: list[dict[str, object]], coverage: list[dict[str, object]
             f'{fmt(row.get("top10_jaccard"))} / {fmt(row.get("top10_sample_overlap"))} | '
             f'{branch_mix} | {fmt(row.get("pgo_screen_speedup"), 3, "x")} | '
             f'{fmt(row.get("pgo_mpki_reduction_pct"), 2, "%")} | {row.get("pgo_status")} |'
+        )
+
+    plan_by_benchmark: dict[str, list[dict[str, object]]] = {}
+    for row in plan_audit:
+        plan_by_benchmark.setdefault(str(row["benchmark"]), []).append(row)
+    plan_table = [
+        "| benchmark | combined targets at 25/50/75/100% | combined injections at 25/50/75/100% | source-resolved sites at 100% |",
+        "|---|---:|---:|---:|",
+    ]
+    for benchmark in ["Router", "SetAlgebra", "Recommend", "HDSearch", "memcached", "PostgreSQL"]:
+        items = sorted(plan_by_benchmark.get(benchmark, []), key=lambda item: int(item["coverage_pct"]))
+        if not items:
+            continue
+        targets = "/".join(str(item["combined_targets"]) for item in items)
+        injections = "/".join(str(item["combined_injections"]) for item in items)
+        plan_table.append(
+            f'| {benchmark} | {targets} | {injections} | {items[-1]["internal_source_resolved_sites"]} |'
         )
 
     accepted = [
@@ -456,19 +511,25 @@ The goal API reports only `status=blocked`; it contains no blocker reason. CPU p
 
 {chr(10).join(pgo_table)}
 
+## PGO plan size audit
+
+{chr(10).join(plan_table)}
+
 The complete {len(coverage)}-row coverage/offset screen, including every baseline and 25/50/75/100 target-only/target+next candidate that has run, is in `pgo_coverage_details.csv`.
+The complete {len(plan_audit)}-row plan audit, including internal/DSO/combined target and injection counts at each coverage, is in `pgo_plan_summary.csv`.
 
 ## Current arithmetic summary
 
 Across the six repeated implementation rows currently eligible for a bar (FeedSim, Django, Router, SetAlgebra, Verilator, and memcached), arithmetic mean speedup is **{mean_speedup:.3f}x** and mean L2I-MPKI reduction is **{mean_reduction:.2f}%**. This heterogeneous-workload average is descriptive, not a confidence-weighted estimator.
 
-Recommend is the only newly corrected MicroSuite PGO result promoted so far: **1.061x** over five candidate and six baseline runs, with **12.33%** lower L2I MPKI. Router's 1.058x, SetAlgebra's 1.031x, HDSearch's 1.086x, and memcached's 1.004x are retained as provisional/invalid screens for transparency. PostgreSQL has three valid profiles but no corrected injection performance result yet.
+Recommend is the only newly corrected MicroSuite PGO result promoted so far: **1.061x** over five candidate and six baseline runs, with **12.33%** lower L2I MPKI. Router's 1.058x, SetAlgebra's 1.031x, HDSearch's 1.086x, and memcached's 1.004x are retained as provisional/invalid screens for transparency. PostgreSQL has three valid profiles and a complete corrected plan matrix, but no corrected injection performance result yet. Its original `-g0` baseline resolved zero source sites; a DWARF companion with matching `.text` address/size and text-symbol map restored 3,111 source-resolved sites already at 25% coverage.
 
 ## Artifacts
 
 - `current_results.csv`: all final-suite rows plus FleetBench, HAProxy, and DeathStarBench attempts.
 - `branch_profile_summary.csv`: prior and corrected profile determinism and branch-type ratios.
 - `pgo_coverage_details.csv`: every corrected PGO screen row and validity status.
+- `pgo_plan_summary.csv`: coverage-wise target, source-resolution, and injection counts.
 - `current_speedup.png` / `.svg`: speedup bars and accepted/provisional PGO markers.
 - `current_l2i_reduction.png` / `.svg`: positive-is-good L2I-MPKI reduction.
 """
@@ -479,12 +540,14 @@ def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     rows = build_results()
     coverage = build_coverage_details()
+    plan_audit = build_plan_audit()
     write_csv(OUT / "current_results.csv", rows)
     write_csv(OUT / "branch_profile_summary.csv", list(load_branch_profiles().values()))
     write_csv(OUT / "pgo_coverage_details.csv", coverage)
+    write_csv(OUT / "pgo_plan_summary.csv", plan_audit)
     plot(rows, "speedup", "speedup_sem", "Speedup (x)", "current_speedup.png")
     plot(rows, "l2i_reduction_pct", "l2i_reduction_sem", "L2I MPKI reduction (%)", "current_l2i_reduction.png")
-    write_report(rows, coverage)
+    write_report(rows, coverage, plan_audit)
     print(OUT)
 
 
