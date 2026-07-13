@@ -140,14 +140,15 @@ fc_start_pinner() {
         if [[ "${current_allowed}" == "${core}" ]]; then
           continue
         fi
-        printf "[%(%F %T)T] CORRECT repin pid=%s tid=%s from=%s to=%s\n" \
-          -1 "${pid}" "${tid}" "${current_allowed:-unknown}" "${core}" >> "${log}"
         if ! taskset -pc "${core}" "${tid}" >/dev/null 2>&1; then
           if [[ -d "/proc/${pid}/task/${tid}" ]]; then
             printf "[%(%F %T)T] ERROR taskset-failed pid=%s tid=%s core=%s\n" -1 "${pid}" "${tid}" "${core}" >> "${log}"
           else
             printf "[%(%F %T)T] WARN taskset-raced-thread-exit pid=%s tid=%s core=%s\n" -1 "${pid}" "${tid}" "${core}" >> "${log}"
           fi
+        else
+          printf "[%(%F %T)T] CORRECT repin pid=%s tid=%s from=%s to=%s\n" \
+            -1 "${pid}" "${tid}" "${current_allowed:-unknown}" "${core}" >> "${log}"
         fi
       done
       for tid in "${!assigned[@]}"; do
@@ -231,8 +232,6 @@ fc_start_tree_pinner() {
         if [[ "${current_allowed}" == "${core}" ]]; then
           continue
         fi
-        printf "[%(%F %T)T] CORRECT repin pid=%s tid=%s from=%s to=%s\n" \
-          -1 "${pid}" "${tid}" "${current_allowed:-unknown}" "${core}" >> "${log}"
         if ! taskset -pc "${core}" "${tid}" >/dev/null 2>&1; then
           if [[ -d "/proc/${pid}/task/${tid}" || -d "/proc/${tid}" ]]; then
             printf "[%(%F %T)T] ERROR taskset-failed pid=%s tid=%s core=%s\n" \
@@ -241,6 +240,9 @@ fc_start_tree_pinner() {
             printf "[%(%F %T)T] WARN taskset-raced-thread-exit pid=%s tid=%s core=%s\n" \
               -1 "${pid}" "${tid}" "${core}" >> "${log}"
           fi
+        else
+          printf "[%(%F %T)T] CORRECT repin pid=%s tid=%s from=%s to=%s\n" \
+            -1 "${pid}" "${tid}" "${current_allowed:-unknown}" "${core}" >> "${log}"
         fi
       done < <(ps -eLo pid,tid,comm 2>/dev/null | awk -v pids="${pid_csv}" '
         BEGIN { split(pids, p, ","); for (i in p) allow[p[i]]=1 }
