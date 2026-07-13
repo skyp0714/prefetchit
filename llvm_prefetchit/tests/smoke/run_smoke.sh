@@ -166,6 +166,25 @@ grep -Fq 'prefetcht1	target+16(%rip)' "${TMP_DIR}/smoke.symbol.s"
 grep -Fq 'prefetcht1	target+80(%rip)' "${TMP_DIR}/smoke.symbol.s"
 grep -Fq 'prefetcht1	target+144(%rip)' "${TMP_DIR}/smoke.symbol.s"
 
+python3 - "${TMP_DIR}/prefetchit.symbol.plan.json" "${TMP_DIR}/prefetchit.local.plan.json" <<'PY'
+import json
+import pathlib
+import sys
+
+plan = json.loads(pathlib.Path(sys.argv[1]).read_text())
+plan["injections"][0]["target"]["symbol_type"] = "t"
+pathlib.Path(sys.argv[2]).write_text(json.dumps(plan))
+PY
+"${OPT_BIN}" \
+  -load-pass-plugin "${PLUGIN}" \
+  -passes=prefetchit-inject \
+  -prefetchit-plan="${TMP_DIR}/prefetchit.local.plan.json" \
+  "${TMP_DIR}/smoke.ll" -S -o "${TMP_DIR}/smoke.local.ll" \
+  2> "${TMP_DIR}/opt.local.log"
+grep -q 'blockaddress(@target' "${TMP_DIR}/smoke.local.ll"
+grep -q 'blockaddress_target=3' "${TMP_DIR}/opt.local.log"
+grep -q 'symbol_offset_target=0' "${TMP_DIR}/opt.local.log"
+
 python3 "${ROOT_DIR}/tests/test_trace_to_plan.py"
 
 echo "[ok] smoke test passed"

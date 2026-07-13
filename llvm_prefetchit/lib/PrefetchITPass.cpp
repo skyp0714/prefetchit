@@ -61,6 +61,7 @@ struct SourceLocSpec {
   unsigned Discriminator = 0;
   std::string Addr;
   std::string SymbolOffset;
+  std::string SymbolType;
   std::string OperandMode;
 };
 
@@ -220,6 +221,7 @@ static SourceLocSpec parseSourceLoc(const json::Object &Obj) {
   Loc.Discriminator = getUnsigned(Obj, "discriminator");
   Loc.Addr = getString(Obj, "addr");
   Loc.SymbolOffset = getString(Obj, "symbol_offset");
+  Loc.SymbolType = getString(Obj, "symbol_type");
   Loc.OperandMode = getString(Obj, "operand");
   return Loc;
 }
@@ -730,12 +732,24 @@ public:
                                     : Spec.Target.OperandMode;
       bool PreferSymbolOffset = OperandMode == "pc-relative-symbol-offset";
       bool PreferGotSymbolOffset = OperandMode == "got-symbol-offset";
+      bool HasLocalSymbolBinding =
+          !Spec.Target.SymbolType.empty() &&
+          std::islower(static_cast<unsigned char>(Spec.Target.SymbolType[0]));
       auto TargetIt = TargetBlocks.find(TKey);
       BasicBlock *TargetBB =
           TargetIt == TargetBlocks.end() ? nullptr : TargetIt->second;
       Function *TargetF = nullptr;
-      if (!PreferSymbolOffset && !PreferGotSymbolOffset) {
+      if (PreferSymbolOffset && HasLocalSymbolBinding) {
         TargetF = findFunction(M, Spec.Target);
+        if (!TargetF) {
+          ++Stats.MissingTargetFunction;
+          continue;
+        }
+        PreferSymbolOffset = false;
+      }
+      if (!PreferSymbolOffset && !PreferGotSymbolOffset) {
+        if (!TargetF)
+          TargetF = findFunction(M, Spec.Target);
         if (!TargetF) {
           ++Stats.MissingTargetFunction;
           if (PrefetchITVerbose)

@@ -938,6 +938,7 @@ def loc_to_json(loc: SourceLoc, sym: Symbol | None, addr: int) -> dict:
         "cacheline_offset": addr & 0x3F,
         "symbol_offset": hex(addr - sym_addr) if sym else "",
         "symbol_size": hex(sym.size) if sym else "",
+        "symbol_type": sym.typ if sym else "",
         "mangled": sym.raw if sym else "",
         "demangled": sym.demangled if sym else loc.function,
         "function": loc.function,
