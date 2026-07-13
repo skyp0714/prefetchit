@@ -21,6 +21,12 @@ MEASURE_SETTLE_DURATION="${MEASURE_SETTLE_DURATION:-25}"
 GRPC_CORE_CAP="${GRPC_CORE_CAP:-6}"
 DISABLE_ASLR="${DISABLE_ASLR:-0}"
 ROUTER_PREPOPULATE="${ROUTER_PREPOPULATE:-0}"
+ROUTER_LEAF_INSTANCES="${ROUTER_LEAF_INSTANCES:-1}"
+ROUTER_FIXED_PREWARM_REQUESTS="${ROUTER_FIXED_PREWARM_REQUESTS:-0}"
+ROUTER_FIXED_PREWARM_TIMEOUT="${ROUTER_FIXED_PREWARM_TIMEOUT:-180}"
+EVICT_CACHES="${EVICT_CACHES:-0}"
+EVICT_BYTES_PER_CORE="${EVICT_BYTES_PER_CORE:-8388608}"
+EVICT_PASSES="${EVICT_PASSES:-4}"
 EXPECTED_MID_TIDS="${EXPECTED_MID_TIDS:-0}"
 REQUIRE_MATCHED_MID_TIDS="${REQUIRE_MATCHED_MID_TIDS:-0}"
 DEPTH="${DEPTH:-32}"
@@ -44,6 +50,11 @@ run_valid() {
       MEASURE_SETTLE_DURATION="${MEASURE_SETTLE_DURATION}" \
       GRPC_CORE_CAP="${GRPC_CORE_CAP}" \
       DISABLE_ASLR="${DISABLE_ASLR}" ROUTER_PREPOPULATE="${ROUTER_PREPOPULATE}" \
+      ROUTER_LEAF_INSTANCES="${ROUTER_LEAF_INSTANCES}" \
+      ROUTER_FIXED_PREWARM_REQUESTS="${ROUTER_FIXED_PREWARM_REQUESTS}" \
+      ROUTER_FIXED_PREWARM_TIMEOUT="${ROUTER_FIXED_PREWARM_TIMEOUT}" \
+      EVICT_CACHES="${EVICT_CACHES}" \
+      EVICT_BYTES_PER_CORE="${EVICT_BYTES_PER_CORE}" EVICT_PASSES="${EVICT_PASSES}" \
       DEPTH="${DEPTH}" PARALLELISM="${PARALLELISM}" DISPATCH="${DISPATCH}" \
       RESPONSES="${RESPONSES}" \
       "${RUNNER}" "${BENCHMARK}" "pair${pair}_${variant}" "${binary}" "${run}"
@@ -91,7 +102,11 @@ done
 
 python3 - "${OUT}" "${DURATION}" "${PREWARM_DURATION}" \
   "${MEASURE_SETTLE_DURATION}" "${GRPC_CORE_CAP}" "${EXPECTED_MID_TIDS}" \
-  "${REQUIRE_MATCHED_MID_TIDS}" "${DISABLE_ASLR}" "${ROUTER_PREPOPULATE}" <<'PY'
+  "${REQUIRE_MATCHED_MID_TIDS}" "${DISABLE_ASLR}" "${ROUTER_PREPOPULATE}" \
+  "${ROUTER_LEAF_INSTANCES}" "${EVICT_CACHES}" \
+  "${ROUTER_FIXED_PREWARM_REQUESTS}" \
+  "${ROUTER_FIXED_PREWARM_TIMEOUT}" \
+  "${EVICT_BYTES_PER_CORE}" "${EVICT_PASSES}" <<'PY'
 import csv
 import json
 import math
@@ -109,6 +124,12 @@ root = pathlib.Path(sys.argv[1])
     require_matched_mid_tids,
     disable_aslr,
     router_prepopulate,
+    router_leaf_instances,
+    evict_caches,
+    router_fixed_prewarm_requests,
+    router_fixed_prewarm_timeout,
+    evict_bytes_per_core,
+    evict_passes,
 ) = (
     int(value) for value in sys.argv[2:]
 )
@@ -164,6 +185,12 @@ summary = {
         "require_matched_mid_tids": require_matched_mid_tids,
         "disable_aslr": disable_aslr,
         "router_prepopulate": router_prepopulate,
+        "router_leaf_instances": router_leaf_instances,
+        "router_fixed_prewarm_requests": router_fixed_prewarm_requests,
+        "router_fixed_prewarm_timeout_s": router_fixed_prewarm_timeout,
+        "evict_caches": evict_caches,
+        "evict_bytes_per_core": evict_bytes_per_core,
+        "evict_passes": evict_passes,
     },
     "speedup": stats([row["speedup"] for row in pair_rows]),
     "l2i_reduction_pct": stats([row["l2i_reduction_pct"] for row in pair_rows]),

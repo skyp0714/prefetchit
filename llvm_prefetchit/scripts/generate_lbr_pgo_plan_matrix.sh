@@ -18,11 +18,20 @@ MERGER="${ROOT}/tools/merge_prefetch_plans.py"
 DERIVER="${ROOT}/tools/derive_prefetch_plan.py"
 READELF="${READELF:-llvm-readelf-19}"
 SELECTION_MODE="${SELECTION_MODE:-top-sites}"
+EXCLUDE_SITE_TARGET_SAME_CACHELINE="${EXCLUDE_SITE_TARGET_SAME_CACHELINE:-1}"
 
 case "${SELECTION_MODE}" in
   top-sites|greedy) ;;
   *)
     echo "unsupported SELECTION_MODE=${SELECTION_MODE}; expected top-sites or greedy" >&2
+    exit 2
+    ;;
+esac
+
+case "${EXCLUDE_SITE_TARGET_SAME_CACHELINE}" in
+  0|1) ;;
+  *)
+    echo "EXCLUDE_SITE_TARGET_SAME_CACHELINE must be 0 or 1" >&2
     exit 2
     ;;
 esac
@@ -76,22 +85,28 @@ mkdir -p "${OUT}/base" "${OUT}/variants"
   printf 'source_sha256=%s\n' "$(sha256sum "${SOURCE_BINARY}" | awk '{print $1}')"
   printf 'selection_mode=%s\n' "${SELECTION_MODE}"
 } > "${OUT}/binary_layout.conf"
-printf 'benchmark,label,coverage_pct,depth_min,depth_max,site_budget,byte_offsets,injections,prefetches,targets,plan\n' \
+printf 'benchmark,label,coverage_pct,depth_min,depth_max,site_budget,byte_offsets,exclude_same_cacheline,injections,prefetches,targets,filtered_same_cacheline,plan\n' \
   > "${OUT}/plan_matrix.csv"
 
 derive() {
   local coverage="$1" depth_min="$2" depth_max="$3" budget="$4" offsets="$5" label="$6"
   local input="${OUT}/base/cov${coverage}/combined.plan.json"
   local output="${OUT}/variants/${label}/prefetchit.plan.json"
+  local filter_args=()
+  if [[ "${EXCLUDE_SITE_TARGET_SAME_CACHELINE}" == 1 ]]; then
+    filter_args+=(--exclude-site-target-same-cacheline)
+  fi
   python3 "${DERIVER}" --input "${input}" --output "${output}" --label "${label}" \
     --max-site-rank "${budget}" --depth-min "${depth_min}" --depth-max "${depth_max}" \
-    --byte-offsets "${offsets}" > "${OUT}/variants/${label}.log" 2>&1
-  printf '%s,%s,%s,%s,%s,%s,"%s",%s,%s,%s,%s\n' \
+    --byte-offsets "${offsets}" "${filter_args[@]}" \
+    > "${OUT}/variants/${label}.log" 2>&1
+  printf '%s,%s,%s,%s,%s,%s,"%s",%s,%s,%s,%s,%s,%s\n' \
     "${BENCHMARK}" "${label}" "${coverage}" "${depth_min}" "${depth_max}" \
-    "${budget}" "${offsets}" \
+    "${budget}" "${offsets}" "${EXCLUDE_SITE_TARGET_SAME_CACHELINE}" \
     "$(jq -r '.stats.selected_injections' "${output}")" \
     "$(jq -r '.stats.planned_prefetches' "${output}")" \
     "$(jq -r '.stats.selected_targets_with_injections // .stats.selected_targets' "${output}")" \
+    "$(jq -r '.stats.same_cacheline_injections_filtered' "${output}")" \
     "${output}" >> "${OUT}/plan_matrix.csv"
 }
 
@@ -120,7 +135,7 @@ for coverage in 25 50 75 100; do
     --plan "${base}/external/prefetchit.plan.json" \
     --output "${base}/combined.plan.json" > "${base}/merge.log" 2>&1
 
-  for budget in 4 8 16 32; do
+  for budget in 1 2 4 8 16 32; do
     derive "${coverage}" 1 32 "${budget}" 0 "cov${coverage}_d1_32_b${budget}_o0"
     derive "${coverage}" 1 32 "${budget}" 0,64 "cov${coverage}_d1_32_b${budget}_o064"
   done
@@ -139,7 +154,7 @@ done
 # explicit earlier-history variants so screens can remove depth-1--3 sites.
 for coverage in 25 50; do
   for depth_min in 4 8; do
-    for budget in 4 8; do
+    for budget in 1 2 4 8; do
       derive "${coverage}" "${depth_min}" 32 "${budget}" 0 \
         "cov${coverage}_d${depth_min}_32_b${budget}_o0"
       derive "${coverage}" "${depth_min}" 32 "${budget}" 0,64 \

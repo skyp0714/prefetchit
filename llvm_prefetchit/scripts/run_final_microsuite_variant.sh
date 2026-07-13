@@ -25,6 +25,14 @@ PROFILE_RECORD="${PROFILE_RECORD:-0}"
 PROFILE_SAMPLE_PERIOD="${PROFILE_SAMPLE_PERIOD:-50000}"
 DISABLE_ASLR="${DISABLE_ASLR:-0}"
 ROUTER_PREPOPULATE="${ROUTER_PREPOPULATE:-0}"
+ROUTER_LEAF_INSTANCES="${ROUTER_LEAF_INSTANCES:-1}"
+ROUTER_FIXED_PREWARM_REQUESTS="${ROUTER_FIXED_PREWARM_REQUESTS:-0}"
+ROUTER_FIXED_PREWARM_TIMEOUT="${ROUTER_FIXED_PREWARM_TIMEOUT:-180}"
+EVICT_CACHES="${EVICT_CACHES:-0}"
+EVICT_CORES="${EVICT_CORES:-1-70}"
+EVICT_BYTES_PER_CORE="${EVICT_BYTES_PER_CORE:-8388608}"
+EVICT_PASSES="${EVICT_PASSES:-4}"
+CACHE_EVICTOR="${CACHE_EVICTOR:-${ROOT}/llvm_prefetchit/tools/evict_cpu_caches}"
 DEPTH="${DEPTH:-32}"
 PARALLELISM="${PARALLELISM:-4}"
 DISPATCH="${DISPATCH:-4}"
@@ -52,6 +60,8 @@ fi
 
 MEM_PID=""
 LEAF_PID=""
+LEAF_PIDS=()
+LEAF_CORE_RANGES=()
 MID_PID=""
 CLIENT_PID=""
 PINNER_PIDS=()
@@ -72,6 +82,9 @@ cleanup() {
   stop_pid "${CLIENT_PID}"
   stop_pid "${MID_PID}"
   stop_pid "${LEAF_PID}"
+  for pid in "${LEAF_PIDS[@]}"; do
+    stop_pid "${pid}"
+  done
   stop_pid "${MEM_PID}"
   for pid in "${PINNER_PIDS[@]}"; do
     kill "${pid}" >/dev/null 2>&1 || true
@@ -139,10 +152,23 @@ if ((GRPC_CORE_CAP > 0)); then
 fi
 MEM_ENV=(env "LD_PRELOAD=${BASE_PRELOAD}" "PREFETCHIT_THREAD_PIN_CORES=2-8")
 fc_assert_frequency "${ALL_CORES}" "${OUT}/frequency_start.csv"
+if ((EVICT_CACHES == 1)); then
+  [[ -x "${CACHE_EVICTOR}" ]] || {
+    echo "missing cache evictor: ${CACHE_EVICTOR}" >&2
+    exit 2
+  }
+  "${CACHE_EVICTOR}" --cores "${EVICT_CORES}" \
+    --bytes-per-core "${EVICT_BYTES_PER_CORE}" --passes "${EVICT_PASSES}" \
+    > "${OUT}/cache_evictor.log"
+fi
 
 case "${BENCHMARK}" in
   router)
-    printf '127.0.0.1:61251\n' > "${OUT}/leaf_ips.txt"
+    ((ROUTER_LEAF_INSTANCES >= 1 && ROUTER_LEAF_INSTANCES <= 4)) || {
+      echo "ROUTER_LEAF_INSTANCES must be between 1 and 4" >&2
+      exit 2
+    }
+    : > "${OUT}/leaf_ips.txt"
     taskset -c 1 "${ASLR_PREFIX[@]}" "${MEM_ENV[@]}" \
       memcached -p 61211 -u "${USER}" -t 2 -m 256 >"${OUT}/memcached.log" 2>&1 &
     MEM_PID="$!"
@@ -154,15 +180,47 @@ case "${BENCHMARK}" in
         > "${OUT}/memcached_population.json"
     fi
 
-    taskset -c 9 "${ASLR_PREFIX[@]}" "${LEAF_ENV[@]}" \
-      "${SRC}/Router/lookup_service/service/lookup_server" \
-      127.0.0.1:61251 61211 2 1 >"${OUT}/leaf.log" 2>&1 &
-    LEAF_PID="$!"
-    start_pinner "${LEAF_PID}" "${LEAF_CORES}" leaf
-    wait_port 61251 "${LEAF_PID}"
+    for ((leaf_index=0; leaf_index<ROUTER_LEAF_INSTANCES; leaf_index++)); do
+      leaf_port=$((61251 + leaf_index))
+      leaf_core_start=$((9 + leaf_index * 6))
+      leaf_core_end=$((leaf_core_start + 5))
+      leaf_thread_start=$((leaf_core_start + 1))
+      leaf_core_range="${leaf_core_start}-${leaf_core_end}"
+      leaf_env=(
+        env "LD_PRELOAD=${LEAF_PRELOAD}"
+        "PREFETCHIT_THREAD_PIN_CORES=${leaf_thread_start}-${leaf_core_end}"
+      )
+      if ((GRPC_CORE_CAP > 0)); then
+        leaf_env+=("PREFETCHIT_GRPC_CORE_CAP=${GRPC_CORE_CAP}")
+      fi
+      printf '127.0.0.1:%s\n' "${leaf_port}" >> "${OUT}/leaf_ips.txt"
+      taskset -c "${leaf_core_start}" "${ASLR_PREFIX[@]}" "${leaf_env[@]}" \
+        "${SRC}/Router/lookup_service/service/lookup_server" \
+        "127.0.0.1:${leaf_port}" 61211 2 1 \
+        >"${OUT}/leaf${leaf_index}.log" 2>&1 &
+      leaf_pid="$!"
+      LEAF_PIDS+=("${leaf_pid}")
+      LEAF_CORE_RANGES+=("${leaf_core_range}")
+      start_pinner "${leaf_pid}" "${leaf_core_range}" "leaf${leaf_index}"
+      wait_port "${leaf_port}" "${leaf_pid}"
+    done
 
-    taskset -c 21 "${ASLR_PREFIX[@]}" "${MID_ENV[@]}" "${MID_BINARY}" \
-      1 "${OUT}/leaf_ips.txt" 127.0.0.1:61250 \
+    if ((ROUTER_LEAF_INSTANCES > 1)); then
+      MID_CORES="33-55"
+      router_mid_env=(
+        env "LD_PRELOAD=${MID_PRELOAD}" "PREFETCHIT_THREAD_PIN_CORES=34-55"
+      )
+      if ((GRPC_CORE_CAP > 0)); then
+        router_mid_env+=("PREFETCHIT_GRPC_CORE_CAP=${GRPC_CORE_CAP}")
+      fi
+      mid_start_core=33
+    else
+      router_mid_env=("${MID_ENV[@]}")
+      mid_start_core=21
+    fi
+    taskset -c "${mid_start_core}" "${ASLR_PREFIX[@]}" \
+      "${router_mid_env[@]}" "${MID_BINARY}" \
+      "${ROUTER_LEAF_INSTANCES}" "${OUT}/leaf_ips.txt" 127.0.0.1:61250 \
       "${PARALLELISM}" "${DISPATCH}" "${RESPONSES}" 1 \
       >"${OUT}/mid.log" 2>&1 &
     MID_PID="$!"
@@ -256,6 +314,7 @@ esac
 sleep 2
 if ((PREWARM_DURATION > 0)); then
   PREWARM_COMMAND=("${CLIENT_COMMAND[@]}")
+  PREWARM_ENV=(env)
   replaced=0
   duration_index=-1
   for i in "${!PREWARM_COMMAND[@]}"; do
@@ -267,10 +326,22 @@ if ((PREWARM_DURATION > 0)); then
   done
   ((replaced == 1)) || { echo 'could not set prewarm duration' >&2; exit 1; }
   PREWARM_COMMAND[$((duration_index + 1))]="${PREWARM_DEPTH}"
+  if [[ "${BENCHMARK}" == router ]] && ((ROUTER_FIXED_PREWARM_REQUESTS > 0)); then
+    PREWARM_ENV+=("PREFETCHIT_FIXED_REQUESTS=${ROUTER_FIXED_PREWARM_REQUESTS}")
+    PREWARM_ENV+=("PREFETCHIT_FIXED_TIMEOUT_SECONDS=${ROUTER_FIXED_PREWARM_TIMEOUT}")
+  fi
   taskset -c 56 "${ASLR_PREFIX[@]}" "${CLIENT_ENV[@]}" \
-    "${PREWARM_COMMAND[@]}" >"${OUT}/prewarm_loadgen.log" 2>&1 &
+    "${PREWARM_ENV[@]}" "${PREWARM_COMMAND[@]}" \
+    >"${OUT}/prewarm_loadgen.log" 2>&1 &
   CLIENT_PID="$!"
   start_pinner "${CLIENT_PID}" "${CLIENT_CORES}" prewarm_client
+  sleep 0.5
+  fc_audit_pid_affinity "${CLIENT_PID}" "${CLIENT_CORES}" \
+    "${OUT}/prewarm_client_affinity.csv"
+  rg -q ',ok$' "${OUT}/prewarm_client_affinity.csv" || {
+    echo "prewarm client exited before affinity audit" >&2
+    exit 1
+  }
   set +e
   wait "${CLIENT_PID}"
   prewarm_rc="$?"
@@ -304,7 +375,14 @@ start_pinner "${CLIENT_PID}" "${CLIENT_CORES}" client
 sleep "$((21 + MEASURE_SETTLE_DURATION))"
 audit_ok=1
 fc_audit_pid_affinity "${MID_PID}" "${MID_CORES}" "${OUT}/mid_affinity_measure.csv" || audit_ok=0
-fc_audit_pid_affinity "${LEAF_PID}" "${LEAF_CORES}" "${OUT}/leaf_affinity_measure.csv" || audit_ok=0
+if ((${#LEAF_PIDS[@]} > 0)); then
+  for index in "${!LEAF_PIDS[@]}"; do
+    fc_audit_pid_affinity "${LEAF_PIDS[$index]}" "${LEAF_CORE_RANGES[$index]}" \
+      "${OUT}/leaf${index}_affinity_measure.csv" || audit_ok=0
+  done
+else
+  fc_audit_pid_affinity "${LEAF_PID}" "${LEAF_CORES}" "${OUT}/leaf_affinity_measure.csv" || audit_ok=0
+fi
 [[ -z "${MEM_PID}" ]] || fc_audit_pid_affinity "${MEM_PID}" "${MEM_CORES}" "${OUT}/mem_affinity_measure.csv" || audit_ok=0
 fc_audit_pid_affinity "${CLIENT_PID}" "${CLIENT_CORES}" "${OUT}/client_affinity_measure.csv" || audit_ok=0
 for pinner_log in "${OUT}"/*_pinner.log; do
@@ -343,7 +421,11 @@ fc_assert_frequency "${ALL_CORES}" "${OUT}/frequency_end.csv" || audit_ok=0
 python3 - "${OUT}" "${BENCHMARK}" "${LABEL}" "${MID_BINARY}" "${DURATION}" "${DEPTH}" \
   "${PARALLELISM}" "${DISPATCH}" "${RESPONSES}" "${PREWARM_DURATION}" "${PREWARM_DEPTH}" \
   "${MEASURE_SETTLE_DURATION}" "${GRPC_CORE_CAP}" "${PROFILE_RECORD}" "${PROFILE_SAMPLE_PERIOD}" "${record_rc}" \
-  "${DISABLE_ASLR}" "${ROUTER_PREPOPULATE}" "${client_rc}" "${audit_ok}" <<'PY'
+  "${DISABLE_ASLR}" "${ROUTER_PREPOPULATE}" "${ROUTER_LEAF_INSTANCES}" \
+  "${ROUTER_FIXED_PREWARM_REQUESTS}" \
+  "${ROUTER_FIXED_PREWARM_TIMEOUT}" \
+  "${EVICT_CACHES}" "${EVICT_BYTES_PER_CORE}" "${EVICT_PASSES}" \
+  "${client_rc}" "${audit_ok}" <<'PY'
 import csv
 import json
 import math
@@ -355,6 +437,8 @@ import sys
  responses_cfg, prewarm_duration, prewarm_depth, measure_settle_duration,
  grpc_core_cap, profile_record,
  profile_sample_period, record_rc, disable_aslr, router_prepopulate,
+ router_leaf_instances, router_fixed_prewarm_requests, router_fixed_prewarm_timeout,
+ evict_caches, evict_bytes_per_core, evict_passes,
  client_rc, audit_ok) = sys.argv[1:]
 root = pathlib.Path(out)
 text = (root / "loadgen.log").read_text(errors="replace")
@@ -413,6 +497,12 @@ row = {
     "profile_sample_period": int(profile_sample_period),
     "disable_aslr": int(disable_aslr),
     "router_prepopulate": int(router_prepopulate),
+    "router_leaf_instances": int(router_leaf_instances),
+    "router_fixed_prewarm_requests": int(router_fixed_prewarm_requests),
+    "router_fixed_prewarm_timeout_s": int(router_fixed_prewarm_timeout),
+    "evict_caches": int(evict_caches),
+    "evict_bytes_per_core": int(evict_bytes_per_core),
+    "evict_passes": int(evict_passes),
     "record_rc": int(record_rc),
     "depth": int(depth),
     "parallelism": int(parallelism),
@@ -430,7 +520,7 @@ row = {
     "cpu_migrations": int(migrations),
     "migration_policy": "allow-pthread-creation-placement; reject-runtime-repin",
     "mid_tids": tids(root / "mid_affinity_measure.csv"),
-    "leaf_tids": tids(root / "leaf_affinity_measure.csv"),
+    "leaf_tids": sum(tids(path) for path in root.glob("leaf*_affinity_measure.csv")),
     "client_tids": tids(root / "client_affinity_measure.csv"),
     "client_rc": int(client_rc),
     "audit_ok": int(audit_ok),
@@ -459,4 +549,5 @@ with (root / "summary.csv").open("w", newline="") as handle:
     writer.writerow(row)
 (root / "summary.json").write_text(json.dumps(row, indent=2) + "\n")
 print(json.dumps(row, sort_keys=True))
+raise SystemExit(0 if row["valid"] else 1)
 PY
