@@ -185,6 +185,7 @@ case "${BENCHMARK}" in
     ;;
   hdsearch)
     HD_DATA="${ROOT}/llvm_prefetchit/work/datacenter_goal_20260708/microsuite/hdsearch_synth_data_8192"
+    HD_LOADGEN="${HD_LOADGEN:-${SRC}/HDSearch/load_generator/load_generator_closed_loop}"
     printf '127.0.0.1:64251\n' > "${OUT}/leaf_ips.txt"
     taskset -c 9 "${LEAF_ENV[@]}" \
       "${SRC}/HDSearch/bucket_service/service/bucket_server" \
@@ -203,7 +204,7 @@ case "${BENCHMARK}" in
     start_pinner "${MID_PID}" "${MID_CORES}" mid
     wait_port 64250 "${MID_PID}"
     CLIENT_COMMAND=(
-      "${SRC}/HDSearch/load_generator/load_generator_closed_loop"
+      "${HD_LOADGEN}"
       "${HD_DATA}/queries.bin" "${OUT}/result.txt" 1 "${DURATION}"
       "${DEPTH}" 127.0.0.1:64250 "${OUT}/timing.txt"
       "${OUT}/qps.txt" "${OUT}/util.txt"
