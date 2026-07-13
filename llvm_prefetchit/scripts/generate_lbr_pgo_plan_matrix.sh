@@ -53,13 +53,15 @@ derive() {
 for coverage in 25 50 75 100; do
   base="${OUT}/base/cov${coverage}"
   mkdir -p "${base}/internal" "${base}/external"
-  python3 "${PLANNER}" "${trace_args[@]}" --binary "${BINARY}" \
-    --validation-binary "${BINARY}" --output "${base}/internal/prefetchit.plan.json" \
-    --summary-dir "${base}/internal" --top-k 999999 --target-coverage-pct "${coverage}" \
-    --depth-min 1 --depth 32 --site-budget-per-target 32 --candidate-pool 0 \
-    --selection-mode top-sites --target-ip-source lbr-to --allow-unresolved-targets \
-    --prefetch-mnemonic prefetcht1 --prefetch-byte-offsets 0 \
-    > "${base}/internal/plan.log" 2>&1
+  if [[ "${REUSE_INTERNAL:-0}" != 1 || ! -s "${base}/internal/prefetchit.plan.json" ]]; then
+    python3 "${PLANNER}" "${trace_args[@]}" --binary "${BINARY}" \
+      --validation-binary "${BINARY}" --output "${base}/internal/prefetchit.plan.json" \
+      --summary-dir "${base}/internal" --top-k 999999 --target-coverage-pct "${coverage}" \
+      --depth-min 1 --depth 32 --site-budget-per-target 32 --candidate-pool 0 \
+      --selection-mode top-sites --target-ip-source lbr-to --allow-unresolved-targets \
+      --prefetch-mnemonic prefetcht1 --prefetch-byte-offsets 0 \
+      > "${base}/internal/plan.log" 2>&1
+  fi
   python3 "${EXTERNAL_PLANNER}" "${trace_args[@]}" --binary "${BINARY}" \
     --output "${base}/external/prefetchit.plan.json" --summary-dir "${base}/external" \
     --target-coverage-pct "${coverage}" --depth-min 1 --depth 32 \

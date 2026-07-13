@@ -136,6 +136,10 @@ fc_start_pinner() {
           printf "[%(%F %T)T] assign pid=%s tid=%s comm=%s core=%s\n" \
             -1 "${pid}" "${tid}" "${comm}" "${core}" >> "${log}"
         fi
+        current_allowed="$(awk "/Cpus_allowed_list/ {print \$2}" "/proc/${pid}/task/${tid}/status" 2>/dev/null || true)"
+        if [[ "${current_allowed}" == "${core}" ]]; then
+          continue
+        fi
         if ! taskset -pc "${core}" "${tid}" >/dev/null 2>&1; then
           if [[ -d "/proc/${pid}/task/${tid}" ]]; then
             printf "[%(%F %T)T] ERROR taskset-failed pid=%s tid=%s core=%s\n" -1 "${pid}" "${tid}" "${core}" >> "${log}"
@@ -220,6 +224,10 @@ fc_start_tree_pinner() {
           assigned["${tid}"]="${core}"; used_core["${core}"]="${tid}"
           printf "[%(%F %T)T] assign pid=%s tid=%s comm=%s core=%s\n" \
             -1 "${pid}" "${tid}" "${comm}" "${core}" >> "${log}"
+        fi
+        current_allowed="$(awk '/Cpus_allowed_list/ {print $2}' "/proc/${pid}/task/${tid}/status" 2>/dev/null || true)"
+        if [[ "${current_allowed}" == "${core}" ]]; then
+          continue
         fi
         if ! taskset -pc "${core}" "${tid}" >/dev/null 2>&1; then
           if [[ -d "/proc/${pid}/task/${tid}" || -d "/proc/${tid}" ]]; then

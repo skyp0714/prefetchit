@@ -128,7 +128,10 @@ def build_dynamic_symbol_map(
             parts = line.split()
             if len(parts) < 2:
                 continue
-            raw = strip_ver(parts[-1])
+            versioned = parts[-1]
+            if "@" in versioned and "@@" not in versioned:
+                continue
+            raw = strip_ver(versioned)
             if raw and raw not in seen_raw:
                 seen_raw.add(raw)
                 raw_symbols.append(raw)
@@ -153,6 +156,8 @@ def dynamic_symbol_for_base(
     base: str, dynamic_raw: set[str], dynamic_by_name: dict[str, str]
 ) -> str | None:
     clean = strip_ver(base[:-4] if base.endswith("@plt") else base).strip()
+    if clean.startswith("cfree") and "free" in dynamic_raw:
+        return "free"
     direct = dynamic_by_name.get(clean) or dynamic_by_name.get(strip_args(clean))
     if direct:
         return direct
@@ -166,8 +171,6 @@ def dynamic_symbol_for_base(
     ):
         if clean.startswith(prefix):
             aliases.append(public)
-    if clean.startswith("cfree"):
-        aliases.append("free")
     for alias in aliases:
         if alias in dynamic_raw:
             return alias

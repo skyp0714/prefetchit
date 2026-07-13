@@ -41,10 +41,14 @@ class ExternalGotPlanTest(unittest.TestCase):
             symbolic = (
                 f"{main_addr:x} main+0x0 "
                 "main+0x0/malloc+0x46/P/-/-/1/CALL/-\n"
+                f"{main_addr:x} main+0x0 "
+                "main+0x0/cfree@GLIBC_2.2.5+0x0/P/-/-/1/CALL/-\n"
             )
             raw = (
                 f"{main_addr:x} main+0x0 "
                 f"0x{main_addr:x}/0x7f0000000046/P/-/-/1/CALL/-\n"
+                f"{main_addr:x} main+0x0 "
+                f"0x{main_addr:x}/0x7f0000001000/P/-/-/1/CALL/-\n"
             )
             (trace / "lbr_symbolic_dump.txt").write_text(symbolic, encoding="ascii")
             (trace / "lbr_raw_dump.txt").write_text(raw, encoding="ascii")
@@ -78,14 +82,16 @@ class ExternalGotPlanTest(unittest.TestCase):
             )
 
             plan = json.loads(out.read_text(encoding="utf-8"))
-            self.assertEqual(plan["stats"]["external_lbr0_samples"], 1)
-            self.assertEqual(plan["stats"]["parsed_external_samples"], 1)
-            self.assertEqual(len(plan["injections"]), 1)
-            injection = plan["injections"][0]
+            self.assertEqual(plan["stats"]["external_lbr0_samples"], 2)
+            self.assertEqual(plan["stats"]["parsed_external_samples"], 2)
+            self.assertEqual(len(plan["injections"]), 2)
+            by_target = {row["target"]["mangled"]: row for row in plan["injections"]}
+            injection = by_target["malloc"]
             self.assertEqual(injection["target"]["mangled"], "malloc")
             self.assertEqual(injection["target"]["symbol_offset"], "0x40")
             self.assertEqual(injection["target"]["operand"], "got-symbol-offset")
             self.assertEqual(injection["site"]["mangled"], "main")
+            self.assertEqual(by_target["free"]["target"]["symbol_offset"], "0x0")
 
 
 if __name__ == "__main__":
