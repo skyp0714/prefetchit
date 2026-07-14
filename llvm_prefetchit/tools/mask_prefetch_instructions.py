@@ -13,8 +13,9 @@ from pathlib import Path
 
 
 SECTION_RE = re.compile(
-    r"\[\s*\d+\]\s+\.text\s+\S+\s+"
-    r"([0-9a-fA-F]+)\s+([0-9a-fA-F]+)\s+([0-9a-fA-F]+)"
+    r"\[\s*\d+\]\s+(\S+)\s+\S+\s+"
+    r"([0-9a-fA-F]+)\s+([0-9a-fA-F]+)\s+([0-9a-fA-F]+)\s+"
+    r"\S+\s+([A-Z]+)\s+"
 )
 INSTRUCTION_RE = re.compile(
     r"^\s*([0-9a-fA-F]+):\s+"
@@ -57,13 +58,34 @@ def command_output(command: list[str]) -> str:
     ).stdout
 
 
-def text_layout(binary: Path) -> tuple[int, int, int]:
+def parse_address(value: str) -> int:
+    try:
+        address = int(value, 0)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError(f"invalid address: {value}") from exc
+    if address < 0:
+        raise argparse.ArgumentTypeError("addresses must be non-negative")
+    return address
+
+
+def executable_layouts(binary: Path) -> list[dict[str, int | str]]:
     output = command_output(["readelf", "-W", "-S", str(binary)])
-    match = SECTION_RE.search(output)
-    if not match:
-        raise SystemExit(f"could not locate .text in {binary}")
-    address, offset, size = (int(value, 16) for value in match.groups())
-    return address, offset, size
+    layouts = []
+    for match in SECTION_RE.finditer(output):
+        name, address, offset, size, flags = match.groups()
+        if "X" not in flags:
+            continue
+        layouts.append(
+            {
+                "name": name,
+                "address": int(address, 16),
+                "offset": int(offset, 16),
+                "size": int(size, 16),
+            }
+        )
+    if not layouts:
+        raise SystemExit(f"could not locate executable sections in {binary}")
+    return layouts
 
 
 def find_instructions(binary: Path, mnemonics: set[str]) -> list[dict[str, object]]:
@@ -116,6 +138,27 @@ def main() -> int:
             "the hot stack line plus NOP padding"
         ),
     )
+    address_group = parser.add_mutually_exclusive_group()
+    address_group.add_argument(
+        "--keep-address",
+        action="append",
+        type=parse_address,
+        default=[],
+        help=(
+            "virtual address of a matching prefetch to retain; repeat as needed. "
+            "All other matching prefetches are masked"
+        ),
+    )
+    address_group.add_argument(
+        "--mask-address",
+        action="append",
+        type=parse_address,
+        default=[],
+        help=(
+            "virtual address of a matching prefetch to mask; repeat as needed. "
+            "All other matching prefetches are retained"
+        ),
+    )
     args = parser.parse_args()
 
     source = args.input.resolve()
@@ -124,16 +167,40 @@ def main() -> int:
     if source == args.output.resolve():
         raise SystemExit("input and output must differ")
     mnemonics = {value.lower() for value in args.mnemonic} or {"prefetcht1"}
-    instructions = find_instructions(source, mnemonics)
-    if args.expect_count >= 0 and len(instructions) != args.expect_count:
+    matching_instructions = find_instructions(source, mnemonics)
+    if args.expect_count >= 0 and len(matching_instructions) != args.expect_count:
         raise SystemExit(
             f"expected {args.expect_count} matching instructions, found "
-            f"{len(instructions)}"
+            f"{len(matching_instructions)}"
         )
-    if not instructions:
+    if not matching_instructions:
         raise SystemExit("no matching prefetch instructions found")
 
-    text_address, text_offset, text_size = text_layout(source)
+    matching_addresses = {
+        int(instruction["address"]) for instruction in matching_instructions
+    }
+    requested_addresses = set(args.keep_address or args.mask_address)
+    missing_addresses = requested_addresses - matching_addresses
+    if missing_addresses:
+        formatted = ", ".join(f"0x{address:x}" for address in sorted(missing_addresses))
+        raise SystemExit(f"requested prefetch addresses were not found: {formatted}")
+
+    if args.keep_address:
+        instructions = [
+            instruction
+            for instruction in matching_instructions
+            if int(instruction["address"]) not in requested_addresses
+        ]
+    elif args.mask_address:
+        instructions = [
+            instruction
+            for instruction in matching_instructions
+            if int(instruction["address"]) in requested_addresses
+        ]
+    else:
+        instructions = matching_instructions
+
+    executable_sections = executable_layouts(source)
     source_data = source.read_bytes()
     output_data = bytearray(source_data)
     replacement_bytes = (
@@ -149,9 +216,23 @@ def main() -> int:
                 f"{len(old_bytes)}-byte instruction "
                 f"at 0x{address:x}"
             )
-        if not text_address <= address < text_address + text_size:
-            raise SystemExit(f"instruction 0x{address:x} is outside .text")
-        file_offset = text_offset + address - text_address
+        section = next(
+            (
+                layout
+                for layout in executable_sections
+                if int(layout["address"])
+                <= address
+                < int(layout["address"]) + int(layout["size"])
+            ),
+            None,
+        )
+        if section is None:
+            raise SystemExit(
+                f"instruction 0x{address:x} is outside executable sections"
+            )
+        file_offset = (
+            int(section["offset"]) + address - int(section["address"])
+        )
         actual = bytes(output_data[file_offset : file_offset + len(old_bytes)])
         if actual != old_bytes:
             raise SystemExit(
@@ -164,6 +245,7 @@ def main() -> int:
             {
                 "address": f"0x{address:x}",
                 "file_offset": f"0x{file_offset:x}",
+                "section": section["name"],
                 "mnemonic": instruction["mnemonic"],
                 "size": len(old_bytes),
                 "old_bytes": old_bytes.hex(),
@@ -172,19 +254,42 @@ def main() -> int:
         )
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
+    if args.output.exists():
+        args.output.unlink()
     args.output.write_bytes(output_data)
     shutil.copymode(source, args.output)
     os.utime(args.output, ns=(source.stat().st_atime_ns, source.stat().st_mtime_ns))
 
+    text_section = next(
+        (section for section in executable_sections if section["name"] == ".text"),
+        executable_sections[0],
+    )
     manifest = {
         "input": str(source),
         "output": str(args.output.resolve()),
-        "text_address": f"0x{text_address:x}",
-        "text_offset": f"0x{text_offset:x}",
-        "text_size": f"0x{text_size:x}",
+        "text_address": f"0x{int(text_section['address']):x}",
+        "text_offset": f"0x{int(text_section['offset']):x}",
+        "text_size": f"0x{int(text_section['size']):x}",
+        "executable_sections": [
+            {
+                "name": section["name"],
+                "address": f"0x{int(section['address']):x}",
+                "offset": f"0x{int(section['offset']):x}",
+                "size": f"0x{int(section['size']):x}",
+            }
+            for section in executable_sections
+        ],
         "masked_mnemonics": sorted(mnemonics),
         "replacement": args.replacement,
+        "matching_count": len(matching_instructions),
         "masked_count": len(records),
+        "kept_count": len(matching_instructions) - len(records),
+        "keep_addresses": [
+            f"0x{address:x}" for address in sorted(set(args.keep_address))
+        ],
+        "mask_addresses": [
+            f"0x{address:x}" for address in sorted(set(args.mask_address))
+        ],
         "instructions": records,
     }
     manifest_path = args.manifest or args.output.with_suffix(
