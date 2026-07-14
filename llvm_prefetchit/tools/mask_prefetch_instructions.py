@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Replace selected x86 prefetch instructions with equal-length NOPs."""
+"""Replace selected x86 prefetch instructions with equal-length controls."""
 
 from __future__ import annotations
 
@@ -34,6 +34,18 @@ NOP_BYTES = {
     9: bytes.fromhex("66 0f 1f 84 00 00 00 00 00"),
 }
 
+# Keep one PREFETCHT1 uop while redirecting it to the already-hot stack line.
+# Longer source instructions are padded with canonical NOPs so all following
+# instruction and symbol addresses remain unchanged.
+STACK_PREFETCH_BYTES = {
+    4: bytes.fromhex("0f 18 14 24"),
+    5: bytes.fromhex("0f 18 54 24 00"),
+    6: bytes.fromhex("0f 18 54 24 00 90"),
+    7: bytes.fromhex("0f 18 14 24 0f 1f 00"),
+    8: bytes.fromhex("0f 18 14 24 0f 1f 40 00"),
+    9: bytes.fromhex("0f 18 14 24 0f 1f 44 00 00"),
+}
+
 
 def command_output(command: list[str]) -> str:
     return subprocess.run(
@@ -55,7 +67,10 @@ def text_layout(binary: Path) -> tuple[int, int, int]:
 
 
 def find_instructions(binary: Path, mnemonics: set[str]) -> list[dict[str, object]]:
-    output = command_output(["objdump", "-d", str(binary)])
+    # GNU objdump otherwise wraps instructions longer than seven bytes and
+    # places the remaining bytes on a continuation line. Keep each complete
+    # instruction on one line so its replacement length cannot be truncated.
+    output = command_output(["objdump", "-d", "--insn-width=16", str(binary)])
     instructions: list[dict[str, object]] = []
     for line in output.splitlines():
         match = INSTRUCTION_RE.match(line)
@@ -92,6 +107,15 @@ def main() -> int:
         default=-1,
         help="fail unless exactly this many instructions are found",
     )
+    parser.add_argument(
+        "--replacement",
+        choices=("nop", "stack-prefetch"),
+        default="nop",
+        help=(
+            "equal-length replacement: canonical NOPs, or a PREFETCHT1 to "
+            "the hot stack line plus NOP padding"
+        ),
+    )
     args = parser.parse_args()
 
     source = args.input.resolve()
@@ -112,13 +136,17 @@ def main() -> int:
     text_address, text_offset, text_size = text_layout(source)
     source_data = source.read_bytes()
     output_data = bytearray(source_data)
+    replacement_bytes = (
+        NOP_BYTES if args.replacement == "nop" else STACK_PREFETCH_BYTES
+    )
     records = []
     for instruction in instructions:
         address = int(instruction["address"])
         old_bytes = bytes(instruction["bytes"])
-        if len(old_bytes) not in NOP_BYTES:
+        if len(old_bytes) not in replacement_bytes:
             raise SystemExit(
-                f"no canonical NOP sequence for {len(old_bytes)}-byte instruction "
+                f"no {args.replacement} sequence for "
+                f"{len(old_bytes)}-byte instruction "
                 f"at 0x{address:x}"
             )
         if not text_address <= address < text_address + text_size:
@@ -130,7 +158,7 @@ def main() -> int:
                 f"binary bytes disagree with objdump at 0x{address:x}: "
                 f"expected={old_bytes.hex()} actual={actual.hex()}"
             )
-        new_bytes = NOP_BYTES[len(old_bytes)]
+        new_bytes = replacement_bytes[len(old_bytes)]
         output_data[file_offset : file_offset + len(old_bytes)] = new_bytes
         records.append(
             {
@@ -155,6 +183,7 @@ def main() -> int:
         "text_offset": f"0x{text_offset:x}",
         "text_size": f"0x{text_size:x}",
         "masked_mnemonics": sorted(mnemonics),
+        "replacement": args.replacement,
         "masked_count": len(records),
         "instructions": records,
     }
