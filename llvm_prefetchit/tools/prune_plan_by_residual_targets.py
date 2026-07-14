@@ -19,11 +19,15 @@ def profile_symbol(target: str) -> str:
     return normalize_symbol(fields[0] if len(fields) == 3 else target)
 
 
-def read_counts(path: Path) -> Counter:
+def read_counts(paths: list[Path]) -> Counter:
     counts = Counter()
-    with path.open(newline="") as handle:
-        for row in csv.DictReader(handle):
-            counts[profile_symbol(row["target"])] += int(row["samples"])
+    for path in paths:
+        with path.open(newline="") as handle:
+            for row in csv.DictReader(handle):
+                sample_count = row.get("samples", row.get("count"))
+                if sample_count is None:
+                    raise ValueError(f"{path}: expected samples or count column")
+                counts[profile_symbol(row["target"])] += int(sample_count)
     return counts
 
 
@@ -38,8 +42,12 @@ def target_aliases(target: dict) -> set[str]:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--input-plan", type=Path, required=True)
-    parser.add_argument("--baseline-targets", type=Path, required=True)
-    parser.add_argument("--residual-targets", type=Path, required=True)
+    parser.add_argument(
+        "--baseline-targets", type=Path, action="append", required=True
+    )
+    parser.add_argument(
+        "--residual-targets", type=Path, action="append", required=True
+    )
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--audit-csv", type=Path)
     parser.add_argument("--label", required=True)
@@ -108,8 +116,8 @@ def main() -> None:
     options["label"] = args.label
     options["prefetch_byte_offsets"] = offsets
     options["residual_pruning"] = {
-        "baseline_targets": str(args.baseline_targets),
-        "residual_targets": str(args.residual_targets),
+        "baseline_targets": [str(path) for path in args.baseline_targets],
+        "residual_targets": [str(path) for path in args.residual_targets],
         "max_symbols": args.max_symbols,
         "min_baseline_samples": args.min_baseline_samples,
         "min_absolute_reduction": args.min_absolute_reduction,

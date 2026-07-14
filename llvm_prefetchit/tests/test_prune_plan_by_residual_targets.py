@@ -64,6 +64,58 @@ class ResidualPlanPruningTest(unittest.TestCase):
             self.assertEqual([0, 64], result["prefetch"]["byte_offsets"])
             self.assertEqual(2, result["stats"]["planned_prefetches"])
 
+    def test_aggregates_repeated_profile_csvs(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            plan = root / "input.json"
+            output = root / "output.json"
+            plan.write_text(
+                json.dumps(
+                    {
+                        "injections": [
+                            {"target": {"demangled": "keep"}, "site": {}}
+                        ],
+                        "prefetch": {"byte_offsets": [0]},
+                        "options": {},
+                        "stats": {},
+                    }
+                )
+            )
+
+            profile_args = []
+            for kind, counts in (("baseline", (30, 20)), ("residual", (20, 10))):
+                for index, count in enumerate(counts):
+                    path = root / f"{kind}{index}.csv"
+                    count_field = "samples" if index == 0 else "count"
+                    with path.open("w", newline="") as handle:
+                        writer = csv.DictWriter(handle, fieldnames=["target", count_field])
+                        writer.writeheader()
+                        writer.writerow({"target": "keep:/tmp/a.cc:1", count_field: count})
+                    profile_args.extend([f"--{kind}-targets", str(path)])
+
+            subprocess.run(
+                [
+                    "python3",
+                    str(TOOL),
+                    "--input-plan",
+                    str(plan),
+                    *profile_args,
+                    "--output",
+                    str(output),
+                    "--label",
+                    "repeated",
+                    "--min-absolute-reduction",
+                    "20",
+                ],
+                check=True,
+            )
+            result = json.loads(output.read_text())
+            self.assertEqual(1, result["stats"]["selected_injections"])
+            self.assertEqual(
+                20,
+                result["injections"][0]["residual_target_delta"]["reduction_samples"],
+            )
+
 
 if __name__ == "__main__":
     unittest.main()
