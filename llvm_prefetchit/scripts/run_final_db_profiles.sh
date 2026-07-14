@@ -16,6 +16,11 @@ REPS="${REPS:-3}"
 DURATION="${DURATION:-30}"
 PROFILE_SAMPLE_PERIOD="${PROFILE_SAMPLE_PERIOD:-10000}"
 MAX_ATTEMPTS_PER_REP="${MAX_ATTEMPTS_PER_REP:-4}"
+POSTGRES_CLIENTS="${POSTGRES_CLIENTS:-8}"
+POSTGRES_CLIENT_THREADS="${POSTGRES_CLIENT_THREADS:-${POSTGRES_CLIENTS}}"
+POSTGRES_QUERY_MODE="${POSTGRES_QUERY_MODE:-prepared}"
+POSTGRES_PGBENCH_BUILTIN="${POSTGRES_PGBENCH_BUILTIN:-tpcb-like}"
+POSTGRES_WARMUP_DURATION="${POSTGRES_WARMUP_DURATION:-20}"
 EVENT='cpu/event=0x24,umask=0x24,name=L2I_CODE_RD_MISS/upp'
 
 case "${BENCHMARK}" in
@@ -36,6 +41,12 @@ sha256sum "${BINARY}" > "${OUT}/profile_binary.sha256"
 printf 'benchmark=%s\nbinary=%s\nreps=%s\nduration_s=%s\nsample_period=%s\nmax_attempts_per_rep=%s\n' \
   "${BENCHMARK}" "${BINARY}" "${REPS}" "${DURATION}" \
   "${PROFILE_SAMPLE_PERIOD}" "${MAX_ATTEMPTS_PER_REP}" > "${OUT}/campaign.conf"
+if [[ "${BENCHMARK}" == postgresql ]]; then
+  printf 'clients=%s\nclient_threads=%s\nquery_mode=%s\npgbench_builtin=%s\nwarmup_duration_s=%s\n' \
+    "${POSTGRES_CLIENTS}" "${POSTGRES_CLIENT_THREADS}" \
+    "${POSTGRES_QUERY_MODE}" "${POSTGRES_PGBENCH_BUILTIN}" \
+    "${POSTGRES_WARMUP_DURATION}" >> "${OUT}/campaign.conf"
+fi
 printf 'rep,attempt,status,samples,metric,cpu_migrations,service_tids,trace_dir\n' \
   > "${OUT}/profiles.csv"
 
@@ -56,7 +67,11 @@ for rep in $(seq 1 "${REPS}"); do
         "${RUNNER}" "profile_rep${rep}" "${BINARY}" "${run}"
     else
       PROFILE_RECORD=1 PROFILE_SAMPLE_PERIOD="${PROFILE_SAMPLE_PERIOD}" \
-        DURATION="${DURATION}" CLIENTS=8 CLIENT_THREADS=8 QUERY_MODE=prepared \
+        DURATION="${DURATION}" WARMUP_DURATION="${POSTGRES_WARMUP_DURATION}" \
+        CLIENTS="${POSTGRES_CLIENTS}" \
+        CLIENT_THREADS="${POSTGRES_CLIENT_THREADS}" \
+        QUERY_MODE="${POSTGRES_QUERY_MODE}" \
+        PGBENCH_BUILTIN="${POSTGRES_PGBENCH_BUILTIN}" \
         "${RUNNER}" "profile_rep${rep}" "${BINARY}" "${run}"
     fi
     runner_rc="$?"
