@@ -23,6 +23,7 @@ MEASURE_SETTLE_DURATION="${MEASURE_SETTLE_DURATION:-0}"
 GRPC_CORE_CAP="${GRPC_CORE_CAP:-0}"
 PROFILE_RECORD="${PROFILE_RECORD:-0}"
 PROFILE_SAMPLE_PERIOD="${PROFILE_SAMPLE_PERIOD:-50000}"
+PERF_TARGET_ROLE="${PERF_TARGET_ROLE:-mid}"
 DISABLE_ASLR="${DISABLE_ASLR:-0}"
 ROUTER_PREPOPULATE="${ROUTER_PREPOPULATE:-0}"
 ROUTER_LEAF_INSTANCES="${ROUTER_LEAF_INSTANCES:-1}"
@@ -316,6 +317,29 @@ case "${BENCHMARK}" in
     ;;
 esac
 
+case "${PERF_TARGET_ROLE}" in
+  mid)
+    PERF_TARGET_PID="${MID_PID}"
+    PERF_TARGET_ACTIVITY_PREFIX=mid
+    ;;
+  leaf)
+    if [[ -n "${LEAF_PID}" ]]; then
+      PERF_TARGET_PID="${LEAF_PID}"
+    elif ((${#LEAF_PIDS[@]} == 1)); then
+      PERF_TARGET_PID="${LEAF_PIDS[0]}"
+    else
+      echo "PERF_TARGET_ROLE=leaf requires exactly one leaf process" >&2
+      exit 2
+    fi
+    PERF_TARGET_ACTIVITY_PREFIX=leaf_perf_target
+    ;;
+  *)
+    echo "PERF_TARGET_ROLE must be mid or leaf" >&2
+    exit 2
+    ;;
+esac
+PERF_TARGET_BINARY="$(readlink -f "/proc/${PERF_TARGET_PID}/exe")"
+
 sleep 2
 if ((PREWARM_DURATION > 0)); then
   PREWARM_COMMAND=("${CLIENT_COMMAND[@]}")
@@ -421,6 +445,10 @@ for pinner_log in "${OUT}"/*_pinner.log; do
   printf '[%(%F %T)T] MEASUREMENT_START\n' -1 >> "${pinner_log}"
 done
 python3 "${THREAD_SNAPSHOT}" "${MID_PID}" "${OUT}/mid_thread_activity_start.csv"
+if [[ "${PERF_TARGET_ROLE}" != mid ]]; then
+  python3 "${THREAD_SNAPSHOT}" "${PERF_TARGET_PID}" \
+    "${OUT}/${PERF_TARGET_ACTIVITY_PREFIX}_thread_activity_start.csv"
+fi
 
 PERF_WINDOW=(sleep "${DURATION}")
 RECORD_WINDOW=(sleep "${DURATION}")
@@ -475,11 +503,11 @@ record_rc=0
 if ((PROFILE_RECORD == 1)); then
   taskset -c "${CONTROL_CORE}" perf record -q \
     -e "${PROFILE_EVENT}" -b -c "${PROFILE_SAMPLE_PERIOD}" \
-    -o "${OUT}/l2miss_profile.data" -p "${MID_PID}" -- "${RECORD_WINDOW[@]}" \
+    -o "${OUT}/l2miss_profile.data" -p "${PERF_TARGET_PID}" -- "${RECORD_WINDOW[@]}" \
     >"${OUT}/record.out" 2>"${OUT}/record.err" &
   record_pid="$!"
   taskset -c "${CONTROL_CORE}" perf stat -x, -o "${OUT}/perf.csv" \
-    -e context-switches,cpu-migrations -p "${MID_PID}" -- "${PERF_WINDOW[@]}"
+    -e context-switches,cpu-migrations -p "${PERF_TARGET_PID}" -- "${PERF_WINDOW[@]}"
   set +e
   wait "${record_pid}"
   record_rc="$?"
@@ -487,9 +515,13 @@ if ((PROFILE_RECORD == 1)); then
 else
   taskset -c "${CONTROL_CORE}" perf stat -x, -o "${OUT}/perf.csv" \
     -e instructions,cycles,"${EVENT}",context-switches,cpu-migrations \
-    -p "${MID_PID}" -- "${PERF_WINDOW[@]}"
+    -p "${PERF_TARGET_PID}" -- "${PERF_WINDOW[@]}"
 fi
 python3 "${THREAD_SNAPSHOT}" "${MID_PID}" "${OUT}/mid_thread_activity_end.csv"
+if [[ "${PERF_TARGET_ROLE}" != mid ]]; then
+  python3 "${THREAD_SNAPSHOT}" "${PERF_TARGET_PID}" \
+    "${OUT}/${PERF_TARGET_ACTIVITY_PREFIX}_thread_activity_end.csv"
+fi
 
 set +e
 wait "${CLIENT_PID}"
@@ -507,7 +539,8 @@ python3 - "${OUT}" "${BENCHMARK}" "${LABEL}" "${MID_BINARY}" "${DURATION}" "${DE
   "${ROUTER_FIXED_PREWARM_REQUESTS}" \
   "${ROUTER_FIXED_PREWARM_TIMEOUT}" \
   "${EVICT_CACHES}" "${EVICT_BYTES_PER_CORE}" "${EVICT_PASSES}" \
-  "${client_rc}" "${audit_ok}" <<'PY'
+  "${client_rc}" "${audit_ok}" "${PERF_TARGET_ROLE}" \
+  "${PERF_TARGET_BINARY}" "${GRPC_POLL_STRATEGY:-default}" <<'PY'
 import csv
 import json
 import math
@@ -521,7 +554,8 @@ import sys
  profile_sample_period, record_rc, disable_aslr, router_prepopulate,
  router_leaf_instances, router_fixed_prewarm_requests, router_fixed_prewarm_timeout,
  evict_caches, evict_bytes_per_core, evict_passes,
- client_rc, audit_ok) = sys.argv[1:]
+ client_rc, audit_ok, perf_target_role, perf_target_binary,
+ grpc_poll_strategy) = sys.argv[1:]
 root = pathlib.Path(out)
 text = (root / "loadgen.log").read_text(errors="replace")
 numbers = [
@@ -576,9 +610,9 @@ def tids(path):
     with path.open(newline="") as handle:
         return sum(row.get("status") == "ok" for row in csv.DictReader(handle))
 
-def thread_activity():
-    start_path = root / "mid_thread_activity_start.csv"
-    end_path = root / "mid_thread_activity_end.csv"
+def thread_activity(prefix):
+    start_path = root / f"{prefix}_thread_activity_start.csv"
+    end_path = root / f"{prefix}_thread_activity_end.csv"
     if not start_path.exists() or not end_path.exists():
         return 0, 0.0, 0.0
     with start_path.open(newline="") as handle:
@@ -609,7 +643,7 @@ def thread_activity():
             }
         )
     if activity:
-        with (root / "mid_thread_activity.csv").open("w", newline="") as handle:
+        with (root / f"{prefix}_thread_activity.csv").open("w", newline="") as handle:
             writer = csv.DictWriter(handle, fieldnames=activity[0])
             writer.writeheader()
             writer.writerows(activity)
@@ -622,12 +656,18 @@ def thread_activity():
         sum(share * share for share in shares),
     )
 
-mid_active_tids, mid_max_thread_cpu_share, mid_thread_cpu_share_hhi = thread_activity()
+mid_active_tids, mid_max_thread_cpu_share, mid_thread_cpu_share_hhi = thread_activity("mid")
+perf_activity_prefix = "mid" if perf_target_role == "mid" else "leaf_perf_target"
+(perf_target_active_tids, perf_target_max_thread_cpu_share,
+ perf_target_thread_cpu_share_hhi) = thread_activity(perf_activity_prefix)
 
 row = {
     "benchmark": benchmark,
     "label": label,
     "binary": binary,
+    "perf_target_role": perf_target_role,
+    "perf_target_binary": perf_target_binary,
+    "grpc_poll_strategy": grpc_poll_strategy,
     "duration_s": int(duration),
     "prewarm_duration_s": int(prewarm_duration),
     "prewarm_depth": int(prewarm_depth),
@@ -668,6 +708,9 @@ row = {
     "mid_active_tids": mid_active_tids,
     "mid_max_thread_cpu_share": mid_max_thread_cpu_share,
     "mid_thread_cpu_share_hhi": mid_thread_cpu_share_hhi,
+    "perf_target_active_tids": perf_target_active_tids,
+    "perf_target_max_thread_cpu_share": perf_target_max_thread_cpu_share,
+    "perf_target_thread_cpu_share_hhi": perf_target_thread_cpu_share_hhi,
     "leaf_tids": sum(tids(path) for path in root.glob("leaf*_affinity_measure.csv")),
     "client_tids": tids(root / "client_affinity_measure.csv"),
     "client_rc": int(client_rc),
