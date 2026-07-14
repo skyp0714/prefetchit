@@ -254,6 +254,89 @@ class DerivePrefetchPlanTest(unittest.TestCase):
             self.assertEqual(plan["options"]["derive_selection_order"], "samples")
             self.assertEqual(plan["options"]["derive_max_injections"], 2)
 
+    def test_new_sample_order_prunes_redundant_sites(self):
+        with tempfile.TemporaryDirectory() as raw_tmp:
+            tmp = Path(raw_tmp)
+            source = tmp / "full.json"
+            output = tmp / "derived.json"
+            source.write_text(
+                json.dumps(
+                    {
+                        "schema": "prefetchit.plan.v1",
+                        "prefetch": {"byte_offsets": [0]},
+                        "options": {},
+                        "stats": {},
+                        "injections": [
+                            {
+                                "target_rank": 1,
+                                "site_rank": 1,
+                                "samples": 100,
+                                "new_covered_samples": 0,
+                                "site": {
+                                    "mangled": "hot_redundant",
+                                    "lbr_depth": 6,
+                                    "branch_type": "COND",
+                                },
+                                "target": {"mangled": "target_a"},
+                            },
+                            {
+                                "target_rank": 1,
+                                "site_rank": 2,
+                                "samples": 60,
+                                "new_covered_samples": 40,
+                                "site": {
+                                    "mangled": "incremental_a",
+                                    "lbr_depth": 7,
+                                    "branch_type": "CALL",
+                                },
+                                "target": {"mangled": "target_a"},
+                            },
+                            {
+                                "target_rank": 2,
+                                "site_rank": 1,
+                                "samples": 50,
+                                "new_covered_samples": 30,
+                                "site": {
+                                    "mangled": "incremental_b",
+                                    "lbr_depth": 8,
+                                    "branch_type": "RET",
+                                },
+                                "target": {"mangled": "target_b"},
+                            },
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            subprocess.run(
+                [
+                    "python3",
+                    str(DERIVER),
+                    "--input",
+                    str(source),
+                    "--output",
+                    str(output),
+                    "--label",
+                    "new-sample-order",
+                    "--selection-order",
+                    "new-samples",
+                    "--min-new-covered-samples",
+                    "1",
+                ],
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            plan = json.loads(output.read_text(encoding="utf-8"))
+            self.assertEqual(
+                [row["site"]["mangled"] for row in plan["injections"]],
+                ["incremental_a", "incremental_b"],
+            )
+            self.assertEqual(plan["stats"]["selected_new_covered_samples"], 70)
+            self.assertEqual(
+                plan["options"]["derive_min_new_covered_samples"], 1
+            )
+
 
 if __name__ == "__main__":
     unittest.main()

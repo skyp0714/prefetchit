@@ -50,12 +50,19 @@ def main() -> int:
     parser.add_argument("--max-injections", type=int, default=0)
     parser.add_argument(
         "--selection-order",
-        choices=("plan", "samples"),
+        choices=("plan", "samples", "new-samples"),
         default="plan",
         help=(
             "plan preserves source-plan order; samples chooses the highest-sample "
-            "eligible sites per target and then globally"
+            "eligible sites per target and then globally; new-samples prioritizes "
+            "the incremental miss-sample coverage of each site"
         ),
+    )
+    parser.add_argument(
+        "--min-new-covered-samples",
+        type=int,
+        default=0,
+        help="drop sites adding fewer than this many previously uncovered samples",
     )
     parser.add_argument("--depth-min", type=int, default=1)
     parser.add_argument("--depth-max", type=int, default=0)
@@ -74,6 +81,8 @@ def main() -> int:
         parser.error("--sites-per-target-after-filter must be non-negative")
     if args.max_injections < 0:
         parser.error("--max-injections must be non-negative")
+    if args.min_new_covered_samples < 0:
+        parser.error("--min-new-covered-samples must be non-negative")
 
     plan = json.loads(args.input.read_text(encoding="utf-8"))
     if plan.get("schema") != "prefetchit.plan.v1":
@@ -95,6 +104,8 @@ def main() -> int:
             continue
         if args.depth_max > 0 and depth > args.depth_max:
             continue
+        if int(injection.get("new_covered_samples") or 0) < args.min_new_covered_samples:
+            continue
         site_cacheline = cacheline64(site)
         target_cacheline = cacheline64(injection.get("target") or {})
         if (
@@ -109,10 +120,16 @@ def main() -> int:
             continue
         eligible.append(injection)
 
-    if args.selection_order == "samples":
+    if args.selection_order in ("samples", "new-samples"):
+        score_key = (
+            "new_covered_samples"
+            if args.selection_order == "new-samples"
+            else "samples"
+        )
         eligible.sort(
             key=lambda injection: (
                 identity(injection.get("target") or {}),
+                -int(injection.get(score_key) or 0),
                 -int(injection.get("samples") or 0),
                 int(injection.get("site_rank") or 0),
             )
@@ -131,9 +148,15 @@ def main() -> int:
         selected.append(injection)
         sites_kept_per_target[target_key] += 1
 
-    if args.selection_order == "samples":
+    if args.selection_order in ("samples", "new-samples"):
+        score_key = (
+            "new_covered_samples"
+            if args.selection_order == "new-samples"
+            else "samples"
+        )
         selected.sort(
             key=lambda injection: (
+                -int(injection.get(score_key) or 0),
                 -int(injection.get("samples") or 0),
                 int(injection.get("target_rank") or 0),
                 int(injection.get("site_rank") or 0),
@@ -162,6 +185,7 @@ def main() -> int:
             ),
             "derive_max_injections": args.max_injections,
             "derive_selection_order": args.selection_order,
+            "derive_min_new_covered_samples": args.min_new_covered_samples,
             "derive_depth_min": args.depth_min,
             "derive_depth_max": args.depth_max,
             "derive_lead_instructions": args.lead_instructions,

@@ -32,6 +32,8 @@ EVICT_CACHES="${EVICT_CACHES:-0}"
 EVICT_CORES="${EVICT_CORES:-1-70}"
 EVICT_BYTES_PER_CORE="${EVICT_BYTES_PER_CORE:-8388608}"
 EVICT_PASSES="${EVICT_PASSES:-4}"
+SYNC_MEASUREMENT_START="${SYNC_MEASUREMENT_START:-0}"
+SYNC_MEASUREMENT_TIMEOUT="${SYNC_MEASUREMENT_TIMEOUT:-180}"
 CACHE_EVICTOR="${CACHE_EVICTOR:-${ROOT}/llvm_prefetchit/tools/evict_cpu_caches}"
 DEPTH="${DEPTH:-32}"
 PARALLELISM="${PARALLELISM:-4}"
@@ -47,6 +49,7 @@ EVENT='cpu/event=0x24,umask=0x24,name=L2I_CODE_RD_MISS/u'
 PROFILE_EVENT='cpu/event=0x24,umask=0x24,name=L2I_CODE_RD_MISS/upp'
 GRPC_CORE_CAP_SO="${ROOT}/llvm_prefetchit/tools/grpc_core_cap.so"
 THREAD_PIN_SO="${ROOT}/llvm_prefetchit/tools/pthread_core_pin.so"
+THREAD_SNAPSHOT="${ROOT}/llvm_prefetchit/tools/snapshot_thread_activity.py"
 
 # shellcheck source=/dev/null
 source "${COMMON}"
@@ -283,9 +286,11 @@ case "${BENCHMARK}" in
     )
     ;;
   recommend)
+    RECOMMEND_LOADGEN="${RECOMMEND_LOADGEN:-${SRC}/Recommend/load_generator/load_generator_closed_loop}"
+    RECOMMEND_CF_SERVER="${RECOMMEND_CF_SERVER:-${SRC}/Recommend/cf_service/service/cf_server}"
     printf '127.0.0.1:63251\n' > "${OUT}/leaf_ips.txt"
     taskset -c 9 "${ASLR_PREFIX[@]}" "${LEAF_ENV[@]}" \
-      "${SRC}/Recommend/cf_service/service/cf_server" \
+      "${RECOMMEND_CF_SERVER}" \
       "${DATA}/recommend_dataset.csv" 127.0.0.1:63251 1 2 1 1 \
       >"${OUT}/leaf.log" 2>&1 &
     LEAF_PID="$!"
@@ -300,7 +305,7 @@ case "${BENCHMARK}" in
     start_pinner "${MID_PID}" "${MID_CORES}" mid
     wait_port 63250 "${MID_PID}"
     CLIENT_COMMAND=(
-      "${SRC}/Recommend/load_generator/load_generator_closed_loop"
+      "${RECOMMEND_LOADGEN}"
       "${DATA}/recommend_queries.txt" "${OUT}/result.txt" "${DURATION}"
       "${DEPTH}" 127.0.0.1:63250
     )
@@ -366,13 +371,39 @@ if ((MEASURE_SETTLE_DURATION > 0)); then
   ((replaced == 1)) || { echo 'could not extend measurement duration' >&2; exit 1; }
 fi
 
-taskset -c 56 "${ASLR_PREFIX[@]}" "${CLIENT_ENV[@]}" \
+MEASURE_CLIENT_ENV=("${CLIENT_ENV[@]}")
+if ((SYNC_MEASUREMENT_START == 1)); then
+  rm -f "${OUT}/measurement.ready" "${OUT}/measurement.start" \
+    "${OUT}/measurement.done" "${OUT}/record.ready"
+  MEASURE_CLIENT_ENV+=(
+    "PREFETCHIT_MEASUREMENT_READY_FILE=${OUT}/measurement.ready"
+    "PREFETCHIT_MEASUREMENT_START_FILE=${OUT}/measurement.start"
+    "PREFETCHIT_MEASUREMENT_DONE_FILE=${OUT}/measurement.done"
+    "PREFETCHIT_EXIT_AFTER_FIXED_WORK=1"
+  )
+fi
+taskset -c 56 "${ASLR_PREFIX[@]}" "${MEASURE_CLIENT_ENV[@]}" \
   "${MEASURE_COMMAND[@]}" >"${OUT}/loadgen.log" 2>&1 &
 CLIENT_PID="$!"
 start_pinner "${CLIENT_PID}" "${CLIENT_CORES}" client
 
-# Every MicroSuite closed-loop client has an internal 20-second warmup.
-sleep "$((21 + MEASURE_SETTLE_DURATION))"
+if ((SYNC_MEASUREMENT_START == 1)); then
+  deadline=$((SECONDS + SYNC_MEASUREMENT_TIMEOUT))
+  while [[ ! -s "${OUT}/measurement.ready" ]]; do
+    kill -0 "${CLIENT_PID}" 2>/dev/null || {
+      echo "client exited before measurement-ready handshake" >&2
+      exit 1
+    }
+    ((SECONDS < deadline)) || {
+      echo "measurement-ready handshake timed out" >&2
+      exit 1
+    }
+    sleep 0.1
+  done
+else
+  # Every upstream MicroSuite closed-loop client has an internal 20-second warmup.
+  sleep "$((21 + MEASURE_SETTLE_DURATION))"
+fi
 audit_ok=1
 fc_audit_pid_affinity "${MID_PID}" "${MID_CORES}" "${OUT}/mid_affinity_measure.csv" || audit_ok=0
 if ((${#LEAF_PIDS[@]} > 0)); then
@@ -389,16 +420,66 @@ for pinner_log in "${OUT}"/*_pinner.log; do
   [[ -f "${pinner_log}" ]] || continue
   printf '[%(%F %T)T] MEASUREMENT_START\n' -1 >> "${pinner_log}"
 done
+python3 "${THREAD_SNAPSHOT}" "${MID_PID}" "${OUT}/mid_thread_activity_start.csv"
+
+PERF_WINDOW=(sleep "${DURATION}")
+RECORD_WINDOW=(sleep "${DURATION}")
+if ((SYNC_MEASUREMENT_START == 1)); then
+  record_ready=""
+  if ((PROFILE_RECORD == 1)); then
+    record_ready="${OUT}/record.ready"
+  fi
+  PERF_WINDOW=(bash -c '
+    start_file="$1"
+    done_file="$2"
+    client_pid="$3"
+    timeout_s="$4"
+    record_ready="$5"
+    deadline=$((SECONDS + timeout_s))
+    while [[ -n "${record_ready}" && ! -e "${record_ready}" ]]; do
+      kill -0 "${client_pid}" 2>/dev/null || exit 1
+      ((SECONDS < deadline)) || exit 124
+      sleep 0.01
+    done
+    : > "${start_file}"
+    while [[ ! -s "${done_file}" ]]; do
+      kill -0 "${client_pid}" 2>/dev/null || exit 1
+      ((SECONDS < deadline)) || exit 124
+      sleep 0.01
+    done
+  ' _ "${OUT}/measurement.start" "${OUT}/measurement.done" \
+    "${CLIENT_PID}" "${SYNC_MEASUREMENT_TIMEOUT}" "${record_ready}")
+  RECORD_WINDOW=(bash -c '
+    ready_file="$1"
+    start_file="$2"
+    done_file="$3"
+    client_pid="$4"
+    timeout_s="$5"
+    : > "${ready_file}"
+    deadline=$((SECONDS + timeout_s))
+    while [[ ! -e "${start_file}" ]]; do
+      kill -0 "${client_pid}" 2>/dev/null || exit 1
+      ((SECONDS < deadline)) || exit 124
+      sleep 0.01
+    done
+    while [[ ! -s "${done_file}" ]]; do
+      kill -0 "${client_pid}" 2>/dev/null || exit 1
+      ((SECONDS < deadline)) || exit 124
+      sleep 0.01
+    done
+  ' _ "${OUT}/record.ready" "${OUT}/measurement.start" \
+    "${OUT}/measurement.done" "${CLIENT_PID}" "${SYNC_MEASUREMENT_TIMEOUT}")
+fi
 
 record_rc=0
 if ((PROFILE_RECORD == 1)); then
   taskset -c "${CONTROL_CORE}" perf record -q \
     -e "${PROFILE_EVENT}" -b -c "${PROFILE_SAMPLE_PERIOD}" \
-    -o "${OUT}/l2miss_profile.data" -p "${MID_PID}" -- sleep "${DURATION}" \
+    -o "${OUT}/l2miss_profile.data" -p "${MID_PID}" -- "${RECORD_WINDOW[@]}" \
     >"${OUT}/record.out" 2>"${OUT}/record.err" &
   record_pid="$!"
   taskset -c "${CONTROL_CORE}" perf stat -x, -o "${OUT}/perf.csv" \
-    -e context-switches,cpu-migrations -p "${MID_PID}" -- sleep "${DURATION}"
+    -e context-switches,cpu-migrations -p "${MID_PID}" -- "${PERF_WINDOW[@]}"
   set +e
   wait "${record_pid}"
   record_rc="$?"
@@ -406,8 +487,9 @@ if ((PROFILE_RECORD == 1)); then
 else
   taskset -c "${CONTROL_CORE}" perf stat -x, -o "${OUT}/perf.csv" \
     -e instructions,cycles,"${EVENT}",context-switches,cpu-migrations \
-    -p "${MID_PID}" -- sleep "${DURATION}"
+    -p "${MID_PID}" -- "${PERF_WINDOW[@]}"
 fi
+python3 "${THREAD_SNAPSHOT}" "${MID_PID}" "${OUT}/mid_thread_activity_end.csv"
 
 set +e
 wait "${CLIENT_PID}"
@@ -451,6 +533,16 @@ responses = numbers[0] if numbers else math.nan
 qps = numbers[1] if len(numbers) > 1 else math.nan
 failed_match = re.search(r"failed_responses=(\d+)", text)
 failed = int(failed_match.group(1)) if failed_match else 0
+fixed_requests_match = re.search(r"prefetchit_fixed_requests=(\d+)", text)
+fixed_warmup_match = re.search(r"prefetchit_fixed_warmup_requests=(\d+)", text)
+fixed_runtime_match = re.search(r"prefetchit_fixed_runtime_us=(\d+)", text)
+fixed_qps_match = re.search(r"prefetchit_fixed_qps=([0-9.]+)", text)
+fixed_overrun_match = re.search(r"prefetchit_fixed_window_overrun=(\d+)", text)
+fixed_requests = int(fixed_requests_match.group(1)) if fixed_requests_match else 0
+fixed_warmup_requests = int(fixed_warmup_match.group(1)) if fixed_warmup_match else 0
+fixed_runtime_us = int(fixed_runtime_match.group(1)) if fixed_runtime_match else 0
+fixed_qps = float(fixed_qps_match.group(1)) if fixed_qps_match else 0.0
+fixed_window_overrun = int(fixed_overrun_match.group(1)) if fixed_overrun_match else 0
 
 events = {}
 with (root / "perf.csv").open(newline="") as handle:
@@ -484,6 +576,54 @@ def tids(path):
     with path.open(newline="") as handle:
         return sum(row.get("status") == "ok" for row in csv.DictReader(handle))
 
+def thread_activity():
+    start_path = root / "mid_thread_activity_start.csv"
+    end_path = root / "mid_thread_activity_end.csv"
+    if not start_path.exists() or not end_path.exists():
+        return 0, 0.0, 0.0
+    with start_path.open(newline="") as handle:
+        start = {row["tid"]: row for row in csv.DictReader(handle)}
+    with end_path.open(newline="") as handle:
+        end = {row["tid"]: row for row in csv.DictReader(handle)}
+    activity = []
+    for tid in sorted(start.keys() & end.keys(), key=int):
+        before = start[tid]
+        after = end[tid]
+        runtime_ns = int(after["runtime_ns"]) - int(before["runtime_ns"])
+        activity.append(
+            {
+                "tid": int(tid),
+                "comm": after["comm"],
+                "processor": int(after["processor"]),
+                "allowed_list": after["allowed_list"],
+                "runtime_ns": runtime_ns,
+                "runqueue_wait_ns": int(after["runqueue_wait_ns"])
+                - int(before["runqueue_wait_ns"]),
+                "timeslices": int(after["timeslices"]) - int(before["timeslices"]),
+                "voluntary_context_switches": int(
+                    after["voluntary_context_switches"]
+                ) - int(before["voluntary_context_switches"]),
+                "nonvoluntary_context_switches": int(
+                    after["nonvoluntary_context_switches"]
+                ) - int(before["nonvoluntary_context_switches"]),
+            }
+        )
+    if activity:
+        with (root / "mid_thread_activity.csv").open("w", newline="") as handle:
+            writer = csv.DictWriter(handle, fieldnames=activity[0])
+            writer.writeheader()
+            writer.writerows(activity)
+    active = [entry for entry in activity if entry["runtime_ns"] > 0]
+    total_runtime = sum(entry["runtime_ns"] for entry in active)
+    shares = [entry["runtime_ns"] / total_runtime for entry in active] if total_runtime else []
+    return (
+        len(active),
+        max(shares, default=0.0),
+        sum(share * share for share in shares),
+    )
+
+mid_active_tids, mid_max_thread_cpu_share, mid_thread_cpu_share_hhi = thread_activity()
+
 row = {
     "benchmark": benchmark,
     "label": label,
@@ -510,6 +650,11 @@ row = {
     "response_threads": int(responses_cfg),
     "responses": responses,
     "qps": qps,
+    "fixed_requests": fixed_requests,
+    "fixed_warmup_requests": fixed_warmup_requests,
+    "fixed_runtime_us": fixed_runtime_us,
+    "fixed_qps": fixed_qps,
+    "fixed_window_overrun": fixed_window_overrun,
     "failed_responses": failed,
     "instructions": int(instructions),
     "cycles": int(cycles),
@@ -520,6 +665,9 @@ row = {
     "cpu_migrations": int(migrations),
     "migration_policy": "allow-pthread-creation-placement; reject-runtime-repin",
     "mid_tids": tids(root / "mid_affinity_measure.csv"),
+    "mid_active_tids": mid_active_tids,
+    "mid_max_thread_cpu_share": mid_max_thread_cpu_share,
+    "mid_thread_cpu_share_hhi": mid_thread_cpu_share_hhi,
     "leaf_tids": sum(tids(path) for path in root.glob("leaf*_affinity_measure.csv")),
     "client_tids": tids(root / "client_affinity_measure.csv"),
     "client_rc": int(client_rc),
@@ -533,6 +681,7 @@ row = {
         and int(audit_ok) == 1
         and math.isfinite(qps)
         and qps > 0
+        and fixed_window_overrun == 0
         and failed == 0
         and int(migrations) == 0
         and pinner_errors == 0

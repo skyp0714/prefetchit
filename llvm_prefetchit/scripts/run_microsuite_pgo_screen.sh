@@ -12,6 +12,7 @@ BENCHMARK="$1"
 BINS="$(readlink -f "$2")"
 OUT="$(readlink -m "$3")"
 MAX_ATTEMPTS="${MAX_ATTEMPTS:-5}"
+EXPECTED_MID_TIDS="${EXPECTED_MID_TIDS:-0}"
 DEFAULT_LABELS='baseline cov25_d1_32_b16_o0 cov25_d1_32_b16_o064 cov50_d1_32_b16_o0 cov50_d1_32_b16_o064 baseline cov75_d1_32_b16_o0 cov75_d1_32_b16_o064 cov100_d1_32_b16_o0 cov100_d1_32_b16_o064 baseline'
 LABELS="${SCREEN_LABELS:-${DEFAULT_LABELS}}"
 
@@ -43,7 +44,10 @@ for label in ${LABELS}; do
     migrations="$(jq -r '.cpu_migrations' "${run}/summary.json")"
     tids="$(jq -r '.mid_tids' "${run}/summary.json")"
     status=failed
-    [[ "${valid}" == 1 ]] && status=ok
+    if [[ "${valid}" == 1 ]] && \
+      ((EXPECTED_MID_TIDS == 0 || tids == EXPECTED_MID_TIDS)); then
+      status=ok
+    fi
     printf '%s,%s,%s,%s,%s,%s,%s,%s,%s\n' \
       "${run_order}" "${label}" "${attempt}" "${status}" "${qps}" \
       "${mpki}" "${migrations}" "${tids}" "${run}/summary.json" \
@@ -98,9 +102,64 @@ with (out / "screen_summary.csv").open("w", newline="") as handle:
     writer.writeheader()
     writer.writerows(summary)
 (out / "screen_summary.json").write_text(json.dumps(summary, indent=2) + "\n")
+
+bracketed = []
+for index, row in enumerate(valid):
+    if row["label"] == "baseline":
+        continue
+    previous = next(
+        (valid[pos] for pos in range(index - 1, -1, -1)
+         if valid[pos]["label"] == "baseline"),
+        None,
+    )
+    following = next(
+        (valid[pos] for pos in range(index + 1, len(valid))
+         if valid[pos]["label"] == "baseline"),
+        None,
+    )
+    if previous is None or following is None:
+        continue
+    bracket_qps = statistics.mean(
+        [float(previous["qps"]), float(following["qps"])]
+    )
+    bracket_mpki = statistics.mean(
+        [float(previous["l2i_mpki"]), float(following["l2i_mpki"])]
+    )
+    candidate_qps = float(row["qps"])
+    candidate_mpki = float(row["l2i_mpki"])
+    bracketed.append(
+        {
+            "run_order": int(row["run_order"]),
+            "label": row["label"],
+            "previous_baseline_qps": float(previous["qps"]),
+            "following_baseline_qps": float(following["qps"]),
+            "bracket_baseline_qps": bracket_qps,
+            "qps": candidate_qps,
+            "bracket_speedup": candidate_qps / bracket_qps,
+            "bracket_baseline_l2i_mpki": bracket_mpki,
+            "l2i_mpki": candidate_mpki,
+            "bracket_l2i_reduction_pct": (
+                100.0 * (bracket_mpki - candidate_mpki) / bracket_mpki
+                if bracket_mpki else math.nan
+            ),
+        }
+    )
+if bracketed:
+    bracketed.sort(key=lambda row: -row["bracket_speedup"])
+    fields = list(bracketed[0])
+    with (out / "bracket_summary.csv").open("w", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fields)
+        writer.writeheader()
+        writer.writerows(bracketed)
+    (out / "bracket_summary.json").write_text(
+        json.dumps(bracketed, indent=2) + "\n"
+    )
 PY
 
 cat "${OUT}/screen_summary.csv"
+if [[ -s "${OUT}/bracket_summary.csv" ]]; then
+  cat "${OUT}/bracket_summary.csv"
+fi
 if ((${#failed_labels[@]} > 0)); then
   printf 'labels without a valid run: %s\n' "${failed_labels[*]}" >&2
   exit 1

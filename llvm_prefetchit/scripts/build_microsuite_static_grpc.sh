@@ -2,7 +2,7 @@
 set -euo pipefail
 
 if [[ "$#" -lt 3 || "$#" -gt 4 ]]; then
-  echo "usage: $0 router|setalgebra baseline|pgo OUT_DIR [PLAN]" >&2
+  echo "usage: $0 router|setalgebra|recommend baseline|pgo OUT_DIR [PLAN]" >&2
   exit 2
 fi
 
@@ -18,7 +18,7 @@ GRPC_MAX_THREADS="${GRPC_MAX_THREADS:-4}"
 GRPC_CLIENT_MAX_THREADS="${GRPC_CLIENT_MAX_THREADS:-4}"
 
 case "${BENCHMARK}" in
-  router|setalgebra) ;;
+  router|setalgebra|recommend) ;;
   *) echo "unsupported benchmark: ${BENCHMARK}" >&2; exit 2 ;;
 esac
 case "${MODE}" in

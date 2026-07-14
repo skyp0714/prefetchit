@@ -13,7 +13,7 @@ set(
   CACHE PATH "MicroSuite source tree"
 )
 set(PREFETCHIT_BENCHMARK "setalgebra" CACHE STRING "MicroSuite benchmark")
-set_property(CACHE PREFETCHIT_BENCHMARK PROPERTY STRINGS router setalgebra)
+set_property(CACHE PREFETCHIT_BENCHMARK PROPERTY STRINGS router setalgebra recommend)
 set(PREFETCHIT_PASS_PLUGIN "" CACHE FILEPATH "Optional PrefetchIT pass plugin")
 set(PREFETCHIT_GRPC_MAX_THREADS 4 CACHE STRING "gRPC callback thread quota")
 set(PREFETCHIT_GRPC_CLIENT_MAX_THREADS 4 CACHE STRING "gRPC client executor thread quota")
@@ -84,6 +84,21 @@ elseif(PREFETCHIT_BENCHMARK STREQUAL "setalgebra")
     PREFETCHIT_SET_CODE_LINES=0
     PREFETCHIT_SET_PREFETCH_LOCALITY=3
   )
+elseif(PREFETCHIT_BENCHMARK STREQUAL "recommend")
+  set(BENCHMARK_SOURCE "${MICROSUITE_SOURCE}/Recommend")
+  set(BENCHMARK_SOURCES
+    "${BENCHMARK_SOURCE}/protoc_files/cf.pb.cc"
+    "${BENCHMARK_SOURCE}/protoc_files/cf.grpc.pb.cc"
+    "${BENCHMARK_SOURCE}/protoc_files/recommender.pb.cc"
+    "${BENCHMARK_SOURCE}/protoc_files/recommender.grpc.pb.cc"
+    "${BENCHMARK_SOURCE}/cf_service/service/helper_files/client_helper.cc"
+    "${BENCHMARK_SOURCE}/recommender_service/service/helper_files/recommender_server_helper.cc"
+    "${BENCHMARK_SOURCE}/recommender_service/service/helper_files/timing.cc"
+    "${BENCHMARK_SOURCE}/recommender_service/service/helper_files/utils.cc"
+    "${BENCHMARK_SOURCE}/recommender_service/service/mid_tier_server.cc"
+  )
+  set(BENCHMARK_COMPILE_OPTIONS -mavx -mavx2)
+  set(BENCHMARK_DEFINITIONS)
 else()
   message(FATAL_ERROR "Unsupported PREFETCHIT_BENCHMARK=${PREFETCHIT_BENCHMARK}")
 endif()
@@ -101,7 +116,9 @@ set_target_properties(
     CXX_EXTENSIONS NO
     OUTPUT_NAME mid_tier_server
 )
-target_compile_options(microsuite_mid_tier PRIVATE -fopenmp=libgomp -Wall)
+target_compile_options(
+  microsuite_mid_tier PRIVATE -fopenmp=libgomp -Wall ${BENCHMARK_COMPILE_OPTIONS}
+)
 target_compile_definitions(
   microsuite_mid_tier
   PRIVATE
