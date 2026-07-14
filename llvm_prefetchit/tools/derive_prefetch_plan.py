@@ -47,6 +47,16 @@ def main() -> int:
     parser.add_argument("--max-target-rank", type=int, default=0)
     parser.add_argument("--max-site-rank", type=int, default=0)
     parser.add_argument("--sites-per-target-after-filter", type=int, default=0)
+    parser.add_argument("--max-injections", type=int, default=0)
+    parser.add_argument(
+        "--selection-order",
+        choices=("plan", "samples"),
+        default="plan",
+        help=(
+            "plan preserves source-plan order; samples chooses the highest-sample "
+            "eligible sites per target and then globally"
+        ),
+    )
     parser.add_argument("--depth-min", type=int, default=1)
     parser.add_argument("--depth-max", type=int, default=0)
     parser.add_argument("--lead-instructions", type=int)
@@ -62,6 +72,8 @@ def main() -> int:
         parser.error("--lead-instructions must be non-negative")
     if args.sites_per_target_after_filter < 0:
         parser.error("--sites-per-target-after-filter must be non-negative")
+    if args.max_injections < 0:
+        parser.error("--max-injections must be non-negative")
 
     plan = json.loads(args.input.read_text(encoding="utf-8"))
     if plan.get("schema") != "prefetchit.plan.v1":
@@ -97,6 +109,15 @@ def main() -> int:
             continue
         eligible.append(injection)
 
+    if args.selection_order == "samples":
+        eligible.sort(
+            key=lambda injection: (
+                identity(injection.get("target") or {}),
+                -int(injection.get("samples") or 0),
+                int(injection.get("site_rank") or 0),
+            )
+        )
+
     selected = []
     sites_kept_per_target: Counter[tuple[str, str]] = Counter()
     for injection in eligible:
@@ -109,6 +130,17 @@ def main() -> int:
             continue
         selected.append(injection)
         sites_kept_per_target[target_key] += 1
+
+    if args.selection_order == "samples":
+        selected.sort(
+            key=lambda injection: (
+                -int(injection.get("samples") or 0),
+                int(injection.get("target_rank") or 0),
+                int(injection.get("site_rank") or 0),
+            )
+        )
+    if args.max_injections > 0:
+        selected = selected[: args.max_injections]
 
     branch_types: Counter[str] = Counter()
     for injection in selected:
@@ -128,6 +160,8 @@ def main() -> int:
             "derive_sites_per_target_after_filter": (
                 args.sites_per_target_after_filter
             ),
+            "derive_max_injections": args.max_injections,
+            "derive_selection_order": args.selection_order,
             "derive_depth_min": args.depth_min,
             "derive_depth_max": args.depth_max,
             "derive_lead_instructions": args.lead_instructions,

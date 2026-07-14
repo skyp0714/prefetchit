@@ -71,6 +71,7 @@ struct SourceLocSpec {
 
 struct InjectionSpec {
   std::string Mnemonic;
+  std::vector<int64_t> ByteOffsets;
   unsigned TargetRank = 0;
   unsigned SiteRank = 0;
   uint64_t Samples = 0;
@@ -313,6 +314,8 @@ static std::optional<Plan> loadPlan(StringRef Path) {
       }
       Spec.Mnemonic = *NormalizedSpecMnemonic;
     }
+    if (const json::Object *PrefetchObj = Obj->getObject("prefetch"))
+      Spec.ByteOffsets = getIntegerArray(*PrefetchObj, "byte_offsets", {});
     Spec.TargetRank = getUnsigned(*Obj, "target_rank");
     Spec.SiteRank = getUnsigned(*Obj, "site_rank");
     Spec.Samples = getUInt64(*Obj, "samples");
@@ -736,7 +739,16 @@ public:
                << Spec.Site.Line << " -> "
                << Spec.Target.Mangled << ":" << Spec.Target.Line << " samples="
                << Spec.Samples << " coverage="
-               << Spec.CumulativeCoveragePct << "%\n";
+               << Spec.CumulativeCoveragePct << "% byte_offsets=";
+        ArrayRef<int64_t> ByteOffsets = Spec.ByteOffsets.empty()
+                                            ? ArrayRef<int64_t>(Loaded->ByteOffsets)
+                                            : ArrayRef<int64_t>(Spec.ByteOffsets);
+        for (size_t I = 0; I < ByteOffsets.size(); ++I) {
+          if (I)
+            errs() << ",";
+          errs() << ByteOffsets[I];
+        }
+        errs() << "\n";
       }
     }
 
@@ -835,7 +847,10 @@ public:
       if (InsertionI != SiteI)
         ++Stats.LeadAdjustedSites;
 
-      for (int64_t ByteOffset : Loaded->ByteOffsets) {
+      ArrayRef<int64_t> ByteOffsets = Spec.ByteOffsets.empty()
+                                          ? ArrayRef<int64_t>(Loaded->ByteOffsets)
+                                          : ArrayRef<int64_t>(Spec.ByteOffsets);
+      for (int64_t ByteOffset : ByteOffsets) {
         std::string InsertKey =
             std::to_string(reinterpret_cast<uintptr_t>(InsertionI)) + "->" +
             TKey + ":" + Mnemonic + ":" + std::to_string(ByteOffset);

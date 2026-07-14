@@ -18,6 +18,9 @@ PREFETCH_RE = re.compile(
     r"^\s*([0-9a-fA-F]+):.*\b(prefetch(?:t[012]|nta)|prefetchit[01])\b.*"
     r"#\s*((?:0x)?[0-9a-fA-F]+)"
 )
+PREFETCH_MNEMONIC_RE = re.compile(
+    r"^\s*([0-9a-fA-F]+):.*\b(prefetch(?:t[012]|nta)|prefetchit[01])\b"
+)
 DISASM_LINE_RE = re.compile(r"^\s*[0-9a-fA-F]+:")
 INJECTED_RE = re.compile(r"prefetchit-inject:\s+injected=([0-9]+)")
 NM_LINE_RE = re.compile(r"^([0-9a-fA-F]+)\s+([A-Za-z])\s+(.+)$")
@@ -139,10 +142,11 @@ def resolve_symbol_bases(binary: Path, names: set[str], nm_bin: str = "nm") -> d
     return out
 
 
-def parse_prefetch_offsets(plan: dict) -> list[int]:
-    raw = plan.get("prefetch", {}).get("byte_offsets", [0])
+def parse_prefetch_offsets(obj: dict, default: list[int] | None = None) -> list[int]:
+    fallback = default if default is not None else [0]
+    raw = obj.get("prefetch", {}).get("byte_offsets", fallback)
     if not isinstance(raw, list):
-        return [0]
+        return fallback
     offsets: list[int] = []
     seen: set[int] = set()
     for item in raw:
@@ -154,7 +158,7 @@ def parse_prefetch_offsets(plan: dict) -> list[int]:
             continue
         seen.add(value)
         offsets.append(value)
-    return offsets or [0]
+    return offsets or fallback
 
 
 def run_lines(cmd: list[str]) -> list[str]:
@@ -213,15 +217,15 @@ def resolve_addrs(addr2line: str, binary: Path, addrs: list[int]) -> dict[int, L
     return out
 
 
-def latest_injected_count(log_path: Path) -> int:
+def total_injected_count(log_path: Path) -> int:
     if not log_path.exists():
         return 0
-    last = 0
+    total = 0
     for line in log_path.read_text(encoding="utf-8", errors="replace").splitlines():
         m = INJECTED_RE.search(line)
         if m:
-            last = int(m.group(1))
-    return last
+            total += int(m.group(1))
+    return total
 
 
 def main() -> None:
@@ -245,7 +249,20 @@ def main() -> None:
     injections = plan.get("injections", [])
     operand_mode = str(plan.get("prefetch", {}).get("operand", "pc-relative-blockaddress"))
     prefetch_offsets = parse_prefetch_offsets(plan)
-    strict_target_cacheline = operand_mode == "pc-relative-symbol-offset" or prefetch_offsets == [0]
+    injection_offsets = [
+        parse_prefetch_offsets(injection, prefetch_offsets) for injection in injections
+    ]
+    all_prefetch_offsets = sorted({
+        offset for offsets in injection_offsets for offset in offsets
+    })
+    has_register_targets = any(
+        str(injection.get("target", {}).get("operand") or "")
+        == "got-symbol-offset"
+        for injection in injections
+    )
+    strict_target_cacheline = not has_register_targets and (
+        operand_mode == "pc-relative-symbol-offset" or all_prefetch_offsets == [0]
+    )
     target_locs = [parse_loc(x.get("target", {})) for x in injections]
     site_locs = [parse_loc(x.get("site", {})) for x in injections]
     target_loc_index = build_loc_index(target_locs)
@@ -264,19 +281,21 @@ def main() -> None:
         if cacheline is not None
     }
     planned_target_cachelines.update(addr & ~0x3F for addr in planned_target_addrs)
-    planned_prefetch_target_addrs = {
-        addr + offset for addr in planned_target_addrs for offset in prefetch_offsets
-    }
-    planned_prefetch_target_cachelines = {
-        (addr + offset) & ~0x3F
-        for addr in planned_target_addrs
-        for offset in prefetch_offsets
-    }
-    planned_prefetch_target_cachelines.update(
-        (cacheline + offset) & ~0x3F
-        for cacheline in planned_target_cachelines
-        for offset in prefetch_offsets
-    )
+    planned_prefetch_target_addrs: set[int] = set()
+    planned_prefetch_target_cachelines: set[int] = set()
+    for injection, offsets in zip(injections, injection_offsets):
+        target = injection.get("target", {})
+        addr = parse_int_maybe(target.get("addr"))
+        cacheline = parse_int_maybe(target.get("cacheline64"))
+        if addr is not None:
+            planned_prefetch_target_addrs.update(addr + offset for offset in offsets)
+            planned_prefetch_target_cachelines.update(
+                (addr + offset) & ~0x3F for offset in offsets
+            )
+        if cacheline is not None:
+            planned_prefetch_target_cachelines.update(
+                (cacheline + offset) & ~0x3F for offset in offsets
+            )
     if operand_mode == "pc-relative-symbol-offset":
         needed_symbols = {
             str(x.get("target", {}).get("mangled") or "")
@@ -285,14 +304,14 @@ def main() -> None:
         }
         symbol_bases = resolve_symbol_bases(binary, needed_symbols)
         optimized_target_addrs: set[int] = set()
-        for injection in injections:
+        for injection, offsets in zip(injections, injection_offsets):
             target = injection.get("target", {})
             mangled = str(target.get("mangled") or "")
             sym_offset = parse_int_maybe(target.get("symbol_offset"))
             base = symbol_bases.get(mangled)
             if base is None or sym_offset is None:
                 continue
-            for offset in prefetch_offsets:
+            for offset in offsets:
                 optimized_target_addrs.add(base + sym_offset + offset)
         if optimized_target_addrs:
             planned_prefetch_target_addrs = optimized_target_addrs
@@ -308,13 +327,14 @@ def main() -> None:
             continue
         m = PREFETCH_RE.match(line)
         if not m:
+            mnemonic_match = PREFETCH_MNEMONIC_RE.match(line)
             records.append(
                 {
-                    "site_pc": "",
-                    "mnemonic": args.mnemonic,
+                    "site_pc": int(mnemonic_match.group(1), 16) if mnemonic_match else "",
+                    "mnemonic": mnemonic_match.group(2) if mnemonic_match else args.mnemonic,
                     "target_pc": "",
                     "raw": line.strip(),
-                    "parse_status": "unparsed",
+                    "parse_status": "register-target" if mnemonic_match else "unparsed",
                 }
             )
             continue
@@ -414,10 +434,12 @@ def main() -> None:
         writer.writeheader()
         writer.writerows(rows)
 
-    pass_injected = latest_injected_count(build_log)
+    pass_injected = total_injected_count(build_log)
     plan_count = len(injections)
     asm_count = sum(1 for r in rows if r["mnemonic"] == args.mnemonic)
-    parsed_count = sum(1 for r in rows if r["parse_status"] == "ok")
+    parsed_count = sum(
+        1 for r in rows if r["parse_status"] in {"ok", "register-target"}
+    )
     site_match_count = sum(int(r["site_matches_plan"]) for r in rows)
     target_match_count = sum(int(r["target_matches_plan"]) for r in rows)
     target_function_match_count = sum(int(r["target_function_matches_plan"]) for r in rows)
@@ -497,6 +519,7 @@ def main() -> None:
     md.append(f"- Plan: `{plan_path}`")
     md.append(f"- Mnemonic: `{args.mnemonic}`")
     md.append(f"- Operand mode: `{operand_mode}`")
+    md.append(f"- Register-target injections present: `{int(has_register_targets)}`")
     md.append(
         f"- SrcLine validation: {'enabled' if resolve_srclines else 'skipped-large-exact-target'}"
     )
@@ -506,8 +529,12 @@ def main() -> None:
         md.append(f"- SrcLine validation limit: {srcline_limit} prefetch instructions")
     md.append(f"- Plan injections: {plan_count}")
     md.append(
-        "- Plan prefetch byte offsets: "
+        "- Plan default prefetch byte offsets: "
         + ",".join(str(offset) for offset in prefetch_offsets)
+    )
+    md.append(
+        "- Effective prefetch byte offsets: "
+        + ",".join(str(offset) for offset in all_prefetch_offsets)
     )
     md.append(f"- Pass injected count: {pass_injected}")
     md.append(f"- Assembly `{args.mnemonic}` count: {asm_count}")
@@ -524,9 +551,13 @@ def main() -> None:
             f"({target_cacheline_match_ratio:.2%})"
         )
         if not strict_target_cacheline:
+            reason = (
+                "the plan contains GOT register-target prefetches"
+                if has_register_targets
+                else "the plan uses target-block-relative cacheline addressing"
+            )
             md.append(
-                "- Target cacheline check is reported but not enforced because "
-                "this plan uses target-block-relative cacheline addressing."
+                "- Target cacheline check is reported but not enforced because " + reason + "."
             )
     md.append(
         "- Target srcline-or-function matches: "

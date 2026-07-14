@@ -52,6 +52,9 @@ cat > "${TMP_DIR}/prefetchit.plan.json" <<JSON
       "target_rank": 1,
       "site_rank": 1,
       "prefetch_mnemonic": "prefetcht1",
+      "prefetch": {
+        "byte_offsets": [0, 128]
+      },
       "samples": 10,
       "new_covered_samples": 10,
       "cumulative_coverage_pct": 100.0,
@@ -139,13 +142,13 @@ run_case() {
   grep -q "${mnemonic}" "${TMP_DIR}/smoke.${mnemonic}.ll"
   grep -q 'blockaddress(@target' "${TMP_DIR}/smoke.${mnemonic}.ll"
   grep -q 'prefetchit.target' "${TMP_DIR}/smoke.${mnemonic}.ll"
-  grep -q 'injected=3' "${TMP_DIR}/opt.${mnemonic}.log"
+  grep -q 'injected=2' "${TMP_DIR}/opt.${mnemonic}.log"
   grep -q 'target_block_split=1' "${TMP_DIR}/opt.${mnemonic}.log"
 
   "${LLC_BIN}" "${TMP_DIR}/smoke.${mnemonic}.ll" -o "${TMP_DIR}/smoke.${mnemonic}.s"
   grep -Eq "${mnemonic}[[:space:]]+\\.L[^[:space:]]*\\(%rip\\)" "${TMP_DIR}/smoke.${mnemonic}.s"
-  grep -Eq "${mnemonic}[[:space:]]+\\.L[^[:space:]]*\\+64\\(%rip\\)" "${TMP_DIR}/smoke.${mnemonic}.s"
   grep -Eq "${mnemonic}[[:space:]]+\\.L[^[:space:]]*\\+128\\(%rip\\)" "${TMP_DIR}/smoke.${mnemonic}.s"
+  ! grep -Eq "${mnemonic}[[:space:]]+\\.L[^[:space:]]*\\+64\\(%rip\\)" "${TMP_DIR}/smoke.${mnemonic}.s"
 }
 
 run_case prefetcht1

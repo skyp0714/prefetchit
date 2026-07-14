@@ -19,6 +19,7 @@ DERIVER="${ROOT}/tools/derive_prefetch_plan.py"
 READELF="${READELF:-llvm-readelf-19}"
 SELECTION_MODE="${SELECTION_MODE:-top-sites}"
 EXCLUDE_SITE_TARGET_SAME_CACHELINE="${EXCLUDE_SITE_TARGET_SAME_CACHELINE:-1}"
+POST_FILTER_SITE_BUDGET="${POST_FILTER_SITE_BUDGET:-1}"
 
 case "${SELECTION_MODE}" in
   top-sites|greedy) ;;
@@ -32,6 +33,13 @@ case "${EXCLUDE_SITE_TARGET_SAME_CACHELINE}" in
   0|1) ;;
   *)
     echo "EXCLUDE_SITE_TARGET_SAME_CACHELINE must be 0 or 1" >&2
+    exit 2
+    ;;
+esac
+case "${POST_FILTER_SITE_BUDGET}" in
+  0|1) ;;
+  *)
+    echo "POST_FILTER_SITE_BUDGET must be 0 or 1" >&2
     exit 2
     ;;
 esac
@@ -92,13 +100,18 @@ derive() {
   local coverage="$1" depth_min="$2" depth_max="$3" budget="$4" offsets="$5" label="$6"
   local input="${OUT}/base/cov${coverage}/combined.plan.json"
   local output="${OUT}/variants/${label}/prefetchit.plan.json"
-  local filter_args=()
+  local filter_args=() budget_args=()
   if [[ "${EXCLUDE_SITE_TARGET_SAME_CACHELINE}" == 1 ]]; then
     filter_args+=(--exclude-site-target-same-cacheline)
   fi
+  if [[ "${POST_FILTER_SITE_BUDGET}" == 1 ]]; then
+    budget_args+=(--sites-per-target-after-filter "${budget}")
+  else
+    budget_args+=(--max-site-rank "${budget}")
+  fi
   python3 "${DERIVER}" --input "${input}" --output "${output}" --label "${label}" \
-    --max-site-rank "${budget}" --depth-min "${depth_min}" --depth-max "${depth_max}" \
-    --byte-offsets "${offsets}" "${filter_args[@]}" \
+    --depth-min "${depth_min}" --depth-max "${depth_max}" \
+    --byte-offsets "${offsets}" "${filter_args[@]}" "${budget_args[@]}" \
     > "${OUT}/variants/${label}.log" 2>&1
   printf '%s,%s,%s,%s,%s,%s,"%s",%s,%s,%s,%s,%s,%s\n' \
     "${BENCHMARK}" "${label}" "${coverage}" "${depth_min}" "${depth_max}" \

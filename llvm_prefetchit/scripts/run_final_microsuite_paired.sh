@@ -7,7 +7,7 @@ if [[ "$#" -lt 4 ]]; then
 fi
 
 ROOT="/home/hnpark2/prefetchit"
-RUNNER="${ROOT}/llvm_prefetchit/scripts/run_final_microsuite_variant.sh"
+RUNNER="${RUNNER:-${ROOT}/llvm_prefetchit/scripts/run_final_microsuite_variant.sh}"
 BENCHMARK="$1"
 BASE_BINARY="$(readlink -f "$2")"
 PREFETCH_BINARY="$(readlink -f "$3")"
@@ -34,13 +34,17 @@ PARALLELISM="${PARALLELISM:-4}"
 DISPATCH="${DISPATCH:-4}"
 RESPONSES="${RESPONSES:-1}"
 MAX_ATTEMPTS="${MAX_ATTEMPTS:-3}"
+MAX_PAIR_ATTEMPTS="${MAX_PAIR_ATTEMPTS:-3}"
 
 mkdir -p "${OUT}"
-printf 'pair,position,variant,attempt,qps,l2i_mpki,cpu_migrations,mid_tids,summary_path\n' > "${OUT}/runs.csv"
+printf 'pair,pair_attempt,position,variant,attempt,qps,l2i_mpki,cpu_migrations,mid_tids,summary_path\n' > "${OUT}/runs.csv"
+
+LAST_RUN_ROW=""
+LAST_SUMMARY_PATH=""
 
 run_valid() {
-  local pair="$1" position="$2" variant="$3" binary="$4"
-  local run="${OUT}/pair${pair}/${variant}"
+  local pair="$1" pair_attempt="$2" position="$3" variant="$4" binary="$5"
+  local run="${OUT}/pair${pair}/attempt${pair_attempt}/${variant}"
   local attempt=0 rc valid
   while ((attempt < MAX_ATTEMPTS)); do
     attempt=$((attempt + 1))
@@ -57,7 +61,8 @@ run_valid() {
       EVICT_BYTES_PER_CORE="${EVICT_BYTES_PER_CORE}" EVICT_PASSES="${EVICT_PASSES}" \
       DEPTH="${DEPTH}" PARALLELISM="${PARALLELISM}" DISPATCH="${DISPATCH}" \
       RESPONSES="${RESPONSES}" \
-      "${RUNNER}" "${BENCHMARK}" "pair${pair}_${variant}" "${binary}" "${run}"
+      "${RUNNER}" "${BENCHMARK}" "pair${pair}_try${pair_attempt}_${variant}" \
+      "${binary}" "${run}"
     rc="$?"
     set -e
     valid=0
@@ -69,13 +74,14 @@ run_valid() {
       fi
     fi
     if [[ "${valid}" == 1 ]]; then
-      printf '%s,%s,%s,%s,%s,%s,%s,%s,%s\n' \
-        "${pair}" "${position}" "${variant}" "${attempt}" \
+      LAST_SUMMARY_PATH="${run}/summary.json"
+      printf -v LAST_RUN_ROW '%s,%s,%s,%s,%s,%s,%s,%s,%s,%s' \
+        "${pair}" "${pair_attempt}" "${position}" "${variant}" "${attempt}" \
         "$(jq -r '.qps' "${run}/summary.json")" \
         "$(jq -r '.l2i_mpki' "${run}/summary.json")" \
         "$(jq -r '.cpu_migrations' "${run}/summary.json")" \
         "$(jq -r '.mid_tids' "${run}/summary.json")" \
-        "${run}/summary.json" | tee -a "${OUT}/runs.csv"
+        "${run}/summary.json"
       return 0
     fi
   done
@@ -84,18 +90,50 @@ run_valid() {
 }
 
 for pair in $(seq 1 "${REPS}"); do
-  if ((pair % 2 == 1)); then
-    run_valid "${pair}" 1 baseline "${BASE_BINARY}"
-    run_valid "${pair}" 2 prefetch "${PREFETCH_BINARY}"
-  else
-    run_valid "${pair}" 1 prefetch "${PREFETCH_BINARY}"
-    run_valid "${pair}" 2 baseline "${BASE_BINARY}"
-  fi
-  baseline_tids="$(jq -r '.mid_tids' "${OUT}/pair${pair}/baseline/summary.json")"
-  prefetch_tids="$(jq -r '.mid_tids' "${OUT}/pair${pair}/prefetch/summary.json")"
-  if ((REQUIRE_MATCHED_MID_TIDS == 1)) && \
-    [[ "${baseline_tids}" -ne "${prefetch_tids}" ]]; then
-    echo "mid-tier worker population changed in pair ${pair}: baseline=${baseline_tids}, prefetch=${prefetch_tids}" >&2
+  pair_accepted=0
+  for pair_attempt in $(seq 1 "${MAX_PAIR_ATTEMPTS}"); do
+    baseline_row=""
+    prefetch_row=""
+    baseline_summary=""
+    prefetch_summary=""
+    if ((pair % 2 == 1)); then
+      if ! run_valid "${pair}" "${pair_attempt}" 1 baseline "${BASE_BINARY}"; then
+        continue
+      fi
+      baseline_row="${LAST_RUN_ROW}"
+      baseline_summary="${LAST_SUMMARY_PATH}"
+      if ! run_valid "${pair}" "${pair_attempt}" 2 prefetch "${PREFETCH_BINARY}"; then
+        continue
+      fi
+      prefetch_row="${LAST_RUN_ROW}"
+      prefetch_summary="${LAST_SUMMARY_PATH}"
+    else
+      if ! run_valid "${pair}" "${pair_attempt}" 1 prefetch "${PREFETCH_BINARY}"; then
+        continue
+      fi
+      prefetch_row="${LAST_RUN_ROW}"
+      prefetch_summary="${LAST_SUMMARY_PATH}"
+      if ! run_valid "${pair}" "${pair_attempt}" 2 baseline "${BASE_BINARY}"; then
+        continue
+      fi
+      baseline_row="${LAST_RUN_ROW}"
+      baseline_summary="${LAST_SUMMARY_PATH}"
+    fi
+    baseline_tids="$(jq -r '.mid_tids' "${baseline_summary}")"
+    prefetch_tids="$(jq -r '.mid_tids' "${prefetch_summary}")"
+    if ((REQUIRE_MATCHED_MID_TIDS == 1)) && \
+      [[ "${baseline_tids}" -ne "${prefetch_tids}" ]]; then
+      echo "retrying pair ${pair}: baseline_tids=${baseline_tids}, prefetch_tids=${prefetch_tids}, pair_attempt=${pair_attempt}" >&2
+      continue
+    fi
+    printf '%s\n' "${baseline_row}" "${prefetch_row}" | tee -a "${OUT}/runs.csv"
+    ln -sfn "attempt${pair_attempt}/baseline" "${OUT}/pair${pair}/baseline"
+    ln -sfn "attempt${pair_attempt}/prefetch" "${OUT}/pair${pair}/prefetch"
+    pair_accepted=1
+    break
+  done
+  if ((pair_accepted == 0)); then
+    echo "no matched valid runs for pair ${pair} after ${MAX_PAIR_ATTEMPTS} pair attempts" >&2
     exit 1
   fi
 done
@@ -106,7 +144,7 @@ python3 - "${OUT}" "${DURATION}" "${PREWARM_DURATION}" \
   "${ROUTER_LEAF_INSTANCES}" "${EVICT_CACHES}" \
   "${ROUTER_FIXED_PREWARM_REQUESTS}" \
   "${ROUTER_FIXED_PREWARM_TIMEOUT}" \
-  "${EVICT_BYTES_PER_CORE}" "${EVICT_PASSES}" <<'PY'
+  "${EVICT_BYTES_PER_CORE}" "${EVICT_PASSES}" "${MAX_PAIR_ATTEMPTS}" <<'PY'
 import csv
 import json
 import math
@@ -130,6 +168,7 @@ root = pathlib.Path(sys.argv[1])
     router_fixed_prewarm_timeout,
     evict_bytes_per_core,
     evict_passes,
+    max_pair_attempts,
 ) = (
     int(value) for value in sys.argv[2:]
 )
@@ -149,6 +188,7 @@ for pair, variants in sorted(pairs.items()):
     pair_rows.append(
         {
             "pair": pair,
+            "pair_attempt": int(base["pair_attempt"]),
             "baseline_qps": base_qps,
             "prefetch_qps": prefetch_qps,
             "speedup": prefetch_qps / base_qps,
@@ -183,6 +223,7 @@ summary = {
         "grpc_core_cap": grpc_core_cap,
         "expected_mid_tids": expected_mid_tids,
         "require_matched_mid_tids": require_matched_mid_tids,
+        "max_pair_attempts": max_pair_attempts,
         "disable_aslr": disable_aslr,
         "router_prepopulate": router_prepopulate,
         "router_leaf_instances": router_leaf_instances,

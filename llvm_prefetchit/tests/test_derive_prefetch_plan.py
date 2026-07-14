@@ -187,6 +187,73 @@ class DerivePrefetchPlanTest(unittest.TestCase):
                 plan["options"]["derive_sites_per_target_after_filter"], 1
             )
 
+    def test_sample_order_selects_best_site_and_global_budget(self):
+        with tempfile.TemporaryDirectory() as raw_tmp:
+            tmp = Path(raw_tmp)
+            source = tmp / "full.json"
+            output = tmp / "derived.json"
+            injections = []
+            for target_rank, site_rank, samples, target, site in (
+                (1, 1, 10, "target_a", "site_a1"),
+                (1, 2, 40, "target_a", "site_a2"),
+                (2, 1, 30, "target_b", "site_b1"),
+                (3, 1, 20, "target_c", "site_c1"),
+            ):
+                injections.append(
+                    {
+                        "target_rank": target_rank,
+                        "site_rank": site_rank,
+                        "samples": samples,
+                        "site": {
+                            "mangled": site,
+                            "addr": f"0x{site_rank + target_rank * 16:x}",
+                            "lbr_depth": 8,
+                            "branch_type": "CALL",
+                        },
+                        "target": {"mangled": target, "addr": f"0x{target_rank * 4096:x}"},
+                    }
+                )
+            source.write_text(
+                json.dumps(
+                    {
+                        "schema": "prefetchit.plan.v1",
+                        "prefetch": {"byte_offsets": [0]},
+                        "options": {},
+                        "stats": {},
+                        "injections": injections,
+                    }
+                ),
+                encoding="utf-8",
+            )
+            subprocess.run(
+                [
+                    "python3",
+                    str(DERIVER),
+                    "--input",
+                    str(source),
+                    "--output",
+                    str(output),
+                    "--label",
+                    "sample-order",
+                    "--sites-per-target-after-filter",
+                    "1",
+                    "--selection-order",
+                    "samples",
+                    "--max-injections",
+                    "2",
+                ],
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            plan = json.loads(output.read_text(encoding="utf-8"))
+            self.assertEqual(
+                [row["site"]["mangled"] for row in plan["injections"]],
+                ["site_a2", "site_b1"],
+            )
+            self.assertEqual(plan["options"]["derive_selection_order"], "samples")
+            self.assertEqual(plan["options"]["derive_max_injections"], 2)
+
 
 if __name__ == "__main__":
     unittest.main()
