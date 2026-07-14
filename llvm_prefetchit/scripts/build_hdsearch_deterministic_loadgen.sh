@@ -5,6 +5,7 @@ ROOT="/home/hnpark2/prefetchit"
 SRC="${ROOT}/benchmarks/datacenter_sources/MicroSuite/src/HDSearch"
 DEPS="${ROOT}/llvm_prefetchit/work/datacenter_goal_20260708/deb_deps/root"
 PATCH="${ROOT}/llvm_prefetchit/patches/microsuite-hd-deterministic-query-reset.patch"
+FIXED_WORK_PATCH="${ROOT}/llvm_prefetchit/patches/microsuite-hd-fixed-work.patch"
 OUT="${1:-${ROOT}/llvm_prefetchit/work/pgo_lbr_path_20260712/harness/hdsearch}"
 COPY="${OUT}/load_generator_closed_loop.cc"
 OBJECT="${OUT}/load_generator_closed_loop.o"
@@ -14,6 +15,9 @@ mkdir -p "${OUT}"
 cp "${SRC}/load_generator/load_generator_closed_loop.cc" "${COPY}"
 if ! rg -q 'PREFETCHIT_QUERY_SEED' "${COPY}"; then
   patch "${COPY}" < "${PATCH}"
+fi
+if ! rg -q 'PREFETCHIT_FIXED_REQUESTS' "${COPY}"; then
+  patch "${COPY}" < "${FIXED_WORK_PATCH}"
 fi
 
 g++ -std=c++11 -O3 -mavx2 -mavx -fopenmp -DMKL_ILP64 -m64 \
