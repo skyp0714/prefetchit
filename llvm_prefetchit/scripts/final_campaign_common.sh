@@ -36,11 +36,36 @@ fc_expand_cores() {
   printf '%s\n' "${out[@]}"
 }
 
+# Turbo/boost state is driver-dependent: intel_pstate exposes no_turbo and
+# perf_pct limits, acpi-cpufreq exposes a global boost flag. "1" always means
+# turbo disabled here.
+fc_turbo_disabled() {
+  if [[ -e /sys/devices/system/cpu/intel_pstate/no_turbo ]]; then
+    cat /sys/devices/system/cpu/intel_pstate/no_turbo
+  elif [[ -e /sys/devices/system/cpu/cpufreq/boost ]]; then
+    local boost
+    boost="$(</sys/devices/system/cpu/cpufreq/boost)"
+    [[ "${boost}" == 0 ]] && echo 1 || echo 0
+  else
+    echo unknown
+  fi
+}
+
+fc_perf_pct() {
+  local which="$1"
+  if [[ -e "/sys/devices/system/cpu/intel_pstate/${which}_perf_pct" ]]; then
+    cat "/sys/devices/system/cpu/intel_pstate/${which}_perf_pct"
+  else
+    echo "${FC_PERF_PCT}"
+  fi
+}
+
 fc_capture_frequency_state() {
-  local cores="$1" output="$2" core base governor min_freq max_freq cur_freq min_pct max_pct
+  local cores="$1" output="$2" core base governor min_freq max_freq cur_freq min_pct max_pct no_turbo
   mkdir -p "$(dirname "${output}")"
-  min_pct="$(</sys/devices/system/cpu/intel_pstate/min_perf_pct)"
-  max_pct="$(</sys/devices/system/cpu/intel_pstate/max_perf_pct)"
+  min_pct="$(fc_perf_pct min)"
+  max_pct="$(fc_perf_pct max)"
+  no_turbo="$(fc_turbo_disabled)"
   printf 'cpu,governor,min_khz,max_khz,current_khz,no_turbo,min_perf_pct,max_perf_pct\n' > "${output}"
   while read -r core; do
     base="/sys/devices/system/cpu/cpu${core}/cpufreq"
@@ -50,16 +75,16 @@ fc_capture_frequency_state() {
     cur_freq="$(<"${base}/scaling_cur_freq")"
     printf '%s,%s,%s,%s,%s,%s,%s,%s\n' \
       "${core}" "${governor}" "${min_freq}" "${max_freq}" "${cur_freq}" \
-      "$(</sys/devices/system/cpu/intel_pstate/no_turbo)" "${min_pct}" "${max_pct}" >> "${output}"
+      "${no_turbo}" "${min_pct}" "${max_pct}" >> "${output}"
   done < <(fc_expand_cores "${cores}")
 }
 
 fc_assert_frequency() {
   local cores="$1" output="$2" core base governor min_freq max_freq no_turbo min_pct max_pct bad=0
   fc_capture_frequency_state "${cores}" "${output}"
-  no_turbo="$(</sys/devices/system/cpu/intel_pstate/no_turbo)"
-  min_pct="$(</sys/devices/system/cpu/intel_pstate/min_perf_pct)"
-  max_pct="$(</sys/devices/system/cpu/intel_pstate/max_perf_pct)"
+  no_turbo="$(fc_turbo_disabled)"
+  min_pct="$(fc_perf_pct min)"
+  max_pct="$(fc_perf_pct max)"
   while read -r core; do
     base="/sys/devices/system/cpu/cpu${core}/cpufreq"
     governor="$(<"${base}/scaling_governor")"
