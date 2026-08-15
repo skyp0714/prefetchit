@@ -13,13 +13,28 @@ log() { printf '[%(%F %T)T] %s\n' -1 "$*" | tee -a "${LOG}"; }
 
 # ---- stage 1: wait for postgres static plans -------------------------------
 log "stage1: waiting for postgres static plans"
+count_valid_plans() {
+  local n=0 f
+  while IFS= read -r f; do
+    [[ "$(jq -r '.stats.selected_injections // 0' "${f}" 2>/dev/null)" -gt 0 ]] && n=$((n + 1))
+  done < <(find "${PLANS}" -name prefetchit.plan.json 2>/dev/null)
+  echo "${n}"
+}
 for _ in $(seq 1 240); do
-  n="$(find "${PLANS}" -name prefetchit.plan.json 2>/dev/null | wc -l)"
+  n="$(count_valid_plans)"
   ((n >= 3)) && break
   sleep 30
 done
-n="$(find "${PLANS}" -name prefetchit.plan.json 2>/dev/null | wc -l)"
-log "stage1: ${n}/3 plans present"
+n="$(count_valid_plans)"
+log "stage1: ${n} non-empty plans present"
+# only build plan dirs whose plan actually has injections
+for d in "${PLANS}"/*/; do
+  f="${d}/prefetchit.plan.json"
+  if [[ -s "${f}" ]] && [[ "$(jq -r '.stats.selected_injections // 0' "${f}")" -eq 0 ]]; then
+    log "stage1: dropping empty plan $(basename "${d}")"
+    rm -rf "${d}"
+  fi
+done
 
 # ---- stage 2: build postgres static variants --------------------------------
 if ((n >= 1)); then
