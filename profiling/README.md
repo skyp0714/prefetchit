@@ -52,3 +52,64 @@ sudo ./run_jvm_thread_scaling.sh
 cd profiling
 sudo ./run_kernel.sh
 ```
+
+# Verilator Detailed Profile
+
+```bash
+cd profiling
+sudo ./run_detailed_profile.sh --workload verilator-qsort --iterations 3 --profile-core 0
+```
+
+Outputs: `results/detailed_profile/<workload>/`
+
+# PEBS + LBR Trace (Frontend 4-way Split)
+
+```bash
+cd profiling
+sudo ./run_pebs_sampling.sh --workload verilator-qsort --trace-mode split --duration-sec 60 --profile-core 0
+```
+
+Per-trace tuning (for sparse ITLB/STLB events) is supported:
+
+```bash
+sudo ./run_pebs_sampling.sh \
+  --duration-l2-sec 60 --duration-mid-sec 20 --duration-itlb-sec 150 --duration-stlb-sec 150 \
+  --sample-period-l2 127 --sample-period-mid 511 --sample-period-itlb 31 --sample-period-stlb 31
+```
+
+Default split traces:
+- `frontend_retired.l2_miss:upp`
+- `frontend_retired.dsb_miss:upp` (auto fallback when `l3_miss` alias is unavailable)
+- `frontend_retired.itlb_miss:upp`
+- `frontend_retired.stlb_miss:upp`
+
+Outputs: `results/trace/<workload>/<trace_name>/`
+- `l2miss_profile.data`
+- `lbr_raw_dump.txt`
+- `lbr_symbolic_dump.txt`
+- `branch_type_distribution.csv`
+- `target_branch_counts.csv` (miss target x branch type count table)
+- `hierarchical_miss_report.md` (symbol/srcfile/lines 계층 리포트)
+- `hierarchical_miss_report.txt` (legacy mirror)
+- `detailed_trace_report.md` (상세 리포트)
+- `trace_summary.md` (핵심 요약)
+
+Cross-trace outputs are auto-generated under `results/trace/<workload>/` when `--trace-mode split --run-analyze 1`:
+- `ab_comparison.md`
+- `ab_summary.csv`
+- `ab_validation.md`
+- `top10_target_branch_stacked_detail.png` (각 {miss,branch} local Top10 + Others, 절대비율)
+- `top10_target_branch_stacked_detail.csv` (detail plot source + local top target names)
+- `top10_target_branch_stacked_merged.png` (각 {miss,branch} Top10 합산 + Others, 절대비율)
+- `top10_target_branch_stacked_merged.csv` (merged plot source)
+
+Cross-trace A/B comparison + validation:
+
+```bash
+python3 runscript/build/build_trace_ab_comparison.py \
+  --trace-root results/trace/verilator-qsort \
+  --trace-names l2_miss,dsb_miss,itlb_miss,stlb_miss \
+  --out-md results/trace/verilator-qsort/ab_comparison.md \
+  --out-csv results/trace/verilator-qsort/ab_summary.csv \
+  --out-validation-md results/trace/verilator-qsort/ab_validation.md
+```

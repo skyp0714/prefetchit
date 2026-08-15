@@ -15,8 +15,10 @@ WORKLOAD_NAME="${WORKLOAD_NAME:-}"
 ITERATIONS="${ITERATIONS:-3}"
 CHIPYARD_CONFIG="${CHIPYARD_CONFIG:-DualMegaBoomAndSingleRocketConfig}"
 CHIPYARD_CONFIG_PACKAGE="${CHIPYARD_CONFIG_PACKAGE:-chipyard}"
+SIM_BINARY="${SIM_BINARY:-}"
 MAX_CYCLES="${MAX_CYCLES:-80000}"
 PROFILE_CORE="${PROFILE_CORE:-0}"
+PERF_SCOPE="${PERF_SCOPE:-task}"
 PERF_BIN="${PERF_BIN:-perf}"
 EVENT_FILE="${EVENT_FILE:-${PROFILING_DIR}/config/gnr_frontend_perf_events.txt}"
 RESULTS_BASE="${RESULTS_BASE:-${PROFILING_DIR}/results/detailed_profile}"
@@ -59,10 +61,15 @@ Options:
                                  default: DualMegaBoomAndSingleRocketConfig
   --chipyard-config-package <P>  Config package for simulator resolution
                                  default: chipyard
+  --sim-binary <path>            Simulator binary override
+                                 default: auto-resolve from chipyard config
   --max-cycles <N>               +max-cycles for verilator workload
                                  default: 80000
   --profile-core <N>             Core to pin workload/perf to
                                  default: 0
+  --perf-scope <task|cpu>        task: count only the workload process tree;
+                                 cpu: system-wide user events on --profile-core
+                                 default: task
   --event-file <path>            Frontend MPKI event file
                                  default: profiling/config/gnr_frontend_perf_events.txt
   --results-base <path>          Results base directory
@@ -101,12 +108,20 @@ while [[ $# -gt 0 ]]; do
       CHIPYARD_CONFIG_PACKAGE="${2:-}"
       shift 2
       ;;
+    --sim-binary)
+      SIM_BINARY="${2:-}"
+      shift 2
+      ;;
     --max-cycles)
       MAX_CYCLES="${2:-}"
       shift 2
       ;;
     --profile-core)
       PROFILE_CORE="${2:-}"
+      shift 2
+      ;;
+    --perf-scope)
+      PERF_SCOPE="${2:-}"
       shift 2
       ;;
     --event-file)
@@ -153,6 +168,10 @@ if ! [[ "${PROFILE_CORE}" =~ ^[0-9]+$ ]]; then
   echo "[err] --profile-core must be a non-negative integer." >&2
   exit 1
 fi
+if [[ "${PERF_SCOPE}" != "task" && "${PERF_SCOPE}" != "cpu" ]]; then
+  echo "[err] --perf-scope must be task or cpu." >&2
+  exit 1
+fi
 
 setup_verilator_env
 require_chipyard_tree
@@ -171,12 +190,16 @@ if [[ -z "${event0_alias}" || -z "${event0_spec}" || -z "${event1_alias}" || -z 
   exit 1
 fi
 
-EMU="$(resolve_chipyard_simulator "${CHIPYARD_CONFIG}" "${CHIPYARD_CONFIG_PACKAGE}" || true)"
-if [[ -z "${EMU}" ]]; then
-  echo "[err] simulator binary not found for config=${CHIPYARD_CONFIG}" >&2
-  echo "[err] Build first (without clean):" >&2
-  echo "[err]   make CONFIG=${CHIPYARD_CONFIG} CC=clang-18 CXX=clang++-18 LINK=clang++-18 EXTRA_SIM_CXXFLAGS='-g -fno-omit-frame-pointer -std=c++20 -Wno-c++11-narrowing' -j\$(nproc)" >&2
-  exit 1
+if [[ -n "${SIM_BINARY}" ]]; then
+  EMU="${SIM_BINARY}"
+else
+  EMU="$(resolve_chipyard_simulator "${CHIPYARD_CONFIG}" "${CHIPYARD_CONFIG_PACKAGE}" || true)"
+  if [[ -z "${EMU}" ]]; then
+    echo "[err] simulator binary not found for config=${CHIPYARD_CONFIG}" >&2
+    echo "[err] Build first (without clean):" >&2
+    echo "[err]   make CONFIG=${CHIPYARD_CONFIG} CC=clang-18 CXX=clang++-18 LINK=clang++-18 EXTRA_SIM_CXXFLAGS='-g -fno-omit-frame-pointer -std=c++20 -Wno-c++11-narrowing' -j\$(nproc)" >&2
+    exit 1
+  fi
 fi
 require_file "${EMU}"
 
@@ -244,6 +267,7 @@ fi
 echo "iteration,perfraw,workload_log,elapsed_sec,return_code,run_status" > "${MANIFEST_CSV}"
 
 echo "[inf] workload=${WORKLOAD} iterations=${ITERATIONS} core=${PROFILE_CORE} max_cycles=${MAX_CYCLES}"
+echo "[inf] perf_scope=${PERF_SCOPE}"
 echo "[inf] simulator=${EMU}"
 echo "[inf] results_dir=${OUT_DIR}"
 
@@ -254,8 +278,12 @@ for iter in $(seq 1 "${ITERATIONS}"); do
 
   echo "[run] iteration ${iter}/${ITERATIONS}"
   start_ns="$(date +%s%N)"
+  perf_scope_args=()
+  if [[ "${PERF_SCOPE}" == "cpu" ]]; then
+    perf_scope_args=(-C "${PROFILE_CORE}")
+  fi
   set +e
-  "${PERF_BIN}" stat --no-big-num -x, --all-user -C "${PROFILE_CORE}" -o "${perfraw}" \
+  "${PERF_BIN}" stat --no-big-num -x, --all-user "${perf_scope_args[@]}" -o "${perfraw}" \
     -e "${EVENT_SPEC_CSV}" -- \
     taskset -c "${PROFILE_CORE}" bash -lc "${workload_cmd}" > "${runlog}" 2>&1
   run_rc=$?
