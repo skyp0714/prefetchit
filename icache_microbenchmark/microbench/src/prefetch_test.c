@@ -72,6 +72,7 @@ static void shootdown_code_page_tlb_strong(void (*fn)(void));
 static void shootdown_target_code_tlb(void);
 static void call_far_tlb_miss_pair(void);
 static void call_far_tlb_miss_pair_cd(void);
+static void prepare_far_tlb_miss_calls_strong(void);
 
 __attribute__((used))
 static TargetFn volatile g_targets[3] = {bar, foo, baz};
@@ -2555,6 +2556,113 @@ static void train_branch_farpath_prefetchit0_window(void) {
 
 #define ASM_REPT_NOPS(count) ".rept " #count "\n\tnop\n\t.endr\n\t"
 
+#define BASM_REPT_NOPS(count) ".rept " #count "\n\tnop\n\t.endr\n\t"
+
+#define BASM_PREFETCHIT0_BAR_LINES                                           \
+    "prefetchit0 bar(%rip)\n\t"                                              \
+    "prefetchit0 bar+64(%rip)\n\t"                                           \
+    "prefetchit0 bar+128(%rip)\n\t"                                          \
+    "prefetchit0 bar+192(%rip)\n\t"                                          \
+    "prefetchit0 bar+256(%rip)\n\t"                                          \
+    "prefetchit0 bar+320(%rip)\n\t"                                          \
+    "prefetchit0 bar+384(%rip)\n\t"                                          \
+    "prefetchit0 bar+448(%rip)\n\t"                                          \
+    "prefetchit0 bar+512(%rip)\n\t"
+
+#define BASM_PREFETCHIT0_BAR_HEAD                                            \
+    "prefetchit0 bar(%rip)\n\t"
+
+#define BASM_PREFETCHIT1_BAR_LINES                                           \
+    "prefetchit1 bar(%rip)\n\t"                                              \
+    "prefetchit1 bar+64(%rip)\n\t"                                           \
+    "prefetchit1 bar+128(%rip)\n\t"                                          \
+    "prefetchit1 bar+192(%rip)\n\t"                                          \
+    "prefetchit1 bar+256(%rip)\n\t"                                          \
+    "prefetchit1 bar+320(%rip)\n\t"                                          \
+    "prefetchit1 bar+384(%rip)\n\t"                                          \
+    "prefetchit1 bar+448(%rip)\n\t"                                          \
+    "prefetchit1 bar+512(%rip)\n\t"
+
+#define BASM_PREFETCHIT1_BAR_HEAD                                            \
+    "prefetchit1 bar(%rip)\n\t"
+
+#define BASM_PREFETCHT0_BAR_LINES                                            \
+    "prefetcht0 bar(%rip)\n\t"                                               \
+    "prefetcht0 bar+64(%rip)\n\t"                                            \
+    "prefetcht0 bar+128(%rip)\n\t"                                           \
+    "prefetcht0 bar+192(%rip)\n\t"                                           \
+    "prefetcht0 bar+256(%rip)\n\t"                                           \
+    "prefetcht0 bar+320(%rip)\n\t"                                           \
+    "prefetcht0 bar+384(%rip)\n\t"                                           \
+    "prefetcht0 bar+448(%rip)\n\t"                                           \
+    "prefetcht0 bar+512(%rip)\n\t"
+
+#define BASM_PREFETCHT0_BAR_HEAD                                             \
+    "prefetcht0 bar(%rip)\n\t"
+
+#define BASM_PREFETCHIT0_TARGET_LINES                                        \
+    BASM_PREFETCHIT0_BAR_LINES                                               \
+    "prefetchit0 foo(%rip)\n\t"                                              \
+    "prefetchit0 foo+64(%rip)\n\t"                                           \
+    "prefetchit0 foo+128(%rip)\n\t"                                          \
+    "prefetchit0 foo+192(%rip)\n\t"                                          \
+    "prefetchit0 foo+256(%rip)\n\t"                                          \
+    "prefetchit0 foo+320(%rip)\n\t"                                          \
+    "prefetchit0 foo+384(%rip)\n\t"                                          \
+    "prefetchit0 foo+448(%rip)\n\t"                                          \
+    "prefetchit0 foo+512(%rip)\n\t"                                          \
+    "prefetchit0 baz(%rip)\n\t"                                              \
+    "prefetchit0 baz+64(%rip)\n\t"                                           \
+    "prefetchit0 baz+128(%rip)\n\t"                                          \
+    "prefetchit0 baz+192(%rip)\n\t"                                          \
+    "prefetchit0 baz+256(%rip)\n\t"                                          \
+    "prefetchit0 baz+320(%rip)\n\t"                                          \
+    "prefetchit0 baz+384(%rip)\n\t"                                          \
+    "prefetchit0 baz+448(%rip)\n\t"                                          \
+    "prefetchit0 baz+512(%rip)\n\t"
+
+#define BASM_PREFETCHIT1_TARGET_LINES                                        \
+    BASM_PREFETCHIT1_BAR_LINES                                               \
+    "prefetchit1 foo(%rip)\n\t"                                              \
+    "prefetchit1 foo+64(%rip)\n\t"                                           \
+    "prefetchit1 foo+128(%rip)\n\t"                                          \
+    "prefetchit1 foo+192(%rip)\n\t"                                          \
+    "prefetchit1 foo+256(%rip)\n\t"                                          \
+    "prefetchit1 foo+320(%rip)\n\t"                                          \
+    "prefetchit1 foo+384(%rip)\n\t"                                          \
+    "prefetchit1 foo+448(%rip)\n\t"                                          \
+    "prefetchit1 foo+512(%rip)\n\t"                                          \
+    "prefetchit1 baz(%rip)\n\t"                                              \
+    "prefetchit1 baz+64(%rip)\n\t"                                           \
+    "prefetchit1 baz+128(%rip)\n\t"                                          \
+    "prefetchit1 baz+192(%rip)\n\t"                                          \
+    "prefetchit1 baz+256(%rip)\n\t"                                          \
+    "prefetchit1 baz+320(%rip)\n\t"                                          \
+    "prefetchit1 baz+384(%rip)\n\t"                                          \
+    "prefetchit1 baz+448(%rip)\n\t"                                          \
+    "prefetchit1 baz+512(%rip)\n\t"
+
+#define BASM_PREFETCHT0_TARGET_LINES                                         \
+    BASM_PREFETCHT0_BAR_LINES                                                \
+    "prefetcht0 foo(%rip)\n\t"                                               \
+    "prefetcht0 foo+64(%rip)\n\t"                                            \
+    "prefetcht0 foo+128(%rip)\n\t"                                           \
+    "prefetcht0 foo+192(%rip)\n\t"                                           \
+    "prefetcht0 foo+256(%rip)\n\t"                                           \
+    "prefetcht0 foo+320(%rip)\n\t"                                           \
+    "prefetcht0 foo+384(%rip)\n\t"                                           \
+    "prefetcht0 foo+448(%rip)\n\t"                                           \
+    "prefetcht0 foo+512(%rip)\n\t"                                           \
+    "prefetcht0 baz(%rip)\n\t"                                               \
+    "prefetcht0 baz+64(%rip)\n\t"                                            \
+    "prefetcht0 baz+128(%rip)\n\t"                                           \
+    "prefetcht0 baz+192(%rip)\n\t"                                           \
+    "prefetcht0 baz+256(%rip)\n\t"                                           \
+    "prefetcht0 baz+320(%rip)\n\t"                                           \
+    "prefetcht0 baz+384(%rip)\n\t"                                           \
+    "prefetcht0 baz+448(%rip)\n\t"                                           \
+    "prefetcht0 baz+512(%rip)\n\t"
+
 #define DEFINE_BRANCHWIN_TARGET_T0_WITH(name, count, prefetch_block)         \
 __attribute__((noinline, used, aligned(4096), section(".text.branchwin." #name))) \
 static void name(void) {                                                       \
@@ -2796,6 +2904,18 @@ static void flush_branch_chain_gate(void) {
     "movq (%%rax), %%rax\n\t"                                                \
     "movq (%%rax), %%rax\n\t"                                                \
     "movl (%%rax), %%eax\n\t"
+
+#define BASM_LOAD_SLOW_GATE                                                   \
+    "leaq g_branch_chain(%rip), %rax\n\t"                                    \
+    "movq (%rax), %rax\n\t"                                                  \
+    "movq (%rax), %rax\n\t"                                                  \
+    "movq (%rax), %rax\n\t"                                                  \
+    "movq (%rax), %rax\n\t"                                                  \
+    "movq (%rax), %rax\n\t"                                                  \
+    "movq (%rax), %rax\n\t"                                                  \
+    "movq (%rax), %rax\n\t"                                                  \
+    "movq (%rax), %rax\n\t"                                                  \
+    "movl (%rax), %eax\n\t"
 
 #define DEFINE_BRANCHWIN_SLOW_TARGET_HEAD_T0(name, count)                    \
 __attribute__((noinline, used, aligned(4096), section(".text.branchwin.slow." #name))) \
@@ -3184,11 +3304,171 @@ DEFINE_BRANCHWIN_SLOW_BEFORE_FARSTORM_LINES(branchwin_slow_before_farstorm_bar_l
 DEFINE_BRANCHWIN_SLOW_BEFORE_FARSTORM_LINES(branchwin_slow_before_farstorm_bar_lines_datat0, ASM_PREFETCHT0_BAR_LINES)
 DEFINE_BRANCHWIN_SLOW_BEFORE_FARSTORM_LINES(branchwin_slow_before_farstorm_nopref, "")
 
+#define BASM_BRANCH_STORM_STEP(label)                                         \
+    BASM_LOAD_SLOW_GATE                                                       \
+    "testl %eax, %eax\n\t"                                                    \
+    "jne " #label "f\n\t"                                                    \
+    "jmp 9f\n\t"                                                             \
+    ".p2align 12\n\t"                                                        \
+    #label ":\n\t"
+
+#define DEFINE_NAKED_BEFORE_FARSTORM(name, prefetch_block)                   \
+__attribute__((naked, noinline, used, aligned(4096), section(".text.branchwin.naked." #name))) \
+static void name(void) {                                                       \
+    __asm__ volatile(                                                          \
+        prefetch_block                                                         \
+        BASM_BRANCH_STORM_STEP(1)                                              \
+        BASM_BRANCH_STORM_STEP(2)                                              \
+        BASM_BRANCH_STORM_STEP(3)                                              \
+        BASM_BRANCH_STORM_STEP(4)                                              \
+        "9:\n\t"                                                               \
+        "retq\n\t");                                                          \
+}
+
+#define DEFINE_NAKED_TARGET_FARBLOCK(name, count, prefetch_block)            \
+__attribute__((naked, noinline, used, aligned(4096), section(".text.branchwin.naked." #name))) \
+static void name(void) {                                                       \
+    __asm__ volatile(                                                          \
+        BASM_LOAD_SLOW_GATE                                                    \
+        "testl %eax, %eax\n\t"                                                 \
+        "jne 1f\n\t"                                                          \
+        "retq\n\t"                                                            \
+        ".p2align 12\n\t"                                                     \
+        "1:\n\t"                                                              \
+        BASM_REPT_NOPS(count)                                                  \
+        prefetch_block                                                         \
+        "retq\n\t");                                                          \
+}
+
+#define DEFINE_NAKED_FALLTHROUGH_PREFETCH(name, count, prefetch_block)       \
+__attribute__((naked, noinline, used, aligned(4096), section(".text.branchwin.naked." #name))) \
+static void name(void) {                                                       \
+    __asm__ volatile(                                                          \
+        BASM_LOAD_SLOW_GATE                                                    \
+        "testl %eax, %eax\n\t"                                                 \
+        "jne 1f\n\t"                                                          \
+        BASM_REPT_NOPS(count)                                                  \
+        prefetch_block                                                         \
+        "retq\n\t"                                                            \
+        ".p2align 12\n\t"                                                     \
+        "1:\n\t"                                                              \
+        "retq\n\t");                                                          \
+}
+
+#define BASM_BRANCH_TARGET_PREFETCH_STEP(label, count, prefetch_block)        \
+    BASM_LOAD_SLOW_GATE                                                       \
+    "testl %eax, %eax\n\t"                                                    \
+    "jne " #label "f\n\t"                                                     \
+    "jmp 9f\n\t"                                                             \
+    ".p2align 12\n\t"                                                        \
+    #label ":\n\t"                                                            \
+    BASM_REPT_NOPS(count)                                                     \
+    prefetch_block
+
+#define DEFINE_NAKED_CHAIN_TARGET_PREFETCH(name, count, prefetch_block)      \
+__attribute__((naked, noinline, used, aligned(4096), section(".text.branchwin.naked." #name))) \
+static void name(void) {                                                       \
+    __asm__ volatile(                                                          \
+        BASM_BRANCH_TARGET_PREFETCH_STEP(1, count, prefetch_block)             \
+        BASM_BRANCH_TARGET_PREFETCH_STEP(2, count, prefetch_block)             \
+        BASM_BRANCH_TARGET_PREFETCH_STEP(3, count, prefetch_block)             \
+        BASM_BRANCH_TARGET_PREFETCH_STEP(4, count, prefetch_block)             \
+        "9:\n\t"                                                               \
+        "retq\n\t");                                                          \
+}
+
+#define DEFINE_NAKED_FARCALL_WINDOW(name, prefetch_block)                    \
+__attribute__((naked, noinline, used, aligned(4096), section(".text.branchwin.naked." #name))) \
+static void name(void) {                                                       \
+    __asm__ volatile(                                                          \
+        prefetch_block                                                         \
+        prefetch_block                                                         \
+        "callq farcall_tlb_miss_a\n\t"                                        \
+        "callq farcall_tlb_miss_b\n\t"                                        \
+        "retq\n\t");                                                          \
+}
+
+#define DEFINE_NAKED_FARCALL_PREFETCH_SPLIT(name, prefetch_block)            \
+__attribute__((naked, noinline, used, aligned(4096), section(".text.branchwin.naked." #name))) \
+static void name(void) {                                                       \
+    __asm__ volatile(                                                          \
+        "callq farcall_tlb_miss_a\n\t"                                        \
+        prefetch_block                                                         \
+        prefetch_block                                                         \
+        "callq farcall_tlb_miss_b\n\t"                                        \
+        "retq\n\t");                                                          \
+}
+
+DEFINE_NAKED_BEFORE_FARSTORM(branchwin_naked_before_farstorm_bar_lines_t0, BASM_PREFETCHIT0_BAR_LINES)
+DEFINE_NAKED_BEFORE_FARSTORM(branchwin_naked_before_farstorm_bar_lines_it1, BASM_PREFETCHIT1_BAR_LINES)
+DEFINE_NAKED_BEFORE_FARSTORM(branchwin_naked_before_farstorm_bar_lines_datat0, BASM_PREFETCHT0_BAR_LINES)
+DEFINE_NAKED_BEFORE_FARSTORM(branchwin_naked_before_farstorm_lines_t0, BASM_PREFETCHIT0_TARGET_LINES)
+DEFINE_NAKED_BEFORE_FARSTORM(branchwin_naked_before_farstorm_lines_it1, BASM_PREFETCHIT1_TARGET_LINES)
+DEFINE_NAKED_BEFORE_FARSTORM(branchwin_naked_before_farstorm_lines_datat0, BASM_PREFETCHT0_TARGET_LINES)
+DEFINE_NAKED_BEFORE_FARSTORM(branchwin_naked_before_farstorm_nopref, "")
+
+DEFINE_NAKED_TARGET_FARBLOCK(branchwin_naked_target_farblock_bar_lines_t0_o0, 0, BASM_PREFETCHIT0_BAR_LINES)
+DEFINE_NAKED_TARGET_FARBLOCK(branchwin_naked_target_farblock_bar_lines_t0_o1, 1, BASM_PREFETCHIT0_BAR_LINES)
+DEFINE_NAKED_TARGET_FARBLOCK(branchwin_naked_target_farblock_bar_lines_t0_o2, 2, BASM_PREFETCHIT0_BAR_LINES)
+DEFINE_NAKED_TARGET_FARBLOCK(branchwin_naked_target_farblock_bar_lines_t0_o4, 4, BASM_PREFETCHIT0_BAR_LINES)
+DEFINE_NAKED_TARGET_FARBLOCK(branchwin_naked_target_farblock_bar_lines_t0_o8, 8, BASM_PREFETCHIT0_BAR_LINES)
+DEFINE_NAKED_TARGET_FARBLOCK(branchwin_naked_target_farblock_bar_lines_t0_o16, 16, BASM_PREFETCHIT0_BAR_LINES)
+DEFINE_NAKED_TARGET_FARBLOCK(branchwin_naked_target_farblock_bar_lines_t0_o32, 32, BASM_PREFETCHIT0_BAR_LINES)
+DEFINE_NAKED_TARGET_FARBLOCK(branchwin_naked_target_farblock_bar_lines_t0_o64, 64, BASM_PREFETCHIT0_BAR_LINES)
+DEFINE_NAKED_TARGET_FARBLOCK(branchwin_naked_target_farblock_bar_lines_t0_o128, 128, BASM_PREFETCHIT0_BAR_LINES)
+DEFINE_NAKED_TARGET_FARBLOCK(branchwin_naked_target_farblock_bar_lines_it1_o0, 0, BASM_PREFETCHIT1_BAR_LINES)
+DEFINE_NAKED_TARGET_FARBLOCK(branchwin_naked_target_farblock_bar_lines_it1_o32, 32, BASM_PREFETCHIT1_BAR_LINES)
+DEFINE_NAKED_TARGET_FARBLOCK(branchwin_naked_target_farblock_bar_lines_datat0_o0, 0, BASM_PREFETCHT0_BAR_LINES)
+DEFINE_NAKED_TARGET_FARBLOCK(branchwin_naked_target_farblock_bar_lines_datat0_o32, 32, BASM_PREFETCHT0_BAR_LINES)
+DEFINE_NAKED_TARGET_FARBLOCK(branchwin_naked_target_farblock_nopref_o0, 0, "")
+DEFINE_NAKED_TARGET_FARBLOCK(branchwin_naked_target_farblock_nopref_o32, 32, "")
+DEFINE_NAKED_TARGET_FARBLOCK(branchwin_naked_target_farblock_bar_head_t0_o0, 0, BASM_PREFETCHIT0_BAR_HEAD)
+DEFINE_NAKED_TARGET_FARBLOCK(branchwin_naked_target_farblock_bar_head_it1_o0, 0, BASM_PREFETCHIT1_BAR_HEAD)
+DEFINE_NAKED_TARGET_FARBLOCK(branchwin_naked_target_farblock_bar_head_datat0_o0, 0, BASM_PREFETCHT0_BAR_HEAD)
+
+DEFINE_NAKED_FALLTHROUGH_PREFETCH(branchwin_naked_fallthrough_bar_lines_t0_o0, 0, BASM_PREFETCHIT0_BAR_LINES)
+DEFINE_NAKED_FALLTHROUGH_PREFETCH(branchwin_naked_fallthrough_bar_lines_t0_o1, 1, BASM_PREFETCHIT0_BAR_LINES)
+DEFINE_NAKED_FALLTHROUGH_PREFETCH(branchwin_naked_fallthrough_bar_lines_t0_o2, 2, BASM_PREFETCHIT0_BAR_LINES)
+DEFINE_NAKED_FALLTHROUGH_PREFETCH(branchwin_naked_fallthrough_bar_lines_t0_o3, 3, BASM_PREFETCHIT0_BAR_LINES)
+DEFINE_NAKED_FALLTHROUGH_PREFETCH(branchwin_naked_fallthrough_bar_lines_t0_o4, 4, BASM_PREFETCHIT0_BAR_LINES)
+DEFINE_NAKED_FALLTHROUGH_PREFETCH(branchwin_naked_fallthrough_bar_lines_t0_o5, 5, BASM_PREFETCHIT0_BAR_LINES)
+DEFINE_NAKED_FALLTHROUGH_PREFETCH(branchwin_naked_fallthrough_bar_lines_t0_o8, 8, BASM_PREFETCHIT0_BAR_LINES)
+DEFINE_NAKED_FALLTHROUGH_PREFETCH(branchwin_naked_fallthrough_bar_lines_t0_o12, 12, BASM_PREFETCHIT0_BAR_LINES)
+DEFINE_NAKED_FALLTHROUGH_PREFETCH(branchwin_naked_fallthrough_bar_lines_t0_o16, 16, BASM_PREFETCHIT0_BAR_LINES)
+DEFINE_NAKED_FALLTHROUGH_PREFETCH(branchwin_naked_fallthrough_bar_lines_it1_o0, 0, BASM_PREFETCHIT1_BAR_LINES)
+DEFINE_NAKED_FALLTHROUGH_PREFETCH(branchwin_naked_fallthrough_bar_lines_datat0_o0, 0, BASM_PREFETCHT0_BAR_LINES)
+DEFINE_NAKED_FALLTHROUGH_PREFETCH(branchwin_naked_fallthrough_nopref_o0, 0, "")
+
+DEFINE_NAKED_CHAIN_TARGET_PREFETCH(branchwin_naked_chain_targetpref_bar_lines_t0_o0, 0, BASM_PREFETCHIT0_BAR_LINES)
+DEFINE_NAKED_CHAIN_TARGET_PREFETCH(branchwin_naked_chain_targetpref_bar_lines_t0_o1, 1, BASM_PREFETCHIT0_BAR_LINES)
+DEFINE_NAKED_CHAIN_TARGET_PREFETCH(branchwin_naked_chain_targetpref_bar_lines_t0_o2, 2, BASM_PREFETCHIT0_BAR_LINES)
+DEFINE_NAKED_CHAIN_TARGET_PREFETCH(branchwin_naked_chain_targetpref_bar_lines_t0_o4, 4, BASM_PREFETCHIT0_BAR_LINES)
+DEFINE_NAKED_CHAIN_TARGET_PREFETCH(branchwin_naked_chain_targetpref_bar_lines_t0_o8, 8, BASM_PREFETCHIT0_BAR_LINES)
+DEFINE_NAKED_CHAIN_TARGET_PREFETCH(branchwin_naked_chain_targetpref_bar_lines_it1_o0, 0, BASM_PREFETCHIT1_BAR_LINES)
+DEFINE_NAKED_CHAIN_TARGET_PREFETCH(branchwin_naked_chain_targetpref_bar_lines_datat0_o0, 0, BASM_PREFETCHT0_BAR_LINES)
+DEFINE_NAKED_CHAIN_TARGET_PREFETCH(branchwin_naked_chain_targetpref_nopref_o0, 0, "")
+DEFINE_NAKED_CHAIN_TARGET_PREFETCH(branchwin_naked_chain_targetpref_bar_head_t0_o0, 0, BASM_PREFETCHIT0_BAR_HEAD)
+DEFINE_NAKED_CHAIN_TARGET_PREFETCH(branchwin_naked_chain_targetpref_bar_head_it1_o0, 0, BASM_PREFETCHIT1_BAR_HEAD)
+DEFINE_NAKED_CHAIN_TARGET_PREFETCH(branchwin_naked_chain_targetpref_bar_head_datat0_o0, 0, BASM_PREFETCHT0_BAR_HEAD)
+
+DEFINE_NAKED_FARCALL_WINDOW(branchwin_naked_p2_far2_bar_lines_t0, BASM_PREFETCHIT0_BAR_LINES)
+DEFINE_NAKED_FARCALL_WINDOW(branchwin_naked_p2_far2_bar_lines_it1, BASM_PREFETCHIT1_BAR_LINES)
+DEFINE_NAKED_FARCALL_WINDOW(branchwin_naked_p2_far2_bar_lines_datat0, BASM_PREFETCHT0_BAR_LINES)
+DEFINE_NAKED_FARCALL_WINDOW(branchwin_naked_p2_far2_nopref, "")
+DEFINE_NAKED_FARCALL_WINDOW(branchwin_naked_p2_far2_bar_head_t0, BASM_PREFETCHIT0_BAR_HEAD)
+DEFINE_NAKED_FARCALL_WINDOW(branchwin_naked_p2_far2_bar_head_it1, BASM_PREFETCHIT1_BAR_HEAD)
+DEFINE_NAKED_FARCALL_WINDOW(branchwin_naked_p2_far2_bar_head_datat0, BASM_PREFETCHT0_BAR_HEAD)
+DEFINE_NAKED_FARCALL_PREFETCH_SPLIT(branchwin_naked_far_p2_far_bar_lines_t0, BASM_PREFETCHIT0_BAR_LINES)
+DEFINE_NAKED_FARCALL_PREFETCH_SPLIT(branchwin_naked_far_p2_far_bar_lines_it1, BASM_PREFETCHIT1_BAR_LINES)
+DEFINE_NAKED_FARCALL_PREFETCH_SPLIT(branchwin_naked_far_p2_far_bar_lines_datat0, BASM_PREFETCHT0_BAR_LINES)
+DEFINE_NAKED_FARCALL_PREFETCH_SPLIT(branchwin_naked_far_p2_far_nopref, "")
+
 enum {
     BRANCHWIN_SLOW_MODE_TARGET,
     BRANCHWIN_SLOW_MODE_FALLWRONG,
     BRANCHWIN_SLOW_MODE_FALLCORRECT,
-    BRANCHWIN_SLOW_MODE_BEFORE
+    BRANCHWIN_SLOW_MODE_BEFORE,
+    BRANCHWIN_SLOW_MODE_PREFETCH_FARCALL
 };
 
 #define BRANCHWIN_SLOW_ENTRY(prefix, fnfamily, modefamily, offset)            \
@@ -3221,6 +3501,24 @@ enum {
 
 #define BRANCHWIN_SLOW_BEFORESTORM_ENTRY(name_prefix, fn_suffix)              \
     { name_prefix, branchwin_slow_before_farstorm_lines_##fn_suffix, BRANCHWIN_SLOW_MODE_BEFORE }
+
+#define BRANCHWIN_NAKED_BEFORESTORM_ENTRY(name_prefix, fn_suffix)             \
+    { name_prefix, branchwin_naked_before_farstorm_##fn_suffix, BRANCHWIN_SLOW_MODE_BEFORE }
+
+#define BRANCHWIN_NAKED_TARGET_ENTRY(name_prefix, fn_suffix, offset)          \
+    { name_prefix "_o" #offset, branchwin_naked_target_farblock_##fn_suffix##_o##offset, BRANCHWIN_SLOW_MODE_BEFORE }
+
+#define BRANCHWIN_NAKED_TARGET_MODE_ENTRY(name_prefix, fn_suffix, offset, modefamily) \
+    { name_prefix "_o" #offset, branchwin_naked_target_farblock_##fn_suffix##_o##offset, BRANCHWIN_SLOW_MODE_##modefamily }
+
+#define BRANCHWIN_NAKED_FALLTHROUGH_ENTRY(name_prefix, fn_suffix, offset, modefamily) \
+    { name_prefix "_o" #offset, branchwin_naked_fallthrough_##fn_suffix##_o##offset, BRANCHWIN_SLOW_MODE_##modefamily }
+
+#define BRANCHWIN_NAKED_CHAIN_TARGETPREF_ENTRY(name_prefix, fn_suffix, offset) \
+    { name_prefix "_o" #offset, branchwin_naked_chain_targetpref_##fn_suffix##_o##offset, BRANCHWIN_SLOW_MODE_BEFORE }
+
+#define BRANCHWIN_NAKED_FARCALL_ENTRY(name_prefix, fn_suffix)                 \
+    { name_prefix, branchwin_naked_##fn_suffix, BRANCHWIN_SLOW_MODE_PREFETCH_FARCALL }
 
 typedef struct {
     const char *name;
@@ -3341,6 +3639,85 @@ static const BranchwinSlowVariant g_branchwin_slow_variants[] = {
       branchwin_slow_before_farstorm_bar_lines_datat0, BRANCHWIN_SLOW_MODE_BEFORE },
     { "fair_code_branchwin_slow_before_farstorm_nopref",
       branchwin_slow_before_farstorm_nopref, BRANCHWIN_SLOW_MODE_BEFORE },
+    BRANCHWIN_NAKED_BEFORESTORM_ENTRY("fair_code_prefetchit0_branchwin_naked_before_farstorm_bar_lines", bar_lines_t0),
+    BRANCHWIN_NAKED_BEFORESTORM_ENTRY("fair_code_prefetchit1_branchwin_naked_before_farstorm_bar_lines", bar_lines_it1),
+    BRANCHWIN_NAKED_BEFORESTORM_ENTRY("fair_data_prefetcht0_branchwin_naked_before_farstorm_bar_lines", bar_lines_datat0),
+    BRANCHWIN_NAKED_BEFORESTORM_ENTRY("fair_code_prefetchit0_branchwin_naked_before_farstorm_lines", lines_t0),
+    BRANCHWIN_NAKED_BEFORESTORM_ENTRY("fair_code_prefetchit1_branchwin_naked_before_farstorm_lines", lines_it1),
+    BRANCHWIN_NAKED_BEFORESTORM_ENTRY("fair_data_prefetcht0_branchwin_naked_before_farstorm_lines", lines_datat0),
+    BRANCHWIN_NAKED_BEFORESTORM_ENTRY("fair_code_branchwin_naked_before_farstorm_nopref", nopref),
+    BRANCHWIN_NAKED_TARGET_ENTRY("fair_code_prefetchit0_branchwin_naked_target_farblock_bar_lines", bar_lines_t0, 0),
+    BRANCHWIN_NAKED_TARGET_ENTRY("fair_code_prefetchit0_branchwin_naked_target_farblock_bar_lines", bar_lines_t0, 1),
+    BRANCHWIN_NAKED_TARGET_ENTRY("fair_code_prefetchit0_branchwin_naked_target_farblock_bar_lines", bar_lines_t0, 2),
+    BRANCHWIN_NAKED_TARGET_ENTRY("fair_code_prefetchit0_branchwin_naked_target_farblock_bar_lines", bar_lines_t0, 4),
+    BRANCHWIN_NAKED_TARGET_ENTRY("fair_code_prefetchit0_branchwin_naked_target_farblock_bar_lines", bar_lines_t0, 8),
+    BRANCHWIN_NAKED_TARGET_ENTRY("fair_code_prefetchit0_branchwin_naked_target_farblock_bar_lines", bar_lines_t0, 16),
+    BRANCHWIN_NAKED_TARGET_ENTRY("fair_code_prefetchit0_branchwin_naked_target_farblock_bar_lines", bar_lines_t0, 32),
+    BRANCHWIN_NAKED_TARGET_ENTRY("fair_code_prefetchit0_branchwin_naked_target_farblock_bar_lines", bar_lines_t0, 64),
+    BRANCHWIN_NAKED_TARGET_ENTRY("fair_code_prefetchit0_branchwin_naked_target_farblock_bar_lines", bar_lines_t0, 128),
+    BRANCHWIN_NAKED_TARGET_ENTRY("fair_code_prefetchit1_branchwin_naked_target_farblock_bar_lines", bar_lines_it1, 0),
+    BRANCHWIN_NAKED_TARGET_ENTRY("fair_code_prefetchit1_branchwin_naked_target_farblock_bar_lines", bar_lines_it1, 32),
+    BRANCHWIN_NAKED_TARGET_ENTRY("fair_data_prefetcht0_branchwin_naked_target_farblock_bar_lines", bar_lines_datat0, 0),
+    BRANCHWIN_NAKED_TARGET_ENTRY("fair_data_prefetcht0_branchwin_naked_target_farblock_bar_lines", bar_lines_datat0, 32),
+    BRANCHWIN_NAKED_TARGET_ENTRY("fair_code_branchwin_naked_target_farblock_nopref", nopref, 0),
+    BRANCHWIN_NAKED_TARGET_ENTRY("fair_code_branchwin_naked_target_farblock_nopref", nopref, 32),
+    BRANCHWIN_NAKED_TARGET_ENTRY("fair_code_prefetchit0_branchwin_naked_target_farblock_bar_head", bar_head_t0, 0),
+    BRANCHWIN_NAKED_TARGET_ENTRY("fair_code_prefetchit1_branchwin_naked_target_farblock_bar_head", bar_head_it1, 0),
+    BRANCHWIN_NAKED_TARGET_ENTRY("fair_data_prefetcht0_branchwin_naked_target_farblock_bar_head", bar_head_datat0, 0),
+    BRANCHWIN_NAKED_FALLTHROUGH_ENTRY("fair_code_prefetchit0_branchwin_naked_wrong_fallthrough_bar_lines", bar_lines_t0, 0, FALLWRONG),
+    BRANCHWIN_NAKED_FALLTHROUGH_ENTRY("fair_code_prefetchit0_branchwin_naked_wrong_fallthrough_bar_lines", bar_lines_t0, 1, FALLWRONG),
+    BRANCHWIN_NAKED_FALLTHROUGH_ENTRY("fair_code_prefetchit0_branchwin_naked_wrong_fallthrough_bar_lines", bar_lines_t0, 2, FALLWRONG),
+    BRANCHWIN_NAKED_FALLTHROUGH_ENTRY("fair_code_prefetchit0_branchwin_naked_wrong_fallthrough_bar_lines", bar_lines_t0, 3, FALLWRONG),
+    BRANCHWIN_NAKED_FALLTHROUGH_ENTRY("fair_code_prefetchit0_branchwin_naked_wrong_fallthrough_bar_lines", bar_lines_t0, 4, FALLWRONG),
+    BRANCHWIN_NAKED_FALLTHROUGH_ENTRY("fair_code_prefetchit0_branchwin_naked_wrong_fallthrough_bar_lines", bar_lines_t0, 5, FALLWRONG),
+    BRANCHWIN_NAKED_FALLTHROUGH_ENTRY("fair_code_prefetchit0_branchwin_naked_wrong_fallthrough_bar_lines", bar_lines_t0, 8, FALLWRONG),
+    BRANCHWIN_NAKED_FALLTHROUGH_ENTRY("fair_code_prefetchit0_branchwin_naked_wrong_fallthrough_bar_lines", bar_lines_t0, 12, FALLWRONG),
+    BRANCHWIN_NAKED_FALLTHROUGH_ENTRY("fair_code_prefetchit0_branchwin_naked_wrong_fallthrough_bar_lines", bar_lines_t0, 16, FALLWRONG),
+    BRANCHWIN_NAKED_FALLTHROUGH_ENTRY("fair_code_prefetchit1_branchwin_naked_wrong_fallthrough_bar_lines", bar_lines_it1, 0, FALLWRONG),
+    BRANCHWIN_NAKED_FALLTHROUGH_ENTRY("fair_data_prefetcht0_branchwin_naked_wrong_fallthrough_bar_lines", bar_lines_datat0, 0, FALLWRONG),
+    BRANCHWIN_NAKED_FALLTHROUGH_ENTRY("fair_code_branchwin_naked_wrong_fallthrough_nopref", nopref, 0, FALLWRONG),
+    BRANCHWIN_NAKED_FALLTHROUGH_ENTRY("fair_code_prefetchit0_branchwin_naked_actual_fallthrough_bar_lines", bar_lines_t0, 0, FALLCORRECT),
+    BRANCHWIN_NAKED_FALLTHROUGH_ENTRY("fair_code_prefetchit0_branchwin_naked_actual_fallthrough_bar_lines", bar_lines_t0, 1, FALLCORRECT),
+    BRANCHWIN_NAKED_FALLTHROUGH_ENTRY("fair_code_prefetchit0_branchwin_naked_actual_fallthrough_bar_lines", bar_lines_t0, 2, FALLCORRECT),
+    BRANCHWIN_NAKED_FALLTHROUGH_ENTRY("fair_code_prefetchit0_branchwin_naked_actual_fallthrough_bar_lines", bar_lines_t0, 3, FALLCORRECT),
+    BRANCHWIN_NAKED_FALLTHROUGH_ENTRY("fair_code_prefetchit0_branchwin_naked_actual_fallthrough_bar_lines", bar_lines_t0, 4, FALLCORRECT),
+    BRANCHWIN_NAKED_FALLTHROUGH_ENTRY("fair_code_prefetchit0_branchwin_naked_actual_fallthrough_bar_lines", bar_lines_t0, 5, FALLCORRECT),
+    BRANCHWIN_NAKED_FALLTHROUGH_ENTRY("fair_code_prefetchit0_branchwin_naked_actual_fallthrough_bar_lines", bar_lines_t0, 8, FALLCORRECT),
+    BRANCHWIN_NAKED_FALLTHROUGH_ENTRY("fair_code_prefetchit0_branchwin_naked_actual_fallthrough_bar_lines", bar_lines_t0, 12, FALLCORRECT),
+    BRANCHWIN_NAKED_FALLTHROUGH_ENTRY("fair_code_prefetchit0_branchwin_naked_actual_fallthrough_bar_lines", bar_lines_t0, 16, FALLCORRECT),
+    BRANCHWIN_NAKED_FALLTHROUGH_ENTRY("fair_code_prefetchit1_branchwin_naked_actual_fallthrough_bar_lines", bar_lines_it1, 0, FALLCORRECT),
+    BRANCHWIN_NAKED_FALLTHROUGH_ENTRY("fair_data_prefetcht0_branchwin_naked_actual_fallthrough_bar_lines", bar_lines_datat0, 0, FALLCORRECT),
+    BRANCHWIN_NAKED_FALLTHROUGH_ENTRY("fair_code_branchwin_naked_actual_fallthrough_nopref", nopref, 0, FALLCORRECT),
+    BRANCHWIN_NAKED_TARGET_MODE_ENTRY("fair_code_prefetchit0_branchwin_naked_wrong_taken_bar_lines", bar_lines_t0, 0, FALLCORRECT),
+    BRANCHWIN_NAKED_TARGET_MODE_ENTRY("fair_code_prefetchit0_branchwin_naked_wrong_taken_bar_lines", bar_lines_t0, 1, FALLCORRECT),
+    BRANCHWIN_NAKED_TARGET_MODE_ENTRY("fair_code_prefetchit0_branchwin_naked_wrong_taken_bar_lines", bar_lines_t0, 2, FALLCORRECT),
+    BRANCHWIN_NAKED_TARGET_MODE_ENTRY("fair_code_prefetchit0_branchwin_naked_wrong_taken_bar_lines", bar_lines_t0, 4, FALLCORRECT),
+    BRANCHWIN_NAKED_TARGET_MODE_ENTRY("fair_code_prefetchit0_branchwin_naked_wrong_taken_bar_lines", bar_lines_t0, 8, FALLCORRECT),
+    BRANCHWIN_NAKED_TARGET_MODE_ENTRY("fair_code_prefetchit1_branchwin_naked_wrong_taken_bar_lines", bar_lines_it1, 0, FALLCORRECT),
+    BRANCHWIN_NAKED_TARGET_MODE_ENTRY("fair_data_prefetcht0_branchwin_naked_wrong_taken_bar_lines", bar_lines_datat0, 0, FALLCORRECT),
+    BRANCHWIN_NAKED_TARGET_MODE_ENTRY("fair_code_branchwin_naked_wrong_taken_nopref", nopref, 0, FALLCORRECT),
+    BRANCHWIN_NAKED_CHAIN_TARGETPREF_ENTRY("fair_code_prefetchit0_branchwin_naked_chain_targetpref_bar_lines", bar_lines_t0, 0),
+    BRANCHWIN_NAKED_CHAIN_TARGETPREF_ENTRY("fair_code_prefetchit0_branchwin_naked_chain_targetpref_bar_lines", bar_lines_t0, 1),
+    BRANCHWIN_NAKED_CHAIN_TARGETPREF_ENTRY("fair_code_prefetchit0_branchwin_naked_chain_targetpref_bar_lines", bar_lines_t0, 2),
+    BRANCHWIN_NAKED_CHAIN_TARGETPREF_ENTRY("fair_code_prefetchit0_branchwin_naked_chain_targetpref_bar_lines", bar_lines_t0, 4),
+    BRANCHWIN_NAKED_CHAIN_TARGETPREF_ENTRY("fair_code_prefetchit0_branchwin_naked_chain_targetpref_bar_lines", bar_lines_t0, 8),
+    BRANCHWIN_NAKED_CHAIN_TARGETPREF_ENTRY("fair_code_prefetchit1_branchwin_naked_chain_targetpref_bar_lines", bar_lines_it1, 0),
+    BRANCHWIN_NAKED_CHAIN_TARGETPREF_ENTRY("fair_data_prefetcht0_branchwin_naked_chain_targetpref_bar_lines", bar_lines_datat0, 0),
+    BRANCHWIN_NAKED_CHAIN_TARGETPREF_ENTRY("fair_code_branchwin_naked_chain_targetpref_nopref", nopref, 0),
+    BRANCHWIN_NAKED_CHAIN_TARGETPREF_ENTRY("fair_code_prefetchit0_branchwin_naked_chain_targetpref_bar_head", bar_head_t0, 0),
+    BRANCHWIN_NAKED_CHAIN_TARGETPREF_ENTRY("fair_code_prefetchit1_branchwin_naked_chain_targetpref_bar_head", bar_head_it1, 0),
+    BRANCHWIN_NAKED_CHAIN_TARGETPREF_ENTRY("fair_data_prefetcht0_branchwin_naked_chain_targetpref_bar_head", bar_head_datat0, 0),
+    BRANCHWIN_NAKED_FARCALL_ENTRY("fair_code_prefetchit0_branchwin_naked_p2_far2_bar_lines", p2_far2_bar_lines_t0),
+    BRANCHWIN_NAKED_FARCALL_ENTRY("fair_code_prefetchit1_branchwin_naked_p2_far2_bar_lines", p2_far2_bar_lines_it1),
+    BRANCHWIN_NAKED_FARCALL_ENTRY("fair_data_prefetcht0_branchwin_naked_p2_far2_bar_lines", p2_far2_bar_lines_datat0),
+    BRANCHWIN_NAKED_FARCALL_ENTRY("fair_code_branchwin_naked_p2_far2_nopref", p2_far2_nopref),
+    BRANCHWIN_NAKED_FARCALL_ENTRY("fair_code_prefetchit0_branchwin_naked_p2_far2_bar_head", p2_far2_bar_head_t0),
+    BRANCHWIN_NAKED_FARCALL_ENTRY("fair_code_prefetchit1_branchwin_naked_p2_far2_bar_head", p2_far2_bar_head_it1),
+    BRANCHWIN_NAKED_FARCALL_ENTRY("fair_data_prefetcht0_branchwin_naked_p2_far2_bar_head", p2_far2_bar_head_datat0),
+    BRANCHWIN_NAKED_FARCALL_ENTRY("fair_code_prefetchit0_branchwin_naked_far_p2_far_bar_lines", far_p2_far_bar_lines_t0),
+    BRANCHWIN_NAKED_FARCALL_ENTRY("fair_code_prefetchit1_branchwin_naked_far_p2_far_bar_lines", far_p2_far_bar_lines_it1),
+    BRANCHWIN_NAKED_FARCALL_ENTRY("fair_data_prefetcht0_branchwin_naked_far_p2_far_bar_lines", far_p2_far_bar_lines_datat0),
+    BRANCHWIN_NAKED_FARCALL_ENTRY("fair_code_branchwin_naked_far_p2_far_nopref", far_p2_far_nopref),
 };
 
 static void train_branchwin_slow_gate(VoidFn fn, int gate_value) {
@@ -3382,6 +3759,15 @@ static void run_branchwin_slow_before_t0(VoidFn fn) {
     flush_target_code();
     shootdown_target_code_tlb();
     prepare_slow_actual_gate_miss(1);
+    fn();
+}
+
+static void run_branchwin_slow_prefetch_farcall_t0(VoidFn fn) {
+    flush_code_range((const void *)fn, 32768);
+    flush_target_code();
+    shootdown_target_code_tlb();
+    prepare_far_tlb_miss_calls_strong();
+    serialize_cpuid();
     fn();
 }
 
@@ -4140,6 +4526,85 @@ typedef enum {
     STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_SLOW_BEFORE_FARSTORM_BAR_LINES,
     STRATEGY_FAIR_DATA_PREFETCHT0_BRANCHWIN_SLOW_BEFORE_FARSTORM_BAR_LINES,
     STRATEGY_FAIR_CODE_BRANCHWIN_SLOW_BEFORE_FARSTORM_NOPREF,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_BEFORE_FARSTORM_BAR_LINES,
+    STRATEGY_FAIR_CODE_PREFETCHIT1_BRANCHWIN_NAKED_BEFORE_FARSTORM_BAR_LINES,
+    STRATEGY_FAIR_DATA_PREFETCHT0_BRANCHWIN_NAKED_BEFORE_FARSTORM_BAR_LINES,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_BEFORE_FARSTORM_LINES,
+    STRATEGY_FAIR_CODE_PREFETCHIT1_BRANCHWIN_NAKED_BEFORE_FARSTORM_LINES,
+    STRATEGY_FAIR_DATA_PREFETCHT0_BRANCHWIN_NAKED_BEFORE_FARSTORM_LINES,
+    STRATEGY_FAIR_CODE_BRANCHWIN_NAKED_BEFORE_FARSTORM_NOPREF,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_TARGET_FARBLOCK_BAR_LINES_O0,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_TARGET_FARBLOCK_BAR_LINES_O1,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_TARGET_FARBLOCK_BAR_LINES_O2,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_TARGET_FARBLOCK_BAR_LINES_O4,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_TARGET_FARBLOCK_BAR_LINES_O8,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_TARGET_FARBLOCK_BAR_LINES_O16,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_TARGET_FARBLOCK_BAR_LINES_O32,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_TARGET_FARBLOCK_BAR_LINES_O64,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_TARGET_FARBLOCK_BAR_LINES_O128,
+    STRATEGY_FAIR_CODE_PREFETCHIT1_BRANCHWIN_NAKED_TARGET_FARBLOCK_BAR_LINES_O0,
+    STRATEGY_FAIR_CODE_PREFETCHIT1_BRANCHWIN_NAKED_TARGET_FARBLOCK_BAR_LINES_O32,
+    STRATEGY_FAIR_DATA_PREFETCHT0_BRANCHWIN_NAKED_TARGET_FARBLOCK_BAR_LINES_O0,
+    STRATEGY_FAIR_DATA_PREFETCHT0_BRANCHWIN_NAKED_TARGET_FARBLOCK_BAR_LINES_O32,
+    STRATEGY_FAIR_CODE_BRANCHWIN_NAKED_TARGET_FARBLOCK_NOPREF_O0,
+    STRATEGY_FAIR_CODE_BRANCHWIN_NAKED_TARGET_FARBLOCK_NOPREF_O32,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_TARGET_FARBLOCK_BAR_HEAD_O0,
+    STRATEGY_FAIR_CODE_PREFETCHIT1_BRANCHWIN_NAKED_TARGET_FARBLOCK_BAR_HEAD_O0,
+    STRATEGY_FAIR_DATA_PREFETCHT0_BRANCHWIN_NAKED_TARGET_FARBLOCK_BAR_HEAD_O0,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_WRONG_FALLTHROUGH_BAR_LINES_O0,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_WRONG_FALLTHROUGH_BAR_LINES_O1,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_WRONG_FALLTHROUGH_BAR_LINES_O2,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_WRONG_FALLTHROUGH_BAR_LINES_O3,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_WRONG_FALLTHROUGH_BAR_LINES_O4,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_WRONG_FALLTHROUGH_BAR_LINES_O5,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_WRONG_FALLTHROUGH_BAR_LINES_O8,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_WRONG_FALLTHROUGH_BAR_LINES_O12,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_WRONG_FALLTHROUGH_BAR_LINES_O16,
+    STRATEGY_FAIR_CODE_PREFETCHIT1_BRANCHWIN_NAKED_WRONG_FALLTHROUGH_BAR_LINES_O0,
+    STRATEGY_FAIR_DATA_PREFETCHT0_BRANCHWIN_NAKED_WRONG_FALLTHROUGH_BAR_LINES_O0,
+    STRATEGY_FAIR_CODE_BRANCHWIN_NAKED_WRONG_FALLTHROUGH_NOPREF_O0,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_ACTUAL_FALLTHROUGH_BAR_LINES_O0,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_ACTUAL_FALLTHROUGH_BAR_LINES_O1,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_ACTUAL_FALLTHROUGH_BAR_LINES_O2,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_ACTUAL_FALLTHROUGH_BAR_LINES_O3,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_ACTUAL_FALLTHROUGH_BAR_LINES_O4,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_ACTUAL_FALLTHROUGH_BAR_LINES_O5,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_ACTUAL_FALLTHROUGH_BAR_LINES_O8,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_ACTUAL_FALLTHROUGH_BAR_LINES_O12,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_ACTUAL_FALLTHROUGH_BAR_LINES_O16,
+    STRATEGY_FAIR_CODE_PREFETCHIT1_BRANCHWIN_NAKED_ACTUAL_FALLTHROUGH_BAR_LINES_O0,
+    STRATEGY_FAIR_DATA_PREFETCHT0_BRANCHWIN_NAKED_ACTUAL_FALLTHROUGH_BAR_LINES_O0,
+    STRATEGY_FAIR_CODE_BRANCHWIN_NAKED_ACTUAL_FALLTHROUGH_NOPREF_O0,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_WRONG_TAKEN_BAR_LINES_O0,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_WRONG_TAKEN_BAR_LINES_O1,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_WRONG_TAKEN_BAR_LINES_O2,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_WRONG_TAKEN_BAR_LINES_O4,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_WRONG_TAKEN_BAR_LINES_O8,
+    STRATEGY_FAIR_CODE_PREFETCHIT1_BRANCHWIN_NAKED_WRONG_TAKEN_BAR_LINES_O0,
+    STRATEGY_FAIR_DATA_PREFETCHT0_BRANCHWIN_NAKED_WRONG_TAKEN_BAR_LINES_O0,
+    STRATEGY_FAIR_CODE_BRANCHWIN_NAKED_WRONG_TAKEN_NOPREF_O0,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_CHAIN_TARGETPREF_BAR_LINES_O0,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_CHAIN_TARGETPREF_BAR_LINES_O1,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_CHAIN_TARGETPREF_BAR_LINES_O2,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_CHAIN_TARGETPREF_BAR_LINES_O4,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_CHAIN_TARGETPREF_BAR_LINES_O8,
+    STRATEGY_FAIR_CODE_PREFETCHIT1_BRANCHWIN_NAKED_CHAIN_TARGETPREF_BAR_LINES_O0,
+    STRATEGY_FAIR_DATA_PREFETCHT0_BRANCHWIN_NAKED_CHAIN_TARGETPREF_BAR_LINES_O0,
+    STRATEGY_FAIR_CODE_BRANCHWIN_NAKED_CHAIN_TARGETPREF_NOPREF_O0,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_CHAIN_TARGETPREF_BAR_HEAD_O0,
+    STRATEGY_FAIR_CODE_PREFETCHIT1_BRANCHWIN_NAKED_CHAIN_TARGETPREF_BAR_HEAD_O0,
+    STRATEGY_FAIR_DATA_PREFETCHT0_BRANCHWIN_NAKED_CHAIN_TARGETPREF_BAR_HEAD_O0,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_P2_FAR2_BAR_LINES,
+    STRATEGY_FAIR_CODE_PREFETCHIT1_BRANCHWIN_NAKED_P2_FAR2_BAR_LINES,
+    STRATEGY_FAIR_DATA_PREFETCHT0_BRANCHWIN_NAKED_P2_FAR2_BAR_LINES,
+    STRATEGY_FAIR_CODE_BRANCHWIN_NAKED_P2_FAR2_NOPREF,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_P2_FAR2_BAR_HEAD,
+    STRATEGY_FAIR_CODE_PREFETCHIT1_BRANCHWIN_NAKED_P2_FAR2_BAR_HEAD,
+    STRATEGY_FAIR_DATA_PREFETCHT0_BRANCHWIN_NAKED_P2_FAR2_BAR_HEAD,
+    STRATEGY_FAIR_CODE_PREFETCHIT0_BRANCHWIN_NAKED_FAR_P2_FAR_BAR_LINES,
+    STRATEGY_FAIR_CODE_PREFETCHIT1_BRANCHWIN_NAKED_FAR_P2_FAR_BAR_LINES,
+    STRATEGY_FAIR_DATA_PREFETCHT0_BRANCHWIN_NAKED_FAR_P2_FAR_BAR_LINES,
+    STRATEGY_FAIR_CODE_BRANCHWIN_NAKED_FAR_P2_FAR_NOPREF,
     STRATEGY_COUNT
 } StrategyKind;
 
@@ -4218,6 +4683,9 @@ static int run_branchwin_slow_strategy(StrategyKind kind) {
         break;
     case BRANCHWIN_SLOW_MODE_BEFORE:
         run_branchwin_slow_before_t0(variant->fn);
+        break;
+    case BRANCHWIN_SLOW_MODE_PREFETCH_FARCALL:
+        run_branchwin_slow_prefetch_farcall_t0(variant->fn);
         break;
     default:
         return 0;

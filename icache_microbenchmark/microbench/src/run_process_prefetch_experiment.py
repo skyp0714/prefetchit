@@ -269,7 +269,94 @@ BRANCHWIN_CASES = BRANCHWIN_CASES[:-1] + BRANCHWIN_BEFOREFAR_CASES + [
     ("code IT0 branchwin slow before farstorm bar lines", "fair_code_prefetchit0_branchwin_slow_before_farstorm_bar_lines", None),
     ("data T0 branchwin slow before farstorm bar lines", "fair_data_prefetcht0_branchwin_slow_before_farstorm_bar_lines", None),
     ("code branchwin slow before farstorm nopref", "fair_code_branchwin_slow_before_farstorm_nopref", None),
+    ("code IT0 naked before farstorm bar", "fair_code_prefetchit0_branchwin_naked_before_farstorm_bar_lines", None),
+    ("code IT1 naked before farstorm bar", "fair_code_prefetchit1_branchwin_naked_before_farstorm_bar_lines", None),
+    ("data T0 naked before farstorm bar", "fair_data_prefetcht0_branchwin_naked_before_farstorm_bar_lines", None),
+    ("code IT0 naked before farstorm lines", "fair_code_prefetchit0_branchwin_naked_before_farstorm_lines", None),
+    ("code IT1 naked before farstorm lines", "fair_code_prefetchit1_branchwin_naked_before_farstorm_lines", None),
+    ("data T0 naked before farstorm lines", "fair_data_prefetcht0_branchwin_naked_before_farstorm_lines", None),
+    ("code naked before farstorm nopref", "fair_code_branchwin_naked_before_farstorm_nopref", None),
+    ("code IT0 naked target farblock bar o0", "fair_code_prefetchit0_branchwin_naked_target_farblock_bar_lines_o0", None),
+    ("code IT0 naked target farblock bar o1", "fair_code_prefetchit0_branchwin_naked_target_farblock_bar_lines_o1", None),
+    ("code IT0 naked target farblock bar o2", "fair_code_prefetchit0_branchwin_naked_target_farblock_bar_lines_o2", None),
+    ("code IT0 naked target farblock bar o4", "fair_code_prefetchit0_branchwin_naked_target_farblock_bar_lines_o4", None),
+    ("code IT0 naked target farblock bar o8", "fair_code_prefetchit0_branchwin_naked_target_farblock_bar_lines_o8", None),
+    ("code IT0 naked target farblock bar o16", "fair_code_prefetchit0_branchwin_naked_target_farblock_bar_lines_o16", None),
+    ("code IT0 naked target farblock bar o32", "fair_code_prefetchit0_branchwin_naked_target_farblock_bar_lines_o32", None),
+    ("code IT0 naked target farblock bar o64", "fair_code_prefetchit0_branchwin_naked_target_farblock_bar_lines_o64", None),
+    ("code IT0 naked target farblock bar o128", "fair_code_prefetchit0_branchwin_naked_target_farblock_bar_lines_o128", None),
+    ("code IT1 naked target farblock bar o0", "fair_code_prefetchit1_branchwin_naked_target_farblock_bar_lines_o0", None),
+    ("code IT1 naked target farblock bar o32", "fair_code_prefetchit1_branchwin_naked_target_farblock_bar_lines_o32", None),
+    ("data T0 naked target farblock bar o0", "fair_data_prefetcht0_branchwin_naked_target_farblock_bar_lines_o0", None),
+    ("data T0 naked target farblock bar o32", "fair_data_prefetcht0_branchwin_naked_target_farblock_bar_lines_o32", None),
+    ("code naked target farblock nopref o0", "fair_code_branchwin_naked_target_farblock_nopref_o0", None),
+    ("code naked target farblock nopref o32", "fair_code_branchwin_naked_target_farblock_nopref_o32", None),
+    ("code IT0 naked target farblock bar head", "fair_code_prefetchit0_branchwin_naked_target_farblock_bar_head_o0", None),
+    ("code IT1 naked target farblock bar head", "fair_code_prefetchit1_branchwin_naked_target_farblock_bar_head_o0", None),
+    ("data T0 naked target farblock bar head", "fair_data_prefetcht0_branchwin_naked_target_farblock_bar_head_o0", None),
+    ("code IT0 naked p2 far2 bar", "fair_code_prefetchit0_branchwin_naked_p2_far2_bar_lines", None),
+    ("code IT1 naked p2 far2 bar", "fair_code_prefetchit1_branchwin_naked_p2_far2_bar_lines", None),
+    ("data T0 naked p2 far2 bar", "fair_data_prefetcht0_branchwin_naked_p2_far2_bar_lines", None),
+    ("code naked p2 far2 nopref", "fair_code_branchwin_naked_p2_far2_nopref", None),
+    ("code IT0 naked p2 far2 bar head", "fair_code_prefetchit0_branchwin_naked_p2_far2_bar_head", None),
+    ("code IT1 naked p2 far2 bar head", "fair_code_prefetchit1_branchwin_naked_p2_far2_bar_head", None),
+    ("data T0 naked p2 far2 bar head", "fair_data_prefetcht0_branchwin_naked_p2_far2_bar_head", None),
+    ("code IT0 naked far p2 far bar", "fair_code_prefetchit0_branchwin_naked_far_p2_far_bar_lines", None),
+    ("code IT1 naked far p2 far bar", "fair_code_prefetchit1_branchwin_naked_far_p2_far_bar_lines", None),
+    ("data T0 naked far p2 far bar", "fair_data_prefetcht0_branchwin_naked_far_p2_far_bar_lines", None),
+    ("code naked far p2 far nopref", "fair_code_branchwin_naked_far_p2_far_nopref", None),
 ] + BRANCHWIN_CASES[-1:]
+
+BRANCHWIN_NAKED_BRANCH_CASES = [
+    (
+        f"code IT0 naked wrong fallthrough bar o{offset}",
+        f"fair_code_prefetchit0_branchwin_naked_wrong_fallthrough_bar_lines_o{offset}",
+        None,
+    )
+    for offset in (0, 1, 2, 3, 4, 5, 8, 12, 16)
+] + [
+    ("code IT1 naked wrong fallthrough bar o0", "fair_code_prefetchit1_branchwin_naked_wrong_fallthrough_bar_lines_o0", None),
+    ("data T0 naked wrong fallthrough bar o0", "fair_data_prefetcht0_branchwin_naked_wrong_fallthrough_bar_lines_o0", None),
+    ("code naked wrong fallthrough nopref o0", "fair_code_branchwin_naked_wrong_fallthrough_nopref_o0", None),
+] + [
+    (
+        f"code IT0 naked actual fallthrough bar o{offset}",
+        f"fair_code_prefetchit0_branchwin_naked_actual_fallthrough_bar_lines_o{offset}",
+        None,
+    )
+    for offset in (0, 1, 2, 3, 4, 5, 8, 12, 16)
+] + [
+    ("code IT1 naked actual fallthrough bar o0", "fair_code_prefetchit1_branchwin_naked_actual_fallthrough_bar_lines_o0", None),
+    ("data T0 naked actual fallthrough bar o0", "fair_data_prefetcht0_branchwin_naked_actual_fallthrough_bar_lines_o0", None),
+    ("code naked actual fallthrough nopref o0", "fair_code_branchwin_naked_actual_fallthrough_nopref_o0", None),
+] + [
+    (
+        f"code IT0 naked wrong taken bar o{offset}",
+        f"fair_code_prefetchit0_branchwin_naked_wrong_taken_bar_lines_o{offset}",
+        None,
+    )
+    for offset in (0, 1, 2, 4, 8)
+] + [
+    ("code IT1 naked wrong taken bar o0", "fair_code_prefetchit1_branchwin_naked_wrong_taken_bar_lines_o0", None),
+    ("data T0 naked wrong taken bar o0", "fair_data_prefetcht0_branchwin_naked_wrong_taken_bar_lines_o0", None),
+    ("code naked wrong taken nopref o0", "fair_code_branchwin_naked_wrong_taken_nopref_o0", None),
+    *[
+        (
+            f"code IT0 naked chain targetpref bar o{offset}",
+            f"fair_code_prefetchit0_branchwin_naked_chain_targetpref_bar_lines_o{offset}",
+            None,
+        )
+        for offset in (0, 1, 2, 4, 8)
+    ],
+    ("code IT1 naked chain targetpref bar o0", "fair_code_prefetchit1_branchwin_naked_chain_targetpref_bar_lines_o0", None),
+    ("data T0 naked chain targetpref bar o0", "fair_data_prefetcht0_branchwin_naked_chain_targetpref_bar_lines_o0", None),
+    ("code naked chain targetpref nopref o0", "fair_code_branchwin_naked_chain_targetpref_nopref_o0", None),
+    ("code IT0 naked chain targetpref bar head", "fair_code_prefetchit0_branchwin_naked_chain_targetpref_bar_head_o0", None),
+    ("code IT1 naked chain targetpref bar head", "fair_code_prefetchit1_branchwin_naked_chain_targetpref_bar_head_o0", None),
+    ("data T0 naked chain targetpref bar head", "fair_data_prefetcht0_branchwin_naked_chain_targetpref_bar_head_o0", None),
+]
+
+BRANCHWIN_CASES = BRANCHWIN_CASES[:-1] + BRANCHWIN_NAKED_BRANCH_CASES + BRANCHWIN_CASES[-1:]
 
 IT0_SEARCH_CASES = [
     ("baseline (no prefetch)", "baseline", ["none"]),
