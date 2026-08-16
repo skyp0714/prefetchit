@@ -156,3 +156,18 @@ Dual-regime framing for the paper: fixed-platform 1.078x microarchitectural
 | PostgreSQL top32 vs NOP | +1% | 1.0232x ± 0.0210 vs PGO 1.0117x ± 0.0267 | static ≈ PGO, no PGO advantage |
 
 Router +198% remains quarantined (baseline confound, Table 1 note).
+
+### 2026-08-16 addendum — target-driven exploration (≥5%/≥10% outside error bars)
+
+Final standings: Django **1.490x** ✓✓, Verilator static **1.078x** ✓ (honest
+ceiling proven ~1.08x), FeedSim **1.073x** ✓ (best config ICACHE_ITERS=200M
+t2; curve peaks there), PostgreSQL ✗ structural — misses diffuse over
+thousands of lines, 336-injection plan cuts only ~3% of misses, more
+coverage self-defeats (top64: 0.983x); best config found (c8 tpcb
+synchronous_commit=off, CPU-bound, MPKI 25) still yields 1.006±0.015.
+memcached ✗ dropped (neutral under all controlled configs).
+
+Broad new-workload screens all excluded (loaded L2I MPKI): clang 0.37,
+node.js 1.71, Cassandra 0.44 (idle JVM reads 11.9 — screen under load!),
+QEMU TCG 0.005. i-cache-bound workloads are rare; the showcase set is
+representative.
