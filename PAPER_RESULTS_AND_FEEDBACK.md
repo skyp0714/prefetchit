@@ -109,3 +109,50 @@ FleetBench, SPEC, services). What is missing is not more workloads but:
 - Report median + IQR or mean ± CI over ≥5 reps for service benchmarks.
 - Injection-count vs speedup scaling curves (data already exists for qsort)
   make the static-vs-oracle "efficiency gap" visual and compelling.
+
+---
+
+## REVISION 2026-08-15 (evening) — frozen-platform re-measurement supersedes the tables above
+
+Platform forensics (full chain in
+`llvm_prefetchit/results/paper_goal_20260815/CONFIG_LOG.md`) found every
+pre-existing Verilator number and the July datacenter numbers were
+frequency-confounded: on default/partial configs the uncore floats, baseline
+demand code misses do not trip the uncore boost heuristic (~17% IPC penalty),
+and prefetch variants "wake" the uncore and get credit for it. All rows below
+are frozen-platform (core min=max fixed + uncore min=max pinned, EPP=0):
+`scripts/configure_fixed_frequency_v2.sh`.
+
+### Verilator qsort (fixed 3.8GHz, full 538240 cycles, 3 reps)
+
+| variant | runtime | speedup | injections |
+|---|---:|---:|---:|
+| baseline | 284.80s ± 0.3 | – | – |
+| **static_top1k_callsite_b1 (RET static)** | 264.22s ± 0.18 | **1.078x** | **1,000** |
+| pgo_cond_cov25 (best PGO) | 264.93s ± 0.21 | 1.075x | 20,573 |
+| pgo_ret_cov90 | 265.54s ± 0.21 | 1.073x | 7,240 |
+
+Headline change: June's "static ≈ 90% of PGO oracle (1.226x vs 1.257x)"
+becomes **"profile-free static ≥ PGO oracle at 20x fewer injections"**. The
+June variant ranking itself was DVFS-contaminated; the honest winner is the
+RET/callsite static family, not the COND fetch-gap family. Cross-payload
+transfer (mm/dhrystone/median): static 1.075–1.079x ≡ PGO 1.076–1.077x,
+zero re-tuning. Combined RET+COND plans reduce MPKI further (to 50.7) but
+injection overhead cancels the time gain — ~1.08x is the workload's honest
+ceiling and the 1000-injection plan sits on it. Over-injection actively
+hurts (pgo_cond_cov100: 0.948x).
+
+Dual-regime framing for the paper: fixed-platform 1.078x microarchitectural
++ default-platform ~1.2x wall-clock (sw code prefetch also wakes the uncore
+— a real deployment effect worth reporting separately, not conflating).
+
+### Datacenter manual rows re-verified (2GHz fixed + uncore pinned)
+
+| workload | July claim | frozen-platform | verdict |
+|---|---:|---:|---|
+| Django d4_next | 1.805x (audited) / 2.36x (raw) | **1.490x ± 0.01** (MPKI 84.6→35.0, 3 reps) | real, still headline |
+| FeedSim seed2_d16_target_next | 1.085x | **1.050x** (MPKI 7.2→1.6, 3 reps) | real, compressed |
+| memcached allpf | +15.3% mean | **1.0002x ± 0.005** (5 pairs) | neutral under paired harness (MPKI 0.04 there — July's c2048_w8 stress config still unchecked) |
+| PostgreSQL top32 vs NOP | +1% | 1.0232x ± 0.0210 vs PGO 1.0117x ± 0.0267 | static ≈ PGO, no PGO advantage |
+
+Router +198% remains quarantined (baseline confound, Table 1 note).
