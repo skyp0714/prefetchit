@@ -198,7 +198,11 @@ require_chipyard_tree
 
 require_file "${BASELINE_BINARY}"
 require_dir "${SOURCE_WORK}"
-build_trace_args
+# Traces are only consumed by plan generation; an external plan needs none
+# (and the June qsort LBR dumps have since been pruned from disk).
+if [[ -z "${EXTERNAL_PLAN}" ]]; then
+  build_trace_args
+fi
 
 log "build LLVM pass"
 cmake --build "${LLVM_PREFETCH_DIR}/build"

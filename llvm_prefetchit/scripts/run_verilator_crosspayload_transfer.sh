@@ -13,9 +13,9 @@ CORE="${CORE:-5}"
 PAYLOADS="${PAYLOADS:-mm dhrystone median qsort}"
 EVENT='cpu/event=0x24,umask=0x24,name=L2I_CODE_RD_MISS/u'
 
-BASE_BIN="${ROOT}/benchmarks/chipyard/sims/verilator/simulator-chipyard.harness-DualMegaBoomAndSingleRocketConfig"
-STATIC_BIN="${ROOT}/llvm_prefetchit/results/static_cond_autotune/static_cond_autotune_20260628_212242/runs/static_gap100k_cur0_skip/bin/simulator-chipyard.harness-DualMegaBoomAndSingleRocketConfig-llvm-static_gap100k_cur0_skip"
-PGO_BIN="${ROOT}/llvm_prefetchit/results/cond_sampleip_compare/cond_sampleip_compare_20260628_014845/runs/pgo_cond_cov50/bin/simulator-chipyard.harness-DualMegaBoomAndSingleRocketConfig-llvm-pgo_cond_cov50"
+BASE_BIN="${BASE_BIN:-${ROOT}/benchmarks/chipyard/sims/verilator/simulator-chipyard.harness-DualMegaBoomAndSingleRocketConfig}"
+STATIC_BIN="${STATIC_BIN:-${ROOT}/llvm_prefetchit/results/static_cond_autotune/static_cond_autotune_20260628_212242/runs/static_gap100k_cur0_skip/bin/simulator-chipyard.harness-DualMegaBoomAndSingleRocketConfig-llvm-static_gap100k_cur0_skip}"
+PGO_BIN="${PGO_BIN:-${ROOT}/llvm_prefetchit/results/cond_sampleip_compare/cond_sampleip_compare_20260628_014845/runs/pgo_cond_cov50/bin/simulator-chipyard.harness-DualMegaBoomAndSingleRocketConfig-llvm-pgo_cond_cov50}"
 
 [[ -x "${BASE_BIN}" && -x "${STATIC_BIN}" && -x "${PGO_BIN}" ]]
 mkdir -p "${OUT}"
