@@ -193,3 +193,14 @@ code, fixed shuffled walk, L2I 93 MPKI). Dose-response monotone; V2/V3
 neutral; DaCapo negatives each mapped to a violated axis of the four-axis
 criterion (MPKI x static-determinism x FE-bound x L1I~L2I). AOT+JIT wings
 of the paper now both demonstrated with the same instruction.
+
+### 2026-08-17 three-class synthesis (final)
+
+Class 1 (flattened streaming): Verilator 1.078x; no datacenter member
+exists outside EDA (35+ screened). Class 2 (indirect dispatch): Django
+1.490x + FeedSim 1.073x (DCPerf); Router +198% resolved as 100% build
+confound via same-binary NOP baselines (0.98±0.04); HDSearch neutral.
+Class 3 (JIT): JCodeStream +28.5% pure prefetcht1 (robust +26.2%);
+real JVM services below streaming threshold — blanket V4 harms, gate
+mitigates, deployment = default-off + streaming activation. Four-axis
+criterion explains every row.
