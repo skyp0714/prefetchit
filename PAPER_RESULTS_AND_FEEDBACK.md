@@ -184,3 +184,12 @@ Icarus vvp 0.002, ngspice 0.03, LAMMPS 0.002, RocketConfig verilator 0.89
 (cache cliff vs DualMegaBoom 58.6). Engine code-generation strategy — not
 workload domain — determines i-cache pressure; the paper's showcase set is a
 class property.
+
+### 2026-08-16 overnight: JIT success — +28.5% pure prefetcht1 (JCodeStream)
+
+C2-integrated V4 entry-burst prefetch delivers 1.2854x (5 reps, sd 0.3ms)
+on JCodeStream, the JIT twin of the Verilator streaming profile (16.7MB C2
+code, fixed shuffled walk, L2I 93 MPKI). Dose-response monotone; V2/V3
+neutral; DaCapo negatives each mapped to a violated axis of the four-axis
+criterion (MPKI x static-determinism x FE-bound x L1I~L2I). AOT+JIT wings
+of the paper now both demonstrated with the same instruction.
