@@ -171,3 +171,16 @@ Broad new-workload screens all excluded (loaded L2I MPKI): clang 0.37,
 node.js 1.71, Cassandra 0.44 (idle JVM reads 11.9 — screen under load!),
 QEMU TCG 0.005. i-cache-bound workloads are rare; the showcase set is
 representative.
+
+### New-workload hunt round 2 (2026-08-16): JVM suites, PHP, sim/HPC
+
+DaCapo **tomcat qualifies by MPKI (10.8)** but misses live in JIT code
+(55% [JIT] + 33% anon; libjvm 8.4%) — out of AOT-pass scope; future work:
+JIT-integrated prefetch. All else excluded under load: DaCapo
+spring/tradebeans/eclipse/h2 (0.6–2.5), tradesoap 4.0 borderline,
+Renaissance finagle-http/chirper/neo4j/dotty (0.2–1.6), PHP 8.1 600-class
+app 0.24 (Zend interpreter compact — app code is data to the VM), GHDL 0.27,
+Icarus vvp 0.002, ngspice 0.03, LAMMPS 0.002, RocketConfig verilator 0.89
+(cache cliff vs DualMegaBoom 58.6). Engine code-generation strategy — not
+workload domain — determines i-cache pressure; the paper's showcase set is a
+class property.
