@@ -213,3 +213,23 @@ socialNetwork deployed live: aggregate L2I 18.6 (July verdict overturned),
 thrift services hold ~33% of misses — rebuild-with-pass is the queued
 flagship. arc C1 final +4.49% layout-controlled (s4la16); five-axis theory
 + NOP-pair protocol are the standing methodology.
+
+### 2026-08-17 wave 3: DSB flagship executed and closed
+
+All 11 socialNetwork C++ services rebuilt from source (clang-19 -O3,
+modernized dependency image) and swapped into the live stack; 8k QPS
+server-side load, 0-error 1.2M-request runs. PGO-first chain executed
+end-to-end: AutoFDO ceiling = −2~4% PostStorage cycles at fixed load,
+E2E-neutral (service is not the system bottleneck). Static cov75
+internal+external-GOT plan (157 sites / 314 prefetcht1): **neutral vs
+same-binary NOP control in both the warm-saturation (5.3 MPKI) and
+cold-low-load (20 MPKI) regimes, zero miss reduction.** Structural
+cause: only 12% of process code-miss samples resolve in the main binary
+(rest in libc/libstdc++/client DSOs), and LBR-path target determinism is
+low in request-dispatch code — MPKI magnitude alone is not sufficient
+(axis theory confirmed on the flagship). Headline methodological result:
+the NOP arm beat stock by 1.6% cycles on layout shift alone (IPC 1.65 vs
+1.53) while carrying +5.8% instructions — at datacenter scale, layout
+luck exceeds most claimed prefetch wins in this class; same-binary NOP
+controls are non-negotiable. DSB status in the paper: honest negative
+with measured PGO ceiling + reusable live-swap A/B infrastructure.
