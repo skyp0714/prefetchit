@@ -51,7 +51,8 @@ def main() -> None:
         ["objdump", "-d", "--section=.text", args.input], text=True
     )
     patches = []
-    for line in dis.splitlines():
+    lines = dis.splitlines()
+    for i, line in enumerate(lines):
         if not any(f"\t{m} " in line or line.rstrip().endswith(m) for m in mnemonics):
             continue
         head, _, _ = line.partition("\t")
@@ -59,6 +60,21 @@ def main() -> None:
         _, _, rest = line.partition("\t")
         byte_str, _, _ = rest.partition("\t")
         nbytes = len(byte_str.split())
+        # objdump wraps byte listings at 7 bytes/line; absorb continuation
+        # lines (address + bytes, no mnemonic) so 8-byte prefetches are
+        # patched in full
+        j = i + 1
+        while j < len(lines):
+            cont = lines[j]
+            parts = cont.split("\t")
+            if (len(parts) >= 2 and parts[0].strip().endswith(":")
+                    and (len(parts) == 2 or not parts[2].strip())
+                    and parts[1].strip()
+                    and all(len(b) == 2 for b in parts[1].split())):
+                nbytes += len(parts[1].split())
+                j += 1
+            else:
+                break
         if nbytes not in MULTI_NOP:
             print(f"[warn] unsupported length {nbytes} at {hex(addr)}", file=sys.stderr)
             continue
@@ -69,7 +85,13 @@ def main() -> None:
             file_off = off + (addr - vaddr)
             handle.seek(file_off)
             existing = handle.read(nbytes)
-            if not existing.startswith(bytes([0x0F, 0x18])):
+            body = existing
+            # skip REX/segment/operand-size prefixes (e.g. 41 0f 18 for
+            # r8-r15 base registers) before the 0F 18 opcode check
+            while body and body[0] in (0x66, 0x67, 0x2E, 0x3E, 0x26, 0x64,
+                                       0x65, 0x36) or (body and 0x40 <= body[0] <= 0x4F):
+                body = body[1:]
+            if not body.startswith(bytes([0x0F, 0x18])):
                 print(
                     f"[warn] bytes at {hex(addr)} are not a prefetch: "
                     f"{existing.hex()}", file=sys.stderr
