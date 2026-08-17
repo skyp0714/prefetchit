@@ -233,3 +233,19 @@ the NOP arm beat stock by 1.6% cycles on layout shift alone (IPC 1.65 vs
 luck exceeds most claimed prefetch wins in this class; same-binary NOP
 controls are non-negotiable. DSB status in the paper: honest negative
 with measured PGO ceiling + reusable live-swap A/B infrastructure.
+
+### 2026-08-17 final: all three classes ≥5%, boundary maps complete
+
+C1: Verilator 1.078x + arcilator s4la16 **1.0510** (15-rep interleaved,
+non-overlapping distributions; sharp density resonance, neighbors map).
+C2: Django 1.490x + FeedSim 1.073x; DSB fat-static build (74% of misses
+brought into prefetch reach by static-linking the service's C++ deps)
+gives the first true DSB effect (−1.7% cyc/req cold vs NOP, ~57% of the
+−2.9% PGO ceiling) — the class's structural boundary, quantified.
+C3: JCodeStream 1.285x + **WideApi real-service win: gated V4 entry-burst
++11.04% QPS / p99 −19.5% at fixed capacity** (wide-API composite-endpoint
+HTTP service, 4000 generated handlers, 35-50 L2I MPKI, layout-free
+JVM-flag A/B, 5 reps 50σ). The MinBytecode gate that neutralizes the
+DaCapo harm cases is the same config that wins here → single deployable
+default. Boundary map: tomcat (misses L2-resident → t1-unreachable),
+finagle-chirper (6 MPKI, neutral), dotty/Trino (loop-hot ≤1.7 MPKI).
