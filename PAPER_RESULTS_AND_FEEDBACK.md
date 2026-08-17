@@ -204,3 +204,12 @@ Class 3 (JIT): JCodeStream +28.5% pure prefetcht1 (robust +26.2%);
 real JVM services below streaming threshold — blanket V4 harms, gate
 mitigates, deployment = default-off + streaming activation. Four-axis
 criterion explains every row.
+
+### 2026-08-17 wave 2
+
+PGO-first methodology enforced. MicroSuite fully neutral under matched
+baselines (Router 0.983 / HDSearch 0.992 / Recommend 1.006). DSB
+socialNetwork deployed live: aggregate L2I 18.6 (July verdict overturned),
+thrift services hold ~33% of misses — rebuild-with-pass is the queued
+flagship. arc C1 final +4.49% layout-controlled (s4la16); five-axis theory
++ NOP-pair protocol are the standing methodology.
