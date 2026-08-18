@@ -249,3 +249,22 @@ JVM-flag A/B, 5 reps 50σ). The MinBytecode gate that neutralizes the
 DaCapo harm cases is the same config that wins here → single deployable
 default. Boundary map: tomcat (misses L2-resident → t1-unreachable),
 finagle-chirper (6 MPKI, neutral), dotty/Trino (loop-hot ≤1.7 MPKI).
+
+### 2026-08-18 wave 5: TPC-C OLTP result + completed boundary maps
+
+**TPC-C/PostgreSQL16 (sysbench-tpcc): L2I 51 MPKI (94% in-binary) — the
+real OLTP icache profile pgbench never showed. PGO (AutoFDO) +7.98% tps,
+lat95 −5% under a template-restore protocol (DB growth otherwise drifts
+arms ~10%).** Static injection density sweep all-negative (230:+0.1%,
+890:−3.8%, 1684-RET:−4.9%, 5728:−15.6%): top targets are ubiquitous
+callees (AllocSetAlloc/palloc/yyparse) → few static sites still emit
+massive dynamic prefetch traffic. Paper axis refined: **dynamic issue
+rate, not static site count.** OLTP reaches its ceiling via layout (PGO)
+— per the PGO-first methodology this is the class's ≥5% result.
+Recognized-JVM map complete (40+ benchmarks): no prefetcht1 member;
+misses are L2-resident (L1I/L2I≈10) — the JVM-class instruction is
+L1I-filling prefetch, out of scope. Dyn-lib RET opportunity quantified
+(DSB thin): RET=10% of miss-LBR0s, 74% of sites inside DSOs →
+injectable ≈1%; fat-static linking remains the DSO route. WideApi
+server-side metrics (diagnostic): −14.8% cycles/request at equal load /
++11.04% QPS at fixed capacity. redis 0.011 MPKI closed.
