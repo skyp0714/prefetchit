@@ -11,7 +11,7 @@ OUT=/tmp/dsoret_${LABEL}
 mkdir -p "$OUT"
 echo 'ps101899' | sudo -S -p '' perf record \
   -e 'cpu/event=0x24,umask=0x24,name=L2I_CODE_RD_MISS/upp' \
-  -b -c "$PERIOD" -p "$PID" -o "$OUT/perf.data" -- sleep "$DUR"
+  -j any,save_type -c "$PERIOD" -p "$PID" -o "$OUT/perf.data" -- sleep "$DUR"
 echo 'ps101899' | sudo -S -p '' chmod a+r "$OUT/perf.data"
 echo 'ps101899' | sudo -S -p '' perf script -i "$OUT/perf.data" \
   -F ip,brstack --itrace=i0 2>/dev/null | head -200000 > "$OUT/raw.txt" || \
