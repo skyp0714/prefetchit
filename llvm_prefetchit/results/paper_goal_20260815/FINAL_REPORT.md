@@ -573,3 +573,25 @@ accounting, and the corrected NOP tool are reusable infrastructure.
   (prefetch-only deltas); OLTP verdict recast as 5th axis — high L2
   DATA pressure evicts prefetched code (shared L2); JCS/WideApi demoted
   to appendix (self-authored benches).
+
+## Wave-9 (2026-08-21): frequency axis — gains GROW with core clock where misses are cold
+
+Cores repinned 3.4GHz (turbo re-enabled: MISC_ENABLE bit38 had been left
+set by the v1 config script; cleared via wrmsr, achieved ~3.26GHz under
+load), uncore kept pinned 2.2/2.5GHz. Same harnesses, 3-rep:
+- **Django: 1.490x @2GHz -> 1.719x @3.4GHz** (base qps 6.55->9.30,
+  IPC 0.344->0.288 = more FE-bound; d4_next qps 9.76->16.00, near-linear
+  clock scaling). Textbook confirmation: higher clock -> more cycles per
+  cold miss -> prefetch worth more.
+- DSB cold ci-pair: IPC delta +0.05% -> +0.78%, qps -0.43% -> +0.62%,
+  MPKI -0.2% -> -1.6% (direction up, still <1%).
+- PG TPC-C burst v1: +0.31% -> +0.66% tps (noise-level; the L2
+  data-eviction wall is frequency-independent).
+- FeedSim i200m t2: qps ratio 1.073x -> 1.043x, latency ratio flat
+  (1.047 -> 1.048); base MPKI 8.07 -> 6.26 (faster request turnaround
+  keeps code warmer — gain source partially evaporates at high clock).
+Paper line: the technique's value scales with core:memory clock ratio
+when the covered misses are truly cold (Django); warm-regime and
+data-evicted workloads do not benefit from the frequency axis.
+Frequency-state hazard log: fc_assert_frequency now honors
+FC_EXPECT_NO_TURBO for turbo-enabled fixed-frequency runs.

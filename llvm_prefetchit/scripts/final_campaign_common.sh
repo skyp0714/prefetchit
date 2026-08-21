@@ -91,7 +91,7 @@ fc_assert_frequency() {
     min_freq="$(<"${base}/scaling_min_freq")"
     max_freq="$(<"${base}/scaling_max_freq")"
     if [[ "${governor}" != "performance" || "${min_freq}" != "${FC_FREQ_KHZ}" || \
-          "${max_freq}" != "${FC_FREQ_KHZ}" || "${no_turbo}" != 1 || \
+          "${max_freq}" != "${FC_FREQ_KHZ}" || "${no_turbo}" != "${FC_EXPECT_NO_TURBO:-1}" || \
           "${min_pct}" != "${FC_PERF_PCT}" || "${max_pct}" != "${FC_PERF_PCT}" ]]; then
       printf '[freq-error] cpu=%s governor=%s min=%s max=%s no_turbo=%s perf_pct=%s/%s expected=%s/no_turbo=1/perf_pct=%s\n' \
         "${core}" "${governor}" "${min_freq}" "${max_freq}" "${no_turbo}" \
