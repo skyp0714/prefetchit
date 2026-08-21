@@ -710,3 +710,23 @@ the PGO-ceiling plateau (1.075) — nothing to add. Closes the
 static-family exploration on Verilator; distance-rank recipe NOT
 propagated to other workloads (null mechanism), superseded by the
 user-directed L3-shrink JVM experiment.
+
+## Wave-15 (2026-08-21): L3-only shrink (user-directed) — cost axis raised, still neutral; causal chain complete
+
+Config: resctrl L3:0=0x1 (1 way = 21MB) on cores 8-15, L2 UNTOUCHED
+(correcting wave-10 which also shrank L2). Mechanism verified first:
+**11.9% of cassandra code misses now go to DRAM** (40.7M of 341.6M in
+20s; full-L3 baseline was 0.02%) — the GB-scale data working set
+thrashes the single way and evicts code from L3. Cost term finally real.
+- cassandra 4-rep: V4 1.0017x (+0.17%, borderline), **MPKI -10.5% (the
+  largest V4 miss cut ever measured on a real app)**; tomcat: 0.9991x,
+  MPKI -2.2%.
+- Why still ~neutral: the 8-core pinning required to scope CAT collapses
+  volume (cassandra L2I 22 -> 4.0 MPKI — core-packing again); tomcat
+  keeps volume (13) but V4 coverage stays entry-only (-2.2%).
+- Three-config causal matrix (JVM class): full-L3 = cost axis dead;
+  L2-shrink = volume up, cost still L3-hit; L3-shrink = cost up, volume
+  collapsed + coverage floor. **Raising any one axis collapses another;
+  the four-axis product stays ~0, with V4's entry-only coverage the
+  binding term in every configuration.** This closes the JVM boundary
+  with causal (not just observational) evidence.
