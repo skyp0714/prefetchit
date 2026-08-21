@@ -595,3 +595,28 @@ when the covered misses are truly cold (Django); warm-regime and
 data-evicted workloads do not benefit from the frequency axis.
 Frequency-state hazard log: fc_assert_frequency now honors
 FC_EXPECT_NO_TURBO for turbo-enabled fixed-frequency runs.
+
+## Wave-10 (2026-08-21): cache-shrink (resctrl CAT) — Emissary-config emulation
+
+Setup: cores 8-15 in a resctrl CLOS with L2 clamped to 8 ways = 1MB
+(Emissary's exact L2 size) and L3 to 2 ways = 42MB (hardware minimum is
+1 way = 21MB — a 2MB victim L3 CANNOT be emulated on GNR). Validated
+with a 1.5MB pointer chase (+13% on shrunk cores). Workloads pinned via
+taskset; 3.4GHz core pinning retained.
+- **Emissary MPKI reproduced on real hardware**: with L2=1MB, tomcat L2I
+  MPKI 15.0 (their sim: ~14), cassandra 9.2 (their sim: ~8). Our
+  screening was never wrong — their high L2I numbers are a hierarchy
+  property (1MB L2), not an app property.
+- **V4 JIT prefetch stays neutral even at Emissary L2 size**: tomcat
+  0.9987x (MPKI -4.0%), cassandra 0.9984x (MPKI -4.9%), 4-rep,
+  steady_ms sd 1-10ms. Reason: on GNR the L2I miss lands in a >=21MB L3
+  at ~80 core cycles, which OoO largely absorbs; Emissary's speedups
+  live in a hierarchy where L2I miss ~= DRAM (2MB victim L3). Plus V4's
+  addressable slice (method-entry lines) covers only ~4-5% of misses.
+- DSB ci-pair with PostStorage pinned to the shrunk cores: neutral
+  (+0.27% qps, MPKI -1.5%); pinning itself dropped cold MPKI 14.8->6.1
+  (core-packing i-cache effect, reconfirmed).
+- Paper line: gain requires volume x cost x coverage; large monolithic
+  L3s on modern servers cap the cost term for code misses, so results
+  from small-victim-L3 simulations do not transfer to this class of
+  hardware.
