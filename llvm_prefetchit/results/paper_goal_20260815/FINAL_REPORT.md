@@ -641,3 +641,22 @@ taskset; 3.4GHz core pinning retained.
   layout-class, out of prefetch-only scope.)
 - Hot-page profile: PG's TPC-C misses span 524 code pages; top-128 = 66.7%
   of miss samples (diffuse at page granularity too).
+
+## Wave-12 (2026-08-21): DSB I/O-gap phase prefetch — best cold-regime variant, still sub-threshold
+
+Idea (user-directed): use mongo/memcached I/O waits (us-ms of CPU idle
+inside each request) as the lead-time source — the Django mechanism's
+analog. Hand plan: 3 sites at the I/O-issue statements
+(ReadPosts memcached_mget:403, ReadPosts mongo find:520, ReadPost
+find:262) x 42 hottest next-phase functions (nlohmann parse, bson_iter,
+thrift result-write path; entry+64B, GOT for lib targets) = 252
+prefetcht1 in the thin main binary (libs stock). NOP-pair control.
+- Cold 1x16, 7-rep combined: **qps +0.64% (t~1.8), MPKI -0.4%,
+  IPC +0.07%** — the best DSB cold variant measured (everything else
+  is 0 +/- 0.3%), but mechanism metrics are flat and significance is
+  borderline. First 3-rep batch showed +1.38% driven by one outlier rep.
+- Interpretation: warming 42 function entries covers too little of the
+  ~500-page / 3.6k-site cold miss surface; the io-gap lead-time source
+  is real but the coverage wall (fourth failure axis for DSB) still
+  binds. Recorded as an honest near-miss; deeper-offset/wider-target
+  iteration possible but expected gains remain ~1%.
