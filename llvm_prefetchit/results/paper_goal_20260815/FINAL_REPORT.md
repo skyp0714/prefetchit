@@ -698,3 +698,15 @@ calls/cross-function jumps). New arms building:
 Protocol: run_prefetcht1_l2_eval.sh EXTERNAL_PLAN builds, then 3-rep
 fixed-3.8GHz confirm vs static_top1k_callsite_b1 reference. Same recipe
 queued for other high-MPKI members (arcilator, PG) afterward.
+
+Wave-14 RESULT (3-rep fixed-3.8 confirm): sret1k 265.0s (1.0747x) vs
++jmp2k 266.5s (-0.54%) vs +jmp2k+condfar2k 266.4s (-0.53%); **MPKI
+55.37 -> 55.47 — the far-JMP/far-COND additions covered ZERO actual
+misses** (distance-ranked far edges are loop-exit/error paths that
+rarely execute). Far-ness alone is not a static selection signal;
+recurrence is required, and CALL/RET encodes recurrence structurally
+(every call executes and returns each cycle). sret1k already sits on
+the PGO-ceiling plateau (1.075) — nothing to add. Closes the
+static-family exploration on Verilator; distance-rank recipe NOT
+propagated to other workloads (null mechanism), superseded by the
+user-directed L3-shrink JVM experiment.
