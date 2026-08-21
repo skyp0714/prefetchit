@@ -122,7 +122,7 @@ def main():
             'cacheline64': hex(module_off & ~63),
             'symbol_offset': hex(delta & ~63),
             'symbol_size': '0x0', 'symbol_type': 'T',
-            'operand_mode': 'got-symbol-offset',
+            'operand': 'got-symbol-offset',
         }
         picked += 1
         for s in args.site:
