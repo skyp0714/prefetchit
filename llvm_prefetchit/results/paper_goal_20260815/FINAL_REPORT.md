@@ -661,7 +661,7 @@ prefetcht1 in the thin main binary (libs stock). NOP-pair control.
   binds. Recorded as an honest near-miss; deeper-offset/wider-target
   iteration possible but expected gains remain ~1%.
 
-## Wave-13 (2026-08-21): COND-distance analysis — why the RET family is the right static target class
+## Wave-13 (2026-08-21): COND-distance analysis [CORRECTED same day — see Wave-14]
 
 Question (user): add surgical far-COND static injections on top of sret1k?
 Resolved analytically from the existing plans:
@@ -683,3 +683,18 @@ Resolved analytically from the existing plans:
   (CALL/RET chains); profile is required exactly where the path is
   data-dependent (COND lookahead). Flattened code is dominated by the
   former — hence static >= PGO at 1/20 the injections.
+
+## Wave-14 (2026-08-21): CORRECTION — far CONDs DO exist; JMP + far-COND static arms
+
+Wave-13's "far-COND is an empty set" was a property of the ts60k plan's
+NEAR-successor target mode, not of the binary: regenerating static COND
+candidates with --rank-by distance yields >=12,000 conditional branches
+with multi-MB taken-targets (giant flattened bodies have loop-exit /
+error-path conds spanning the function). User's push was correct.
+Static JMP (UNCOND) candidates: 4,000 all-far (p50 3.4MB — tail
+calls/cross-function jumps). New arms building:
+- combo_sret1k_jmp2k        = sret1k CALL + top-2k far JMP (3,000 inj)
+- combo_sret1k_jmp2k_condfar2k = + top-2k far COND (5,000 inj)
+Protocol: run_prefetcht1_l2_eval.sh EXTERNAL_PLAN builds, then 3-rep
+fixed-3.8GHz confirm vs static_top1k_callsite_b1 reference. Same recipe
+queued for other high-MPKI members (arcilator, PG) afterward.
