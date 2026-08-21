@@ -620,3 +620,24 @@ taskset; 3.4GHz core pinning retained.
   L3s on modern servers cap the cost term for code misses, so results
   from small-victim-L3 simulations do not transfer to this class of
   hardware.
+
+## Wave-11 (2026-08-21): PG code-miss cost decomposition + STLB-warming prefetch
+
+- **L3-vs-DRAM decomposition (OCR raw event, validated config): 100.000%
+  of TPC-C code misses are L3 hits** (3.93G L2I misses vs 7,929 code L3
+  misses in 15s). The +0.3% prefetch-only ceiling is fully explained:
+  every covered miss saves only an ~80-core-cycle L3 hit that OoO
+  partially hides, while data traffic re-evicts L2 continuously.
+- iTLB: 1.12-1.18 walks/kinst under load (~2-3% of cycles).
+  **STLB-warming prefetch implemented and mechanism PROVEN**: per-query
+  burst (PortalRun + exec_simple_query) of one data-side prefetcht0 per
+  hot code page (128 pages from a 90%-coverage miss-page profile,
+  global-T-symbol GOT anchors; 254 injections; install_injT/install_nopT
+  layout pair). Paired measurement: **iTLB walks/kinst 1.18 -> 0.864
+  (-27%)** — data prefetch to code addresses installs STLB entries on a
+  real service, as the microbenchmark predicted. tps effect: -0.02%
+  (neutral) — the walk term is too small and too well hidden for a 27%
+  cut to register. (Full walk elimination would need huge pages —
+  layout-class, out of prefetch-only scope.)
+- Hot-page profile: PG's TPC-C misses span 524 code pages; top-128 = 66.7%
+  of miss samples (diffuse at page granularity too).
