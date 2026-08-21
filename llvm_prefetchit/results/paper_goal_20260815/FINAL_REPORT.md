@@ -660,3 +660,26 @@ prefetcht1 in the thin main binary (libs stock). NOP-pair control.
   is real but the coverage wall (fourth failure axis for DSB) still
   binds. Recorded as an honest near-miss; deeper-offset/wider-target
   iteration possible but expected gains remain ~1%.
+
+## Wave-13 (2026-08-21): COND-distance analysis — why the RET family is the right static target class
+
+Question (user): add surgical far-COND static injections on top of sret1k?
+Resolved analytically from the existing plans:
+- **static-cond (target = the cond's own taken-target), 59,799 sites
+  exhaustive: p50 distance 52 BYTES, p90 476B, p99 1.4KB, max 5.8KB,
+  zero beyond 16KB.** In flattened code a COND is a local skip inside a
+  giant body; far control transfer exists ONLY at CALL/RET. The
+  "surgical far-static-cond" arm is an empty set by construction — and
+  this measured distribution explains why the 60k-dose static-cond
+  combo lowered MPKI (50.7) but lost time (1.018x): near targets are
+  already inbound via sequential fetch/HW prefetch, so the family buys
+  ~nothing per issue.
+- **PGO-cond (site = an upstream cond, target = a future miss line via
+  LBR lookahead): p50 3.1KB, 20% of 16,669 injections beyond 16KB (up
+  to 19MB).** Far-COND value exists only as lookahead through the
+  REALIZED path across data-dependent branches — enumerable from LBR,
+  not statically.
+- Paper line: static matches PGO where control transfer is structural
+  (CALL/RET chains); profile is required exactly where the path is
+  data-dependent (COND lookahead). Flattened code is dominated by the
+  former — hence static >= PGO at 1/20 the injections.
