@@ -747,3 +747,19 @@ artifact. **Quarantined like Router +198%: arcilator is demoted from
 C1 member (>=5%) to boundary case.** C1's standing member is Verilator
 alone — which DID reproduce today (sret1k 265.0s = 1.0747x vs 284.80
 base, stable across two reboots).
+
+## Wave-17 (2026-08-21): Verilator frequency pair — gain is frequency-INVARIANT (closes the axis)
+
+2.0GHz 3-rep: base 456.66s (MPKI 58.3, IPC 0.666) vs sret1k 425.06s
+(55.8, 0.718) = **1.0743x**, vs 3.8GHz 1.0747x — identical. (base
+456.7s also matches the June uncore-pinned 456.9s: Verilator fully
+reproduces across two reboots, the exact opposite of arcilator.)
+Frequency-axis synthesis across all four workloads:
+- Django 1.490->1.719 (grows): prefetch removes 59% of misses, the
+  prefetch arm ESCAPES the memory wall and scales with clock.
+- Verilator 1.0743->1.0747 (invariant): plan removes only 4% of
+  misses; both arms stay equally memory-bound, ratio preserved.
+- FeedSim 1.073->1.043 (shrinks): higher clock warms the miss source.
+- PG/DSB (<1%): unchanged walls.
+**Law: frequency amplifies the gain only when prefetch coverage is
+large enough to change the arm's boundedness class.**
