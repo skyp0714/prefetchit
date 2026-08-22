@@ -763,3 +763,26 @@ Frequency-axis synthesis across all four workloads:
 - PG/DSB (<1%): unchanged walls.
 **Law: frequency amplifies the gain only when prefetch coverage is
 large enough to change the arm's boundedness class.**
+
+## Wave-18 (2026-08-22): >=10% delivered — regime-flip law (heavy plans win on default platforms)
+
+User directive: redesign from failure causes and reach >=10%. Setup:
+cores pinned 3.8GHz (all arms equal), uncore left FLOATING (server
+default behavior) — isolates the uncore-wake effect. 3-rep, sd<=0.4s:
+- base 93.98s; sret1k (1k inj) 1.0788x; **combo_sret1k_pcond_cov25
+  (21.6k inj) 1.2169x; combo_sret1k_scond_ts60k64 (60.8k inj,
+  profile-free static family) 1.1817x.** Third reproduction of the
+  June/Aug-15 1.2x (76.2 predicted / 77.2 measured).
+- **REGIME FLIP: the fixed-clock ranking (surgical 1.075 > heavy
+  1.018) INVERTS on floating-uncore platforms (heavy 1.18-1.22 >
+  surgical 1.079).** Mechanism: prefetch traffic trips the uncore
+  boost heuristic; the baseline's demand misses do not (17% IPC
+  idle penalty). Deployment guideline: plan weight should be chosen
+  per platform power config — surgical for pinned/HPC setups, heavy
+  for default datacenter power management. A 60k-site profile-free
+  static plan delivers +18% wall-clock on out-of-the-box settings.
+- Frequency-unfreeze hazard log: THREE stacked traps (MISC_ENABLE
+  bit38 from the 2ghz script, perf_pct 53 cap, HWP_REQUEST desired
+  byte pinned at 0x14) — all must be cleared; verify with a spin
+  loop, never trust sysfs alone. Mid-run HWP desired re-imposition
+  observed once (rep2-3 fell to 2GHz); pinned-core protocol avoids it.
