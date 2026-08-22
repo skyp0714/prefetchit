@@ -730,3 +730,20 @@ thrashes the single way and evicts code from L3. Cost term finally real.
   the four-axis product stays ~0, with V4's entry-only coverage the
   binding term in every configuration.** This closes the JVM boundary
   with causal (not just observational) evidence.
+
+## Wave-16 (2026-08-21): arcilator 1.051x DOES NOT REPRODUCE post-reboot — quarantined
+
+Frequency-axis measurement exposed it: the locked s4la16 pair (same
+binaries, same core 44, same 2GHz+uncore-pinned config, 8-rep) now
+reads 0.992x/0.998x with MPKI UNMOVED (78 vs 71.2 in the Aug-17 lock).
+Recheck of the whole round-3 family: s4la16 1.0525->0.9918, s5la16
+1.0216->1.0071, o64 1.0134->0.9908 — systemic collapse of the entire
+resonance family across the Aug-18 reboot. NOP arms match history
+(5.73->5.77s, MPKI 76.7->78) — only the prefetch arm's miss reduction
+vanished. No recorded machine-state delta (THP=madvise default, MSR
+0x1a4=0, same freq script); the Aug-17 "sharp resonance" (all neighbor
+variants inferior) was evidently a state-fragile microarchitectural
+artifact. **Quarantined like Router +198%: arcilator is demoted from
+C1 member (>=5%) to boundary case.** C1's standing member is Verilator
+alone — which DID reproduce today (sret1k 265.0s = 1.0747x vs 284.80
+base, stable across two reboots).
