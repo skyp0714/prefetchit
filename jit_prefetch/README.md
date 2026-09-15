@@ -25,6 +25,20 @@ mkdir -p classes
 javac -d classes src/*.java
 ```
 
-Run `sudo -v` before scripts that profile with `perf`; no password is embedded.
+Entry points (`scripts/`):
+
+- `ab_jcs.sh` — JCodeStream A/B (`CONFIGS="stock=;v4_128x32=..."`, `CORE=`, `ITERS=`).
+- `ab_jvm_suite.sh` — DaCapo/Renaissance A/B (`SUITE=`, `BENCH=`, `CONFIGS=`, `CORES=`),
+  replaces the per-workload `archive/scripts/ab_*.sh`.
+- `screen_full_suites.sh`, `screen_renaissance.sh` — L2I/L1I MPKI screens.
+- `../wideapi/ab_wideapi.sh` — WideApi fixed-capacity QPS A/B.
+
+The HotSpot flags added by `patches/` (all default off): `PrefetchEntryAhead`,
+`PrefetchEntryLines`, `PrefetchEntryMinBytecode`, `PrefetchEntryIT0` (V4),
+`PrefetchRetTarget`/`PrefetchRetTargetLines`/`PrefetchRetTargetAhead` (V1/V3),
+`PrefetchCallTarget` (V2). Deployable default: V4 with `MinBytecode=256`.
+
+Scripts call `perf stat` directly; set `PERF="sudo perf"` (after `sudo -v`) when
+`kernel.perf_event_paranoid` is not -1. No password is embedded anywhere.
 Use the fixed-frequency, affinity, warmup, and interleaved A/B protocol in
 `llvm_prefetchit/migration/REPRODUCIBILITY.md` for accepted measurements.

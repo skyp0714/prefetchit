@@ -22,7 +22,7 @@ run_one() {
   python3 load_wideapi.py --procs 12 --threads 8 --duration 60 --tag m > /tmp/wa_m.log 2>&1 &
   local lpid=$!
   sleep 15
-  sudo perf stat -p $spid \
+  ${PERF:-perf} stat -p $spid \
     -e 'cpu/event=0x24,umask=0x24,name=L2I_CODE_RD_MISS/,instructions,cycles' \
     -o /tmp/wa_perf.txt -- sleep 20 2>/dev/null || true
   wait $lpid || true
