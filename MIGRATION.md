@@ -13,14 +13,14 @@ media, datasets, containers, build trees, traces, or raw result directories. Tho
 are regenerated on the destination host.
 
 The tested migration entry-point revision is
-`3b7976f08b0f02eb278c33e864a747217e4ec314` (tag
-`migration-2026-09-14-r3`). Check it out explicitly when
+`8f6f7041146bceb4c4328f68e3e86b8070468af0` (tag
+`migration-2026-09-14-final`). Check it out explicitly when
 reproducing this handoff rather than assuming a future `main` is identical.
 
 After cloning this repository and `llvm_prefetchit_injection`, run:
 
 ```bash
-git -C llvm_prefetchit checkout 3b7976f08b0f02eb278c33e864a747217e4ec314
+git -C llvm_prefetchit checkout 8f6f7041146bceb4c4328f68e3e86b8070468af0
 llvm_prefetchit/migration/bootstrap.sh --root "$PWD" \
   --with-benchmarks --apply-patches
 llvm_prefetchit/migration/verify.sh --root "$PWD" --source-only
