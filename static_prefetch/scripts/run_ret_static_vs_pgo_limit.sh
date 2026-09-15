@@ -285,7 +285,7 @@ require_file "${ORACLE_TARGETS}"
 
 STATIC_TARGETS="${STATIC_ROOT}/static_ret_targets_footprint_p5.csv"
 log "generate static RET target candidates"
-python3 "${STATIC_DIR}/tools/static_return_target_candidates.py" \
+python3 "${STATIC_DIR}/tools/ret/static_return_target_candidates.py" \
   --binary "${BASELINE_BINARY}" \
   --out-csv "${STATIC_TARGETS}" \
   --mode footprint \
@@ -298,7 +298,7 @@ python3 "${STATIC_DIR}/tools/static_return_target_candidates.py" \
   --objdump llvm-objdump-19 > "${LOG_DIR}/static_target_generation.log" 2>&1
 
 log "evaluate static target overlap against immediate RET truth"
-python3 "${STATIC_DIR}/tools/evaluate_static_targets.py" \
+python3 "${STATIC_DIR}/tools/ret/evaluate_static_targets.py" \
   --binary "${BASELINE_BINARY}" \
   --candidates "${STATIC_TARGETS}" \
   "${TRACE_ARGS[@]}" \
@@ -336,7 +336,7 @@ if [[ "${RUN_ALGORITHM_SWEEP}" != "0" && "${RUN_ALGORITHM_SWEEP}" != "none" ]]; 
   fi
   set +e
   timeout "${ALGORITHM_SWEEP_TIMEOUT_SEC}" \
-    python3 "${STATIC_DIR}/tools/sweep_static_ret_target_algorithms.py" \
+    python3 "${STATIC_DIR}/tools/ret/sweep_static_ret_target_algorithms.py" \
       "${sweep_args[@]}" > "${LOG_DIR}/static_target_algorithm_sweep.log" 2>&1
   sweep_rc=$?
   set -e
@@ -349,7 +349,7 @@ fi
 
 log "evaluate static injection-site policies"
 SITE_EVAL="${STATIC_ROOT}/site_policy_eval"
-python3 "${STATIC_DIR}/tools/static_injection_site_experiment.py" \
+python3 "${STATIC_DIR}/tools/ret/static_injection_site_experiment.py" \
   --binary "${BASELINE_BINARY}" \
   --targets "${STATIC_TARGETS}" \
   "${TRACE_ARGS[@]}" \
@@ -390,7 +390,7 @@ static_variant_to_plan() {
   require_file "${site_csv}"
   mkdir -p "${plan_dir}"
   log "convert static plan ${label}: topk=${topk} strategy=${strategy} budget=${budget}"
-  python3 "${STATIC_DIR}/tools/static_site_plan_to_prefetch_plan.py" \
+  python3 "${STATIC_DIR}/tools/ret/static_site_plan_to_prefetch_plan.py" \
     --binary "${BASELINE_BINARY}" \
     --targets "${STATIC_TARGETS}" \
     --site-plan "${site_csv}" \
@@ -438,7 +438,7 @@ log "build phase complete; start sequential profiles"
 profile_built_variants
 
 log "generate final summary and plot"
-python3 "${STATIC_DIR}/tools/summarize_ret_static_vs_pgo.py" \
+python3 "${STATIC_DIR}/tools/ret/summarize_ret_static_vs_pgo.py" \
   --metadata "${METADATA}" \
   --baseline-per-iteration "${BASELINE_PER_ITER}" \
   --profile-name "${PREFETCH_LABEL}_qsort_${MAX_CYCLES}" \

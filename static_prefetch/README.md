@@ -1,65 +1,50 @@
-> Stage 2 (static compiler pass) component: profile-free **RET/callsite** target selection — the family behind the Verilator 1.078x static result. Plans feed `llvm_prefetchit/scripts/static/`.
+# static_prefetch — profile-free instruction-prefetch planning (stage 2)
 
-# Static Return Prefetch Target Selection
-
-This directory is intentionally separate from the LLVM prefetch pass. It builds
-profile-free return-target candidates from the compiled Verilator binary and uses
-PEBS/LBR traces only for offline evaluation.
-
-Initial scope:
-
-1. Generate static return target candidates from direct call return addresses.
-2. Score candidates using caller/callee footprint, loop/backedge context, call
-   density, and estimated call-chain depth/RAS overflow.
-3. Evaluate overlap against profiled RET miss targets at cacheline granularity.
-4. Evaluate profile-free injection-site policies against PEBS/LBR traces:
-   target topK is chosen from static cost ranking, while LBR is used only to
-   validate whether the selected static site appears on the profiled miss path.
-
-The static generator does not read profiling data.
-
-## Headline result (Verilator qsort, real-machine runs)
-
-Static nested top-5000 targets + `spread-distance-64k` sites, budget 8
-(38,505 injections, byte offsets 0/64): runtime 293.5s vs baseline 343.2s =
-**16.96% speedup**, L2I MPKI 58.76 → 52.57. The LBR/PGO oracle plan reaches
-18.87%, so the profile-free selection captures ~90% of the oracle gain.
-See `docs/static_return_algorithm_v2.md` for the V2 cost model
-(caller/callee footprint, RAS-overflow depth, layout distance, nested
-re-ranking of hot-callee contexts).
-
-## Injection-Site Policy Evaluation
-
-Main script:
+One planner, one command, choose the branch kinds:
 
 ```bash
-python3 static_return_prefetch/tools/static_injection_site_experiment.py \
-  --binary benchmarks/chipyard/sims/verilator/simulator-chipyard.harness-DualMegaBoomAndSingleRocketConfig \
-  --targets static_return_prefetch/results/final_static_return_targets.csv \
-  --trace-dir llvm_prefetchit/results/trace_aggregation/foreground_agg_l2_20260603_145906/traces/baseline_qsort_538240_trace01/l2_miss \
-  --trace-dir llvm_prefetchit/results/trace_aggregation/foreground_agg_l2_20260603_145906/traces/baseline_qsort_538240_trace02/l2_miss \
-  --trace-dir llvm_prefetchit/results/trace_aggregation/foreground_agg_l2_20260603_145906/traces/baseline_qsort_538240_trace03/l2_miss \
-  --top-k 1000,10000,50000,100000 \
-  --site-budget-list 1,2,4,8,16 \
-  --skip-site-csv \
-  --out-dir static_return_prefetch/results/site_budget_sweep_v1
+tools/static_plan.py --binary SIM --kinds ret       --out-dir work/ret  --output ret.plan.json
+tools/static_plan.py --binary SIM --kinds cond      --out-dir work/cond --output cond.plan.json
+tools/static_plan.py --binary SIM --kinds ret,cond  --out-dir work/both --output both.plan.json
 ```
 
-Implemented site policies:
+The plan is `prefetchit.plan.v1` JSON, exactly what the LLVM pass consumes
+(`opt-19 -passes=prefetchit-inject -prefetchit-plan=…`, or
+`llvm_prefetchit/scripts/static/run_prefetcht1_l2_eval.sh EXTERNAL_PLAN=…`).
+Selection reads only the binary (`llvm-nm`, `llvm-objdump`); PEBS/LBR traces
+(`--trace-dir`, optional) are used only to score the choice against the
+profile-guided oracle.
 
-| Policy | Static rule |
+| kind | engine | target unit | best measured point (Verilator qsort) |
+|---|---|---|---|
+| `ret` | `tools/ret/` — return-continuation cost model (caller/callee footprint, RAS overflow, layout distance, nested re-ranking) + injection-site policies | cacheline after a direct call | `--ret-top-k 1000 --ret-site-strategy callsite --ret-site-budget 1`: **1.078x** with 1,000 sites, ≥ PGO (1.075x, 20k sites) |
+| `cond` | `tools/cond/` — taken-target structural ranking (tail-sparse / fetch-gap / entry-window …) with sample-IP window | conditional branch source/taken cacheline (+window) | `--cond-mode fetch-gap --cond-top-k 100000`: 1.038x (COND misses in flattened code are mostly near; profile is needed for far lookahead) |
+| `ret,cond` | merged via `llvm_prefetchit/tools/merge_prefetch_plans.py` | – | MPKI drops further (50.7) but injection overhead cancels the time gain (combo sweep, Aug 2026) |
+
+History: `static_return_prefetch` and `static_cond_prefetch` were separate
+repositories until 2026-09-15; both histories are in this repository
+(`git log --all`). Algorithm notes: `docs/static_return_algorithm_v2.md`,
+`docs/static_cond_algorithm_v1.md`, `docs/static_cond_sampleip_update.md`.
+
+## Layout
+
+| path | content |
 |---|---|
-| `callsite` | Site is the call instruction whose fall-through address is the selected return target. |
-| `distance-4k` / `distance-16k` / `distance-64k` | Sites are preceding branch instructions in the target function within the static byte window. |
-| `same-func-calls-4k` / `same-func-calls-16k` | Sites are preceding call instructions in the target function within the static byte window. |
-| `caller-chain-d1` / `caller-chain-d2` | Sites are reverse-call-graph callsites that enter the target function, to depth 1 or 2. |
-| `callee-ret` | Sites are return instructions inside the callee. |
-| `callee-calls-d1` / `callee-calls-d2` | Sites are call instructions inside the callee call graph to depth 1 or 2. |
-| `mixed-call-ret-d1` | Combines callsite, callee returns, and depth-1 callee calls under the per-target site budget. |
+| `tools/static_plan.py` | the driver (per-kind options: `--ret-*`, `--cond-*`) |
+| `tools/ret/` | `static_return_target_candidates.py` → `static_injection_site_experiment.py` → `static_site_plan_to_prefetch_plan.py`; evaluators, nested re-ranker, `static_branch_target_plan.py` (generic branch-target planner), sweep/summary tools |
+| `tools/cond/` | `static_cond_target_candidates.py` → (`hybridize_`/`ensemble_cond_candidates.py`) → `static_cond_candidates_to_plan.py`; `evaluate_static_cond_targets.py`, `sweep_static_cond_algorithms.py` |
+| `scripts/` | `run_ret_static_vs_pgo_limit.sh`, `run_ret_cost_v2_static_sweep.sh`, `run_cond_static_target_sweep.sh` — the full sweeps (long; Verilator) |
+| `results/` | ignored sweep outputs |
 
-Important outputs:
+## Site policies (`--ret-site-strategy`)
 
-- `site_policy_metrics.csv`: complete topK x strategy x budget metrics.
-- `site_policy_summary.md`: compact interpretation and recommended policies.
-- `site_coverage_vs_site_pairs_budget8.png`: site coverage vs injection-pair cost.
-- `site_coverage_vs_topk_budget_sweep.png`: target topK/budget sweep.
+`callsite` (the call creating the return target), `callee-ret`, `distance-Nk`,
+`spread-distance-Nk`, `same-func-calls-Nk`, `caller-chain-dD`,
+`callee-calls-dD`, `mixed-call-ret-d1`. Spread policies buy lead time on
+divergent paths; the 1,000-callsite plan is the honest ceiling on Verilator.
+
+## Verify
+
+```bash
+llvm_prefetchit/scripts/static/run_verilator_repro.sh   # traces → PGO + static plans → builds → NOP twins → 3.8 GHz A/B
+```

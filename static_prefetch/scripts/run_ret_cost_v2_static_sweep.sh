@@ -256,7 +256,7 @@ static_variant_to_plan() {
   require_file "${site_csv}"
   mkdir -p "${plan_dir}"
   log "convert static plan ${label}: topk=${topk} strategy=${strategy} budget=${budget}"
-  python3 "${STATIC_DIR}/tools/static_site_plan_to_prefetch_plan.py" \
+  python3 "${STATIC_DIR}/tools/ret/static_site_plan_to_prefetch_plan.py" \
     --binary "${BASELINE_BINARY}" \
     --targets "${STATIC_TARGETS}" \
     --site-plan "${site_csv}" \
@@ -281,7 +281,7 @@ log "parallel_builds=${PARALLEL_BUILDS} build_jobs=${BUILD_JOBS}"
 
 if [[ ! -f "${STATIC_TARGETS}" ]]; then
   log "generate nested static RET candidates"
-  python3 "${STATIC_DIR}/tools/static_return_target_candidates.py" \
+  python3 "${STATIC_DIR}/tools/ret/static_return_target_candidates.py" \
     --binary "${BASELINE_BINARY}" \
     --out-csv "${STATIC_TARGETS}" \
     --mode nested \
@@ -297,7 +297,7 @@ if [[ ! -f "${STATIC_TARGETS}" ]]; then
 fi
 
 log "evaluate static target overlap"
-python3 "${STATIC_DIR}/tools/evaluate_static_targets.py" \
+python3 "${STATIC_DIR}/tools/ret/evaluate_static_targets.py" \
   --binary "${BASELINE_BINARY}" \
   --candidates "${STATIC_TARGETS}" \
   "${TRACE_ARGS[@]}" \
@@ -308,7 +308,7 @@ python3 "${STATIC_DIR}/tools/evaluate_static_targets.py" \
 
 SITE_EVAL="${STATIC_ROOT}/site_policy_eval"
 log "evaluate injection site policies"
-python3 "${STATIC_DIR}/tools/static_injection_site_experiment.py" \
+python3 "${STATIC_DIR}/tools/ret/static_injection_site_experiment.py" \
   --binary "${BASELINE_BINARY}" \
   --targets "${STATIC_TARGETS}" \
   "${TRACE_ARGS[@]}" \
@@ -353,7 +353,7 @@ log "build phase complete; start sequential profiles"
 profile_built_variants
 
 log "generate final summary and plot"
-python3 "${STATIC_DIR}/tools/summarize_ret_static_vs_pgo.py" \
+python3 "${STATIC_DIR}/tools/ret/summarize_ret_static_vs_pgo.py" \
   --metadata "${METADATA}" \
   --baseline-per-iteration "${BASELINE_PER_ITER}" \
   --profile-name "${PREFETCH_LABEL}_qsort_${MAX_CYCLES}" \

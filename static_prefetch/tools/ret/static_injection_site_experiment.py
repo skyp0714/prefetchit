@@ -537,7 +537,8 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--binary", type=Path, required=True)
     ap.add_argument("--targets", type=Path, required=True)
-    ap.add_argument("--trace-dir", type=Path, action="append", required=True)
+    ap.add_argument("--trace-dir", type=Path, action="append", default=[],
+                    help="PEBS/LBR trace dirs; optional — without them site plans are still written but recall/coverage metrics are 0")
     ap.add_argument("--out-dir", type=Path, required=True)
     ap.add_argument("--top-k", default="1000,10000,50000,100000")
     ap.add_argument("--strategy", action="append", default=[])
@@ -566,8 +567,8 @@ def main() -> int:
     symbols = build_symbol_index(args.binary, args.nm)
     funcs = build_static_sites(args.binary, args.objdump, symbols)
     reverse_callers = build_reverse_callers(funcs)
-    samples = load_ret_samples(args.trace_dir, symbols)
-    print(f"[ok] loaded {len(samples)} immediate RET miss samples")
+    samples = load_ret_samples(args.trace_dir, symbols) if args.trace_dir else []
+    print(f"[ok] loaded {len(samples)} immediate RET miss samples" + ("" if args.trace_dir else " (no traces: selection is profile-free, metrics are placeholders)"))
     args.out_dir.mkdir(parents=True, exist_ok=True)
     metrics = []
     site_budgets = parse_int_list(args.site_budget_list) if args.site_budget_list else [args.site_budget]
