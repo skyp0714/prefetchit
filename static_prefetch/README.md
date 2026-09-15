@@ -36,6 +36,18 @@ repositories until 2026-09-15; both histories are in this repository
 | `scripts/` | `run_ret_static_vs_pgo_limit.sh`, `run_ret_cost_v2_static_sweep.sh`, `run_cond_static_target_sweep.sh` — the full sweeps (long; Verilator) |
 | `results/` | ignored sweep outputs |
 
+## Measured caveat (2026-09-15 rebuild)
+
+On a freshly built DualMegaBoom simulator the `ret` family's reference point
+(`top-1k callsite b1`) executes its prefetches ~5·10⁷ times per 100k
+simulated cycles and does not move L2I MPKI: only 15% of the RET-miss
+samples are produced by one of the 1,000 chosen calls (the 1,000 hottest
+producing calls would cover 65%). The target *lines* are right (62% recall);
+the chosen *call* per line is usually not the one that returns into it. The
+planner needs a call-level hotness proxy (see `docs/PLAN.md`, stage 2).
+Evaluate plans with the producing-call metric, not "site anywhere in the LBR
+history".
+
 ## Site policies (`--ret-site-strategy`)
 
 `callsite` (the call creating the return target), `callee-ret`, `distance-Nk`,
