@@ -3,15 +3,17 @@
 
 from __future__ import annotations
 
+import argparse
 import csv
 import math
 import statistics
-import sys
 from pathlib import Path
 
 
-BASELINE = Path(
-    "/home/hnpark2/prefetchit/llvm_prefetchit/results/prefetch_plateau/"
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+DEFAULT_BASELINE = (
+    PROJECT_ROOT
+    / "llvm_prefetchit/results/prefetch_plateau/"
     "resume_aggressive_20260620_105007/exact_best_compare/final_compare/"
     "profiles/baseline_qsort_538240/per_iteration.csv"
 )
@@ -49,12 +51,14 @@ def print_row(label: str, path: Path) -> None:
 
 
 def main() -> int:
-    if len(sys.argv) != 2:
-        print(f"usage: {Path(sys.argv[0]).name} RUN_DIR", file=sys.stderr)
-        return 2
-    run_dir = Path(sys.argv[1])
-    if BASELINE.exists():
-        print_row("baseline", BASELINE)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("run_dir", type=Path)
+    parser.add_argument("--baseline", type=Path, default=DEFAULT_BASELINE)
+    args = parser.parse_args()
+
+    run_dir = args.run_dir
+    if args.baseline.is_file():
+        print_row("baseline", args.baseline)
     for csv_path in sorted(
         run_dir.glob("runs/*/detailed_profile/prefetcht1_qsort_538240/per_iteration.csv")
     ):
