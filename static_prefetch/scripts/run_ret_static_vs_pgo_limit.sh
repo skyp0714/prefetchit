@@ -184,7 +184,7 @@ build_with_external_plan() {
   CLEAN_WORKDIR=1 \
   OBJDUMP_BIN=llvm-objdump-19 \
   ADDR2LINE_BIN=llvm-addr2line-19 \
-  bash "${LLVM_DIR}/scripts/run_prefetcht1_l2_eval.sh" > "${build_log}" 2>&1
+  bash "${LLVM_DIR}/scripts/static/run_prefetcht1_l2_eval.sh" > "${build_log}" 2>&1
   local rc=$?
   set -e
   if [[ "${rc}" -eq 0 ]]; then

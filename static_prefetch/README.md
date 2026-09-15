@@ -1,3 +1,5 @@
+> Stage 2 (static compiler pass) component: profile-free **RET/callsite** target selection — the family behind the Verilator 1.078x static result. Plans feed `llvm_prefetchit/scripts/static/`.
+
 # Static Return Prefetch Target Selection
 
 This directory is intentionally separate from the LLVM prefetch pass. It builds
