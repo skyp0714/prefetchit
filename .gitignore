@@ -1,9 +1,16 @@
-/*
-!/README.md
-!/DATACENTER_BENCHMARK_ATTEMPT_MATRIX.md
-!/DATACENTER_PREFETCH_5BENCH_SUMMARY.md
-!/DATACENTER_PREFETCH_SEARCH_20260708.md
-!/FEEDSIM_PREFETCH_CASE_STUDY.md
-!/PAPER_RESULTS_AND_FEEDBACK.md
-!/MIGRATION.md
-!/.gitignore
+# The umbrella repository tracks only documentation. Component repositories
+# (see README.md) are separate git checkouts and are ignored here; benchmark
+# sources, tool installs, build trees, and results are regenerated.
+/llvm_prefetchit/
+/profiling/
+/icache_microbenchmark/
+/static_prefetch/
+/flat_codegen/
+/jit_prefetch/
+/benchmarks/
+/worktrees/
+/build/
+/.tmp/
+/.cache/
+/results/
+/work/
