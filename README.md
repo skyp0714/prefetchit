@@ -58,6 +58,12 @@ Router, HDSearch, SetAlgebra, or memcached peaks as headline results.
 | `worktrees/`, `build/` | gem5 worktrees/builds | gem5 simulator variants for simulation-side prefetch experiments (27G; regenerable). |
 | `.tmp/` | – | perfmon/pmu-tools helper checkouts. |
 
+Naming note: there is no separate active `llvm_prefetch` component. The local
+directory is `llvm_prefetchit/`, while its historical GitHub repository name is
+`llvm_prefetchit_injection`. It is the central implementation used by both the
+PGO and static-analysis flows; the static selector repositories generate plans
+that this LLVM pass consumes.
+
 ## End-to-end data flow
 
 ```
