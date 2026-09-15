@@ -9,6 +9,8 @@ before the frontend misses on them.
 If you are an agent or a new contributor, read this file first, then the
 README/docs inside the sub-repo you need.
 
+For a source-only move to another machine, follow [`MIGRATION.md`](MIGRATION.md).
+
 ## Research thesis
 
 1. **Oracle**: an LBR/PEBS profile of frontend misses (`FRONTEND_RETIRED.L2_MISS`
@@ -31,21 +33,28 @@ Headline results live in the four top-level notes:
 
 | File | Content |
 |---|---|
-| `DATACENTER_BENCHMARK_ATTEMPT_MATRIX.md` | Full attempt matrix: every workload tried, manual/static vs PGO outcome, evidence CSV paths. **Start here for numbers.** |
-| `DATACENTER_PREFETCH_5BENCH_SUMMARY.md` | The five counted 10%+ datacenter successes (FeedSim, Django, SetAlgebra, Router, memcached) with configs and artifact paths. |
+| `DATACENTER_BENCHMARK_ATTEMPT_MATRIX.md` | Historical attempt matrix: every workload tried, manual/static vs PGO outcome, and evidence paths. |
+| `DATACENTER_PREFETCH_5BENCH_SUMMARY.md` | The five originally reported 10%+ datacenter results; several were later invalidated by matched-binary and fixed-platform reruns. |
 | `DATACENTER_PREFETCH_SEARCH_20260708.md` | Earlier search log for the above. |
 | `FEEDSIM_PREFETCH_CASE_STUDY.md` | Deep-dive on the FeedSim manual prefetch. |
+
+For numbers that count as current reproducible evidence, use
+`llvm_prefetchit/migration/REPRODUCIBILITY.md` and
+`llvm_prefetchit/migration/core_results.tsv`. In particular, do not use the old
+Router, HDSearch, SetAlgebra, or memcached peaks as headline results.
 
 ## Component map
 
 | Directory | Git repo | Purpose |
 |---|---|---|
 | `profiling/` | [frontend_profiling](https://github.com/skyp0714/frontend_profiling) | Frontend profiling harness: PEBS/LBR sampling of `FRONTEND_RETIRED.*` events on Intel Granite Rapids (Xeon 6787P), latency profiling, MPKI screens, trace symbolization/reports. Produces the traces that everything downstream consumes. |
-| `llvm_prefetchit/` | [llvm_prefetchit_injection](https://github.com/skyp0714/llvm_prefetchit_injection) | The LLVM 19 pass (`prefetchit-inject`, `lib/PrefetchITPass.cpp`) plus the whole plan pipeline: `tools/prefetchit_trace_to_plan.py` (LBR trace → JSON plan), plan filtering/merging tools, per-workload build & evaluation scripts, and 43G of experiment `results/`. |
-| `static_cond_prefetch/` | local repo (create GitHub remote) | Profile-free selection of **conditional-branch** prefetch targets from binary-only features (two-stage tail-sparse + span ranking). LBR traces are used only as offline validation oracle. |
-| `static_return_prefetch/` | local repo (create GitHub remote) | Profile-free selection of **return-continuation** prefetch targets (static cost model: caller/callee footprint, RAS overflow, layout distance; nested re-ranking) plus injection-site policies (`spread-distance-Nk` etc.). Best result: 16.96% speedup on Verilator qsort vs 18.87% for the PGO oracle. |
+| `llvm_prefetchit/` | [llvm_prefetchit_injection](https://github.com/skyp0714/llvm_prefetchit_injection) | The LLVM 19 pass (`prefetchit-inject`, `lib/PrefetchITPass.cpp`) plus the plan pipeline, per-workload build/evaluation scripts, and portable migration manifest. Large experiment outputs are regenerated rather than transferred. |
+| `static_cond_prefetch/` | [static_cond_prefetch](https://github.com/skyp0714/static_cond_prefetch) | Profile-free selection of **conditional-branch** prefetch targets from binary-only features (two-stage tail-sparse + span ranking). LBR traces are used only as offline validation oracle. |
+| `static_return_prefetch/` | [static_return_prefetch](https://github.com/skyp0714/static_return_prefetch) | Profile-free selection of **return-continuation** prefetch targets (static cost model: caller/callee footprint, RAS overflow, layout distance; nested re-ranking) plus injection-site policies (`spread-distance-Nk` etc.). The earlier exploratory peak was 16.96%; the fixed core+uncore canonical result is 7.96%, versus 7.55% for the PGO placement. |
 | `icache_microbenchmark/` | [icache_microbenchmark](https://github.com/skyp0714/icache_microbenchmark) | Microbenchmark on Xeon 6787P isolating prefetch instruction behavior: `prefetcht0/t1` vs `prefetchit0/1`, TLB-warmth gating, branch-window placement. Key finding: data-prefetch variants warm iTLB/STLB, `prefetchit` alone does not. |
-| `benchmarks/` | third-party checkouts | ~105G of benchmark suites: DCPerf, TailBench, MicroSuite (in datacenter_sources), SPEC CPU2017/2026, DeathStarBench, FleetBench, gem5, chipyard, standalone services (memcached, redis, postgres, ...). Own patches live inside (e.g. `dcperf/packages/django_workload/templates/gen_icache_buster.py`). Not tracked by a top-level repo. |
+| `flat_codegen/` | [flat_codegen](https://github.com/skyp0714/flat_codegen) | Arcilator flattened-code experiments and DeathStarBench build/evaluation tooling. Generated IR, traces, and binaries are excluded from the portable branch. |
+| `jit_prefetch/` | [jit_prefetch](https://github.com/skyp0714/jit_prefetch) | HotSpot C2 instruction-prefetch patches and JVM workload drivers. OpenJDK and downloaded suites are rebuilt from pinned sources. |
+| `benchmarks/` | third-party checkouts | DCPerf, TailBench, MicroSuite, SPEC CPU2017/2026, DeathStarBench, FleetBench, gem5, Chipyard, and standalone services. Exact revisions and local source patches are kept in `llvm_prefetchit/migration/`; installs, datasets, and traces are not committed. |
 | `worktrees/`, `build/` | gem5 worktrees/builds | gem5 simulator variants for simulation-side prefetch experiments (27G; regenerable). |
 | `.tmp/` | – | perfmon/pmu-tools helper checkouts. |
 
@@ -91,6 +100,9 @@ Manual case studies (FeedSim/Django/memcached) skip (2)–(3) and instead add
 
 - Results are large and stay out of git (`results/`, `work/` are gitignored);
   durable conclusions get distilled into dated Markdown notes and small CSVs.
+- Third-party checkouts stay pinned to `llvm_prefetchit/migration/benchmarks.lock.tsv`;
+  do not update them opportunistically because that invalidates source patches and
+  experimental baselines.
 - Experiment result directories are named `<topic>_<yyyymmdd>/`.
 - The evaluation machine is an Intel Xeon 6787P (Granite Rapids); perf events
   use raw `cpu/event=0xc6,...` encodings when ocperf is unavailable.
