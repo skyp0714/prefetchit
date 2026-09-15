@@ -97,6 +97,20 @@ if [[ "${CHECK_HOST}" == 1 ]]; then
   if ! perf --version >/dev/null 2>&1; then
     fail "perf is missing or does not match kernel $(uname -r)"
   fi
+
+  while IFS=$'\t' read -r logical_path version expected_hash retrieval; do
+    [[ -z "${logical_path}" || "${logical_path}" == \#* ]] && continue
+    tool_path="${ROOT}/${logical_path}"
+    if [[ ! -f "${tool_path}" ]]; then
+      fail "missing external tool ${logical_path} (${version})"
+      continue
+    fi
+    if [[ "${expected_hash}" != "-" ]]; then
+      actual_hash="$(sha256sum "${tool_path}" | awk '{print $1}')"
+      [[ "${actual_hash}" == "${expected_hash}" ]] || \
+        fail "${logical_path}: SHA-256 mismatch"
+    fi
+  done < "${SCRIPT_DIR}/tools.lock.tsv"
 fi
 
 if ((failures)); then

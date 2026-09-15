@@ -55,7 +55,8 @@ the complete destination-server command sequence.
    llvm_prefetchit/tests/smoke/run_smoke.sh llvm_prefetchit/build
    ```
 
-7. Validate the source-only restore, then the complete host toolchain:
+7. Validate the source-only restore, then the complete host toolchain and
+   downloaded tool artifacts from `tools.lock.tsv`:
 
    ```bash
    llvm_prefetchit/migration/verify.sh --root "$PWD" --source-only
