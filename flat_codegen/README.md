@@ -1,3 +1,5 @@
+> Stage 2 (arcilator: second flattened-codegen workload, 1.051x) and the DeathStarBench stage-3 negative case. Evidence: `docs/PLAN.md`, `results/*.csv`.
+
 # Flat-codegen PrefetchIT experiments
 
 This source-only repository contains the arcilator and DeathStarBench tooling
