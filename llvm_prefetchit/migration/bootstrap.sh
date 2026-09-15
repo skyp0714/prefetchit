@@ -67,6 +67,8 @@ done < "${SCRIPT_DIR}/repos.lock.tsv"
 
 clone_benchmark() {
   local rel="$1" url="$2" revision="$3" mode="$4" dest="${ROOT}/$1"
+  local submodule_spec
+  local -a submodules
   if [[ -e "${dest}" && ! -d "${dest}/.git" ]]; then
     echo "[err] refusing non-git benchmark destination: ${dest}" >&2
     return 1
@@ -80,9 +82,16 @@ clone_benchmark() {
   fi
   git -C "${dest}" fetch origin "${revision}"
   git -C "${dest}" checkout --detach "${revision}"
-  if [[ "${mode}" == "recursive" ]]; then
-    git -C "${dest}" submodule update --init --recursive
-  fi
+  case "${mode}" in
+    normal) ;;
+    recursive) git -C "${dest}" submodule update --init --recursive ;;
+    submodules=*)
+      submodule_spec="${mode#submodules=}"
+      IFS=',' read -ra submodules <<< "${submodule_spec}"
+      git -C "${dest}" submodule update --init --recursive -- "${submodules[@]}"
+      ;;
+    *) echo "[err] unsupported checkout mode ${mode} for ${rel}" >&2; return 1 ;;
+  esac
   echo "[ok] ${rel} @ ${revision}"
 }
 

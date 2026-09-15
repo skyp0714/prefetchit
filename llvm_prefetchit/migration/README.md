@@ -79,6 +79,8 @@ the complete destination-server command sequence.
 ## What must be regenerated
 
 - All benchmark install/build directories and Docker images.
+- Serverless benchmark input data (`benchmarks-data` submodule); bootstrap only
+  restores its `third-party/pypapi` source dependency.
 - SPEC binaries and run directories.
 - PEBS/LBR traces, `perf.data`, symbolized dumps, and plan sweep work dirs.
 - Large experiment outputs. Durable result summaries and plotting inputs remain

@@ -11,7 +11,7 @@ benchmarks/datacenter_sources/haproxy	git	https://github.com/haproxy/haproxy.git
 benchmarks/datacenter_sources/postgres	git	https://github.com/postgres/postgres.git	497d2ebbfb9a79f493ed43b1fe98853b05b45d63	postgres-control-flow-prefetch.patch	normal
 benchmarks/datacenter_sources/redis	git	https://github.com/redis/redis.git	4dd58caa7cc23225b01f31e7bd9a1ed0af7e49ad	redis-command-prefetch.patch	normal
 benchmarks/datacenter_sources/quickjs	git	https://github.com/bellard/quickjs.git	04be246001599f5995fa2f2d8c91a0f198d3f34c	-	normal
-benchmarks/datacenter_sources/serverless-benchmarks	git	https://github.com/spcl/serverless-benchmarks.git	a7a0532026dd6c38f49c2964916f93a9bc084d4f	-	normal
+benchmarks/datacenter_sources/serverless-benchmarks	git	https://github.com/spcl/serverless-benchmarks.git	a7a0532026dd6c38f49c2964916f93a9bc084d4f	-	submodules=third-party/pypapi
 benchmarks/datacenter_sources/sqlite	git	https://github.com/sqlite/sqlite.git	b83afcac56d5383a3e8b6928b918f3a7707aad91	-	normal
 benchmarks/datacenter_sources/wasm-micro-runtime	git	https://github.com/bytecodealliance/wasm-micro-runtime.git	a23ddd9dd2a098c8cb7bebcf1b967469d9ebb434	-	recursive
 benchmarks/datacenter_sources/wasm3	git	https://github.com/wasm3/wasm3.git	d77cd814aa0bc68cb1df917580a6304d34cfb30b	-	recursive
@@ -19,7 +19,7 @@ benchmarks/third_party/leveldb	git	https://github.com/google/leveldb.git	7ee830d
 benchmarks/third_party/rocksdb	git	https://github.com/facebook/rocksdb.git	27b48646cddb8533c0fc6a32142f2bff3d4807ad	-	normal
 .tmp/perfmon	git	https://github.com/intel/perfmon.git	7cb10ec7018835b36788a1393d6994a7f3afd2d4	-	normal
 .tmp/pmu-tools	git	https://github.com/andikleen/pmu-tools.git	f0b3659f11c0718ed60a7c11934c0b1864efe3d6	-	normal
-benchmarks/tools/pcm-latest-src/pcm	git	https://github.com/intel/pcm.git	abb6bce87cc2ed23d6677541ebcfc47ca769d1ed	-	normal
+benchmarks/tools/pcm-latest-src/pcm	git	https://github.com/intel/pcm.git	abb6bce87cc2ed23d6677541ebcfc47ca769d1ed	-	recursive
 jit_prefetch/openjdk	git	https://github.com/openjdk/jdk17u-dev.git	5ef54a04aa15fe8ad86188174232388c3bd6a179	openjdk-prefetch-combined.patch	normal
 benchmarks/gem5	git	https://github.com/gem5/gem5.git	c8222cc67a399bfc01e8658dd14b30d5bfd634f9	-	normal
 worktrees/gem5-pure	variant	benchmarks/gem5	c8222cc67a399bfc01e8658dd14b30d5bfd634f9	gem5-eventq-profiler.patch	worktree
