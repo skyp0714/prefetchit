@@ -23,8 +23,8 @@ that survived the fixed-frequency and matched-binary audits.
 
 | workload | mechanism | controlled result | key setting |
 |---|---|---:|---|
-| Verilator qsort | profile-free static LLVM plan | **1.080x runtime** | 3.8 GHz core, pinned uncore, core 40, 100k cycles, 3 reps, top1k callsite |
-| Verilator qsort | LBR-PGO LLVM plan | **1.076x runtime** | same baseline/protocol, RET cov90 |
+| Verilator qsort | profile-free static LLVM plan | ~~1.080x runtime~~ **not reproduced 2026-09-15** (1.003x vs NOP twin) | the pinned pass mis-targeted symbol+offset prefetches (fixed) and the static site choice covers 15% of RET-miss producers — see umbrella `docs/RESULTS.md` |
+| Verilator qsort | LBR-PGO LLVM plan | ~~1.076x runtime~~ **1.021x vs NOP twin, MPKI −6.6%** (2026-09-15, same protocol) | mechanism holds; the runtime gain on this host is 2% |
 | Django | manual future method-pointer prefetch | **1.490x QPS**, MPKI 84.6 to 35.0 | `d4_next`, 3 paired reps, all threads audited and pinned |
 | FeedSim | manual future method-pointer prefetch | **1.073x QPS**, MPKI 8.07 to 1.71 | 200M I-cache iterations, 2 CPU threads, d16, 300 s, 3 reps |
 | arcilator MegaBoom | static IR callsite prefetch | **1.051x runtime**, MPKI 76.7 to 71.2 | stride 4, lookahead 16, matched NOP binary, 15 interleaved reps |
@@ -68,9 +68,9 @@ For a performance run:
 1. Run only one workload at a time.
 2. Assign every server/client/helper thread to a distinct physical core and
    save `taskset -apc` plus sampled `/proc/<tid>/stat` processor IDs.
-3. Use `scripts/configure_fixed_frequency_v2.sh`; record core and uncore
-   state before and after. Use 3.8 GHz mode for single-core Verilator and a
-   sustainable fixed mode for multicore services.
+3. Use `scripts/platform/freeze_platform.sh` (`MODE=3.8ghz` for single-core
+   Verilator — needs intel_pstate; `MODE=2ghz` for multicore services and JVM
+   runs); record its `show` output before and after.
 4. Interleave A/B (or AB/BA), use at least 3 reps and 5 for services. Compare
    injected binaries with layout-identical NOP-patched binaries when possible.
 5. Validate equal completed work, zero/acceptable failures, the expected
@@ -142,6 +142,8 @@ python3 llvm_prefetchit/tools/prefetchit_trace_to_plan.py --help
 objdump -d /path/to/injected-binary | rg -c 'prefetcht1|prefetchit[01]'
 ```
 
-Use `docs/prefetch_experiment_variables.md` for plan fields and
-`migration/README.md` for what is intentionally regenerated. A migration is
+Use `docs/prefetch_experiment_variables.md` for plan fields,
+`migration/README.md` for what is intentionally regenerated, and the umbrella
+`docs/SETUP.md` for the host-specific restore log (toolchain workarounds,
+unreachable pinned revisions, DCPerf install recipe). A migration is
 not performance-complete merely because source verification passes.

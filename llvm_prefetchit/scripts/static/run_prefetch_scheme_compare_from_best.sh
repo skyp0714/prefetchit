@@ -2,7 +2,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-LLVM_PREFETCH_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
+LLVM_PREFETCH_DIR="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 REPO_ROOT="$(cd "${LLVM_PREFETCH_DIR}/.." && pwd)"
 PROFILING_DIR="${REPO_ROOT}/profiling"
 BENCH_COMMON="${PROFILING_DIR}/runscript/bench/bench_common.sh"

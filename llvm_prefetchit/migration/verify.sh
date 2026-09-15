@@ -75,7 +75,7 @@ for script in "${SCRIPT_DIR}"/*.sh; do
   bash -n "${script}" || fail "shell syntax: ${script}"
 done
 
-for repo in llvm_prefetchit profiling icache_microbenchmark static_cond_prefetch static_return_prefetch flat_codegen jit_prefetch; do
+for repo in llvm_prefetchit profiling icache_microbenchmark static_prefetch flat_codegen jit_prefetch; do
   dest="${ROOT}/${repo}"
   [[ -d "${dest}/.git" ]] || continue
   if git -C "${dest}" grep -En "echo +['\"][^'\"]+['\"] +[|] +sudo +-S" HEAD -- >/dev/null 2>&1; then

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="${PREFETCHIT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
-RUNNER="${ROOT}/llvm_prefetchit/scripts/run_final_memcached_variant.sh"
+ROOT="${PREFETCHIT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)}"
+RUNNER="${ROOT}/llvm_prefetchit/scripts/dispatch/run_memcached_variant.sh"
 BASE="${ROOT}/llvm_prefetchit/work/datacenter_goal_20260708/memcached/base/memcached"
 PREFETCH="${ROOT}/llvm_prefetchit/work/datacenter_goal_20260708/memcached/static_allpf/memcached"
 OUT="${OUT:-${ROOT}/llvm_prefetchit/results/final_campaign_20260711/memcached_manual_final_rep3}"

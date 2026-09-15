@@ -5,7 +5,9 @@ server. Git contains source, small plans/results, exact revisions, local source
 patches, and SPEC configuration. It intentionally excludes benchmark datasets,
 build trees, containers, `perf.data`, LBR dumps, generated protobuf, and binaries.
 
-Read [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md) for the canonical results,
+Read the umbrella `docs/SETUP.md` first: it is the log of the 2026-09-15 restore
+(what differed from this manifest and how it was resolved). Then read
+[`REPRODUCIBILITY.md`](REPRODUCIBILITY.md) for the canonical results,
 invalidated historical peaks, experimental controls, acceptance criteria, and
 the complete destination-server command sequence.
 
@@ -18,6 +20,9 @@ the complete destination-server command sequence.
    cd prefetchit
    git clone git@github.com:skyp0714/llvm_prefetchit_injection.git llvm_prefetchit
    ```
+
+   The other components are cloned by `bootstrap.sh` under the short names in
+   `repos.lock.tsv` (`profiling/`, not `frontend_profiling/`).
 
 2. Install common Ubuntu dependencies, then restore first-party repositories:
 
@@ -45,7 +50,8 @@ the complete destination-server command sequence.
    `benchmarks/dcperf/benchmarks/django_workload/django-workload`; rerun
    `migration/apply_patches.sh` afterward.
 
-6. Build the LLVM pass and profiling Python environment:
+6. Build the LLVM pass and profiling Python environment (LLVM 19.1.7 release
+   tarball if apt `clang-19` is uninstallable, see `docs/SETUP.md`):
 
    ```bash
    cmake -S llvm_prefetchit -B llvm_prefetchit/build \

@@ -211,6 +211,48 @@ This is the rigorous part: LLVM owns label creation, layout, relocation, and
 RIP-relative displacement encoding. The pass only says “prefetch the label at
 this target basic block, optionally plus cacheline-sized offsets.”
 
+## Layout Compensation For Symbol+Offset Targets
+
+`symbol+offset` targets are offsets in the *baseline* binary. Every prefetch
+the pass injects earlier in the same function (7 bytes each for a rip-relative
+`prefetcht1`) pushes the code after it forward, so the k-th injected site in a
+function would otherwise see its continuation `7·(prefetches before it)` bytes
+later than the operand says. On the Verilator RET/callsite plan (985 sites in
+one 7.8 MB `eval_nba__0`) this left only 13 of 1968 prefetches on the planned
+cacheline and the plan had no effect (2026-09-15 restore).
+
+The pass therefore defers emission until all sites in the module are resolved
+and adds, per target, the bytes of all injected prefetches whose plan site
+offset precedes the target offset in the target's function
+(`-prefetchit-layout-compensation`, default on; the log reports
+`layout_shift_applied` and `layout_shift_max_bytes`). Blockaddress and GOT
+operands are label/PLT relative and need no shift. That compensation is only the first-order term: the injected asm also changes
+codegen inside the function (alignment, scheduling, register allocation), and
+on `eval_nba__0` the residual drift was −18…−1067 B and non-monotonic (only 36%
+of targets within a cacheline). The exact fix is post-link:
+`tools/reanchor_prefetch_targets.py` anchors every target on the **k-th call
+instruction of its function** (the pass never adds or removes calls; both
+binaries have 103,256 calls in `eval_nba__0`), keeps the target's delta from
+that call, and patches only the prefetch `disp32` fields (layout unchanged, so
+NOP twins stay valid). After re-anchoring, 1968/1968 static prefetches sit
+exactly on their continuation (+0 / +64). `tools/check_prefetch_drift.py`
+reports this and is the first thing to run when a plan shows no MPKI change;
+`scripts/static/run_verilator_repro.sh` runs resolve → re-anchor → drift gate
+for every variant.
+
+## Site Anchoring When Several Sites Share A Source Line
+
+Generated Verilator code maps many call instructions to one source line. The
+pass resolves a site by (function, file, line, branch type) and used to pile
+every plan site of that line onto the first IR candidate (the per-site use
+counter only rotated *identical* plan entries). With 1,000 sites this was
+harmless (100% of prefetches at the planned call); with 5,000 sites only 52%
+were. The pass now ranks the plan's sites of a location by their baseline
+symbol offset and maps rank *k* to the *k*-th IR candidate (IR order follows
+layout order in generated code); `ranked_sites` in the log counts the sites
+resolved this way. Exact machine-level site anchoring still needs a
+post-ISel/MachineFunction pass (open item).
+
 ## Prefetch Mnemonics
 
 Supported mnemonics are:

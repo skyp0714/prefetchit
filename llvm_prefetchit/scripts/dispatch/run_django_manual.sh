@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="${PREFETCHIT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
+ROOT="${PREFETCHIT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)}"
 BENCH_ROOT="${ROOT}/benchmarks/dcperf/benchmarks/django_workload"
 SERVER_ROOT="${BENCH_ROOT}/django-workload/django-workload"
-COMMON="${ROOT}/llvm_prefetchit/scripts/final_campaign_common.sh"
+COMMON="${ROOT}/llvm_prefetchit/scripts/platform/campaign_common.sh"
 HTTP_CLIENT="${ROOT}/llvm_prefetchit/tools/django_http_load.py"
 THREAD_PIN_SO="${ROOT}/llvm_prefetchit/tools/pthread_core_pin.so"
 BIN_ROOT="${BIN_ROOT:-${ROOT}/llvm_prefetchit/work/final_campaign_20260711/django_manual_bins}"

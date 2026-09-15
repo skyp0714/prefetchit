@@ -16,6 +16,7 @@
 #include "llvm/Support/JSON.h"
 #include "llvm/Support/MemoryBuffer.h"
 #include "llvm/Support/Path.h"
+#include "llvm/Support/FileSystem.h"
 #include "llvm/Support/raw_ostream.h"
 
 #include <algorithm>
@@ -45,6 +46,16 @@ static cl::opt<bool>
                       cl::desc("Print detailed PrefetchIT pass diagnostics"),
                       cl::init(false));
 
+// Exact symbol+offset targets are baseline-binary offsets; every prefetch
+// injected earlier in the same function pushes the target's code forward by
+// the injected bytes. Compensate so the operand still lands on the planned
+// cacheline (the plan's site offsets tell us what precedes each target).
+static cl::opt<bool> PrefetchITLayoutCompensation(
+    "prefetchit-layout-compensation",
+    cl::desc("Shift symbol+offset targets by the bytes of prefetches injected "
+             "before them in the same function"),
+    cl::init(true));
+
 static cl::opt<std::string> PrefetchITMnemonicOverride(
     "prefetchit-mnemonic",
     cl::desc("Override plan prefetch mnemonic: prefetcht0, prefetcht1, "
@@ -70,6 +81,7 @@ struct SourceLocSpec {
 };
 
 struct InjectionSpec {
+  unsigned Index = 0; // position in the plan's injections array
   std::string Mnemonic;
   std::vector<int64_t> ByteOffsets;
   unsigned TargetRank = 0;
@@ -93,6 +105,9 @@ struct Plan {
 
 struct InjectionStats {
   unsigned Injected = 0;
+  unsigned LayoutShiftApplied = 0;
+  unsigned RankedSites = 0;
+  uint64_t LayoutShiftMaxBytes = 0;
   unsigned Duplicate = 0;
   unsigned UnsupportedMnemonic = 0;
   unsigned SymbolOffsetTarget = 0;
@@ -301,6 +316,7 @@ static std::optional<Plan> loadPlan(StringRef Path) {
       continue;
 
     InjectionSpec Spec;
+    Spec.Index = static_cast<unsigned>(Loaded.Injections.size());
     std::string SpecMnemonic = getString(*Obj, "prefetch_mnemonic");
     if (SpecMnemonic.empty())
       SpecMnemonic = getNestedString(*Obj, "prefetch", "mnemonic");
@@ -580,6 +596,14 @@ static std::string targetKey(const SourceLocSpec &Spec) {
          Spec.OperandMode;
 }
 
+// All plan sites that resolve to the same debug location; the pass maps them
+// onto the IR candidates in baseline-address order (IR order follows layout in
+// generated code), instead of piling every site of a line onto candidate 0.
+static std::string siteLocationKey(const InjectionSpec &Spec) {
+  return Spec.Site.Mangled + "\n" + normalizePath(Spec.Site.File) + "\n" +
+         std::to_string(Spec.Site.Line) + "\n" + Spec.BranchType;
+}
+
 static std::string siteKey(const InjectionSpec &Spec) {
   return Spec.Site.Mangled + "\n" + Spec.Site.Function + "\n" +
          normalizePath(Spec.Site.File) + "\n" + std::to_string(Spec.Site.Line) +
@@ -641,10 +665,28 @@ static void insertPrefetchBeforeBlockAddress(Module &M, Instruction &SiteI,
   CI->setDebugLoc(SiteI.getDebugLoc());
 }
 
+// Encoded size of one injected rip-relative prefetch: 0F 18 /r disp32.
+static constexpr uint64_t RipRelativePrefetchBytes = 7;
+
+// One planned prefetch whose emission is deferred until every site in the
+// module is resolved, so that same-function layout shifts can be computed.
+struct PendingPrefetch {
+  unsigned Index = 0;
+  Instruction *InsertionI = nullptr;
+  Function *TargetF = nullptr;
+  BasicBlock *TargetBB = nullptr;
+  SourceLocSpec Target;
+  SourceLocSpec Site;
+  std::string Mnemonic;
+  int64_t ByteOffset = 0;
+  enum Mode { SymbolOffset, GotSymbolOffset, BlockAddress } Mode = SymbolOffset;
+};
+
 static bool insertPrefetchBeforeSymbolOffset(Module &M, Instruction &SiteI,
                                              const SourceLocSpec &Target,
                                              StringRef Mnemonic,
-                                             int64_t ByteOffset) {
+                                             int64_t ByteOffset,
+                                             uint64_t LayoutShift = 0) {
   if (Target.Mangled.empty())
     return false;
   std::optional<uint64_t> BaseOffset = parseUnsignedInteger(Target.SymbolOffset);
@@ -653,7 +695,8 @@ static bool insertPrefetchBeforeSymbolOffset(Module &M, Instruction &SiteI,
 
   LLVMContext &Ctx = M.getContext();
   FunctionType *AsmTy = FunctionType::get(Type::getVoidTy(Ctx), {}, false);
-  uint64_t TotalOffset = *BaseOffset + static_cast<uint64_t>(ByteOffset);
+  uint64_t TotalOffset =
+      *BaseOffset + static_cast<uint64_t>(ByteOffset) + LayoutShift;
   std::string Symbol = escapeInlineAsmSymbol(Target.Mangled);
   std::string AsmString = Mnemonic.str() + " " + Symbol + "+0x" +
                           utohexstr(TotalOffset) + "(%rip)";
@@ -757,6 +800,18 @@ public:
     std::map<std::string, unsigned> SiteUseCounts;
     std::map<Function *, FunctionDebugIndex> DebugIndexCache;
     std::set<std::string> Inserted;
+    std::vector<PendingPrefetch> Pending;
+    std::map<std::string, std::vector<uint64_t>> SiteOffsetsByLocation;
+    for (const InjectionSpec &Spec : Loaded->Injections) {
+      std::optional<uint64_t> Off = parseUnsignedInteger(Spec.Site.SymbolOffset);
+      if (Off)
+        SiteOffsetsByLocation[siteLocationKey(Spec)].push_back(*Off);
+    }
+    for (auto &Entry : SiteOffsetsByLocation) {
+      std::sort(Entry.second.begin(), Entry.second.end());
+      Entry.second.erase(std::unique(Entry.second.begin(), Entry.second.end()),
+                         Entry.second.end());
+    }
 
     for (const InjectionSpec &Spec : Loaded->Injections) {
       std::string Mnemonic =
@@ -840,7 +895,23 @@ public:
       }
       std::string SKey = siteKey(Spec);
       unsigned &UseCount = SiteUseCounts[SKey];
-      Instruction *SiteI = SiteCandidates[UseCount % SiteCandidates.size()];
+      Instruction *SiteI = nullptr;
+      std::optional<uint64_t> SiteOff = parseUnsignedInteger(Spec.Site.SymbolOffset);
+      auto LocIt = SiteOffsetsByLocation.find(siteLocationKey(Spec));
+      if (SiteOff && LocIt != SiteOffsetsByLocation.end() &&
+          LocIt->second.size() > 1) {
+        // rank of this site among the plan's sites at this location
+        size_t Rank = std::lower_bound(LocIt->second.begin(),
+                                       LocIt->second.end(), *SiteOff) -
+                      LocIt->second.begin();
+        if (LocIt->second.size() == SiteCandidates.size())
+          SiteI = SiteCandidates[Rank];
+        else
+          SiteI = SiteCandidates[Rank % SiteCandidates.size()];
+        ++Stats.RankedSites;
+      } else {
+        SiteI = SiteCandidates[UseCount % SiteCandidates.size()];
+      }
       ++UseCount;
       Instruction *InsertionI =
           moveInsertionEarlier(*SiteI, Loaded->LeadInstructions);
@@ -859,16 +930,19 @@ public:
           continue;
         }
 
-        if (PreferSymbolOffset &&
-            insertPrefetchBeforeSymbolOffset(M, *InsertionI, Spec.Target,
-                                             Mnemonic, ByteOffset)) {
-          ++Stats.SymbolOffsetTarget;
-          if (!findFunction(M, Spec.Target))
-            ++Stats.CrossModuleSymbolOffsetTarget;
-        } else if (PreferGotSymbolOffset &&
-                   insertPrefetchBeforeGotSymbolOffset(
-                       M, *InsertionI, Spec.Target, Mnemonic, ByteOffset)) {
-          ++Stats.GotSymbolOffsetTarget;
+        PendingPrefetch P;
+        P.Index = Spec.Index;
+        P.InsertionI = InsertionI;
+        P.Target = Spec.Target;
+        P.Site = Spec.Site;
+        P.Mnemonic = Mnemonic;
+        P.ByteOffset = ByteOffset;
+        if (PreferSymbolOffset && !Spec.Target.Mangled.empty() &&
+            parseUnsignedInteger(Spec.Target.SymbolOffset)) {
+          P.Mode = PendingPrefetch::SymbolOffset;
+        } else if (PreferGotSymbolOffset && !Spec.Target.Mangled.empty() &&
+                   parseUnsignedInteger(Spec.Target.SymbolOffset)) {
+          P.Mode = PendingPrefetch::GotSymbolOffset;
         } else {
           if (PreferSymbolOffset || PreferGotSymbolOffset)
             ++Stats.MissingTargetSymbolOffset;
@@ -902,12 +976,100 @@ public:
               ++Stats.TargetBlockEntry;
             TargetBlocks[TKey] = TargetBB;
           }
-          insertPrefetchBeforeBlockAddress(M, *InsertionI, *TargetF, *TargetBB,
-                                           Mnemonic, ByteOffset);
-          ++Stats.BlockAddressTarget;
+          P.Mode = PendingPrefetch::BlockAddress;
+          P.TargetF = TargetF;
+          P.TargetBB = TargetBB;
         }
-        ++Stats.Injected;
+        Pending.push_back(std::move(P));
       }
+    }
+
+    // Layout compensation: bytes of rip-relative prefetches injected at plan
+    // sites that precede each symbol+offset target inside the same function.
+    std::map<std::string, std::vector<std::pair<uint64_t, uint64_t>>>
+        SiteBytesByFunction;
+    if (PrefetchITLayoutCompensation) {
+      for (const PendingPrefetch &P : Pending) {
+        if (P.Mode != PendingPrefetch::SymbolOffset || P.Site.Mangled.empty())
+          continue;
+        std::optional<uint64_t> SiteOff = parseUnsignedInteger(P.Site.SymbolOffset);
+        if (!SiteOff)
+          continue;
+        SiteBytesByFunction[P.Site.Mangled].emplace_back(*SiteOff,
+                                                         RipRelativePrefetchBytes);
+      }
+      for (auto &Entry : SiteBytesByFunction)
+        std::sort(Entry.second.begin(), Entry.second.end());
+    }
+    auto layoutShiftFor = [&](const SourceLocSpec &Target) -> uint64_t {
+      if (!PrefetchITLayoutCompensation)
+        return 0;
+      auto It = SiteBytesByFunction.find(Target.Mangled);
+      if (It == SiteBytesByFunction.end())
+        return 0;
+      std::optional<uint64_t> TargetOff = parseUnsignedInteger(Target.SymbolOffset);
+      if (!TargetOff)
+        return 0;
+      uint64_t Shift = 0;
+      for (const auto &SiteBytes : It->second) {
+        if (SiteBytes.first >= *TargetOff)
+          break;
+        Shift += SiteBytes.second;
+      }
+      return Shift;
+    };
+
+    std::string ShiftSidecar;
+    raw_string_ostream ShiftJson(ShiftSidecar);
+    ShiftJson << "[";
+    bool FirstShift = true;
+    for (const PendingPrefetch &P : Pending) {
+      switch (P.Mode) {
+      case PendingPrefetch::SymbolOffset: {
+        uint64_t Shift = layoutShiftFor(P.Target);
+        if (!insertPrefetchBeforeSymbolOffset(M, *P.InsertionI, P.Target,
+                                              P.Mnemonic, P.ByteOffset, Shift))
+          continue;
+        ShiftJson << (FirstShift ? "\n" : ",\n") << "  {\"index\": " << P.Index
+                  << ", \"byte_offset\": " << P.ByteOffset
+                  << ", \"layout_shift\": " << Shift << "}";
+        FirstShift = false;
+        ++Stats.SymbolOffsetTarget;
+        if (Shift) {
+          ++Stats.LayoutShiftApplied;
+          Stats.LayoutShiftMaxBytes = std::max(Stats.LayoutShiftMaxBytes, Shift);
+        }
+        if (!findFunction(M, P.Target))
+          ++Stats.CrossModuleSymbolOffsetTarget;
+        break;
+      }
+      case PendingPrefetch::GotSymbolOffset:
+        if (!insertPrefetchBeforeGotSymbolOffset(M, *P.InsertionI, P.Target,
+                                                 P.Mnemonic, P.ByteOffset))
+          continue;
+        ++Stats.GotSymbolOffsetTarget;
+        break;
+      case PendingPrefetch::BlockAddress:
+        insertPrefetchBeforeBlockAddress(M, *P.InsertionI, *P.TargetF,
+                                         *P.TargetBB, P.Mnemonic, P.ByteOffset);
+        ++Stats.BlockAddressTarget;
+        break;
+      }
+      ++Stats.Injected;
+    }
+
+    ShiftJson << "\n]\n";
+    ShiftJson.flush();
+    if (PrefetchITLayoutCompensation && !Pending.empty()) {
+      // Sidecar consumed by tools/resolve_plan_layout_shift.py so that
+      // assembly validation compares against the compensated targets.
+      std::error_code EC;
+      raw_fd_ostream Out(PlanPath + ".shifts.json", EC, sys::fs::OF_Text);
+      if (EC)
+        errs() << "prefetchit-inject: cannot write " << PlanPath
+               << ".shifts.json: " << EC.message() << "\n";
+      else
+        Out << ShiftSidecar;
     }
 
     errs() << "prefetchit-inject: injected=" << Stats.Injected
@@ -921,6 +1083,9 @@ public:
            << " target_block_entry=" << Stats.TargetBlockEntry
            << " target_block_split=" << Stats.TargetBlockSplit
            << " lead_adjusted_sites=" << Stats.LeadAdjustedSites
+           << " ranked_sites=" << Stats.RankedSites
+           << " layout_shift_applied=" << Stats.LayoutShiftApplied
+           << " layout_shift_max_bytes=" << Stats.LayoutShiftMaxBytes
            << " missing_target_fn=" << Stats.MissingTargetFunction
            << " missing_target_loc=" << Stats.MissingTargetLocation
            << " missing_target_symbol_offset="

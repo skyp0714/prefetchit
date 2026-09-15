@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-source "${ROOT}/llvm_prefetchit/scripts/final_campaign_common.sh"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
+source "${ROOT}/llvm_prefetchit/scripts/platform/campaign_common.sh"
 
 BENCH="${ROOT}/benchmarks/dcperf/benchmarks/feedsim"
 SRC="${BENCH}/src"

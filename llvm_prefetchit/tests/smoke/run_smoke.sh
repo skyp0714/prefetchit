@@ -190,6 +190,37 @@ grep -q 'blockaddress(@target' "${TMP_DIR}/smoke.local.ll"
 grep -q 'blockaddress_target=3' "${TMP_DIR}/opt.local.log"
 grep -q 'symbol_offset_target=0' "${TMP_DIR}/opt.local.log"
 
+# Layout compensation: two injections at the same site in `caller`; the second
+# targets caller+0x40, which is preceded by both injected prefetches (2 x 7 B).
+cat > "${TMP_DIR}/prefetchit.shift.plan.json" <<JSON
+{
+  "schema": "prefetchit.plan.v1",
+  "prefetch": {"mnemonic": "prefetcht1", "operand": "pc-relative-symbol-offset", "byte_offsets": [0]},
+  "injections": [
+    {"target": {"mangled": "target", "function": "target", "file": "${TMP_DIR}/smoke.c", "line": ${target_line}, "addr": "0x0", "symbol_offset": "0x10"},
+     "site": {"mangled": "caller", "function": "caller", "file": "${TMP_DIR}/smoke.c", "line": ${site_line}, "addr": "0x0", "symbol_offset": "0x5", "branch_type": "COND", "lbr_depth": 1}},
+    {"target": {"mangled": "caller", "function": "caller", "file": "${TMP_DIR}/smoke.c", "line": ${site_line}, "addr": "0x0", "symbol_offset": "0x40"},
+     "site": {"mangled": "caller", "function": "caller", "file": "${TMP_DIR}/smoke.c", "line": ${site_line}, "addr": "0x0", "symbol_offset": "0x5", "branch_type": "COND", "lbr_depth": 1}}
+  ]
+}
+JSON
+"${OPT_BIN}" \
+  -load-pass-plugin "${PLUGIN}" \
+  -passes=prefetchit-inject \
+  -prefetchit-plan="${TMP_DIR}/prefetchit.shift.plan.json" \
+  "${TMP_DIR}/smoke.ll" -S -o "${TMP_DIR}/smoke.shift.ll" \
+  2> "${TMP_DIR}/opt.shift.log"
+grep -q 'prefetcht1 target+0x10(%rip)' "${TMP_DIR}/smoke.shift.ll"
+grep -q 'prefetcht1 caller+0x4E(%rip)' "${TMP_DIR}/smoke.shift.ll"
+grep -q 'layout_shift_applied=1 layout_shift_max_bytes=14' "${TMP_DIR}/opt.shift.log"
+"${OPT_BIN}" \
+  -load-pass-plugin "${PLUGIN}" \
+  -passes=prefetchit-inject \
+  -prefetchit-plan="${TMP_DIR}/prefetchit.shift.plan.json" \
+  -prefetchit-layout-compensation=false \
+  "${TMP_DIR}/smoke.ll" -S -o "${TMP_DIR}/smoke.noshift.ll" 2>/dev/null
+grep -q 'prefetcht1 caller+0x40(%rip)' "${TMP_DIR}/smoke.noshift.ll"
+
 python3 "${ROOT_DIR}/tests/test_trace_to_plan.py"
 
 echo "[ok] smoke test passed"

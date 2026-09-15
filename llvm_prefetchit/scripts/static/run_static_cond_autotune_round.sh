@@ -2,9 +2,9 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-LLVM_PREFETCH_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
+LLVM_PREFETCH_DIR="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 REPO_ROOT="$(cd "${LLVM_PREFETCH_DIR}/.." && pwd)"
-STATIC_DIR="${REPO_ROOT}/static_cond_prefetch"
+STATIC_DIR="${REPO_ROOT}/static_prefetch"
 PROFILING_DIR="${REPO_ROOT}/profiling"
 
 RUN_ID="${RUN_ID:-static_cond_autotune_$(date +%Y%m%d_%H%M%S)}"
@@ -53,7 +53,7 @@ generate_candidates() {
     for trace_dir in "${trace_dirs[@]}"; do
       trace_args+=(--trace-dir "${trace_dir}")
     done
-    python3 "${STATIC_DIR}/tools/sweep_static_cond_algorithms.py" \
+    python3 "${STATIC_DIR}/tools/cond/sweep_static_cond_algorithms.py" \
       --binary "${BASE_BINARY}" \
       "${trace_args[@]}" \
       --out-dir "${OUT_DIR}/candidate_sweep" \
@@ -72,7 +72,7 @@ generate_candidates() {
 
   local ens="${CAND_DIR}/static_cond_ensemble_rr.csv"
   if [[ ! -s "${ens}" ]]; then
-    python3 "${STATIC_DIR}/tools/ensemble_cond_candidates.py" \
+    python3 "${STATIC_DIR}/tools/cond/ensemble_cond_candidates.py" \
       --candidate-dir "${CAND_DIR}" \
       --out-csv "${ens}" \
       --stage tail-sparse:20000 \
@@ -134,7 +134,7 @@ plan_one() {
   if [[ "${skip_same}" == "1" ]]; then
     args+=(--skip-same-cacheline-site-target)
   fi
-  python3 "${STATIC_DIR}/tools/static_cond_candidates_to_plan.py" "${args[@]}" > "${LOG_DIR}/${variant}.plan.log" 2>&1
+  python3 "${STATIC_DIR}/tools/cond/static_cond_candidates_to_plan.py" "${args[@]}" > "${LOG_DIR}/${variant}.plan.log" 2>&1
 }
 
 generate_plans() {

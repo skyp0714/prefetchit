@@ -2,7 +2,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-LLVM_PREFETCH_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
+LLVM_PREFETCH_DIR="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 REPO_ROOT="$(cd "${LLVM_PREFETCH_DIR}/.." && pwd)"
 PROFILING_DIR="${REPO_ROOT}/profiling"
 BENCH_COMMON="${PROFILING_DIR}/runscript/bench/bench_common.sh"
@@ -323,9 +323,17 @@ require_file "${FINAL_SIM}"
 ln -sfn "${FINAL_SIM}" "${OUT_DIR}/simulator-chipyard.harness-${CONFIG}-llvm-${PREFETCH_LABEL}"
 
 log "assembly-level validation"
+# The pass compensates symbol+offset targets for same-function layout shift and
+# records the shifts next to the plan; validate against the compensated plan.
+VALIDATE_PLAN="${PLAN}"
+if [[ -s "${PLAN}.shifts.json" ]]; then
+  python3 "${LLVM_PREFETCH_DIR}/tools/resolve_plan_layout_shift.py" \
+    --plan "${PLAN}" --shifts "${PLAN}.shifts.json" --output "${PLAN%.json}.resolved.json" | tee -a "${BUILD_LOG}"
+  VALIDATE_PLAN="${PLAN%.json}.resolved.json"
+fi
 python3 "${LLVM_PREFETCH_DIR}/tools/validate_prefetch_asm.py" \
   --binary "${FINAL_SIM}" \
-  --plan "${PLAN}" \
+  --plan "${VALIDATE_PLAN}" \
   --build-log "${BUILD_LOG}" \
   --out-dir "${ASM_DIR}" \
   --mnemonic "${PREFETCH_MNEMONIC}" \

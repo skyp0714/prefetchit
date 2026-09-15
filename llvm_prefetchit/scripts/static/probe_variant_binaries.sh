@@ -4,7 +4,7 @@
 # Usage: OUT=... [MAX_CYCLES=150000] [CORE=5] bash probe_variant_binaries.sh
 set -euo pipefail
 
-ROOT="${PREFETCHIT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
+ROOT="${PREFETCHIT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)}"
 OUT="${OUT:?set OUT}"
 RV="${RV:-${ROOT}/benchmarks/tools/rocket-tools/riscv/riscv64-unknown-elf/share/riscv-tests/benchmarks}"
 MAX_CYCLES="${MAX_CYCLES:-150000}"
@@ -18,9 +18,9 @@ BASE_BIN="${ROOT}/benchmarks/chipyard/sims/verilator/simulator-chipyard.harness-
 RUNS_DIRS="${RUNS_DIRS:-\
 ${ROOT}/llvm_prefetchit/results/static_cond_autotune/static_cond_autotune_20260628_212242/runs \
 ${ROOT}/llvm_prefetchit/results/cond_sampleip_compare/cond_sampleip_compare_20260628_014845/runs \
-${ROOT}/static_return_prefetch/results/static_speedup_eval/runs \
-${ROOT}/static_return_prefetch/results/ret_cost_v2_runtime/ret_cost_v2_static_reuse_20260627_012944/runs \
-${ROOT}/static_return_prefetch/results/ret_static_vs_pgo_limit/ret_static_vs_pgo_20260626_090419/runs}"
+${ROOT}/static_prefetch/results/static_speedup_eval/runs \
+${ROOT}/static_prefetch/results/ret_cost_v2_runtime/ret_cost_v2_static_reuse_20260627_012944/runs \
+${ROOT}/static_prefetch/results/ret_static_vs_pgo_limit/ret_static_vs_pgo_20260626_090419/runs}"
 
 mkdir -p "${OUT}"
 CSV="${OUT}/probe.csv"

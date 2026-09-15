@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
 OUT_DIR="${OUT_DIR:-${ROOT_DIR}/llvm_prefetchit/results/workload_screening/$(date +%Y%m%d_%H%M%S)}"
 TIMEOUT_SECONDS="${TIMEOUT_SECONDS:-300}"
 RUN_TO_COMPLETION="${RUN_TO_COMPLETION:-0}"
