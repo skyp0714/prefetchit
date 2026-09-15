@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="/home/hnpark2/prefetchit/llvm_prefetchit"
+ROOT="${LLVM_PREFETCHIT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 INPUT="${INPUT_PLAN:-${ROOT}/results/pgo_goal_20260713/recommend/plans_static_racefix/base/cov100/combined.plan.json}"
 OUT="${OUT_DIR:-${ROOT}/results/pgo_goal_20260713/recommend/plans_incremental_v1}"
 DERIVER="${ROOT}/tools/derive_prefetch_plan.py"

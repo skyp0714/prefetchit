@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="/home/hnpark2/prefetchit"
+ROOT="${PREFETCHIT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
 BINARY="${BINARY:-${ROOT}/llvm_prefetchit/work/final_campaign_20260711/microsuite_set_stable_v2/mid_tier_server.baseline}"
 OUT="${OUT:-${ROOT}/llvm_prefetchit/results/final_campaign_20260711/microsuite_set_stable_v2_static_plans}"
 PLANNER="${ROOT}/static_return_prefetch/tools/static_branch_target_plan.py"

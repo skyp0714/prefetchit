@@ -1,0 +1,235 @@
+diff --git a/src/hotspot/cpu/x86/globals_x86.hpp b/src/hotspot/cpu/x86/globals_x86.hpp
+index be15b94f9..b6e3072cc 100644
+--- a/src/hotspot/cpu/x86/globals_x86.hpp
++++ b/src/hotspot/cpu/x86/globals_x86.hpp
+@@ -101,6 +101,42 @@ define_pd_global(intx, InitArrayShortSize, 8*BytesPerLong);
+   product(bool, UseStoreImmI16, true,                                       \
+           "Use store immediate 16-bits value instruction on x86")           \
+                                                                             \
++  product(bool, PrefetchRetTarget, false,                                   \
++          "Emit prefetcht1 of the return-target code lines before "        \
++          "C2-compiled Java calls (prefetchit V1)")                         \
++                                                                            \
++  product(bool, PrefetchCallTarget, false,                                  \
++          "Emit prefetcht1 of the callee entry code lines before "         \
++          "C2-compiled Java calls, repatched with the call destination "   \
++          "(prefetchit V2)")                                                \
++                                                                            \
++  product(intx, PrefetchRetTargetLines, 2,                                  \
++          "Number of 64-byte return-target lines to prefetch per call")     \
++          range(1, 4)                                                       \
++                                                                            \
++  product(intx, PrefetchEntryAhead, 0,                                      \
++          "prefetchit V4: at C2 method entry, burst-prefetcht1 the "        \
++          "method body starting this many bytes ahead (0 = off)")           \
++          range(0, 8192)                                                    \
++                                                                            \
++  product(intx, PrefetchEntryLines, 8,                                      \
++          "Number of consecutive 64-byte lines in the V4 entry burst")      \
++          range(1, 32)                                                      \
++                                                                            \
++  product(intx, PrefetchEntryMinBytecode, 0,                                \
++          "Only emit the V4 entry burst for methods with at least this "    \
++          "many bytecodes (gates out tiny hot accessors)")                  \
++          range(0, 65535)                                                   \
++                                                                            \
++  product(bool, PrefetchEntryIT0, false,                                    \
++          "Emit the V4 entry burst as PREFETCHIT0 (L1I-fill, rip-relative " \
++          "0F 18 /7) instead of prefetcht1")                                \
++                                                                            \
++  product(intx, PrefetchRetTargetAhead, 0,                                  \
++          "Extra byte offset added to the return-target prefetch address "  \
++          "(prefetchit V3: call-anchored lookahead into the continuation)") \
++          range(0, 8192)                                                    \
++                                                                            \
+   product(intx, UseSSE, 99,                                                 \
+           "Highest supported SSE instructions set on x86/x64")              \
+           range(0, 99)                                                      \
+diff --git a/src/hotspot/cpu/x86/nativeInst_x86.cpp b/src/hotspot/cpu/x86/nativeInst_x86.cpp
+index 2ebbf39b4..791278b0f 100644
+--- a/src/hotspot/cpu/x86/nativeInst_x86.cpp
++++ b/src/hotspot/cpu/x86/nativeInst_x86.cpp
+@@ -291,6 +291,41 @@ void NativeCall::set_destination_mt_safe(address dest) {
+ 
+   // The destination lies within a single cache line.
+   set_destination(dest);
++
++  // prefetchit V2: C2 emits PrefetchRetTargetLines prefetcht1 [rip+disp32]
++  // instructions (7 bytes each: 0F 18 15 disp32) immediately before the
++  // call (and before the optional V1 return-target prefetches), targeting
++  // the callee entry lines. Retarget them to the new destination. These are
++  // hints, so the plain 4-byte disp stores need no patching protocol —
++  // a transiently stale disp only mis-prefetches.
++  if (PrefetchCallTarget) {
++    int n = (int)PrefetchRetTargetLines;
++    int pre = (PrefetchRetTarget ? 7 * n : 0) + 7 * n;
++    // Static/opt-virtual layout: [V2][V1][call]. Dynamic (ic_call) layout:
++    // [V2][V1][movq rax,imm64 (10)][call]. Probe both.
++    address cands[2] = { instruction_address() - pre,
++                         instruction_address() - pre - 10 };
++    for (int c = 0; c < 2; c++) {
++      address seq_start = cands[c];
++      if (!CodeCache::contains(seq_start)) continue;
++      bool all_match = true;
++      for (int j = 0; j < n; j++) {
++        address pf = seq_start + 7 * j;
++        if (!(*(u_char*)(pf) == 0x0F && *(u_char*)(pf + 1) == 0x18 &&
++              *(u_char*)(pf + 2) == 0x15)) { all_match = false; break; }
++      }
++      if (!all_match) continue;
++      for (int j = 0; j < n; j++) {
++        address pf = seq_start + 7 * j;
++        intptr_t disp = (dest + 64 * j) - (pf + 7);
++        if (disp == (intptr_t)(int32_t)disp) {
++          *(int32_t*)(pf + 3) = (int32_t)disp;
++          ICache::invalidate_range(pf, 7);
++        }
++      }
++      break;
++    }
++  }
+ }
+ 
+ 
+diff --git a/src/hotspot/cpu/x86/x86_64.ad b/src/hotspot/cpu/x86/x86_64.ad
+index 02618bf2d..ef2dfaad0 100644
+--- a/src/hotspot/cpu/x86/x86_64.ad
++++ b/src/hotspot/cpu/x86/x86_64.ad
+@@ -444,6 +444,54 @@ static int clear_avx_size() {
+   return generate_vzeroupper(Compile::current()) ? 3: 0;  // vzeroupper
+ }
+ 
++// prefetchit V1: bytes and emission for the optional prefetcht1 of the
++// return-target code lines emitted immediately before Java calls.
++// Each prefetcht1 [rip+disp32] is 7 bytes: 0F 18 /2 disp32.
++static int prefetch_ret_bytes() {
++  return PrefetchRetTarget ? 7 * (int)PrefetchRetTargetLines : 0;
++}
++
++// prefetchit V2: prefetcht1 of the callee entry lines, emitted before the
++// (optional) V1 prefetches. Initial displacement targets the call's initial
++// destination; NativeCall::set_destination_mt_safe repatches it whenever the
++// call gets (re)bound. Same 7-byte encoding.
++static int prefetch_call_bytes() {
++  return PrefetchCallTarget ? 7 * (int)PrefetchRetTargetLines : 0;
++}
++
++// Emit the V2 prefetches. tail_bytes = bytes emitted after this sequence up
++// to and including the call instruction (V1 prefetches + call).
++static void emit_prefetch_call(CodeBuffer &cbuf, address target) {
++  if (!PrefetchCallTarget) return;
++  int n = (int)PrefetchRetTargetLines;
++  for (int j = 0; j < n; j++) {
++    address pf_end = cbuf.insts_end() + 7;
++    intptr_t disp = (target + 64 * j) - pf_end;
++    guarantee(Assembler::is_simm32(disp), "prefetch target out of rip range");
++    cbuf.insts()->emit_int8((unsigned char)0x0F);
++    cbuf.insts()->emit_int8((unsigned char)0x18);
++    cbuf.insts()->emit_int8((unsigned char)0x15); // modrm /2 = t1, rip-rel
++    cbuf.insts()->emit_int32((int)disp);
++  }
++}
++
++// tail_bytes = bytes remaining in this node after the prefetch sequence up
++// to and including the call (i.e. return address == insts_end() after the
++// prefetches + tail_bytes).
++static void emit_prefetch_ret(CodeBuffer &cbuf, int tail_bytes) {
++  if (!PrefetchRetTarget) return;
++  int n = (int)PrefetchRetTargetLines;
++  for (int j = 0; j < n; j++) {
++    int remaining = 7 * (n - j - 1); // prefetches still to be emitted
++    // rip-relative disp counts from the end of this prefetch instruction
++    int disp = remaining + tail_bytes + 64 * j + (int)PrefetchRetTargetAhead;
++    cbuf.insts()->emit_int8((unsigned char)0x0F);
++    cbuf.insts()->emit_int8((unsigned char)0x18);
++    cbuf.insts()->emit_int8((unsigned char)0x15); // modrm /2 = t1, rip-rel
++    cbuf.insts()->emit_int32(disp);
++  }
++}
++
+ // !!!!! Special hack to get all types of calls to specify the byte offset
+ //       from the start of the call to the point where the return address
+ //       will point.
+@@ -451,6 +499,8 @@ int MachCallStaticJavaNode::ret_addr_offset()
+ {
+   int offset = 5; // 5 bytes from start of call to where return address points
+   offset += clear_avx_size();
++  offset += prefetch_ret_bytes();
++  offset += prefetch_call_bytes();
+   return offset;
+ }
+ 
+@@ -458,6 +508,8 @@ int MachCallDynamicJavaNode::ret_addr_offset()
+ {
+   int offset = 15; // 15 bytes from start of call to where return address points
+   offset += clear_avx_size();
++  offset += prefetch_ret_bytes();
++  offset += prefetch_call_bytes();
+   return offset;
+ }
+ 
+@@ -483,6 +535,8 @@ int MachCallNativeNode::ret_addr_offset() {
+ int CallStaticJavaDirectNode::compute_padding(int current_offset) const
+ {
+   current_offset += clear_avx_size(); // skip vzeroupper
++  current_offset += prefetch_ret_bytes(); // skip prefetchit V1 prefetches
++  current_offset += prefetch_call_bytes(); // skip prefetchit V2 prefetches
+   current_offset += 1; // skip call opcode byte
+   return align_up(current_offset, alignment_required()) - current_offset;
+ }
+@@ -492,6 +546,8 @@ int CallStaticJavaDirectNode::compute_padding(int current_offset) const
+ int CallDynamicJavaDirectNode::compute_padding(int current_offset) const
+ {
+   current_offset += clear_avx_size(); // skip vzeroupper
++  current_offset += prefetch_ret_bytes(); // skip prefetchit V1 prefetches
++  current_offset += prefetch_call_bytes(); // skip prefetchit V2 prefetches
+   current_offset += 11; // skip movq instruction + call opcode byte
+   return align_up(current_offset, alignment_required()) - current_offset;
+ }
+@@ -910,6 +966,27 @@ void MachPrologNode::emit(CodeBuffer &cbuf, PhaseRegAlloc *ra_) const {
+     ConstantTable& constant_table = C->output()->constant_table();
+     constant_table.set_table_base_offset(constant_table.calculate_table_base_offset());
+   }
++
++  // prefetchit V4: burst-prefetcht1 this method's own body from the entry,
++  // giving the interior lines a head start equal to the execution time to
++  // reach them. MachPrologNode::size() derives from scratch emission, so no
++  // manual size bookkeeping is needed.
++  if (PrefetchEntryAhead > 0 &&
++      (PrefetchEntryMinBytecode == 0 ||
++       (C->method() != NULL &&
++        C->method()->code_size() >= (int)PrefetchEntryMinBytecode))) {
++    int n = (int)PrefetchEntryLines;
++    // /2 = prefetcht1; /7 = prefetchit0 (rip-relative only — valid here
++    // since this encoding is already rip-relative)
++    unsigned char modrm = PrefetchEntryIT0 ? 0x3D : 0x15;
++    for (int j = 0; j < n; j++) {
++      int disp = (int)PrefetchEntryAhead + 64 * j;
++      cbuf.insts()->emit_int8((unsigned char)0x0F);
++      cbuf.insts()->emit_int8((unsigned char)0x18);
++      cbuf.insts()->emit_int8(modrm);
++      cbuf.insts()->emit_int32(disp);
++    }
++  }
+ }
+ 
+ uint MachPrologNode::size(PhaseRegAlloc* ra_) const
+@@ -2138,6 +2215,8 @@ encode %{
+     // JAVA STATIC CALL
+     // CALL to fixup routine.  Fixup routine uses ScopeDesc info to
+     // determine who we intended to call.
++    emit_prefetch_call(cbuf, (address)$meth$$method); // prefetchit V2
++    emit_prefetch_ret(cbuf, 5); // prefetchit V1: E8+disp32 remain after us
+     cbuf.set_insts_mark();
+     $$$emit8$primary;
+ 
+@@ -2162,6 +2241,9 @@ encode %{
+   %}
+ 
+   enc_class Java_Dynamic_Call(method meth) %{
++    emit_prefetch_call(cbuf, (address)$meth$$method); // prefetchit V2
++    // prefetchit V1: movq rax,imm64 (10) + call (5) remain after us
++    emit_prefetch_ret(cbuf, 15);
+     MacroAssembler _masm(&cbuf);
+     __ ic_call((address)$meth$$method, resolved_method_index(cbuf));
+   %}

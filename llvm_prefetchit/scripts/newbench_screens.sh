@@ -4,7 +4,7 @@
 # perf stat on the server cores mid-run. One row per candidate.
 set -uo pipefail
 
-ROOT=/home/hnpark2/prefetchit
+ROOT="${PREFETCHIT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
 NB="${ROOT}/llvm_prefetchit/results/paper_goal_20260815/newbench"
 SERVER_CORES="${SERVER_CORES:-1-8}"
 CLIENT_CORES="${CLIENT_CORES:-31-50}"

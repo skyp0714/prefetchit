@@ -6,7 +6,7 @@ if [[ "$#" -lt 4 ]]; then
   exit 2
 fi
 
-ROOT="/home/hnpark2/prefetchit"
+ROOT="${PREFETCHIT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
 RUNNER="${RUNNER:-${ROOT}/llvm_prefetchit/scripts/run_final_microsuite_variant.sh}"
 BENCHMARK="$1"
 BASE_BINARY="$(readlink -f "$2")"

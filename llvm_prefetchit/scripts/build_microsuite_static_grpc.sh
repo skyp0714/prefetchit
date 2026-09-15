@@ -6,7 +6,7 @@ if [[ "$#" -lt 3 || "$#" -gt 4 ]]; then
   exit 2
 fi
 
-ROOT="/home/hnpark2/prefetchit/llvm_prefetchit"
+ROOT="${LLVM_PREFETCHIT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 BENCHMARK="$1"
 MODE="$2"
 OUT="$(readlink -m "$3")"

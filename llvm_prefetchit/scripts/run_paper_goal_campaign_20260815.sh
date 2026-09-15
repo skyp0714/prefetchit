@@ -2,7 +2,7 @@
 # Serial campaign queue for paper_goal_20260815. One measurement at a time.
 set -uo pipefail
 
-ROOT=/home/hnpark2/prefetchit
+ROOT="${PREFETCHIT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
 LLVM="${ROOT}/llvm_prefetchit"
 OUT="${LLVM}/results/paper_goal_20260815"
 PLANS="${OUT}/postgresql_static/plans"

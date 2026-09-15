@@ -4,7 +4,7 @@
 # Usage: OUT=... [MAX_CYCLES=150000] [CORE=5] bash probe_variant_binaries.sh
 set -euo pipefail
 
-ROOT=/home/hnpark2/prefetchit
+ROOT="${PREFETCHIT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
 OUT="${OUT:?set OUT}"
 RV="${RV:-${ROOT}/benchmarks/tools/rocket-tools/riscv/riscv64-unknown-elf/share/riscv-tests/benchmarks}"
 MAX_CYCLES="${MAX_CYCLES:-150000}"

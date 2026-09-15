@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="/home/hnpark2/prefetchit"
+ROOT="${PREFETCHIT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
 cc -O2 -Wall -Wextra -Werror -fPIC -shared \
   "${ROOT}/llvm_prefetchit/tools/pthread_core_pin.c" \
   -o "${ROOT}/llvm_prefetchit/tools/pthread_core_pin.so" \

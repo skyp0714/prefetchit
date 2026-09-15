@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="/home/hnpark2/prefetchit"
+ROOT="${PREFETCHIT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
 SRC="${ROOT}/benchmarks/datacenter_sources/MicroSuite/src/SetAlgebra"
 SERVICE="${SRC}/union_service/service"
 PLANS="${PLANS:-${ROOT}/llvm_prefetchit/results/final_campaign_20260711/microsuite_set_exact_plans}"

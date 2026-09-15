@@ -1,5 +1,10 @@
 # Frontend Prefetch LLVM Pass
 
+For a source-only restore on another server, start with
+[`migration/README.md`](migration/README.md). It pins every first-party and
+benchmark revision and preserves source changes that used to live only in local
+benchmark checkouts.
+
 This directory contains a standalone LLVM 19 pass for injecting frontend
 prefetch instructions from PEBS/LBR profiling traces.
 

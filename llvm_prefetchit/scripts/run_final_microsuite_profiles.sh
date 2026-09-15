@@ -6,7 +6,7 @@ if [[ "$#" -lt 3 ]]; then
   exit 2
 fi
 
-ROOT="/home/hnpark2/prefetchit"
+ROOT="${PREFETCHIT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
 RUNNER="${ROOT}/llvm_prefetchit/scripts/run_final_microsuite_variant.sh"
 ANALYZER="${ROOT}/profiling/analyze_pebs_trace.sh"
 SUMMARIZER="${ROOT}/llvm_prefetchit/tools/summarize_profile_repetition.py"

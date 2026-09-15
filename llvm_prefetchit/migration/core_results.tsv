@@ -1,0 +1,14 @@
+# status	workload	suite	method	variant	metric	baseline	prefetch	speedup	baseline_l2i_mpki	prefetch_l2i_mpki	l2i_reduction_pct	reps	evidence
+canonical	Verilator qsort	Chipyard	static compiler	static_top1k_callsite_b1	median runtime seconds	51.29	47.51	1.0796	-	-	5.0	3	llvm_prefetchit/migration/evidence/verilator/summary_20260901.csv
+canonical	Verilator qsort	Chipyard	PGO compiler	pgo_ret_cov90	median runtime seconds	51.29	47.69	1.0755	-	-	7.2	3	llvm_prefetchit/migration/evidence/verilator/summary_20260901.csv
+canonical	Django	DCPerf	manual control-flow	d4_next	QPS	6.551	9.761	1.4899	84.567	34.970	58.65	3	llvm_prefetchit/migration/evidence/django/rep*_runs.csv
+canonical	FeedSim	DCPerf	manual control-flow	d16_target_next i200m t2	completed QPS	0.1989	0.2133	1.0726	8.066	1.713	78.76	3	llvm_prefetchit/migration/evidence/feedsim/runs.csv
+canonical	arcilator MegaBoom	standalone/Chipyard	static IR callsite	s4la16	median runtime seconds	5.712	5.435	1.0510	76.7	71.2	7.17	15	flat_codegen/docs/PLAN.md
+canonical	JCodeStream	standalone JVM	manual HotSpot C2	V4 ahead128 lines32	milliseconds per iteration	14.95	11.63	1.2854	14.9	4.7	68.46	5	jit_prefetch/docs/PLAN.md; jit_prefetch/results/jcs3_final.csv
+canonical	WideApi	standalone JVM service	manual HotSpot C2	V4 gated min-bytecode256	QPS	14394	15984	1.1104	34.9	12.3	64.76	5	jit_prefetch/docs/PLAN.md; jit_prefetch/results/wideapi_confirm.csv
+negative	DeathStarBench socialNetwork	DeathStarBench	static compiler	typed/deep GOT plans	cycles per request	-	-	~1.00	5.3-20	-	-	multiple	PAPER_RESULTS_AND_FEEDBACK.md
+negative	Router	MicroSuite	PGO compiler	matched NOP baseline	QPS	-	-	0.983	-	-	-	5	PAPER_RESULTS_AND_FEEDBACK.md
+negative	HDSearch	MicroSuite	PGO compiler	matched NOP baseline	QPS	-	-	0.992	-	-	-0.4	5	PAPER_RESULTS_AND_FEEDBACK.md
+negative	Recommend	MicroSuite	PGO compiler	matched NOP baseline	QPS	-	-	1.0058	-	-	-	5	PAPER_RESULTS_AND_FEEDBACK.md
+negative	PostgreSQL TPC-C	standalone DB	static compiler	best density sweep	TPS	-	-	~1.003	51	-	-	multiple	PAPER_RESULTS_AND_FEEDBACK.md
+negative	memcached	standalone service	manual control-flow	paired fixed platform	QPS	-	-	1.0002	0.04	-	-	5	PAPER_RESULTS_AND_FEEDBACK.md

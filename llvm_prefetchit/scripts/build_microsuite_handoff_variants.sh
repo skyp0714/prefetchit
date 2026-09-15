@@ -6,7 +6,7 @@ if [[ "$#" -ne 1 ]]; then
   exit 2
 fi
 
-ROOT="/home/hnpark2/prefetchit"
+ROOT="${PREFETCHIT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
 SUITE="${ROOT}/benchmarks/datacenter_sources/MicroSuite/src"
 DEB_ROOT="${ROOT}/llvm_prefetchit/work/datacenter_goal_20260708/deb_deps/root"
 OUT="${OUT:-${ROOT}/llvm_prefetchit/work/data_prefetch_reexperiment_20260712/microsuite_handoff/$1}"

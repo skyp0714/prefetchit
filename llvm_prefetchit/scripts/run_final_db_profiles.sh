@@ -6,7 +6,7 @@ if [[ "$#" -ne 3 ]]; then
   exit 2
 fi
 
-ROOT="/home/hnpark2/prefetchit"
+ROOT="${PREFETCHIT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
 BENCHMARK="$1"
 BINARY="$(readlink -f "$2")"
 OUT="$(readlink -m "$3")"

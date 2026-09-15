@@ -9,13 +9,13 @@ set -e
 PID=$1; LABEL=$2; DUR=${3:-20}; PERIOD=${4:-5003}
 OUT=/tmp/dsoret_${LABEL}
 mkdir -p "$OUT"
-echo 'ps101899' | sudo -S -p '' perf record \
+sudo perf record \
   -e 'cpu/event=0x24,umask=0x24,name=L2I_CODE_RD_MISS/upp' \
   -j any,save_type -c "$PERIOD" -p "$PID" -o "$OUT/perf.data" -- sleep "$DUR"
-echo 'ps101899' | sudo -S -p '' chmod a+r "$OUT/perf.data"
-echo 'ps101899' | sudo -S -p '' perf script -i "$OUT/perf.data" \
+sudo chmod a+r "$OUT/perf.data"
+sudo perf script -i "$OUT/perf.data" \
   -F ip,brstack --itrace=i0 2>/dev/null | head -200000 > "$OUT/raw.txt" || \
-echo 'ps101899' | sudo -S -p '' perf script -i "$OUT/perf.data" \
+sudo perf script -i "$OUT/perf.data" \
   -F ip,brstack 2>/dev/null | head -200000 > "$OUT/raw.txt"
 python3 - "$OUT/raw.txt" "$LABEL" << 'PY'
 import sys, re

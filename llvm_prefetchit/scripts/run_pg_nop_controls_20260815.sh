@@ -5,7 +5,7 @@
 #  2. Same-layout NOP control for the static pg_body_top32 variant.
 set -uo pipefail
 
-ROOT=/home/hnpark2/prefetchit
+ROOT="${PREFETCHIT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
 LLVM="${ROOT}/llvm_prefetchit"
 OUT="${LLVM}/results/paper_goal_20260815"
 LOG="${OUT}/campaign.log"

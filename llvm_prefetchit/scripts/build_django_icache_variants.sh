@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="/home/hnpark2/prefetchit"
+ROOT="${PREFETCHIT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
 TEMPLATE="${ROOT}/benchmarks/dcperf/packages/django_workload/templates/gen_icache_buster.py"
 REUSE_OBJECT_DIR="${ROOT}/llvm_prefetchit/work/datacenter_goal_20260708/django/icb_base"
 OUT_ROOT="${OUT_ROOT:-${ROOT}/llvm_prefetchit/work/final_campaign_20260711/django_manual_bins}"

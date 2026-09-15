@@ -6,7 +6,7 @@ if [[ "$#" -ne 2 ]]; then
   exit 2
 fi
 
-ROOT="/home/hnpark2/prefetchit"
+ROOT="${PREFETCHIT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
 PASS_ROOT="${ROOT}/llvm_prefetchit"
 REPO="${FLEETBENCH_REPO:-${ROOT}/benchmarks/fleetbench}"
 PLANS="$(readlink -f "$1")"

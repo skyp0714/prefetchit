@@ -1,0 +1,480 @@
+--- a/src/sim/SConscript
++++ b/src/sim/SConscript
+@@ -77,6 +77,7 @@
+ Source('drain.cc', tags=['gem5 drain'])
+ Source('py_interact.cc', tags=['python'])
+ Source('eventq.cc', tags=['gem5 events'])
++Source('eventq_profiler.cc', tags=['gem5 events'])
+ Source('futex_map.cc')
+ Source('global_event.cc', tags=['gem5 drain'])
+ Source('globals.cc')
+--- a/src/sim/eventq.cc
++++ b/src/sim/eventq.cc
+@@ -41,6 +41,7 @@
+ #include "base/trace.hh"
+ #include "cpu/smt.hh"
+ #include "debug/Checkpoint.hh"
++#include "sim/eventq_profiler.hh"
+ 
+ namespace gem5
+ {
+@@ -246,7 +247,9 @@
+         setCurTick(event->when());
+         if (debug::Event)
+             event->trace("executed");
++        const bool eventq_profile_active = eventq_profiler::begin();
+         event->process();
++        eventq_profiler::end(*this, *event, eventq_profile_active);
+         if (event->isExitEvent()) {
+             assert(!event->flags.isSet(Event::Managed) ||
+                    !event->flags.isSet(Event::IsMainQueue)); // would be silly
+--- /dev/null
++++ b/src/sim/eventq_profiler.hh
+@@ -0,0 +1,24 @@
++/*
++ * Lightweight host-side EventQueue profiler for local experiments.
++ */
++
++#ifndef __SIM_EVENTQ_PROFILER_HH__
++#define __SIM_EVENTQ_PROFILER_HH__
++
++namespace gem5
++{
++
++class Event;
++class EventQueue;
++
++namespace eventq_profiler
++{
++
++bool enabled();
++bool begin();
++void end(const EventQueue &queue, const Event &event, bool active);
++
++} // namespace eventq_profiler
++} // namespace gem5
++
++#endif // __SIM_EVENTQ_PROFILER_HH__
+--- /dev/null
++++ b/src/sim/eventq_profiler.cc
+@@ -0,0 +1,420 @@
++/*
++ * Lightweight host-side EventQueue profiler for local experiments.
++ */
++
++#include "sim/eventq_profiler.hh"
++
++#include <linux/perf_event.h>
++#include <sys/ioctl.h>
++#include <sys/syscall.h>
++#include <unistd.h>
++
++#include <cxxabi.h>
++#include <dlfcn.h>
++
++#include <algorithm>
++#include <atomic>
++#include <cerrno>
++#include <cstdint>
++#include <cstdlib>
++#include <cstring>
++#include <fstream>
++#include <iomanip>
++#include <ios>
++#include <limits>
++#include <memory>
++#include <mutex>
++#include <sstream>
++#include <string>
++#include <typeinfo>
++#include <unordered_map>
++
++#include "base/logging.hh"
++#include "base/output.hh"
++#include "sim/eventq.hh"
++
++namespace gem5
++{
++namespace eventq_profiler
++{
++namespace
++{
++
++constexpr int ProcessVtableIndex = 9;
++
++struct TargetInfo
++{
++    uintptr_t address = 0;
++    uintptr_t offset = 0;
++    std::string symbol;
++};
++
++struct Key
++{
++    std::string eventq;
++    std::string event_name;
++    std::string event_desc;
++    std::string event_type;
++    std::string callback_type;
++    std::string code_type;
++    uintptr_t process_target = 0;
++    uintptr_t process_target_offset = 0;
++    std::string process_target_symbol;
++
++    bool
++    operator==(const Key &rhs) const
++    {
++        return eventq == rhs.eventq && event_name == rhs.event_name &&
++               event_desc == rhs.event_desc && event_type == rhs.event_type &&
++               callback_type == rhs.callback_type && code_type == rhs.code_type &&
++               process_target == rhs.process_target &&
++               process_target_offset == rhs.process_target_offset &&
++               process_target_symbol == rhs.process_target_symbol;
++    }
++};
++
++struct KeyHash
++{
++    size_t
++    operator()(const Key &key) const
++    {
++        std::hash<std::string> string_hash;
++        std::hash<uintptr_t> ptr_hash;
++        size_t value = string_hash(key.eventq);
++        auto mix_string = [&](const std::string &field) {
++            value ^= string_hash(field) + 0x9e3779b97f4a7c15ULL +
++                     (value << 6) + (value >> 2);
++        };
++        auto mix_ptr = [&](uintptr_t field) {
++            value ^= ptr_hash(field) + 0x9e3779b97f4a7c15ULL +
++                     (value << 6) + (value >> 2);
++        };
++        mix_string(key.event_name);
++        mix_string(key.event_desc);
++        mix_string(key.event_type);
++        mix_string(key.callback_type);
++        mix_string(key.code_type);
++        mix_ptr(key.process_target);
++        mix_ptr(key.process_target_offset);
++        mix_string(key.process_target_symbol);
++        return value;
++    }
++};
++
++struct Stats
++{
++    uint64_t events = 0;
++    uint64_t host_insts = 0;
++    uint64_t min_host_insts = std::numeric_limits<uint64_t>::max();
++    uint64_t max_host_insts = 0;
++    Tick first_tick = 0;
++    Tick last_tick = 0;
++};
++
++std::mutex profile_mutex;
++std::unordered_map<Key, Stats, KeyHash> profile;
++std::unordered_map<uintptr_t, TargetInfo> target_info_cache;
++std::once_flag init_once;
++std::string output_path;
++uint64_t min_dump_insts = 0;
++bool profile_enabled = false;
++bool profile_instructions = true;
++bool profile_target_only = false;
++std::atomic<bool> perf_warning_printed{false};
++
++std::string
++demangle(const char *name)
++{
++    int status = 0;
++    std::unique_ptr<char, void (*)(void *)> demangled(
++        abi::__cxa_demangle(name, nullptr, nullptr, &status),
++        std::free);
++    return status == 0 && demangled ? demangled.get() : name;
++}
++
++std::string
++hexValue(uintptr_t value)
++{
++    if (!value)
++        return "";
++    std::ostringstream stream;
++    stream << "0x" << std::hex << value;
++    return stream.str();
++}
++
++std::string
++csvQuote(const std::string &input)
++{
++    std::string output = "\"";
++    for (char c : input) {
++        if (c == '"')
++            output += "\"\"";
++        else if (c == '\n' || c == '\r')
++            output += ' ';
++        else
++            output += c;
++    }
++    output += '"';
++    return output;
++}
++
++bool
++envFlagEnabled(const char *value)
++{
++    return value && value[0] != '\0' && std::strcmp(value, "0") != 0 &&
++           std::strcmp(value, "false") != 0 && std::strcmp(value, "False") != 0;
++}
++
++TargetInfo
++resolveTarget(uintptr_t address)
++{
++    TargetInfo result;
++    result.address = address;
++
++    Dl_info info;
++    std::memset(&info, 0, sizeof(info));
++    if (dladdr(reinterpret_cast<const void *>(result.address), &info)) {
++        if (info.dli_fbase) {
++            result.offset = result.address -
++                reinterpret_cast<uintptr_t>(info.dli_fbase);
++        }
++        if (info.dli_sname)
++            result.symbol = demangle(info.dli_sname);
++    }
++    if (!result.offset)
++        result.offset = result.address;
++    return result;
++}
++
++uintptr_t
++processTargetAddress(const Event &event)
++{
++    const auto vtable =
++        *reinterpret_cast<const void * const * const *>(&event);
++    return reinterpret_cast<uintptr_t>(vtable[ProcessVtableIndex]);
++}
++
++TargetInfo
++cachedTargetInfo(uintptr_t address)
++{
++    std::lock_guard<std::mutex> lock(profile_mutex);
++    auto it = target_info_cache.find(address);
++    if (it == target_info_cache.end()) {
++        it = target_info_cache.emplace(address, resolveTarget(address)).first;
++    }
++    return it->second;
++}
++
++void dump();
++
++void
++init()
++{
++    profile_enabled = envFlagEnabled(std::getenv("M5_EVENTQ_PROFILE"));
++    if (!profile_enabled)
++        return;
++
++    const char *path_env = std::getenv("M5_EVENTQ_PROFILE_FILE");
++    output_path = path_env && path_env[0] ? path_env :
++        simout.resolve("eventq_profile.csv");
++
++    const char *min_env = std::getenv("M5_EVENTQ_PROFILE_MIN_INSTS");
++    if (min_env && min_env[0])
++        min_dump_insts = std::strtoull(min_env, nullptr, 0);
++
++    const char *inst_env = std::getenv("M5_EVENTQ_PROFILE_INSTRUCTIONS");
++    if (inst_env && inst_env[0])
++        profile_instructions = envFlagEnabled(inst_env);
++
++    const char *target_only_env = std::getenv("M5_EVENTQ_PROFILE_TARGET_ONLY");
++    if (target_only_env && target_only_env[0])
++        profile_target_only = envFlagEnabled(target_only_env);
++
++    std::atexit(dump);
++}
++
++class ThreadCounter
++{
++  public:
++    ~ThreadCounter()
++    {
++        if (fd >= 0)
++            close(fd);
++    }
++
++    bool
++    start()
++    {
++        if (!ensure())
++            return false;
++        if (ioctl(fd, PERF_EVENT_IOC_RESET, 0) == -1 ||
++            ioctl(fd, PERF_EVENT_IOC_ENABLE, 0) == -1) {
++            disable();
++            return false;
++        }
++        active = true;
++        return true;
++    }
++
++    uint64_t
++    stop()
++    {
++        if (!active)
++            return 0;
++        active = false;
++        if (ioctl(fd, PERF_EVENT_IOC_DISABLE, 0) == -1)
++            return 0;
++
++        uint64_t value = 0;
++        ssize_t bytes = ::read(fd, &value, sizeof(value));
++        return bytes == sizeof(value) ? value : 0;
++    }
++
++  private:
++    int fd = -1;
++    bool tried = false;
++    bool active = false;
++
++    bool
++    ensure()
++    {
++        if (fd >= 0)
++            return true;
++        if (tried)
++            return false;
++        tried = true;
++
++        struct perf_event_attr attr;
++        std::memset(&attr, 0, sizeof(attr));
++        attr.size = PERF_ATTR_SIZE_VER0;
++        attr.type = PERF_TYPE_HARDWARE;
++        attr.config = PERF_COUNT_HW_INSTRUCTIONS;
++        attr.disabled = 1;
++        attr.exclude_kernel = 1;
++        attr.exclude_hv = 1;
++
++        fd = syscall(__NR_perf_event_open, &attr, 0, -1, -1, 0);
++        if (fd == -1) {
++            if (!perf_warning_printed.exchange(true)) {
++                warn("EventQueue profiler could not open perf instructions "
++                     "counter: %s\n", std::strerror(errno));
++            }
++            return false;
++        }
++
++        return true;
++    }
++
++    void
++    disable()
++    {
++        if (fd >= 0)
++            ioctl(fd, PERF_EVENT_IOC_DISABLE, 0);
++        active = false;
++    }
++};
++
++thread_local ThreadCounter thread_counter;
++
++void
++dump()
++{
++    if (!profile_enabled || output_path.empty())
++        return;
++
++    std::lock_guard<std::mutex> lock(profile_mutex);
++    std::ofstream out(output_path, std::ios::out | std::ios::trunc);
++    if (!out.is_open()) {
++        warn("EventQueue profiler could not open output file: %s\n",
++             output_path.c_str());
++        return;
++    }
++
++    out << "eventq,event_name,event_desc,event_type,event_count,"
++        << "callback_type,code_type,process_target,process_target_offset,"
++        << "process_target_symbol,host_insts,min_host_insts,"
++        << "max_host_insts,avg_host_insts,first_tick,last_tick\n";
++
++    for (const auto &entry : profile) {
++        const Key &key = entry.first;
++        const Stats &stats = entry.second;
++        if (stats.host_insts < min_dump_insts)
++            continue;
++
++        const double avg = stats.events ?
++            static_cast<double>(stats.host_insts) / stats.events : 0.0;
++
++        out << csvQuote(key.eventq) << ','
++            << csvQuote(key.event_name) << ','
++            << csvQuote(key.event_desc) << ','
++            << csvQuote(key.event_type) << ','
++            << stats.events << ','
++            << csvQuote(key.callback_type) << ','
++            << csvQuote(key.code_type) << ','
++            << csvQuote(hexValue(key.process_target)) << ','
++            << csvQuote(hexValue(key.process_target_offset)) << ','
++            << csvQuote(key.process_target_symbol) << ','
++            << stats.host_insts << ','
++            << (stats.min_host_insts == std::numeric_limits<uint64_t>::max() ?
++                0 : stats.min_host_insts) << ','
++            << stats.max_host_insts << ','
++            << avg << ','
++            << stats.first_tick << ','
++            << stats.last_tick << '\n';
++    }
++}
++
++} // anonymous namespace
++
++bool
++enabled()
++{
++    std::call_once(init_once, init);
++    return profile_enabled;
++}
++
++bool
++begin()
++{
++    if (!enabled())
++        return false;
++    if (!profile_instructions)
++        return true;
++    thread_counter.start();
++    return true;
++}
++
++void
++end(const EventQueue &queue, const Event &event, bool active)
++{
++    if (!active)
++        return;
++
++    const uint64_t insts = profile_instructions ? thread_counter.stop() : 0;
++    const TargetInfo target = cachedTargetInfo(processTargetAddress(event));
++    const std::string event_type =
++        profile_target_only ? "" : demangle(typeid(event).name());
++    std::string code_type = event_type;
++    std::string callback_type;
++
++    Key key{
++            profile_target_only ? "" : queue.name(),
++            profile_target_only ? "" : event.name(),
++            profile_target_only ? "" : event.description(),
++            event_type,
++            callback_type, code_type, target.address, target.offset,
++            target.symbol};
++
++    std::lock_guard<std::mutex> lock(profile_mutex);
++    Stats &stats = profile[key];
++    if (stats.events == 0)
++        stats.first_tick = curTick();
++    stats.events++;
++    stats.host_insts += insts;
++    stats.min_host_insts = std::min(stats.min_host_insts, insts);
++    stats.max_host_insts = std::max(stats.max_host_insts, insts);
++    stats.last_tick = curTick();
++}
++
++} // namespace eventq_profiler
++} // namespace gem5

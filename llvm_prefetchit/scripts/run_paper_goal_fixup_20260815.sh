@@ -6,7 +6,7 @@
 # evals that were skipped. Also runs the PGO reference arm and gem5 screen.
 set -uo pipefail
 
-ROOT=/home/hnpark2/prefetchit
+ROOT="${PREFETCHIT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
 LLVM="${ROOT}/llvm_prefetchit"
 OUT="${LLVM}/results/paper_goal_20260815"
 PLANS="${OUT}/postgresql_static/plans_v2"

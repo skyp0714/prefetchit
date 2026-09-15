@@ -1,0 +1,18 @@
+# Measured 2026-09-01. Verilator/arcilator at FIXED 3.8GHz core + uncore pinned (2.2/2.5G),
+# perf_paranoid=-1, via configure_fixed_frequency_v2.sh MODE=3.8ghz (manual completion).
+# PGO here = profile-guided prefetch PLACEMENT (miss targets from profile), not full PGO opt.
+# Verilator qsort +max-cycles=100000, core 40, median of 3, base=51.29s.
+workload,arm,plan,injections,instr,median_s,speedup_pct,l2i_miss_delta_pct
+Verilator,PGO,pgo_ret_cov90,11909,prefetcht1,47.69,+7.55,-7.2
+Verilator,prefetcht,static_top1k_callsite_b1,2000,prefetcht1,47.51,+7.96,-5.0
+Verilator,prefetchit,static_top1k_callsite_b1(bytepatch /2->/6),2000,prefetchit1,48.59,+5.56,-2.2
+# arcilator: HISTORICAL blanket callee-entry, saturation regime (flat_codegen/docs/PLAN.md M1);
+# current work/ arcilator binaries are a cache-resident light build (IPC~4, ~0 MPKI), not re-measurable.
+arcilator,prefetcht,blanket_callee_entry(97400),97400,prefetcht1,32.01,-8.9,
+arcilator,prefetchit,blanket_callee_entry(97400),97400,prefetchit1,33.64,-13.3,
+arcilator,PGO,none,-,-,-,nm,
+# FeedSim/Django: frozen-platform campaign; prefetchit N/A (PREFETCHIT needs rip-relative; targets register-held)
+FeedSim,prefetcht,manual_source_d16_t2,-,builtin_prefetch,-,+7.3,
+Django,prefetcht,manual_source_d4_next,-,builtin_prefetch,-,+49.0,
+# --- superseded: earlier 2GHz-pinned numbers (machine was stuck at 2.0GHz) were
+# Verilator PGO +9.84 / prefetcht +5.06 / prefetchit +3.24 -- DO NOT USE (wrong frequency).

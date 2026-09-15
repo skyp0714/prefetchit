@@ -6,8 +6,8 @@ if [[ "$#" -ne 2 ]]; then
   exit 2
 fi
 
-ROOT="/home/hnpark2/prefetchit/llvm_prefetchit"
-UPSTREAM="${POSTGRES_SRC:-/home/hnpark2/prefetchit/benchmarks/datacenter_sources/postgres}"
+ROOT="${LLVM_PREFETCHIT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+UPSTREAM="${POSTGRES_SRC:-${ROOT}/../benchmarks/datacenter_sources/postgres}"
 BASE_INSTALL="${POSTGRES_BASE_INSTALL:-${ROOT}/work/datacenter_goal_20260708/postgres/install_base}"
 PASS="${PASS:-${ROOT}/build/PrefetchITPass.so}"
 PLANS="$(readlink -f "$1")"

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="/home/hnpark2/prefetchit"
+ROOT="${PREFETCHIT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
 RUNNER="${ROOT}/llvm_prefetchit/scripts/run_final_microsuite_variant.sh"
 BIN_DIR="${ROOT}/llvm_prefetchit/work/final_campaign_20260711/microsuite_set_stable_v2_tuned_bins"
 BASE_SUMMARY="${ROOT}/llvm_prefetchit/results/final_campaign_20260711/microsuite_set_stable_v2_pgo_sweep/base/summary.json"

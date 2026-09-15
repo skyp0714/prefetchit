@@ -1,0 +1,30 @@
+# path	kind	url	revision	patch	checkout_mode
+benchmarks/dcperf	git	https://github.com/facebookresearch/DCPerf.git	9308c3e3c404e0466f0a2929f15ddcf62b2215f6	dcperf-local.patch	normal
+benchmarks/dcperf/benchmarks/django_workload/django-workload	post-install	https://github.com/facebookarchive/django-workload.git	ad2a2d3ca92d943b8719887d1056de5450a28a34	django-workload-local.patch	deferred
+benchmarks/DeathStarBench	git	https://github.com/delimitrou/DeathStarBench.git	358029c773d17bcea440b5dd1d3d84ac90f4efa3	-	normal
+benchmarks/tailbench	git	https://github.com/supreethkurpad/Tailbench.git	5e279fbb2022804ed44cb21b7e12530f702f9762	tailbench-local.patch	normal
+benchmarks/datacenter_sources/MicroSuite	git	https://github.com/wenischlab/MicroSuite.git	57e4340e9b6cbcdb5e536ec33067bb7fa2cd7c73	microsuite-local.patch	normal
+benchmarks/fleetbench	git	https://github.com/google/fleetbench.git	703e5e5566a629d1849bc0e3f3e262d88d5977f4	-	normal
+benchmarks/chipyard	git	https://github.com/ucb-bar/chipyard.git	63c1506826fc70a8f24065237aa65130b4830ee1	chipyard-local.patch	recursive
+benchmarks/datacenter_sources/CacheLib	git	https://github.com/facebook/CacheLib.git	f2c7c40d972852c8b409caa6ea93f67b4fcd98b1	cachelib-getdeps.patch	normal
+benchmarks/datacenter_sources/haproxy	git	https://github.com/haproxy/haproxy.git	cfe708d049a128778b599c9954825d860772b78a	haproxy-task-prefetch.patch	normal
+benchmarks/datacenter_sources/postgres	git	https://github.com/postgres/postgres.git	497d2ebbfb9a79f493ed43b1fe98853b05b45d63	postgres-control-flow-prefetch.patch	normal
+benchmarks/datacenter_sources/redis	git	https://github.com/redis/redis.git	4dd58caa7cc23225b01f31e7bd9a1ed0af7e49ad	redis-command-prefetch.patch	normal
+benchmarks/datacenter_sources/quickjs	git	https://github.com/bellard/quickjs.git	04be246001599f5995fa2f2d8c91a0f198d3f34c	-	normal
+benchmarks/datacenter_sources/serverless-benchmarks	git	https://github.com/spcl/serverless-benchmarks.git	a7a0532026dd6c38f49c2964916f93a9bc084d4f	-	normal
+benchmarks/datacenter_sources/sqlite	git	https://github.com/sqlite/sqlite.git	b83afcac56d5383a3e8b6928b918f3a7707aad91	-	normal
+benchmarks/datacenter_sources/wasm-micro-runtime	git	https://github.com/bytecodealliance/wasm-micro-runtime.git	a23ddd9dd2a098c8cb7bebcf1b967469d9ebb434	-	recursive
+benchmarks/datacenter_sources/wasm3	git	https://github.com/wasm3/wasm3.git	d77cd814aa0bc68cb1df917580a6304d34cfb30b	-	recursive
+benchmarks/third_party/leveldb	git	https://github.com/google/leveldb.git	7ee830d02b623e8ffe0b95d59a74db1e58da04c5	-	recursive
+benchmarks/third_party/rocksdb	git	https://github.com/facebook/rocksdb.git	27b48646cddb8533c0fc6a32142f2bff3d4807ad	-	normal
+.tmp/perfmon	git	https://github.com/intel/perfmon.git	7cb10ec7018835b36788a1393d6994a7f3afd2d4	-	normal
+.tmp/pmu-tools	git	https://github.com/andikleen/pmu-tools.git	f0b3659f11c0718ed60a7c11934c0b1864efe3d6	-	normal
+benchmarks/tools/pcm-latest-src/pcm	git	https://github.com/intel/pcm.git	abb6bce87cc2ed23d6677541ebcfc47ca769d1ed	-	normal
+jit_prefetch/openjdk	git	https://github.com/openjdk/jdk17u-dev.git	5ef54a04aa15fe8ad86188174232388c3bd6a179	openjdk-prefetch-combined.patch	normal
+benchmarks/gem5	git	https://github.com/gem5/gem5.git	c8222cc67a399bfc01e8658dd14b30d5bfd634f9	-	normal
+worktrees/gem5-pure	variant	benchmarks/gem5	c8222cc67a399bfc01e8658dd14b30d5bfd634f9	gem5-eventq-profiler.patch	worktree
+worktrees/gem5-callback-prefetch	variant	benchmarks/gem5	c8222cc67a399bfc01e8658dd14b30d5bfd634f9	gem5-callback-prefetch.patch	worktree
+benchmarks/datacenter_sources/memcached-1.6.14	archive	https://memcached.org/files/memcached-1.6.14.tar.gz	54d63742c6886dcdc4e0c87f4439a2930a876cd9f2bfa01d699b0c6bad1707b3	memcached-control-data-prefetch.patch	tar.gz
+benchmarks/datacenter_sources/nginx-1.27.4	archive	https://nginx.org/download/nginx-1.27.4.tar.gz	294816f879b300e621fa4edd5353dd1ec00badb056399eceb30de7db64b753b2	-	tar.gz
+benchmarks/cpu2017	spec-iso	user-provided SPEC CPU2017 media	licensed	-	manual
+benchmarks/cpu2026	spec-iso	user-provided SPEC CPU2026 media	licensed	-	manual

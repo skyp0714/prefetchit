@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="/home/hnpark2/prefetchit/llvm_prefetchit"
+ROOT="${LLVM_PREFETCHIT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 STATE_DIR="${CORE_ISOLATION_STATE_DIR:-${ROOT}/work/pgo_goal_20260713/core_isolation_state}"
 HOUSEKEEPING_CPUS="${HOUSEKEEPING_CPUS:-0,71-85}"
 FULL_CPUS="${FULL_CPUS:-0-85}"

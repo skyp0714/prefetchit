@@ -6,7 +6,7 @@ if [[ "$#" -ne 2 ]]; then
   exit 2
 fi
 
-ROOT="/home/hnpark2/prefetchit/llvm_prefetchit"
+ROOT="${LLVM_PREFETCHIT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 SRC="${ROOT}/work/data_prefetch_reexperiment_20260712/memcached_variants/src"
 PASS="${PASS:-${ROOT}/build/PrefetchITPass.so}"
 PLANS="$(readlink -f "$1")"

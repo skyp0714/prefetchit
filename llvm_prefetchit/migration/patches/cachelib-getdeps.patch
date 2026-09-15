@@ -1,0 +1,18 @@
+diff --git a/build/fbcode_builder/getdeps/builder.py b/build/fbcode_builder/getdeps/builder.py
+index 8820aa5..cd3fa4b 100644
+--- a/build/fbcode_builder/getdeps/builder.py
++++ b/build/fbcode_builder/getdeps/builder.py
+@@ -162,7 +162,12 @@ class BuilderBase:
+             git_root = subprocess.check_output(
+                 ["git", "rev-parse", "--show-toplevel"], text=True
+             ).strip()
+-            os.chdir(git_root)
++            git_root_path = pathlib.Path(git_root).resolve()
++            scratch_path = pathlib.Path(self.build_opts.scratch_dir).resolve()
++            if git_root_path == pathlib.Path(self.src_dir).resolve() or (
++                scratch_path in git_root_path.parents
++            ):
++                os.chdir(git_root)
+         except subprocess.CalledProcessError:
+             pass  # not a git repo, stay in src_dir
+         print(f"Patching {self.manifest.name} with {self.patchfile} in {os.getcwd()}")

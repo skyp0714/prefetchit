@@ -6,7 +6,7 @@ if [[ "$#" -ne 4 ]]; then
   exit 2
 fi
 
-ROOT="/home/hnpark2/prefetchit/llvm_prefetchit"
+ROOT="${LLVM_PREFETCHIT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 BENCHMARK="$1"
 BINARY="$(readlink -f "$2")"
 SOURCE_BINARY="$(readlink -f "${SOURCE_BINARY:-${BINARY}}")"

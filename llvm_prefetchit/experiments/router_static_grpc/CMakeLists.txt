@@ -1,7 +1,10 @@
 cmake_minimum_required(VERSION 3.16)
 project(prefetchit_router_static_grpc LANGUAGES C CXX)
 
-set(PREFETCHIT_ROOT "/home/hnpark2/prefetchit" CACHE PATH "PrefetchIT workspace")
+get_filename_component(
+  PREFETCHIT_DEFAULT_ROOT "${CMAKE_CURRENT_LIST_DIR}/../../.." ABSOLUTE
+)
+set(PREFETCHIT_ROOT "${PREFETCHIT_DEFAULT_ROOT}" CACHE PATH "PrefetchIT workspace")
 set(
   GRPC_SOURCE
   "${PREFETCHIT_ROOT}/llvm_prefetchit/work/pgo_goal_20260713/deb-src/grpc-1.30.2"

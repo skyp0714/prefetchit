@@ -4,7 +4,7 @@
 # Configs axis: clients x query-mode x builtin script (tpcb vs select-only).
 set -uo pipefail
 
-ROOT=/home/hnpark2/prefetchit
+ROOT="${PREFETCHIT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
 LLVM="${ROOT}/llvm_prefetchit"
 PREFIX="${PREFIX:-${LLVM}/work/datacenter_goal_20260708/postgres/install_base}"
 PG_CTL="${PREFIX}/bin/pg_ctl"

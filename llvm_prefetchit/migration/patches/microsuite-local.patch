@@ -1,0 +1,1873 @@
+diff --git a/src/HDSearch/bucket_service/service/helper_files/client_helper.h b/src/HDSearch/bucket_service/service/helper_files/client_helper.h
+index c1ed928..63ecd52 100644
+--- a/src/HDSearch/bucket_service/service/helper_files/client_helper.h
++++ b/src/HDSearch/bucket_service/service/helper_files/client_helper.h
+@@ -1,6 +1,8 @@
+ #ifndef __CLIENT_HELPER_H_INCLUDED__
+ #define __CLIENT_HELPER_H_INCLUDED__
+ 
++#include <grpc++/channel.h>
++
+ #include "bucket_service/src/dist_calc.h"
+ #include "protoc_files/bucket.grpc.pb.h"
+ 
+diff --git a/src/HDSearch/bucket_service/service/helper_files/server_helper.h b/src/HDSearch/bucket_service/service/helper_files/server_helper.h
+index 289591d..9350df2 100644
+--- a/src/HDSearch/bucket_service/service/helper_files/server_helper.h
++++ b/src/HDSearch/bucket_service/service/helper_files/server_helper.h
+@@ -1,6 +1,8 @@
+ #ifndef __SERVER_HELPER_H_INCLUDED__
+ #define __SERVER_HELPER_H_INCLUDED__
+ 
++#include <grpc++/grpc++.h>
++
+ #include "bucket_service/src/dist_calc.h"
+ #include "protoc_files/bucket.grpc.pb.h"
+ 
+diff --git a/src/HDSearch/bucket_service/src/dist_calc.cpp b/src/HDSearch/bucket_service/src/dist_calc.cpp
+index babe2ec..e211fed 100644
+--- a/src/HDSearch/bucket_service/src/dist_calc.cpp
++++ b/src/HDSearch/bucket_service/src/dist_calc.cpp
+@@ -7,7 +7,11 @@
+ #include "utils.h"
+ 
+ #ifndef SIMD
++#if __has_include("mkl_cblas.h")
+ #include "mkl_cblas.h"
++#else
++#include <cblas.h>
++#endif
+ #endif
+ 
+ // To use MKL, you can run these commands from a terminal.
+diff --git a/src/HDSearch/load_generator/load_generator_closed_loop.cc b/src/HDSearch/load_generator/load_generator_closed_loop.cc
+index b12ae98..91a0134 100644
+--- a/src/HDSearch/load_generator/load_generator_closed_loop.cc
++++ b/src/HDSearch/load_generator/load_generator_closed_loop.cc
+@@ -15,6 +15,7 @@
+ #include "helper_files/timing.h"
+ 
+ #define QUERIES_TOTAL 100000
++#define PREFETCHIT_QUERY_SEED 1
+ 
+ using grpc::Channel;
+ using grpc::ClientAsyncResponseReader;
+@@ -30,7 +31,7 @@ int num_requests = 0, util_requests = 0;
+ float qps = 0;
+ std::string ip = "localhost";
+ bool resp_recvd = false;
+-int responses_recvd = 0;
++int responses_recvd = 0, responses_failed = 0;
+ std::string timing_file_name = "", qps_file_name = "";
+ std::map<void*, uint64_t> resp_times;
+ uint64_t interval_start_time = GetTimeInSec();
+@@ -179,8 +180,14 @@ class LoadGenIndexClient {
+                     }
+ 
+                 } else {
+-                    std::cout << " * " << std::endl;
+-                    CHECK(false, "");
++                    outstanding_mutex.lock();
++                    if (outstanding > 0) {
++                        outstanding--;
++                    }
++                    outstanding_mutex.unlock();
++                    responses_recvd_mutex.lock();
++                    responses_failed++;
++                    responses_recvd_mutex.unlock();
+                 }
+ 
+                 // Once we're complete, deallocate the call object.
+@@ -244,6 +251,8 @@ class LoadGenIndexClient {
+             CreatePointsFromBinFile(queries_file_name, &queries);
+             end_time = GetTimeInMicro();
+             timing_info.create_queries_time = end_time - start_time;
++            const uint64_t queries_total = queries.GetSize();
++            CHECK((queries_total > 0), "ERROR: Query file must contain at least one query");
+ 
+             // Instantiate the client. It requires a channel, out of which the actual RPCs
+             // are created. This channel models a connection to an endpoint (in this case,
+@@ -256,7 +265,9 @@ class LoadGenIndexClient {
+             // Spawn reader thread that loops indefinitely
+             
+             std::thread thread_ = std::thread(&LoadGenIndexClient::AsyncCompleteRpc, &loadgen_index);
+-            uint64_t query_id = rand() % QUERIES_TOTAL;
++            thread_.detach();
++            srand(PREFETCHIT_QUERY_SEED);
++            uint64_t query_id = rand() % queries_total;
+             MultiplePoints query(1, queries.GetPointAtIndex(query_id));
+ 
+             //To calculate max throughput of the system.
+@@ -283,11 +294,14 @@ class LoadGenIndexClient {
+                             false,
+                             last_request);
+                     requests_sent++;
+-                    query_id = rand() % QUERIES_TOTAL;
++                    query_id = rand() % queries_total;
+                     query.SetPoint(0, queries.GetPointAtIndex(query_id));
+                 }
+                 curr_time = (double)GetTimeInMicro();
+             }
++            srand(PREFETCHIT_QUERY_SEED);
++            query_id = rand() % queries_total;
++            query.SetPoint(0, queries.GetPointAtIndex(query_id));
+             start_counter_mutex.lock();
+             start_counter = true;
+             start_counter_mutex.unlock();
+@@ -320,7 +334,7 @@ class LoadGenIndexClient {
+                                 last_request);                                                                                  
+                     }
+                     requests_sent++;
+-                    query_id = rand() % QUERIES_TOTAL;
++                    query_id = rand() % queries_total;
+                     query.SetPoint(0, queries.GetPointAtIndex(query_id));
+                 }
+                 curr_time = (double)GetTimeInMicro();
+@@ -329,7 +343,10 @@ class LoadGenIndexClient {
+             responses_recvd_mutex.lock();
+             std::cout << std::endl;
+             std::cout << responses_recvd << std::endl;
+-            std::cout << responses_recvd/time_duration << std::endl;
++            std::cout << (static_cast<double>(responses_recvd)/static_cast<double>(time_duration)) << std::endl;
++            std::cout << "responses=" << responses_recvd << std::endl;
++            std::cout << "qps=" << (static_cast<double>(responses_recvd)/static_cast<double>(time_duration)) << std::endl;
++            std::cout << "failed_responses=" << responses_failed << std::endl;
+             std::cout.flush();
+             //PrintTimingHistogram(start_vec);
+             //PrintTimingHistogram(end_vec);
+@@ -347,11 +364,7 @@ class LoadGenIndexClient {
+                     (util_requests-1));
+             std::cout << std::endl;
+                 global_stats_mutex.unlock();
+-                std::string s = "./kill_index_server_empty " + ip;
+-                char* cmd = new char[s.length() + 1];
+-                std::strcpy(cmd, s.c_str());
+-                ExecuteShellCommand(cmd);
+-                exit(0);
++                _Exit(0);
+                 /*WriteToUtilFile(util_file_name, 
+                  *global_stats,
+                  number_of_bucket_servers,
+diff --git a/src/HDSearch/mid_tier_service/service/mid_tier_server.cc b/src/HDSearch/mid_tier_service/service/mid_tier_server.cc
+index 17c31ab..67f4e54 100644
+--- a/src/HDSearch/mid_tier_service/service/mid_tier_server.cc
++++ b/src/HDSearch/mid_tier_service/service/mid_tier_server.cc
+@@ -51,6 +51,43 @@ void ProcessRequest(LoadGenRequest &load_gen_request,
+         uint64_t unique_request_id_value,
+         int tid);
+ 
++#ifndef PREFETCHIT_HD_HANDOFF_STAGE
++#define PREFETCHIT_HD_HANDOFF_STAGE 0
++#endif
++#ifndef PREFETCHIT_GRPC_MAX_THREADS
++#define PREFETCHIT_GRPC_MAX_THREADS 0
++#endif
++#ifndef PREFETCHIT_HD_TAG_LINES
++#define PREFETCHIT_HD_TAG_LINES 0
++#endif
++#ifndef PREFETCHIT_HD_CODE_LINES
++#define PREFETCHIT_HD_CODE_LINES 0
++#endif
++#ifndef PREFETCHIT_HD_PREFETCH_LOCALITY
++#define PREFETCHIT_HD_PREFETCH_LOCALITY 3
++#endif
++#ifndef PREFETCHIT_HD_CLEANUP_RESPONSE_STATE
++#define PREFETCHIT_HD_CLEANUP_RESPONSE_STATE 0
++#endif
++#ifndef PREFETCHIT_HD_LOG_RESPONSE_STATE_INTERVAL
++#define PREFETCHIT_HD_LOG_RESPONSE_STATE_INTERVAL 0
++#endif
++
++#if PREFETCHIT_HD_HANDOFF_STAGE
++static inline void PrefetchHdSearchHandoff(void *tag) {
++    const char *tag_bytes = static_cast<const char *>(tag);
++    const char *code = reinterpret_cast<const char *>(&ProcessRequest);
++    for (int line = 0; line < PREFETCHIT_HD_TAG_LINES; ++line) {
++        __builtin_prefetch(tag_bytes + (line * 64), 0,
++                PREFETCHIT_HD_PREFETCH_LOCALITY);
++    }
++    for (int line = 0; line < PREFETCHIT_HD_CODE_LINES; ++line) {
++        __builtin_prefetch(code + (line * 64), 0,
++                PREFETCHIT_HD_PREFETCH_LOCALITY);
++    }
++}
++#endif
++
+ // Global variable declarations.
+ /* dataset_dim is global so that we can validate query dimensions whenever 
+    batches of queries are received.*/
+@@ -104,6 +141,11 @@ class ServerImpl final {
+             std::string server_address(ip_port);
+ 
+             ServerBuilder builder;
++#if PREFETCHIT_GRPC_MAX_THREADS > 0
++            grpc::ResourceQuota resource_quota;
++            resource_quota.SetMaxThreads(PREFETCHIT_GRPC_MAX_THREADS);
++            builder.SetResourceQuota(resource_quota);
++#endif
+             // Listen on the given address without any authentication mechanism.
+             builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
+             // Register "service_" as the instance through which we'll communicate with
+@@ -190,6 +232,9 @@ class ServerImpl final {
+                         uint64_t unique_request_id_value = reinterpret_cast<uintptr_t>(this);
+                         //uint64_t unique_request_id_value = num_reqs->AtomicallyIncrementCount();
+                         // The actual processing.
++#ifdef PREFETCHIT_HDSEARCH_PROCESS_REQUEST
++                        __builtin_prefetch(reinterpret_cast<const void*>(&ProcessRequest), 0, 3);
++#endif
+                         ProcessRequest(load_gen_request_, 
+                                 unique_request_id_value, 
+                                 tid);
+@@ -201,6 +246,27 @@ class ServerImpl final {
+                     } else {
+                         //GPR_ASSERT(status_ == FINISH);
+                         // Once in the FINISH state, deallocate ourselves (CallData).
++#if PREFETCHIT_HD_CLEANUP_RESPONSE_STATE
++                        const uint64_t unique_request_id_value =
++                            reinterpret_cast<uintptr_t>(this);
++                        ResponseIndexKnnQueries* completed_reply = nullptr;
++                        std::unique_ptr<std::mutex> completed_mutex;
++                        {
++                            std::lock_guard<std::mutex> lock(map_coarse_mutex);
++                            auto response_it = response_count_down_map.find(
++                                    unique_request_id_value);
++                            if (response_it != response_count_down_map.end()) {
++                                completed_reply = response_it->second.index_reply;
++                                response_count_down_map.erase(response_it);
++                            }
++                            auto mutex_it = map_fine_mutex.find(unique_request_id_value);
++                            if (mutex_it != map_fine_mutex.end()) {
++                                completed_mutex = std::move(mutex_it->second);
++                                map_fine_mutex.erase(mutex_it);
++                            }
++                        }
++                        delete completed_reply;
++#endif
+                         delete this;
+                     }
+                 }
+@@ -248,6 +314,9 @@ class ServerImpl final {
+                    that we keep waiting for a request when there is
+                    nothing in the queue.*/
+                 DispatchedData* dispatched_request = dispatched_data_queue.pop();
++#if PREFETCHIT_HD_HANDOFF_STAGE == 2 || PREFETCHIT_HD_HANDOFF_STAGE == 3
++                PrefetchHdSearchHandoff(dispatched_request->tag);
++#endif
+                 static_cast<CallData*>(dispatched_request->tag)->Proceed(worker_tid);
+                 delete dispatched_request;
+             }
+@@ -266,6 +335,9 @@ class ServerImpl final {
+                 // event is uniquely identified by its tag, which in this case is the
+                 // memory address of a CallData instance.
+                 cq_->Next(&tag, &ok);
++#if PREFETCHIT_HD_HANDOFF_STAGE == 1 || PREFETCHIT_HD_HANDOFF_STAGE == 3
++                PrefetchHdSearchHandoff(tag);
++#endif
+                 if (cnt == 0) {
+                     cnt++;
+                     kill_notify.push(true);
+@@ -487,11 +559,26 @@ class DistanceServiceClient {
+             unsigned int number_of_nearest_neighbors = (int)load_gen_request.number_nearest_neighbors();
+             // Declare the size of the final response that the map must hold.
+             map_coarse_mutex.lock();
++#if PREFETCHIT_HD_CLEANUP_RESPONSE_STATE
++            map_fine_mutex.emplace(
++                    unique_request_id_value, std::make_unique<std::mutex>());
++            response_count_down_map.emplace(
++                    unique_request_id_value, ResponseMetaData());
++#else
+             ResponseMetaData meta_data;
+             response_count_down_map.erase(unique_request_id_value);
+             map_fine_mutex.erase(unique_request_id_value);
+             map_fine_mutex[unique_request_id_value] = std::make_unique<std::mutex>();
+             response_count_down_map[unique_request_id_value] = meta_data;
++#endif
++            num_requests++;
++#if PREFETCHIT_HD_LOG_RESPONSE_STATE_INTERVAL > 0
++            if (num_requests % PREFETCHIT_HD_LOG_RESPONSE_STATE_INTERVAL == 0) {
++                std::cerr << "prefetchit_response_state requests=" << num_requests
++                    << " response_map=" << response_count_down_map.size()
++                    << " fine_map=" << map_fine_mutex.size() << std::endl;
++            }
++#endif
+             map_coarse_mutex.unlock();
+ 
+             map_fine_mutex[unique_request_id_value]->lock();
+@@ -636,6 +723,7 @@ class DistanceServiceClient {
+ 
+         void Perf()
+         {
++            return;
+             while (true) {
+                 if (started->AtomicallyReadFlag()) {
+                     std::cout << "cs\n";
+@@ -650,6 +738,7 @@ class DistanceServiceClient {
+ 
+         void SysCount()
+         {
++            return;
+             while (true) {
+                 if (started->AtomicallyReadFlag()) {
+                     std::cout << "syscnt\n";
+@@ -665,6 +754,7 @@ class DistanceServiceClient {
+ 
+         void Hardirqs()
+         {
++            return;
+             while (true) {
+                 if (started->AtomicallyReadFlag()) {
+                     std::cout << "hardirqs\n";
+@@ -680,6 +770,7 @@ class DistanceServiceClient {
+ 
+         void Wakeuptime()
+         {
++            return;
+             while (true) {
+                 if (started->AtomicallyReadFlag()) {
+                     std::string s = "sudo /usr/share/bcc/tools/wakeuptime -p " + std::to_string(getpid()) + " 30 > wakeuptime.txt";
+@@ -692,6 +783,7 @@ class DistanceServiceClient {
+ 
+         void Softirqs()
+         {
++            return;
+             while (true) {
+                 if (started->AtomicallyReadFlag()) {
+                     std::string s = "sudo /usr/share/bcc/tools/softirqs -T 30 1 -d > softirqs.txt";
+@@ -705,6 +797,7 @@ class DistanceServiceClient {
+ 
+         void Runqlat()
+         {
++            return;
+             while (true) {
+                 if (started->AtomicallyReadFlag()) {
+                     std::string s = "sudo /usr/share/bcc/tools/runqlat 30 1 > runqlat.txt";
+@@ -718,6 +811,7 @@ class DistanceServiceClient {
+ 
+         void Hitm()
+         {
++            return;
+             while (true) {
+                 if (started->AtomicallyReadFlag()) {
+                     std::string s = "sudo perf c2c record -p " + std::to_string(getpid());
+@@ -731,6 +825,7 @@ class DistanceServiceClient {
+ 
+         void Tcpretrans()
+         {   
++            return;
+             while (true) {
+                 if (started->AtomicallyReadFlag()) {
+                     std::string s = "sudo /usr/share/bcc/tools/tcpretrans -c -l > tcpretrans.txt";
+diff --git a/src/HDSearch/mid_tier_service/src/cpp/flann/algorithms/lsh_index.h b/src/HDSearch/mid_tier_service/src/cpp/flann/algorithms/lsh_index.h
+index 79841f5..774f3db 100644
+--- a/src/HDSearch/mid_tier_service/src/cpp/flann/algorithms/lsh_index.h
++++ b/src/HDSearch/mid_tier_service/src/cpp/flann/algorithms/lsh_index.h
+@@ -51,6 +51,16 @@
+ #include "flann/util/random.h"
+ #include "flann/util/saving.h"
+ 
++#ifndef PREFETCHIT_HD_LSH_DATA_LINES
++#define PREFETCHIT_HD_LSH_DATA_LINES 0
++#endif
++#ifndef PREFETCHIT_HD_LSH_LOOKAHEAD
++#define PREFETCHIT_HD_LSH_LOOKAHEAD 0
++#endif
++#ifndef PREFETCHIT_HD_LSH_PREFETCH_LOCALITY
++#define PREFETCHIT_HD_LSH_PREFETCH_LOCALITY 3
++#endif
++
+ namespace flann
+ {
+ 
+@@ -605,9 +615,26 @@ namespace flann
+                             continue;
+                         }
+ 
+-                        for(int j = 0; j < ((tables_of_vectors->at(table_number)).at(sub_key).at(bucket_server_id).size()); j++)
++                        const std::vector<std::vector<unsigned int> >& server_buckets = it->second;
++                        const std::vector<unsigned int>& bucket_ids = server_buckets.at(bucket_server_id);
++#if PREFETCHIT_HD_LSH_DATA_LINES > 0
++                        const char* bucket_data = reinterpret_cast<const char*>(bucket_ids.data());
++                        for (int line = 0; line < PREFETCHIT_HD_LSH_DATA_LINES; ++line) {
++                            if (static_cast<size_t>(line * 64) < bucket_ids.size() * sizeof(unsigned int)) {
++                                __builtin_prefetch(bucket_data + (line * 64), 0,
++                                        PREFETCHIT_HD_LSH_PREFETCH_LOCALITY);
++                            }
++                        }
++#endif
++                        for(size_t j = 0; j < bucket_ids.size(); j++)
+                         {
+-                            point_id_vec->push_back(static_cast<uint32_t>((tables_of_vectors->at(table_number)).at(sub_key).at(bucket_server_id).at(j)));
++#if PREFETCHIT_HD_LSH_LOOKAHEAD > 0
++                            if (j + PREFETCHIT_HD_LSH_LOOKAHEAD < bucket_ids.size()) {
++                                __builtin_prefetch(&bucket_ids[j + PREFETCHIT_HD_LSH_LOOKAHEAD], 0,
++                                        PREFETCHIT_HD_LSH_PREFETCH_LOCALITY);
++                            }
++#endif
++                            point_id_vec->push_back(static_cast<uint32_t>(bucket_ids[j]));
+                         }
+                         /*const lsh::Bucket* bucket = table->getBucketFromKey(sub_key);
+                         if (bucket == 0) {
+diff --git a/src/HDSearch/mid_tier_service/src/thread_safe_circ_buffer.cpp b/src/HDSearch/mid_tier_service/src/thread_safe_circ_buffer.cpp
+index 11b1348..460d6d8 100644
+--- a/src/HDSearch/mid_tier_service/src/thread_safe_circ_buffer.cpp
++++ b/src/HDSearch/mid_tier_service/src/thread_safe_circ_buffer.cpp
+@@ -1,4 +1,5 @@
+ #include <boost/thread/condition.hpp>
++#include <boost/core/noncopyable.hpp>
+ #include <boost/thread/mutex.hpp>
+ #include <boost/thread/thread.hpp>
+ #include <boost/circular_buffer.hpp>
+diff --git a/src/Recommend/cf_service/service/cf_server.cc b/src/Recommend/cf_service/service/cf_server.cc
+index 6aeed68..de3a692 100644
+--- a/src/Recommend/cf_service/service/cf_server.cc
++++ b/src/Recommend/cf_service/service/cf_server.cc
+@@ -28,6 +28,10 @@ using collaborative_filtering::CFService;
+ using namespace mlpack;
+ using namespace mlpack::cf;
+ 
++#ifndef PREFETCHIT_CF_SEED
++#define PREFETCHIT_CF_SEED 1
++#endif
++
+ /* Make dataset a global, so that the dataset can be loaded
+    even before the server starts running. */
+ Matrix dataset;
+@@ -276,8 +280,8 @@ int main(int argc, char** argv) {
+ 
+     CreateDatasetFromFile(dataset_file_name, &dataset);
+ 
+-    cf_matrix = new CF(dataset, amf::NMFALSFactorizer(), 5, 5);    
+-    cf_matrix->Init();
++    mlpack::math::RandomSeed(PREFETCHIT_CF_SEED);
++    cf_matrix = new CF(dataset, mlpack::cf::NMFPolicy(), 5, 5);
+ 
+     ServiceImpl server;
+     server.Run();
+diff --git a/src/Recommend/cf_service/service/helper_files/client_helper.h b/src/Recommend/cf_service/service/helper_files/client_helper.h
+index 002ac8f..4a43d8f 100644
+--- a/src/Recommend/cf_service/service/helper_files/client_helper.h
++++ b/src/Recommend/cf_service/service/helper_files/client_helper.h
+@@ -1,6 +1,8 @@
+ #ifndef __CLIENT_HELPER_H_INCLUDED__
+ #define __CLIENT_HELPER_H_INCLUDED__
+ 
++#include <grpc++/channel.h>
++
+ #include "protoc_files/cf.grpc.pb.h"
+ 
+ struct CFSrvTimingInfo {
+diff --git a/src/Recommend/cf_service/service/helper_files/server_helper.cc b/src/Recommend/cf_service/service/helper_files/server_helper.cc
+index 150d967..842009a 100644
+--- a/src/Recommend/cf_service/service/helper_files/server_helper.cc
++++ b/src/Recommend/cf_service/service/helper_files/server_helper.cc
+@@ -27,7 +27,11 @@ void CalculateRating(const Request &user_item,
+         CF* cf,
+         float* rating)
+ {
+-    *rating = cf->Predict(user_item.user, user_item.item);
++    try {
++        *rating = cf->Predict(user_item.user, user_item.item);
++    } catch (const std::exception&) {
++        *rating = 0.0;
++    }
+ }
+ 
+ void PackCFServiceResponse(const float rating,
+diff --git a/src/Recommend/cf_service/service/helper_files/server_helper.h b/src/Recommend/cf_service/service/helper_files/server_helper.h
+index badddfa..f3d4263 100644
+--- a/src/Recommend/cf_service/service/helper_files/server_helper.h
++++ b/src/Recommend/cf_service/service/helper_files/server_helper.h
+@@ -13,6 +13,7 @@
+ #define EMPTY -2.0
+ 
+ typedef arma::mat Matrix;
++using CF = mlpack::cf::CFType<>;
+ 
+ struct Request {
+     int user = 0;
+@@ -26,11 +27,10 @@ void UnpackCFServiceRequest(const collaborative_filtering::CFRequest &request,
+         Request* user_item);
+ 
+ void CalculateRating(const Request &user_item,
+-        mlpack::cf::CF* cf_matrix,
++        CF* cf_matrix,
+         float* rating);
+ 
+ void PackCFServiceResponse(const float rating,
+         collaborative_filtering::CFResponse* reply);
+ 
+ #endif // __CLIENT_HELPER_H_INCLUDED__
+-
+diff --git a/src/Recommend/load_generator/load_generator_closed_loop.cc b/src/Recommend/load_generator/load_generator_closed_loop.cc
+index d9033ae..d43588d 100644
+--- a/src/Recommend/load_generator/load_generator_closed_loop.cc
++++ b/src/Recommend/load_generator/load_generator_closed_loop.cc
+@@ -2,11 +2,13 @@
+    Ph.D. Candidate at the University of Michigan - Ann Arbor*/
+ 
+ #include <iostream>
++#include <fstream>
+ #include <memory>
+ #include <random>
+ #include <stdlib.h> 
+ #include <string>
+ #include <sys/time.h>
++#include <unistd.h>
+ 
+ #include <grpc++/grpc++.h>
+ #include <thread>
+@@ -14,6 +16,10 @@
+ #include "load_generator/helper_files/loadgen_recommender_client_helper.h"
+ #include "recommender_service/service/helper_files/timing.h"
+ 
++#ifndef PREFETCHIT_QUERY_SEED
++#define PREFETCHIT_QUERY_SEED 1
++#endif
++
+ using grpc::Channel;
+ using grpc::ClientAsyncResponseReader;
+ using grpc::ClientContext;
+@@ -229,6 +235,14 @@ class RecommenderServiceClient {
+             uint64_t time_duration = load_gen_command_line_args->time_duration;
+             qps = load_gen_command_line_args->qps;
+             ip = load_gen_command_line_args->ip;
++            uint64_t fixed_requests = 0;
++            if (const char* value = std::getenv("PREFETCHIT_FIXED_REQUESTS")) {
++                fixed_requests = std::strtoull(value, nullptr, 10);
++            }
++            uint64_t fixed_warmup_requests = 0;
++            if (const char* value = std::getenv("PREFETCHIT_FIXED_WARMUP_REQUESTS")) {
++                fixed_warmup_requests = std::strtoull(value, nullptr, 10);
++            }
+             CHECK((time_duration >= 0), "ERROR: Offered load (time in seconds) must always be a positive value");
+             struct TimingInfo timing_info;
+             uint64_t start_time, end_time;
+@@ -247,6 +261,7 @@ class RecommenderServiceClient {
+ 
+             // Spawn reader thread that loops indefinitely
+             std::thread thread_ = std::thread(&RecommenderServiceClient::AsyncCompleteRpc, &recommender_client);
++            srand(PREFETCHIT_QUERY_SEED);
+             long query_id = rand() % queries_size;
+             std::pair<int, int> query = queries[query_id];
+ 
+@@ -257,7 +272,8 @@ class RecommenderServiceClient {
+             double exit_time = warm_up + double((time_duration)*1000000.0);
+             bool flag = false;
+             int itr = 0;
+-            while(curr_time < warm_up) {
++            while((fixed_warmup_requests > 0 && requests_sent < fixed_warmup_requests) ||
++                    (fixed_warmup_requests == 0 && curr_time < warm_up)) {
+                 outstanding_mutex.lock();
+                 if (outstanding < qps) {
+                     outstanding++;
+@@ -278,12 +294,45 @@ class RecommenderServiceClient {
+                 }
+                 curr_time = (double)GetTimeInMicro();
+             }
++            while (true) {
++                outstanding_mutex.lock();
++                bool drained = outstanding == 0;
++                outstanding_mutex.unlock();
++                if (drained) {
++                    break;
++                }
++                usleep(1000);
++            }
++            srand(PREFETCHIT_QUERY_SEED);
++            query_id = rand() % queries_size;
++            query = queries[query_id];
++            requests_sent = 0;
++            util_requests = 0;
++            interval_start_time = GetTimeInSec();
++
++            const char* ready_file = std::getenv("PREFETCHIT_MEASUREMENT_READY_FILE");
++            if (ready_file != nullptr && ready_file[0] != '\0') {
++                std::ofstream ready(ready_file);
++                ready << "ready\n";
++                ready.close();
++            }
++            const char* start_file = std::getenv("PREFETCHIT_MEASUREMENT_START_FILE");
++            if (start_file != nullptr && start_file[0] != '\0') {
++                while (access(start_file, F_OK) != 0) {
++                    usleep(1000);
++                }
++            }
++
++            curr_time = (double)GetTimeInMicro();
++            exit_time = curr_time + double((time_duration)*1000000.0);
++            const uint64_t measurement_start = GetTimeInMicro();
+             start_counter_mutex.lock();
+             start_counter = true;
+             start_counter_mutex.unlock();
+             flag = false;
+             itr = 0;
+-            while(curr_time < exit_time) {
++            while((fixed_requests > 0 && requests_sent < fixed_requests) ||
++                    (fixed_requests == 0 && curr_time < exit_time)) {
+                 outstanding_mutex.lock();
+                 if (outstanding < qps) {
+                     outstanding++;
+@@ -293,7 +342,12 @@ class RecommenderServiceClient {
+                 }
+                 outstanding_mutex.unlock();
+                 if (flag) {
+-                    if((requests_sent == 0) || ((GetTimeInSec() - interval_start_time) >= 10)){
++                    const bool fixed_util_request = fixed_requests > 0 &&
++                        (requests_sent % 50000 == 0);
++                    const bool timed_util_request = fixed_requests == 0 &&
++                        ((requests_sent == 0) ||
++                         ((GetTimeInSec() - interval_start_time) >= 10));
++                    if(fixed_util_request || timed_util_request){
+                         util_requests++;
+                         recommender_client.Recommender(query,
+                                 true,
+@@ -312,10 +366,54 @@ class RecommenderServiceClient {
+                 curr_time = (double)GetTimeInMicro();
+             }
+ 
++            uint64_t fixed_runtime_us = 0;
++            bool fixed_window_overrun = false;
++            if (fixed_requests > 0) {
++                while (true) {
++                    responses_recvd_mutex.lock();
++                    const bool complete = responses_recvd >= static_cast<long>(fixed_requests);
++                    responses_recvd_mutex.unlock();
++                    if (complete) {
++                        break;
++                    }
++                    usleep(1000);
++                }
++                fixed_runtime_us = GetTimeInMicro() - measurement_start;
++                fixed_window_overrun = fixed_runtime_us > time_duration * 1000000ULL;
++
++                const char* done_file = std::getenv("PREFETCHIT_MEASUREMENT_DONE_FILE");
++                if (done_file != nullptr && done_file[0] != '\0') {
++                    std::ofstream done(done_file);
++                    done << "done\n";
++                    done.close();
++                }
++
++                // Keep the process alive for the configured perf window. Idle time does
++                // not add process-scoped instruction or L2I events.
++                const char* exit_after_fixed =
++                    std::getenv("PREFETCHIT_EXIT_AFTER_FIXED_WORK");
++                if (exit_after_fixed == nullptr || std::string(exit_after_fixed) == "0") {
++                    while (GetTimeInMicro() < static_cast<uint64_t>(exit_time)) {
++                        usleep(1000);
++                    }
++                }
++            }
++
+             responses_recvd_mutex.lock();
+             std::cout << std::endl;
+             std::cout << responses_recvd << std::endl;
+-            std::cout << responses_recvd/time_duration << std::endl;
++            if (fixed_requests > 0) {
++                const double fixed_qps = static_cast<double>(fixed_requests) * 1000000.0 /
++                    static_cast<double>(fixed_runtime_us);
++                std::cout << fixed_qps << std::endl;
++                std::cout << "prefetchit_fixed_requests=" << fixed_requests << std::endl;
++                std::cout << "prefetchit_fixed_warmup_requests=" << fixed_warmup_requests << std::endl;
++                std::cout << "prefetchit_fixed_runtime_us=" << fixed_runtime_us << std::endl;
++                std::cout << "prefetchit_fixed_qps=" << fixed_qps << std::endl;
++                std::cout << "prefetchit_fixed_window_overrun=" << fixed_window_overrun << std::endl;
++            } else {
++                std::cout << responses_recvd/time_duration << std::endl;
++            }
+             std::cout.flush();
+             responses_recvd_mutex.unlock();
+ 
+@@ -332,7 +430,8 @@ class RecommenderServiceClient {
+             std::cout << std::endl;
+             global_stats_mutex.unlock();
+ 
+-            thread_.join();  //blocks forever
++            thread_.detach();
++            _Exit(0);
+ 
+             return 0;
+         }
+diff --git a/src/Recommend/recommender_service/service/helper_files/recommender_server_helper.h b/src/Recommend/recommender_service/service/helper_files/recommender_server_helper.h
+index e37af5f..c6886e7 100644
+--- a/src/Recommend/recommender_service/service/helper_files/recommender_server_helper.h
++++ b/src/Recommend/recommender_service/service/helper_files/recommender_server_helper.h
+@@ -95,7 +95,7 @@ struct TMConfig {
+ };
+ 
+ // uint64_t refers to the void* to the request's tag - i.e its unique id
+-typedef std::map<uint64_t, ResponseMetaData> ResponseMap;
++typedef std::map<uint64_t, std::shared_ptr<ResponseMetaData>> ResponseMap;
+ 
+ /* Bucket server IPs are taken in via a file. This file must be read,
+    and the bucket server IPs must be stored in a vector of strings. 
+diff --git a/src/Recommend/recommender_service/service/mid_tier_server.cc b/src/Recommend/recommender_service/service/mid_tier_server.cc
+index d13eec2..d449850 100644
+--- a/src/Recommend/recommender_service/service/mid_tier_server.cc
++++ b/src/Recommend/recommender_service/service/mid_tier_server.cc
+@@ -1,9 +1,12 @@
+ /* Author: Akshitha Sriraman
+    Ph.D. Candidate at the University of Michigan - Ann Arbor*/
+ 
++#include <atomic>
++#include <cstdlib>
+ #include <memory>
+ #include <omp.h>
+ #include <iostream>
++#include <pthread.h>
+ #include <string>
+ #include <thread>
+ #include <unistd.h>
+@@ -15,6 +18,14 @@
+ #include "recommender_service/service/helper_files/timing.h"
+ #include "recommender_service/service/helper_files/utils.h"
+ 
++#ifndef PREFETCHIT_GRPC_MAX_THREADS
++#define PREFETCHIT_GRPC_MAX_THREADS 0
++#endif
++
++#ifndef PREFETCHIT_GRPC_CLIENT_MAX_THREADS
++#define PREFETCHIT_GRPC_CLIENT_MAX_THREADS 0
++#endif
++
+ #define NODEBUG
+ 
+ using grpc::Server;
+@@ -68,7 +79,7 @@ ThreadSafeQueue<bool> kill_notify;
+    or remove an element from the map.*/
+ std::mutex response_map_mutex, thread_id, cf_server_id_mutex, map_coarse_mutex;
+ std::vector<mutex_wrapper> cf_srv_conn_mutex;
+-std::map<uint64_t, std::unique_ptr<std::mutex> > map_fine_mutex;
++std::map<uint64_t, std::shared_ptr<std::mutex> > map_fine_mutex;
+ int get_profile_stats = 0;
+ bool first_req = false;
+ 
+@@ -77,9 +88,17 @@ CompletionQueue* cf_srv_cq = new CompletionQueue();
+ bool kill_signal = false;
+ 
+ ThreadSafeQueue<DispatchedData*> dispatched_data_queue;
++std::vector<std::unique_ptr<ThreadSafeQueue<DispatchedData*> > > deterministic_dispatch_queues;
++std::atomic<uint64_t> deterministic_dispatch_index(0);
++bool deterministic_dispatch = false;
+ std::mutex dispatched_data_queue_mutex;
+ Atomics* started = new Atomics();
+ 
++void SetThreadName(const std::string& name)
++{
++    pthread_setname_np(pthread_self(), name.substr(0, 15).c_str());
++}
++
+ class ServerImpl final {
+     public:
+         ~ServerImpl() {
+@@ -94,6 +113,11 @@ class ServerImpl final {
+             std::string server_address(ip_port);
+ 
+             ServerBuilder builder;
++#if PREFETCHIT_GRPC_MAX_THREADS > 0
++            grpc::ResourceQuota resource_quota;
++            resource_quota.SetMaxThreads(PREFETCHIT_GRPC_MAX_THREADS);
++            builder.SetResourceQuota(resource_quota);
++#endif
+             // Listen on the given address without any authentication mechanism.
+             builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
+             // Register "service_" as the instance through which we'll communicate with
+@@ -178,6 +202,9 @@ class ServerImpl final {
+                         uint64_t unique_request_id_value = reinterpret_cast<uintptr_t>(this);
+                         //uint64_t unique_request_id_value = num_reqs->AtomicallyIncrementCount();
+                         // The actual processing.
++#ifdef PREFETCHIT_RECOMMEND_PROCESS_REQUEST
++                        __builtin_prefetch(reinterpret_cast<const void*>(&ProcessRequest), 0, 3);
++#endif
+                         ProcessRequest(recommender_request_, 
+                                 unique_request_id_value, 
+                                 tid);
+@@ -227,6 +254,7 @@ class ServerImpl final {
+            hands requests to this worker thread via a 
+            producer-consumer style queue.*/
+         void Dispatch(int worker_tid) {
++            SetThreadName("rec-dispatch-" + std::to_string(worker_tid));
+             /* Continuously spin and keep checking if there is a
+                dispatched request that needs to be processed.*/
+             while(true)
+@@ -235,7 +263,9 @@ class ServerImpl final {
+                    process it. Outer while is just to ensure
+                    that we keep waiting for a request when there is
+                    nothing in the queue.*/
+-                DispatchedData* dispatched_request = dispatched_data_queue.pop();
++                DispatchedData* dispatched_request = deterministic_dispatch ?
++                    deterministic_dispatch_queues[worker_tid]->pop() :
++                    dispatched_data_queue.pop();
+                 static_cast<CallData*>(dispatched_request->tag)->Proceed(worker_tid);
+                 delete dispatched_request;
+             }
+@@ -243,6 +273,7 @@ class ServerImpl final {
+ 
+         // This can be run in multiple threads if needed.
+         void HandleRpcs(int tid) {
++            SetThreadName("rec-rpc-" + std::to_string(tid));
+             // Spawn a new CallData instance to serve new clients.
+             new CallData(&service_, cq_.get());
+             void* tag;  // uniquely identifies a request.
+@@ -261,7 +292,13 @@ class ServerImpl final {
+                    to the dispatch queue.*/
+                 DispatchedData* request_to_be_dispatched = new DispatchedData();
+                 request_to_be_dispatched->tag = tag;
+-                dispatched_data_queue.push(request_to_be_dispatched);
++                if (deterministic_dispatch) {
++                    const uint64_t worker = deterministic_dispatch_index.fetch_add(1) %
++                        dispatch_parallelism;
++                    deterministic_dispatch_queues[worker]->push(request_to_be_dispatched);
++                } else {
++                    dispatched_data_queue.push(request_to_be_dispatched);
++                }
+                 //GPR_ASSERT(ok);
+             }
+         }
+@@ -272,6 +309,24 @@ class ServerImpl final {
+ };
+ 
+ 
++std::shared_ptr<Channel> CreateCFChannel(const std::string& address)
++{
++#if PREFETCHIT_GRPC_CLIENT_MAX_THREADS > 0
++    static grpc::ResourceQuota client_resource_quota;
++    static const bool quota_initialized = []() {
++        client_resource_quota.SetMaxThreads(PREFETCHIT_GRPC_CLIENT_MAX_THREADS);
++        return true;
++    }();
++    (void)quota_initialized;
++    grpc::ChannelArguments channel_arguments;
++    channel_arguments.SetResourceQuota(client_resource_quota);
++    return grpc::CreateCustomChannel(address,
++            grpc::InsecureChannelCredentials(), channel_arguments);
++#else
++    return grpc::CreateChannel(address, grpc::InsecureChannelCredentials());
++#endif
++}
++
+ /* Declaring cf_srv client here because the recommender server must
+    invoke the cf_srv client to send the queries+PointIDs to the cf_srv server.*/
+ class CFServiceClient {
+@@ -344,32 +399,35 @@ class CFServiceClient {
+                         &cf_srv_timing_info,
+                         &cf_srv_util);
+                 uint64_t end_time = GetTimeInMicro();
+-                // Make sure that the map entry corresponding to request id exists.
+-                map_coarse_mutex.lock();
+-                try {
+-                    response_count_down_map.at(unique_request_id);
+-                } catch( ... ) {
+-                    CHECK(false, "ERROR: Map entry corresponding to request id does not exist\n");
++                std::shared_ptr<ResponseMetaData> response_metadata;
++                std::shared_ptr<std::mutex> request_mutex;
++                {
++                    std::lock_guard<std::mutex> map_lock(map_coarse_mutex);
++                    auto response_it = response_count_down_map.find(unique_request_id);
++                    auto mutex_it = map_fine_mutex.find(unique_request_id);
++                    CHECK((response_it != response_count_down_map.end() &&
++                            mutex_it != map_fine_mutex.end()),
++                            "ERROR: Map entry corresponding to request id does not exist\n");
++                    response_metadata = response_it->second;
++                    request_mutex = mutex_it->second;
+                 }
+-                map_coarse_mutex.unlock();
+-
+-                map_fine_mutex[unique_request_id]->lock();
+-                int cf_srv_resp_id = response_count_down_map[unique_request_id].responses_recvd;
+-                *(response_count_down_map[unique_request_id].response_data[cf_srv_resp_id].rating) = rating;
+-                *(response_count_down_map[unique_request_id].response_data[cf_srv_resp_id].cf_srv_timing_info) = cf_srv_timing_info;
+-                *(response_count_down_map[unique_request_id].response_data[cf_srv_resp_id].cf_srv_util) = cf_srv_util;
+-                response_count_down_map[unique_request_id].response_data[cf_srv_resp_id].cf_srv_timing_info->unpack_cf_srv_resp_time = end_time - start_time;
++
++                std::lock_guard<std::mutex> request_lock(*request_mutex);
++                int cf_srv_resp_id = response_metadata->responses_recvd;
++                *(response_metadata->response_data[cf_srv_resp_id].rating) = rating;
++                *(response_metadata->response_data[cf_srv_resp_id].cf_srv_timing_info) = cf_srv_timing_info;
++                *(response_metadata->response_data[cf_srv_resp_id].cf_srv_util) = cf_srv_util;
++                response_metadata->response_data[cf_srv_resp_id].cf_srv_timing_info->unpack_cf_srv_resp_time = end_time - start_time;
+                 
+-                uint64_t total_time = response_count_down_map[unique_request_id].recommender_reply->total_calc_time();
+-                response_count_down_map[unique_request_id].recommender_reply->set_total_calc_time(cf_srv_timing_info.cf_srv_time + total_time);
++                uint64_t total_time = response_metadata->recommender_reply->total_calc_time();
++                response_metadata->recommender_reply->set_total_calc_time(cf_srv_timing_info.cf_srv_time + total_time);
+ 
+-                if (response_count_down_map[unique_request_id].responses_recvd != (number_of_cf_servers - 1)) {
+-                    response_count_down_map[unique_request_id].responses_recvd++;
+-                    map_fine_mutex[unique_request_id]->unlock();
++                if (response_metadata->responses_recvd != (number_of_cf_servers - 1)) {
++                    response_metadata->responses_recvd++;
+ 
+                 } else {
+-                    uint64_t cf_srv_resp_start_time = response_count_down_map[unique_request_id].recommender_reply->get_cf_srv_responses_time();
+-                    response_count_down_map[unique_request_id].recommender_reply->set_get_cf_srv_responses_time(GetTimeInMicro() - cf_srv_resp_start_time);
++                    uint64_t cf_srv_resp_start_time = response_metadata->recommender_reply->get_cf_srv_responses_time();
++                    response_metadata->recommender_reply->set_get_cf_srv_responses_time(GetTimeInMicro() - cf_srv_resp_start_time);
+                     /* Time to merge all responses received and then 
+                        call terminate so that the response can be sent back
+                        to the load generator.*/
+@@ -381,13 +439,13 @@ class CFServiceClient {
+ 
+                     start_time = GetTimeInMicro();
+ 
+-                    MergeAndPack(response_count_down_map[unique_request_id].response_data,
++                    MergeAndPack(response_metadata->response_data,
+                             number_of_cf_servers,
+-                            response_count_down_map[unique_request_id].recommender_reply);
++                            response_metadata->recommender_reply);
+ 
+                     end_time = GetTimeInMicro();
+                     // response_count_down_map[unique_request_id].recommender_reply->set_recommender_time(end_time - start_time);
+-                    response_count_down_map[unique_request_id].recommender_reply->set_pack_recommender_resp_time(end_time - start_time); 
++                    response_metadata->recommender_reply->set_pack_recommender_resp_time(end_time - start_time); 
+                     //uint64_t recommender_time = response_count_down_map[unique_request_id].recommender_reply->recommender_time();
+                     //uint64_t total_time = response_count_down_map[unique_request_id].recommender_reply->total_calc_time();
+                     //response_count_down_map[unique_request_id].recommender_reply->set_total_calc_time(total_time + (GetTimeInMicro() - recommender_time));
+@@ -396,14 +454,10 @@ class CFServiceClient {
+                     /* Call server finish for this particular request,
+                        and pass the response so that it can be sent
+                        by the server to the frontend.*/
+-                    uint64_t prev_rec = response_count_down_map[unique_request_id].recommender_reply->recommender_time();
+-                    response_count_down_map[unique_request_id].recommender_reply->set_recommender_time(prev_rec + (GetTimeInMicro() - s1));
+-                    map_fine_mutex[unique_request_id]->unlock();
+-
+-                    map_coarse_mutex.lock();
++                    uint64_t prev_rec = response_metadata->recommender_reply->recommender_time();
++                    response_metadata->recommender_reply->set_recommender_time(prev_rec + (GetTimeInMicro() - s1));
+                     server->Finish(unique_request_id, 
+-                            response_count_down_map[unique_request_id].recommender_reply);
+-                    map_coarse_mutex.unlock();
++                            response_metadata->recommender_reply);
+                 }
+             } else {
+                 CHECK(false, "cf_srv does not exist\n");
+@@ -448,15 +502,15 @@ class CFServiceClient {
+                unique request.*/
+             // Get number of nearest neighbors from the request.
+             // Declare the size of the final response that the map must hold.
+-            map_coarse_mutex.lock();
+-            ResponseMetaData meta_data;
+-            response_count_down_map.erase(unique_request_id_value);
+-            map_fine_mutex.erase(unique_request_id_value);
+-            map_fine_mutex[unique_request_id_value] = std::make_unique<std::mutex>();
+-            response_count_down_map[unique_request_id_value] = meta_data;
+-            map_coarse_mutex.unlock();
+-
+-            map_fine_mutex[unique_request_id_value]->lock();
++            auto response_metadata = std::make_shared<ResponseMetaData>();
++            auto request_mutex = std::make_shared<std::mutex>();
++            {
++                std::lock_guard<std::mutex> map_lock(map_coarse_mutex);
++                map_fine_mutex[unique_request_id_value] = request_mutex;
++                response_count_down_map[unique_request_id_value] = response_metadata;
++            }
++
++            std::lock_guard<std::mutex> request_lock(*request_mutex);
+             if (recommender_request.kill()) {
+ #if 0
+                 kill_signal = true;
+@@ -467,12 +521,12 @@ class CFServiceClient {
+                 CHECK(false, "Exit signal received\n");
+ #endif
+             }
+-            response_count_down_map[unique_request_id_value].responses_recvd = 0;
+-            response_count_down_map[unique_request_id_value].response_data.resize(number_of_cf_servers, ResponseData());
+-            response_count_down_map[unique_request_id_value].recommender_reply->set_request_id(recommender_request.request_id());
+-            response_count_down_map[unique_request_id_value].recommender_reply->set_num_inline(recommender_parallelism);
+-            response_count_down_map[unique_request_id_value].recommender_reply->set_num_workers(dispatch_parallelism);
+-            response_count_down_map[unique_request_id_value].recommender_reply->set_num_resp(number_of_response_threads);
++            response_metadata->responses_recvd = 0;
++            response_metadata->response_data.resize(number_of_cf_servers, ResponseData());
++            response_metadata->recommender_reply->set_request_id(recommender_request.request_id());
++            response_metadata->recommender_reply->set_num_inline(recommender_parallelism);
++            response_metadata->recommender_reply->set_num_workers(dispatch_parallelism);
++            response_metadata->recommender_reply->set_num_resp(number_of_response_threads);
+             //map_fine_mutex[unique_request_id_value]->unlock();
+ 
+             bool util_present = recommender_request.util_request().util_request();
+@@ -488,12 +542,12 @@ class CFServiceClient {
+                         &io_time,
+                         &idle_time);
+                 //map_fine_mutex[unique_request_id_value]->lock();
+-                response_count_down_map[unique_request_id_value].recommender_reply->mutable_util_response()->mutable_recommender_util()->set_user_time(user_time);
+-                response_count_down_map[unique_request_id_value].recommender_reply->mutable_util_response()->mutable_recommender_util()->set_system_time(system_time);
+-                response_count_down_map[unique_request_id_value].recommender_reply->mutable_util_response()->mutable_recommender_util()->set_io_time(io_time);
+-                response_count_down_map[unique_request_id_value].recommender_reply->mutable_util_response()->mutable_recommender_util()->set_idle_time(idle_time);
+-                response_count_down_map[unique_request_id_value].recommender_reply->mutable_util_response()->set_util_present(true);
+-                response_count_down_map[unique_request_id_value].recommender_reply->set_update_recommender_util_time(GetTimeInMicro() - start);
++                response_metadata->recommender_reply->mutable_util_response()->mutable_recommender_util()->set_user_time(user_time);
++                response_metadata->recommender_reply->mutable_util_response()->mutable_recommender_util()->set_system_time(system_time);
++                response_metadata->recommender_reply->mutable_util_response()->mutable_recommender_util()->set_io_time(io_time);
++                response_metadata->recommender_reply->mutable_util_response()->mutable_recommender_util()->set_idle_time(idle_time);
++                response_metadata->recommender_reply->mutable_util_response()->set_util_present(true);
++                response_metadata->recommender_reply->set_update_recommender_util_time(GetTimeInMicro() - start);
+                 //map_fine_mutex[unique_request_id_value]->unlock();
+             }
+             uint64_t start_time = GetTimeInMicro();
+@@ -510,7 +564,7 @@ class CFServiceClient {
+ #endif
+             uint64_t end_time = GetTimeInMicro();
+             //map_fine_mutex[unique_request_id_value]->lock();
+-            response_count_down_map[unique_request_id_value].recommender_reply->set_unpack_recommender_req_time((end_time-start_time));
++            response_metadata->recommender_reply->set_unpack_recommender_req_time((end_time-start_time));
+             // response_count_down_map[unique_request_id_value].recommender_reply->set_recommender_time(GetTimeInMicro());
+             //map_fine_mutex[unique_request_id_value]->unlock();
+             //float points_sent_percent = PercentDataSent(point_ids, queries_size, dataset_size);
+@@ -518,7 +572,7 @@ class CFServiceClient {
+             //(*response_count_down_map)[unique_request_id_value]->recommender_reply->set_percent_data_sent(points_sent_percent);
+ 
+             //map_fine_mutex[unique_request_id_value]->lock();
+-            response_count_down_map[unique_request_id_value].recommender_reply->set_get_cf_srv_responses_time(GetTimeInMicro());
++            response_metadata->recommender_reply->set_get_cf_srv_responses_time(GetTimeInMicro());
+             //map_fine_mutex[unique_request_id_value]->unlock();
+ 
+ 
+@@ -530,8 +584,7 @@ class CFServiceClient {
+                         request_to_cf_srv);
+             }
+             e1 = GetTimeInMicro() - s1;
+-            response_count_down_map[unique_request_id_value].recommender_reply->set_recommender_time(e1);
+-            map_fine_mutex[unique_request_id_value]->unlock();
++            response_metadata->recommender_reply->set_recommender_time(e1);
+         }
+ 
+         /* The request processing thread runs this 
+@@ -540,6 +593,7 @@ class CFServiceClient {
+            implements the count down mechanism in the global map.*/
+         void ProcessResponses()
+         {
++            SetThreadName("rec-response");
+             while(true)
+             {
+                 cf_srv_connections[0]->AsyncCompleteRpc();
+@@ -674,22 +728,35 @@ class CFServiceClient {
+                 recommender_parallelism = atoi(argv[4]);
+                 dispatch_parallelism = atoi(argv[5]);
+                 number_of_response_threads = atoi(argv[6]);
++                const char* deterministic_dispatch_value =
++                    std::getenv("PREFETCHIT_DETERMINISTIC_DISPATCH");
++                deterministic_dispatch = deterministic_dispatch_value != nullptr &&
++                    std::string(deterministic_dispatch_value) != "0";
+             } else {
+                 CHECK(false, "<./recommender_server> <number of cf servers> <cf server ips file> <ip:port number> <recommender parallelism>\n");
+             }
+             // Load cf server IPs into a string vector
+             GetCFServerIPs(cf_server_ips_file, &cf_server_ips);
+ 
++            if (deterministic_dispatch) {
++                deterministic_dispatch_queues.reserve(dispatch_parallelism);
++                for (unsigned int i = 0; i < dispatch_parallelism; i++) {
++                    deterministic_dispatch_queues.emplace_back(
++                            new ThreadSafeQueue<DispatchedData*>());
++                }
++            }
++
+             for(unsigned int i = 0; i < dispatch_parallelism; i++)
+             {
+                 for(unsigned int j = 0; j < number_of_cf_servers; j++)
+                 {
+                     std::string ip = cf_server_ips[j];
+-                    cf_srv_connections.emplace_back(new CFServiceClient(grpc::CreateChannel(
+-                                    ip, grpc::InsecureChannelCredentials())));
++                    cf_srv_connections.emplace_back(
++                            new CFServiceClient(CreateCFChannel(ip)));
+                 }
+             }
+             std::vector<std::thread> response_threads;
++#if 0
+             std::thread perf(Perf);
+             std::thread syscount(SysCount);
+             std::thread hardirqs(Hardirqs);
+@@ -698,6 +765,7 @@ class CFServiceClient {
+             std::thread runqlat(Runqlat);
+             //std::thread hitm(Hitm);
+             std::thread tcpretrans(Tcpretrans);
++#endif
+ 
+             for(unsigned int i = 0; i < number_of_response_threads; i++)
+             {
+@@ -714,13 +782,14 @@ class CFServiceClient {
+             }
+ 
+             kill_ack.join();
++#if 0
+             perf.join();
+             syscount.join();
+             hardirqs.join();
+             wakeuptime.join();
+             softirqs.join();
+             runqlat.join();
+-            //hitm.join();
+             tcpretrans.join();
++#endif
+             return 0;
+         }
+diff --git a/src/Recommend/recommender_service/src/thread_safe_circ_buffer.cpp b/src/Recommend/recommender_service/src/thread_safe_circ_buffer.cpp
+index 11b1348..c23d37f 100644
+--- a/src/Recommend/recommender_service/src/thread_safe_circ_buffer.cpp
++++ b/src/Recommend/recommender_service/src/thread_safe_circ_buffer.cpp
+@@ -2,6 +2,7 @@
+ #include <boost/thread/mutex.hpp>
+ #include <boost/thread/thread.hpp>
+ #include <boost/circular_buffer.hpp>
++#include <boost/core/noncopyable.hpp>
+ 
+ // Thread safe circular buffer 
+ template <typename T>
+diff --git a/src/Router/lookup_service/service/helper_files/client_helper.h b/src/Router/lookup_service/service/helper_files/client_helper.h
+index c0d3282..ed0a35e 100644
+--- a/src/Router/lookup_service/service/helper_files/client_helper.h
++++ b/src/Router/lookup_service/service/helper_files/client_helper.h
+@@ -1,6 +1,8 @@
+ #ifndef __CLIENT_HELPER_H_INCLUDED__
+ #define __CLIENT_HELPER_H_INCLUDED__
+ 
++#include <grpc++/channel.h>
++
+ #include "protoc_files/lookup.grpc.pb.h"
+ 
+ struct LookupSrvTimingInfo {
+diff --git a/src/Router/mid_tier_service/service/mid_tier_server.cc b/src/Router/mid_tier_service/service/mid_tier_server.cc
+index fbfad6b..20f807d 100644
+--- a/src/Router/mid_tier_service/service/mid_tier_server.cc
++++ b/src/Router/mid_tier_service/service/mid_tier_server.cc
+@@ -9,6 +9,7 @@
+ #include <unistd.h>
+ 
+ #include <grpc++/grpc++.h>
++#include <grpc++/resource_quota.h>
+ 
+ #include "lookup_service/service/helper_files/client_helper.h"
+ #include "mid_tier_service/service/helper_files/router_server_helper.h"
+@@ -50,6 +51,37 @@ void ProcessRequest(RouterRequest &router_request,
+         uint64_t unique_request_id_value,
+         int tid);
+ 
++#ifndef PREFETCHIT_ROUTER_HANDOFF_STAGE
++#define PREFETCHIT_ROUTER_HANDOFF_STAGE 0
++#endif
++#ifndef PREFETCHIT_GRPC_MAX_THREADS
++#define PREFETCHIT_GRPC_MAX_THREADS 0
++#endif
++#ifndef PREFETCHIT_ROUTER_TAG_LINES
++#define PREFETCHIT_ROUTER_TAG_LINES 0
++#endif
++#ifndef PREFETCHIT_ROUTER_CODE_LINES
++#define PREFETCHIT_ROUTER_CODE_LINES 0
++#endif
++#ifndef PREFETCHIT_ROUTER_PREFETCH_LOCALITY
++#define PREFETCHIT_ROUTER_PREFETCH_LOCALITY 3
++#endif
++
++#if PREFETCHIT_ROUTER_HANDOFF_STAGE
++static inline void PrefetchRouterHandoff(void *tag) {
++    const char *tag_bytes = static_cast<const char *>(tag);
++    const char *code = reinterpret_cast<const char *>(&ProcessRequest);
++    for (int line = 0; line < PREFETCHIT_ROUTER_TAG_LINES; ++line) {
++        __builtin_prefetch(tag_bytes + (line * 64), 0,
++                PREFETCHIT_ROUTER_PREFETCH_LOCALITY);
++    }
++    for (int line = 0; line < PREFETCHIT_ROUTER_CODE_LINES; ++line) {
++        __builtin_prefetch(code + (line * 64), 0,
++                PREFETCHIT_ROUTER_PREFETCH_LOCALITY);
++    }
++}
++#endif
++
+ // Global variable declarations.
+ /* dataset_dim is global so that we can validate query dimensions whenever 
+    batches of queries are received.*/
+@@ -98,6 +130,11 @@ class ServerImpl final {
+             std::string server_address(ip_port);
+ 
+             ServerBuilder builder;
++#if PREFETCHIT_GRPC_MAX_THREADS > 0
++            grpc::ResourceQuota resource_quota;
++            resource_quota.SetMaxThreads(PREFETCHIT_GRPC_MAX_THREADS);
++            builder.SetResourceQuota(resource_quota);
++#endif
+             // Listen on the given address without any authentication mechanism.
+             builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
+             // Register "service_" as the instance through which we'll communicate with
+@@ -183,6 +220,9 @@ class ServerImpl final {
+                         uint64_t unique_request_id_value = reinterpret_cast<uintptr_t>(this);
+                         //uint64_t unique_request_id_value = num_reqs->AtomicallyIncrementCount();
+                         // The actual processing.
++#ifdef PREFETCHIT_ROUTER_PROCESS_REQUEST
++                        __builtin_prefetch(reinterpret_cast<const void*>(&ProcessRequest), 0, 3);
++#endif
+                         ProcessRequest(router_request_, 
+                                 unique_request_id_value, 
+                                 tid);
+@@ -241,6 +281,9 @@ class ServerImpl final {
+                    that we keep waiting for a request when there is
+                    nothing in the queue.*/
+                 DispatchedData* dispatched_request = dispatched_data_queue.pop();
++#if PREFETCHIT_ROUTER_HANDOFF_STAGE == 2 || PREFETCHIT_ROUTER_HANDOFF_STAGE == 3
++                PrefetchRouterHandoff(dispatched_request->tag);
++#endif
+                 static_cast<CallData*>(dispatched_request->tag)->Proceed(worker_tid);
+                 delete dispatched_request;
+             }
+@@ -258,6 +301,9 @@ class ServerImpl final {
+                 // event is uniquely identified by its tag, which in this case is the
+                 // memory address of a CallData instance.
+                 cq_->Next(&tag, &ok);
++#if PREFETCHIT_ROUTER_HANDOFF_STAGE == 1 || PREFETCHIT_ROUTER_HANDOFF_STAGE == 3
++                PrefetchRouterHandoff(tag);
++#endif
+                 if (cnt == 0) {
+                     cnt++;
+                     kill_notify.push(true);
+@@ -357,33 +403,50 @@ class LookupServiceClient {
+ #endif
+                 uint64_t end_time = GetTimeInMicro();
+                 // Make sure that the map entry corresponding to request id exists.
++                std::mutex* fine_mutex = nullptr;
+                 map_coarse_mutex.lock();
+-                try {
+-                    response_count_down_map.at(unique_request_id);
+-                } catch( ... ) {
+-                    CHECK(false, "ERROR: Map entry corresponding to request id does not exist\n");
++                auto response_it = response_count_down_map.find(unique_request_id);
++                auto mutex_it = map_fine_mutex.find(unique_request_id);
++                if (response_it == response_count_down_map.end() || mutex_it == map_fine_mutex.end()) {
++                    map_coarse_mutex.unlock();
++                    delete call;
++                    return;
+                 }
++                fine_mutex = mutex_it->second.get();
+                 map_coarse_mutex.unlock();
+ #ifndef NODEBUG
+                 std::cout << "bef assigning lookup val\n";
+ #endif
+-                map_fine_mutex[unique_request_id]->lock();
+-                int lookup_srv_resp_id = response_count_down_map[unique_request_id].responses_recvd;
+-                *(response_count_down_map[unique_request_id].response_data[lookup_srv_resp_id].value) = value;
+-                *(response_count_down_map[unique_request_id].response_data[lookup_srv_resp_id].lookup_srv_timing_info) = lookup_srv_timing_info;
+-                *(response_count_down_map[unique_request_id].response_data[lookup_srv_resp_id].lookup_srv_util) = lookup_srv_util;
++                fine_mutex->lock();
++                auto guarded_response_it = response_count_down_map.find(unique_request_id);
++                if (guarded_response_it == response_count_down_map.end()) {
++                    fine_mutex->unlock();
++                    delete call;
++                    return;
++                }
++                ResponseMetaData& response_meta = guarded_response_it->second;
++                int lookup_srv_resp_id = response_meta.responses_recvd;
++                if (lookup_srv_resp_id < 0 ||
++                        lookup_srv_resp_id >= static_cast<int>(response_meta.response_data.size())) {
++                    fine_mutex->unlock();
++                    delete call;
++                    return;
++                }
++                *(response_meta.response_data[lookup_srv_resp_id].value) = value;
++                *(response_meta.response_data[lookup_srv_resp_id].lookup_srv_timing_info) = lookup_srv_timing_info;
++                *(response_meta.response_data[lookup_srv_resp_id].lookup_srv_util) = lookup_srv_util;
+ 
+-                response_count_down_map[unique_request_id].response_data[lookup_srv_resp_id].lookup_srv_timing_info->unpack_lookup_srv_resp_time = end_time - start_time;
++                response_meta.response_data[lookup_srv_resp_id].lookup_srv_timing_info->unpack_lookup_srv_resp_time = end_time - start_time;
+ #ifndef NODEBUG
+                 std::cout << "aft assigning lookup val\n";
+ #endif
+ 
+-                if (response_count_down_map[unique_request_id].responses_recvd != (replication_cnt - 1)) {
+-                    response_count_down_map[unique_request_id].responses_recvd++;
+-                    map_fine_mutex[unique_request_id]->unlock();
++                if (response_meta.responses_recvd != (replication_cnt - 1)) {
++                    response_meta.responses_recvd++;
++                    fine_mutex->unlock();
+                 } else {
+-                    uint64_t lookup_srv_resp_start_time = response_count_down_map[unique_request_id].router_reply->get_lookup_srv_responses_time();
+-                    response_count_down_map[unique_request_id].router_reply->set_get_lookup_srv_responses_time(GetTimeInMicro() - lookup_srv_resp_start_time);
++                    uint64_t lookup_srv_resp_start_time = response_meta.router_reply->get_lookup_srv_responses_time();
++                    response_meta.router_reply->set_get_lookup_srv_responses_time(GetTimeInMicro() - lookup_srv_resp_start_time);
+                     /* Time to merge all responses received and then 
+                        call terminate so that the response can be sent back
+                        to the load generator.*/
+@@ -395,26 +458,27 @@ class LookupServiceClient {
+ #ifndef NODEBUG
+                     std::cout << "bef merge\n";
+ #endif
+-                    MergeAndPack(response_count_down_map[unique_request_id].response_data,
++                    MergeAndPack(response_meta.response_data,
+                             replication_cnt,
+-                            response_count_down_map[unique_request_id].router_reply);
++                            response_meta.router_reply);
+ #ifndef NODEBUG
+                     std::cout << "aft merge\n";
+ #endif
+                     end_time = GetTimeInMicro();
+-                    response_count_down_map[unique_request_id].router_reply->set_merge_time(end_time - start_time);
+-                    response_count_down_map[unique_request_id].router_reply->set_pack_router_resp_time(end_time - start_time); 
++                    response_meta.router_reply->set_merge_time(end_time - start_time);
++                    response_meta.router_reply->set_pack_router_resp_time(end_time - start_time); 
+                     //response_count_down_map[unique_request_id].router_reply->set_router_time(router_times[unique_request_id]);
+                     /* Call server finish for this particular request,
+                        and pass the response so that it can be sent
+                        by the server to the frontend.*/
+-                    uint64_t prev_rec = response_count_down_map[unique_request_id].router_reply->router_time();
+-                    response_count_down_map[unique_request_id].router_reply->set_router_time(prev_rec + (GetTimeInMicro() - s1));
+-                    map_fine_mutex[unique_request_id]->unlock();
++                    uint64_t prev_rec = response_meta.router_reply->router_time();
++                    response_meta.router_reply->set_router_time(prev_rec + (GetTimeInMicro() - s1));
++                    router::LookupResponse* router_reply = response_meta.router_reply;
++                    fine_mutex->unlock();
+ 
+                     map_coarse_mutex.lock();
+                     server->Finish(unique_request_id, 
+-                            response_count_down_map[unique_request_id].router_reply);
++                            router_reply);
+                     map_coarse_mutex.unlock();
+                 }
+             } else {
+@@ -721,6 +785,8 @@ class LookupServiceClient {
+ #if 0
+             std::thread perf(Perf);
+ #endif
++            // Disable the original sudo-based profiling helpers for local runs.
++#if 0
+             std::thread perf(Perf);
+             std::thread syscount(SysCount);
+             std::thread hardirqs(Hardirqs);
+@@ -729,6 +795,7 @@ class LookupServiceClient {
+             std::thread runqlat(Runqlat);
+             //std::thread hitm(Hitm);
+             std::thread tcpretrans(Tcpretrans);
++#endif
+ 
+             server = new ServerImpl();
+             server->Run();
+@@ -738,14 +805,14 @@ class LookupServiceClient {
+             }
+ 
+             kill_ack.join();
+-            perf.join();
+-            syscount.join();
+-            hardirqs.join();
+-            wakeuptime.join();
+-            softirqs.join();
+-            runqlat.join();
++            //perf.join();
++            //syscount.join();
++            //hardirqs.join();
++            //wakeuptime.join();
++            //softirqs.join();
++            //runqlat.join();
+             //hitm.join();
+-            tcpretrans.join();
++            //tcpretrans.join();
+ #if 0
+             perf.join();
+ #endif
+diff --git a/src/Router/mid_tier_service/src/thread_safe_circ_buffer.cpp b/src/Router/mid_tier_service/src/thread_safe_circ_buffer.cpp
+index 11b1348..47d3e63 100644
+--- a/src/Router/mid_tier_service/src/thread_safe_circ_buffer.cpp
++++ b/src/Router/mid_tier_service/src/thread_safe_circ_buffer.cpp
+@@ -1,3 +1,4 @@
++#include <boost/core/noncopyable.hpp>
+ #include <boost/thread/condition.hpp>
+ #include <boost/thread/mutex.hpp>
+ #include <boost/thread/thread.hpp>
+diff --git a/src/SetAlgebra/intersection_service/service/helper_files/client_helper.cc b/src/SetAlgebra/intersection_service/service/helper_files/client_helper.cc
+index c1cb91d..4e85ca8 100644
+--- a/src/SetAlgebra/intersection_service/service/helper_files/client_helper.cc
++++ b/src/SetAlgebra/intersection_service/service/helper_files/client_helper.cc
+@@ -23,7 +23,8 @@ void UnpackIntersectionServiceResponse(const IntersectionResponse &reply,
+         IntersectionSrvUtil* intersection_srv_util)
+ {
+     Docids num_ids = reply.doc_ids_size();
+-    posting_list = new std::vector<Docids>();
++    posting_list->clear();
++    posting_list->reserve(num_ids);
+     for(int i = 0; i < num_ids; i++) {
+         posting_list->emplace_back(reply.doc_ids(i));
+     }
+@@ -264,4 +265,3 @@ void CreatePointsFromFile(const std::string &file_name,
+     multiple_points->CreateMultiplePoints(file_name);
+ }
+ #endif
+-
+diff --git a/src/SetAlgebra/intersection_service/service/helper_files/client_helper.h b/src/SetAlgebra/intersection_service/service/helper_files/client_helper.h
+index 2408828..d6dbc6e 100644
+--- a/src/SetAlgebra/intersection_service/service/helper_files/client_helper.h
++++ b/src/SetAlgebra/intersection_service/service/helper_files/client_helper.h
+@@ -1,6 +1,10 @@
+ #ifndef __CLIENT_HELPER_H_INCLUDED__
+ #define __CLIENT_HELPER_H_INCLUDED__
+ 
++#include <memory>
++
++#include <grpc++/channel.h>
++
+ #include "protoc_files/intersection.grpc.pb.h"
+ 
+ typedef long long Docids;
+@@ -27,9 +31,18 @@ struct IntersectionClientCommandLineArgs{
+ };
+ 
+ struct ResponseData {
+-    std::vector<Docids>* posting_list = new std::vector<Docids>();
+-    IntersectionSrvTimingInfo* intersection_srv_timing_info = new IntersectionSrvTimingInfo();
+-    IntersectionSrvUtil* intersection_srv_util = new IntersectionSrvUtil();
++    std::unique_ptr<std::vector<Docids>> posting_list =
++        std::unique_ptr<std::vector<Docids>>(new std::vector<Docids>());
++    std::unique_ptr<IntersectionSrvTimingInfo> intersection_srv_timing_info =
++        std::unique_ptr<IntersectionSrvTimingInfo>(new IntersectionSrvTimingInfo());
++    std::unique_ptr<IntersectionSrvUtil> intersection_srv_util =
++        std::unique_ptr<IntersectionSrvUtil>(new IntersectionSrvUtil());
++
++    ResponseData() = default;
++    ResponseData(ResponseData&&) noexcept = default;
++    ResponseData& operator=(ResponseData&&) noexcept = default;
++    ResponseData(const ResponseData&) = delete;
++    ResponseData& operator=(const ResponseData&) = delete;
+ };
+ 
+ void CreateIntersectionServiceRequest(const uint32_t intersection_server_id,
+diff --git a/src/SetAlgebra/load_generator/load_generator_closed_loop.cc b/src/SetAlgebra/load_generator/load_generator_closed_loop.cc
+index fc285a6..54ab05e 100644
+--- a/src/SetAlgebra/load_generator/load_generator_closed_loop.cc
++++ b/src/SetAlgebra/load_generator/load_generator_closed_loop.cc
+@@ -14,6 +14,8 @@
+ #include "load_generator/helper_files/loadgen_union_client_helper.h"
+ #include "union_service/service/helper_files/timing.h"
+ 
++#define PREFETCHIT_QUERY_SEED 1
++
+ using grpc::Channel;
+ using grpc::ClientAsyncResponseReader;
+ using grpc::ClientContext;
+@@ -247,6 +249,7 @@ class UnionServiceClient {
+ 
+             // Spawn reader thread that loops indefinitely
+             std::thread thread_ = std::thread(&UnionServiceClient::AsyncCompleteRpc, &union_client);
++            srand(PREFETCHIT_QUERY_SEED);
+             long query_id = rand() % queries_size;
+             std::vector<Wordids> query = queries[query_id];
+ 
+@@ -278,6 +281,9 @@ class UnionServiceClient {
+                 }
+                 curr_time = (double)GetTimeInMicro();
+             }
++            srand(PREFETCHIT_QUERY_SEED);
++            query_id = rand() % queries_size;
++            query = queries[query_id];
+             start_counter_mutex.lock();
+             start_counter = true;
+             start_counter_mutex.unlock();
+@@ -332,7 +338,8 @@ class UnionServiceClient {
+             std::cout << std::endl;
+             global_stats_mutex.unlock();
+ 
+-            thread_.join();  //blocks forever
++            thread_.detach();
++            _Exit(0);
+ 
+             return 0;
+         }
+diff --git a/src/SetAlgebra/union_service/service/helper_files/union_server_helper.h b/src/SetAlgebra/union_service/service/helper_files/union_server_helper.h
+index 7523b49..70914a5 100644
+--- a/src/SetAlgebra/union_service/service/helper_files/union_server_helper.h
++++ b/src/SetAlgebra/union_service/service/helper_files/union_server_helper.h
+@@ -27,7 +27,14 @@ struct ResponseMetaData {
+     std::vector<ResponseData> response_data;
+     uint64_t responses_recvd = 0;
+     uint64_t id = 0;
+-    union_service::UnionResponse* union_reply = new union_service::UnionResponse();
++    std::unique_ptr<union_service::UnionResponse> union_reply =
++        std::unique_ptr<union_service::UnionResponse>(new union_service::UnionResponse());
++
++    ResponseMetaData() = default;
++    ResponseMetaData(ResponseMetaData&&) noexcept = default;
++    ResponseMetaData& operator=(ResponseMetaData&&) noexcept = default;
++    ResponseMetaData(const ResponseMetaData&) = delete;
++    ResponseMetaData& operator=(const ResponseMetaData&) = delete;
+ };
+ 
+ struct DispatchedData {
+diff --git a/src/SetAlgebra/union_service/service/mid_tier_server.cc b/src/SetAlgebra/union_service/service/mid_tier_server.cc
+index 27cadc3..5091c07 100644
+--- a/src/SetAlgebra/union_service/service/mid_tier_server.cc
++++ b/src/SetAlgebra/union_service/service/mid_tier_server.cc
+@@ -9,6 +9,7 @@
+ #include <unistd.h>
+ 
+ #include <grpc++/grpc++.h>
++#include <grpc++/resource_quota.h>
+ 
+ #include "intersection_service/service/helper_files/client_helper.h"
+ #include "union_service/service/helper_files/union_server_helper.h"
+@@ -48,6 +49,40 @@ void ProcessRequest(UnionRequest &union_request,
+         uint64_t unique_request_id_value,
+         int tid);
+ 
++#ifndef PREFETCHIT_SET_HANDOFF_STAGE
++#define PREFETCHIT_SET_HANDOFF_STAGE 0
++#endif
++#ifndef PREFETCHIT_GRPC_MAX_THREADS
++#define PREFETCHIT_GRPC_MAX_THREADS 0
++#endif
++#ifndef PREFETCHIT_GRPC_CLIENT_MAX_THREADS
++#define PREFETCHIT_GRPC_CLIENT_MAX_THREADS 0
++#endif
++#ifndef PREFETCHIT_SET_TAG_LINES
++#define PREFETCHIT_SET_TAG_LINES 0
++#endif
++#ifndef PREFETCHIT_SET_CODE_LINES
++#define PREFETCHIT_SET_CODE_LINES 0
++#endif
++#ifndef PREFETCHIT_SET_PREFETCH_LOCALITY
++#define PREFETCHIT_SET_PREFETCH_LOCALITY 3
++#endif
++
++#if PREFETCHIT_SET_HANDOFF_STAGE
++static inline void PrefetchSetHandoff(void *tag) {
++    const char *tag_bytes = static_cast<const char *>(tag);
++    const char *code = reinterpret_cast<const char *>(&ProcessRequest);
++    for (int line = 0; line < PREFETCHIT_SET_TAG_LINES; ++line) {
++        __builtin_prefetch(tag_bytes + (line * 64), 0,
++                PREFETCHIT_SET_PREFETCH_LOCALITY);
++    }
++    for (int line = 0; line < PREFETCHIT_SET_CODE_LINES; ++line) {
++        __builtin_prefetch(code + (line * 64), 0,
++                PREFETCHIT_SET_PREFETCH_LOCALITY);
++    }
++}
++#endif
++
+ // Global variable declarations.
+ /* dataset_dim is global so that we can validate query dimensions whenever 
+    batches of queries are received.*/
+@@ -94,6 +129,11 @@ class ServerImpl final {
+             std::string server_address(ip_port);
+ 
+             ServerBuilder builder;
++#if PREFETCHIT_GRPC_MAX_THREADS > 0
++            grpc::ResourceQuota resource_quota;
++            resource_quota.SetMaxThreads(PREFETCHIT_GRPC_MAX_THREADS);
++            builder.SetResourceQuota(resource_quota);
++#endif
+             // Listen on the given address without any authentication mechanism.
+             builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
+             // Register "service_" as the instance through which we'll communicate with
+@@ -179,6 +219,9 @@ class ServerImpl final {
+                         uint64_t unique_request_id_value = reinterpret_cast<uintptr_t>(this);
+                         //uint64_t unique_request_id_value = num_reqs->AtomicallyIncrementCount();
+                         // The actual processing.
++#ifdef PREFETCHIT_SETALGEBRA_PROCESS_REQUEST
++                        __builtin_prefetch(reinterpret_cast<const void*>(&ProcessRequest), 0, 3);
++#endif
+                         ProcessRequest(union_request_, 
+                                 unique_request_id_value, 
+                                 tid);
+@@ -189,7 +232,12 @@ class ServerImpl final {
+                         //responder_.Finish(union_reply_, Status::OK, this);
+                     } else {
+                         //GPR_ASSERT(status_ == FINISH);
+-                        // Once in the FINISH state, deallocate ourselves (CallData).
++                        // Finish completion guarantees gRPC no longer needs the response.
++                        uint64_t unique_request_id_value =
++                            reinterpret_cast<uintptr_t>(this);
++                        std::lock_guard<std::mutex> lock(map_coarse_mutex);
++                        response_count_down_map.erase(unique_request_id_value);
++                        map_fine_mutex.erase(unique_request_id_value);
+                         delete this;
+                     }
+                 }
+@@ -238,6 +286,9 @@ class ServerImpl final {
+                    that we keep waiting for a request when there is
+                    nothing in the queue.*/
+                 DispatchedData* dispatched_request = dispatched_data_queue.pop();
++#if PREFETCHIT_SET_HANDOFF_STAGE == 2 || PREFETCHIT_SET_HANDOFF_STAGE == 3
++                PrefetchSetHandoff(dispatched_request->tag);
++#endif
+                 static_cast<CallData*>(dispatched_request->tag)->Proceed(worker_tid);
+                 delete dispatched_request;
+             }
+@@ -255,6 +306,9 @@ class ServerImpl final {
+                 // event is uniquely identified by its tag, which in this case is the
+                 // memory address of a CallData instance.
+                 cq_->Next(&tag, &ok);
++#if PREFETCHIT_SET_HANDOFF_STAGE == 1 || PREFETCHIT_SET_HANDOFF_STAGE == 3
++                PrefetchSetHandoff(tag);
++#endif
+                 if (cnt == 0) {
+                     cnt++;
+                     kill_notify.push(true);
+@@ -274,6 +328,24 @@ class ServerImpl final {
+ };
+ 
+ 
++std::shared_ptr<Channel> CreateIntersectionChannel(const std::string& address)
++{
++#if PREFETCHIT_GRPC_CLIENT_MAX_THREADS > 0
++    static grpc::ResourceQuota client_resource_quota;
++    static const bool quota_initialized = []() {
++        client_resource_quota.SetMaxThreads(PREFETCHIT_GRPC_CLIENT_MAX_THREADS);
++        return true;
++    }();
++    (void)quota_initialized;
++    grpc::ChannelArguments channel_arguments;
++    channel_arguments.SetResourceQuota(client_resource_quota);
++    return grpc::CreateCustomChannel(address,
++            grpc::InsecureChannelCredentials(), channel_arguments);
++#else
++    return grpc::CreateChannel(address, grpc::InsecureChannelCredentials());
++#endif
++}
++
+ /* Declaring intersection_srv client here because the union server must
+    invoke the intersection_srv client to send the queries+PointIDs to the intersection_srv server.*/
+ class IntersectionServiceClient {
+@@ -352,28 +424,33 @@ class IntersectionServiceClient {
+                         &intersection_srv_timing_info,
+                         &intersection_srv_util);
+                 uint64_t end_time = GetTimeInMicro();
+-                // Make sure that the map entry corresponding to request id exists.
+-                map_coarse_mutex.lock();
+-                try {
+-                    response_count_down_map.at(unique_request_id);
+-                } catch( ... ) {
+-                    CHECK(false, "ERROR: Map entry corresponding to request id does not exist\n");
++                ResponseMetaData* response_meta = nullptr;
++                std::mutex* response_mutex = nullptr;
++                {
++                    std::lock_guard<std::mutex> lock(map_coarse_mutex);
++                    auto response_it = response_count_down_map.find(unique_request_id);
++                    auto mutex_it = map_fine_mutex.find(unique_request_id);
++                    CHECK((response_it != response_count_down_map.end() &&
++                            mutex_it != map_fine_mutex.end()),
++                            "ERROR: Map entry corresponding to request id does not exist\n");
++                    response_meta = &response_it->second;
++                    response_mutex = mutex_it->second.get();
+                 }
+-                map_coarse_mutex.unlock();
+-
+-                map_fine_mutex[unique_request_id]->lock();
+-                int intersection_srv_resp_id = response_count_down_map[unique_request_id].responses_recvd;
+-                *(response_count_down_map[unique_request_id].response_data[intersection_srv_resp_id].posting_list) = posting_list;
+-                *(response_count_down_map[unique_request_id].response_data[intersection_srv_resp_id].intersection_srv_timing_info) = intersection_srv_timing_info;
+-                *(response_count_down_map[unique_request_id].response_data[intersection_srv_resp_id].intersection_srv_util) = intersection_srv_util;
+-                response_count_down_map[unique_request_id].response_data[intersection_srv_resp_id].intersection_srv_timing_info->unpack_intersection_srv_resp_time = end_time - start_time;
+-
+-                if (response_count_down_map[unique_request_id].responses_recvd != (number_of_intersection_servers - 1)) {
+-                    response_count_down_map[unique_request_id].responses_recvd++;
+-                    map_fine_mutex[unique_request_id]->unlock();
++
++                std::unique_lock<std::mutex> response_lock(*response_mutex);
++                int intersection_srv_resp_id = response_meta->responses_recvd;
++                CHECK((intersection_srv_resp_id < response_meta->response_data.size()),
++                        "ERROR: Too many responses for request\n");
++                *(response_meta->response_data[intersection_srv_resp_id].posting_list) = posting_list;
++                *(response_meta->response_data[intersection_srv_resp_id].intersection_srv_timing_info) = intersection_srv_timing_info;
++                *(response_meta->response_data[intersection_srv_resp_id].intersection_srv_util) = intersection_srv_util;
++                response_meta->response_data[intersection_srv_resp_id].intersection_srv_timing_info->unpack_intersection_srv_resp_time = end_time - start_time;
++
++                if (response_meta->responses_recvd != (number_of_intersection_servers - 1)) {
++                    response_meta->responses_recvd++;
+                 } else {
+-                    uint64_t intersection_srv_resp_start_time = response_count_down_map[unique_request_id].union_reply->get_intersection_srv_responses_time();
+-                    response_count_down_map[unique_request_id].union_reply->set_get_intersection_srv_responses_time(GetTimeInMicro() - intersection_srv_resp_start_time);
++                    uint64_t intersection_srv_resp_start_time = response_meta->union_reply->get_intersection_srv_responses_time();
++                    response_meta->union_reply->set_get_intersection_srv_responses_time(GetTimeInMicro() - intersection_srv_resp_start_time);
+                     /* Time to merge all responses received and then 
+                        call terminate so that the response can be sent back
+                        to the load generator.*/
+@@ -384,25 +461,24 @@ class IntersectionServiceClient {
+                        proceed to merge responses.*/
+ 
+                     start_time = GetTimeInMicro();
+-                    MergeAndPack(response_count_down_map[unique_request_id].response_data,
++                    MergeAndPack(response_meta->response_data,
+                             number_of_intersection_servers,
+-                            response_count_down_map[unique_request_id].union_reply);
++                            response_meta->union_reply.get());
+ 
+                     end_time = GetTimeInMicro();
+                     //response_count_down_map[unique_request_id].union_reply->set_union_time(end_time - start_time);
+-                    response_count_down_map[unique_request_id].union_reply->set_pack_union_resp_time(end_time - start_time); 
++                    response_meta->union_reply->set_pack_union_resp_time(end_time - start_time);
+                     //response_count_down_map[unique_request_id].union_reply->set_union_time(union_times[unique_request_id]);
+                     /* Call server finish for this particular request,
+                        and pass the response so that it can be sent
+                        by the server to the frontend.*/
+-                    uint64_t prev_rec = response_count_down_map[unique_request_id].union_reply->union_time();
+-                    response_count_down_map[unique_request_id].union_reply->set_union_time(prev_rec + (GetTimeInMicro() - s1));
+-                    map_fine_mutex[unique_request_id]->unlock();
+-
+-                    map_coarse_mutex.lock();
+-                    server->Finish(unique_request_id, 
+-                            response_count_down_map[unique_request_id].union_reply);
+-                    map_coarse_mutex.unlock();
++                    uint64_t prev_rec = response_meta->union_reply->union_time();
++                    response_meta->union_reply->set_union_time(prev_rec + (GetTimeInMicro() - s1));
++                    UnionResponse* union_reply = response_meta->union_reply.get();
++                    response_lock.unlock();
++
++                    std::lock_guard<std::mutex> lock(map_coarse_mutex);
++                    server->Finish(unique_request_id, union_reply);
+                 }
+             } else {
+                 CHECK(false, "intersection_srv does not exist\n");
+@@ -422,7 +498,7 @@ class IntersectionServiceClient {
+             // Storage for the status of the RPC upon completion.
+             Status status;
+             std::unique_ptr<ClientAsyncResponseReader<IntersectionResponse>> response_reader;
+-        };
++};
+ 
+         // Out of the passed in Channel comes the stub, stored here, our view of the
+         // server's exposed services.
+@@ -446,29 +522,34 @@ class IntersectionServiceClient {
+                unique request.*/
+             // Get number of nearest neighbors from the request.
+             // Declare the size of the final response that the map must hold.
+-            map_coarse_mutex.lock();
+             ResponseMetaData meta_data;
+-            response_count_down_map.erase(unique_request_id_value);
+-            map_fine_mutex.erase(unique_request_id_value);
+-            map_fine_mutex[unique_request_id_value] = std::make_unique<std::mutex>();
+-            response_count_down_map[unique_request_id_value] = meta_data;
+-            map_coarse_mutex.unlock();
++            ResponseMetaData* response_meta = nullptr;
++            std::mutex* response_mutex = nullptr;
++            {
++                std::lock_guard<std::mutex> lock(map_coarse_mutex);
++                response_count_down_map.erase(unique_request_id_value);
++                map_fine_mutex.erase(unique_request_id_value);
++                map_fine_mutex[unique_request_id_value] = std::make_unique<std::mutex>();
++                response_count_down_map[unique_request_id_value] = std::move(meta_data);
++                response_meta = &response_count_down_map.at(unique_request_id_value);
++                response_mutex = map_fine_mutex.at(unique_request_id_value).get();
++            }
+ 
+-            map_fine_mutex[unique_request_id_value]->lock();
++            std::unique_lock<std::mutex> response_lock(*response_mutex);
+             if (union_request.kill()) {
+                 kill_signal = true;
+-                response_count_down_map[unique_request_id_value].union_reply->set_kill_ack(true);
++                response_meta->union_reply->set_kill_ack(true);
+                 server->Finish(unique_request_id_value,
+-                        response_count_down_map[unique_request_id_value].union_reply);
++                        response_meta->union_reply.get());
+                 sleep(4);
+                 CHECK(false, "Exit signal received\n");
+             }
+-            response_count_down_map[unique_request_id_value].responses_recvd = 0;
+-            response_count_down_map[unique_request_id_value].response_data.resize(number_of_intersection_servers, ResponseData());
+-            response_count_down_map[unique_request_id_value].union_reply->set_request_id(union_request.request_id());
+-            response_count_down_map[unique_request_id_value].union_reply->set_num_inline(union_parallelism);
+-            response_count_down_map[unique_request_id_value].union_reply->set_num_workers(dispatch_parallelism);
+-            response_count_down_map[unique_request_id_value].union_reply->set_num_resp(number_of_response_threads);
++            response_meta->responses_recvd = 0;
++            response_meta->response_data.resize(number_of_intersection_servers);
++            response_meta->union_reply->set_request_id(union_request.request_id());
++            response_meta->union_reply->set_num_inline(union_parallelism);
++            response_meta->union_reply->set_num_workers(dispatch_parallelism);
++            response_meta->union_reply->set_num_resp(number_of_response_threads);
+             //map_fine_mutex[unique_request_id_value]->unlock();
+ 
+             bool util_present = union_request.util_request().util_request();
+@@ -484,12 +565,12 @@ class IntersectionServiceClient {
+                         &io_time,
+                         &idle_time);
+                 //map_fine_mutex[unique_request_id_value]->lock();
+-                response_count_down_map[unique_request_id_value].union_reply->mutable_util_response()->mutable_union_util()->set_user_time(user_time);
+-                response_count_down_map[unique_request_id_value].union_reply->mutable_util_response()->mutable_union_util()->set_system_time(system_time);
+-                response_count_down_map[unique_request_id_value].union_reply->mutable_util_response()->mutable_union_util()->set_io_time(io_time);
+-                response_count_down_map[unique_request_id_value].union_reply->mutable_util_response()->mutable_union_util()->set_idle_time(idle_time);
+-                response_count_down_map[unique_request_id_value].union_reply->mutable_util_response()->set_util_present(true);
+-                response_count_down_map[unique_request_id_value].union_reply->set_update_union_util_time(GetTimeInMicro() - start);
++                response_meta->union_reply->mutable_util_response()->mutable_union_util()->set_user_time(user_time);
++                response_meta->union_reply->mutable_util_response()->mutable_union_util()->set_system_time(system_time);
++                response_meta->union_reply->mutable_util_response()->mutable_union_util()->set_io_time(io_time);
++                response_meta->union_reply->mutable_util_response()->mutable_union_util()->set_idle_time(idle_time);
++                response_meta->union_reply->mutable_util_response()->set_util_present(true);
++                response_meta->union_reply->set_update_union_util_time(GetTimeInMicro() - start);
+                 //map_fine_mutex[unique_request_id_value]->unlock();
+             }
+             uint64_t start_time = GetTimeInMicro();
+@@ -505,14 +586,14 @@ class IntersectionServiceClient {
+ #endif
+             uint64_t end_time = GetTimeInMicro();
+             //map_fine_mutex[unique_request_id_value]->lock();
+-            response_count_down_map[unique_request_id_value].union_reply->set_unpack_union_req_time((end_time-start_time));
++            response_meta->union_reply->set_unpack_union_req_time((end_time-start_time));
+             //map_fine_mutex[unique_request_id_value]->unlock();
+             //float points_sent_percent = PercentDataSent(point_ids, queries_size, dataset_size);
+             //printf("Amount of dataset sent to intersection_srv server in the form of point IDs = %.5f\n", points_sent_percent);
+             //(*response_count_down_map)[unique_request_id_value]->union_reply->set_percent_data_sent(points_sent_percent);
+ 
+             //map_fine_mutex[unique_request_id_value]->lock();
+-            response_count_down_map[unique_request_id_value].union_reply->set_get_intersection_srv_responses_time(GetTimeInMicro());
++            response_meta->union_reply->set_get_intersection_srv_responses_time(GetTimeInMicro());
+             //map_fine_mutex[unique_request_id_value]->unlock();
+ 
+ 
+@@ -524,9 +605,7 @@ class IntersectionServiceClient {
+                         request_to_intersection_srv);
+             }
+             e1 = GetTimeInMicro() - s1;
+-            response_count_down_map[unique_request_id_value].union_reply->set_union_time(e1);
+-
+-            map_fine_mutex[unique_request_id_value]->unlock();
++            response_meta->union_reply->set_union_time(e1);
+ 
+         }
+ 
+@@ -684,15 +763,13 @@ class IntersectionServiceClient {
+                 for(unsigned int j = 0; j < number_of_intersection_servers; j++)
+                 {
+                     std::string ip = intersection_server_ips[j];
+-                    intersection_srv_connections.emplace_back(new IntersectionServiceClient(grpc::CreateChannel(
+-                                    ip, grpc::InsecureChannelCredentials())));
++                    intersection_srv_connections.emplace_back(
++                            new IntersectionServiceClient(CreateIntersectionChannel(ip)));
+                 }
+             }
+             std::vector<std::thread> response_threads;
+ #if 0
+             std::thread perf(Perf);
+-#endif
+-            std::thread perf(Perf);
+             std::thread syscount(SysCount);
+             std::thread hardirqs(Hardirqs);
+             std::thread wakeuptime(Wakeuptime);
+@@ -700,6 +777,7 @@ class IntersectionServiceClient {
+             std::thread runqlat(Runqlat);
+             //std::thread hitm(Hitm);
+             std::thread tcpretrans(Tcpretrans);
++#endif
+ 
+             for(unsigned int i = 0; i < number_of_response_threads; i++)
+             {
+@@ -716,16 +794,14 @@ class IntersectionServiceClient {
+             }
+ 
+             kill_ack.join();
++#if 0
+             perf.join();
+             syscount.join();
+             hardirqs.join();
+             wakeuptime.join();
+             softirqs.join();
+             runqlat.join();
+-            //hitm.join();
+             tcpretrans.join();
+-#if 0
+-            perf.join();
+ #endif
+             return 0;
+         }
+diff --git a/src/SetAlgebra/union_service/src/thread_safe_circ_buffer.cpp b/src/SetAlgebra/union_service/src/thread_safe_circ_buffer.cpp
+index 11b1348..c23d37f 100644
+--- a/src/SetAlgebra/union_service/src/thread_safe_circ_buffer.cpp
++++ b/src/SetAlgebra/union_service/src/thread_safe_circ_buffer.cpp
+@@ -2,6 +2,7 @@
+ #include <boost/thread/mutex.hpp>
+ #include <boost/thread/thread.hpp>
+ #include <boost/circular_buffer.hpp>
++#include <boost/core/noncopyable.hpp>
+ 
+ // Thread safe circular buffer 
+ template <typename T>

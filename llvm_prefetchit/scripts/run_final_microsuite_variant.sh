@@ -6,7 +6,7 @@ if [[ "$#" -lt 3 ]]; then
   exit 2
 fi
 
-ROOT="/home/hnpark2/prefetchit"
+ROOT="${PREFETCHIT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
 SRC="${ROOT}/benchmarks/datacenter_sources/MicroSuite/src"
 DATA="${ROOT}/llvm_prefetchit/results/datacenter_goal_20260708/microsuite_screen2/data"
 DEPROOT="${ROOT}/llvm_prefetchit/work/datacenter_goal_20260708/deb_deps/root"

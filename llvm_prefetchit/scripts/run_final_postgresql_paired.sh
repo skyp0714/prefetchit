@@ -6,7 +6,7 @@ if [[ "$#" -ne 3 ]]; then
   exit 2
 fi
 
-ROOT="/home/hnpark2/prefetchit/llvm_prefetchit"
+ROOT="${LLVM_PREFETCHIT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 RUNNER="${ROOT}/scripts/run_final_postgresql_variant.sh"
 BASE="${POSTGRES_BASE:-${ROOT}/work/datacenter_goal_20260708/postgres/install_base/bin/postgres}"
 PREFETCH="$(readlink -f "$1")"

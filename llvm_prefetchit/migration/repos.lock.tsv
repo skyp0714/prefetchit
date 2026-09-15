@@ -1,0 +1,8 @@
+# path	url	branch	revision	role
+llvm_prefetchit	git@github.com:skyp0714/llvm_prefetchit_injection.git	main	SELF	LLVM pass, plan tooling, and migration entry point
+profiling	git@github.com:skyp0714/frontend_profiling.git	main	a83016a0fc501e34998e66bd7283df5c460ca618	PEBS/LBR profiling pipeline
+icache_microbenchmark	git@github.com:skyp0714/icache_microbenchmark.git	prefetch_benefit	783ab773c056f078a3faae72f2ca70682ca8a250	prefetch mechanism microbenchmarks
+static_cond_prefetch	git@github.com:skyp0714/static_cond_prefetch.git	main	5c740c1ec3b14f40485dcc6a2794d6c6fabd9a80	profile-free conditional target selection
+static_return_prefetch	git@github.com:skyp0714/static_return_prefetch.git	main	cffc79963f89ed57e909e46e964b0a68b9d8fe1c	profile-free return target selection
+flat_codegen	git@github.com:skyp0714/flat_codegen.git	main	ffad864d7902c036f4273fb46db1c3aa44e05e78	arcilator and DeathStarBench experiments
+jit_prefetch	git@github.com:skyp0714/jit_prefetch.git	main	191b7b696b166c3f31602fd669f7ca06cce11ee1	HotSpot/JIT prefetch experiments

@@ -1,0 +1,151 @@
+diff --git a/src/backend/executor/execExprInterp.c b/src/backend/executor/execExprInterp.c
+index c2081e4..787c06f 100644
+--- a/src/backend/executor/execExprInterp.c
++++ b/src/backend/executor/execExprInterp.c
+@@ -128,8 +128,37 @@ static ExprEvalOpLookup reverse_dispatch_table[EEOP_LAST];
+ 
+ #endif							/* EEO_USE_COMPUTED_GOTO */
+ 
++#if defined(EEO_USE_COMPUTED_GOTO) && defined(PREFETCHIT_PG_EXPR_OPCODE_DISTANCE) && PREFETCHIT_PG_EXPR_OPCODE_DISTANCE > 0
++#define PREFETCHIT_PG_PREFETCH_NEXT_OPCODE() \
++	do { \
++		ExprEvalStep *pfop = op + PREFETCHIT_PG_EXPR_OPCODE_DISTANCE; \
++		if (pfop < state->steps + state->steps_len) \
++			__builtin_prefetch((const void *) pfop->opcode, 0, 3); \
++	} while (0)
++#else
++#define PREFETCHIT_PG_PREFETCH_NEXT_OPCODE() ((void) 0)
++#endif
++
++#if defined(PREFETCHIT_PG_EXPR_FUNC_NEXT_LINE)
++#define PREFETCHIT_PG_PREFETCH_FUNC_NEXT_LINE(fn) \
++	__builtin_prefetch((const char *) (fn) + 64, 0, 3)
++#else
++#define PREFETCHIT_PG_PREFETCH_FUNC_NEXT_LINE(fn) ((void) 0)
++#endif
++
++#if defined(PREFETCHIT_PG_EXPR_FUNC_TARGET)
++#define PREFETCHIT_PG_PREFETCH_FUNC_TARGET(fn) \
++	do { \
++		__builtin_prefetch((const void *) (fn), 0, 3); \
++		PREFETCHIT_PG_PREFETCH_FUNC_NEXT_LINE(fn); \
++	} while (0)
++#else
++#define PREFETCHIT_PG_PREFETCH_FUNC_TARGET(fn) ((void) 0)
++#endif
++
+ #define EEO_NEXT() \
+ 	do { \
++		PREFETCHIT_PG_PREFETCH_NEXT_OPCODE(); \
+ 		op++; \
+ 		EEO_DISPATCH(); \
+ 	} while (0)
+@@ -739,6 +768,7 @@ ExecInterpExpr(ExprState *state, ExprContext *econtext, bool *isnull)
+ 			Datum		d;
+ 
+ 			fcinfo->isnull = false;
++			PREFETCHIT_PG_PREFETCH_FUNC_TARGET(op->d.func.fn_addr);
+ 			d = op->d.func.fn_addr(fcinfo);
+ 			*op->resvalue = d;
+ 			*op->resnull = fcinfo->isnull;
+@@ -754,6 +784,7 @@ ExecInterpExpr(ExprState *state, ExprContext *econtext, bool *isnull)
+ 			Datum		d;
+ 
+ 			/* strict function, so check for NULL args */
++			PREFETCHIT_PG_PREFETCH_FUNC_TARGET(op->d.func.fn_addr);
+ 			for (int argno = 0; argno < nargs; argno++)
+ 			{
+ 				if (args[argno].isnull)
+@@ -1245,6 +1276,7 @@ ExecInterpExpr(ExprState *state, ExprContext *econtext, bool *isnull)
+ 				Datum		eqresult;
+ 
+ 				fcinfo->isnull = false;
++				PREFETCHIT_PG_PREFETCH_FUNC_TARGET(op->d.func.fn_addr);
+ 				eqresult = op->d.func.fn_addr(fcinfo);
+ 				/* Must invert result of "="; safe to do even if null */
+ 				*op->resvalue = BoolGetDatum(!DatumGetBool(eqresult));
+@@ -1274,6 +1306,7 @@ ExecInterpExpr(ExprState *state, ExprContext *econtext, bool *isnull)
+ 				Datum		eqresult;
+ 
+ 				fcinfo->isnull = false;
++				PREFETCHIT_PG_PREFETCH_FUNC_TARGET(op->d.func.fn_addr);
+ 				eqresult = op->d.func.fn_addr(fcinfo);
+ 				*op->resvalue = eqresult;
+ 				*op->resnull = fcinfo->isnull;
+@@ -1307,6 +1340,7 @@ ExecInterpExpr(ExprState *state, ExprContext *econtext, bool *isnull)
+ 						MakeExpandedObjectReadOnlyInternal(save_arg0);
+ 
+ 				fcinfo->isnull = false;
++				PREFETCHIT_PG_PREFETCH_FUNC_TARGET(op->d.func.fn_addr);
+ 				result = op->d.func.fn_addr(fcinfo);
+ 
+ 				/* if the arguments are equal return null */
+@@ -1395,6 +1429,7 @@ ExecInterpExpr(ExprState *state, ExprContext *econtext, bool *isnull)
+ 
+ 			/* Apply comparison function */
+ 			fcinfo->isnull = false;
++			PREFETCHIT_PG_PREFETCH_FUNC_TARGET(op->d.rowcompare_step.fn_addr);
+ 			d = op->d.rowcompare_step.fn_addr(fcinfo);
+ 			*op->resvalue = d;
+ 
+@@ -2226,6 +2261,7 @@ ExecJustApplyFuncToCase(ExprState *state, ExprContext *econtext, bool *isnull)
+ 		}
+ 	}
+ 	fcinfo->isnull = false;
++	PREFETCHIT_PG_PREFETCH_FUNC_TARGET(op->d.func.fn_addr);
+ 	d = op->d.func.fn_addr(fcinfo);
+ 	*isnull = fcinfo->isnull;
+ 	return d;
+@@ -2422,6 +2458,7 @@ ExecEvalFuncExprFusage(ExprState *state, ExprEvalStep *op,
+ 	pgstat_init_function_usage(fcinfo, &fcusage);
+ 
+ 	fcinfo->isnull = false;
++	PREFETCHIT_PG_PREFETCH_FUNC_TARGET(op->d.func.fn_addr);
+ 	d = op->d.func.fn_addr(fcinfo);
+ 	*op->resvalue = d;
+ 	*op->resnull = fcinfo->isnull;
+@@ -2456,6 +2493,7 @@ ExecEvalFuncExprStrictFusage(ExprState *state, ExprEvalStep *op,
+ 	pgstat_init_function_usage(fcinfo, &fcusage);
+ 
+ 	fcinfo->isnull = false;
++	PREFETCHIT_PG_PREFETCH_FUNC_TARGET(op->d.func.fn_addr);
+ 	d = op->d.func.fn_addr(fcinfo);
+ 	*op->resvalue = d;
+ 	*op->resnull = fcinfo->isnull;
+diff --git a/src/include/executor/executor.h b/src/include/executor/executor.h
+index baef7e0..dc130ba 100644
+--- a/src/include/executor/executor.h
++++ b/src/include/executor/executor.h
+@@ -274,6 +274,14 @@ ExecProcNode(PlanState *node)
+ 	if (node->chgParam != NULL) /* something changed? */
+ 		ExecReScan(node);		/* let ReScan handle this */
+ 
++#ifdef PREFETCHIT_EXEC_PROC_NODE
++	__builtin_prefetch((const void *) node->ExecProcNode, 0, 3);
++	if (node->lefttree != NULL)
++		__builtin_prefetch((const void *) node->lefttree->ExecProcNode, 0, 3);
++	if (node->righttree != NULL)
++		__builtin_prefetch((const void *) node->righttree->ExecProcNode, 0, 3);
++#endif
++
+ 	return node->ExecProcNode(node);
+ }
+ #endif
+diff --git a/src/include/fmgr.h b/src/include/fmgr.h
+index b120f5e..c1fb6e4 100644
+--- a/src/include/fmgr.h
++++ b/src/include/fmgr.h
+@@ -169,7 +169,13 @@ extern void fmgr_symbol(Oid functionId, char **mod, char **fn);
+  * the fcinfo->isnull flag before each call, since callees are permitted to
+  * assume that starts out false.
+  */
++#ifdef PREFETCHIT_FMGR_FN_ADDR
++#define FunctionCallInvoke(fcinfo) \
++	(__builtin_prefetch((const void *) (fcinfo)->flinfo->fn_addr, 0, 3), \
++	 (* (fcinfo)->flinfo->fn_addr) (fcinfo))
++#else
+ #define FunctionCallInvoke(fcinfo)	((* (fcinfo)->flinfo->fn_addr) (fcinfo))
++#endif
+ 
+ 
+ /*-------------------------------------------------------------------------

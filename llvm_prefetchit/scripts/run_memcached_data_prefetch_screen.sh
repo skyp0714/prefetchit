@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="/home/hnpark2/prefetchit/llvm_prefetchit"
+ROOT="${LLVM_PREFETCHIT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 RUNNER="${ROOT}/scripts/run_final_memcached_variant.sh"
 BIN_DIR="${BIN_DIR:-${ROOT}/work/data_prefetch_reexperiment_20260712/memcached_variants/bins}"
 OUT="${1:-${ROOT}/results/data_prefetch_reexperiment_20260712/memcached_variant_screen}"

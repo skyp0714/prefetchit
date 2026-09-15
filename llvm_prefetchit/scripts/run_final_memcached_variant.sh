@@ -6,7 +6,7 @@ if [[ "$#" -lt 3 ]]; then
   exit 2
 fi
 
-ROOT="/home/hnpark2/prefetchit"
+ROOT="${PREFETCHIT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
 COMMON="${ROOT}/llvm_prefetchit/scripts/final_campaign_common.sh"
 MEMTIER="${ROOT}/benchmarks/dcperf/benchmarks/tao_bench/memtier_client/memtier_benchmark"
 PIN_SO="${ROOT}/llvm_prefetchit/tools/pthread_core_pin.so"

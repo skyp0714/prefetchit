@@ -1,0 +1,22 @@
+diff --git a/src/task.c b/src/task.c
+index 0c7f5b8..4dc4156 100644
+--- a/src/task.c
++++ b/src/task.c
+@@ -545,10 +545,13 @@ unsigned int run_tasks_from_lists(unsigned int budgets[])
+ 			queue++;
+ 			continue;
+ 		}
+-		t->last_run = activity[tid].loops;
+-		ctx = t->context;
+-		process = t->process;
+-		t->calls++;
++			t->last_run = activity[tid].loops;
++			ctx = t->context;
++			process = t->process;
++#ifdef PREFETCHIT_TASK_PROCESS
++			__builtin_prefetch((const void *)process, 0, 3);
++#endif
++			t->calls++;
+ 
+ 		budgets[queue]--;
+ 		activity[tid].ctxsw++;

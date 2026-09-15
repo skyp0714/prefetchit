@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-cd /home/hnpark2/prefetchit
-BASE=/home/hnpark2/prefetchit/llvm_prefetchit/results/prefetcht_branch_type_sweep/prefetcht_branch_types_20260624_041139
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT="${PREFETCHIT_ROOT:-$(cd "${SCRIPT_DIR}/../.." && pwd)}"
+cd "${ROOT}"
+BASE="${BASE:-${ROOT}/llvm_prefetchit/results/prefetcht_branch_type_sweep/prefetcht_branch_types_20260624_041139}"
 PLAN=${PLAN:-${BASE}/merged_call_ret_plan/prefetcht1_call_ret.plan.json}
 RUN_ID=${RUN_ID:-v07_branch_call_ret_each50}
 LOG=${BASE}/logs/${RUN_ID}.driver.log
+BASELINE_PER_ITERATION="${BASELINE_PER_ITERATION:-${ROOT}/llvm_prefetchit/results/prefetch_plateau/resume_aggressive_20260620_105007/exact_best_compare/final_compare/profiles/baseline_qsort_538240/per_iteration.csv}"
+GENERAL_PER_ITERATION="${GENERAL_PER_ITERATION:-${ROOT}/llvm_prefetchit/results/prefetch_plateau/resume_aggressive_20260620_105007/exact_best_compare/final_compare/profiles/prefetcht1_qsort_538240/per_iteration.csv}"
 
 trace_inputs_from_plan() {
   python3 - "$1" <<'PY'
@@ -28,8 +32,8 @@ fi
   EXTERNAL_PLAN=${PLAN} \
   TRACE_INPUTS=${TRACE_INPUTS} \
   TRACE_INPUT=${TRACE_INPUTS%%:*} \
-  BASELINE_BINARY=/home/hnpark2/prefetchit/benchmarks/chipyard/sims/verilator/simulator-chipyard.harness-DualMegaBoomAndSingleRocketConfig \
-  SOURCE_WORK=/home/hnpark2/prefetchit/llvm_prefetchit/work/verilator_llvm_prefetchit \
+  BASELINE_BINARY="${ROOT}/benchmarks/chipyard/sims/verilator/simulator-chipyard.harness-DualMegaBoomAndSingleRocketConfig" \
+  SOURCE_WORK="${ROOT}/llvm_prefetchit/work/verilator_llvm_prefetchit" \
   CONFIG=DualMegaBoomAndSingleRocketConfig \
   PREFETCH_MNEMONIC=prefetcht1 \
   PREFETCH_LABEL=prefetcht1 \
@@ -60,8 +64,8 @@ if 'v07_branch_call_ret_each50' not in text:
 PY
   python3 llvm_prefetchit/tools/plot_branch_type_prefetch_results.py \
     --metadata ${META} \
-    --baseline-per-iteration /home/hnpark2/prefetchit/llvm_prefetchit/results/prefetch_plateau/resume_aggressive_20260620_105007/exact_best_compare/final_compare/profiles/baseline_qsort_538240/per_iteration.csv \
-    --general-per-iteration /home/hnpark2/prefetchit/llvm_prefetchit/results/prefetch_plateau/resume_aggressive_20260620_105007/exact_best_compare/final_compare/profiles/prefetcht1_qsort_538240/per_iteration.csv \
+    --baseline-per-iteration "${BASELINE_PER_ITERATION}" \
+    --general-per-iteration "${GENERAL_PER_ITERATION}" \
     --profile-name prefetcht1_qsort_538240 \
     --out-dir ${BASE}/plots_call_ret
   echo "[$(date '+%F %T')] plot update done"

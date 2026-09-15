@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="/home/hnpark2/prefetchit/llvm_prefetchit"
+ROOT="${LLVM_PREFETCHIT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 WORK="${WORK:-${ROOT}/work/pgo_goal_20260713}"
 OUT="${OUT:-${ROOT}/results/pgo_goal_20260713/screens/router_static_grpc_fullcode}"
 RUNNER="${ROOT}/scripts/run_final_microsuite_paired.sh"

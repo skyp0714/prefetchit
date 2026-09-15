@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="/home/hnpark2/prefetchit"
+ROOT="${PREFETCHIT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
 BENCH_ROOT="${ROOT}/benchmarks/dcperf/benchmarks/django_workload"
 SERVER_ROOT="${BENCH_ROOT}/django-workload/django-workload"
 COMMON="${ROOT}/llvm_prefetchit/scripts/final_campaign_common.sh"

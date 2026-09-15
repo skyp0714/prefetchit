@@ -4,7 +4,7 @@
 # the simulator runs other RISC-V payloads? Fixed work via +max-cycles.
 set -euo pipefail
 
-ROOT=/home/hnpark2/prefetchit
+ROOT="${PREFETCHIT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
 OUT="${OUT:-${ROOT}/llvm_prefetchit/results/paper_goal_20260815/verilator_crosspayload}"
 RV="${RV:-${ROOT}/benchmarks/tools/rocket-tools/riscv/riscv64-unknown-elf/share/riscv-tests/benchmarks}"
 MAX_CYCLES="${MAX_CYCLES:-150000}"

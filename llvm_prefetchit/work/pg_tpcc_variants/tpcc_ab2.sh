@@ -2,8 +2,10 @@
 # TPC-C A/B v2: per-arm fresh DB from template (kills state drift), fresh
 # server, 30s warm + 120s measured. Requires tpcc_master template db.
 set -e
-BASE=/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants
-TPCC=/home/hnpark2/prefetchit/llvm_prefetchit/work/sysbench-tpcc
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+LLVM_PREFETCHIT_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
+BASE="${SCRIPT_DIR}"
+TPCC="${LLVM_PREFETCHIT_ROOT}/work/sysbench-tpcc"
 DATA=/tmp/pgdata_tpcc
 OUT=${1:-$BASE/tpcc_ab2.csv}
 REPS=${2:-3}
@@ -38,7 +40,7 @@ measure_arm() {
   sleep 30
   local pids
   pids=$(pgrep -f 'postgres.*tpcc' | head -16 | paste -sd,)
-  echo 'ps101899' | sudo -S -p '' perf stat -p "$pids" \
+  sudo perf stat -p "$pids" \
     -e 'cpu/event=0x24,umask=0x24,name=L2I_CODE_RD_MISS/,instructions,cycles' \
     -o /tmp/tpcc_perf.txt -- sleep 15 2>/dev/null || true
   wait $lpid || true
