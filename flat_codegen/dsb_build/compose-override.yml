@@ -1,0 +1,53 @@
+x-custom: &custom
+  image: dsb-deps-jammy
+  working_dir: /social-network-microservices
+  logging:
+    driver: json-file
+    options:
+      max-size: "64m"
+      max-file: "2"
+  volumes:
+    - ${DSB_BIN:-./bin_active}:/custom
+    - ${PREFETCHIT_ROOT}/benchmarks/DeathStarBench/socialNetwork/config:/social-network-microservices/config
+    - ${PREFETCHIT_ROOT}/benchmarks/DeathStarBench/socialNetwork/keys:/social-network-microservices/keys
+
+services:
+  nginx-thrift:
+    logging:
+      driver: json-file
+      options:
+        max-size: "64m"
+        max-file: "2"
+  social-graph-service:
+    <<: *custom
+    entrypoint: ["/custom/SocialGraphService"]
+  compose-post-service:
+    <<: *custom
+    entrypoint: ["/custom/ComposePostService"]
+  post-storage-service:
+    <<: *custom
+    entrypoint: ["/custom/PostStorageService"]
+  user-timeline-service:
+    <<: *custom
+    entrypoint: ["/custom/UserTimelineService"]
+  url-shorten-service:
+    <<: *custom
+    entrypoint: ["/custom/UrlShortenService"]
+  user-service:
+    <<: *custom
+    entrypoint: ["/custom/UserService"]
+  media-service:
+    <<: *custom
+    entrypoint: ["/custom/MediaService"]
+  text-service:
+    <<: *custom
+    entrypoint: ["/custom/TextService"]
+  unique-id-service:
+    <<: *custom
+    entrypoint: ["/custom/UniqueIdService"]
+  user-mention-service:
+    <<: *custom
+    entrypoint: ["/custom/UserMentionService"]
+  home-timeline-service:
+    <<: *custom
+    entrypoint: ["/custom/HomeTimelineService"]

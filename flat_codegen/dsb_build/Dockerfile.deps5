@@ -1,0 +1,7 @@
+FROM dsb-deps-jammy
+RUN cd /tmp \
+  && git clone -q https://github.com/sewenew/redis-plus-plus.git \
+  && cd redis-plus-plus && git checkout -q 1.2.3 \
+  && sed -i '/Transaction transaction/i\    ShardsPool* get_shards_pool(){\n        return &_pool;\n    }\n' src/sw/redis++/redis_cluster.h \
+  && cmake -B b -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_STANDARD=17 -DREDIS_PLUS_PLUS_CXX_STANDARD=17 -DREDIS_PLUS_PLUS_USE_TLS=ON -DREDIS_PLUS_PLUS_BUILD_TEST=OFF . \
+  && make -C b -j$(nproc) && make -C b install && ldconfig && rm -rf /tmp/*
