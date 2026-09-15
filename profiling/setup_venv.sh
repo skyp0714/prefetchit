@@ -3,7 +3,11 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 VENV_DIR="${SCRIPT_DIR}/.venv"
-REQ_FILE="${SCRIPT_DIR}/required_package.txt"
+REQ_FILE="${PROFILING_REQUIREMENTS:-${SCRIPT_DIR}/requirements.lock.txt}"
+
+if [[ ! -f "${REQ_FILE}" ]]; then
+  REQ_FILE="${SCRIPT_DIR}/required_package.txt"
+fi
 
 if [[ ! -f "${REQ_FILE}" ]]; then
   echo "[err] missing ${REQ_FILE}" >&2

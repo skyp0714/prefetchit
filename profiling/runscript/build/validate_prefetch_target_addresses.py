@@ -13,13 +13,14 @@ LINE_RE = re.compile(
     r"(prefetch(?:it[01]|t[012]))\s+([+-]?(?:0x[0-9a-fA-F]+|\d+))\(%rip\)\s+#\s+"
     r"0x([0-9a-fA-F]+)(?:\s+<([^>]+)>)?"
 )
+DEFAULT_REPO_ROOT = Path(__file__).resolve().parents[3]
 
 
 def parse_args():
     ap = argparse.ArgumentParser(
         description="Validate that objdump prefetch targets match intended adjusted target addresses."
     )
-    ap.add_argument("--repo-root", default="/home/hnpark2/prefetchit")
+    ap.add_argument("--repo-root", default=str(DEFAULT_REPO_ROOT))
     ap.add_argument("--asm-csv", required=True)
     ap.add_argument("--injection-csv", required=True)
     ap.add_argument("--out-csv", required=True)

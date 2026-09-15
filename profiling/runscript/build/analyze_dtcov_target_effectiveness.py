@@ -6,14 +6,26 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 
+DEFAULT_REPO_ROOT = Path(__file__).resolve().parents[3]
+
+
 def parse_args():
     ap = argparse.ArgumentParser(
         description="Compare optimized L2 LBR[0].to samples against intended dtcov prefetch targets."
     )
-    ap.add_argument("--repo-root", default="/home/hnpark2/prefetchit")
-    ap.add_argument("--eval-root", default="/home/hnpark2/prefetchit/profiling/results/prefetchit_eval_dtcov_v1/20260531_121556")
-    ap.add_argument("--variant-root", default="/home/hnpark2/prefetchit/profiling/results/prefetch_dtcov_variants_v1")
-    ap.add_argument("--trace-base", default="/home/hnpark2/prefetchit/profiling/results/trace_dtcov_v1")
+    ap.add_argument("--repo-root", default=str(DEFAULT_REPO_ROOT))
+    ap.add_argument(
+        "--eval-root",
+        default=str(DEFAULT_REPO_ROOT / "profiling/results/prefetchit_eval_dtcov_v1/20260531_121556"),
+    )
+    ap.add_argument(
+        "--variant-root",
+        default=str(DEFAULT_REPO_ROOT / "profiling/results/prefetch_dtcov_variants_v1"),
+    )
+    ap.add_argument(
+        "--trace-base",
+        default=str(DEFAULT_REPO_ROOT / "profiling/results/trace_dtcov_v1"),
+    )
     ap.add_argument("--max-cycles", default="538240")
     ap.add_argument("--out-dir", default="")
     return ap.parse_args()

@@ -6,6 +6,9 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 
+DEFAULT_REPO_ROOT = Path(__file__).resolve().parents[3]
+
+
 def parse_args():
     ap = argparse.ArgumentParser(
         description=(
@@ -14,29 +17,30 @@ def parse_args():
             "hide multiple distinct instruction cache lines."
         )
     )
-    ap.add_argument("--repo-root", default="/home/hnpark2/prefetchit")
+    ap.add_argument("--repo-root", default=str(DEFAULT_REPO_ROOT))
     ap.add_argument(
         "--trace-dir",
-        default="/home/hnpark2/prefetchit/profiling/results/trace/verilator-qsort-highrate/l2_miss",
+        default=str(DEFAULT_REPO_ROOT / "profiling/results/trace/verilator-qsort-highrate/l2_miss"),
     )
     ap.add_argument(
         "--baseline-bin",
-        default=(
-            "/home/hnpark2/prefetchit/profiling/results/prefetchit_builds_exact_v1/binaries/"
+        default=str(
+            DEFAULT_REPO_ROOT
+            / "profiling/results/prefetchit_builds_exact_v1/binaries/"
             "simulator-chipyard.harness-DualMegaBoomAndSingleRocketConfig-verilator_pf_exact_baseline"
         ),
     )
     ap.add_argument(
         "--variant-result-root",
-        default="/home/hnpark2/prefetchit/profiling/results/prefetch_exact_variants_v2",
+        default=str(DEFAULT_REPO_ROOT / "profiling/results/prefetch_exact_variants_v2"),
     )
     ap.add_argument(
         "--eval-root",
-        default="/home/hnpark2/prefetchit/profiling/results/prefetchit_eval_exact_v2/20260529_114818",
+        default=str(DEFAULT_REPO_ROOT / "profiling/results/prefetchit_eval_exact_v2/20260529_114818"),
     )
     ap.add_argument(
         "--base-verilator-dir",
-        default="/home/hnpark2/prefetchit/benchmarks/chipyard/sims/verilator",
+        default=str(DEFAULT_REPO_ROOT / "benchmarks/chipyard/sims/verilator"),
     )
     ap.add_argument("--config", default="DualMegaBoomAndSingleRocketConfig")
     ap.add_argument("--addr2line", default="llvm-addr2line-19")

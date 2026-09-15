@@ -30,6 +30,9 @@ cd profiling
 sudo PROFILE_CORE=1 ./run_profile_all.sh
 ```
 
+`setup_venv.sh` installs the captured environment from `requirements.lock.txt`.
+Set `PROFILING_REQUIREMENTS` to use another requirements file.
+
 Notes:
 - unified benchmark list is `config/benchmarks.txt` (JVM + Verilator + SPEC together)
 - if `benchmarks.txt` includes Verilator, set `CHIPYARD_CONFIG=<your BOOM config>` first

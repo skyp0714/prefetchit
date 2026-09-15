@@ -12,6 +12,7 @@ from pathlib import Path
 
 LABEL_PREFIX = "__pf_target_"
 PREFETCH_KIND = "dt0"
+DEFAULT_REPO_ROOT = Path(__file__).resolve().parents[3]
 
 
 def parse_args():
@@ -22,7 +23,7 @@ def parse_args():
             "as direct function+offset operands with a static same-function shift estimate."
         )
     )
-    ap.add_argument("--repo-root", default="/home/hnpark2/prefetchit")
+    ap.add_argument("--repo-root", default=str(DEFAULT_REPO_ROOT))
     ap.add_argument("--base-verilator-dir", required=True)
     ap.add_argument("--baseline-bin", required=True)
     ap.add_argument("--config", default="DualMegaBoomAndSingleRocketConfig")

@@ -6,6 +6,9 @@ from collections import Counter
 from pathlib import Path
 
 
+DEFAULT_REPO_ROOT = Path(__file__).resolve().parents[3]
+
+
 def parse_args():
     ap = argparse.ArgumentParser(
         description=(
@@ -13,7 +16,7 @@ def parse_args():
             "still resolve to the original profiled source line."
         )
     )
-    ap.add_argument("--repo-root", default="/home/hnpark2/prefetchit")
+    ap.add_argument("--repo-root", default=str(DEFAULT_REPO_ROOT))
     ap.add_argument("--asm-csv", required=True)
     ap.add_argument("--injection-csv", required=True)
     ap.add_argument("--out-csv", required=True)
