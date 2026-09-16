@@ -322,23 +322,27 @@ cp -f "${SIM_OUT}" "${FINAL_SIM}"
 require_file "${FINAL_SIM}"
 ln -sfn "${FINAL_SIM}" "${OUT_DIR}/simulator-chipyard.harness-${CONFIG}-llvm-${PREFETCH_LABEL}"
 
-log "assembly-level validation"
-# The pass compensates symbol+offset targets for same-function layout shift and
-# records the shifts next to the plan; validate against the compensated plan.
-VALIDATE_PLAN="${PLAN}"
-if [[ -s "${PLAN}.shifts.json" ]]; then
-  python3 "${LLVM_PREFETCH_DIR}/tools/resolve_plan_layout_shift.py" \
-    --plan "${PLAN}" --shifts "${PLAN}.shifts.json" --output "${PLAN%.json}.resolved.json" | tee -a "${BUILD_LOG}"
-  VALIDATE_PLAN="${PLAN%.json}.resolved.json"
+if [[ "${SKIP_ASM_VALIDATION:-0}" == "1" ]]; then
+  log "skip assembly-level validation (SKIP_ASM_VALIDATION=1; plan-free seq variants validate in build_verilator_variant.sh)"
+else
+  log "assembly-level validation"
+  # The pass compensates symbol+offset targets for same-function layout shift and
+  # records the shifts next to the plan; validate against the compensated plan.
+  VALIDATE_PLAN="${PLAN}"
+  if [[ -s "${PLAN}.shifts.json" ]]; then
+    python3 "${LLVM_PREFETCH_DIR}/tools/resolve_plan_layout_shift.py" \
+      --plan "${PLAN}" --shifts "${PLAN}.shifts.json" --output "${PLAN%.json}.resolved.json" | tee -a "${BUILD_LOG}"
+    VALIDATE_PLAN="${PLAN%.json}.resolved.json"
+  fi
+  python3 "${LLVM_PREFETCH_DIR}/tools/validate_prefetch_asm.py" \
+    --binary "${FINAL_SIM}" \
+    --plan "${VALIDATE_PLAN}" \
+    --build-log "${BUILD_LOG}" \
+    --out-dir "${ASM_DIR}" \
+    --mnemonic "${PREFETCH_MNEMONIC}" \
+    --objdump "${OBJDUMP_BIN}" \
+    --addr2line "${ADDR2LINE_BIN}"
 fi
-python3 "${LLVM_PREFETCH_DIR}/tools/validate_prefetch_asm.py" \
-  --binary "${FINAL_SIM}" \
-  --plan "${VALIDATE_PLAN}" \
-  --build-log "${BUILD_LOG}" \
-  --out-dir "${ASM_DIR}" \
-  --mnemonic "${PREFETCH_MNEMONIC}" \
-  --objdump "${OBJDUMP_BIN}" \
-  --addr2line "${ADDR2LINE_BIN}"
 
 log "quick simulator smoke"
 qbin="${RISCV_ROOT}/riscv64-unknown-elf/share/riscv-tests/benchmarks/qsort.riscv"

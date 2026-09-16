@@ -338,3 +338,61 @@ MachineFunction or post-ISel implementation.
 Unresolved `line 0` targets can still be targeted when `mangled` and
 `symbol_offset` are available. If both source line and symbol offset are missing,
 the pass cannot insert precisely.
+
+## Plan-Free Modes: Sequential Lookahead And Callee-Entry Burst (2026-09-16)
+
+The PEBS/LBR analysis of the Verilator simulator (`static_prefetch/tools/ret/
+miss_stream_characterization.py`) showed that the branch type of an L2I miss
+sample only labels the last taken branch: the miss IP is usually *not* the
+branch target (RET: 30% on the continuation line, 25% more than 16 lines
+later; COND 68% of samples are short forward hops). About 64k lines miss per
+simulated cycle, i.e. the ~4 MB of generated code executed per cycle streams
+through L2 line by line, and a stage-1 microbenchmark
+(`icache_microbenchmark/microbench/seq_stream/`) confirmed that the hardware
+prefetchers do not hide a sequential *code* stream (MPKI 71, IPC 0.41 on a
+pure 16 MB straight-line function) while `prefetcht1 D(%rip)` every 64 B
+removes the misses (3.3x at D = 4–8 KB).
+
+The pass therefore has two plan-free, profile-free modes that need no plan
+file, no symbol+offset targets and hence no layout compensation or
+re-anchoring:
+
+```text
+-prefetchit-seq-distance=D        (env PREFETCHIT_SEQ_DISTANCE)   bytes ahead; 0 = off
+-prefetchit-seq-stride-insns=K    (PREFETCHIT_SEQ_STRIDE_INSNS)   one site every K IR instructions
+-prefetchit-seq-lines=L           (PREFETCHIT_SEQ_LINES)          D, D+64, ... per site
+-prefetchit-seq-functions=RE      (PREFETCHIT_SEQ_FUNCTIONS)      mangled-name regex (default all)
+-prefetchit-seq-exclude=RE        (PREFETCHIT_SEQ_EXCLUDE)
+-prefetchit-seq-min-insns=N       (PREFETCHIT_SEQ_MIN_INSNS)
+-prefetchit-callee-burst-lines=L  (PREFETCHIT_CALLEE_BURST_LINES) prefetch callee+0..64*(L-1) before direct calls
+-prefetchit-callee-burst-lead=K   (PREFETCHIT_CALLEE_BURST_LEAD)  K IR instructions before the call
+-prefetchit-callee-burst-min-callee-insns=N
+```
+
+*Sequential lookahead* inserts `call void asm sideeffect "prefetcht1 D(%rip)"`
+before every K-th non-PHI/non-EH/non-debug instruction of the selected
+functions. The operand is a constant rip-relative displacement (`0F 18 15
+disp32`, 7 bytes), so in the final layout it always means "the line D bytes
+ahead of this instruction" — the software equivalent of a next-N-line
+instruction prefetcher for straight-line generated code. Because IR
+instructions are not bytes, the actual spacing is calibrated on the binary:
+on Verilator's generated code K = 20 gives a 71 B median spacing (p10 31,
+p90 125), K = 40 gives 138 B (IR:machine ≈ 1.39, 4.8 B per instruction).
+`scripts/static/build_verilator_variant.sh` reports the operand check and the
+spacing distribution of every seq build.
+
+*Callee-entry burst* inserts `prefetcht1 callee+64*l(%rip)` for the first L
+lines of every direct callee defined in the module and matching the regexes,
+K instructions before the call (within the block). It covers the first D
+bytes of a callee that the caller's rip-relative stream cannot reach. On
+Verilator it matters little because 61% of consecutive `nba_sequent`
+callees of `eval_nba__0` are laid out adjacently (89% within 4 KB), so the
+callee's own lookahead reaches the next callee.
+
+Both modes coexist with a plan (`runPlan` first, then burst, then seq). The
+NOP-twin tool patches these prefetches like any other, so the layout-controlled
+A/B protocol is unchanged. First measured result (Verilator DualMegaBoom qsort,
+3.8 GHz, 3 interleaved reps, `results/static_overhaul_20260916/`): D = 2048,
+K = 20 → 1.129x vs base, 1.199x vs its NOP twin, L2I MPKI 56.9 → 15.9; the
+twin itself costs 6% (+6.4% instructions), which is why density (K) is the
+main tuning axis after D.

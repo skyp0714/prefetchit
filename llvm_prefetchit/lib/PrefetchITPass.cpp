@@ -27,6 +27,8 @@
 #include <map>
 #include <optional>
 #include <set>
+#include "llvm/Support/Regex.h"
+
 #include <string>
 #include <vector>
 
@@ -61,6 +63,71 @@ static cl::opt<std::string> PrefetchITMnemonicOverride(
     cl::desc("Override plan prefetch mnemonic: prefetcht0, prefetcht1, "
              "prefetcht2, prefetchnta, prefetchit0, or prefetchit1"),
     cl::value_desc("mnemonic"), cl::init(""));
+
+// Plan-free "sequential lookahead" mode (static, profile-free): in every
+// function whose mangled name matches -prefetchit-seq-functions (and not
+// -prefetchit-seq-exclude), insert `prefetcht1 D(%rip)` before every K-th IR
+// instruction, D = -prefetchit-seq-distance bytes, optionally for L consecutive
+// cachelines (D, D+64, ...). The operand is a constant rip-relative
+// displacement, so the target is always "D bytes ahead of here" in the final
+// layout: no symbol+offset drift, no layout compensation, no re-anchoring.
+// This is the software equivalent of a next-N-line instruction prefetcher for
+// straight-line generated code (Verilator/arcilator), where the L2I miss stream
+// is sequential and the last taken branch merely labels each miss.
+static cl::opt<unsigned> PrefetchITSeqDistance(
+    "prefetchit-seq-distance",
+    cl::desc("Sequential lookahead distance in bytes (0 = off); env "
+             "PREFETCHIT_SEQ_DISTANCE"),
+    cl::init(0));
+static cl::opt<unsigned> PrefetchITSeqStrideInsns(
+    "prefetchit-seq-stride-insns",
+    cl::desc("Insert one lookahead prefetch every K IR instructions; env "
+             "PREFETCHIT_SEQ_STRIDE_INSNS"),
+    cl::init(0));
+static cl::opt<unsigned> PrefetchITSeqLines(
+    "prefetchit-seq-lines",
+    cl::desc("Consecutive 64 B lines per site (D, D+64, ...); env "
+             "PREFETCHIT_SEQ_LINES"),
+    cl::init(0));
+static cl::opt<std::string> PrefetchITSeqFunctions(
+    "prefetchit-seq-functions",
+    cl::desc("Regex over mangled names selecting functions for sequential "
+             "lookahead (default: all); env PREFETCHIT_SEQ_FUNCTIONS"),
+    cl::init(""));
+static cl::opt<std::string> PrefetchITSeqExclude(
+    "prefetchit-seq-exclude",
+    cl::desc("Regex over mangled names excluded from sequential lookahead; "
+             "env PREFETCHIT_SEQ_EXCLUDE"),
+    cl::init(""));
+// Callee-entry burst (plan-free companion of the sequential mode): before each
+// direct call to a defined function matching the seq include/exclude regexes,
+// insert `prefetcht1 callee+64*l(%rip)` for l in [0, burst-lines), placed
+// -prefetchit-callee-burst-lead IR instructions before the call so the
+// callee's first lines are in flight when the call executes. Straight-line
+// generated callees (Verilator nba_sequent) are entered in program order, so
+// this is the cross-function half of the software instruction prefetcher: the
+// sequential mode covers bytes >= D into any function, the burst covers the
+// first lines that the caller's rip-relative stream cannot reach.
+static cl::opt<unsigned> PrefetchITCalleeBurstLines(
+    "prefetchit-callee-burst-lines",
+    cl::desc("Lines of each direct callee's entry to prefetch before the call "
+             "(0 = off); env PREFETCHIT_CALLEE_BURST_LINES"),
+    cl::init(0));
+static cl::opt<unsigned> PrefetchITCalleeBurstLead(
+    "prefetchit-callee-burst-lead",
+    cl::desc("IR instructions before the call at which the burst is issued "
+             "(within the block; env PREFETCHIT_CALLEE_BURST_LEAD)"),
+    cl::init(0));
+static cl::opt<unsigned> PrefetchITCalleeBurstMinCalleeInsns(
+    "prefetchit-callee-burst-min-callee-insns",
+    cl::desc("Only burst callees with at least this many IR instructions; env "
+             "PREFETCHIT_CALLEE_BURST_MIN_CALLEE_INSNS"),
+    cl::init(0));
+static cl::opt<unsigned> PrefetchITSeqMinInsns(
+    "prefetchit-seq-min-insns",
+    cl::desc("Skip functions with fewer IR instructions than this; env "
+             "PREFETCHIT_SEQ_MIN_INSNS"),
+    cl::init(0));
 
 namespace {
 
@@ -733,18 +800,225 @@ static bool insertPrefetchBeforeGotSymbolOffset(Module &M, Instruction &SiteI,
   return true;
 }
 
+static std::string envOr(const char *Name, const std::string &Flag) {
+  if (!Flag.empty())
+    return Flag;
+  const char *V = std::getenv(Name);
+  return (V && *V) ? std::string(V) : std::string();
+}
+
+static unsigned envOrU(const char *Name, unsigned Flag, unsigned Default) {
+  if (Flag)
+    return Flag;
+  const char *V = std::getenv(Name);
+  if (V && *V) {
+    if (std::optional<uint64_t> Parsed = parseUnsignedInteger(V))
+      return static_cast<unsigned>(*Parsed);
+  }
+  return Default;
+}
+
+struct SeqConfig {
+  unsigned Distance = 0;   // bytes ahead
+  unsigned Stride = 14;    // IR instructions between sites
+  unsigned Lines = 1;      // consecutive cachelines per site
+  unsigned MinInsns = 0;
+  unsigned BurstLines = 0;   // callee-entry burst lines (0 = off)
+  unsigned BurstLead = 0;    // IR instructions before the call
+  unsigned BurstMinCalleeInsns = 0;
+  std::string Include;
+  std::string Exclude;
+  std::string Mnemonic = DefaultPrefetchMnemonic.str();
+  bool enabled() const { return Distance > 0 || BurstLines > 0; }
+};
+
+static SeqConfig getSeqConfig() {
+  SeqConfig C;
+  C.Distance = envOrU("PREFETCHIT_SEQ_DISTANCE", PrefetchITSeqDistance, 0);
+  C.Stride = std::max(1u, envOrU("PREFETCHIT_SEQ_STRIDE_INSNS",
+                                 PrefetchITSeqStrideInsns, 14));
+  C.Lines = std::max(1u, envOrU("PREFETCHIT_SEQ_LINES", PrefetchITSeqLines, 1));
+  C.MinInsns = envOrU("PREFETCHIT_SEQ_MIN_INSNS", PrefetchITSeqMinInsns, 0);
+  C.BurstLines = envOrU("PREFETCHIT_CALLEE_BURST_LINES", PrefetchITCalleeBurstLines, 0);
+  C.BurstLead = envOrU("PREFETCHIT_CALLEE_BURST_LEAD", PrefetchITCalleeBurstLead, 0);
+  C.BurstMinCalleeInsns = envOrU("PREFETCHIT_CALLEE_BURST_MIN_CALLEE_INSNS",
+                                 PrefetchITCalleeBurstMinCalleeInsns, 0);
+  C.Include = envOr("PREFETCHIT_SEQ_FUNCTIONS", PrefetchITSeqFunctions);
+  C.Exclude = envOr("PREFETCHIT_SEQ_EXCLUDE", PrefetchITSeqExclude);
+  if (!PrefetchITMnemonicOverride.empty()) {
+    if (std::optional<std::string> M =
+            normalizePrefetchMnemonic(PrefetchITMnemonicOverride))
+      C.Mnemonic = *M;
+  } else if (const char *EnvM = std::getenv("PREFETCHIT_SEQ_MNEMONIC")) {
+    if (std::optional<std::string> M = normalizePrefetchMnemonic(EnvM))
+      C.Mnemonic = *M;
+  }
+  return C;
+}
+
+static bool isSeqInsertionCandidate(const Instruction &I) {
+  if (isIgnorableInstruction(I))
+    return false;
+  if (isa<CatchSwitchInst>(I) || isa<CatchReturnInst>(I) ||
+      isa<CleanupReturnInst>(I))
+    return false;
+  return true;
+}
+
+static unsigned countIRInsns(Function &F) {
+  unsigned N = 0;
+  for (BasicBlock &BB : F)
+    for (Instruction &I : BB)
+      if (isSeqInsertionCandidate(I))
+        ++N;
+  return N;
+}
+
+// Callee-entry bursts: `prefetcht1 callee+64*l(%rip)` before direct calls.
+static uint64_t runCalleeEntryBurst(Module &M, const SeqConfig &C) {
+  LLVMContext &Ctx = M.getContext();
+  FunctionType *AsmTy = FunctionType::get(Type::getVoidTy(Ctx), {}, false);
+  std::optional<Regex> Include, Exclude;
+  if (!C.Include.empty())
+    Include.emplace(C.Include);
+  if (!C.Exclude.empty())
+    Exclude.emplace(C.Exclude);
+  auto selected = [&](StringRef Name) {
+    if (Include && !Include->match(Name))
+      return false;
+    if (Exclude && Exclude->match(Name))
+      return false;
+    return true;
+  };
+  std::map<Function *, unsigned> InsnCount;
+  uint64_t Calls = 0, Injected = 0;
+  for (Function &F : M) {
+    if (F.isDeclaration() || !selected(F.getName()))
+      continue;
+    // collect first, then insert (do not mutate while iterating instructions)
+    std::vector<std::pair<CallBase *, Function *>> Sites;
+    for (BasicBlock &BB : F)
+      for (Instruction &I : BB) {
+        auto *CB = dyn_cast<CallBase>(&I);
+        if (!CB || isa<IntrinsicInst>(CB) || CB->isInlineAsm())
+          continue;
+        Function *Callee = CB->getCalledFunction();
+        if (!Callee || Callee->isDeclaration() || !selected(Callee->getName()))
+          continue;
+        if (C.BurstMinCalleeInsns) {
+          auto It = InsnCount.find(Callee);
+          if (It == InsnCount.end())
+            It = InsnCount.emplace(Callee, countIRInsns(*Callee)).first;
+          if (It->second < C.BurstMinCalleeInsns)
+            continue;
+        }
+        Sites.emplace_back(CB, Callee);
+      }
+    for (auto &[CB, Callee] : Sites) {
+      Instruction *At = moveInsertionEarlier(*CB, C.BurstLead);
+      std::string Symbol = escapeInlineAsmSymbol(Callee->getName());
+      for (unsigned L = 0; L < C.BurstLines; ++L) {
+        std::string AsmString = C.Mnemonic + " " + Symbol + "+" +
+                                std::to_string(64u * L) + "(%rip)";
+        CallInst *CI = CallInst::Create(InlineAsm::get(AsmTy, AsmString, "", true),
+                                        {}, "", At);
+        CI->setDebugLoc(At->getDebugLoc());
+        ++Injected;
+      }
+      ++Calls;
+    }
+  }
+  errs() << "prefetchit-callee-burst: lines=" << C.BurstLines << " lead_insns="
+         << C.BurstLead << " min_callee_insns=" << C.BurstMinCalleeInsns
+         << " calls=" << Calls << " injected=" << Injected << "\n";
+  return Injected;
+}
+
+// Insert `prefetcht1 D(%rip)` (and D+64, ...) before every K-th instruction of
+// the selected functions. Returns the number of prefetches injected.
+static uint64_t runSequentialLookahead(Module &M, const SeqConfig &C) {
+  LLVMContext &Ctx = M.getContext();
+  FunctionType *AsmTy = FunctionType::get(Type::getVoidTy(Ctx), {}, false);
+  std::vector<InlineAsm *> Asms;
+  for (unsigned L = 0; L < C.Lines; ++L) {
+    std::string AsmString = C.Mnemonic + " " +
+                            std::to_string(static_cast<uint64_t>(C.Distance) +
+                                           64ull * L) +
+                            "(%rip)";
+    Asms.push_back(InlineAsm::get(AsmTy, AsmString, "", true));
+  }
+  std::optional<Regex> Include, Exclude;
+  if (!C.Include.empty())
+    Include.emplace(C.Include);
+  if (!C.Exclude.empty())
+    Exclude.emplace(C.Exclude);
+
+  uint64_t Functions = 0, Insns = 0, Injected = 0, Sites = 0;
+  for (Function &F : M) {
+    if (F.isDeclaration())
+      continue;
+    StringRef Name = F.getName();
+    if (Include && !Include->match(Name))
+      continue;
+    if (Exclude && Exclude->match(Name))
+      continue;
+    unsigned Count = 0;
+    std::vector<Instruction *> Sites_;
+    for (BasicBlock &BB : F) {
+      for (Instruction &I : BB) {
+        if (!isSeqInsertionCandidate(I))
+          continue;
+        ++Count;
+        if (Count % C.Stride == 0)
+          Sites_.push_back(&I);
+      }
+    }
+    if (Count < C.MinInsns)
+      continue;
+    ++Functions;
+    Insns += Count;
+    for (Instruction *I : Sites_) {
+      for (InlineAsm *A : Asms) {
+        CallInst *CI = CallInst::Create(A, {}, "", I);
+        CI->setDebugLoc(I->getDebugLoc());
+        ++Injected;
+      }
+      ++Sites;
+    }
+  }
+  errs() << "prefetchit-seq: distance=" << C.Distance << " stride_insns="
+         << C.Stride << " lines=" << C.Lines << " mnemonic=" << C.Mnemonic
+         << " include='" << C.Include << "' exclude='" << C.Exclude
+         << "' functions=" << Functions << " ir_insns=" << Insns
+         << " sites=" << Sites << " injected=" << Injected << "\n";
+  return Injected;
+}
+
 class PrefetchITPass : public PassInfoMixin<PrefetchITPass> {
 public:
   PreservedAnalyses run(Module &M, ModuleAnalysisManager &) {
+    SeqConfig Seq = getSeqConfig();
     std::string PlanPath = getPlanPath();
-    if (PlanPath.empty()) {
-      errs() << "prefetchit-inject: missing -prefetchit-plan or PREFETCHIT_PLAN\n";
-      return PreservedAnalyses::all();
-    }
+    bool Changed = false;
+    if (!PlanPath.empty())
+      Changed |= runPlan(M, PlanPath);
+    else if (!Seq.enabled())
+      errs() << "prefetchit-inject: missing -prefetchit-plan or PREFETCHIT_PLAN "
+                "(and no -prefetchit-seq-distance)\n";
+    if (Seq.BurstLines > 0)
+      Changed |= runCalleeEntryBurst(M, Seq) > 0;
+    if (Seq.Distance > 0)
+      Changed |= runSequentialLookahead(M, Seq) > 0;
+    return Changed ? PreservedAnalyses::none() : PreservedAnalyses::all();
+  }
+
+  // Plan-driven injection (prefetchit.plan.v1). Returns true when anything
+  // was injected.
+  bool runPlan(Module &M, const std::string &PlanPath) {
 
     std::optional<Plan> Loaded = loadPlan(PlanPath);
     if (!Loaded)
-      return PreservedAnalyses::all();
+      return false;
 
     std::optional<std::string> OverrideMnemonic;
     if (!PrefetchITMnemonicOverride.empty()) {
@@ -752,7 +1026,7 @@ public:
       if (!OverrideMnemonic) {
         errs() << "prefetchit-inject: unsupported -prefetchit-mnemonic '"
                << PrefetchITMnemonicOverride << "'\n";
-        return PreservedAnalyses::all();
+        return false;
       }
     }
 
@@ -1093,8 +1367,7 @@ public:
            << " missing_site_fn=" << Stats.MissingSiteFunction
            << " missing_site_loc=" << Stats.MissingSiteLocation << "\n";
 
-    return Stats.Injected ? PreservedAnalyses::none()
-                          : PreservedAnalyses::all();
+    return Stats.Injected > 0;
   }
 };
 
