@@ -47,7 +47,7 @@ trace)
   start_server $M/install_base
   for i in 1 2 3; do TD=$OUT/traces/trace0$i/l2_miss; mkdir -p $TD; [[ -s $TD/lbr_symbolic_dump.txt ]] && continue
     taskset -c $CLIENT_CORES sysbench oltp_read_write $SB --threads=$THREADS --time=70 run > $TD/sysbench.log 2>&1 &
-    sleep 8; perf record -e 'cpu/event=0x24,umask=0x24,name=L2I_CODE_RD_MISS/upp' -b -c 5000 -o $TD/l2miss_profile.data -a -C $SERVER_CORES -- sleep 55 > $TD/record.log 2>&1 || true; wait
+    SBPID=$!; sleep 8; perf record -e 'cpu/event=0x24,umask=0x24,name=L2I_CODE_RD_MISS/upp' -b -c 5000 -o $TD/l2miss_profile.data -a -C $SERVER_CORES -- sleep 55 > $TD/record.log 2>&1 || true; wait $SBPID
     bash $ROOT/profiling/analyze_pebs_trace.sh --data $TD/l2miss_profile.data --out-dir $TD --event-label 'cpu/event=0x24,umask=0x24,name=L2I_CODE_RD_MISS/upp' --binary $M/install_base/bin/mariadbd > $TD/analyze.log 2>&1 || true
     log "trace $i samples: $(awk -F: '/LBR samples parsed/ {gsub(/ /, "", $2); print $2; exit}' $TD/trace_summary.md)"
   done; stop_server
