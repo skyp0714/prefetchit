@@ -53,6 +53,14 @@ callsite/continuation 계열(PGO RET 1.02x, RET v3 1.00x)은 원리적 한계 �
 
 ## 2. 이전에 실패한 워크로드 포함, static 광범위 재시도 (correctness 우선)
 
+**2026-09-16 추가 — 절차에 "miss 스트림 진단"을 넣는다.** flattened 코드(Verilator/arcilator)에서는 plan 기반 static이 아니라 pass의
+seq 모드가 정답이었다(README §2-1). 다른 워크로드도 trace를 뜨면 먼저 `static_prefetch/tools/ret/miss_stream_characterization.py`로
+(a) sample IP가 LBR[0].to 라인 밖으로 얼마나 흐르는지, (b) miss가 몇 개 함수에 집중되는지를 본다.
+- 순차 스트림형(sample IP가 target 라인 뒤로 길게 흐름, 큰 직선 함수) → seq 모드(`SEQ_DISTANCE=4096 SEQ_STRIDE=20`, 함수 집합은
+  `static_prefetch/tools/seq/select_seq_functions.py`)를 바로 시도. 후보: 다른 HDL 시뮬레이터(ESSENT, 다른 Verilator 디자인), 생성 코드가 큰
+  파서/직렬화 코드(FleetBench proto arena), JIT가 뿜는 직선 코드(4단계 C2와 연결).
+- 분산형(수천 지점, DSO 안, target 라인에 국한) → 기존 절차(trace ceiling → plan). 아래 표의 서비스형 워크로드가 여기다.
+
 워크로드별 절차(모두 동일):
 1. **스크린**: `llvm_prefetchit/scripts/platform/screen_l2i_mpki.sh`(또는 서비스는 `campaign_common.sh` 기반 harness)로 부하 상태 L2I MPKI. 한 자리 수 미만이면 제외하고 표에 기록.
 2. **trace-guided ceiling**: baseline을 clang-19 `-O3 -g`로 빌드 → trace 3회 → `prefetchit_trace_to_plan.py` → pass 빌드 → resolve/reanchor/drift → NOP twin → A/B. **ceiling이 없으면 static도 없다** — 여기서 멈추고 기록.
