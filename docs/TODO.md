@@ -27,7 +27,7 @@ GRUB 현황: 2026-09-15 재부팅으로 `intel_pstate=disable` 제거됨. 남은
 ## 1. Verilator — static pass 대수술 (2026-09-16 진행 결과와 남은 일)
 
 결론(README §2-1): miss는 순차 코드 스트림이므로 static은 **sequential lookahead**(`prefetcht1 D(%rip)`, plan/profile 불필요)로 간다.
-qsort 100k 사이클, 3.8 GHz, 3회: seq D=4 KB K=20 + burst4 **1.148x / 1.230x vs twin**(MPKI 56.9→14.0), D=8 KB K=40 + burst8 1.145x(+4.2% 명령);
+qsort 100k 사이클, 3.8 GHz, 3회: seq D=4 KB K=20 + burst4 **1.149x / 1.236x vs twin**(MPKI 56.9→13.7, 함수 자동 선택), D=8 KB K=40 + burst8 1.145x(+4.2% 명령);
 dhrystone/median/towers 1.143x(payload 무관), full run 1.139x; arcilator DMB K=10 1.543x. 결과 표: `python3 llvm_prefetchit/results/static_overhaul_20260916/summarize_all.py`.
 callsite/continuation 계열(PGO RET 1.02x, RET v3 1.00x)은 원리적 한계 — 1-A/1-B(사이트 선택·앵커링)는 종결.
 
@@ -39,7 +39,7 @@ callsite/continuation 계열(PGO RET 1.02x, RET v3 1.00x)은 원리적 한계 �
 - 명령 비용 줄이기: 7 B 인코딩이 fetch 대역폭을 먹는다. MachineFunction pass에서 정확히 128 B마다 1개(IR K는 p10–p90 31–125 B로 흔들림)
   또는 128 B-pair(adjacent-line prefetcher) 의존 → 마이크로벤치 S=128 결과(D=4 KB에서 S=64와 동등)를 Verilator에서 확인.
 - 함수 선택 규칙 일반화(구현·검증 중): `static_prefetch/tools/seq/select_seq_functions.py`(main loop에서 도달 가능한 함수 전부, 3,987개/13.6 MB = miss 97.4%)
-  → pass `-prefetchit-seq-functions-file`. round 4 `seq_d4096_k20_b4_auto`가 regex 버전(1.148x)과 같은지 확인.
+  → pass `-prefetchit-seq-functions-file`. **round 4 확인 완료: `seq_d4096_k20_b4_auto` 1.149x / 1.236x vs twin(MPKI 13.7) = regex 버전(1.148x)과 동일** → 이제 Verilator 이름에 의존하는 규칙은 없다.
 
 ### 1-B'. 일반화 검증
 - cross-payload: 같은 바이너리로 dhrystone/median/towers(`scripts/static/measure_verilator_variants.sh PAYLOAD=…`).

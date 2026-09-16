@@ -42,7 +42,7 @@ NOP으로 치환한 *NOP twin* 대비, 코어·언코어 클럭 고정, 인터�
 | 4 | WideApi | 1.110x | **1.109x**, p99 −19% | 재현 |
 | 2 | Verilator qsort — PGO(trace) RET cov90 | 1.076x | **1.021x vs NOP twin**, MPKI 57.1→53.3 (−6.6%); 09-16 재측정 1.011x/1.021x | miss 감소는 재현, 시간 이득은 2% |
 | 2 | Verilator qsort — static top1k callsite | 1.078x | **1.003x** (top5k/nested/mixed도 ≤1.003x); call 단위 RET v3(7,562 call, 4라인) 1.001x/1.014x | **재현 안 됨** — continuation만 노리는 방식의 한계(아래 §2-1) |
-| 2 | **Verilator qsort — static sequential lookahead (2026-09-16 신규)** | — | **1.148x vs base / 1.230x vs NOP twin**, MPKI 56.9→14.0 (D=4 KB, 70 B마다 + callee burst 4라인); 명령 +4%인 K=40 계열도 1.145x; dhrystone/median/towers 동일, full run 1.139x | **PGO RET ceiling(1.02x)을 static이 7배 넘음** → §2-1 |
+| 2 | **Verilator qsort — static sequential lookahead (2026-09-16 신규)** | — | **1.149x vs base / 1.236x vs NOP twin**, MPKI 56.9→13.7 (D=4 KB, 70 B마다 + callee burst 4라인, 함수 집합 자동 선택); 명령 +4%인 K=40 계열도 1.145x; dhrystone/median/towers 동일, full run 1.139x | **PGO RET ceiling(1.02x)을 static이 7배 넘음** → §2-1 |
 | 2 | arcilator DualMegaBoom — **static sequential lookahead** | (MegaBoom callsite s4la16 1.051x) | **1.543x vs base / 1.683x vs NOP twin**, MPKI 79.1→35.4 (D=4 KB K=10, 20k 사이클, 3회; K=20 1.504x; `flat_codegen/results/arc_seq_20260916.csv`) | 8월에 'saturation 영역'으로 분류했던 워크로드가 seq로 최대 이득 |
 | 1 | microbench | prefetchit no-op | 바이너리만 재빌드 | — |
 
@@ -64,7 +64,7 @@ MPKI 71 / IPC 0.41(Verilator와 같은 영역)이고 NOP twin은 base와 동일�
 128 B 간격도 D=4 KB면 동등. 즉 데이터센터 규모의 flattened 코드에서는 *다음에 실행될 코드 스트림*을 소프트웨어가 앞서 끌어와야 한다.
 
 그래서 pass에 plan/profile이 전혀 없는 두 모드를 추가했다(`llvm_prefetchit/docs/design.md` "Plan-Free Modes"):
-- **sequential lookahead** `-prefetchit-seq-distance=D -prefetchit-seq-stride-insns=K`: 선택 함수(`___eval_nba|nba_sequent|nba_comb`, one-shot 제외)의
+- **sequential lookahead** `-prefetchit-seq-distance=D -prefetchit-seq-stride-insns=K`: 선택 함수(regex, 또는 `static_prefetch/tools/seq/select_seq_functions.py`가 뽑은 "main 루프에서 도달 가능한 함수" 목록 → `-prefetchit-seq-functions-file`; 둘 다 miss의 97.4% 커버, 결과 동일)의
   K번째 IR 명령마다 `prefetcht1 D(%rip)`. 상수 rip 상대 오프셋이라 **레이아웃 drift·재앵커링 문제가 원천적으로 없음**. K=20 ≈ 70 B, K=40 ≈ 138 B 간격.
 - **callee-entry burst** `-prefetchit-callee-burst-lines=L`: 직접 call 직전에 callee+0..64·(L−1) prefetch(caller 스트림이 못 미치는 callee 첫 라인용).
 
@@ -81,6 +81,9 @@ Verilator DualMegaBoom qsort, 3.8 GHz 고정, 인터리브 3회, 100k 사이클(
 | seq D=4 KB K=20 | 269k | +6.4% | 1.142x | 1.211x | 0.944x | 16.6 |
 | seq D=8 KB K=20 | 269k | +6.4% | 1.144x | 1.215x | 0.941x | 17.4 |
 | **seq D=4 KB K=20 + burst 4라인** | 280k | +6.8% | **1.148x** | **1.230x** | 0.933x | 14.0 |
+| **같은 설정, 함수 집합을 `select_seq_functions.py`로 자동 선택(regex 없음)** | 366k(콜드 코드 포함) | +6.7% | **1.149x** | **1.236x** | 0.929x | 13.7 |
+| seq D=4 KB K=30 + burst 4라인 | 185k | +4.8% | 1.146x | 1.203x | 0.952x | 15.9 |
+| callee-entry burst만 (4라인) | 11k | +0.5% | 1.025x | 1.028x | 0.997x | 50.8 |
 | seq D=4 KB K=20 + burst 8라인 | 292k | +7.3% | 1.144x | 1.235x | 0.926x | 12.1 |
 | seq D=4 KB K=40 | 132k | +3.3% | 1.131x | 1.170x | 0.967x | 22.3 |
 | seq D=4 KB K=40 + burst 4라인 | 143k | +3.8% | 1.141x | 1.187x | 0.962x | 18.7 |
@@ -162,7 +165,7 @@ affinity 감사, `valid` 열). memcached는 중립(대조군으로 유지).
 
 | 워크로드 | L2I MPKI | 결과 | 원인/메모 | 재시도 출발점 |
 |---|---:|---|---|---|
-| Verilator DualMegaBoom qsort (+dhrystone/median/towers) | 57 | **static seq lookahead + burst 1.148x / 1.230x vs twin, MPKI −75%**; payload 무관; PGO(trace) RET 1.02x; callsite 계열 1.00x | 순차 코드 스트림(§2-1) | `scripts/static/build_verilator_variant.sh` (SEQ_DISTANCE=4096 SEQ_STRIDE=20), `measure_verilator_variants.sh` |
+| Verilator DualMegaBoom qsort (+dhrystone/median/towers) | 57 | **static seq lookahead + burst 1.149x / 1.236x vs twin, MPKI −76%** (프로파일·regex 없이 함수 자동 선택); payload 무관; PGO(trace) RET 1.02x; callsite 계열 1.00x | 순차 코드 스트림(§2-1) | `scripts/static/build_verilator_variant.sh` (SEQ_DISTANCE=4096 SEQ_STRIDE=20), `measure_verilator_variants.sh` |
 | arcilator DualMegaBoom | 79 | **static seq lookahead 1.543x / 1.683x vs twin, MPKI 79→35** (D=4 KB K=10); K=20 1.504x, K=40 1.407x; (Aug MegaBoom callsite s4la16 1.051x) | `.fir`→`firtool --ir-hw`→`stub_externs.py`→`arcilator --emit-llvm`→clang+pass | `flat_codegen/work/{build,measure}_arc_variants.sh` |
 | Django (DCPerf) | 85 | manual 1.46–1.49x | ICacheBuster 메서드 포인터 배열 | `scripts/dispatch/run_django_manual.sh` |
 | FeedSim (DCPerf) | 8 | manual 1.05–1.07x | 동일 구조 | `scripts/dispatch/run_feedsim_closedloop.sh` |
