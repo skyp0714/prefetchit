@@ -27,18 +27,19 @@ GRUB 현황: 2026-09-15 재부팅으로 `intel_pstate=disable` 제거됨. 남은
 ## 1. Verilator — static pass 대수술 (2026-09-16 진행 결과와 남은 일)
 
 결론(README §2-1): miss는 순차 코드 스트림이므로 static은 **sequential lookahead**(`prefetcht1 D(%rip)`, plan/profile 불필요)로 간다.
-qsort 100k 사이클, 3.8 GHz, 3회: seq D=4 KB K=20 **1.142x / 1.211x vs twin**(MPKI 56.9→16.6), K=40+burst4 1.141x(+3.8% 명령).
+qsort 100k 사이클, 3.8 GHz, 3회: seq D=4 KB K=20 + burst4 **1.148x / 1.230x vs twin**(MPKI 56.9→14.0), D=8 KB K=40 + burst8 1.145x(+4.2% 명령);
+dhrystone/median/towers 1.143x(payload 무관), full run 1.139x; arcilator DMB K=10 1.543x. 결과 표: `python3 llvm_prefetchit/results/static_overhaul_20260916/summarize_all.py`.
 callsite/continuation 계열(PGO RET 1.02x, RET v3 1.00x)은 원리적 한계 — 1-A/1-B(사이트 선택·앵커링)는 종결.
 
 ### 1-A'. seq 모드 튜닝 (남은 축)
-- 밀도 K vs 거리 D: 순효과는 K=20에서 포화(1.21x), 삽입 명령 비용 ≈ 명령 수 증가분(K=20 −5.7%, K=40 −3.4%, K=80 −1.8%).
-  다음 후보: D=8 KB K=20, D=4 KB K=20 + burst, D=8 KB K=40 + burst, burst만(D=0) 대조군, K=40 lines=2.
-- 잔여 miss(seq 후 MPKI 16.6)의 위치를 trace로 확인(`results/static_overhaul_20260916/traces/seq_d4096_k20_trace01/`):
-  함수 진입(burst로), memset/memcpy 이후, 함수 끝 넘어감(D가 함수 경계 밖) 중 어느 것인지 → 보완 규칙.
+- 밀도 K vs 거리 D(측정 완료): 순효과는 K=20+burst에서 1.23x로 포화, 삽입 명령 비용 ≈ 명령 수 증가분(K=20 −5.7%, K=40 −3.4%, K=80 −1.8%).
+  D는 4 KB 이상이면 동등(8 KB ≈ 4 KB), burst 4라인이 8라인보다 net이 좋다(명령 비용). 1.14–1.15x plateau — 다음 이득은 **명령 비용 절감**에서 나온다.
+- 잔여 miss(seq D=4K 후 MPKI 16.6) trace(`traces/seq_d4096_k20_trace01/`): 55%가 nba_sequent 본문 앞 ~300 B(callee 진입 — burst가 이걸 잡아 14.0),
+  38%가 eval_nba__0 중간(COND 58%, CALL 26%). 남은 축: 인접하지 않은(11%) callee 전환, memset/memcpy 반환 직후.
 - 명령 비용 줄이기: 7 B 인코딩이 fetch 대역폭을 먹는다. MachineFunction pass에서 정확히 128 B마다 1개(IR K는 p10–p90 31–125 B로 흔들림)
   또는 128 B-pair(adjacent-line prefetcher) 의존 → 마이크로벤치 S=128 결과(D=4 KB에서 S=64와 동등)를 Verilator에서 확인.
-- 함수 선택 규칙 일반화: 현재 regex(`___eval_nba|nba_sequent|nba_comb` − one-shot). 프로파일 없는 일반 규칙 = "main loop에서 도달 가능한 큼직한 직선 함수"
-  (`static_return_target_candidates.py`의 `compute_loop_hot_reach`)로 대체해 Verilator 외 코드베이스에도 적용 가능하게.
+- 함수 선택 규칙 일반화(구현·검증 중): `static_prefetch/tools/seq/select_seq_functions.py`(main loop에서 도달 가능한 함수 전부, 3,987개/13.6 MB = miss 97.4%)
+  → pass `-prefetchit-seq-functions-file`. round 4 `seq_d4096_k20_b4_auto`가 regex 버전(1.148x)과 같은지 확인.
 
 ### 1-B'. 일반화 검증
 - cross-payload: 같은 바이너리로 dhrystone/median/towers(`scripts/static/measure_verilator_variants.sh PAYLOAD=…`).
