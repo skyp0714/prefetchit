@@ -2,7 +2,7 @@
 # clean MariaDB pass on quiet cores: user/kernel split → fresh traces → PGO plan → pass build → A/B
 set -u
 until grep -q DSBDSO_DONE /tmp/dsb_dso2.log; do sleep 15; done
-while docker ps -q | grep -q .; do sleep 10; done   # no containers running
+while docker ps --format '{{.Names}}' | grep -q '^socialnetwork-'; do sleep 10; done
 P=/home/hnpark2/prefetchit/benchmarks/mariadb/mariadb_pipeline.sh; M=/home/hnpark2/prefetchit/benchmarks/mariadb; R=/home/hnpark2/prefetchit/llvm_prefetchit/results/mariadb_20260916
 export SERVER_CORES=64-67 CLIENT_CORES=68-71
 $M/mariadb_split.sh 2>&1 | grep -E "tps=|SPLIT"
