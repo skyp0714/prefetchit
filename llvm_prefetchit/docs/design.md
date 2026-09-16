@@ -394,8 +394,12 @@ callee's own lookahead reaches the next callee.
 
 Both modes coexist with a plan (`runPlan` first, then burst, then seq). The
 NOP-twin tool patches these prefetches like any other, so the layout-controlled
-A/B protocol is unchanged. First measured result (Verilator DualMegaBoom qsort,
-3.8 GHz, 3 interleaved reps, `results/static_overhaul_20260916/`): D = 2048,
-K = 20 → 1.129x vs base, 1.199x vs its NOP twin, L2I MPKI 56.9 → 15.9; the
-twin itself costs 6% (+6.4% instructions), which is why density (K) is the
-main tuning axis after D.
+A/B protocol is unchanged. Measured (Verilator DualMegaBoom qsort, 3.8 GHz,
+3 interleaved reps, `results/static_overhaul_20260916/summarize_all.py`):
+D = 4096, K = 20 + 4-line burst → **1.148x vs base, 1.230x vs its NOP twin**,
+L2I MPKI 56.9 → 14.0; D = 8192, K = 40 + 8-line burst → 1.145x at +4.2%
+instructions; burst alone 1.034x. The twin costs about the instruction increase
+(+6.4% → −5.7%), so after D ≥ 4 KB the tuning axis is issue density. The same
+binary gives 1.143x on dhrystone/median/towers and 1.139x on the full 538,240-
+cycle qsort run; arcilator DualMegaBoom (LLVM IR → pass → clang) gets 1.543x /
+1.683x vs twin at K = 10 (MPKI 79 → 35).
