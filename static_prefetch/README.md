@@ -26,6 +26,31 @@ repositories until 2026-09-15; both histories are in this repository
 (`git log --all`). Algorithm notes: `docs/static_return_algorithm_v2.md`,
 `docs/static_cond_algorithm_v1.md`, `docs/static_cond_sampleip_update.md`.
 
+## 2026-09-16 — what the traces actually say, and the tools that came out of it
+
+`tools/ret/ret_producing_call_truth.py` maps every RET-type L2I miss sample to its
+statically unique producing call (the call whose next instruction is `LBR[0].to`),
+and `tools/ret/miss_stream_characterization.py` compares the precise PEBS sample
+IP with `LBR[0].to` for every branch type. On Verilator DualMegaBoom only 30% of
+RET misses are on the continuation line (25% are >16 lines later), CALL misses
+stream through callee bodies, and ~64k lines miss per simulated cycle: the L2I
+miss stream is *sequential*, the branch type only labels it. Consequences:
+
+- `tools/ret/static_ret_v3_plan.py` (call-level selection: steady-state callers ×
+  long callees, 96.9% producing-call coverage) is exact but inert (1.001x): the
+  continuation-only `ret` family, and the `cond` family, cannot reach the stream.
+  They stay here as the documented negative result of the plan-based approach.
+- The effective static method moved into the LLVM pass itself as plan-free modes
+  (`llvm_prefetchit/docs/design.md`, "Plan-Free Modes"): sequential lookahead
+  `prefetcht1 D(%rip)` every K instructions plus a callee-entry burst. Verilator
+  qsort 1.142x vs base / 1.211x vs NOP twin (MPKI 56.9→16.6); arcilator DMB 1.504x.
+- `tools/seq/select_seq_functions.py` is the profile-free *function* selector for
+  those modes (everything reachable from `main`'s loop): 3,987 functions holding
+  97.4% of the misses, the same as the hand regex; output feeds
+  `-prefetchit-seq-functions-file`.
+
+Results and raw runs: `llvm_prefetchit/results/static_overhaul_20260916/`.
+
 ## Layout
 
 | path | content |
