@@ -1,3 +1,4 @@
+#include "llvm/ADT/SmallVector.h"
 #include "llvm/ADT/StringRef.h"
 #include "llvm/ADT/StringExtras.h"
 #include "llvm/IR/BasicBlock.h"
@@ -123,6 +124,12 @@ static cl::opt<unsigned> PrefetchITCalleeBurstMinCalleeInsns(
     cl::desc("Only burst callees with at least this many IR instructions; env "
              "PREFETCHIT_CALLEE_BURST_MIN_CALLEE_INSNS"),
     cl::init(0));
+static cl::opt<std::string> PrefetchITSeqFunctionsFile(
+    "prefetchit-seq-functions-file",
+    cl::desc("File with one mangled function name per line; when given, only "
+             "listed functions get sequential lookahead / callee bursts (the "
+             "regexes still apply on top); env PREFETCHIT_SEQ_FUNCTIONS_FILE"),
+    cl::init(""));
 static cl::opt<unsigned> PrefetchITSeqMinInsns(
     "prefetchit-seq-min-insns",
     cl::desc("Skip functions with fewer IR instructions than this; env "
@@ -828,8 +835,20 @@ struct SeqConfig {
   unsigned BurstMinCalleeInsns = 0;
   std::string Include;
   std::string Exclude;
+  std::string FunctionsFile;
+  std::set<std::string> Listed;   // from FunctionsFile (empty = no list)
   std::string Mnemonic = DefaultPrefetchMnemonic.str();
   bool enabled() const { return Distance > 0 || BurstLines > 0; }
+  bool selects(StringRef Name, const std::optional<Regex> &Inc,
+               const std::optional<Regex> &Exc) const {
+    if (!FunctionsFile.empty() && !Listed.count(Name.str()))
+      return false;
+    if (Inc && !Inc->match(Name))
+      return false;
+    if (Exc && Exc->match(Name))
+      return false;
+    return true;
+  }
 };
 
 static SeqConfig getSeqConfig() {
@@ -845,6 +864,22 @@ static SeqConfig getSeqConfig() {
                                  PrefetchITCalleeBurstMinCalleeInsns, 0);
   C.Include = envOr("PREFETCHIT_SEQ_FUNCTIONS", PrefetchITSeqFunctions);
   C.Exclude = envOr("PREFETCHIT_SEQ_EXCLUDE", PrefetchITSeqExclude);
+  C.FunctionsFile = envOr("PREFETCHIT_SEQ_FUNCTIONS_FILE", PrefetchITSeqFunctionsFile);
+  if (!C.FunctionsFile.empty()) {
+    auto Buf = MemoryBuffer::getFile(C.FunctionsFile);
+    if (!Buf) {
+      errs() << "prefetchit-seq: cannot read functions file " << C.FunctionsFile
+             << "\n";
+    } else {
+      SmallVector<StringRef, 64> Lines;
+      (*Buf)->getBuffer().split(Lines, '\n');
+      for (StringRef L : Lines) {
+        L = L.trim();
+        if (!L.empty() && L[0] != '#')
+          C.Listed.insert(L.str());
+      }
+    }
+  }
   if (!PrefetchITMnemonicOverride.empty()) {
     if (std::optional<std::string> M =
             normalizePrefetchMnemonic(PrefetchITMnemonicOverride))
@@ -883,13 +918,7 @@ static uint64_t runCalleeEntryBurst(Module &M, const SeqConfig &C) {
     Include.emplace(C.Include);
   if (!C.Exclude.empty())
     Exclude.emplace(C.Exclude);
-  auto selected = [&](StringRef Name) {
-    if (Include && !Include->match(Name))
-      return false;
-    if (Exclude && Exclude->match(Name))
-      return false;
-    return true;
-  };
+  auto selected = [&](StringRef Name) { return C.selects(Name, Include, Exclude); };
   std::map<Function *, unsigned> InsnCount;
   uint64_t Calls = 0, Injected = 0;
   for (Function &F : M) {
@@ -957,10 +986,7 @@ static uint64_t runSequentialLookahead(Module &M, const SeqConfig &C) {
   for (Function &F : M) {
     if (F.isDeclaration())
       continue;
-    StringRef Name = F.getName();
-    if (Include && !Include->match(Name))
-      continue;
-    if (Exclude && Exclude->match(Name))
+    if (!C.selects(F.getName(), Include, Exclude))
       continue;
     unsigned Count = 0;
     std::vector<Instruction *> Sites_;
@@ -989,7 +1015,8 @@ static uint64_t runSequentialLookahead(Module &M, const SeqConfig &C) {
   errs() << "prefetchit-seq: distance=" << C.Distance << " stride_insns="
          << C.Stride << " lines=" << C.Lines << " mnemonic=" << C.Mnemonic
          << " include='" << C.Include << "' exclude='" << C.Exclude
-         << "' functions=" << Functions << " ir_insns=" << Insns
+         << "' functions_file='" << C.FunctionsFile << "' listed=" << C.Listed.size()
+         << " functions=" << Functions << " ir_insns=" << Insns
          << " sites=" << Sites << " injected=" << Injected << "\n";
   return Injected;
 }
