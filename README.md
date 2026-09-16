@@ -40,12 +40,54 @@ NOP으로 치환한 *NOP twin* 대비, 코어·언코어 클럭 고정, 인터�
 | 3 | FeedSim (DCPerf) | 1.073x, MPKI 8.1→1.7 | MPKI 7.8→1.4, QPS 1.24x(120 s라 거침) | 메커니즘 재현 |
 | 4 | JCodeStream | 1.285x @3.8 GHz | **1.101x @2 GHz**, MPKI 72→22 | 방향 재현 |
 | 4 | WideApi | 1.110x | **1.109x**, p99 −19% | 재현 |
-| 2 | Verilator qsort — PGO(trace) RET cov90 | 1.076x | **1.021x vs NOP twin**, MPKI 57.1→53.3 (−6.6%) | miss 감소는 재현, 시간 이득은 2% |
-| 2 | Verilator qsort — static top1k callsite | 1.078x | **1.003x** (top5k/nested/mixed도 ≤1.003x) | **재현 안 됨** → TODO #1 |
-| 2 | arcilator MegaBoom static | 1.051x | 미실행 | 재검 필요(TODO #1) |
+| 2 | Verilator qsort — PGO(trace) RET cov90 | 1.076x | **1.021x vs NOP twin**, MPKI 57.1→53.3 (−6.6%); 09-16 재측정 1.011x/1.021x | miss 감소는 재현, 시간 이득은 2% |
+| 2 | Verilator qsort — static top1k callsite | 1.078x | **1.003x** (top5k/nested/mixed도 ≤1.003x); call 단위 RET v3(7,562 call, 4라인) 1.001x/1.014x | **재현 안 됨** — continuation만 노리는 방식의 한계(아래 §2-1) |
+| 2 | **Verilator qsort — static sequential lookahead (2026-09-16 신규)** | — | **1.142x vs base / 1.211x vs NOP twin**, MPKI 56.9→16.6 (D=4 KB, 70 B마다); K=40+callee burst 1.141x/1.187x | **PGO RET ceiling(1.02x)을 static이 7배 넘음** → §2-1 |
+| 2 | arcilator DualMegaBoom — **static sequential lookahead** | (MegaBoom callsite s4la16 1.051x) | **1.504x vs base / 1.587x vs NOP twin**, MPKI 79.1→39.6 (D=4 KB K=20, 20k 사이클, 3회; `flat_codegen/results/arc_seq_20260916.csv`) | 8월에 'saturation 영역'으로 분류했던 워크로드가 seq로 최대 이득 |
 | 1 | microbench | prefetchit no-op | 바이너리만 재빌드 | — |
 
-Verilator 재검증에서 드러난 파이프라인 결함(모두 수정·기록):
+### 2-1. 2026-09-16 static pass 대수술 — miss는 "분기 target"이 아니라 "순차 코드 스트림"이었다
+
+`static_prefetch/tools/ret/{ret_producing_call_truth,miss_stream_characterization}.py`로 PEBS **sample IP**를 LBR[0].to와 비교한 결과
+(raw `verilator_repro_20260915b` trace 3개 = 09-16 재수집 trace 3개, 분포 ±0.5 pt 일치):
+
+| 관찰 | 수치 |
+|---|---|
+| RET miss의 sample IP가 continuation 라인에 있는 비율 | **30%** (15%는 +1라인, 25%는 +16라인 이후) |
+| CALL miss가 callee 첫 라인에 있는 비율 | 47% (나머지는 callee 본문을 따라 흐름) |
+| 분기 종류 | COND 68% / CALL 15% / UNCOND 9% / RET 7.5% — 마지막 taken branch의 **라벨**일 뿐 |
+| 시뮬레이션 1사이클당 L2I miss | ~64.5k ≈ 사이클당 실행되는 ~4 MB 코드의 **거의 모든 라인** |
+| RET miss를 만드는 call(정적으로 유일: LBR[0].to 직전 call) | 2,025개, 상위 1,000개가 88%; callee = nba_sequent 73%, memset@plt 20%, memcpy 5% |
+
+1단계 마이크로벤치(`icache_microbenchmark/microbench/seq_stream/`)가 원인을 확정: 16 MB 직선 코드 스트림에서 HW prefetcher만으로는
+MPKI 71 / IPC 0.41(Verilator와 같은 영역)이고 NOP twin은 base와 동일한데, **`prefetcht1 D(%rip)`를 64 B마다 넣으면 D=4–8 KB에서 3.3x**,
+128 B 간격도 D=4 KB면 동등. 즉 데이터센터 규모의 flattened 코드에서는 *다음에 실행될 코드 스트림*을 소프트웨어가 앞서 끌어와야 한다.
+
+그래서 pass에 plan/profile이 전혀 없는 두 모드를 추가했다(`llvm_prefetchit/docs/design.md` "Plan-Free Modes"):
+- **sequential lookahead** `-prefetchit-seq-distance=D -prefetchit-seq-stride-insns=K`: 선택 함수(`___eval_nba|nba_sequent|nba_comb`, one-shot 제외)의
+  K번째 IR 명령마다 `prefetcht1 D(%rip)`. 상수 rip 상대 오프셋이라 **레이아웃 drift·재앵커링 문제가 원천적으로 없음**. K=20 ≈ 70 B, K=40 ≈ 138 B 간격.
+- **callee-entry burst** `-prefetchit-callee-burst-lines=L`: 직접 call 직전에 callee+0..64·(L−1) prefetch(caller 스트림이 못 미치는 callee 첫 라인용).
+
+Verilator DualMegaBoom qsort, 3.8 GHz 고정, 인터리브 3회, 100k 사이클(`results/static_overhaul_20260916/measure/`):
+
+| variant | prefetch 수 | 명령 수 | vs base | vs NOP twin | twin vs base | L2I MPKI |
+|---|---:|---:|---:|---:|---:|---:|
+| base | 0 | — | 1.000x | — | — | 56.9 |
+| PGO(trace) RET cov90 | 14k | +0.9% | 1.011x | 1.021x | 0.991x | 53.2 |
+| static RET v3 callsite (call 단위, 4라인) | 28k | +0.8% | 1.001x | 1.014x | 0.988x | 55.9 |
+| seq D=1 KB K=20 | 269k | +6.4% | 1.066x | 1.131x | 0.943x | 22.1 |
+| seq D=2 KB K=20 | 269k | +6.4% | 1.129x | 1.199x | 0.942x | 15.9 |
+| **seq D=4 KB K=20** | 269k | +6.4% | **1.142x** | **1.211x** | 0.944x | 16.6 |
+| seq D=4 KB K=40 | 132k | +3.3% | 1.131x | 1.170x | 0.967x | 22.3 |
+| **seq D=4 KB K=40 + burst 4라인** | 143k | +3.8% | **1.141x** | 1.187x | 0.962x | 18.7 |
+| seq D=8 KB K=40 | 132k | +3.3% | 1.139x | 1.178x | 0.967x | 22.9 |
+| seq D=4 KB K=80 | 60k | +1.4% | 1.095x | 1.115x | 0.982x | 34.1 |
+
+읽는 법: 순효과(vs twin)는 K=20에서 1.21x로 포화하고, 삽입 명령 자체가 명령 수 증가분만큼 시간을 잡아먹는다(twin 열). 그래서 D는 4 KB 이상,
+밀도(K)와 burst가 튜닝 축이다. RET v3는 operand가 정확(0/64/128/192 각 24.5%)한데도 MPKI를 1.7%만 줄였다 — continuation 라인만 노리는
+callsite 계열은 원리적으로 스트림을 못 덮는다(TODO 1-A는 이 결론으로 종결).
+
+Verilator 재검증(09-15)에서 드러난 파이프라인 결함(모두 수정·기록):
 1. pass가 `sym+off` 절대 오프셋으로 target을 적는데, 주입 자체가 함수 코드 배치를 바꿔 k번째 사이트의
    target이 최대 수 KB 어긋났다(1,968개 중 13개만 제자리) → pass 내 보정 + **링크 후 재앵커링**
    (`tools/reanchor_prefetch_targets.py`: 함수 내 k번째 call 기준, 2000/2000 정확) + `check_prefetch_drift.py` 게이트.
@@ -112,8 +154,8 @@ affinity 감사, `valid` 열). memcached는 중립(대조군으로 유지).
 
 | 워크로드 | L2I MPKI | 결과 | 원인/메모 | 재시도 출발점 |
 |---|---:|---|---|---|
-| Verilator DualMegaBoom qsort | 57 | PGO(trace) 1.021x/−6.6% MPKI, static 1.00x | static 사이트 선택 | `scripts/static/run_verilator_repro.sh` |
-| arcilator MegaBoom | 74–79 | static callsite s4la16 1.051x (Aug) | 재앵커링 도구 이전 결과 → 재검 | `flat_codegen/scripts/` |
+| Verilator DualMegaBoom qsort | 57 | **static seq lookahead 1.142x / 1.211x vs twin, MPKI −71%**; PGO(trace) RET 1.02x; callsite 계열 1.00x | 순차 코드 스트림(§2-1) | `scripts/static/build_verilator_variant.sh` (SEQ_DISTANCE=4096 SEQ_STRIDE=20), `measure_verilator_variants.sh` |
+| arcilator DualMegaBoom | 79 | **static seq lookahead 1.504x / 1.587x vs twin, MPKI 79→40** (D=4 KB K=20); D=4 KB K=40 1.407x; (Aug MegaBoom callsite s4la16 1.051x) | `.fir`→`firtool --ir-hw`→`stub_externs.py`→`arcilator --emit-llvm`→clang+pass | `flat_codegen/work/{build,measure}_arc_variants.sh` |
 | Django (DCPerf) | 85 | manual 1.46–1.49x | ICacheBuster 메서드 포인터 배열 | `scripts/dispatch/run_django_manual.sh` |
 | FeedSim (DCPerf) | 8 | manual 1.05–1.07x | 동일 구조 | `scripts/dispatch/run_feedsim_closedloop.sh` |
 | JCodeStream / WideApi (자작) | 93 / 35–50 | C2 V4 1.29x / 1.11x | 스트리밍 JIT 코드 | `jit_prefetch/scripts/ab_jcs.sh`, `wideapi/` |

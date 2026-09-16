@@ -24,34 +24,32 @@ GRUB 현황: 2026-09-15 재부팅으로 `intel_pstate=disable` 제거됨. 남은
 
 ---
 
-## 1. Verilator 재현 — static 파이프라인 대대적 수정
+## 1. Verilator — static pass 대수술 (2026-09-16 진행 결과와 남은 일)
 
-현재: PGO(trace) RET cov90 = 1.021x vs NOP twin, MPKI −6.6%. static 4종 모두 ≤1.003x.
-근본 원인: (a) 고른 사이트가 miss를 만드는 call이 아님(15% vs 가능 65%), (b) 사이트 앵커링이 debug line 기반.
+결론(README §2-1): miss는 순차 코드 스트림이므로 static은 **sequential lookahead**(`prefetcht1 D(%rip)`, plan/profile 불필요)로 간다.
+qsort 100k 사이클, 3.8 GHz, 3회: seq D=4 KB K=20 **1.142x / 1.211x vs twin**(MPKI 56.9→16.6), K=40+burst4 1.141x(+3.8% 명령).
+callsite/continuation 계열(PGO RET 1.02x, RET v3 1.00x)은 원리적 한계 — 1-A/1-B(사이트 선택·앵커링)는 종결.
 
-### 1-A. static 사이트 선택을 "producing call" 기준으로 다시 설계
-- 진단 스크립트(README §2)와 같은 방식으로 trace에서 **RET miss를 만든 call**(LBR에서 RET 직전의 CALL, `call_end == LBR[0].to`)을 뽑아 정답 집합을 만든다 → `static_prefetch/tools/ret/evaluate_static_targets.py`에 `--metric producing-call` 추가.
-  현재 metric("site가 LBR 32개 안에 있음")은 너무 느슨해서 0.56이 나오지만 실제 커버는 0.15였다.
-- 프로파일 없는 hotness proxy로 **call 단위** 랭킹: caller 루프 깊이/backedge, callee의 정적 호출 수, callee 크기, 같은 라인으로 return하는 call 전부 포함(budget>1). 후보 파일 `static_return_target_candidates.py`의 컬럼(`caller_backedges`, `call_in_loop`, `callee_cachelines`…)을 그대로 활용.
-- 평가 루프(빌드 없이): 정답 집합 대비 top-K 커버율 곡선(K=1k…10k)을 `static_plan.py --kinds ret` 옵션별로 그려 65% 근처 정책을 찾는다. 그다음에만 빌드(35분/변형).
-- 수용 기준: static plan이 PGO plan MPKI 감소의 ≥80%, 시간 이득 ≥ PGO의 80%, NOP twin 대비.
+### 1-A'. seq 모드 튜닝 (남은 축)
+- 밀도 K vs 거리 D: 순효과는 K=20에서 포화(1.21x), 삽입 명령 비용 ≈ 명령 수 증가분(K=20 −5.7%, K=40 −3.4%, K=80 −1.8%).
+  다음 후보: D=8 KB K=20, D=4 KB K=20 + burst, D=8 KB K=40 + burst, burst만(D=0) 대조군, K=40 lines=2.
+- 잔여 miss(seq 후 MPKI 16.6)의 위치를 trace로 확인(`results/static_overhaul_20260916/traces/seq_d4096_k20_trace01/`):
+  함수 진입(burst로), memset/memcpy 이후, 함수 끝 넘어감(D가 함수 경계 밖) 중 어느 것인지 → 보완 규칙.
+- 명령 비용 줄이기: 7 B 인코딩이 fetch 대역폭을 먹는다. MachineFunction pass에서 정확히 128 B마다 1개(IR K는 p10–p90 31–125 B로 흔들림)
+  또는 128 B-pair(adjacent-line prefetcher) 의존 → 마이크로벤치 S=128 결과(D=4 KB에서 S=64와 동등)를 Verilator에서 확인.
+- 함수 선택 규칙 일반화: 현재 regex(`___eval_nba|nba_sequent|nba_comb` − one-shot). 프로파일 없는 일반 규칙 = "main loop에서 도달 가능한 큼직한 직선 함수"
+  (`static_return_target_candidates.py`의 `compute_loop_hot_reach`)로 대체해 Verilator 외 코드베이스에도 적용 가능하게.
 
-### 1-B. 사이트 앵커링 정확성
-- 현재: IR pass가 (함수, 파일, 라인, 분기종류)로 사이트를 찾고, 같은 라인 후보는 baseline 오프셋 순위로 매핑(`ranked_sites`). top5k에서 52%만 제자리 → 랭킹 매핑 후 재빌드해 `check_prefetch_drift.py` ≥90%인지 확인.
-- 근본 해결: post-ISel/MachineFunction 단계에서 **기계어 오프셋으로 사이트 지정**(design.md "known limits"). 또는 링크 후 재앵커링 방식으로 사이트도 검증(prefetch 뒤 call의 순번 k' == plan의 k).
-- target 재앵커링은 call 순서 기준(`reanchor_prefetch_targets.py`). COND/JMP 계열 plan에는 분기 순서 기준 앵커를 추가(`--anchor branch`).
+### 1-B'. 일반화 검증
+- cross-payload: 같은 바이너리로 dhrystone/median/towers(`scripts/static/measure_verilator_variants.sh PAYLOAD=…`).
+- full 538,240 사이클 1회(1-C).
+- 다른 SoC(LargeBoom/Quad, chipyard-local.patch) — Verilator 재빌드(수 시간) 필요, 우선순위 낮음.
+- arcilator DualMegaBoom(`flat_codegen/work/{build,measure}_arc_variants.sh`, K=20 ≈ 100 B 간격): seq가 arc의 saturation 영역(MPKI 79)에서도 먹히는지.
 
-### 1-C. PGO 시간 이득이 기준(7.6%)보다 작은 이유
-- 이 호스트 baseline IPC 0.62 vs 기준 0.56(같은 명령 수, 같은 MPKI). 확인할 것: HW prefetcher MSR 0x1a4(`sudo apt install msr-tools; rdmsr -p40 0x1a4`, 기준은 0), 마이크로코드(0x1000405), 언코어 고정값(2.2/2.5 GHz), 커널 139 vs 136.
-- 100k cycle 대신 full 538240 cycle로도 1회 확인(기준 캠페인은 full run).
+### 1-C. PGO 시간 이득이 기준(7.6%)보다 작은 이유 — 확인 완료 부분
+- MSR 0x1a4 = 0(HW prefetcher 전부 on), microcode 0x1000405: 기준 호스트와 동일. 남은 차이는 커널 139 vs 136, 언코어 고정값.
 
-### 1-D. arcilator 재검
-- `flat_codegen/scripts/`의 s4la16 결과(1.051x)는 재앵커링 도구 이전의 것. 같은 빌드 경로에 `resolve → reanchor → drift` 게이트를 넣고 다시 측정.
-
-### 1-E. 정리
-- 결과를 `llvm_prefetchit/migration/core_results.tsv`와 README §2 표에 반영. 재현 안 되는 기준값은 지우지 말고 "not reproduced"로 남긴다.
-
----
+### 1-D. arcilator 재검 → 1-B'로 합침. 1-E. 정리: README §2/§5·`core_results.tsv` 갱신(seq 행 추가 예정).
 
 ## 2. 이전에 실패한 워크로드 포함, static 광범위 재시도 (correctness 우선)
 
