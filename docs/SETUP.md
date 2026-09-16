@@ -37,7 +37,7 @@ not their GitHub repository names:
     single-core protocol) is impossible until intel_pstate is back;
   - next reboot: kernel 6.8.0-139 with intel_pstate/HWP active — this is the
     configuration under which the canonical results were taken
-    (`llvm_prefetchit/results/paper_goal_20260815/CONFIG_LOG.md`, "Platform
+    (README §4; forensics history: `git -C llvm_prefetchit show c7c7bf6:results/paper_goal_20260815/CONFIG_LOG.md`, "Platform
     forensics"). The reference host additionally used
     `isolcpus=10-31 nohz_full=10-31 rcu_nocbs=10-31`; the campaign scripts pin
     threads explicitly, so isolation is optional.

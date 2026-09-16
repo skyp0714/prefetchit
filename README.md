@@ -1,79 +1,151 @@
-# PrefetchIT — software instruction prefetch with `prefetcht1`
+# PrefetchIT — `prefetcht1`로 하는 소프트웨어 명령어 프리페치
 
-Research project (paper in preparation): on Intel Granite Rapids (Xeon 6787P)
-the ISA's `prefetchit0/1` instruction-prefetch hints do nothing measurable, so
-we inject the *data* prefetch `prefetcht1` at code addresses instead, and ask
-where that actually speeds up datacenter workloads. Every stage below has its
-own repository; this umbrella repository holds only the documentation and the
-manifest that pins them together.
+> 이 문서가 저장소 전체 설명서입니다. 해야 할 일은 [`docs/TODO.md`](docs/TODO.md),
+> 호스트 복구 절차는 [`docs/SETUP.md`](docs/SETUP.md). 나머지 문서는 각 컴포넌트의
+> 설계 노트뿐입니다(아래 "문서 지도").
 
-Read in this order: this file → [`docs/RESULTS.md`](docs/RESULTS.md) (what is
-proven, with numbers) → [`docs/SETUP.md`](docs/SETUP.md) (host restore) →
-[`docs/PLAN.md`](docs/PLAN.md) (what to do next).
+## 1. 무엇을 하는 프로젝트인가
 
-## The flow
+Intel Granite Rapids(Xeon 6787P)에서 ISA의 명령어 프리페치 `prefetchit0/1`은 측정상
+아무 효과가 없다(iTLB/STLB도 안 데우고 L1I/L2I miss도 안 줄어듦, 1단계 마이크로벤치와
+tomcat/cassandra 실측). 대신 **데이터 프리페치 `prefetcht1`을 코드 주소에 발행**하면
+곧 실행될 코드 라인을 L2까지 미리 끌어올 수 있다. 이 저장소는 그 명령을 *어디에*
+넣어야 datacenter 워크로드가 빨라지는지를 다룬다.
+
+### 용어 — 반드시 이 뜻으로만 쓴다
+
+| 용어 | 뜻 | 금지 |
+|---|---|---|
+| **PGO / trace-guided (profile-guided *placement*)** | PEBS+LBR trace(`L2I_CODE_RD_MISS`)로 *어느 캐시라인이 miss나고 어느 분기가 그 앞에 오는지*를 보고 **prefetch 주입 위치/대상만** 정하는 것. 코드 자체·레이아웃은 그대로. | — |
+| **static** | trace 없이 바이너리 구조만 보고(호출 그래프, 함수 크기, 분기 밀도…) 같은 plan을 만드는 것. 목표: PGO plan과 같은 효과. | — |
+| **manual** | 제어흐름을 담고 있는 자료구조(함수 포인터 배열, 디스패치 필드)를 소스 1–2줄로 미리 읽어 *다음* 타깃을 prefetch. | — |
+| ~~layout PGO~~ | AutoFDO(`-fprofile-sample-use`), `-fprofile-use`, BOLT, Propeller 등 **코드 배치를 바꾸는 최적화** | **사용 금지.** 비교 기준으로도 쓰지 않는다. 과거 DSB/TPC-C/MariaDB의 "AutoFDO ceiling" 수치는 모두 폐기했다. |
+
+효과는 항상 **prefetch만의 순효과**로 보고한다: 같은 바이너리에서 prefetch 명령을 같은 길이의
+NOP으로 치환한 *NOP twin* 대비, 코어·언코어 클럭 고정, 인터리브 ≥3회.
+
+## 2. 네 단계 흐름과 현재 상태
 
 ```
- 1. microbenchmark      icache_microbenchmark/        when are prefetches dropped? prefetchit == no-op → use prefetcht1
-        │
- 2. static pass         profiling/  (PEBS+LBR oracle) ─┐
-                        static_prefetch/ (ret,cond)   ├─► llvm_prefetchit/ (LLVM 19 pass + plan tools + measurement harness)
-                                                       │      profile-free plan must match the profile-guided (PGO) plan
-                        flat_codegen/  (arcilator)  ───┘      2026-09-15 re-run: PGO 1.021x (MPKI −6.6%), static neutral → open item (docs/RESULTS.md)
-        │
- 3. dispatch prefetch   llvm_prefetchit/scripts/dispatch/  1–2 source lines prefetching the *future* indirect-call target
-                        (DCPerf Django 1.49x, FeedSim 1.073x; memcached neutral; DSB/MicroSuite/PostgreSQL negative)
-        │
- 4. JIT prefetch        jit_prefetch/                  HotSpot C2 emits the prefetches (V4 entry burst)
-                        (JCodeStream 1.285x, WideApi 1.11x; recognised JVM suites are L2-resident → neutral)
+1. microbench   icache_microbenchmark/   prefetchit == no-op, prefetcht1 == 유효, 리드타임 부족하면 버려짐
+2. static pass  profiling/ (trace) → llvm_prefetchit/tools/prefetchit_trace_to_plan.py  ┐ plan (prefetchit.plan.v1)
+                static_prefetch/tools/static_plan.py --kinds ret,cond               ┘  → LLVM pass 주입 → NOP twin A/B
+3. manual       llvm_prefetchit/scripts/dispatch/  (DCPerf Django/FeedSim 소스 패치 변형 빌드 + 측정)
+4. JVM          jit_prefetch/  (HotSpot C2가 prefetcht1을 직접 emit; V4 entry burst)
 ```
 
-| directory | repository | stage | what it is |
+| 단계 | 워크로드 | 기준값(2026-08/09) | 2026-09-15 재검증 (동일 호스트, 재빌드) | 상태 |
+|---|---|---|---|---|
+| 3 | Django (DCPerf) | 1.490x, MPKI 84.6→35.0 | **1.463x**, MPKI 85.4→35.3 (2 GHz) | 재현 |
+| 3 | FeedSim (DCPerf) | 1.073x, MPKI 8.1→1.7 | MPKI 7.8→1.4, QPS 1.24x(120 s라 거침) | 메커니즘 재현 |
+| 4 | JCodeStream | 1.285x @3.8 GHz | **1.101x @2 GHz**, MPKI 72→22 | 방향 재현 |
+| 4 | WideApi | 1.110x | **1.109x**, p99 −19% | 재현 |
+| 2 | Verilator qsort — PGO(trace) RET cov90 | 1.076x | **1.021x vs NOP twin**, MPKI 57.1→53.3 (−6.6%) | miss 감소는 재현, 시간 이득은 2% |
+| 2 | Verilator qsort — static top1k callsite | 1.078x | **1.003x** (top5k/nested/mixed도 ≤1.003x) | **재현 안 됨** → TODO #1 |
+| 2 | arcilator MegaBoom static | 1.051x | 미실행 | 재검 필요(TODO #1) |
+| 1 | microbench | prefetchit no-op | 바이너리만 재빌드 | — |
+
+Verilator 재검증에서 드러난 파이프라인 결함(모두 수정·기록):
+1. pass가 `sym+off` 절대 오프셋으로 target을 적는데, 주입 자체가 함수 코드 배치를 바꿔 k번째 사이트의
+   target이 최대 수 KB 어긋났다(1,968개 중 13개만 제자리) → pass 내 보정 + **링크 후 재앵커링**
+   (`tools/reanchor_prefetch_targets.py`: 함수 내 k번째 call 기준, 2000/2000 정확) + `check_prefetch_drift.py` 게이트.
+2. 같은 소스 라인에 call이 여러 개면 모든 사이트가 첫 IR 후보로 몰림 → baseline 오프셋 순위로 매핑.
+3. **static 사이트 선택 자체가 약함**: 핫한 return 라인은 62% 맞히지만 그 라인으로 실제 return하는
+   call은 15%만 고름(가능 최대 65%). 그래서 static plan이 무효. 이것이 2단계의 핵심 미해결 과제.
+
+raw 데이터: `llvm_prefetchit/results/repro_20260915/`(3·4단계), `llvm_prefetchit/results/verilator_repro_20260915b/`(2단계: trace, plan, resolved plan, 바이너리, NOP twin, `measure/runs.csv`).
+
+## 3. 저장소 지도
+
+각 디렉토리는 별도 git 저장소다(umbrella는 문서만 추적). 매니페스트: `llvm_prefetchit/migration/repos.lock.tsv`.
+
+| 디렉토리 | 원격 | 단계 | 내용 / 진입점 |
 |---|---|---|---|
-| `icache_microbenchmark/` | [icache_microbenchmark](https://github.com/skyp0714/icache_microbenchmark) (branch `prefetch_benefit`) | 1 | `prefetcht0/t1` vs `prefetchit0/1` under TLB warmth / branch-window placement |
-| `profiling/` | [frontend_profiling](https://github.com/skyp0714/frontend_profiling) | 2 | PEBS/LBR trace collection + symbolisation (the "PGO" oracle) |
-| `static_prefetch/` | [static_return_prefetch](https://github.com/skyp0714/static_return_prefetch) (merged with static_cond_prefetch) | 2 | profile-free RET-callsite / COND planner: `tools/static_plan.py --kinds ret,cond` |
-| `flat_codegen/` | [flat_codegen](https://github.com/skyp0714/flat_codegen) | 2 (+3) | arcilator second workload; DeathStarBench build/A-B tooling (negative) |
-| `llvm_prefetchit/` | [llvm_prefetchit_injection](https://github.com/skyp0714/llvm_prefetchit_injection) | 2, 3 | the pass (`lib/PrefetchITPass.cpp`), plan tools, `scripts/{platform,static,dispatch}`, migration manifest |
-| `jit_prefetch/` | [jit_prefetch](https://github.com/skyp0714/jit_prefetch) | 4 | HotSpot patches, JCodeStream/WideApi, `scripts/ab_*.sh` |
-| `benchmarks/`, `worktrees/`, `.tmp/` | third-party, ignored | – | pinned by `llvm_prefetchit/migration/benchmarks.lock.tsv` |
+| `icache_microbenchmark/` | icache_microbenchmark (`prefetch_benefit` 브랜치) | 1 | `microbench/src/` `make all prefetch_test`; `run_process_prefetch_experiment.py` |
+| `profiling/` | frontend_profiling | 2 | `run_pebs_sampling.sh`(PEBS+LBR), `analyze_pebs_trace.sh`(symbolize), `run_detailed_profile.sh`; `runscript/bench/bench_common.sh`(Verilator 환경) |
+| `static_prefetch/` | static_return_prefetch (cond 저장소 병합됨) | 2 | **`tools/static_plan.py --kinds ret\|cond\|ret,cond`**; 엔진 `tools/ret/`, `tools/cond/`; 알고리즘 노트 `docs/` |
+| `llvm_prefetchit/` | llvm_prefetchit_injection | 2·3·공통 | pass `lib/PrefetchITPass.cpp`; plan 도구 `tools/`; `scripts/platform/`(클럭 고정·pinning·L2I 스크린), `scripts/static/`(**`run_verilator_repro.sh`**), `scripts/dispatch/`(Django/FeedSim/memcached); `migration/`; 과거 캠페인 스크립트 `archive/` |
+| `flat_codegen/` | flat_codegen | 2(+3) | arcilator(두 번째 flattened-code 워크로드) 빌드/주입 스크립트; DeathStarBench 빌드·A/B 도구 |
+| `jit_prefetch/` | jit_prefetch | 4 | HotSpot 패치 `patches/`(V1–V4), `scripts/ab_jcs.sh`, `ab_jvm_suite.sh`, `wideapi/`; `docs/PLAN.md`(C2 설계 노트+실험 기록) |
+| `benchmarks/`, `worktrees/`, `.tmp/`, `.cache/` | 서드파티, 미추적 | — | `benchmarks.lock.tsv`에 고정; DCPerf·chipyard·JDK 등 |
 
-Each component keeps an `archive/` with the retired one-off campaign scripts
-(history of the negative results); the live entry points are the ones listed
-in the READMEs.
+### 2단계 파이프라인(가장 중요)
 
-## Quick start on a restored host
-
-```bash
-llvm_prefetchit/migration/verify.sh --root "$PWD"              # sources, patches, tool hashes
-sudo MODE=2ghz llvm_prefetchit/scripts/platform/freeze_platform.sh   # before every measurement
-# stage 1
-make -C icache_microbenchmark/microbench/src all prefetch_test
-# stage 2 (needs the Chipyard Verilator simulator, see docs/SETUP.md): traces → PGO + static plans → pass → NOP twins → A/B
-source benchmarks/chipyard/env.sh && llvm_prefetchit/scripts/static/run_verilator_repro.sh
-# stage 3 (DCPerf installed per docs/SETUP.md)
-llvm_prefetchit/scripts/dispatch/build_feedsim_manual_variants.sh && llvm_prefetchit/scripts/dispatch/run_feedsim_closedloop.sh
-llvm_prefetchit/scripts/dispatch/build_django_icache_variants.sh  && llvm_prefetchit/scripts/dispatch/run_django_manual.sh
-# stage 4 (patched JDK built per jit_prefetch/README.md)
-jit_prefetch/scripts/ab_jcs.sh; jit_prefetch/wideapi/ab_wideapi.sh
 ```
+baseline 바이너리(clang-19 -O3 -g)  ──perf record L2I_CODE_RD_MISS:upp -b──►  trace ×3  ──►  analyze_pebs_trace.sh
+   │                                                                                            │
+   │           trace 사용 (PGO)  prefetchit_trace_to_plan.py --sample-branch-type-filter RET ... ┤
+   │           trace 미사용     static_plan.py --kinds ret --ret-top-k 1000 --ret-site-strategy callsite ┘
+   ▼                                                                      ▼
+   같은 소스 + opt -passes=prefetchit-inject -prefetchit-plan=plan.json  (run_prefetcht1_l2_eval.sh EXTERNAL_PLAN=)
+   ▼
+   resolve_plan_layout_shift.py → reanchor_prefetch_targets.py(k번째 call 기준) → check_prefetch_drift.py(≥90% 통과)
+   ▼
+   make_nop_control_binary.py → NOP twin  ──►  freeze_platform.sh MODE=3.8ghz → 인터리브 3회 (run_verilator_repro.sh STEP=measure)
+```
+`scripts/static/run_verilator_repro.sh STEP=traces|plans|build|nop|measure`가 위 전체를 수행한다
+(빌드는 단일 TU clang -O3라 변형당 ~35분).
 
-## Measurement rules (non-negotiable)
+### 3단계 (manual)
 
-1. Frozen platform: core min=max, turbo state explicit, uncore min=max
-   (`freeze_platform.sh`); default DVFS gave prefetch arms a ~17% uncore
-   credit that is not a prefetch effect.
-2. One workload at a time, no builds during measurements, every thread pinned
-   to its own physical core (`platform/campaign_common.sh`).
-3. Compare against a layout-identical NOP-patched binary
-   (`tools/make_nop_control_binary.py`) and verify the injection count with
-   `objdump` — never trust a silent build.
-4. ≥3 interleaved reps (5 for services); report medians/CI, not best cells.
-5. Prefetch-only deltas count; PGO/layout gains are reported separately.
+`scripts/dispatch/build_{feedsim,django}_*_variants.sh`로 `ICACHE_BUSTER_PREFETCH_DISTANCE/NEXT_LINE`
+매크로 변형을 만들고 `run_feedsim_closedloop.sh`, `run_django_manual.sh`로 측정(스레드별 코어 pin,
+affinity 감사, `valid` 열). memcached는 중립(대조군으로 유지).
 
-## Conventions
+### 4단계 (JVM)
 
-- Third-party checkouts stay at `benchmarks.lock.tsv`; results live outside
-  git (`results/`, `work/`), conclusions go to `docs/` as dated notes.
-- Result directories are `<topic>_<yyyymmdd>/`.
-- Raw perf events use `cpu/event=0x24,umask=0x24,name=L2I_CODE_RD_MISS/`.
+`jit_prefetch/openjdk`(jdk17u-dev + `openjdk-prefetch-combined.patch`) 빌드 후 JVM 플래그로 A/B:
+`-XX:PrefetchEntryAhead=128 -XX:PrefetchEntryLines=32 -XX:PrefetchEntryMinBytecode=256`(V4 gated).
+`ab_jcs.sh`, `ab_jvm_suite.sh SUITE=dacapo BENCH=tomcat`, `wideapi/ab_wideapi.sh`.
+
+## 4. 측정 규칙 (위반 시 결과 무효)
+
+1. `sudo MODE=2ghz|3.8ghz llvm_prefetchit/scripts/platform/freeze_platform.sh` — 코어 min=max, 터보 상태 명시, 언코어 min=max. 기본 DVFS는 prefetch arm에 ~17%의 언코어 크레딧을 준다(과거 1.22x의 정체).
+2. 한 번에 한 워크로드, 측정 중 빌드 금지, 스레드마다 물리 코어 하나(`platform/campaign_common.sh`).
+3. 반드시 NOP twin과 비교(`make_nop_control_binary.py`), `objdump`로 주입 개수 확인, callsite/RET plan은 `check_prefetch_drift.py` ≥90%.
+4. 인터리브 ≥3회(서비스는 5회), 중앙값 보고. 완료 작업량 동일(`+max-cycles`, 요청 수) 확인.
+5. 레이아웃을 바꾸는 최적화는 어느 arm에도 넣지 않는다.
+
+## 5. 워크로드 카탈로그 (지금까지의 결론과 재시도 출발점)
+
+스크린 기준: 부하 상태 L2I MPKI ≥ 한 자리 수 → trace-guided plan으로 ceiling 확인 → static.
+
+| 워크로드 | L2I MPKI | 결과 | 원인/메모 | 재시도 출발점 |
+|---|---:|---|---|---|
+| Verilator DualMegaBoom qsort | 57 | PGO(trace) 1.021x/−6.6% MPKI, static 1.00x | static 사이트 선택 | `scripts/static/run_verilator_repro.sh` |
+| arcilator MegaBoom | 74–79 | static callsite s4la16 1.051x (Aug) | 재앵커링 도구 이전 결과 → 재검 | `flat_codegen/scripts/` |
+| Django (DCPerf) | 85 | manual 1.46–1.49x | ICacheBuster 메서드 포인터 배열 | `scripts/dispatch/run_django_manual.sh` |
+| FeedSim (DCPerf) | 8 | manual 1.05–1.07x | 동일 구조 | `scripts/dispatch/run_feedsim_closedloop.sh` |
+| JCodeStream / WideApi (자작) | 93 / 35–50 | C2 V4 1.29x / 1.11x | 스트리밍 JIT 코드 | `jit_prefetch/scripts/ab_jcs.sh`, `wideapi/` |
+| MicroSuite Router / HDSearch / Recommend / SetAlgebra | 85 / 79 / high / 25 | PGO(trace) 0.98 / 0.99 / 1.006 / 미확정 (NOP twin 기준) | 7월의 +198%는 빌드 혼동 | `archive/scripts/build_microsuite_lbr_pgo_variants.sh`, `run_final_microsuite_paired.sh`, `run_router_*`, `run_setalgebra_*` |
+| PostgreSQL (pgbench / TPC-C) | 25–108 / 51 | static ≤ +0.3% (모든 밀도) | 데이터 트래픽이 L2 코드를 계속 축출(5번째 축); 정확도 재검 필요 | `archive/scripts/build_postgresql_lbr_pgo_variants.sh`, `run_final_postgresql_paired.sh`, `archive/work/pg_tpcc_variants` |
+| memcached 1.6.14 | 0.04–10 | manual 1.000x (고정 클럭) | 7월 +15%는 불안정 부하 | `scripts/dispatch/run_memcached_paired.sh` |
+| DeathStarBench socialNetwork PostStorage | 5–20 | static/PGO(trace) ≈ 1.00 | miss가 3.6k 지점에 분산, 75%가 DSO 안, 리드타임 ~1 분기 | `flat_codegen/dsb_build/` |
+| TailBench Silo/Xapian/Moses/Masstree/Shore/Sphinx/Img-DNN | 중간 | 중립~느림 | 짧은 실행, 낮은 결정성 | `archive/scripts/run_tailbench_highmpki_pgo.sh`, `run_final_tailbench_variant.sh` |
+| FleetBench proto arena | high | +0.8–1.1% | 미미 | `archive/scripts/build_proto_arena_*` |
+| HAProxy / Redis / nginx / LevelDB / RocksDB / QuickJS / SQLite / WAMR / wasm3 / serverless / Folly | <2 | 미실시(스크린 탈락) | miss 자체가 없음 | `archive/scripts/newbench_screens.sh` |
+| clang / node.js / Cassandra(부하) / QEMU TCG / PHP / GHDL / vvp / ngspice / LAMMPS / Verilator Rocket | ≤2 | 스크린 탈락 | 코드가 L2에 들어감 | — |
+| DaCapo·Renaissance 40+ (tomcat 12, cassandra 13 포함) | ≤13 | C2 V4 중립 | L1I/L2I≈10: miss가 L2에서 해결 → t1 무력; prefetchit0는 no-op | `jit_prefetch/scripts/ab_jvm_suite.sh` |
+| SPEC CPU2017/2026, gem5 SE | ≤0.6 / 0.001 | 스크린 탈락 | — | `migration/config/spec20xx` |
+
+## 6. 호스트 / 환경 (2026-09-16)
+
+- Xeon 6787P 86코어, Ubuntu 24.04, **kernel 6.8.0-139, cmdline `quiet splash efi=nosoftreserve`** (`intel_pstate` 활성 → `MODE=3.8ghz` 가능). 이전의 `intel_pstate=disable`은 제거됨. isolcpus/hugepage 없음(스크립트가 직접 pin).
+- `perf_event_paranoid`/`kptr_restrict`는 부팅마다 초기화 → `freeze_platform.sh`가 설정.
+- LLVM 19.1.7(/opt), Verilator 5.046, chipyard conda 환경(`benchmarks/chipyard/.conda-env`), DCPerf(FeedSim/Django) 설치 완료, JDK 17u 패치 빌드 완료. 상세와 함정: `docs/SETUP.md`.
+- 공유 서버: GRUB·부팅 변경 전 다른 사용자와 조율.
+
+## 7. 알려진 함정
+
+- `source benchmarks/chipyard/env.sh`는 `set -u`와 충돌. chipyard 서브모듈은 `--recursive` 금지.
+- pass 로그의 `injected=N`만 믿지 말 것: `objdump` 개수 + drift 게이트 + NOP twin까지가 검증.
+- FeedSim 변형 빌드는 설치 환경 변수(vendored glog 등)를 그대로 써야 링크된다(스크립트가 처리).
+- `cpufrequtils` 설치 금지(거버너를 ondemand로 바꿈).
+- 백그라운드 작업을 `pkill -f`로 죽일 때 패턴이 자기 셸 명령줄과 매칭되지 않게 `[x]` 트릭 사용.
+
+## 8. 문서 지도
+
+- `README.md`(이 문서) · `docs/TODO.md`(해야 할 일) · `docs/SETUP.md`(호스트 복구/설치 로그)
+- 설계 노트: `llvm_prefetchit/docs/design.md`(pass, plan 스키마, 레이아웃 보정·재앵커링), `llvm_prefetchit/docs/prefetch_experiment_variables.md`, `static_prefetch/docs/static_return_algorithm_v2.md`, `static_cond_algorithm_v1.md`, `static_cond_sampleip_update.md`, `jit_prefetch/docs/PLAN.md`(C2 V1–V4), `flat_codegen/docs/PLAN.md`(arcilator)
+- 매니페스트/증거: `llvm_prefetchit/migration/{README,REPRODUCIBILITY,HOST_REFERENCE}.md`, `core_results.tsv`, `evidence/`
+- 과거 캠페인 로그(2026-07/08)는 git 이력에만 남겼다: `git show 5be05f7:docs/archive/PAPER_RESULTS_AND_FEEDBACK.md` 등.
