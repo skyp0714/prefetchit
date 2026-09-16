@@ -23,7 +23,7 @@ that survived the fixed-frequency and matched-binary audits.
 
 | workload | mechanism | controlled result | key setting |
 |---|---|---:|---|
-| Verilator qsort | profile-free static LLVM plan | ~~1.080x runtime~~ **not reproduced 2026-09-15** (1.003x vs NOP twin) | the pinned pass mis-targeted symbol+offset prefetches (fixed) and the static site choice covers 15% of RET-miss producers — see umbrella `docs/RESULTS.md` |
+| Verilator qsort | profile-free static LLVM plan | ~~1.080x runtime~~ **not reproduced 2026-09-15** (1.003x vs NOP twin) | the pinned pass mis-targeted symbol+offset prefetches (fixed) and the static site choice covers 15% of RET-miss producers — see the umbrella `README.md` §2 |
 | Verilator qsort | LBR-PGO LLVM plan | ~~1.076x runtime~~ **1.021x vs NOP twin, MPKI −6.6%** (2026-09-15, same protocol) | mechanism holds; the runtime gain on this host is 2% |
 | Django | manual future method-pointer prefetch | **1.490x QPS**, MPKI 84.6 to 35.0 | `d4_next`, 3 paired reps, all threads audited and pinned |
 | FeedSim | manual future method-pointer prefetch | **1.073x QPS**, MPKI 8.07 to 1.71 | 200M I-cache iterations, 2 CPU threads, d16, 300 s, 3 reps |
@@ -34,8 +34,10 @@ that survived the fixed-frequency and matched-binary audits.
 The canonical source data are:
 
 - `llvm_prefetchit/migration/evidence/` (small final CSVs copied out of ignored result trees)
-- `llvm_prefetchit/results/paper_goal_20260815/FINAL_REPORT.md`
-- `llvm_prefetchit/results/paper_goal_20260815/CONFIG_LOG.md`
+- `llvm_prefetchit/results/paper_goal_20260815/` raw run CSVs/logs (the campaign
+  reports were removed; platform forensics are summarised in the umbrella
+  `README.md` §4/§7, history: `git -C llvm_prefetchit show c7c7bf6:results/paper_goal_20260815/CONFIG_LOG.md`)
+- `llvm_prefetchit/results/verilator_repro_20260915b/` (2026-09-15 re-verification)
 - `flat_codegen/docs/PLAN.md`
 - `jit_prefetch/docs/PLAN.md`, `jit_prefetch/results/jcs3_final.csv`, and
   `jit_prefetch/results/wideapi_confirm.csv`

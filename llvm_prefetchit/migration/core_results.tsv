@@ -6,9 +6,9 @@ canonical	FeedSim	DCPerf	manual control-flow	d16_target_next i200m t2	completed 
 canonical	arcilator MegaBoom	standalone/Chipyard	static IR callsite	s4la16	median runtime seconds	5.712	5.435	1.0510	76.7	71.2	7.17	15	flat_codegen/docs/PLAN.md
 canonical	JCodeStream	standalone JVM	manual HotSpot C2	V4 ahead128 lines32	milliseconds per iteration	14.95	11.63	1.2854	14.9	4.7	68.46	5	jit_prefetch/docs/PLAN.md; jit_prefetch/results/jcs3_final.csv
 canonical	WideApi	standalone JVM service	manual HotSpot C2	V4 gated min-bytecode256	QPS	14394	15984	1.1104	34.9	12.3	64.76	5	jit_prefetch/docs/PLAN.md; jit_prefetch/results/wideapi_confirm.csv
-negative	DeathStarBench socialNetwork	DeathStarBench	static compiler	typed/deep GOT plans	cycles per request	-	-	~1.00	5.3-20	-	-	multiple	PAPER_RESULTS_AND_FEEDBACK.md
-negative	Router	MicroSuite	PGO compiler	matched NOP baseline	QPS	-	-	0.983	-	-	-	5	PAPER_RESULTS_AND_FEEDBACK.md
-negative	HDSearch	MicroSuite	PGO compiler	matched NOP baseline	QPS	-	-	0.992	-	-	-0.4	5	PAPER_RESULTS_AND_FEEDBACK.md
-negative	Recommend	MicroSuite	PGO compiler	matched NOP baseline	QPS	-	-	1.0058	-	-	-	5	PAPER_RESULTS_AND_FEEDBACK.md
-negative	PostgreSQL TPC-C	standalone DB	static compiler	best density sweep	TPS	-	-	~1.003	51	-	-	multiple	PAPER_RESULTS_AND_FEEDBACK.md
-negative	memcached	standalone service	manual control-flow	paired fixed platform	QPS	-	-	1.0002	0.04	-	-	5	PAPER_RESULTS_AND_FEEDBACK.md
+negative	DeathStarBench socialNetwork	DeathStarBench	static compiler	typed/deep GOT plans	cycles per request	-	-	~1.00	5.3-20	-	-	multiple	README.md section 5 (history: git show 5be05f7:docs/archive/PAPER_RESULTS_AND_FEEDBACK.md)
+negative	Router	MicroSuite	PGO compiler	matched NOP baseline	QPS	-	-	0.983	-	-	-	5	README.md section 5 (history: git show 5be05f7:docs/archive/PAPER_RESULTS_AND_FEEDBACK.md)
+negative	HDSearch	MicroSuite	PGO compiler	matched NOP baseline	QPS	-	-	0.992	-	-	-0.4	5	README.md section 5 (history: git show 5be05f7:docs/archive/PAPER_RESULTS_AND_FEEDBACK.md)
+negative	Recommend	MicroSuite	PGO compiler	matched NOP baseline	QPS	-	-	1.0058	-	-	-	5	README.md section 5 (history: git show 5be05f7:docs/archive/PAPER_RESULTS_AND_FEEDBACK.md)
+negative	PostgreSQL TPC-C	standalone DB	static compiler	best density sweep	TPS	-	-	~1.003	51	-	-	multiple	README.md section 5 (history: git show 5be05f7:docs/archive/PAPER_RESULTS_AND_FEEDBACK.md)
+negative	memcached	standalone service	manual control-flow	paired fixed platform	QPS	-	-	1.0002	0.04	-	-	5	README.md section 5 (history: git show 5be05f7:docs/archive/PAPER_RESULTS_AND_FEEDBACK.md)

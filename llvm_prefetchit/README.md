@@ -37,12 +37,12 @@ variable reference: `docs/prefetch_experiment_variables.md`.
 | `scripts/static/` | stage 2 on Verilator/arcilator: **`run_verilator_repro.sh`** (end-to-end reference reproduction, `STEP=traces|plans|build|nop|measure`), `run_l2_trace_aggregation.sh` (N traces → cov50/75/100 plans), `run_prefetcht1_l2_eval.sh` (plan → rebuild → validate → profile; `EXTERNAL_PLAN=` for static planners), `run_prefetcht1_autotune.sh`, `run_static_cond_autotune_round.sh`, `run_verilator_crosspayload_transfer.sh`, `probe_variant_binaries.sh`, `run_prefetch_scheme_compare_from_best.sh`, `generate_lbr_pgo_plan_matrix.sh` |
 | `scripts/dispatch/` | stage 3 on DCPerf: `build_feedsim_manual_variants.sh` / `run_feedsim_closedloop.sh` / `run_feedsim_manual_sweep.sh` / `run_feedsim_profile.sh`, `build_django_icache_variants.sh` / `run_django_manual.sh`, memcached `build_*`/`run_*` (neutral result, kept as the control) |
 | `migration/` | `bootstrap.sh`, `verify.sh`, `apply_patches.sh`, lock files, source patches for every third-party tree, canonical evidence CSVs, `REPRODUCIBILITY.md` |
-| `results/paper_goal_20260815/` | tracked evidence: `FINAL_REPORT.md`, `CONFIG_LOG.md` (platform forensics), raw run CSVs |
+| `results/paper_goal_20260815/`, `results/verilator_repro_20260915b/` | tracked raw evidence (run CSVs, plans, validation) behind the umbrella README tables |
 | `archive/` | retired campaign scripts/tools (MicroSuite, TailBench, PostgreSQL, autotune drivers) — see `archive/README.md` |
 
 ## Typical stage-2 run (Verilator qsort)
 
-`scripts/static/run_verilator_repro.sh` does all of the below (traces → PGO + static plans → pass → resolve/re-anchor → drift gate → NOP twins → interleaved A/B). Status 2026-09-15: PGO 1.021x vs NOP twin (MPKI −6.6%), profile-free plans neutral — `docs/RESULTS.md` in the umbrella.
+`scripts/static/run_verilator_repro.sh` does all of the below (traces → PGO + static plans → pass → resolve/re-anchor → drift gate → NOP twins → interleaved A/B). Status 2026-09-15: PGO 1.021x vs NOP twin (MPKI −6.6%), profile-free plans neutral — umbrella `README.md` §2.
 
 ```bash
 sudo MODE=3.8ghz scripts/platform/freeze_platform.sh          # intel_pstate needed
