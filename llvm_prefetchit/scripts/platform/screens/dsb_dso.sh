@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # DSB nginx-thrift tier: L2I-miss PEBS record by cgroup under mixed load → miss share per DSO (JIT vs AOT code)
 set -u
-until grep -q WP3_DONE /tmp/wp_chain3.log; do sleep 15; done
+true
 SN=/home/hnpark2/prefetchit/benchmarks/DeathStarBench/socialNetwork; W=/home/hnpark2/prefetchit/benchmarks/DeathStarBench/wrk2/wrk
 OUT=/home/hnpark2/prefetchit/llvm_prefetchit/results/broad_screen_20260916/dsb_socialnetwork/dso; mkdir -p $OUT
 cd $SN; docker compose up -d > $OUT/up.log 2>&1; sleep 25
 python3 scripts/init_social_graph.py --graph=socfb-Reed98 --limit=200 > $OUT/init.log 2>&1; tail -1 $OUT/init.log
-LUA=$SN/wrk2/scripts/social-network/mixed-workload.lua
+LUA=/tmp/screen_inputs/mixed-workload-nosocket.lua
 taskset -c 60-67 $W -D exp -t 8 -c 64 -d 15 -L -s $LUA http://localhost:8080 -R 3000 > $OUT/warmup.log 2>&1
 taskset -c 60-67 $W -D exp -t 8 -c 64 -d 70 -L -s $LUA http://localhost:8080 -R 3000 > $OUT/wrk2.log 2>&1 &
 WP=$!; sleep 5
