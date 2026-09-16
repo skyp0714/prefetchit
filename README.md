@@ -183,7 +183,8 @@ affinity 감사, `valid` 열). memcached는 중립(대조군으로 유지).
 | gem5 v25 X86 O3 SE (직접 실행) | 0.008 | 스크린 탈락 | 시뮬레이션 루프가 L2 상주 | `benchmarks/gem5/build/X86/gem5.opt` + stdlib SE config |
 | 과학 시뮬레이터: LAMMPS / GROMACS / OpenFOAM / Quantum ESPRESSO / NWChem / ABINIT / NEURON / gmsh / ngspice | 0.04 / 0.03 / 0.03 / 2.1 / 0.34 / 0.10 / 0.07 / 0.04 / 0.02 | 스크린 탈락 (2026-09-16) | 수치 커널이 작음 | `llvm_prefetchit/results/broad_screen_20260916/summary_table.md` |
 | 인터프리터·JIT·도구: CPython+sympy / PyPy / LuaJIT / Ruby / PHP / Erlang / SWI-Prolog / mypy / clang -O3 / g++ -O2 / yosys / KLayout | 0.31 / 0.28 / 0.01 / 0.01 / 0.01 / 0.34 / 0.01 / 0.45 / 1.6 / 0.4 / 0.04 / 0.02 | 스크린 탈락 | — | 같은 표 |
-| PostgreSQL 17-dev pgbench TPC-B (8 클라이언트, 서버 코어 측정) | **40.7** (select-only 1.2) | 스크린 통과 — trace 단계에서 보류(사용자 지시로 SPEC2026 우선) | 쓰기 경로(WAL·heap·lock) 코드가 L2 초과 | `benchmarks/pg/{pg_screen,pg_trace}.sh`, baseline `benchmarks/pg/install_base` |
+| PostgreSQL 17-dev pgbench TPC-B (8 클라이언트, fsync off, 서버 코어 측정) | **0.13** (select-only 1.2) — 첫 측정 40.7은 같은 코어에서 돌던 SPEC2026 빌드가 섞인 오측정 | 스크린 탈락 (재측정 27k tps, IPC 1.23) | 데이터가 캐시에 상주하는 pgbench는 코드가 L2에 들어감 (과거 TPC-C 51은 다른 부하) | `benchmarks/pg/{pg_screen,pg_trace}.sh`, baseline `benchmarks/pg/install_base` |
+| MariaDB 10.11 sysbench oltp_read_write (16 tables×200k, 8 threads, 서버 코어 측정) | **9.3** (point_select 0.22) | **스크린 통과** → clang -O3 -g 자체 빌드 후 trace→PGO→static 진행 중 | 트랜잭션 쓰기 경로 | `benchmarks/mariadb/build_base.sh`, `llvm_prefetchit/scripts/platform/screens/mariadb_screen.sh` |
 
 ## 6. 호스트 / 환경 (2026-09-16)
 
