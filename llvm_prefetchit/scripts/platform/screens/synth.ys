@@ -1,0 +1,10 @@
+read_verilog big.v
+hierarchy -top top
+proc
+flatten
+opt
+techmap
+opt
+abc
+opt_clean
+stat
