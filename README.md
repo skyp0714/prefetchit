@@ -188,6 +188,7 @@ affinity 감사, `valid` 열). memcached는 중립(대조군으로 유지).
 | 서비스: Envoy 1.31 리버스 프록시 (wrk 55k rps) | 0.24 | 스크린 탈락 | — | `screens/envoy_screen.sh` |
 | ML 추론: PyTorch 2 ResNet-50 CPU batch 1 | 0.63 | 스크린 탈락 | oneDNN 커널 | `screens/run_torch.sh` |
 | 다른 flattened 시뮬레이터: CXXRTL (yosys, picorv32×48 배열, 15.8 MB C++) / GHDL mcode NEORV32 / QEMU user-mode TCG | **3.3** / 2.8 / 0.001 | 탈락(기준 미달)이지만 CXXRTL은 디자인 크기에 비례 — Chipyard SV는 yosys 0.33이 파싱 못함 | 생성 코드 크기가 Verilator DMB의 1/7 | `screens/run_cxxrtl.sh`, `screens/ghdl_chain.sh` |
+| WordPress 6.4 on php-fpm 8.3 + nginx + MariaDB (front 페이지 렌더, 16 workers, wrk) | 1.15 (post 페이지 1.31) | 스크린 탈락 (2026-09-16) | PHP 인터프리터·WP 코드가 L2 상주 — HHVM 시절 논문 워크로드와 달리 PHP 8 JIT-less | `screens/wp_chain5.sh` (AppArmor php-fpm 프로파일 complain 필요) |
 | MariaDB 10.11 sysbench oltp_read_write (16 tables×200k, 8 threads, 서버 코어 측정) | **9.3** (point_select 0.22) | **스크린 통과** → clang -O3 -g 자체 빌드 후 trace→PGO→static 진행 중 | 트랜잭션 쓰기 경로 | `benchmarks/mariadb/build_base.sh`, `llvm_prefetchit/scripts/platform/screens/mariadb_screen.sh` |
 
 ## 6. 호스트 / 환경 (2026-09-16)
