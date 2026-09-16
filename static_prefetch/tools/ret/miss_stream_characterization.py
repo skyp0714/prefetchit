@@ -51,17 +51,20 @@ def load_base(trace_dir: Path, syms):
                 continue
             e_raw = [t for t in rt[1:] if t.count("/") >= 7]
             e_sym = [t for t in stt[1:] if t.count("/") >= 7]
-            if not e_raw or not e_sym:
+            if len(e_raw) < 2 or len(e_sym) < 2 or len(e_raw) != len(e_sym):
                 continue
-            raw_from = int(e_raw[0].split("/")[0], 16)
-            m = SYM_OFF_RE.match(e_sym[0].split("/")[0])
-            if not m:
-                continue
-            name, off = m.group(1), int(m.group(2), 16)
-            base_addr = by_name.get(name) or by_noargs.get(name.split("(", 1)[0])
-            if base_addr is None:
-                continue
-            return raw_from - (base_addr + off)
+            # entry 0 has the sample symbol glued to it in perf's output; use entries 1.. for the base
+            for k in range(1, len(e_sym)):
+                m = SYM_OFF_RE.match(e_sym[k].split("/")[0])
+                if not m:
+                    continue
+                name, off = m.group(1), int(m.group(2), 16)
+                base_addr = by_name.get(name) or by_noargs.get(name.split("(", 1)[0])
+                if base_addr is None:
+                    continue
+                base = int(e_raw[k].split("/")[0], 16) - (base_addr + off)
+                if base % 4096 == 0:   # PIE load base is page aligned; skip DSO/kernel entries
+                    return base
     raise SystemExit(f"could not derive load base for {trace_dir}")
 
 
