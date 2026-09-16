@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # ScyllaDB (C++/Seastar) single node pinned to cores 50-53; cassandra-stress from a second container on 60-63; perf stat -a -C 50-53
 set -u
-until grep -q "SCYLLA PULL DONE" /tmp/scylla_pull.log; do sleep 20; done
+true
 OUT=/home/hnpark2/prefetchit/llvm_prefetchit/results/broad_screen_20260916/scylla; mkdir -p $OUT
 docker rm -f scylla scylla-stress > /dev/null 2>&1
-docker run -d --name scylla --cpuset-cpus 50-53 --memory 16g scylladb/scylla:6.2 --smp 4 --memory 8G --overprovisioned 1 --developer-mode 1 > $OUT/run.log 2>&1
+docker run -d --name scylla --cpuset-cpus 50-53 --memory 16g scylladb/scylla:6.2 --smp 4 --memory 6G --overprovisioned 1 --developer-mode 1 --reactor-backend epoll > $OUT/run.log 2>&1
 for i in $(seq 1 60); do docker exec scylla nodetool status 2>/dev/null | grep -q "^UN" && break; sleep 5; done
 IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' scylla); echo "scylla up at $IP"
 docker run --rm --cpuset-cpus 60-63 scylladb/scylla:6.2 cassandra-stress write n=1500000 -rate threads=32 -node $IP > $OUT/stress_write.log 2>&1
