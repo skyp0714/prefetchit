@@ -33,18 +33,23 @@ twin="${final}_nop"
 
 if [[ -x "${final}" && -x "${twin}" ]]; then log "reuse ${final}"; exit 0; fi
 
-seq_on=0
+# plan-free modes: sequential lookahead (SEQ_DISTANCE>0) and/or callee-entry burst
+# (PREFETCHIT_CALLEE_BURST_LINES>0 in the environment); both use the same function regexes.
+seq_on=0; burst_on=0
 if [[ -n "${SEQ_DISTANCE:-}" && "${SEQ_DISTANCE}" != 0 ]]; then
   seq_on=1
   export PREFETCHIT_SEQ_DISTANCE="${SEQ_DISTANCE}"
   export PREFETCHIT_SEQ_STRIDE_INSNS="${SEQ_STRIDE:-20}"
   export PREFETCHIT_SEQ_LINES="${SEQ_LINES:-1}"
-  export PREFETCHIT_SEQ_FUNCTIONS="${SEQ_FUNCS:-___eval_nba|nba_sequent|nba_comb}"
-  export PREFETCHIT_SEQ_EXCLUDE="${SEQ_EXCLUDE:-eval_initial|eval_static|eval_final|_settle|__Vdpi|_debug}"
   [[ -n "${SEQ_MIN_INSNS:-}" ]] && export PREFETCHIT_SEQ_MIN_INSNS="${SEQ_MIN_INSNS}"
 fi
+[[ -n "${PREFETCHIT_CALLEE_BURST_LINES:-}" && "${PREFETCHIT_CALLEE_BURST_LINES}" != 0 ]] && burst_on=1
+if ((seq_on || burst_on)); then
+  export PREFETCHIT_SEQ_FUNCTIONS="${SEQ_FUNCS:-___eval_nba|nba_sequent|nba_comb}"
+  export PREFETCHIT_SEQ_EXCLUDE="${SEQ_EXCLUDE:-eval_initial|eval_static|eval_final|_settle|__Vdpi|_debug}"
+fi
 if [[ -z "${PLAN}" ]]; then
-  ((seq_on)) || { echo "[err] give PLAN= and/or SEQ_DISTANCE=" >&2; exit 1; }
+  ((seq_on || burst_on)) || { echo "[err] give PLAN= and/or SEQ_DISTANCE= and/or PREFETCHIT_CALLEE_BURST_LINES=" >&2; exit 1; }
   PLAN="${RUNS}/${LABEL}.empty.plan.json"
   printf '{"schema":"prefetchit.plan.v1","prefetch":{"mnemonic":"prefetcht1","operand":"pc-relative-symbol-offset","byte_offsets":[0]},"injections":[]}\n' > "${PLAN}"
   plan_based=0
@@ -55,7 +60,7 @@ fi
 
 built="${RUNS}/${LABEL}/bin/simulator-chipyard.harness-${CONFIG}-llvm-${LABEL}"
 if [[ ! -x "${built}" ]]; then
-  log "build (plan=$([[ ${plan_based} == 1 ]] && basename "${PLAN}" || echo none) seq=${seq_on}${seq_on:+ D=${PREFETCHIT_SEQ_DISTANCE:-} K=${PREFETCHIT_SEQ_STRIDE_INSNS:-} L=${PREFETCHIT_SEQ_LINES:-}})"
+  log "build (plan=$([[ ${plan_based} == 1 ]] && basename "${PLAN}" || echo none) seq=${seq_on} D=${PREFETCHIT_SEQ_DISTANCE:-0} K=${PREFETCHIT_SEQ_STRIDE_INSNS:-} burst=${PREFETCHIT_CALLEE_BURST_LINES:-0}x lead=${PREFETCHIT_CALLEE_BURST_LEAD:-0})"
   RESULT_BASE="${RUNS}" RUN_ID="${LABEL}" BASELINE_BINARY="${BASELINE_BINARY}" SOURCE_WORK="${SOURCE_WORK}" \
   CONFIG="${CONFIG}" EXTERNAL_PLAN="${PLAN}" PREFETCH_MNEMONIC=prefetcht1 PREFETCH_LABEL="${LABEL}" \
   PREFETCH_BYTE_OFFSETS="0,64" MAX_CYCLES=100000 PROFILE_CORE="${CORE}" BUILD_JOBS="${BUILD_JOBS}" \
@@ -64,7 +69,7 @@ if [[ ! -x "${built}" ]]; then
     bash "${SCRIPT_DIR}/run_prefetcht1_l2_eval.sh" > "${RUNS}/${LABEL}.build.log" 2>&1 || {
       [[ -x "${built}" ]] || { log "BUILD FAILED: ${RUNS}/${LABEL}.build.log"; exit 1; }
       log "build script exited non-zero after producing the binary (see ${RUNS}/${LABEL}.build.log); continuing"; }
-  grep -h "prefetchit-inject: injected=\|prefetchit-seq:" "${RUNS}/${LABEL}/build/build_${LABEL}.log" | tail -2 | tee -a "${LOG}"
+  grep -h "prefetchit-inject: injected=\|prefetchit-seq:\|prefetchit-callee-burst:" "${RUNS}/${LABEL}/build/build_${LABEL}.log" | tail -3 | tee -a "${LOG}"
 fi
 
 if ((plan_based)); then

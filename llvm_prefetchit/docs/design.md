@@ -379,7 +379,10 @@ instructions are not bytes, the actual spacing is calibrated on the binary:
 on Verilator's generated code K = 20 gives a 71 B median spacing (p10 31,
 p90 125), K = 40 gives 138 B (IR:machine ≈ 1.39, 4.8 B per instruction).
 `scripts/static/build_verilator_variant.sh` reports the operand check and the
-spacing distribution of every seq build.
+spacing distribution of every seq build. (Note: `check_prefetch_drift.py`
+assumes callsite plans with byte offsets 0/64; a 4-offset plan such as the RET
+v3 plan legitimately reports ~50% "within ±64 B" — verify the delta histogram
+instead, as done for `ret_v3_s256_l4`: 24.5% each at +0/+64/+128/+192.)
 
 *Callee-entry burst* inserts `prefetcht1 callee+64*l(%rip)` for the first L
 lines of every direct callee defined in the module and matching the regexes,
