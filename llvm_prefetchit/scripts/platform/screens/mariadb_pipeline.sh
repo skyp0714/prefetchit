@@ -15,7 +15,7 @@ SB="--mysql-host=localhost --mysql-socket=$SOCK --mysql-user=root --mysql-db=sbt
 log(){ echo "[$(date '+%T')] $*" | tee -a $OUT/run.log; }
 start_server(){ # $1 = install dir
   local I=$1; pgrep -f "mariadbd.*--port=$PORT" >/dev/null && stop_server
-  taskset -c $SERVER_CORES $I/bin/mariadbd --no-defaults --datadir=$DATA --port=$PORT --socket=$SOCK --innodb-buffer-pool-size=4G --innodb-flush-log-at-trx-commit=0 --innodb-flush-method=O_DIRECT --skip-log-bin --max-connections=64 --skip-name-resolve > $OUT/server_$(basename $I).log 2>&1 &
+  taskset -c $SERVER_CORES $I/bin/mariadbd --no-defaults --datadir=$DATA --port=$PORT --socket=$SOCK --innodb-buffer-pool-size=4G ${SERVER_EXTRA_ARGS:---innodb-flush-log-at-trx-commit=0 --innodb-flush-method=O_DIRECT --skip-log-bin} --max-connections=64 --skip-name-resolve > $OUT/server_$(basename $I).log 2>&1 &
   for i in $(seq 1 60); do $I/bin/mariadb-admin --socket=$SOCK -u root ping >/dev/null 2>&1 && return; sleep 1; done; echo "server failed" >&2; exit 1; }
 stop_server(){ $M/install_base/bin/mariadb-admin --socket=$SOCK -u root shutdown >/dev/null 2>&1 || pkill -f "mariadbd.*--port=$PORT" || true; sleep 2; }
 perf_run(){ # $1 label $2 csv-out ; runs sysbench DUR with perf stat -a -C on server cores
@@ -70,6 +70,7 @@ build)
   python3 $LLVM/tools/make_nop_control_binary.py --input $I/bin/mariadbd --output $I/bin/mariadbd_nop > /dev/null 2>&1; log "$VAR twin: $(llvm-objdump-19 -d $I/bin/mariadbd_nop | grep -cE 'prefetcht[012]') left"
   mkdir -p $M/install_${VAR}_nop/bin && cp -a $I/bin/mariadbd_nop $M/install_${VAR}_nop/bin/mariadbd && ln -sfn $M/install_base/bin/mariadb-admin $M/install_${VAR}_nop/bin/ 2>/dev/null; cp -rn $I/share $M/install_${VAR}_nop/ 2>/dev/null || true; cp -rn $I/lib $M/install_${VAR}_nop/ 2>/dev/null || true ;;
 measure)
+  while pgrep -x clang++-19 >/dev/null || pgrep -x clang-19 >/dev/null || pgrep -f "runcpu.*action=build" >/dev/null; do sleep 30; done; exec 9>/tmp/measure.lock; flock 9
   CSV=$OUT/measure/runs.csv; mkdir -p $OUT/measure; [[ -s $CSV ]] || echo "variant,rep,tps,l2i_mpki,ipc,instructions" > $CSV
   for rep in $(seq 1 $REPS); do for v in base ${VARIANTS:?}; do for arm in $v ${v}_nop; do
     [[ $arm == base_nop ]] && continue; grep -q "^$arm,$rep," $CSV && continue
