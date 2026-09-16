@@ -179,7 +179,11 @@ affinity 감사, `valid` 열). memcached는 중립(대조군으로 유지).
 | HAProxy / Redis / nginx / LevelDB / RocksDB / QuickJS / SQLite / WAMR / wasm3 / serverless / Folly | <2 | 미실시(스크린 탈락) | miss 자체가 없음 | `archive/scripts/newbench_screens.sh` |
 | clang / node.js / Cassandra(부하) / QEMU TCG / PHP / GHDL / vvp / ngspice / LAMMPS / Verilator Rocket | ≤2 | 스크린 탈락 | 코드가 L2에 들어감 | — |
 | DaCapo·Renaissance 40+ (tomcat 12, cassandra 13 포함) | ≤13 | C2 V4 중립 | L1I/L2I≈10: miss가 L2에서 해결 → t1 무력; prefetchit0는 no-op | `jit_prefetch/scripts/ab_jvm_suite.sh` |
-| SPEC CPU2017/2026, gem5 SE | ≤0.6 / 0.001 | 스크린 탈락 | — | `migration/config/spec20xx` |
+| **SPEC CPU2026** (rate 24 + speed 13, clang-19 -O3; Fortran 4종은 gfortran 부재로 제외) | 최대 1.65 (723.llvm_r), gcc 1.2, 나머지 33개 ≤0.16 | **37개 전부 스크린 탈락** (2026-09-16 ref 입력 150 s) | 코드가 L2에 들어감 | `benchmarks/spec2026` (`config/prefetchit-clang-2026.cfg`), 표 `llvm_prefetchit/results/spec2026_20260916/summary.md`, 파이프라인 `scripts/static/spec2026_variant.sh` |
+| gem5 v25 X86 O3 SE (직접 실행) | 0.008 | 스크린 탈락 | 시뮬레이션 루프가 L2 상주 | `benchmarks/gem5/build/X86/gem5.opt` + stdlib SE config |
+| 과학 시뮬레이터: LAMMPS / GROMACS / OpenFOAM / Quantum ESPRESSO / NWChem / ABINIT / NEURON / gmsh / ngspice | 0.04 / 0.03 / 0.03 / 2.1 / 0.34 / 0.10 / 0.07 / 0.04 / 0.02 | 스크린 탈락 (2026-09-16) | 수치 커널이 작음 | `llvm_prefetchit/results/broad_screen_20260916/summary_table.md` |
+| 인터프리터·JIT·도구: CPython+sympy / PyPy / LuaJIT / Ruby / PHP / Erlang / SWI-Prolog / mypy / clang -O3 / g++ -O2 / yosys / KLayout | 0.31 / 0.28 / 0.01 / 0.01 / 0.01 / 0.34 / 0.01 / 0.45 / 1.6 / 0.4 / 0.04 / 0.02 | 스크린 탈락 | — | 같은 표 |
+| PostgreSQL 17-dev pgbench TPC-B (8 클라이언트, 서버 코어 측정) | **40.7** (select-only 1.2) | 스크린 통과 — trace 단계에서 보류(사용자 지시로 SPEC2026 우선) | 쓰기 경로(WAL·heap·lock) 코드가 L2 초과 | `benchmarks/pg/{pg_screen,pg_trace}.sh`, baseline `benchmarks/pg/install_base` |
 
 ## 6. 호스트 / 환경 (2026-09-16)
 
