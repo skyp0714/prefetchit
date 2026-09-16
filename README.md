@@ -184,6 +184,10 @@ affinity 감사, `valid` 열). memcached는 중립(대조군으로 유지).
 | 과학 시뮬레이터: LAMMPS / GROMACS / OpenFOAM / Quantum ESPRESSO / NWChem / ABINIT / NEURON / gmsh / ngspice | 0.04 / 0.03 / 0.03 / 2.1 / 0.34 / 0.10 / 0.07 / 0.04 / 0.02 | 스크린 탈락 (2026-09-16) | 수치 커널이 작음 | `llvm_prefetchit/results/broad_screen_20260916/summary_table.md` |
 | 인터프리터·JIT·도구: CPython+sympy / PyPy / LuaJIT / Ruby / PHP / Erlang / SWI-Prolog / mypy / clang -O3 / g++ -O2 / yosys / KLayout | 0.31 / 0.28 / 0.01 / 0.01 / 0.01 / 0.34 / 0.01 / 0.45 / 1.6 / 0.4 / 0.04 / 0.02 | 스크린 탈락 | — | 같은 표 |
 | PostgreSQL 17-dev pgbench TPC-B (8 클라이언트, fsync off, 서버 코어 측정) | **0.13** (select-only 1.2) — 첫 측정 40.7은 같은 코어에서 돌던 SPEC2026 빌드가 섞인 오측정 | 스크린 탈락 (재측정 27k tps, IPC 1.23) | 데이터가 캐시에 상주하는 pgbench는 코드가 L2에 들어감 (과거 TPC-C 51은 다른 부하) | `benchmarks/pg/{pg_screen,pg_trace}.sh`, baseline `benchmarks/pg/install_base` |
+| 데이터베이스/분석: ClickHouse server (MergeTree 1.2억 행, 4 동시 쿼리) / DuckDB TPC-H sf2 / MongoDB 7 mixed / RocksDB db_bench readrandom | 0.25 / 0.22 / 0.48 / 0.08 | 스크린 탈락 (2026-09-16) | 엔진 코드가 L2 상주 | `llvm_prefetchit/scripts/platform/screens/` |
+| 서비스: Envoy 1.31 리버스 프록시 (wrk 55k rps) | 0.24 | 스크린 탈락 | — | `screens/envoy_screen.sh` |
+| ML 추론: PyTorch 2 ResNet-50 CPU batch 1 | 0.63 | 스크린 탈락 | oneDNN 커널 | `screens/run_torch.sh` |
+| 다른 flattened 시뮬레이터: CXXRTL (yosys, picorv32×48 배열, 15.8 MB C++) / GHDL mcode NEORV32 / QEMU user-mode TCG | **3.3** / 2.8 / 0.001 | 탈락(기준 미달)이지만 CXXRTL은 디자인 크기에 비례 — Chipyard SV는 yosys 0.33이 파싱 못함 | 생성 코드 크기가 Verilator DMB의 1/7 | `screens/run_cxxrtl.sh`, `screens/ghdl_chain.sh` |
 | MariaDB 10.11 sysbench oltp_read_write (16 tables×200k, 8 threads, 서버 코어 측정) | **9.3** (point_select 0.22) | **스크린 통과** → clang -O3 -g 자체 빌드 후 trace→PGO→static 진행 중 | 트랜잭션 쓰기 경로 | `benchmarks/mariadb/build_base.sh`, `llvm_prefetchit/scripts/platform/screens/mariadb_screen.sh` |
 
 ## 6. 호스트 / 환경 (2026-09-16)
