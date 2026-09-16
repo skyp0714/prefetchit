@@ -44,7 +44,7 @@ simulated cycles and does not move L2I MPKI: only 15% of the RET-miss
 samples are produced by one of the 1,000 chosen calls (the 1,000 hottest
 producing calls would cover 65%). The target *lines* are right (62% recall);
 the chosen *call* per line is usually not the one that returns into it. The
-planner needs a call-level hotness proxy (see `docs/PLAN.md`, stage 2).
+planner needs a call-level hotness proxy (see the umbrella `docs/TODO.md`, item 1-A).
 Evaluate plans with the producing-call metric, not "site anywhere in the LBR
 history".
 
