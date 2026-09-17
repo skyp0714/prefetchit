@@ -119,12 +119,28 @@ wake, `wake_lines.py`). w64 = 64 lines/wake (top-256 list); w128s = 128 + 128 st
 
 Accounting (12 s smoke, w64): 43% of the warm-up prefetches were real L2 fills (vs 1% for in-code plans) — the hook is right, but 64–256 lines
 per wake cover only a few % of the ~2,400 lines missed per wake; net +1–2%.
+## Round 12 — paced wake-up warm-up (512 / 1024 lines per wake, 32-line batches separated by 8 pause iterations; `libwarmup_p.so`)
+| arm | reps | rps | non2xx | p50 ms | p99 ms | svc cycles (G) | cycles vs g | MPKI | IPC | instr vs g |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| g | 3 | 6019 | 0 | 3.8 | 11.7 | 55.51 | 1.0000x | 22.58 | 0.609 | 1.000 |
+| wp512 | 3 | 6019 | 0 | 3.9 | 12.3 | 55.57 | 0.9989x | 20.35 | 0.629 | 1.032 |
+| wp512_nop | 3 | 6019 | 0 | 3.9 | 13.1 | 56.76 | 0.9779x | 21.42 | 0.615 | 1.032 |
+| wp1024 | 3 | 6019 | 0 | 3.9 | 13.8 | 56.53 | 0.9818x | 19.02 | 0.634 | 1.060 |
+| wp1024_nop | 3 | 6019 | 0 | 3.9 | 12.0 | 58.03 | 0.9565x | 20.92 | 0.619 | 1.061 |
+
+The paced warm-up removes up to 16% of the misses (22.6 → 19.0 MPKI, the largest reduction of any prefetch arm on this service) but the
+thread stalls while it paces (instructions +6%): net 0.98–1.00x. A kernel switch-in warm-up issued the same way would pay the same stall;
+only an asynchronous prefetch engine (hardware "warm-up list" that streams the lines while the thread runs) could turn the miss reduction into time.
+
 ## Conclusion
 No prefetch arm moves user-timeline's CPU time by more than ~1%; the only large effect is core pinning (1.51x). The L2I misses of this
 service are L2 pollution by co-scheduled containers during the ~30 ms idle gaps between a thread's requests, not a
 prefetchable code stream. Trace-guided post-link placement does reduce misses by 11% (pgo75) but its stub overhead (+5.7% instructions)
 cancels the gain. Injecting the same kind of plan inline via a full rebuild (round 10, no stub overhead) gives +1.2% unpinned and +0.3% with
 the service pinned (main thread on its own core, workers on a 4-core pool): the prefetchable remainder is small once the pollution is removed by pinning.
+Wake-up warm-up (rounds 11–12): the right hook — 43% of its prefetches are real fills and it removes up to 16% of misses — but a
+software burst is bounded by the fill queue (64–128 lines per wake, +1–2%) and pacing to 1,024 lines stalls the thread as long as the
+misses would have (0.98x). Best DSB result overall: w64 1.019x. Isolation remains the only large lever (1.64x).
 ## Software-prefetch accounting of the inline-plan arm (30 s windows, R=6000; L2_RQSTS.SWPF_HIT/MISS = prefetcht1 that reached L2 and hit/missed)
 | arm | instr (G) | L2I MPKI | L2I misses (M) | sw prefetches at L2 (M) | of which missed = real fills (M) | useful share |
 |---|---:|---:|---:|---:|---:|---:|
