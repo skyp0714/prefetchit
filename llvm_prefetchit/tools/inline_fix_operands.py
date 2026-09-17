@@ -14,7 +14,7 @@ exported = {ln.split()[1].split('@')[0] for ln in open(a.dynsyms) if len(ln.spli
 defined_main = set()
 for ln in subprocess.run(['llvm-nm-19', '--defined-only', a.exe], capture_output=True, text=True).stdout.splitlines():
     p = ln.split()
-    if len(p) >= 3: defined_main.add(p[2])
+    if len(p) >= 3 and p[1] in ('T', 'W', 'D', 'B', 'R'): defined_main.add(p[2])   # global symbols only: a local ('t') symbol of another object cannot be referenced
 def fix(plan, is_main):
     keep = []; st = {'pc': 0, 'got': 0, 'drop': 0}
     for inj in plan['injections']:
