@@ -271,3 +271,18 @@ The earlier "isolated is worse" rows for them are that run-to-run swing, not a C
 | PostgreSQL scale 100 (pgbench 16 clients) | — | — | (multi-process; re-screen queued) | | | | | |
 MariaDB is a second strong cold-start candidate (2.1k context switches per second per thread-equivalent; misses fall 3× when isolated);
 masstree's 9.5 MPKI is intrinsic (unchanged by isolation). TailBench xapian/img-dnn/sphinx need the missing 10 GB input set.
+
+## Round 14 — "timeline" prefetch, inline via the IR pass (default scheduling, every container confined to cores 0-35)
+Plan: per 5 µs slot after a wake, the 3 most-sampled IPs become sites; targets = lines whose first use is 10–20 µs later (63 sites,
+1,646 targets incl. libc/libstdc++ lines via exported-symbol GOT anchors). The pass matched only 85 of 410 main-binary sites by debug
+location (266 sites have no matching file:line after -O3 inlining) → service 86 prefetcht1, libs bson 40 / thrift 38 / jaeger 19 / mongoc 13.
+| arm | reps | rps | non2xx | p50 ms | p99 ms | svc cycles (G) | cycles vs g | MPKI | IPC | instr vs g |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| g | 3 | 6019 | 0 | 3.9 | 12.3 | 56.66 | 1.0000x | 19.84 | 0.604 | 1.000 |
+| tl | 3 | 6019 | 0 | 3.9 | 14.4 | 56.36 | 1.0053x | 20.00 | 0.609 | 1.004 |
+| tl_nop | 3 | 6019 | 0 | 3.9 | 17.3 | 56.73 | 0.9988x | 20.12 | 0.607 | 1.007 |
+| tlw64 | 2 | 6019 | 0 | 3.9 | 12.3 | 56.32 | 1.0061x | 19.91 | 0.611 | 1.006 |
+| tlw64_nop | 2 | 6019 | 0 | 3.9 | 12.2 | 56.43 | 1.0041x | 20.27 | 0.609 | 1.005 |
+
+Verdict: +0.5% (twin −0.1%), MPKI unchanged — the inline route places too few of the planned sites. Round 15 places the same plan
+post-link at the exact call sites (57 sites, ~1.3k prefetches).
