@@ -46,6 +46,20 @@ NOP으로 치환한 *NOP twin* 대비, 코어·언코어 클럭 고정, 인터�
 | 2 | arcilator DualMegaBoom — **static sequential lookahead** | (MegaBoom callsite s4la16 1.051x) | **1.543x vs base / 1.683x vs NOP twin**, MPKI 79.1→35.4 (D=4 KB K=10, 20k 사이클, 3회; K=20 1.504x; `flat_codegen/results/arc_seq_20260916.csv`) | 8월에 'saturation 영역'으로 분류했던 워크로드가 seq로 최대 이득 |
 | 1 | microbench | prefetchit no-op | 바이너리만 재빌드 | — |
 
+### 2-0. 한 자리수 MPKI 워크로드의 PGO/static 검증 결론 (2026-09-16 저녁)
+
+`llvm_prefetchit/results/pgo_static_20260916/summary.md` (실제 런타임 speedup vs base, 3회, 3.8 GHz, `:u`):
+
+| 워크로드 | base MPKI | 최선 arm | speedup | MPKI |
+|---|---:|---|---:|---|
+| CXXRTL picorv32×48 (flattened) | 2.95 | static seq D=4 KB K=80 | **1.025x** | 2.95 → 0.94 |
+| SPEC2026 723.llvm_r | 1.55 | PGO lean (cov50, 1 site) | 0.999x | 1.55 → 1.54 |
+| SPEC2026 721.gcc_r | 1.11 | PGO lean | 0.986x | 1.11 → 1.09 |
+| WordPress php-fpm(자체 빌드) | 0.20 | — (arm 무효) | — | — |
+| MariaDB durable (user) | 3.2 | — (PGO arm 빌드 불가) | — | — |
+
+결론: 한 자리수 MPKI에서 유의미한 이득은 flattened 코드(CXXRTL)에서만, 그것도 저밀도 seq로 2.5%다. 일반 코드에서는 trace-guided placement가 (a) 넉넉한 plan이면 hot loop 사이트 때문에 동적 명령 수가 ×1.9–2.9로 늘어 크게 느려지고(0.46x/0.25x), (b) 마른 plan이면 MPKI가 안 움직인다. 멀티 타깃 빌드(MariaDB)에서는 IR pass 주입 자체가 링크를 깨뜨린다.
+
 ### 2-1. 2026-09-16 static pass 대수술 — miss는 "분기 target"이 아니라 "순차 코드 스트림"이었다
 
 `static_prefetch/tools/ret/{ret_producing_call_truth,miss_stream_characterization}.py`로 PEBS **sample IP**를 LBR[0].to와 비교한 결과
@@ -180,7 +194,7 @@ affinity 감사, `valid` 열). memcached는 중립(대조군으로 유지).
 | clang / node.js / Cassandra(부하) / QEMU TCG / PHP / GHDL / vvp / ngspice / LAMMPS / Verilator Rocket | ≤2 | 스크린 탈락 | 코드가 L2에 들어감 | — |
 | DaCapo·Renaissance 40+ (tomcat 12, cassandra 13 포함) | ≤13 | C2 V4 중립 | L1I/L2I≈10: miss가 L2에서 해결 → t1 무력; prefetchit0는 no-op | `jit_prefetch/scripts/ab_jvm_suite.sh` |
 | **SPEC CPU2026** (rate 24 + speed 19, clang-19 -O3 -g; Fortran 4종(pot3d/palm/fotonik3d/roms)은 gfortran 부재, cloverleaf_s/nest_s/graph500_s는 컴파일 오류로 제외 — nest_r 포함) | 최대 1.66 (723.llvm_r), llvm_s 1.47, gcc_r 1.22, gcc_s 0.75, 나머지 39개 ≤0.16 | **43개 전부 스크린 탈락** (2026-09-16 ref 입력 150 s) | 코드가 L2에 들어감 | `benchmarks/spec2026` (`config/prefetchit-clang-2026.cfg`), 표 `llvm_prefetchit/results/spec2026_20260916/summary.md`, 파이프라인 `scripts/static/spec2026_variant.sh` |
-| **SPEC2026 723.llvm_r / 721.gcc_r — 한 자리수 PGO 검증** (ref, 3.8 GHz, 3회, `:u`) | base 1.55 / 1.11 | trace-guided cov90 plan(38k/78k injections → 73k/126k prefetch): **0.46x / 0.25x**, NOP twin조차 0.77x / 0.60x — 사이트가 hot loop 안에 들어가 동적 명령 수가 ×1.87 / ×2.87 | 일반 코드에서는 planner의 사이트 선택에 실행 빈도 상한이 필요(TODO 1-A'''); lean plan(cov50·budget 1·depth 2–8·1라인) 재측정 중 | `scripts/static/spec2026_pgo_static.sh`, `results/pgo_static_20260916/summarize.py` |
+| **SPEC2026 723.llvm_r / 721.gcc_r — 한 자리수 PGO 검증** (ref, 3.8 GHz, 3회, `:u`) | base 1.55 / 1.11 | trace-guided cov90 plan(38k/78k injections → 73k/126k prefetch): **0.46x / 0.25x**, NOP twin조차 0.77x / 0.60x — 사이트가 hot loop 안에 들어가 동적 명령 수가 ×1.87 / ×2.87 | lean plan(cov50·budget 1·depth 2–8·1라인, 1.3k/0.9k prefetch)은 명령 +0.4%/+1.5%로 **0.999x / 0.986x, MPKI 변화 없음(1.55→1.54, 1.11→1.09)** → trace-guided ceiling 없음 = static 시도 안 함. 일반 코드에서는 planner의 사이트 선택에 실행 빈도 상한이 필요(TODO 1-A''') | `scripts/static/spec2026_pgo_static.sh`, `results/pgo_static_20260916/summarize.py` |
 | gem5 v25 X86 O3 SE (직접 실행) | 0.008 | 스크린 탈락 | 시뮬레이션 루프가 L2 상주 | `benchmarks/gem5/build/X86/gem5.opt` + stdlib SE config |
 | 과학 시뮬레이터: LAMMPS / GROMACS / OpenFOAM / Quantum ESPRESSO / NWChem / ABINIT / NEURON / gmsh / ngspice | 0.04 / 0.03 / 0.03 / 2.1 / 0.34 / 0.10 / 0.07 / 0.04 / 0.02 | 스크린 탈락 (2026-09-16) | 수치 커널이 작음 | `llvm_prefetchit/results/broad_screen_20260916/summary_table.md` |
 | 인터프리터·JIT·도구: CPython+sympy / PyPy / LuaJIT / Ruby / PHP / Erlang / SWI-Prolog / mypy / clang -O3 / g++ -O2 / yosys / KLayout | 0.31 / 0.28 / 0.01 / 0.01 / 0.01 / 0.34 / 0.01 / 0.45 / 1.6 / 0.4 / 0.04 / 0.02 | 스크린 탈락 | — | 같은 표 |
