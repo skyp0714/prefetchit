@@ -127,3 +127,4 @@ seq 모드가 정답이었다(README §2-1). 다른 워크로드도 trace를 뜨
 - **DSB 구조 문제 보고**: 컨테이너 간 L2 오염(스레드 71개 상주, 동시 실행 1~4개, 요청 사이 idle 중 오염)이 miss의 주원인 — 코어 고정 1.51x. 프리페치 논문에서 DSB를 쓸 때는 cpuset 고정 + 스레드풀 설정을 baseline으로 삼아야 한다.
 - `anchors_for()`는 `.plt` 이름만 읽어 `.plt.sec`(IBT) 바이너리에서는 anchor를 못 찾는다 → `.plt.sec`/`.plt.got` 지원.
 - `flat_codegen/scripts/project_env.sh`가 자기 자신을 source 하여 bash가 segfault(재귀) — `rebuild_deps_env.sh`에서는 제거했지만 다른 August 스크립트도 점검 필요.
+- **커널 switch-in warm-up 프로토타입(선택)**: 유저 공간 대역(`postlink/warmup/`)이 1.019x(64라인)·0.982x(paced 1,024라인, miss −16%)로 상한을 보여줌. 커널판은 futex/타이머 wake까지 잡지만 같은 fill-queue 한계라 기대치 ≤2%; 비동기 프리페치 엔진(ISA 제안 4번)이 없으면 의미 없음. 시뮬레이터(gem5)에서 엔진 모델링이 더 생산적.
