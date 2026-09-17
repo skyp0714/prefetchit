@@ -248,3 +248,17 @@ wake is fully cold. On shared cores the neighbours keep the core awake and part 
 Only the Go frontend is busy enough to read (17.7→9.0 MPKI, 1.30x; 6% I-side headroom — but Go code is not addressable by our AOT
 pass or post-link tools in a stable way). The Go backends executed <5 M instructions per 30 s under this load (rows omitted), so the
 suite adds no candidate. Mongo sidecars: 4–7 MPKI, isolation-neutral.
+
+## C-state separation on isolated cores (36-39 exclusive; core C6/C6P enabled vs disabled via cpuidle)
+| container | instr/s (G) | MPKI iso C6 on | MPKI iso C6 off | IPC on→off | cycles on/off |
+|---|---:|---:|---:|---|---:|
+| unique-id-service | 0.05 | 17.5 | 17.5 | 0.55→0.55 | 1.00x |
+| social-graph-service | 0.11 | 10.9 | 10.8 | 0.76→0.76 | 1.00x |
+| user-mention-service | 0.19 | 12.3 | 12.5 | 0.79→0.78 | 0.99x |
+| post-storage-service | 20.7 | 1.3 | 1.3 | 2.11→2.11 | 1.00x |
+| compose-post-service | 0.57 | 4.9 | 4.8 | 0.78→0.78 | 1.01x |
+| **home-timeline-service** | 2.06 | 5.3 | **0.1** | 1.34→1.64 | **1.23x** |
+Only home-timeline is C6-bound (its cores idle into C6 between its bursts; with C6 disabled MPKI 5.3→0.1 and 23% fewer cycles).
+The low-activity services (≤0.2 G instr/s) are insensitive to C6 and their MPKI swings between runs (10–130) because a handful of sparse
+wake bursts (e.g. jaeger reconnect attempts) dominate their tiny instruction counts — not stable candidates and negligible in cycles.
+The earlier "isolated is worse" rows for them are that run-to-run swing, not a C-state effect.
