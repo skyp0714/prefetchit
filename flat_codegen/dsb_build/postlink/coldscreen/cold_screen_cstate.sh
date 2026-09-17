@@ -6,7 +6,7 @@ set -u
 OUT=$1; LOAD=$2; shift 2; CONTS=("$@"); ISO=${ISO_CORES:-36-39}; SHARED=${SHARED_CORES:-0-35}; WIN=${WIN:-30}
 EV='instructions,cycles,cpu/event=0x24,umask=0x24,name=L2I/,context-switches'
 [[ -f $OUT ]] || echo "container,mode,instr,cycles,l2i,cs,migr,taskclock_ms" > $OUT
-cstate(){ local v=$1; for c in 36 37 38 39; do for s in 3 4; do echo ps101899 | sudo -S -p '' sh -c "echo $v > /sys/devices/system/cpu/cpu$c/cpuidle/state$s/disable"; done; done; }
+cstate(){ local v=$1 cpu st; for cpu in 36 37 38 39; do for st in 3 4; do echo ps101899 | sudo -S -p '' sh -c "echo $v > /sys/devices/system/cpu/cpu$cpu/cpuidle/state$st/disable"; done; done; }
 measure(){ local c=$1 mode=$2; local pid; pid=$(docker inspect -f '{{.State.Pid}}' $c); [[ -n $pid && $pid != 0 ]] || return
   echo ps101899 | sudo -S -p '' perf stat -x, -e $EV -p $pid -- sleep $WIN 2> /tmp/cs_$c.txt > /dev/null
   python3 - $c $mode $OUT /tmp/cs_$c.txt <<'PY'
