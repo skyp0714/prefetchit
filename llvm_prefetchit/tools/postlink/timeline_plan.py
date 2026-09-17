@@ -14,6 +14,8 @@ ap.add_argument('--slot',type=float,default=5); ap.add_argument('--ahead-min',ty
 ap.add_argument('--sites-per-slot',type=int,default=3); ap.add_argument('--max-targets',type=int,default=48); ap.add_argument('--min-samples',type=int,default=3)
 ap.add_argument('--max-offset',type=float,default=200)
 ap.add_argument('--target-bins',default='',help='comma list dsoname=path usable only as prefetch TARGETS (not rebuilt; exported symbols only)')
+ap.add_argument('--postlink-out',default='',help='also write post-link plans (site = nearest preceding direct call within --call-window bytes, file offsets) into this dir')
+ap.add_argument('--call-window',type=int,default=512)
 a=ap.parse_args()
 bins={}
 for kv in a.bins.split(','):
@@ -100,6 +102,32 @@ def a2l(path,addrs):
     if not addrs: return {}
     out=subprocess.run(['addr2line','-e',path]+[hex(x) for x in addrs],capture_output=True,text=True).stdout.splitlines()
     return {x:o for x,o in zip(addrs,out)}
+# ---- post-link plans: snap each site IP to the nearest preceding `call rel32` in the same DSO ----
+if a.postlink_out:
+    os.makedirs(a.postlink_out,exist_ok=True)
+    calls_cache={}
+    def calls_of(path):
+        if path in calls_cache: return calls_cache[path]
+        out=subprocess.run(['objdump','-d','-j','.text',path],capture_output=True,text=True).stdout
+        addrs=[]
+        for ln in out.splitlines():
+            m=re.match(r'^\s*([0-9a-f]+):\s+e8 [0-9a-f]{2} [0-9a-f]{2} [0-9a-f]{2} [0-9a-f]{2}\s+call',ln)
+            if m: addrs.append(int(m.group(1),16))
+        addrs.sort(); calls_cache[path]=addrs; return addrs
+    pl=collections.defaultdict(dict); nsnap=0; nlost=0
+    for d,entries in plans.items():
+        path=bins[binkey(d)]; addrs=calls_of(path)
+        for e in entries:
+            vaddr=e['site'][1]; i=bisect.bisect_right(addrs,vaddr)-1
+            if i<0 or vaddr-addrs[i]>a.call_window: nlost+=1; continue
+            site=addrs[i]; nsnap+=1
+            tg=pl[binkey(d)].setdefault(site,[])
+            for td,to in e['targets']:
+                tk=anykey(td)
+                if tk: tg.append([tk,to])
+    for k,sites in pl.items():
+        json.dump([{'site':so,'targets':t} for so,t in sites.items()],open(os.path.join(a.postlink_out,f'plan_{k}.json'),'w'))
+    print(f"post-link plans: {nsnap} sites snapped to a preceding call, {nlost} lost (no call within {a.call_window} B); files: {list(pl)}")
 os.makedirs(a.outdir,exist_ok=True); summary={}
 for d,entries in plans.items():
     path=bins[binkey(d)]; addrs=sorted({e['site'][1] for e in entries}); fl=a2l(path,addrs); inj=[]

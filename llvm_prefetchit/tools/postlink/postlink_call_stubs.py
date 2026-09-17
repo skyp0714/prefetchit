@@ -86,11 +86,13 @@ NOP = {4: b'\x0f\x1f\x40\x00', 5: b'\x0f\x1f\x44\x00\x00', 7: b'\x0f\x1f\x80\x00
 def anchors_for(path, dso_dir):
     """DSO name -> (GOT slot in this file, symbol offset in that DSO) using this file's PLT imports."""
     secs = sections(lief.parse(path)); _, plt = parse_calls(path, secs)
-    out = subprocess.run(['objdump', '-d', '-j', '.plt', path], capture_output=True, text=True, check=True).stdout
     names = {}
-    for line in out.splitlines():
-        m = re.match(r'^([0-9a-f]+) <([^>]+)@plt>:', line)
-        if m: names[int(m.group(1), 16)] = m.group(2)
+    for sec in ('.plt', '.plt.sec'):
+        if sec not in secs: continue
+        out = subprocess.run(['objdump', '-d', '-j', sec, path], capture_output=True, text=True, check=True).stdout
+        for line in out.splitlines():
+            m = re.match(r'^([0-9a-f]+) <([^>]+)@plt>:', line)
+            if m: names[int(m.group(1), 16)] = m.group(2)
     imported = {names[e]: slot for e, slot in plt.items() if e in names}
     res = {}
     for f in sorted(os.listdir(dso_dir)):
