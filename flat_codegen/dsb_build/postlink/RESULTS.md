@@ -76,6 +76,21 @@ Tools: `llvm_prefetchit/tools/postlink/postlink_call_stubs.py` (call-site stubs 
 | pgo75c75 | 3 | 6019 | 0 | 4.2 | 19.0 | 57.48 | 0.9985x | 22.44 | 0.594 | 1.009 |
 | pgo75c75_nop | 3 | 6019 | 0 | 4.1 | 16.0 | 57.90 | 0.9914x | 23.03 | 0.590 | 1.009 |
 
+## Round 4 — full clang-19 rebuild of the userland (service + thrift/mongoc/bson/jaeger/opentracing) with the IR pass, plan-free modes
+Images `dsb-deps-g` (base), `dsb-deps-b3` (callee-entry burst 3 lines: service 345 + libs ~3.6k prefetches), `dsb-deps-seq` (seq D=4 KB K=40 + burst: service 2,138 + libs ~9k). libc/libstdc++ remain distro binaries. Reference arm = g.
+| arm | reps | rps | non2xx | p50 ms | p99 ms | svc cycles (G) | cycles vs g | MPKI | IPC | instr vs g |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| g | 3 | 6019 | 0 | 4.1 | 13.0 | 58.98 | 1.0000x | 22.59 | 0.590 | 1.000 |
+| b3 | 3 | 6019 | 0 | 4.2 | 14.7 | 58.93 | 1.0009x | 22.16 | 0.592 | 1.004 |
+| b3_nop | 3 | 6019 | 0 | 4.1 | 18.9 | 59.35 | 0.9937x | 22.54 | 0.590 | 1.006 |
+| seq | 3 | 6019 | 0 | 4.1 | 13.0 | 59.44 | 0.9923x | 22.09 | 0.589 | 1.007 |
+| seq_nop | 3 | 6019 | 0 | 4.1 | 17.0 | 59.52 | 0.9909x | 22.22 | 0.590 | 1.009 |
+
+## Conclusion
+No prefetch arm moves user-timeline's CPU time by more than ~1%; the only large effect is core pinning (1.51x). The L2I misses of this
+service are L2 pollution by co-scheduled containers plus thread churn (one thread per connection, one connection per request), not a
+prefetchable code stream. Trace-guided post-link placement does reduce misses by 11% (pgo75) but its stub overhead (+5.7% instructions)
+cancels the gain; a cheaper injection mechanism (in-place padding or an ISA hint) would be needed to turn that into time.
 ## Trace (results/trace_utl, 212k L2I-miss samples, 6.6M LBR records)
 - Miss IPs: libc 27%, service 24%, libstdc++ 16%, jaeger 12%, pthread 7%, mongoc 5%, bson 4%, thrift 2%.
 - Only 2,956 distinct miss lines; 50% of misses in 227 lines (14 KB), 90% in 1,050 lines (66 KB).
