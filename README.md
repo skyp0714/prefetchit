@@ -60,6 +60,20 @@ NOP으로 치환한 *NOP twin* 대비, 코어·언코어 클럭 고정, 인터�
 
 결론: 한 자리수 MPKI에서 유의미한 이득은 flattened 코드(CXXRTL)에서만, 그것도 저밀도 seq로 2.5%다. 일반 코드에서는 trace-guided placement가 (a) 넉넉한 plan이면 hot loop 사이트 때문에 동적 명령 수가 ×1.9–2.9로 늘어 크게 느려지고(0.46x/0.25x), (b) 마른 plan이면 MPKI가 안 움직인다. 멀티 타깃 빌드(MariaDB)에서는 IR pass 주입 자체가 링크를 깨뜨린다.
 
+### 2-2. 2026-09-17 공유 라이브러리/데이터센터: post-link 재작성기와 DeathStarBench 결론
+
+`llvm_prefetchit/tools/postlink/` — 재빌드 없이 링크된 바이너리·.so에 프리페치를 넣는 세 가지 방식을 구현·검증했다(`docs/shared_library_prefetch_report.md`에 하이레벨 설명).
+
+| 방식 | 도구/모드 | 비용 | 결과 (DSB user-timeline, service cycles vs base / MPKI) |
+|---|---|---|---|
+| call 사이트 → stub(callee-entry burst, caller-stream) | `postlink_call_stubs.py --direct/--plt --burst/--seq` | taken jmp 1개 + stub footprint | twin과 동일, MPKI 21.9→22.6–23.8 (footprint만 증가) |
+| PLT 엔트리 16 B in-place(GOT→r11, +64 B 1라인) | `--plt-inplace` (LD_BIND_NOW=1) | 0 | 22.1→21.3–21.9 = 노이즈 |
+| per-request hot-set burst(요청당 550–1,050 라인, PLT 엔트리 재지정) | `postlink_hotset_burst.py` | 요청당 ~1k 명령 | 효과 0 (연결당 새 스레드·cold core, 대량 prefetch는 drop) |
+| **trace-guided plan**(LBR: ≥60 cycle 리드의 직접 call 사이트 → miss 라인 ≤4개, cross-DSO는 import 심볼의 GOT를 anchor로 사용) | `postlink_trace_plan.py` + `--plan` | 사이트당 stub, 명령 +4–6% | **pgo75 1.010x, MPKI 22.3→19.8** (twin 0.974x); 핀 고정 시 6.96→6.33 (1.003x) |
+| 코어 고정(대조군) | `docker update --cpuset-cpus` | — | **pin4: MPKI 6.4, cycles 1.51x; pin8: 9.7, 1.35x** |
+
+결론: DSB의 L2I miss는 프리페치로 잡을 "스트림"이 아니라 (a) 86코어를 공유하는 26개 컨테이너에 의한 L2 오염과 (b) 연결당 스레드 생성(40 s에 4,625개)으로 매 요청이 cold core에서 시작하는 구조 문제다. hot 라인은 2,956개(90%가 66 KB)뿐이라 코어를 고정하면 miss가 1/3.5로 준다. 소프트웨어 프리페치는 trace-guided 배치로 miss를 11% 줄이지만 stub 오버헤드(명령 +5.7%)에 상쇄되어 +1%에 그친다. Verilator에서 같은 stub 방식은 사이트 밀도가 높아 3–5% 손해(IR pass가 낫다). 전면 재빌드(clang-19 userland + IR pass) arm은 round 4로 진행 중.
+
 ### 2-1. 2026-09-16 static pass 대수술 — miss는 "분기 target"이 아니라 "순차 코드 스트림"이었다
 
 `static_prefetch/tools/ret/{ret_producing_call_truth,miss_stream_characterization}.py`로 PEBS **sample IP**를 LBR[0].to와 비교한 결과
@@ -204,7 +218,7 @@ affinity 감사, `valid` 열). memcached는 중립(대조군으로 유지).
 | ML 추론: PyTorch 2 ResNet-50 CPU batch 1 | 0.63 | 스크린 탈락 | oneDNN 커널 | `screens/run_torch.sh` |
 | 다른 flattened 시뮬레이터: CXXRTL (yosys, picorv32×48 배열, 15.8 MB C++) / GHDL mcode NEORV32 / QEMU user-mode TCG | **3.3** / 2.8 / 0.001 — CXXRTL PGO/static 검증(3회): seq D=4 KB **K=80 1.025x, MPKI 2.95→0.94**; K=20은 0.968x(코드 팽창 비용), PGO plan은 call 없는 거대 함수라 재앵커링 불가→0.47x(무효) | 탈락(기준 미달)이지만 CXXRTL은 디자인 크기에 비례 — Chipyard SV는 yosys 0.33이 파싱 못함; picorv32×128(42 MB C++)은 clang -O2가 5.7시간 내 안 끝나 중단 | 생성 코드 크기가 Verilator DMB의 1/7 | `screens/run_cxxrtl.sh`, `screens/ghdl_chain.sh` |
 | WordPress 6.4 on php-fpm 8.3 + nginx + MariaDB (front 페이지 렌더, 16 workers, wrk) | 1.15 (post 페이지 1.31) | 스크린 탈락 (2026-09-16); 한 자리수 검증으로 자체 빌드 php-fpm(clang -O3 -g, opcache)까지 만들었더니 base가 **0.20 MPKI**라 대상 아님. PGO arm(47k prefetch)은 NOP twin까지 10–50배 느려 변형 빌드 자체가 깨진 것으로 무효 | PHP 인터프리터·WP 코드가 L2 상주 | `screens/wp_chain5.sh`, `benchmarks/php/{build_php,wp_pipeline}.sh` |
-| **DeathStarBench socialNetwork** (stock 이미지, mixed-workload 3,000 rps, 컨테이너별 cgroup 측정 30 s) | 서비스별: user-timeline **54.6**(IPC 0.43), compose-post 69, home-timeline 29.5, text 20, url-shorten 71, social-graph 45, unique-id/user/media 84–92; post-storage 5.9(명령 34%), nginx-thrift 5.1(LuaJIT 26%·nginx 23%·libc 12%·jaeger 8%); redis/memcached/mongodb 20–78 | **스크린 통과** (2026-09-16; 이전 5–20 수치와 일치) — DSO 진단: 서비스 바이너리 자체는 miss의 21–33%뿐, libc 21–26% + libstdc++ 10–24% + jaeger 8–12% + libpthread/libthrift/libmongoc 나머지 → **miss가 5–6개 DSO에 분산**(top symbol ≤1.2%), 과거 PostStorage 결론(75% DSO)과 동일; static 재시도는 컨테이너 userland 전체를 pass로 재빌드해야 함 | 작은 서비스가 miss 밀도가 높고 명령 수는 nginx·post-storage에 집중 | `screens/dsb_dso.sh` (wrk2 lua는 luasocket 제거본 `mixed-workload-nosocket.lua` 필수 — 원본은 wrk2에서 로드 실패해 `/`만 때림) |
+| **DeathStarBench socialNetwork** (stock 이미지, mixed-workload 3,000 rps, 컨테이너별 cgroup 측정 30 s) | 서비스별: user-timeline **54.6**(IPC 0.43), compose-post 69, home-timeline 29.5, text 20, url-shorten 71, social-graph 45, unique-id/user/media 84–92; post-storage 5.9(명령 34%), nginx-thrift 5.1(LuaJIT 26%·nginx 23%·libc 12%·jaeger 8%); redis/memcached/mongodb 20–78 | **스크린 통과** (2026-09-16; 이전 5–20 수치와 일치) — DSO 진단: 서비스 바이너리 자체는 miss의 21–33%뿐, libc 21–26% + libstdc++ 10–24% + jaeger 8–12% + libpthread/libthrift/libmongoc 나머지 → **miss가 5–6개 DSO에 분산**(top symbol ≤1.2%), 과거 PostStorage 결론(75% DSO)과 동일; static 재시도는 컨테이너 userland 전체를 pass로 재빌드해야 함 | 작은 서비스가 miss 밀도가 높고 명령 수는 nginx·post-storage에 집중 | `screens/dsb_dso.sh` (wrk2 lua는 luasocket 제거본 `mixed-workload-nosocket.lua` 필수 — 원본은 wrk2에서 로드 실패해 `/`만 때림) | **2026-09-17 밤: user-timeline post-link 캠페인**(재빌드 없이 stock 바이너리·.so 패치, R=6,000, 3회): 호출 사이트 stub(callee burst)·PLT in-place·caller-stream stub·per-request hot-set burst 전부 twin과 동일(효과 0); trace-guided plan(직접 call 사이트→miss 라인, GOT anchor로 cross-DSO) **pgo75 1.010x, MPKI 22.3→19.8**(명령 +5.7%가 상쇄); **pin4(코어 4개 고정) MPKI 22.5→6.4, cycles 1.51x** → miss의 대부분은 86코어를 공유하는 26개 컨테이너의 L2 오염 + 연결당 스레드 생성(40 s에 4,625 스레드). 상세 `flat_codegen/dsb_build/postlink/RESULTS.md` |
 | MariaDB 10.11 sysbench oltp_read_write (16 tables×200k, 8 threads, 서버 코어) | 패키지 서버 9.3(user+kernel) → 자체 빌드(clang -O3 -g)로 분리: fsync/binlog 켠 durable 설정 **user 3.2 / kernel 7.5**(커널 명령 21%), 우리 파이프라인 설정(flush=0, no binlog) user 0.65 | user 3.2로 한 자리수 검증 대상에 포함 → durable 설정 trace(3회) + PGO plan(20.4k injections)까지 만들었으나 **PGO arm 빌드 불가**: IR pass가 서버 심볼을 가리키는 prefetch를 mysys/strings/sql 헤더 등 여러 링크 타깃이 공유하는 오브젝트에 주입해 클라이언트 라이브러리·도구 링크가 깨짐(6회 시도: 시스템 헤더 사이트 제거, sql/·storage/ 한정, `-prefetchit-skip-pic-modules`, `--unresolved-symbols=ignore-all`까지). 링크 타깃별 주입이 필요 | DB 스크린은 반드시 `:u`로 | `benchmarks/mariadb/{build_base,mariadb_pipeline,mariadb_split}.sh`, `llvm_prefetchit/scripts/platform/screens/mariadb_pgo2.sh` |
 
 ## 6. 호스트 / 환경 (2026-09-16)
