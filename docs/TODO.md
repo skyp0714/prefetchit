@@ -124,6 +124,6 @@ seq 모드가 정답이었다(README §2-1). 다른 워크로드도 trace를 뜨
 ### 2026-09-17 post-link / DSB 후속 (미착수)
 - **post-link stub 비용 절감**: 직접 call 사이트는 stub 대신 callee 앞 padding에 prefetch를 두는 방식, PLT 사이트는 in-place 16 B 활용 → 명령 +5.7%를 1% 이하로. 그러면 DSB pgo75의 MPKI −11%가 그대로 cycles로 갈 수 있다(`flat_codegen/dsb_build/postlink/RESULTS.md`).
 - **planner 리드 조건 강화**: 사이트 선택 시 lead ≥100 cycles·사이트 실행 빈도 상한을 함께 최적화(현재 c90/c75 cap은 coverage를 너무 잃음, 37%/16%).
-- **DSB 구조 문제 보고**: 연결당 스레드(40 s에 4,625개)·컨테이너 L2 오염이 miss의 주원인 — 코어 고정 1.51x. 프리페치 논문에서 DSB를 쓸 때는 cpuset 고정 + 스레드풀 설정을 baseline으로 삼아야 한다.
+- **DSB 구조 문제 보고**: 컨테이너 간 L2 오염(스레드 71개 상주, 동시 실행 1~4개, 요청 사이 idle 중 오염)이 miss의 주원인 — 코어 고정 1.51x. 프리페치 논문에서 DSB를 쓸 때는 cpuset 고정 + 스레드풀 설정을 baseline으로 삼아야 한다.
 - `anchors_for()`는 `.plt` 이름만 읽어 `.plt.sec`(IBT) 바이너리에서는 anchor를 못 찾는다 → `.plt.sec`/`.plt.got` 지원.
 - `flat_codegen/scripts/project_env.sh`가 자기 자신을 source 하여 bash가 segfault(재귀) — `rebuild_deps_env.sh`에서는 제거했지만 다른 August 스크립트도 점검 필요.
