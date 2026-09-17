@@ -262,3 +262,12 @@ Only home-timeline is C6-bound (its cores idle into C6 between its bursts; with 
 The low-activity services (≤0.2 G instr/s) are insensitive to C6 and their MPKI swings between runs (10–130) because a handful of sparse
 wake bursts (e.g. jaeger reconnect attempts) dominate their tiny instruction counts — not stable candidates and negligible in cycles.
 The earlier "isolated is worse" rows for them are that run-to-run swing, not a C-state effect.
+
+## Native candidates under socialNetwork co-tenant noise (process floats on 0-42 vs pinned to 36-39 exclusive)
+| workload | cs/s | instr/s (G) | MPKI shared | MPKI isolated | ΔMPKI | IPC sh→iso | cycles sh/iso | I-side headroom |
+|---|---:|---:|---:|---:|---:|---|---:|---:|
+| **MariaDB 10.11 durable** (fsync+binlog, sysbench oltp_rw 8 threads) | 61964 | 8.67 | **12.0** | **3.8** | 8.2 | 1.10→1.41 | **1.33x** | 5.8% |
+| TailBench masstree (integrated, 4 threads, 2000 qps) | 2195 | 0.44 | 9.5 | 9.5 | 0.0 | 0.32→0.32 | 1.00x | 0 |
+| PostgreSQL scale 100 (pgbench 16 clients) | — | — | (multi-process; re-screen queued) | | | | | |
+MariaDB is a second strong cold-start candidate (2.1k context switches per second per thread-equivalent; misses fall 3× when isolated);
+masstree's 9.5 MPKI is intrinsic (unchanged by isolation). TailBench xapian/img-dnn/sphinx need the missing 10 GB input set.

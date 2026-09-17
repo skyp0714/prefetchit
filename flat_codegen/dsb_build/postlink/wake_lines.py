@@ -16,7 +16,8 @@ for ln in open(mapsf):
 def loc(a):
     for lo,hi,off,name in segs:
         if lo<=a<hi:
-            return ('MAIN' if name=='UserTimelineService' else name), a-lo+off   # link-time vaddr (PIE main, DSOs)
+            import os
+            return ('MAIN' if name==os.environ.get('MAIN_NAME','UserTimelineService') else name), a-lo+off   # link-time vaddr (PIE main, DSOs)
     return None,None
 events=[]
 for ln in open(ev):

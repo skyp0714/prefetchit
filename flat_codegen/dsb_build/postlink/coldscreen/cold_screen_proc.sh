@@ -11,6 +11,8 @@ for mode in shared isolated; do
   LP=; if [[ -n $LOADCMD ]]; then bash -c "taskset -c 40-42 $LOADCMD" > /tmp/load_$NAME.log 2>&1 & LP=$!; fi; sleep 12
   desc(){ local q=$1; for k in $(pgrep -P $q); do echo $k; desc $k; done; }
   pid=; for k in $(desc $P); do if [[ -z $PAT ]] || tr '\0' ' ' < /proc/$k/cmdline 2>/dev/null | grep -q -- "$PAT"; then pid=$k; fi; done; [[ -n $pid ]] || pid=$P
+  # multi-process servers (postgres backends): measure the matched process and all of its descendants
+  pid=$(echo $pid $(desc $pid) | tr ' ' ',' | sed 's/,$//')
   echo ps101899 | sudo -S -p '' perf stat -x, -e $EV -p $pid -- sleep $WIN 2> /tmp/cs_$NAME.txt > /dev/null
   python3 - $NAME $mode $OUT /tmp/cs_$NAME.txt <<'PY'
 import csv,sys

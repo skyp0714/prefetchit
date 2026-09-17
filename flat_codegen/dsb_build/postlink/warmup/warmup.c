@@ -94,6 +94,13 @@ WRAP(ssize_t, readv, H_READ, (int fd, const struct iovec *iov, int cnt), (fd, io
 #endif
 WRAP(int, poll, H_POLL, (struct pollfd *fds, nfds_t n, int timeout), (fds, n, timeout))
 WRAP(int, epoll_wait, H_EPOLL, (int ep, struct epoll_event *ev, int max, int timeout), (ep, ev, max, timeout))
+#ifdef WITH_FSYNC
+#include <unistd.h>
+WRAP(int, fsync, H_POLL, (int fd), (fd))
+WRAP(int, fdatasync, H_POLL, (int fd), (fd))
+WRAP(ssize_t, pwrite, H_POLL, (int fd, const void *buf, size_t n, off_t off), (fd, buf, n, off))
+WRAP(ssize_t, pread, H_READ, (int fd, void *buf, size_t n, off_t off), (fd, buf, n, off))
+#endif
 #ifdef WITH_COND
 WRAP(int, pthread_cond_wait, H_COND, (pthread_cond_t *c, pthread_mutex_t *m), (c, m))
 WRAP(int, pthread_cond_timedwait, H_COND, (pthread_cond_t *c, pthread_mutex_t *m, const struct timespec *t), (c, m, t))
