@@ -88,7 +88,7 @@ Images `dsb-deps-g` (base), `dsb-deps-b3` (callee-entry burst 3 lines: service 3
 
 ## Conclusion
 No prefetch arm moves user-timeline's CPU time by more than ~1%; the only large effect is core pinning (1.51x). The L2I misses of this
-service are L2 pollution by co-scheduled containers plus thread churn (one thread per connection, one connection per request), not a
+service are L2 pollution by co-scheduled containers during the ~30 ms idle gaps between a thread's requests, not a
 prefetchable code stream. Trace-guided post-link placement does reduce misses by 11% (pgo75) but its stub overhead (+5.7% instructions)
 cancels the gain; a cheaper injection mechanism (in-place padding or an ISA hint) would be needed to turn that into time.
 ## Trace (results/trace_utl, 212k L2I-miss samples, 6.6M LBR records)
@@ -96,7 +96,7 @@ cancels the gain; a cheaper injection mechanism (in-place padding or an ISA hint
 - Only 2,956 distinct miss lines; 50% of misses in 227 lines (14 KB), 90% in 1,050 lines (66 KB).
 - 84% of miss IPs lie within 64 B of the last taken-branch target (target-line misses; IND 26%, COND 26%, CALL 21%, RET 11%).
 - 97% of misses have a direct-call site with ≥60 cycles of lead in the LBR stack (1,066 sites; 437/1,216/2,644 site→line pairs for 50/75/90%).
-- 4,625 distinct threads in 40 s (thread-per-connection, connection-per-request): every request starts on a cold core.
+- Thread census under load: 71–75 alive threads (one per nginx keepalive connection), median 1 running (max 4), ~1 new thread/s — threads are long-lived; each idles ~30 ms between requests, during which other containers evict the core's L2. (An earlier reading of 4,625 distinct TIDs from the perf dump is not reproduced by the direct census.)
 
 ## Verilator cost check of the stub mechanism (qsort 100k, 3 reps)
 [2026-09-17 04:06:05] qsort pl_b4r2_nop rep3: 50.918s ok
