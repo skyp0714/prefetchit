@@ -26,7 +26,7 @@ Usage:
 Sites default to all direct calls in .text (--direct) and/or all PLT calls (--plt).
 --sites FILE restricts to the listed call addresses (hex, one per line).
 """
-import argparse, os, re, struct, subprocess, sys
+import argparse, collections, os, re, struct, subprocess, sys
 import lief
 
 CALL_RE = re.compile(r'^\s*([0-9a-f]+):\s+e8 ([0-9a-f]{2}) ([0-9a-f]{2}) ([0-9a-f]{2}) ([0-9a-f]{2})\s+call')
@@ -83,6 +83,30 @@ def enc_prefetch_r11(off):
 NOP = {4: b'\x0f\x1f\x40\x00', 5: b'\x0f\x1f\x44\x00\x00', 7: b'\x0f\x1f\x80\x00\x00\x00\x00',
        8: b'\x0f\x1f\x84\x00\x00\x00\x00\x00'}
 
+def anchors_for(path, dso_dir):
+    """DSO name -> (GOT slot in this file, symbol offset in that DSO) using this file's PLT imports."""
+    secs = sections(lief.parse(path)); _, plt = parse_calls(path, secs)
+    out = subprocess.run(['objdump', '-d', '-j', '.plt', path], capture_output=True, text=True, check=True).stdout
+    names = {}
+    for line in out.splitlines():
+        m = re.match(r'^([0-9a-f]+) <([^>]+)@plt>:', line)
+        if m: names[int(m.group(1), 16)] = m.group(2)
+    imported = {names[e]: slot for e, slot in plt.items() if e in names}
+    res = {}
+    for f in sorted(os.listdir(dso_dir)):
+        fp = os.path.join(dso_dir, f)
+        if not os.path.isfile(fp): continue
+        nm = subprocess.run(['nm', '-D', '--defined-only', fp], capture_output=True, text=True).stdout
+        for line in nm.splitlines():
+            p = line.split()
+            if len(p) == 3 and p[1] in ('T', 'W'):
+                n = p[2].split('@')[0]
+                if n in imported and f not in res:
+                    res[f] = (imported[n], int(p[0], 16), n); break
+    return res
+
+PLAN_EXTRA = {}   # site -> list of (kind, value): ('rip', target_va) or ('anchor', (slot, disp))
+
 def build_stub(addr, site, callee, got, a):
     """Return (bytes, nop_bytes). addr = stub address."""
     code = b''; nop = b''
@@ -99,11 +123,20 @@ def build_stub(addr, site, callee, got, a):
     else:
         for i in range(a.burst_from, a.burst):
             emit(enc_prefetch_rip(addr + len(code), callee + a.burst_lead + 64 * i), True)
+    for kind, val in PLAN_EXTRA.get(site, []):
+        if kind == 'rip':
+            emit(enc_prefetch_rip(addr + len(code), val), True)
+        else:
+            slot, disp = val
+            emit(b'\x4c\x8b\x1d' + struct.pack('<i', slot - (addr + len(code) + 7)), False)
+            emit(enc_prefetch_r11(disp), True)
     for j in range(a.ret):
         emit(enc_prefetch_rip(addr + len(code), site + 5 + 64 * j), True)
     for k in range(a.seq_lines):
         emit(enc_prefetch_rip(addr + len(code), site + a.seq + 64 * k), True)
     if got is not None:
+        if PLAN_EXTRA.get(site):
+            emit(b'\x4c\x8b\x1d' + struct.pack('<i', got - (addr + len(code) + 7)), False)  # reload after anchors
         emit(b'\x41\xff\xe3', False)                       # jmp *%r11
     else:
         rel = callee - (addr + len(code) + 5)
@@ -162,6 +195,10 @@ def main():
     ap.add_argument('--funcs', help='regex on containing function name (objdump symbol)')
     ap.add_argument('--max-sites', type=int, default=0)
     ap.add_argument('--align', type=int, default=16)
+    ap.add_argument('--plan', help='JSON plan: [{"site": <file offset of a call rel32>, "targets": [[dso, file_offset], ...]}, ...]; '
+                                   'same-file targets use rip-relative prefetches, other DSOs use a GOT anchor imported from that DSO')
+    ap.add_argument('--dso-dir', help='directory with the DSO files (to resolve GOT anchors for --plan)')
+    ap.add_argument('--self-name', help='name of this file as used in the plan targets (default: basename of IN)')
     ap.add_argument('--plt-inplace', action='store_true',
                     help='rewrite each 16-byte PLT entry in place as `mov GOT(%%rip),%%r11; prefetcht1 OFF(%%r11); jmp *%%r11` '
                          '(no new code; requires eager binding: run with LD_BIND_NOW=1 or DT_BIND_NOW)')
@@ -176,6 +213,12 @@ def main():
     #    so every address below refers to the final layout.
     calls, plt, secs, total, sizes = None, None, None, 0, []
     only = None
+    plan = None
+    if a.plan:
+        import json
+        plan = json.load(open(a.plan))
+        only = {int(e['site']) for e in plan}
+        a.direct = a.plt = True
     if a.sites: only = {int(x.split()[0], 16) for x in open(a.sites) if x.strip() and not x.startswith('#')}
     excl = set()
     if a.exclude_sites: excl = {int(x.split()[0], 16) for x in open(a.exclude_sites) if x.strip() and not x.startswith('#')}
@@ -202,11 +245,17 @@ def main():
               if not a.direct: continue
               sel.append((site, tgt, None))
       if a.max_sites and len(sel) > a.max_sites: sel = sel[:a.max_sites]
-      if not sel and not a.plt_inplace:
+      if not sel and not a.plt_inplace and not a.plan:
           print('no sites selected', file=sys.stderr); sys.exit(1)
       return sel
     sel = select(a.inp)
-    sizes = []
+    if plan is not None:
+        # reserve space: per plan site up to (targets*(7+5+8) + 32) bytes
+        maxt = max(len(e['targets']) for e in plan)
+        sizes = [((maxt * 20 + 48) + a.align - 1) // a.align * a.align] * len(plan)
+        sel = sel[:0]
+    else:
+      sizes = []
     for site, tgt, got in sel:
         a.burst_from = a.burst_from if a.burst_from is not None else (1 if got is not None else 0)
         c, _ = build_stub(0x10000000, site, tgt, got if got is not None else 0, a)
@@ -238,7 +287,37 @@ def main():
     b.write(a.out)
     # re-parse to get final addresses/offsets
     b2 = lief.parse(a.out)
+    shift = sections(b2)['.text'][0] - sections(lief.parse(a.inp))['.text'][0]
+    if plan is not None:
+        # plan sites are file offsets in the ORIGINAL file; in the original the text VA == file offset + (VA - offset) of .text
+        s_in = sections(lief.parse(a.inp))['.text']; off2va = s_in[0] - s_in[2]
+        only_va = {int(e['site']) + off2va + shift for e in plan}
+        only.clear(); only.update(only_va)
+        self_name = a.self_name or os.path.basename(a.inp)
+        anch = anchors_for(a.out, a.dso_dir) if a.dso_dir else {}
+        missing = collections.Counter(); placed = 0
+        for e in plan:
+            site_va = int(e['site']) + off2va + shift
+            lst = []
+            for dso, toff in e['targets']:
+                if dso == self_name:
+                    lst.append(('rip', int(toff) + off2va + shift))
+                elif dso in anch:
+                    slot, soff, _ = anch[dso]; lst.append(('anchor', (slot, int(toff) - soff)))
+                else:
+                    missing[dso] += 1; continue
+                placed += 1
+            if lst: PLAN_EXTRA[site_va] = lst
+        print(f'plan: {len(plan)} sites, {placed} targets placed, unresolvable targets by DSO: {dict(missing)}; anchors: { {d: v[2] for d, v in anch.items()} }', file=sys.stderr)
     sel = select(a.out)   # re-select on the final layout (addresses may have shifted)
+    if plan is not None:
+        sel = [x for x in sel if x[0] in PLAN_EXTRA]
+        sizes = []
+        for site, tgt, got in sel:
+            a.burst_from = a.burst_from if a.burst_from is not None else (1 if got is not None else 0)
+            c, _ = build_stub(0x10000000, site, tgt, got if got is not None else 0, a)
+            sizes.append((len(c) + a.align - 1) // a.align * a.align)
+        assert sum(sizes) <= total, 'plan stubs larger than reserved segment'
     assert len(sel) == len(sizes)
     stubseg = None
     for s in b2.segments:
