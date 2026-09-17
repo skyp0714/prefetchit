@@ -19,6 +19,7 @@ for rep in $(seq 1 $REPS); do for arm in "${ARMS[@]}"; do
   set_arm $bindir $libsdir $img
   docker compose -f docker-compose.yml -f $PL/compose-override-utl-warm.yml up -d --force-recreate --no-deps user-timeline-service > $OUT/up_${name}_r${rep}.log 2>&1
   sleep 6
+  [[ -z $cpus ]] && docker update --cpuset-cpus ${SHARED_CORES:-0-85} socialnetwork-user-timeline-service-1 > /dev/null 2>&1
   PINPID=; if [[ $cpus == *:* ]]; then echo ps101899 | sudo -S nohup $PL/pin_threads.sh socialnetwork-user-timeline-service-1 ${cpus%%:*} ${cpus#*:} > /dev/null 2>&1 & PINPID=$!; sleep 1; elif [[ -n $cpus ]]; then docker update --cpuset-cpus $cpus socialnetwork-user-timeline-service-1 > /dev/null; fi
   pid=$(docker inspect -f '{{.State.Pid}}' socialnetwork-user-timeline-service-1)
   if [[ -z "$pid" || "$pid" == 0 ]]; then echo "$name r$rep: service did not start" | tee -a $OUT/errors.log; docker logs socialnetwork-user-timeline-service-1 2>&1 | tail -3 >> $OUT/errors.log; continue; fi
