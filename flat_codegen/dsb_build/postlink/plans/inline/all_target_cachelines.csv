@@ -1,554 +1,93 @@
 rank,samples,cumulative_samples,cumulative_coverage_pct,selected,source_resolved,function,file,line,addr,cacheline64,mangled,address_count
-1,661,661,13.190979844342447,1,0,std::_Sp_counted_base<(__gnu_cxx::_Lock_policy)2>::_M_release(),,0,0x1391d0,0x1391c0,_ZNSt16_Sp_counted_baseILN9__gnu_cxx12_Lock_policyE2EE10_M_releaseEv,21
-2,274,935,18.658950309319497,1,0,std::_Sp_counted_base<(__gnu_cxx::_Lock_policy)2>::_M_release(),,0,0x139210,0x139200,_ZNSt16_Sp_counted_baseILN9__gnu_cxx12_Lock_policyE2EE10_M_releaseEv,16
-3,196,1131,22.570345240470964,1,0,"jaegertracing::SpanContext::SpanContext(jaegertracing::TraceID const&, unsigned long, unsigned long, unsigned char, std::unordered_map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, std::hash<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>>, std::equal_to<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>>, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>> const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>>>> const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>> const&)",,0,0x69300,0x69300,_ZN13jaegertracing11SpanContextC2ERKNS_7TraceIDEmmhRKSt13unordered_mapINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESA_St4hashISA_ESt8equal_toISA_ESaISt4pairIKSA_SA_EEERSG_,12
-4,160,1291,25.76332069447216,1,0,sw::redis::ConnectionPool::_fetch(),,0,0x131f51,0x131f40,_ZN2sw5redis14ConnectionPool6_fetchEv,6
-5,115,1406,28.05827180203552,1,0,std::__future_base::_Async_state_commonV2::_M_complete_async(),,0,0x83683,0x83680,_ZNSt13__future_base21_Async_state_commonV217_M_complete_asyncEv,5
-6,103,1509,30.11374975054879,1,0,sw::redis::ConnectionPool::fetch(),,0,0x133fc1,0x133fc0,_ZN2sw5redis14ConnectionPool5fetchEv,8
-7,69,1578,31.49072041508681,1,1,sdscatlen,/tmp/hiredis/sds.c,378,0x11d200,0x11d200,sdscatlen,1
-8,69,1647,32.86769107962483,1,0,sw::redis::ConnectionPool::fetch(),,0,0x1330d0,0x1330c0,_ZN2sw5redis14ConnectionPool5fetchEv,5
-9,68,1715,34.224705647575334,1,0,sw::redis::ConnectionPool::release(sw::redis::Connection),,0,0x1306c8,0x1306c0,_ZN2sw5redis14ConnectionPool7releaseENS0_10ConnectionE,5
-10,55,1770,35.32229095988824,1,0,social_network::UserTimelineService_WriteUserTimeline_args::read(apache::thrift::protocol::TProtocol*),,0,0x8c760,0x8c740,_ZN14social_network42UserTimelineService_WriteUserTimeline_args4readEPN6apache6thrift8protocol9TProtocolE,6
-11,46,1816,36.24027140291359,1,0,sw::redis::SafeConnection::SafeConnection(sw::redis::ConnectionPool&),,0,0x81fe5,0x81fc0,_ZN2sw5redis14SafeConnectionC2ERNS0_14ConnectionPoolE,8
-12,46,1862,37.158251845938935,1,0,social_network::UserTimelineService_ReadUserTimeline_args::read(apache::thrift::protocol::TProtocol*),,0,0x8db8a,0x8db80,_ZN14social_network41UserTimelineService_ReadUserTimeline_args4readEPN6apache6thrift8protocol9TProtocolE,1
-13,45,1907,38.05627619237677,1,1,sdsMakeRoomFor,/tmp/hiredis/sds.h,203,0x11c7c0,0x11c7c0,sdsMakeRoomFor,1
-14,45,1952,38.95430053881461,1,1,sdscatfmt,/tmp/hiredis/sds.c,608,0x11e080,0x11e080,sdscatfmt,3
-15,44,1996,39.83236878866494,1,0,social_network::UserTimelineService_WriteUserTimeline_args::read(apache::thrift::protocol::TProtocol*),,0,0x8cb79,0x8cb40,_ZN14social_network42UserTimelineService_WriteUserTimeline_args4readEPN6apache6thrift8protocol9TProtocolE,3
-16,42,2038,40.67052484534025,1,1,sdscatfmt,/tmp/hiredis/sds.h,179,0x11dc5d,0x11dc40,sdscatfmt,1
-17,38,2076,41.42885651566554,1,0,jaegertracing::SpanContext::swap(jaegertracing::SpanContext&),,0,0x6a600,0x6a600,_ZN13jaegertracing11SpanContext4swapERS0_,4
-18,38,2114,42.18718818599082,1,0,sw::redis::ConnectionPool::_fetch(),,0,0x1324ef,0x1324c0,_ZN2sw5redis14ConnectionPool6_fetchEv,2
-19,37,2151,42.9255637597286,1,0,sw::redis::ConnectionPool::fetch(),,0,0x133111,0x133100,_ZN2sw5redis14ConnectionPool5fetchEv,4
-20,36,2187,43.64398323687887,1,0,"jaegertracing::SpanContext::SpanContext(jaegertracing::TraceID const&, unsigned long, unsigned long, unsigned char, std::unordered_map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, std::hash<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>>, std::equal_to<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>>, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>> const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>>>> const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>> const&)",,0,0x69376,0x69340,_ZN13jaegertracing11SpanContextC2ERKNS_7TraceIDEmmhRKSt13unordered_mapINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESA_St4hashISA_ESt8equal_toISA_ESaISt4pairIKSA_SA_EEERSG_,5
-21,36,2223,44.36240271402914,1,0,sw::redis::ConnectionPool::fetch(),,0,0x1349ec,0x1349c0,_ZN2sw5redis14ConnectionPool5fetchEv,5
-22,33,2256,45.02095390141688,1,0,social_network::UserTimelineService_WriteUserTimeline_args::read(apache::thrift::protocol::TProtocol*),,0,0x8c901,0x8c900,_ZN14social_network42UserTimelineService_WriteUserTimeline_args4readEPN6apache6thrift8protocol9TProtocolE,4
-23,32,2288,45.659548992217125,1,1,createArrayObject,/tmp/hiredis/hiredis.c,169,0x119990,0x119980,createArrayObject,1
-24,31,2319,46.278187986429856,1,1,sdsMakeRoomFor,/tmp/hiredis/sds.c,196,0x11c760,0x11c740,sdsMakeRoomFor,7
-25,30,2349,46.87687088405508,1,1,__redisAppendCommand,/tmp/hiredis/hiredis.c,1060,0x11bfb4,0x11bf80,__redisAppendCommand,2
-26,29,2378,47.4555976850928,1,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,304,0x119be0,0x119bc0,redisvFormatCommand,1
-27,28,2406,48.01436838954301,1,0,sw::redis::ConnectionPool::fetch(),,0,0x135330,0x135300,_ZN2sw5redis14ConnectionPool5fetchEv,3
-28,28,2434,48.57313909399321,1,0,jaegertracing::SpanContext::~SpanContext(),,0,0x69430,0x69400,_ZN13jaegertracing11SpanContextD2Ev,3
-29,27,2461,49.11195370185592,1,1,redisReaderGetReply,/tmp/hiredis/read.c,62,0x122900,0x122900,redisReaderGetReply,1
-30,27,2488,49.65076830971862,1,1,redisBufferRead,/tmp/hiredis/hiredis.c,932,0x11bb40,0x11bb40,redisBufferRead,4
-31,27,2515,50.18958291758132,1,0,sw::redis::cmd::save(sw::redis::Connection&),,0,0x145683,0x145680,_ZN2sw5redis3cmd4saveERNS0_10ConnectionE,1
-32,27,2542,50.728397525444024,1,1,sdscatvprintf,/tmp/hiredis/sds.c,503,0x11d6d0,0x11d6c0,sdscatvprintf,3
-33,27,2569,51.26721213330673,1,1,redisFormatSdsCommandArgv,/tmp/hiredis/hiredis.c,301,0x11aa1c,0x11aa00,redisFormatSdsCommandArgv,1
-34,26,2595,51.78607064458192,1,0,jaegertracing::SpanContext::swap(jaegertracing::SpanContext&),,0,0x6a72f,0x6a700,_ZN13jaegertracing11SpanContext4swapERS0_,4
-35,26,2621,52.30492915585712,1,1,redisvAppendCommand,/tmp/hiredis/hiredis.c,1082,0x11c010,0x11c000,redisvAppendCommand,2
-36,25,2646,52.8038315705448,1,0,social_network::UserTimelineService_ReadUserTimeline_args::read(apache::thrift::protocol::TProtocol*),,0,0x8db00,0x8db00,_ZN14social_network41UserTimelineService_ReadUserTimeline_args4readEPN6apache6thrift8protocol9TProtocolE,3
-37,24,2670,53.28277788864498,1,0,social_network::UserTimelineService_WriteUserTimeline_args::read(apache::thrift::protocol::TProtocol*),,0,0x8c8e7,0x8c8c0,_ZN14social_network42UserTimelineService_WriteUserTimeline_args4readEPN6apache6thrift8protocol9TProtocolE,5
-38,24,2694,53.761724206745164,1,1,sdscatlen,/tmp/hiredis/sds.h,136,0x11d266,0x11d240,sdscatlen,3
-39,23,2717,54.220714428257835,1,0,sw::redis::SafeConnection::~SafeConnection(),,0,0x82000,0x82000,_ZN2sw5redis14SafeConnectionD2Ev,6
-40,23,2740,54.67970464977051,1,1,processLineItem,/tmp/hiredis/read.c,269,0x121ad0,0x121ac0,processLineItem,1
-41,23,2763,55.13869487128318,1,1,sdscatfmt,/tmp/hiredis/sds.c,581,0x11d910,0x11d900,sdscatfmt,2
-42,23,2786,55.59768509279585,1,1,string2ll,/tmp/hiredis/read.c,163,0x121780,0x121780,string2ll,1
-43,21,2807,56.01676312113351,1,1,redisAppendCommand,/tmp/hiredis/hiredis.c,1104,0x11c0d0,0x11c0c0,redisAppendCommand,1
-44,21,2828,56.435841149471166,1,1,redisReaderGetReply,/tmp/hiredis/read.c,457,0x122589,0x122580,redisReaderGetReply,3
-45,21,2849,56.85491917780882,1,0,social_network::UserTimelineService_WriteUserTimeline_args::read(apache::thrift::protocol::TProtocol*),,0,0x8cb00,0x8cb00,_ZN14social_network42UserTimelineService_WriteUserTimeline_args4readEPN6apache6thrift8protocol9TProtocolE,2
-46,21,2870,57.273997206146475,1,0,jaegertracing::SpanContext::~SpanContext(),,0,0x6944d,0x69440,_ZN13jaegertracing11SpanContextD2Ev,7
-47,21,2891,57.693075234484134,1,0,social_network::UserTimelineService_WriteUserTimeline_args::read(apache::thrift::protocol::TProtocol*),,0,0x8c892,0x8c880,_ZN14social_network42UserTimelineService_WriteUserTimeline_args4readEPN6apache6thrift8protocol9TProtocolE,2
-48,20,2911,58.092197166234286,1,1,redisReaderGetReply,/tmp/hiredis/read.c,117,0x1223d7,0x1223c0,redisReaderGetReply,1
-49,20,2931,58.49131909798444,1,0,social_network::UserTimelineService_ReadUserTimeline_args::read(apache::thrift::protocol::TProtocol*),,0,0x8d892,0x8d880,_ZN14social_network41UserTimelineService_ReadUserTimeline_args4readEPN6apache6thrift8protocol9TProtocolE,6
-50,20,2951,58.89044102973458,1,1,sdscatlen,/tmp/hiredis/sds.h,93,0x11d21c,0x11d200,sdscatlen,4
-51,20,2971,59.289562961484734,1,0,social_network::ServiceException::~ServiceException(),,0,0x9535b,0x95340,_ZN14social_network16ServiceExceptionD2Ev,6
-52,20,2991,59.688684893234885,1,0,social_network::Post::read(apache::thrift::protocol::TProtocol*),,0,0x9919d,0x99180,_ZN14social_network4Post4readEPN6apache6thrift8protocol9TProtocolE,3
-53,19,3010,60.067850728397524,1,0,social_network::UserTimelineService_WriteUserTimeline_args::read(apache::thrift::protocol::TProtocol*),,0,0x8c874,0x8c840,_ZN14social_network42UserTimelineService_WriteUserTimeline_args4readEPN6apache6thrift8protocol9TProtocolE,1
-54,19,3029,60.44701656356017,1,0,sw::redis::Connection::recv(),,0,0x12b61e,0x12b600,_ZN2sw5redis10Connection4recvEv,5
-55,19,3048,60.82618239872281,1,0,social_network::UserTimelineService_ReadUserTimeline_args::read(apache::thrift::protocol::TProtocol*),,0,0x8d817,0x8d800,_ZN14social_network41UserTimelineService_ReadUserTimeline_args4readEPN6apache6thrift8protocol9TProtocolE,7
-56,18,3066,61.185392137297946,1,0,social_network::Post::read(apache::thrift::protocol::TProtocol*),,0,0x991cb,0x991c0,_ZN14social_network4Post4readEPN6apache6thrift8protocol9TProtocolE,8
-57,18,3084,61.54460187587308,1,0,sw::redis::ConnectionPool::release(sw::redis::Connection),,0,0x1301aa,0x130180,_ZN2sw5redis14ConnectionPool7releaseENS0_10ConnectionE,5
-58,18,3102,61.903811614448216,1,0,sw::redis::ConnectionPool::release(sw::redis::Connection),,0,0x130170,0x130140,_ZN2sw5redis14ConnectionPool7releaseENS0_10ConnectionE,1
-59,18,3120,62.26302135302335,1,1,redisReaderGetReply,/tmp/hiredis/read.c,58,0x122de2,0x122dc0,redisReaderGetReply,1
-60,17,3137,62.60227499501097,1,1,sdscatlen,/tmp/hiredis/sds.h,97,0x11d290,0x11d280,sdscatlen,2
-61,17,3154,62.941528636998605,1,1,redisvFormatCommand,/tmp/hiredis/sds.h,97,0x11a688,0x11a680,redisvFormatCommand,1
-62,16,3170,63.26082618239872,1,1,redisFormatSdsCommandArgv,/tmp/hiredis/hiredis.c,569,0x11a8c0,0x11a8c0,redisFormatSdsCommandArgv,4
-63,16,3186,63.58012372779884,1,1,redisReaderGetReply,/tmp/hiredis/read.c,691,0x122328,0x122300,redisReaderGetReply,1
-64,16,3202,63.89942127319896,1,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,322,0x119c29,0x119c00,redisvFormatCommand,2
-65,16,3218,64.21871881859909,1,1,redisReaderGetReply,/tmp/hiredis/read.c,56,0x122dc8,0x122dc0,redisReaderGetReply,1
-66,16,3234,64.5380163639992,1,1,sdsMakeRoomFor,/usr/include/x86_64-linux-gnu/bits/string_fortified.h,29,0x11c8e0,0x11c8c0,sdsMakeRoomFor,1
-67,16,3250,64.85731390939932,1,0,sw::redis::ConnectionPool::_fetch(),,0,0x131f89,0x131f80,_ZN2sw5redis14ConnectionPool6_fetchEv,4
-68,15,3265,65.15665535821194,1,0,sw::redis::ConnectionPool::fetch(),,0,0x134cb9,0x134c80,_ZN2sw5redis14ConnectionPool5fetchEv,3
-69,15,3280,65.45599680702455,1,1,redisReaderFeed,/tmp/hiredis/read.c,667,0x1220fa,0x1220c0,redisReaderFeed,3
-70,15,3295,65.75533825583716,1,1,redisBufferRead,/tmp/hiredis/hiredis.c,940,0x11bb7e,0x11bb40,redisBufferRead,1
-71,14,3309,66.03472360806227,1,1,sdscatfmt,/tmp/hiredis/sds.c,603,0x11d9f0,0x11d9c0,sdscatfmt,1
-72,14,3323,66.31410896028737,1,0,YAML::Node const YAML::Node::operator[]<char [18]>(char const (&) [18]) const,,0,0x5dd20,0x5dd00,_ZNK4YAML4NodeixIA18_cEEKS0_RKT_,1
-73,14,3337,66.59349431251248,1,0,sw::redis::ConnectionPool::fetch(),,0,0x133ee9,0x133ec0,_ZN2sw5redis14ConnectionPool5fetchEv,1
-74,14,3351,66.87287966473758,1,0,social_network::PostStorageService_ReadPosts_presult::read(apache::thrift::protocol::TProtocol*),,0,0xa045d,0xa0440,_ZN14social_network36PostStorageService_ReadPosts_presult4readEPN6apache6thrift8protocol9TProtocolE,2
-75,13,3364,67.13230892037518,1,1,redisReaderGetReply,/tmp/hiredis/read.c,116,0x1223d3,0x1223c0,redisReaderGetReply,2
-76,13,3377,67.39173817601277,1,1,redisGetReply,/tmp/hiredis/hiredis.c,1005,0x11bf57,0x11bf40,redisGetReply,1
-77,13,3390,67.65116743165036,1,1,sdscatfmt,/tmp/hiredis/sds.c,604,0x11da20,0x11da00,sdscatfmt,3
-78,13,3403,67.91059668728796,1,0,sw::redis::ConnectionPool::fetch(),,0,0x134a05,0x134a00,_ZN2sw5redis14ConnectionPool5fetchEv,6
-79,13,3416,68.17002594292556,1,0,social_network::PostStorageServiceClient::recv_StorePost(),,0,0xa0820,0xa0800,_ZN14social_network24PostStorageServiceClient14recv_StorePostEv,1
-80,13,3429,68.42945519856316,1,0,sw::redis::ConnectionPool::fetch(),,0,0x1352e8,0x1352c0,_ZN2sw5redis14ConnectionPool5fetchEv,2
-81,13,3442,68.68888445420076,1,1,sdsMakeRoomFor,/tmp/hiredis/sds.h,99,0x11c7b5,0x11c780,sdsMakeRoomFor,1
-82,12,3454,68.92835761325085,1,1,redisConnectUnixWithTimeout,/tmp/hiredis/hiredis.c,885,0x11b9e6,0x11b9c0,redisConnectUnixWithTimeout,1
-83,12,3466,69.16783077230093,1,1,redisReaderFeed,/tmp/hiredis/sds.h,103,0x122200,0x122200,redisReaderFeed,2
-84,12,3478,69.40730393135102,1,1,redisReaderGetReply,/tmp/hiredis/read.c,694,0x122337,0x122300,redisReaderGetReply,1
-85,12,3490,69.64677709040112,1,1,sdscatfmt,/tmp/hiredis/sds.h,93,0x11d992,0x11d980,sdscatfmt,1
-86,12,3502,69.88625024945121,1,1,processLineItem,/tmp/hiredis/read.c,232,0x121b92,0x121b80,processLineItem,2
-87,12,3514,70.1257234085013,1,0,social_network::UserTimelineService_ReadUserTimeline_args::read(apache::thrift::protocol::TProtocol*),,0,0x8d901,0x8d900,_ZN14social_network41UserTimelineService_ReadUserTimeline_args4readEPN6apache6thrift8protocol9TProtocolE,4
-88,12,3526,70.3651965675514,1,0,social_network::ThriftClient<social_network::PostStorageServiceClient>::Connect(),,0,0x86132,0x86100,_ZN14social_network12ThriftClientINS_24PostStorageServiceClientEE7ConnectEv,4
-89,12,3538,70.60466972660147,1,1,createIntegerObject,/tmp/hiredis/hiredis.c,197,0x119760,0x119740,createIntegerObject,1
-90,12,3550,70.84414288565156,1,1,sdscatfmt,/tmp/hiredis/sds.c,608,0x11dee3,0x11dec0,sdscatfmt,3
-91,12,3562,71.08361604470166,1,1,redisNetWrite,/tmp/hiredis/net.c,82,0x1232c0,0x1232c0,redisNetWrite,1
-92,11,3573,71.30313310716424,1,0,sw::redis::ConnectionPool::_fetch(),,0,0x132608,0x132600,_ZN2sw5redis14ConnectionPool6_fetchEv,2
-93,11,3584,71.52265016962681,1,0,sw::redis::ConnectionPool::_fetch(),,0,0x132520,0x132500,_ZN2sw5redis14ConnectionPool6_fetchEv,3
-94,11,3595,71.7421672320894,1,0,sw::redis::ConnectionPool::fetch(),,0,0x133f3f,0x133f00,_ZN2sw5redis14ConnectionPool5fetchEv,4
-95,11,3606,71.96168429455199,1,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,321,0x119c20,0x119c00,redisvFormatCommand,2
-96,11,3617,72.18120135701457,1,1,freeReplyObject.localalias,/tmp/hiredis/hiredis.c,90,0x1197f0,0x1197c0,freeReplyObject.localalias,1
-97,11,3628,72.40071841947714,1,1,processLineItem,/tmp/hiredis/read.c,276,0x121bb1,0x121b80,processLineItem,1
-98,11,3639,72.62023548193973,1,1,sdscatvprintf,/usr/include/x86_64-linux-gnu/bits/stdio2.h,85,0x11d759,0x11d740,sdscatvprintf,2
-99,11,3650,72.83975254440232,1,0,sw::redis::ConnectionPool::fetch(),,0,0x134cfa,0x134cc0,_ZN2sw5redis14ConnectionPool5fetchEv,4
-100,11,3661,73.0592696068649,1,1,redisNetRead,/tmp/hiredis/net.c,60,0x1231f0,0x1231c0,redisNetRead,1
-101,11,3672,73.27878666932747,1,1,redisReaderGetReply,/tmp/hiredis/read.c,733,0x122a35,0x122a00,redisReaderGetReply,1
-102,11,3683,73.49830373179006,1,1,redisFormatSdsCommandArgv,/tmp/hiredis/hiredis.c,291,0x11a9ac,0x11a980,redisFormatSdsCommandArgv,2
-103,11,3694,73.71782079425265,1,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,498,0x11a760,0x11a740,redisvFormatCommand,1
-104,10,3704,73.91738176012772,1,1,sdsnewlen,/tmp/hiredis/sds.c,83,0x11c3d0,0x11c3c0,sdsnewlen,4
-105,10,3714,74.11694272600279,1,0,sw::redis::ConnectionPool::fetch(),,0,0x134ac5,0x134ac0,_ZN2sw5redis14ConnectionPool5fetchEv,5
-106,10,3724,74.31650369187787,1,1,redisReaderGetReply,/tmp/hiredis/read.c,698,0x122345,0x122340,redisReaderGetReply,1
-107,10,3734,74.51606465775295,1,0,sw::redis::ConnectionPool::fetch(),,0,0x135270,0x135240,_ZN2sw5redis14ConnectionPool5fetchEv,1
-108,10,3744,74.71562562362801,1,0,"std::_Hashtable<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>> const, opentracing::v2::Value>, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>> const, opentracing::v2::Value>>, std::__detail::_Select1st, std::equal_to<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>>, std::hash<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true>>::clear()",,0,0x66d68,0x66d40,_ZNSt10_HashtableINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4pairIKS5_N11opentracing2v25ValueEESaISB_ENSt8__detail10_Select1stESt8equal_toIS5_ESt4hashIS5_ENSD_18_Mod_range_hashingENSD_20_Default_ranged_hashENSD_20_Prime_rehash_policyENSD_17_Hashtable_traitsILb1ELb0ELb1EEEE5clearEv,1
-109,10,3754,74.9151865895031,1,0,sw::redis::ConnectionPool::fetch(),,0,0x133f82,0x133f80,_ZN2sw5redis14ConnectionPool5fetchEv,4
-110,10,3764,75.11474755537817,1,0,sw::redis::ConnectionPool::fetch(),,0,0x135298,0x135280,_ZN2sw5redis14ConnectionPool5fetchEv,2
-111,10,3774,75.31430852125324,0,1,redisBufferWrite,/tmp/hiredis/hiredis.c,983,0x11bd50,0x11bd40,redisBufferWrite,2
-112,10,3784,75.51386948712832,0,1,redisAppendCommandArgv,/tmp/hiredis/hiredis.c,1114,0x11c190,0x11c180,redisAppendCommandArgv,1
-113,10,3794,75.7134304530034,0,1,sdscatlen,/tmp/hiredis/sds.h,140,0x11d2e0,0x11d2c0,sdscatlen,2
-114,10,3804,75.91299141887846,0,1,sdsempty,/tmp/hiredis/sds.c,141,0x11c580,0x11c580,sdsempty,1
-115,10,3814,76.11255238475354,0,0,jaegertracing::SpanContext::swap(jaegertracing::SpanContext&),,0,0x6a66f,0x6a640,_ZN13jaegertracing11SpanContext4swapERS0_,4
-116,10,3824,76.31211335062862,0,1,redisNetWrite,/tmp/hiredis/sds.h,93,0x1232fb,0x1232c0,redisNetWrite,2
-117,9,3833,76.49171821991618,0,1,redisReaderGetReply,/tmp/hiredis/read.c,688,0x1222f0,0x1222c0,redisReaderGetReply,1
-118,9,3842,76.67132308920375,0,1,sdsMakeRoomFor,/tmp/hiredis/sds.h,110,0x11c780,0x11c780,sdsMakeRoomFor,1
-119,9,3851,76.85092795849133,0,1,redisReaderGetReply,/tmp/hiredis/read.c,134,0x122410,0x122400,redisReaderGetReply,2
-120,9,3860,77.03053282777888,0,0,"void std::vector<std::pair<boost::condition_variable*, boost::mutex*>, std::allocator<std::pair<boost::condition_variable*, boost::mutex*>>>::_M_realloc_insert<std::pair<boost::condition_variable*, boost::mutex*>>(__gnu_cxx::__normal_iterator<std::pair<boost::condition_variable*, boost::mutex*>*, std::vector<std::pair<boost::condition_variable*, boost::mutex*>, std::allocator<std::pair<boost::condition_variable*, boost::mutex*>>>>, std::pair<boost::condition_variable*, boost::mutex*>&&)",,0,0x1729fe,0x1729c0,_ZNSt6vectorISt4pairIPN5boost18condition_variableEPNS1_5mutexEESaIS6_EE17_M_realloc_insertIJS6_EEEvN9__gnu_cxx17__normal_iteratorIPS6_S8_EEDpOT_,1
-121,9,3869,77.21013769706646,0,1,redisBufferWrite,/tmp/hiredis/sds.h,93,0x11bcf3,0x11bcc0,redisBufferWrite,2
-122,9,3878,77.38974256635402,0,1,sdscatfmt,/tmp/hiredis/sds.h,160,0x11dd40,0x11dd40,sdscatfmt,1
-123,9,3887,77.56934743564159,0,0,social_network::UserTimelineService_ReadUserTimeline_args::read(apache::thrift::protocol::TProtocol*),,0,0x8db4c,0x8db40,_ZN14social_network41UserTimelineService_ReadUserTimeline_args4readEPN6apache6thrift8protocol9TProtocolE,4
-124,9,3896,77.74895230492916,0,1,sdscatfmt,/tmp/hiredis/sds.h,169,0x11dd80,0x11dd80,sdscatfmt,1
-125,9,3905,77.92855717421672,0,1,redisAppendCommand,/tmp/hiredis/hiredis.c,1104,0x11c126,0x11c100,redisAppendCommand,1
-126,9,3914,78.1081620435043,0,1,redisReaderGetReply,/tmp/hiredis/read.c,135,0x122421,0x122400,redisReaderGetReply,1
-127,9,3923,78.28776691279185,0,1,redisBufferWrite,/tmp/hiredis/hiredis.c,962,0x11bc10,0x11bc00,redisBufferWrite,1
-128,9,3932,78.46737178207943,0,0,sw::redis::ConnectionPool::fetch(),,0,0x134d75,0x134d40,_ZN2sw5redis14ConnectionPool5fetchEv,3
-129,8,3940,78.62702055477949,0,0,sw::redis::ConnectionPool::_fetch(),,0,0x1321fd,0x1321c0,_ZN2sw5redis14ConnectionPool6_fetchEv,3
-130,8,3948,78.78666932747954,0,0,social_network::UserTimelineService_ReadUserTimeline_args::read(apache::thrift::protocol::TProtocol*),,0,0x8d7d0,0x8d7c0,_ZN14social_network41UserTimelineService_ReadUserTimeline_args4readEPN6apache6thrift8protocol9TProtocolE,4
-131,8,3956,78.94631810017961,0,1,sdsnewlen,/tmp/hiredis/sds.c,93,0x11c458,0x11c440,sdsnewlen,1
-132,8,3964,79.10596687287966,0,1,redisFormatSdsCommandArgv,/tmp/hiredis/hiredis.c,301,0x11ab4f,0x11ab40,redisFormatSdsCommandArgv,1
-133,8,3972,79.26561564557973,0,0,sw::redis::ConnectionPool::_fetch(),,0,0x132550,0x132540,_ZN2sw5redis14ConnectionPool6_fetchEv,4
-134,8,3980,79.42526441827978,0,1,sdscatfmt,/tmp/hiredis/sds.h,120,0x11d9de,0x11d9c0,sdscatfmt,1
-135,8,3988,79.58491319097985,0,1,redisReaderGetReply,/tmp/hiredis/read.c,414,0x1226e8,0x1226c0,redisReaderGetReply,1
-136,8,3996,79.7445619636799,0,1,redisFormatSdsCommandArgv,/tmp/hiredis/hiredis.c,582,0x11a990,0x11a980,redisFormatSdsCommandArgv,2
-137,8,4004,79.90421073637997,0,0,social_network::UserTimelineService_ReadUserTimeline_args::read(apache::thrift::protocol::TProtocol*),,0,0x8d760,0x8d740,_ZN14social_network41UserTimelineService_ReadUserTimeline_args4readEPN6apache6thrift8protocol9TProtocolE,6
-138,7,4011,80.04390341249251,0,0,sw::redis::ConnectionPool::fetch(),,0,0x134e01,0x134e00,_ZN2sw5redis14ConnectionPool5fetchEv,4
-139,7,4018,80.18359608860507,0,1,redisReaderGetReply,/usr/include/x86_64-linux-gnu/bits/string_fortified.h,29,0x122903,0x122900,redisReaderGetReply,2
-140,7,4025,80.32328876471762,0,0,social_network::UserTimelineService_ReadUserTimeline_args::read(apache::thrift::protocol::TProtocol*),,0,0x8d8c5,0x8d8c0,_ZN14social_network41UserTimelineService_ReadUserTimeline_args4readEPN6apache6thrift8protocol9TProtocolE,3
-141,7,4032,80.46298144083018,0,0,social_network::PostStorageService_ReadPosts_presult::read(apache::thrift::protocol::TProtocol*),,0,0xa0438,0xa0400,_ZN14social_network36PostStorageService_ReadPosts_presult4readEPN6apache6thrift8protocol9TProtocolE,1
-142,7,4039,80.60267411694272,0,0,boost::wrapexcept<boost::program_options::invalid_bool_value>::wrapexcept(boost::wrapexcept<boost::program_options::invalid_bool_value> const&),,0,0x116ea0,0x116e80,_ZN5boost10wrapexceptINS_15program_options18invalid_bool_valueEEC2ERKS3_,1
-143,7,4046,80.74236679305528,0,1,redisFormatSdsCommandArgv,/tmp/hiredis/hiredis.c,294,0x11a95f,0x11a940,redisFormatSdsCommandArgv,1
-144,7,4053,80.88205946916783,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,290,0x11a5dd,0x11a5c0,redisvFormatCommand,1
-145,7,4060,81.02175214528039,0,1,sdsMakeRoomFor,/tmp/hiredis/sds.h,147,0x11c930,0x11c900,sdsMakeRoomFor,2
-146,7,4067,81.16144482139293,0,1,sdsMakeRoomFor,/tmp/hiredis/sds.h,136,0x11c909,0x11c900,sdsMakeRoomFor,3
-147,7,4074,81.3011374975055,0,1,sdsrange,/tmp/hiredis/sds.h,93,0x11e3be,0x11e380,sdsrange,2
-148,7,4081,81.44083017361804,0,0,social_network::UserMention::read(apache::thrift::protocol::TProtocol*),,0,0x96e30,0x96e00,_ZN14social_network11UserMention4readEPN6apache6thrift8protocol9TProtocolE,3
-149,6,4087,81.56056675314308,0,0,sw::redis::Connection::recv(),,0,0x12b640,0x12b640,_ZN2sw5redis10Connection4recvEv,2
-150,6,4093,81.68030333266813,0,0,sw::redis::ConnectionPool::fetch(),,0,0x135340,0x135340,_ZN2sw5redis14ConnectionPool5fetchEv,1
-151,6,4099,81.80003991219317,0,1,redisvFormatCommand,/tmp/hiredis/sds.h,93,0x119e58,0x119e40,redisvFormatCommand,2
-152,6,4105,81.91977649171822,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,402,0x11a19a,0x11a180,redisvFormatCommand,1
-153,6,4111,82.03951307124326,0,1,sdsfree,/tmp/hiredis/sds.c,157,0x11c640,0x11c640,sdsfree,1
-154,6,4117,82.15924965076832,0,0,sw::redis::ConnectionPool::_fetch(),,0,0x13228a,0x132280,_ZN2sw5redis14ConnectionPool6_fetchEv,4
-155,6,4123,82.27898623029336,0,1,sdsMakeRoomFor,/tmp/hiredis/sds.c,62,0x11c89a,0x11c880,sdsMakeRoomFor,2
-156,6,4129,82.3987228098184,0,1,redisAppendCommandArgv,/tmp/hiredis/hiredis.c,1124,0x11c1bf,0x11c180,redisAppendCommandArgv,1
-157,6,4135,82.51845938934345,0,0,boost::wrapexcept<boost::gregorian::bad_month>::~wrapexcept(),,0,0x586cd,0x586c0,_ZN5boost10wrapexceptINS_9gregorian9bad_monthEED2Ev,1
-158,6,4141,82.63819596886849,0,1,redisReaderGetReply,/tmp/hiredis/read.c,550,0x122603,0x122600,redisReaderGetReply,1
-159,6,4147,82.75793254839354,0,0,sw::redis::ConnectionPool::_fetch(),,0,0x13225e,0x132240,_ZN2sw5redis14ConnectionPool6_fetchEv,2
-160,6,4153,82.87766912791858,0,1,sdsnewlen,/tmp/hiredis/sds.c,99,0x11c482,0x11c480,sdsnewlen,3
-161,6,4159,82.99740570744362,0,1,redisGetReply,/tmp/hiredis/hiredis.c,1018,0x11bebe,0x11be80,redisGetReply,1
-162,6,4165,83.11714228696867,0,1,redisFormatSdsCommandArgv,/tmp/hiredis/hiredis.c,604,0x11ab6c,0x11ab40,redisFormatSdsCommandArgv,1
-163,6,4171,83.23687886649371,0,0,non-virtual thunk to boost::wrapexcept<boost::exception_detail::error_info_injector<boost::log::v2s_mt_posix::setup_error>>::~wrapexcept(),,0,0xc4ca4,0xc4c80,_ZThn8_N5boost10wrapexceptINS_16exception_detail19error_info_injectorINS_3log12v2s_mt_posix11setup_errorEEEED1Ev,1
-164,6,4177,83.35661544601876,0,1,string2ll,/tmp/hiredis/read.c,189,0x1218a0,0x121880,string2ll,1
-165,6,4183,83.4763520255438,0,0,sw::redis::ConnectionPool::fetch(),,0,0x134d3d,0x134d00,_ZN2sw5redis14ConnectionPool5fetchEv,2
-166,6,4189,83.59608860506884,0,1,redisAppendCommand,/tmp/hiredis/hiredis.c,1108,0x11c15a,0x11c140,redisAppendCommand,3
-167,6,4195,83.7158251845939,0,0,social_network::UserTimelineService_ReadUserTimeline_args::read(apache::thrift::protocol::TProtocol*),,0,0x8d874,0x8d840,_ZN14social_network41UserTimelineService_ReadUserTimeline_args4readEPN6apache6thrift8protocol9TProtocolE,2
-168,6,4201,83.83556176411894,0,0,social_network::PostStorageService_ReadPosts_presult::read(apache::thrift::protocol::TProtocol*),,0,0xa04b2,0xa0480,_ZN14social_network36PostStorageService_ReadPosts_presult4readEPN6apache6thrift8protocol9TProtocolE,3
-169,6,4207,83.95529834364399,0,1,sdscatlen,/tmp/hiredis/sds.h,101,0x11d233,0x11d200,sdscatlen,1
-170,6,4213,84.07503492316903,0,1,string2ll,/tmp/hiredis/read.c,169,0x121790,0x121780,string2ll,3
-171,5,4218,84.17481540610656,0,0,social_network::UserTimelineService_ReadUserTimeline_args::read(apache::thrift::protocol::TProtocol*),,0,0x8d7bf,0x8d780,_ZN14social_network41UserTimelineService_ReadUserTimeline_args4readEPN6apache6thrift8protocol9TProtocolE,2
-172,5,4223,84.27459588904411,0,1,redisGetReply,/tmp/hiredis/hiredis.c,1022,0x11bf00,0x11bf00,redisGetReply,2
-173,5,4228,84.37437637198164,0,1,redisReaderGetReply,/tmp/hiredis/read.c,135,0x1225e1,0x1225c0,redisReaderGetReply,1
-174,5,4233,84.47415685491917,0,1,redisFormatCommandArgv,/tmp/hiredis/hiredis.c,293,0x11ad45,0x11ad40,redisFormatCommandArgv,1
-175,5,4238,84.57393733785672,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,388,0x11a213,0x11a200,redisvFormatCommand,1
-176,5,4243,84.67371782079425,0,0,sw::redis::ConnectionPool::_fetch(),,0,0x13213b,0x132100,_ZN2sw5redis14ConnectionPool6_fetchEv,2
-177,5,4248,84.77349830373178,0,1,redisvFormatCommand,/tmp/hiredis/alloc.h,66,0x119e30,0x119e00,redisvFormatCommand,3
-178,5,4253,84.87327878666933,0,0,std::__future_base::_Async_state_commonV2::_M_complete_async(),,0,0x83660,0x83640,_ZNSt13__future_base21_Async_state_commonV217_M_complete_asyncEv,3
-179,5,4258,84.97305926960686,0,0,sw::redis::ConnectionPool::fetch(),,0,0x134a60,0x134a40,_ZN2sw5redis14ConnectionPool5fetchEv,3
-180,5,4263,85.0728397525444,0,0,social_network::Creator::read(apache::thrift::protocol::TProtocol*),,0,0x975b0,0x97580,_ZN14social_network7Creator4readEPN6apache6thrift8protocol9TProtocolE,1
-181,5,4268,85.17262023548194,0,1,sdsMakeRoomFor,/tmp/hiredis/sds.c,66,0x11c9bc,0x11c980,sdsMakeRoomFor,1
-182,5,4273,85.27240071841948,0,1,processLineItem,/tmp/hiredis/read.c,134,0x121b40,0x121b40,processLineItem,2
-183,5,4278,85.37218120135701,0,1,redisReaderGetReply,/tmp/hiredis/read.c,725,0x1229c8,0x1229c0,redisReaderGetReply,1
-184,5,4283,85.47196168429456,0,0,boost::log::v2s_mt_posix::basic_record_ostream<wchar_t>::operator<<(wchar_t const*),,0,0xbdb97,0xbdb80,_ZN5boost3log12v2s_mt_posix20basic_record_ostreamIwElsEPKw,1
-185,5,4288,85.57174216723209,0,1,sdsll2str,/tmp/hiredis/sds.c,431,0x11d570,0x11d540,sdsll2str,1
-186,5,4293,85.67152265016962,0,1,redisGetReply,/tmp/hiredis/hiredis.c,1027,0x11bf10,0x11bf00,redisGetReply,1
-187,5,4298,85.77130313310717,0,0,"social_network::UserTimelineServiceConcurrentClient::recv_ReadUserTimeline(std::vector<social_network::Post, std::allocator<social_network::Post>>&, int)",,0,0x92616,0x92600,_ZN14social_network35UserTimelineServiceConcurrentClient21recv_ReadUserTimelineERSt6vectorINS_4PostESaIS2_EEi,2
-188,5,4303,85.8710836160447,0,1,sdsrange,/tmp/hiredis/sds.c,726,0x11e3a0,0x11e380,sdsrange,1
-189,5,4308,85.97086409898223,0,1,redisGetReply,/tmp/hiredis/hiredis.c,1025,0x11bf26,0x11bf00,redisGetReply,1
-190,5,4313,86.07064458191978,0,0,sw::redis::Connection::send(sw::redis::CmdArgs&),,0,0x12b4d0,0x12b4c0,_ZN2sw5redis10Connection4sendERNS0_7CmdArgsE,2
-191,5,4318,86.17042506485731,0,1,sdsll2str,/tmp/hiredis/sds.c,441,0x11d59a,0x11d580,sdsll2str,3
-192,5,4323,86.27020554779484,0,0,social_network::Post::read(apache::thrift::protocol::TProtocol*),,0,0x99130,0x99100,_ZN14social_network4Post4readEPN6apache6thrift8protocol9TProtocolE,2
-193,5,4328,86.36998603073239,0,0,social_network::Post::read(apache::thrift::protocol::TProtocol*),,0,0x98b5b,0x98b40,_ZN14social_network4Post4readEPN6apache6thrift8protocol9TProtocolE,3
-194,5,4333,86.46976651366992,0,1,redisReaderGetReply,/tmp/hiredis/read.c,723,0x12244f,0x122440,redisReaderGetReply,1
-195,5,4338,86.56954699660746,0,0,social_network::UserTimelineService_WriteUserTimeline_args::read(apache::thrift::protocol::TProtocol*),,0,0x8c7dd,0x8c7c0,_ZN14social_network42UserTimelineService_WriteUserTimeline_args4readEPN6apache6thrift8protocol9TProtocolE,4
-196,5,4343,86.669327479545,0,1,sdsrange,/tmp/hiredis/sds.c,730,0x11e3d4,0x11e3c0,sdsrange,1
-197,5,4348,86.76910796248254,0,1,sdscatlen,/tmp/hiredis/sds.c,378,0x11d1f0,0x11d1c0,sdscatlen,2
-198,5,4353,86.86888844542007,0,1,sdscatfmt,/tmp/hiredis/sds.c,675,0x11db76,0x11db40,sdscatfmt,1
-199,4,4357,86.94871283177011,0,1,sdscatlen,/usr/include/x86_64-linux-gnu/bits/string_fortified.h,29,0x11d251,0x11d240,sdscatlen,1
-200,4,4361,87.02853721812014,0,0,sw::redis::ConnectionPool::_fetch(),,0,0x1325a0,0x132580,_ZN2sw5redis14ConnectionPool6_fetchEv,2
-201,4,4365,87.10836160447016,0,0,sw::redis::ConnectionPool::_fetch(),,0,0x132078,0x132040,_ZN2sw5redis14ConnectionPool6_fetchEv,2
-202,4,4369,87.1881859908202,0,0,social_network::UserTimelineService_WriteUserTimeline_args::read(apache::thrift::protocol::TProtocol*),,0,0x8c784,0x8c780,_ZN14social_network42UserTimelineService_WriteUserTimeline_args4readEPN6apache6thrift8protocol9TProtocolE,3
-203,4,4373,87.26801037717023,0,0,"jaegertracing::propagation::Propagator<opentracing::v2::TextMapReader const&, opentracing::v2::TextMapWriter const&>::extract(opentracing::v2::TextMapReader const&) const",,0,0x68d58,0x68d40,_ZNK13jaegertracing11propagation10PropagatorIRKN11opentracing2v213TextMapReaderERKNS3_13TextMapWriterEE7extractES6_,1
-204,4,4377,87.34783476352025,0,1,redisReaderFeed,/tmp/hiredis/read.c,657,0x1220b6,0x122080,redisReaderFeed,1
-205,4,4381,87.42765914987028,0,0,"bool nlohmann::detail::parser<nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>>::sax_parse_internal<nlohmann::detail::json_sax_dom_parser<nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>>>(nlohmann::detail::json_sax_dom_parser<nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>>*)",,0,0x79f37,0x79f00,_ZN8nlohmann6detail6parserINS_10basic_jsonISt3mapSt6vectorNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEblmdSaNS_14adl_serializerEEEE18sax_parse_internalINS0_19json_sax_dom_parserISC_EEEEbPT_,1
-206,4,4385,87.50748353622032,0,0,"std::pair<bool, nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>*> nlohmann::detail::json_sax_dom_callback_parser<nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>>::handle_value<nlohmann::detail::value_t>(nlohmann::detail::value_t&&, bool)",,0,0x7b9ee,0x7b9c0,_ZN8nlohmann6detail28json_sax_dom_callback_parserINS_10basic_jsonISt3mapSt6vectorNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEblmdSaNS_14adl_serializerEEEE12handle_valueINS0_7value_tEEESt4pairIbPSC_EOT_b,1
-207,4,4389,87.58730792257035,0,0,std::__future_base::_Async_state_commonV2::_M_complete_async(),,0,0x83620,0x83600,_ZNSt13__future_base21_Async_state_commonV217_M_complete_asyncEv,1
-208,4,4393,87.66713230892037,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,330,0x119e9e,0x119e80,redisvFormatCommand,1
-209,4,4397,87.7469566952704,0,0,sw::redis::ConnectionPool::_fetch(),,0,0x13214c,0x132140,_ZN2sw5redis14ConnectionPool6_fetchEv,2
-210,4,4401,87.82678108162044,0,0,boost::log::v2s_mt_posix::aux::this_thread::get_id(),,0,0xbef12,0xbef00,_ZN5boost3log12v2s_mt_posix3aux11this_thread6get_idEv,1
-211,4,4405,87.90660546797046,0,1,processLineItem,/tmp/hiredis/read.c,289,0x121c0c,0x121c00,processLineItem,1
-212,4,4409,87.98642985432049,0,0,social_network::Creator::read(apache::thrift::protocol::TProtocol*),,0,0x97647,0x97640,_ZN14social_network7Creator4readEPN6apache6thrift8protocol9TProtocolE,2
-213,4,4413,88.06625424067053,0,1,redisReaderFeed,/tmp/hiredis/read.c,67,0x1222c0,0x1222c0,redisReaderFeed,1
-214,4,4417,88.14607862702056,0,1,redisReaderGetReply,/tmp/hiredis/read.c,58,0x1228f9,0x1228c0,redisReaderGetReply,1
-215,4,4421,88.22590301337058,0,0,social_network::PostStorageService_ReadPosts_presult::read(apache::thrift::protocol::TProtocol*),,0,0xa0358,0xa0340,_ZN14social_network36PostStorageService_ReadPosts_presult4readEPN6apache6thrift8protocol9TProtocolE,3
-216,4,4425,88.30572739972061,0,0,sw::redis::ConnectionPool::_fetch(),,0,0x1325c8,0x1325c0,_ZN2sw5redis14ConnectionPool6_fetchEv,3
-217,4,4429,88.38555178607065,0,0,jaegertracing::SpanContext::swap(jaegertracing::SpanContext&),,0,0x6a69a,0x6a680,_ZN13jaegertracing11SpanContext4swapERS0_,2
-218,4,4433,88.46537617242068,0,1,redisFormatSdsCommandArgv,/tmp/hiredis/hiredis.c,290,0x11a9a2,0x11a980,redisFormatSdsCommandArgv,1
-219,4,4437,88.5452005587707,0,0,sw::redis::ConnectionPool::fetch(),,0,0x134bc5,0x134bc0,_ZN2sw5redis14ConnectionPool5fetchEv,4
-220,4,4441,88.62502494512073,0,1,sdsMakeRoomFor,/tmp/hiredis/sds.c,230,0x11c8d4,0x11c8c0,sdsMakeRoomFor,2
-221,4,4445,88.70484933147077,0,0,"sw::redis::Sentinel::_get_master_addr_by_name(sw::redis::Connection&, sw::redis::StringView const&)",,0,0x159e75,0x159e40,_ZN2sw5redis8Sentinel24_get_master_addr_by_nameERNS0_10ConnectionERKNS0_10StringViewE,2
-222,4,4449,88.7846737178208,0,1,redisReaderGetReply,/tmp/hiredis/read.c,134,0x1225d6,0x1225c0,redisReaderGetReply,2
-223,4,4453,88.86449810417082,0,0,sw::redis::Connection::recv(),,0,0x12b5e0,0x12b5c0,_ZN2sw5redis10Connection4recvEv,1
-224,4,4457,88.94432249052086,0,1,redisFormatSdsCommandArgv,/tmp/hiredis/hiredis.c,581,0x11aa2b,0x11aa00,redisFormatSdsCommandArgv,2
-225,4,4461,89.02414687687089,0,0,sw::redis::ConnectionPool::fetch(),,0,0x134b3c,0x134b00,_ZN2sw5redis14ConnectionPool5fetchEv,2
-226,4,4465,89.10397126322091,0,1,sdsrange,/tmp/hiredis/sds.c,754,0x11e515,0x11e500,sdsrange,1
-227,4,4469,89.18379564957094,0,1,sdsMakeRoomFor,/tmp/hiredis/sds.c,66,0x11c9c7,0x11c9c0,sdsMakeRoomFor,3
-228,4,4473,89.26362003592098,0,1,redisAppendCommandArgv,/tmp/hiredis/hiredis.c,1118,0x11c1b7,0x11c180,redisAppendCommandArgv,2
-229,4,4477,89.343444422271,0,1,redisvFormatCommand,/tmp/hiredis/sds.h,93,0x119eac,0x119e80,redisvFormatCommand,1
-230,4,4481,89.42326880862103,0,0,sw::redis::ConnectionPool::fetch(),,0,0x134b9a,0x134b80,_ZN2sw5redis14ConnectionPool5fetchEv,4
-231,4,4485,89.50309319497106,0,1,redisvFormatCommand,/tmp/hiredis/sds.h,93,0x11a344,0x11a340,redisvFormatCommand,2
-232,4,4489,89.5829175813211,0,0,sw::redis::ConnectionPool::_fetch(),,0,0x1324a7,0x132480,_ZN2sw5redis14ConnectionPool6_fetchEv,2
-233,4,4493,89.66274196767112,0,0,social_network::Post::~Post(),,0,0x98810,0x98800,_ZN14social_network4PostD2Ev,3
-234,4,4497,89.74256635402115,0,1,sdscatfmt,/tmp/hiredis/sds.h,109,0x11dff0,0x11dfc0,sdscatfmt,1
-235,4,4501,89.82239074037118,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,380,0x119cd1,0x119cc0,redisvFormatCommand,3
-236,4,4505,89.90221512672122,0,1,redisNetWrite,/tmp/hiredis/sds.h,97,0x123330,0x123300,redisNetWrite,1
-237,4,4509,89.98203951307124,0,1,redisReaderGetReply,/tmp/hiredis/read.c,736,0x122486,0x122480,redisReaderGetReply,1
-238,4,4513,90.06186389942127,0,0,social_network::Post::read(apache::thrift::protocol::TProtocol*),,0,0x98d60,0x98d40,_ZN14social_network4Post4readEPN6apache6thrift8protocol9TProtocolE,1
-239,4,4517,90.14168828577131,0,1,redisReaderGetReply,/tmp/hiredis/read.c,230,0x122598,0x122580,redisReaderGetReply,1
-240,4,4521,90.22151267212134,0,0,social_network::ThriftClient<social_network::PostStorageServiceClient>::Connect(),,0,0x8616a,0x86140,_ZN14social_network12ThriftClientINS_24PostStorageServiceClientEE7ConnectEv,3
-241,4,4525,90.30133705847136,0,0,social_network::PostStorageService_ReadPosts_presult::read(apache::thrift::protocol::TProtocol*),,0,0xa0250,0xa0240,_ZN14social_network36PostStorageService_ReadPosts_presult4readEPN6apache6thrift8protocol9TProtocolE,3
-242,3,4528,90.36120534823388,0,1,redisBufferRead,/tmp/hiredis/hiredis.c,937,0x11bb79,0x11bb40,redisBufferRead,2
-243,3,4531,90.42107363799641,0,1,sdsMakeRoomFor,/tmp/hiredis/alloc.h,74,0x11c8f1,0x11c8c0,sdsMakeRoomFor,2
-244,3,4534,90.48094192775893,0,0,social_network::UserTimelineService_WriteUserTimeline_args::read(apache::thrift::protocol::TProtocol*),,0,0x8c83f,0x8c800,_ZN14social_network42UserTimelineService_WriteUserTimeline_args4readEPN6apache6thrift8protocol9TProtocolE,2
-245,3,4537,90.54081021752145,0,0,sw::redis::ConnectionPool::fetch(),,0,0x134c7c,0x134c40,_ZN2sw5redis14ConnectionPool5fetchEv,2
-246,3,4540,90.60067850728397,0,1,processLineItem,/tmp/hiredis/read.c,139,0x121b56,0x121b40,processLineItem,1
-247,3,4543,90.66054679704649,0,1,sdscatlen,/tmp/hiredis/sds.h,99,0x11d2a0,0x11d280,sdscatlen,1
-248,3,4546,90.72041508680903,0,1,string2ll,/tmp/hiredis/read.c,173,0x121796,0x121780,string2ll,1
-249,3,4549,90.78028337657155,0,1,sdscatfmt,/tmp/hiredis/sds.h,167,0x11db9b,0x11db80,sdscatfmt,2
-250,3,4552,90.84015166633407,0,1,redisReaderGetReply,/tmp/hiredis/read.c,139,0x122428,0x122400,redisReaderGetReply,2
-251,3,4555,90.90001995609659,0,1,redisGetReplyFromReader,/tmp/hiredis/hiredis.c,993,0x11be38,0x11be00,redisGetReplyFromReader,1
-252,3,4558,90.9598882458591,0,0,"jaegertracing::SpanContext::SpanContext(jaegertracing::TraceID const&, unsigned long, unsigned long, unsigned char, std::unordered_map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, std::hash<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>>, std::equal_to<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>>, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>> const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>>>> const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>> const&)",,0,0x69414,0x69400,_ZN13jaegertracing11SpanContextC2ERKNS_7TraceIDEmmhRKSt13unordered_mapINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESA_St4hashISA_ESt8equal_toISA_ESaISt4pairIKSA_SA_EEERSG_,1
-253,3,4561,91.01975653562164,0,1,redisGetReply,/tmp/hiredis/hiredis.c,1037,0x11bf40,0x11bf40,redisGetReply,1
-254,3,4564,91.07962482538416,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,291,0x11a293,0x11a280,redisvFormatCommand,1
-255,3,4567,91.13949311514668,0,1,sdscatfmt,/tmp/hiredis/sds.h,116,0x11dc61,0x11dc40,sdscatfmt,2
-256,3,4570,91.1993614049092,0,0,boost::log::v2s_mt_posix::core::open_record(boost::log::v2s_mt_posix::attribute_set const&),,0,0xb4513,0xb4500,_ZN5boost3log12v2s_mt_posix4core11open_recordERKNS1_13attribute_setE,1
-257,3,4573,91.25922969467172,0,0,sw::redis::SafeConnection::~SafeConnection(),,0,0x82102,0x82100,_ZN2sw5redis14SafeConnectionD2Ev,1
-258,3,4576,91.31909798443425,0,0,social_network::Post::read(apache::thrift::protocol::TProtocol*),,0,0x98b30,0x98b00,_ZN14social_network4Post4readEPN6apache6thrift8protocol9TProtocolE,3
-259,3,4579,91.37896627419677,0,0,"boost::program_options::options_description_easy_init::operator()(char const*, boost::program_options::value_semantic const*) (.cold)",options_description.o,0,0x3c5fc,0x3c5c0,_ZN5boost15program_options29options_description_easy_initclEPKcPKNS0_14value_semanticE.cold,1
-260,3,4582,91.43883456395929,0,0,social_network::Creator::read(apache::thrift::protocol::TProtocol*),,0,0x976ae,0x97680,_ZN14social_network7Creator4readEPN6apache6thrift8protocol9TProtocolE,1
-261,3,4585,91.49870285372181,0,1,sdscatfmt,/tmp/hiredis/sds.c,640,0x11ddd0,0x11ddc0,sdscatfmt,1
-262,3,4588,91.55857114348433,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,524,0x11a0c0,0x11a0c0,redisvFormatCommand,1
-263,3,4591,91.61843943324686,0,0,social_network::Post::read(apache::thrift::protocol::TProtocol*),,0,0x98ef0,0x98ec0,_ZN14social_network4Post4readEPN6apache6thrift8protocol9TProtocolE,1
-264,3,4594,91.67830772300938,0,1,freeReplyObject.localalias,/tmp/hiredis/hiredis.c,97,0x119816,0x119800,freeReplyObject.localalias,3
-265,3,4597,91.7381760127719,0,0,sw::redis::ConnectionPool::_fetch(),,0,0x1320da,0x1320c0,_ZN2sw5redis14ConnectionPool6_fetchEv,2
-266,3,4600,91.79804430253442,0,1,freeReplyObject.localalias,/tmp/hiredis/hiredis.c,106,0x119870,0x119840,freeReplyObject.localalias,2
-267,3,4603,91.85791259229694,0,0,social_network::Creator::read(apache::thrift::protocol::TProtocol*),,0,0x975c7,0x975c0,_ZN14social_network7Creator4readEPN6apache6thrift8protocol9TProtocolE,3
-268,3,4606,91.91778088205947,0,1,sdscatfmt,/tmp/hiredis/sds.h,160,0x11dfa0,0x11df80,sdscatfmt,2
-269,3,4609,91.977649171822,0,0,social_network::PostStorageService_ReadPosts_presult::read(apache::thrift::protocol::TProtocol*),,0,0xa0328,0xa0300,_ZN14social_network36PostStorageService_ReadPosts_presult4readEPN6apache6thrift8protocol9TProtocolE,2
-270,3,4612,92.03751746158451,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,471,0x11a00a,0x11a000,redisvFormatCommand,1
-271,3,4615,92.09738575134703,0,0,"jaegertracing::SpanContext::SpanContext(jaegertracing::TraceID const&, unsigned long, unsigned long, unsigned char, std::unordered_map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, std::hash<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>>, std::equal_to<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>>, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>> const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>>>> const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>> const&)",,0,0x69381,0x69380,_ZN13jaegertracing11SpanContextC2ERKNS_7TraceIDEmmhRKSt13unordered_mapINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESA_St4hashISA_ESt8equal_toISA_ESaISt4pairIKSA_SA_EEERSG_,3
-272,3,4618,92.15725404110955,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,353,0x119cb3,0x119c80,redisvFormatCommand,1
-273,3,4621,92.21712233087209,0,1,processLineItem,/usr/include/x86_64-linux-gnu/bits/string_fortified.h,29,0x121c30,0x121c00,processLineItem,2
-274,3,4624,92.2769906206346,0,1,sdscatlen,/tmp/hiredis/sds.c,382,0x11d23f,0x11d200,sdscatlen,1
-275,3,4627,92.33685891039713,0,1,sdsMakeRoomFor,/tmp/hiredis/sds.c,204,0x11c805,0x11c800,sdsMakeRoomFor,2
-276,3,4630,92.39672720015965,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,325,0x119c99,0x119c80,redisvFormatCommand,2
-277,3,4633,92.45659548992217,0,0,sw::redis::ConnectionPool::_fetch(),,0,0x132472,0x132440,_ZN2sw5redis14ConnectionPool6_fetchEv,3
-278,3,4636,92.5164637796847,0,1,sdsrange,/tmp/hiredis/sds.c,726,0x11e3ec,0x11e3c0,sdsrange,2
-279,3,4639,92.57633206944722,0,0,social_network::UserTimelineServiceConcurrentClient::recv_WriteUserTimeline(int),,0,0x91eb2,0x91e80,_ZN14social_network35UserTimelineServiceConcurrentClient22recv_WriteUserTimelineEi,2
-280,3,4642,92.63620035920974,0,0,sw::redis::SafeConnection::~SafeConnection(),,0,0x82087,0x82080,_ZN2sw5redis14SafeConnectionD2Ev,3
-281,3,4645,92.69606864897226,0,1,redisGetReply,/tmp/hiredis/hiredis.c,1031,0x11bf33,0x11bf00,redisGetReply,1
-282,3,4648,92.75593693873478,0,0,sw::redis::ConnectionPool::_fetch(),,0,0x1320b1,0x132080,_ZN2sw5redis14ConnectionPool6_fetchEv,3
-283,2,4650,92.7958491319098,0,0,"boost::log::v2s_mt_posix::limitation_error::throw_(char const*, unsigned long)",,0,0xc1804,0xc1800,_ZN5boost3log12v2s_mt_posix16limitation_error6throw_EPKcm,1
-284,2,4652,92.83576132508482,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,292,0x11a258,0x11a240,redisvFormatCommand,2
-285,2,4654,92.87567351825983,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,309,0x119c40,0x119c40,redisvFormatCommand,1
-286,2,4656,92.91558571143484,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,333,0x11a11b,0x11a100,redisvFormatCommand,1
-287,2,4658,92.95549790460986,0,1,string2ll,/tmp/hiredis/read.c,199,0x1217ef,0x1217c0,string2ll,1
-288,2,4660,92.99541009778487,0,1,createArrayObject,/tmp/hiredis/hiredis.c,195,0x119a08,0x119a00,createArrayObject,1
-289,2,4662,93.03532229095988,0,1,sdsMakeRoomFor,/tmp/hiredis/sds.c,64,0x11c990,0x11c980,sdsMakeRoomFor,1
-290,2,4664,93.07523448413491,0,1,sdscatfmt,/tmp/hiredis/sds.h,178,0x11dba2,0x11db80,sdscatfmt,1
-291,2,4666,93.11514667730992,0,1,sdscatfmt,/tmp/hiredis/sds.h,175,0x11dd50,0x11dd40,sdscatfmt,2
-292,2,4668,93.15505887048494,0,0,social_network::PostStorageService_ReadPost_result::read(apache::thrift::protocol::TProtocol*),,0,0x9ecf5,0x9ecc0,_ZN14social_network34PostStorageService_ReadPost_result4readEPN6apache6thrift8protocol9TProtocolE,1
-293,2,4670,93.19497106365995,0,0,sw::redis::ConnectionPool::fetch(),,0,0x134d91,0x134d80,_ZN2sw5redis14ConnectionPool5fetchEv,1
-294,2,4672,93.23488325683496,0,1,sdscatfmt,/tmp/hiredis/sds.h,128,0x11deb4,0x11de80,sdscatfmt,2
-295,2,4674,93.27479545000998,0,1,sdscatlen,/tmp/hiredis/sds.h,95,0x11d2b8,0x11d280,sdscatlen,1
-296,2,4676,93.31470764318499,0,0,"std::vector<boost::program_options::basic_option<char>, std::allocator<boost::program_options::basic_option<char>>>::vector(std::vector<boost::program_options::basic_option<char>, std::allocator<boost::program_options::basic_option<char>>> const&)",,0,0x8a454,0x8a440,_ZNSt6vectorIN5boost15program_options12basic_optionIcEESaIS3_EEC2ERKS5_,1
-297,2,4678,93.35461983636,0,0,sw::redis::SafeConnection::~SafeConnection(),,0,0x8205e,0x82040,_ZN2sw5redis14SafeConnectionD2Ev,2
-298,2,4680,93.39453202953503,0,1,sdscatfmt,/tmp/hiredis/sds.h,110,0x11d9c0,0x11d9c0,sdscatfmt,1
-299,2,4682,93.43444422271004,0,0,sw::redis::ConnectionPool::release(sw::redis::Connection),,0,0x13057d,0x130540,_ZN2sw5redis14ConnectionPool7releaseENS0_10ConnectionE,2
-300,2,4684,93.47435641588505,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,459,0x119dad,0x119d80,redisvFormatCommand,1
-301,2,4686,93.51426860906007,0,1,sdsnewlen,/tmp/hiredis/sds.c,99,0x11c47b,0x11c440,sdsnewlen,1
-302,2,4688,93.55418080223508,0,0,"sw::redis::RedisCluster::bitcount(sw::redis::StringView const&, long long, long long)",,0,0x14ef43,0x14ef40,_ZN2sw5redis12RedisCluster8bitcountERKNS0_10StringViewExx,1
-303,2,4690,93.5940929954101,0,1,redisvFormatCommand,/tmp/hiredis/sds.h,95,0x119fad,0x119f80,redisvFormatCommand,1
-304,2,4692,93.6340051885851,0,1,redisFormatSdsCommandArgv,/tmp/hiredis/hiredis.c,605,0x11aaae,0x11aa80,redisFormatSdsCommandArgv,1
-305,2,4694,93.67391738176013,0,0,"bool nlohmann::detail::parser<nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>>::sax_parse_internal<nlohmann::detail::json_sax_dom_parser<nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>>>(nlohmann::detail::json_sax_dom_parser<nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>>*)",,0,0x796c0,0x796c0,_ZN8nlohmann6detail6parserINS_10basic_jsonISt3mapSt6vectorNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEblmdSaNS_14adl_serializerEEEE18sax_parse_internalINS0_19json_sax_dom_parserISC_EEEEbPT_,1
-306,2,4696,93.71382957493515,0,1,sdscatfmt,/tmp/hiredis/sds.h,110,0x11dcd9,0x11dcc0,sdscatfmt,2
-307,2,4698,93.75374176811016,0,1,redisvAppendCommand,/tmp/hiredis/hiredis.c,1086,0x11c032,0x11c000,redisvAppendCommand,1
-308,2,4700,93.79365396128517,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,353,0x119cc2,0x119cc0,redisvFormatCommand,1
-309,2,4702,93.83356615446019,0,1,sdsrange,/tmp/hiredis/sds.c,730,0x11e4a0,0x11e480,sdsrange,1
-310,2,4704,93.8734783476352,0,1,sdsMakeRoomFor,/tmp/hiredis/sds.h,128,0x11c7e4,0x11c7c0,sdsMakeRoomFor,2
-311,2,4706,93.91339054081021,0,0,sw::redis::ConnectionPool::fetch(),,0,0x133f64,0x133f40,_ZN2sw5redis14ConnectionPool5fetchEv,1
-312,2,4708,93.95330273398524,0,1,sdscatfmt,/tmp/hiredis/sds.h,170,0x11dd89,0x11dd80,sdscatfmt,1
-313,2,4710,93.99321492716025,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,501,0x11a470,0x11a440,redisvFormatCommand,1
-314,2,4712,94.03312712033527,0,1,redisFormatSdsCommandArgv,/tmp/hiredis/hiredis.c,592,0x11aa4d,0x11aa40,redisFormatSdsCommandArgv,1
-315,2,4714,94.07303931351028,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,498,0x11a434,0x11a400,redisvFormatCommand,2
-316,2,4716,94.11295150668529,0,0,sw::redis::ConnectionOptions::~ConnectionOptions(),,0,0x55ec4,0x55ec0,_ZN2sw5redis17ConnectionOptionsD2Ev,1
-317,2,4718,94.1528636998603,0,1,redisFormatSdsCommandArgv,/tmp/hiredis/hiredis.c,595,0x11ac55,0x11ac40,redisFormatSdsCommandArgv,1
-318,2,4720,94.19277589303532,0,1,redisReaderGetReply,/tmp/hiredis/read.c,133,0x1225b6,0x122580,redisReaderGetReply,1
-319,2,4722,94.23268808621033,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,481,0x11a234,0x11a200,redisvFormatCommand,1
-320,2,4724,94.27260027938536,0,1,redisReaderGetReply,/tmp/hiredis/read.c,732,0x122470,0x122440,redisReaderGetReply,2
-321,2,4726,94.31251247256037,0,1,sdscatfmt,/tmp/hiredis/sds.c,613,0x11df6c,0x11df40,sdscatfmt,1
-322,2,4728,94.35242466573538,0,0,social_network::PostStorageService_ReadPosts_presult::read(apache::thrift::protocol::TProtocol*),,0,0xa02a6,0xa0280,_ZN14social_network36PostStorageService_ReadPosts_presult4readEPN6apache6thrift8protocol9TProtocolE,2
-323,2,4730,94.3923368589104,0,1,processLineItem,/tmp/hiredis/read.c,270,0x121aee,0x121ac0,processLineItem,1
-324,2,4732,94.43224905208541,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,329,0x119e7b,0x119e40,redisvFormatCommand,2
-325,2,4734,94.47216124526042,0,0,social_network::PostStorageService_ReadPosts_presult::read(apache::thrift::protocol::TProtocol*),,0,0xa0387,0xa0380,_ZN14social_network36PostStorageService_ReadPosts_presult4readEPN6apache6thrift8protocol9TProtocolE,2
-326,2,4736,94.51207343843544,0,0,sw::redis::ConnectionOptions::~ConnectionOptions(),,0,0x55e90,0x55e80,_ZN2sw5redis17ConnectionOptionsD2Ev,2
-327,2,4738,94.55198563161046,0,1,sdscatvprintf,/tmp/hiredis/alloc.h,58,0x11d798,0x11d780,sdscatvprintf,1
-328,2,4740,94.59189782478548,0,0,sw::redis::ConnectionPool::_fetch(),,0,0x131ff4,0x131fc0,_ZN2sw5redis14ConnectionPool6_fetchEv,1
-329,2,4742,94.63181001796049,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,292,0x11a2a0,0x11a280,redisvFormatCommand,2
-330,2,4744,94.6717222111355,0,1,sdsMakeRoomFor,/tmp/hiredis/sds.h,95,0x11c988,0x11c980,sdsMakeRoomFor,1
-331,2,4746,94.71163440431052,0,0,social_network::Post::read(apache::thrift::protocol::TProtocol*),,0,0x98aa0,0x98a80,_ZN14social_network4Post4readEPN6apache6thrift8protocol9TProtocolE,1
-332,2,4748,94.75154659748553,0,1,sdscatfmt,/tmp/hiredis/sds.c,587,0x11d996,0x11d980,sdscatfmt,1
-333,2,4750,94.79145879066054,0,0,"std::unordered_map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, double, std::hash<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>>, std::equal_to<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>>, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>> const, double>>>::~unordered_map()",,0,0x5640c,0x56400,_ZNSt13unordered_mapINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEdSt4hashIS5_ESt8equal_toIS5_ESaISt4pairIKS5_dEEED2Ev,1
-334,2,4752,94.83137098383555,0,0,social_network::UserMention::read(apache::thrift::protocol::TProtocol*),,0,0x96edc,0x96ec0,_ZN14social_network11UserMention4readEPN6apache6thrift8protocol9TProtocolE,2
-335,2,4754,94.87128317701058,0,1,redisFormatSdsCommandArgv,/tmp/hiredis/hiredis.c,601,0x11aa60,0x11aa40,redisFormatSdsCommandArgv,2
-336,2,4756,94.9111953701856,0,0,sw::redis::ConnectionPool::fetch(),,0,0x13314f,0x133140,_ZN2sw5redis14ConnectionPool5fetchEv,2
-337,2,4758,94.95110756336061,0,1,sdscatfmt,/tmp/hiredis/sds.h,165,0x11db91,0x11db80,sdscatfmt,1
-338,2,4760,94.99101975653562,0,1,createStringObject,/tmp/hiredis/hiredis.c,121,0x119a60,0x119a40,createStringObject,1
-339,2,4762,95.03093194971063,0,1,redisvFormatCommand,/usr/include/x86_64-linux-gnu/bits/string_fortified.h,29,0x119d97,0x119d80,redisvFormatCommand,2
-340,2,4764,95.07084414288565,0,0,"apache::thrift::protocol::TVirtualProtocol<apache::thrift::protocol::TBinaryProtocolT<apache::thrift::transport::TTransport, apache::thrift::protocol::TNetworkBigEndian>, apache::thrift::protocol::TProtocolDefaults>::readSetEnd_virt()",,0,0x86b72,0x86b40,_ZN6apache6thrift8protocol16TVirtualProtocolINS1_16TBinaryProtocolTINS0_9transport10TTransportENS1_17TNetworkBigEndianEEENS1_17TProtocolDefaultsEE15readSetEnd_virtEv,1
-341,2,4766,95.11075633606066,0,1,createIntegerObject,/tmp/hiredis/hiredis.c,212,0x1197ba,0x119780,createIntegerObject,1
-342,2,4768,95.15066852923569,0,0,social_network::PostStorageService_ReadPosts_presult::read(apache::thrift::protocol::TProtocol*),,0,0xa03e8,0xa03c0,_ZN14social_network36PostStorageService_ReadPosts_presult4readEPN6apache6thrift8protocol9TProtocolE,1
-343,2,4770,95.1905807224107,0,0,social_network::UserTimelineService_ReadUserTimeline_args::read(apache::thrift::protocol::TProtocol*),,0,0x8da6d,0x8da40,_ZN14social_network41UserTimelineService_ReadUserTimeline_args4readEPN6apache6thrift8protocol9TProtocolE,1
-344,2,4772,95.23049291558571,0,0,jaegertracing::samplers::Config::Config(jaegertracing::samplers::Config const&),,0,0x5b370,0x5b340,_ZN13jaegertracing8samplers6ConfigC2ERKS1_,1
-345,2,4774,95.27040510876073,0,0,social_network::Post::read(apache::thrift::protocol::TProtocol*),,0,0x99090,0x99080,_ZN14social_network4Post4readEPN6apache6thrift8protocol9TProtocolE,1
-346,2,4776,95.31031730193574,0,1,sdscatfmt,/tmp/hiredis/sds.c,586,0x11d95d,0x11d940,sdscatfmt,2
-347,2,4778,95.35022949511075,0,0,social_network::UserTimelineService_WriteUserTimeline_args::~UserTimelineService_WriteUserTimeline_args(),,0,0x8c728,0x8c700,_ZN14social_network42UserTimelineService_WriteUserTimeline_argsD0Ev,1
-348,2,4780,95.39014168828577,0,0,social_network::ServiceException::~ServiceException(),,0,0x95391,0x95380,_ZN14social_network16ServiceExceptionD2Ev,1
-349,2,4782,95.4300538814608,0,0,"boost::log::v2s_mt_posix::basic_formatting_ostream<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t>>::aligned_write(wchar_t const*, long)",,0,0xbd648,0xbd640,_ZN5boost3log12v2s_mt_posix24basic_formatting_ostreamIwSt11char_traitsIwESaIwEE13aligned_writeEPKwl,1
-350,2,4784,95.4699660746358,0,0,social_network::Url::read(apache::thrift::protocol::TProtocol*),,0,0x966b7,0x96680,_ZN14social_network3Url4readEPN6apache6thrift8protocol9TProtocolE,2
-351,2,4786,95.50987826781082,0,1,sdscat,/tmp/hiredis/sds.c,393,0x11d320,0x11d300,sdscat,1
-352,2,4788,95.54979046098583,0,0,"std::vector<boost::program_options::basic_option<char>, std::allocator<boost::program_options::basic_option<char>>>::vector(std::vector<boost::program_options::basic_option<char>, std::allocator<boost::program_options::basic_option<char>>> const&)",,0,0x8a494,0x8a480,_ZNSt6vectorIN5boost15program_options12basic_optionIcEESaIS3_EEC2ERKS5_,1
-353,2,4790,95.58970265416085,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,326,0x119ca1,0x119c80,redisvFormatCommand,2
-354,2,4792,95.62961484733586,0,1,sdscatfmt,/tmp/hiredis/sds.c,595,0x11d9ea,0x11d9c0,sdscatfmt,1
-355,2,4794,95.66952704051087,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,355,0x11a14f,0x11a140,redisvFormatCommand,1
-356,2,4796,95.70943923368588,0,1,sdscatfmt,/tmp/hiredis/sds.c,588,0x11db29,0x11db00,sdscatfmt,2
-357,2,4798,95.74935142686091,0,0,"jaegertracing::SpanContext::ForeachBaggageItem(std::function<bool (std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>> const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>> const&)>) const",,0,0x694ff,0x694c0,_ZNK13jaegertracing11SpanContext18ForeachBaggageItemESt8functionIFbRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES9_EE,1
-358,2,4800,95.78926362003592,0,0,sw::redis::ConnectionPool::_fetch(),,0,0x132037,0x132000,_ZN2sw5redis14ConnectionPool6_fetchEv,1
-359,2,4802,95.82917581321094,0,0,social_network::PostStorageService_ReadPosts_presult::read(apache::thrift::protocol::TProtocol*),,0,0xa02eb,0xa02c0,_ZN14social_network36PostStorageService_ReadPosts_presult4readEPN6apache6thrift8protocol9TProtocolE,1
-360,2,4804,95.86908800638595,0,0,"void sw::redis::Connection::send<char const*, unsigned long, long long&, long long&>(char const*, char const*&&, unsigned long&&, long long&, long long&)",,0,0x82492,0x82480,_ZN2sw5redis10Connection4sendIJPKcmRxS5_EEEvS4_DpOT_,2
-361,2,4806,95.90900019956096,0,0,jaegertracing::propagation::HeadersConfig::HeadersConfig(),,0,0x59892,0x59880,_ZN13jaegertracing11propagation13HeadersConfigC2Ev,2
-362,2,4808,95.94891239273598,0,0,_ZSt4swapIN2sw5redis17ConnectionOptionsEENSt9enable_ifIXsrSt6__and_IJSt6__not_ISt15__is_tuple_likeIT_EESt21is_move_constructibleIS7_ESt18is_move_assignableIS7_EEE5valueEvE4typeERS7_SH_,,0,0x12e830,0x12e800,_ZSt4swapIN2sw5redis17ConnectionOptionsEENSt9enable_ifIXsrSt6__and_IJSt6__not_ISt15__is_tuple_likeIT_EESt21is_move_constructibleIS7_ESt18is_move_assignableIS7_EEE5valueEvE4typeERS7_SH_,1
-363,2,4810,95.98882458591099,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,341,0x119dd0,0x119dc0,redisvFormatCommand,1
-364,2,4812,96.02873677908602,0,1,redisBufferWrite,/tmp/hiredis/sds.h,93,0x11bc8c,0x11bc80,redisBufferWrite,2
-365,2,4814,96.06864897226103,0,1,sdsMakeRoomFor,/tmp/hiredis/sds.h,211,0x11c93c,0x11c900,sdsMakeRoomFor,1
-366,2,4816,96.10856116543604,0,1,processLineItem,/tmp/hiredis/read.c,234,0x121ba3,0x121b80,processLineItem,1
-367,2,4818,96.14847335861106,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,293,0x11a2a9,0x11a280,redisvFormatCommand,2
-368,2,4820,96.18838555178607,0,0,"nlohmann::detail::lexer<nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>>::get()",,0,0x756bc,0x75680,_ZN8nlohmann6detail5lexerINS_10basic_jsonISt3mapSt6vectorNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEblmdSaNS_14adl_serializerEEEE3getEv,1
-369,2,4822,96.22829774496108,0,0,sw::redis::SafeConnection::~SafeConnection(),,0,0x820fa,0x820c0,_ZN2sw5redis14SafeConnectionD2Ev,2
-370,2,4824,96.2682099381361,0,0,std::unique_lock<std::mutex>::unlock(),,0,0x1391ab,0x139180,_ZNSt11unique_lockISt5mutexE6unlockEv,1
-371,2,4826,96.30812213131111,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,337,0x119f70,0x119f40,redisvFormatCommand,1
-372,2,4828,96.34803432448614,0,0,sw::redis::ConnectionPool::fetch(),,0,0x134c25,0x134c00,_ZN2sw5redis14ConnectionPool5fetchEv,1
-373,2,4830,96.38794651766115,0,1,sdsnewlen,/tmp/hiredis/sds.c,123,0x11c510,0x11c500,sdsnewlen,2
-374,2,4832,96.42785871083616,0,0,jaegertracing::samplers::Config::parse(YAML::Node const&),,0,0x5a115,0x5a100,_ZN13jaegertracing8samplers6Config5parseERKN4YAML4NodeE,1
-375,1,4833,96.44781480742367,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,304,0x119c07,0x119c00,redisvFormatCommand,1
-376,1,4834,96.46777090401118,0,0,"std::basic_ostream<char16_t, std::char_traits<char16_t>>::write(char16_t const*, long) (.isra.0)",dump.o,0,0xd376c,0xd3740,_ZNSt13basic_ostreamIDsSt11char_traitsIDsEE5writeEPKDsl.isra.0,1
-377,1,4835,96.48772700059868,0,1,sdscat,/tmp/hiredis/sds.c,394,0x11d33e,0x11d300,sdscat,1
-378,1,4836,96.50768309718619,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,383,0x119d09,0x119d00,redisvFormatCommand,1
-379,1,4837,96.5276391937737,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,291,0x11a249,0x11a240,redisvFormatCommand,1
-380,1,4838,96.5475952903612,0,1,sdscatfmt,/tmp/hiredis/sds.h,178,0x11dd70,0x11dd40,sdscatfmt,1
-381,1,4839,96.56755138694871,0,0,sw::redis::ConnectionPool::release(sw::redis::Connection),,0,0x130701,0x130700,_ZN2sw5redis14ConnectionPool7releaseENS0_10ConnectionE,1
-382,1,4840,96.58750748353621,0,1,redisReaderFeed,/tmp/hiredis/read.c,665,0x1220d2,0x1220c0,redisReaderFeed,1
-383,1,4841,96.60746358012372,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,333,0x119f5a,0x119f40,redisvFormatCommand,1
-384,1,4842,96.62741967671124,0,1,redisReaderGetReply,/tmp/hiredis/read.c,133,0x122400,0x122400,redisReaderGetReply,1
-385,1,4843,96.64737577329875,0,0,"opentracing::v2::expected<void, std::error_code> std::__invoke_impl<opentracing::v2::expected<void, std::error_code>, jaegertracing::propagation::Propagator<opentracing::v2::TextMapReader const&, opentracing::v2::TextMapWriter const&>::extract(opentracing::v2::TextMapReader const&) const::'lambda'(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>> const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>> const&)&, opentracing::v2::string_view, opentracing::v2::string_view>(std::__invoke_other, jaegertracing::propagation::Propagator<opentracing::v2::TextMapReader const&, opentracing::v2::TextMapWriter const&>::extract(opentracing::v2::TextMapReader const&) const::'lambda'(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>> const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>> const&)&, opentracing::v2::string_view&&, opentracing::v2::string_view&&)",,0,0x69734,0x69700,_ZSt13__invoke_implIN11opentracing2v28expectedIvSt10error_codeEERZNK13jaegertracing11propagation10PropagatorIRKNS1_13TextMapReaderERKNS1_13TextMapWriterEE7extractESA_EUlRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESM_E_JNS1_11string_viewESP_EET_St14__invoke_otherOT0_DpOT1_,1
-386,1,4844,96.66733186988625,0,1,createStringObject,/tmp/hiredis/alloc.h,62,0x119a8f,0x119a80,createStringObject,1
-387,1,4845,96.68728796647376,0,1,redisReaderGetReply,/tmp/hiredis/read.c,56,0x122ab1,0x122a80,redisReaderGetReply,1
-388,1,4846,96.70724406306127,0,0,"social_network::UserTimelineServiceProcessor::process_WriteUserTimeline(int, apache::thrift::protocol::TProtocol*, apache::thrift::protocol::TProtocol*, void*)",,0,0x90251,0x90240,_ZN14social_network28UserTimelineServiceProcessor25process_WriteUserTimelineEiPN6apache6thrift8protocol9TProtocolES5_Pv,1
-389,1,4847,96.72720015964877,0,0,sw::redis::ConnectionPool::create(),,0,0x135436,0x135400,_ZN2sw5redis14ConnectionPool6createEv,1
-390,1,4848,96.74715625623628,0,1,redisReaderGetReply,/tmp/hiredis/read.c,144,0x1225f7,0x1225c0,redisReaderGetReply,1
-391,1,4849,96.76711235282379,0,0,social_network::Post::read(apache::thrift::protocol::TProtocol*),,0,0x98ded,0x98dc0,_ZN14social_network4Post4readEPN6apache6thrift8protocol9TProtocolE,1
-392,1,4850,96.7870684494113,0,0,"jaegertracing::samplers::Config::Config(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>> const&, double, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>> const&, int, std::chrono::duration<long, std::ratio<1l, 1000000000l>> const&)",,0,0x5969f,0x59680,_ZN13jaegertracing8samplers6ConfigC2ERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEdS9_iRKNSt6chrono8durationIlSt5ratioILl1ELl1000000000EEEE,1
-393,1,4851,96.8070245459988,0,0,"void boost::log::v2s_mt_posix::type_dispatcher::callback_base::trampoline<boost::log::v2s_mt_posix::binder1st<boost::log::v2s_mt_posix::output_fun, boost::log::v2s_mt_posix::expressions::aux::stream_ref<boost::log::v2s_mt_posix::basic_formatting_ostream<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t>>>&>, std::__cxx11::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t>>>(void*, std::__cxx11::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t>> const&)",,0,0xdf42b,0xdf400,_ZN5boost3log12v2s_mt_posix15type_dispatcher13callback_base10trampolineINS1_9binder1stINS1_10output_funERNS1_11expressions3aux10stream_refINS1_24basic_formatting_ostreamIwSt11char_traitsIwESaIwEEEEEEENSt7__cxx1112basic_stringIwSC_SD_EEEEvPvRKT0_,1
-394,1,4852,96.8269806425863,0,0,social_network::Post::~Post(),,0,0x98939,0x98900,_ZN14social_network4PostD2Ev,1
-395,1,4853,96.84693673917381,0,1,redisBufferRead,/tmp/hiredis/hiredis.c,943,0x11bbe0,0x11bbc0,redisBufferRead,1
-396,1,4854,96.86689283576132,0,0,"bool nlohmann::detail::parser<nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>>::sax_parse_internal<nlohmann::detail::json_sax_dom_parser<nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>>>(nlohmann::detail::json_sax_dom_parser<nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>>*)",,0,0x79c58,0x79c40,_ZN8nlohmann6detail6parserINS_10basic_jsonISt3mapSt6vectorNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEblmdSaNS_14adl_serializerEEEE18sax_parse_internalINS0_19json_sax_dom_parserISC_EEEEbPT_,1
-397,1,4855,96.88684893234883,0,1,redisBufferWrite,/tmp/hiredis/sds.h,97,0x11bd33,0x11bd00,redisBufferWrite,1
-398,1,4856,96.90680502893635,0,0,sw::redis::ConnectionPool::fetch(),,0,0x134060,0x134040,_ZN2sw5redis14ConnectionPool5fetchEv,1
-399,1,4857,96.92676112552385,0,1,sdsrange,/tmp/hiredis/sds.c,753,0x11e4f0,0x11e4c0,sdsrange,1
-400,1,4858,96.94671722211136,0,0,social_network::PostStorageService_ReadPosts_result::read(apache::thrift::protocol::TProtocol*),,0,0xa00b0,0xa0080,_ZN14social_network35PostStorageService_ReadPosts_result4readEPN6apache6thrift8protocol9TProtocolE,1
-401,1,4859,96.96667331869887,0,0,"std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>> boost::to_string<boost::errinfo_at_line_, int>(boost::error_info<boost::errinfo_at_line_, int> const&)",,0,0xcc7e5,0xcc7c0,_ZN5boost9to_stringINS_16errinfo_at_line_EiEENSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKNS_10error_infoIT_T0_EE,1
-402,1,4860,96.98662941528637,0,0,"std::deque<sw::redis::Connection, std::allocator<sw::redis::Connection>>::~deque()",,0,0x1390dd,0x1390c0,_ZNSt5dequeIN2sw5redis10ConnectionESaIS2_EED1Ev,1
-403,1,4861,97.00658551187388,0,0,virtual thunk to social_network::Post::read(apache::thrift::protocol::TProtocol*),,0,0x99208,0x99200,_ZTv0_n32_N14social_network4Post4readEPN6apache6thrift8protocol9TProtocolE,1
-404,1,4862,97.02654160846139,0,0,social_network::Post::read(apache::thrift::protocol::TProtocol*),,0,0x98f68,0x98f40,_ZN14social_network4Post4readEPN6apache6thrift8protocol9TProtocolE,1
-405,1,4863,97.04649770504889,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,439,0x11a557,0x11a540,redisvFormatCommand,1
-406,1,4864,97.0664538016364,0,0,jaegertracing::Config::parse(YAML::Node const&),,0,0x5491e,0x54900,_ZN13jaegertracing6Config5parseERKN4YAML4NodeE,1
-407,1,4865,97.0864098982239,0,0,"std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>> std::operator+<char, std::char_traits<char>, std::allocator<char>>(char const*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>> const&)",,0,0x55d70,0x55d40,_ZStplIcSt11char_traitsIcESaIcEENSt7__cxx1112basic_stringIT_T0_T1_EEPKS5_RKS8_,1
-408,1,4866,97.10636599481141,0,1,redisvFormatCommand,/tmp/hiredis/sds.h,92,0x11a3db,0x11a3c0,redisvFormatCommand,1
-409,1,4867,97.12632209139892,0,0,"sw::redis::cmd::detail::set_aggregation_type(sw::redis::CmdArgs&, sw::redis::Aggregation)",,0,0x126c42,0x126c40,_ZN2sw5redis3cmd6detail20set_aggregation_typeERNS0_7CmdArgsENS0_11AggregationE,1
-410,1,4868,97.14627818798643,0,1,redisReaderGetReply,/tmp/hiredis/alloc.h,62,0x1228a0,0x122880,redisReaderGetReply,1
-411,1,4869,97.16623428457393,0,1,redisReaderGetReply,/tmp/hiredis/read.c,118,0x122547,0x122540,redisReaderGetReply,1
-412,1,4870,97.18619038116144,0,1,sdsnewlen,/tmp/hiredis/sds.c,64,0x11c412,0x11c400,sdsnewlen,1
-413,1,4871,97.20614647774896,0,1,sdsull2str,/tmp/hiredis/sds.c,481,0x11d65e,0x11d640,sdsull2str,1
-414,1,4872,97.22610257433647,0,0,social_network::Post::~Post(),,0,0x988da,0x988c0,_ZN14social_network4PostD2Ev,1
-415,1,4873,97.24605867092397,0,0,"sw::redis::Redis::Redis(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>> const&)",,0,0x13adf5,0x13adc0,_ZN2sw5redis5RedisC2ERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE,1
-416,1,4874,97.26601476751148,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,342,0x119de8,0x119dc0,redisvFormatCommand,1
-417,1,4875,97.28597086409899,0,1,redisFormatSdsCommandArgv,/tmp/hiredis/hiredis.c,583,0x11aa28,0x11aa00,redisFormatSdsCommandArgv,1
-418,1,4876,97.30592696068649,0,1,redisReaderGetReply,/tmp/hiredis/read.c,600,0x1223ba,0x122380,redisReaderGetReply,1
-419,1,4877,97.325883057274,0,1,sdscatfmt,/tmp/hiredis/sds.h,120,0x11dcec,0x11dcc0,sdscatfmt,1
-420,1,4878,97.3458391538615,0,1,redisGetReply,/tmp/hiredis/hiredis.c,1013,0x11be80,0x11be80,redisGetReply,1
-421,1,4879,97.36579525044901,0,0,sw::redis::ConnectionPool::fetch(),,0,0x134a99,0x134a80,_ZN2sw5redis14ConnectionPool5fetchEv,1
-422,1,4880,97.38575134703652,0,0,social_network::UserTimelineService_ReadUserTimeline_args::write(apache::thrift::protocol::TProtocol*) const,,0,0x8dd09,0x8dd00,_ZNK14social_network41UserTimelineService_ReadUserTimeline_args5writeEPN6apache6thrift8protocol9TProtocolE,1
-423,1,4881,97.40570744362402,0,1,redisBufferWrite,/tmp/hiredis/sds.h,93,0x11bc45,0x11bc40,redisBufferWrite,1
-424,1,4882,97.42566354021153,0,0,social_network::Post::read(apache::thrift::protocol::TProtocol*),,0,0x98f80,0x98f80,_ZN14social_network4Post4readEPN6apache6thrift8protocol9TProtocolE,1
-425,1,4883,97.44561963679904,0,1,sdscatfmt,/tmp/hiredis/sds.h,110,0x11e007,0x11e000,sdscatfmt,1
-426,1,4884,97.46557573338654,0,1,redisBufferRead,/tmp/hiredis/hiredis.c,941,0x11bb94,0x11bb80,redisBufferRead,1
-427,1,4885,97.48553182997405,0,0,"std::basic_ostream<char32_t, std::char_traits<char32_t>>::write(char32_t const*, long) (.isra.0)",dump_avx2.o,0,0xd53ef,0xd53c0,_ZNSt13basic_ostreamIDiSt11char_traitsIDiEE5writeEPKDil.isra.0,1
-428,1,4886,97.50548792656157,0,0,social_network::Url::read(apache::thrift::protocol::TProtocol*),,0,0x96636,0x96600,_ZN14social_network3Url4readEPN6apache6thrift8protocol9TProtocolE,1
-429,1,4887,97.52544402314908,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,470,0x11a014,0x11a000,redisvFormatCommand,1
-430,1,4888,97.54540011973658,0,0,"boost::log::v2s_mt_posix::bad_alloc::bad_alloc(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>> const&)",,0,0xbfe1c,0xbfe00,_ZN5boost3log12v2s_mt_posix9bad_allocC2ERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE,1
-431,1,4889,97.56535621632409,0,0,jaegertracing::SpanContext::swap(jaegertracing::SpanContext&),,0,0x6a6e1,0x6a6c0,_ZN13jaegertracing11SpanContext4swapERS0_,1
-432,1,4890,97.5853123129116,0,1,redisReaderGetReply,/tmp/hiredis/read.c,535,0x12256e,0x122540,redisReaderGetReply,1
-433,1,4891,97.6052684094991,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,395,0x119d2d,0x119d00,redisvFormatCommand,1
-434,1,4892,97.62522450608661,0,0,"social_network::UserTimelineServiceClient::recv_ReadUserTimeline(std::vector<social_network::Post, std::allocator<social_network::Post>>&)",,0,0x8fa41,0x8fa40,_ZN14social_network25UserTimelineServiceClient21recv_ReadUserTimelineERSt6vectorINS_4PostESaIS2_EE,1
-435,1,4893,97.64518060267412,0,1,sdscatvprintf,/tmp/hiredis/alloc.h,58,0x11d722,0x11d700,sdscatvprintf,1
-436,1,4894,97.66513669926162,0,0,social_network::UserTimelineService_ReadUserTimeline_args::~UserTimelineService_ReadUserTimeline_args(),,0,0x8d746,0x8d740,_ZN14social_network41UserTimelineService_ReadUserTimeline_argsD0Ev,1
-437,1,4895,97.68509279584913,0,0,"sw::redis::Sentinel::slave(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>> const&, sw::redis::ConnectionOptions const&)",,0,0x15d5a4,0x15d580,_ZN2sw5redis8Sentinel5slaveERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKNS0_17ConnectionOptionsE,1
-438,1,4896,97.70504889243664,0,0,"apache::thrift::protocol::TVirtualProtocol<apache::thrift::protocol::TBinaryProtocolT<apache::thrift::transport::TTransport, apache::thrift::protocol::TNetworkBigEndian>, apache::thrift::protocol::TProtocolDefaults>::readSetBegin_virt(apache::thrift::protocol::TType&, unsigned int&)",,0,0x86b5f,0x86b40,_ZN6apache6thrift8protocol16TVirtualProtocolINS1_16TBinaryProtocolTINS0_9transport10TTransportENS1_17TNetworkBigEndianEEENS1_17TProtocolDefaultsEE17readSetBegin_virtERNS1_5TTypeERj,1
-439,1,4897,97.72500498902414,0,1,redisvFormatCommand,/tmp/hiredis/sds.h,99,0x11a4b0,0x11a480,redisvFormatCommand,1
-440,1,4898,97.74496108561165,0,1,redisNetRead,/tmp/hiredis/net.c,80,0x12321b,0x123200,redisNetRead,1
-441,1,4899,97.76491718219916,0,1,redisBufferRead,/tmp/hiredis/hiredis.c,947,0x11bb9c,0x11bb80,redisBufferRead,1
-442,1,4900,97.78487327878666,0,0,social_network::Post::read(apache::thrift::protocol::TProtocol*),,0,0x99003,0x99000,_ZN14social_network4Post4readEPN6apache6thrift8protocol9TProtocolE,1
-443,1,4901,97.80482937537418,0,1,sdscatlen,/tmp/hiredis/sds.c,387,0x11d2d0,0x11d2c0,sdscatlen,1
-444,1,4902,97.82478547196169,0,1,processLineItem,/tmp/hiredis/read.c,133,0x121b27,0x121b00,processLineItem,1
-445,1,4903,97.8447415685492,0,1,redisAppendCommand,/tmp/hiredis/hiredis.c,1108,0x11c13e,0x11c100,redisAppendCommand,1
-446,1,4904,97.8646976651367,0,1,processLineItem,/tmp/hiredis/read.c,332,0x121bfb,0x121bc0,processLineItem,1
-447,1,4905,97.88465376172421,0,0,"boost::log::v2s_mt_posix::system_error::throw_(char const*, unsigned long, char const*, boost::system::error_code)",,0,0xc1d05,0xc1d00,_ZN5boost3log12v2s_mt_posix12system_error6throw_EPKcmS4_NS_6system10error_codeE,1
-448,1,4906,97.90460985831172,0,0,sw::redis::ConnectionPool::_fetch(),,0,0x1322ee,0x1322c0,_ZN2sw5redis14ConnectionPool6_fetchEv,1
-449,1,4907,97.92456595489922,0,1,redisvAppendCommand,/tmp/hiredis/hiredis.c,1087,0x11c03c,0x11c000,redisvAppendCommand,1
-450,1,4908,97.94452205148673,0,0,"social_network::UserTimelineServiceProcessor::dispatchCall(apache::thrift::protocol::TProtocol*, apache::thrift::protocol::TProtocol*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>> const&, int, void*)",,0,0x8fc37,0x8fc00,_ZN14social_network28UserTimelineServiceProcessor12dispatchCallEPN6apache6thrift8protocol9TProtocolES5_RKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiPv,1
-451,1,4909,97.96447814807424,0,1,freeReplyObject.localalias,/tmp/hiredis/hiredis.c,105,0x119890,0x119880,freeReplyObject.localalias,1
-452,1,4910,97.98443424466174,0,1,string2ll,/tmp/hiredis/read.c,170,0x1217a7,0x121780,string2ll,1
-453,1,4911,98.00439034124925,0,0,social_network::User::~User(),,0,0x944f4,0x944c0,_ZN14social_network4UserD2Ev,1
-454,1,4912,98.02434643783675,0,0,sw::redis::ConnectionPool::fetch(),,0,0x13400d,0x134000,_ZN2sw5redis14ConnectionPool5fetchEv,1
-455,1,4913,98.04430253442426,0,1,redisReaderGetReply,/tmp/hiredis/read.c,429,0x12285a,0x122840,redisReaderGetReply,1
-456,1,4914,98.06425863101177,0,0,social_network::UserTimelineService_ReadUserTimeline_args::read(apache::thrift::protocol::TProtocol*),,0,0x8d9a5,0x8d980,_ZN14social_network41UserTimelineService_ReadUserTimeline_args4readEPN6apache6thrift8protocol9TProtocolE,1
-457,1,4915,98.08421472759929,0,1,redisReaderGetReply,/tmp/hiredis/read.c,739,0x1224a0,0x122480,redisReaderGetReply,1
-458,1,4916,98.1041708241868,0,0,social_network::UserTimelineService_ReadUserTimeline_args::read(apache::thrift::protocol::TProtocol*),,0,0x8daca,0x8dac0,_ZN14social_network41UserTimelineService_ReadUserTimeline_args4readEPN6apache6thrift8protocol9TProtocolE,1
-459,1,4917,98.1241269207743,0,1,redisReaderGetReply,/tmp/hiredis/read.c,709,0x1224fb,0x1224c0,redisReaderGetReply,1
-460,1,4918,98.14408301736181,0,1,createIntegerObject,/tmp/hiredis/hiredis.c,82,0x119785,0x119780,createIntegerObject,1
-461,1,4919,98.16403911394931,0,1,redisReaderGetReply,/tmp/hiredis/read.c,521,0x122818,0x122800,redisReaderGetReply,1
-462,1,4920,98.18399521053682,0,0,"std::__shared_ptr<apache::thrift::transport::TTransport, (__gnu_cxx::_Lock_policy)2>::~__shared_ptr()",,0,0x85c33,0x85c00,_ZNSt12__shared_ptrIN6apache6thrift9transport10TTransportELN9__gnu_cxx12_Lock_policyE2EED2Ev,1
-463,1,4921,98.20395130712433,0,0,social_network::Post::read(apache::thrift::protocol::TProtocol*),,0,0x98c40,0x98c40,_ZN14social_network4Post4readEPN6apache6thrift8protocol9TProtocolE,1
-464,1,4922,98.22390740371183,0,0,boost::recursive_mutex::recursive_mutex(),,0,0x712c5,0x712c0,_ZN5boost15recursive_mutexC2Ev,1
-465,1,4923,98.24386350029934,0,1,sdsMakeRoomFor,/tmp/hiredis/sds.h,136,0x11c8fe,0x11c8c0,sdsMakeRoomFor,1
-466,1,4924,98.26381959688685,0,0,"social_network::Media* std::__uninitialized_copy<false>::__uninit_copy<__gnu_cxx::__normal_iterator<social_network::Media const*, std::vector<social_network::Media, std::allocator<social_network::Media>>>, social_network::Media*>(__gnu_cxx::__normal_iterator<social_network::Media const*, std::vector<social_network::Media, std::allocator<social_network::Media>>>, __gnu_cxx::__normal_iterator<social_network::Media const*, std::vector<social_network::Media, std::allocator<social_network::Media>>>, social_network::Media*)",,0,0x9caec,0x9cac0,_ZNSt20__uninitialized_copyILb0EE13__uninit_copyIN9__gnu_cxx17__normal_iteratorIPKN14social_network5MediaESt6vectorIS5_SaIS5_EEEEPS5_EET0_T_SE_SD_,1
-467,1,4925,98.28377569347435,0,1,freeReplyObject.localalias,/tmp/hiredis/alloc.h,74,0x119840,0x119840,freeReplyObject.localalias,1
-468,1,4926,98.30373179006186,0,1,redisGetReplyFromReader,/tmp/hiredis/hiredis.c,995,0x11be60,0x11be40,redisGetReplyFromReader,1
-469,1,4927,98.32368788664937,0,1,sdscatvprintf,/tmp/hiredis/sds.c,538,0x11d7af,0x11d780,sdscatvprintf,1
-470,1,4928,98.34364398323687,0,1,redisAppendCommand,/tmp/hiredis/hiredis.c,1109,0x11c164,0x11c140,redisAppendCommand,1
-471,1,4929,98.36360007982438,0,1,sdsMakeRoomFor,/tmp/hiredis/sds.c,222,0x11c9cf,0x11c9c0,sdsMakeRoomFor,1
-472,1,4930,98.3835561764119,0,1,sdsMakeRoomFor,/tmp/hiredis/sds.c,208,0x11c7f7,0x11c7c0,sdsMakeRoomFor,1
-473,1,4931,98.40351227299941,0,1,sdscatvprintf,/tmp/hiredis/sds.c,526,0x11d78e,0x11d780,sdscatvprintf,1
-474,1,4932,98.42346836958691,0,1,createArrayObject,/tmp/hiredis/hiredis.c,176,0x1199c4,0x1199c0,createArrayObject,1
-475,1,4933,98.44342446617442,0,0,sw::redis::ConnectionOptions::~ConnectionOptions(),,0,0x55f2c,0x55f00,_ZN2sw5redis17ConnectionOptionsD2Ev,1
-476,1,4934,98.46338056276193,0,0,apache::thrift::transport::TFramedTransportFactory::getTransport(std::shared_ptr<apache::thrift::transport::TTransport>),,0,0x8bec7,0x8bec0,_ZN6apache6thrift9transport23TFramedTransportFactory12getTransportESt10shared_ptrINS1_10TTransportEE,1
-477,1,4935,98.48333665934943,0,0,YAML::Node const YAML::Node::operator[]<char [14]>(char const (&) [14]) const,,0,0x5def2,0x5dec0,_ZNK4YAML4NodeixIA14_cEEKS0_RKT_,1
-478,1,4936,98.50329275593694,0,0,boost::shared_ptr<boost::log::v2s_mt_posix::aux::default_attribute_names::(anonymous namespace)::names>::~shared_ptr(),default_attribute_names.o,0,0xcd62e,0xcd600,_ZN5boost10shared_ptrINS_3log12v2s_mt_posix3aux23default_attribute_names12_GLOBAL__N_15namesEED2Ev,1
-479,1,4937,98.52324885252445,0,0,"sw::redis::RedisCluster::blpop[abi:cxx11](sw::redis::StringView const&, std::chrono::duration<long, std::ratio<1l, 1l>> const&)",,0,0x14d8d1,0x14d8c0,_ZN2sw5redis12RedisCluster5blpopB5cxx11ERKNS0_10StringViewERKNSt6chrono8durationIlSt5ratioILl1ELl1EEEE,1
-480,1,4938,98.54320494911195,0,0,"jaegertracing::SpanContext::ForeachBaggageItem(std::function<bool (std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>> const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>> const&)>) const",,0,0x6952e,0x69500,_ZNK13jaegertracing11SpanContext18ForeachBaggageItemESt8functionIFbRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES9_EE,1
-481,1,4939,98.56316104569946,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,407,0x11a533,0x11a500,redisvFormatCommand,1
-482,1,4940,98.58311714228697,0,1,sdsMakeRoomFor,/tmp/hiredis/sds.h,110,0x11c7e0,0x11c7c0,sdsMakeRoomFor,1
-483,1,4941,98.60307323887447,0,0,"boost::log::v2s_mt_posix::bad_alloc::bad_alloc(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>> const&)",,0,0xbfddc,0xbfdc0,_ZN5boost3log12v2s_mt_posix9bad_allocC2ERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE,1
-484,1,4942,98.62302933546198,0,0,"nlohmann::detail::lexer<nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>>::scan_number()",,0,0x76067,0x76040,_ZN8nlohmann6detail5lexerINS_10basic_jsonISt3mapSt6vectorNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEblmdSaNS_14adl_serializerEEEE11scan_numberEv,1
-485,1,4943,98.64298543204949,0,0,social_network::Post::read(apache::thrift::protocol::TProtocol*),,0,0x98e94,0x98e80,_ZN14social_network4Post4readEPN6apache6thrift8protocol9TProtocolE,1
-486,1,4944,98.66294152863699,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,290,0x119f4c,0x119f40,redisvFormatCommand,1
-487,1,4945,98.68289762522451,0,1,redisNetRead,/usr/include/x86_64-linux-gnu/bits/socket2.h,38,0x123206,0x123200,redisNetRead,1
-488,1,4946,98.70285372181202,0,1,redisBufferWrite,/tmp/hiredis/sds.h,93,0x11bd05,0x11bd00,redisBufferWrite,1
-489,1,4947,98.72280981839953,0,1,redisvFormatCommand,/tmp/hiredis/sds.h,93,0x11a3b5,0x11a380,redisvFormatCommand,1
-490,1,4948,98.74276591498703,0,1,redisFormatCommandArgv,/tmp/hiredis/hiredis.c,624,0x11ac94,0x11ac80,redisFormatCommandArgv,1
-491,1,4949,98.76272201157454,0,0,"void boost::log::v2s_mt_posix::type_dispatcher::callback_base::trampoline<boost::log::v2s_mt_posix::aux::(anonymous namespace)::default_formatter<char>::visitor, char32_t>(void*, char32_t const&)",default_formatter_factory.o,0,0xe7a11,0xe7a00,_ZN5boost3log12v2s_mt_posix15type_dispatcher13callback_base10trampolineINS1_3aux12_GLOBAL__N_117default_formatterIcE7visitorEDiEEvPvRKT0_,1
-492,1,4950,98.78267810816205,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,440,0x11a55b,0x11a540,redisvFormatCommand,1
-493,1,4951,98.80263420474955,0,0,social_network::Post::read(apache::thrift::protocol::TProtocol*),,0,0x98b84,0x98b80,_ZN14social_network4Post4readEPN6apache6thrift8protocol9TProtocolE,1
-494,1,4952,98.82259030133706,0,0,jaegertracing::metrics::NullCounter::inc(long),,0,0x60a10,0x60a00,_ZN13jaegertracing7metrics11NullCounter3incEl,1
-495,1,4953,98.84254639792456,0,0,"std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>> boost::to_string<boost::log::v2s_mt_posix::attribute_name_info_tag, boost::log::v2s_mt_posix::attribute_name>(boost::error_info<boost::log::v2s_mt_posix::attribute_name_info_tag, boost::log::v2s_mt_posix::attribute_name> const&)",,0,0xccc45,0xccc40,_ZN5boost9to_stringINS_3log12v2s_mt_posix23attribute_name_info_tagENS2_14attribute_nameEEENSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKNS_10error_infoIT_T0_EE,1
-496,1,4954,98.86250249451207,0,1,sdsrange,/tmp/hiredis/sds.h,92,0x11e3a6,0x11e380,sdsrange,1
-497,1,4955,98.88245859109958,0,0,sw::redis::RedisCluster::decr(sw::redis::StringView const&),,0,0x14c7db,0x14c7c0,_ZN2sw5redis12RedisCluster4decrERKNS0_10StringViewE,1
-498,1,4956,98.90241468768708,0,1,processLineItem,/tmp/hiredis/read.c,127,0x121b1c,0x121b00,processLineItem,1
-499,1,4957,98.92237078427459,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,429,0x11a6e8,0x11a6c0,redisvFormatCommand,1
-500,1,4958,98.9423268808621,0,0,"sw::redis::ConnectionOptions::_parse_uri(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>> const&) const",,0,0x12d3fa,0x12d3c0,_ZNK2sw5redis17ConnectionOptions10_parse_uriERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE,1
-501,1,4959,98.9622829774496,0,0,"jaegertracing::net::IPAddress::v4(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>> const&)",,0,0x67bce,0x67bc0,_ZN13jaegertracing3net9IPAddress2v4ERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE,1
-502,1,4960,98.98223907403712,0,0,"boost::local_time::local_date_time_base<boost::posix_time::ptime, boost::date_time::time_zone_base<boost::posix_time::ptime, char>>::check_dst(boost::gregorian::date, boost::posix_time::time_duration, boost::shared_ptr<boost::date_time::time_zone_base<boost::posix_time::ptime, char>>)",,0,0xe7d03,0xe7d00,_ZN5boost10local_time20local_date_time_baseINS_10posix_time5ptimeENS_9date_time14time_zone_baseIS3_cEEE9check_dstENS_9gregorian4dateENS2_13time_durationENS_10shared_ptrIS6_EE,1
-503,1,4961,99.00219517062463,0,1,sdscatfmt,/tmp/hiredis/sds.h,93,0x11df07,0x11df00,sdscatfmt,1
-504,1,4962,99.02215126721214,0,1,redisFormatSdsCommandArgv,/tmp/hiredis/hiredis.c,609,0x11ac6c,0x11ac40,redisFormatSdsCommandArgv,1
-505,1,4963,99.04210736379964,0,1,redisGetReply,/tmp/hiredis/hiredis.c,1014,0x11bea9,0x11be80,redisGetReply,1
-506,1,4964,99.06206346038715,0,0,social_network::Post::~Post(),,0,0x988ad,0x98880,_ZN14social_network4PostD2Ev,1
-507,1,4965,99.08201955697466,0,0,jaegertracing::propagation::HeadersConfig::parse(YAML::Node const&),,0,0x5a975,0x5a940,_ZN13jaegertracing11propagation13HeadersConfig5parseERKN4YAML4NodeE,1
-508,1,4966,99.10197565356216,0,1,redisGetReply,/tmp/hiredis/hiredis.c,1045,0x11bedc,0x11bec0,redisGetReply,1
-509,1,4967,99.12193175014967,0,0,sw::redis::Redis::pfcount(sw::redis::StringView const&),,0,0x13bd55,0x13bd40,_ZN2sw5redis5Redis7pfcountERKNS0_10StringViewE,1
-510,1,4968,99.14188784673718,0,1,redisGetReplyFromReader,/tmp/hiredis/hiredis.c,1000,0x11be4f,0x11be40,redisGetReplyFromReader,1
-511,1,4969,99.16184394332468,0,0,sw::redis::ConnectionPool::_fetch(),,0,0x132230,0x132200,_ZN2sw5redis14ConnectionPool6_fetchEv,1
-512,1,4970,99.18180003991219,0,1,redisReaderFeed,/tmp/hiredis/sds.h,99,0x1221dd,0x1221c0,redisReaderFeed,1
-513,1,4971,99.2017561364997,0,1,redisFormatSdsCommandArgv,/tmp/hiredis/hiredis.c,580,0x11abaf,0x11ab80,redisFormatSdsCommandArgv,1
-514,1,4972,99.2217122330872,0,1,redisAppendCommandArgv,/tmp/hiredis/hiredis.c,1124,0x11c1c2,0x11c1c0,redisAppendCommandArgv,1
-515,1,4973,99.24166832967471,0,0,sw::redis::ConnectionPool::_fetch(),,0,0x1323f3,0x1323c0,_ZN2sw5redis14ConnectionPool6_fetchEv,1
-516,1,4974,99.26162442626222,0,0,sw::redis::ConnectionPool::fetch(),,0,0x134b4d,0x134b40,_ZN2sw5redis14ConnectionPool5fetchEv,1
-517,1,4975,99.28158052284974,0,1,sdsMakeRoomFor,/tmp/hiredis/sds.h,215,0x11c92b,0x11c900,sdsMakeRoomFor,1
-518,1,4976,99.30153661943724,0,0,"std::__cxx11::basic_string<char32_t, std::char_traits<char32_t>, std::allocator<char32_t>>::_M_replace(unsigned long, unsigned long, char32_t const*, unsigned long) (.isra.0)",code_conversion.o,0,0xb2f97,0xb2f80,_ZNSt7__cxx1112basic_stringIDiSt11char_traitsIDiESaIDiEE10_M_replaceEmmPKDim.isra.0,1
-519,1,4977,99.32149271602475,0,0,"std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>> const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>>::pair<char const (&) [8], char const (&) [2], true>(char const (&) [8], char const (&) [2])",,0,0x64c26,0x64c00,_ZNSt4pairIKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES5_EC2IRA8_KcRA2_S9_TnNSt9enable_ifIXaaclsr5_PCCPE22_MoveConstructiblePairIT_T0_EEclsr5_PCCPE30_ImplicitlyMoveConvertiblePairISF_SG_EEEbE4typeELb1EEEOSF_OSG_,1
-520,1,4978,99.34144881261226,0,1,redisReaderGetReply,/tmp/hiredis/read.c,688,0x12230d,0x122300,redisReaderGetReply,1
-521,1,4979,99.36140490919976,0,1,freeReplyObject.localalias,/tmp/hiredis/hiredis.c,105,0x11987e,0x119840,freeReplyObject.localalias,1
-522,1,4980,99.38136100578727,0,0,apache::thrift::transport::TFramedTransportFactory::getTransport(std::shared_ptr<apache::thrift::transport::TTransport>),,0,0x8bfeb,0x8bfc0,_ZN6apache6thrift9transport23TFramedTransportFactory12getTransportESt10shared_ptrINS1_10TTransportEE,1
-523,1,4981,99.40131710237478,0,1,sdsfree,/tmp/hiredis/sds.c,159,0x11c66e,0x11c640,sdsfree,1
-524,1,4982,99.42127319896228,0,1,redisReaderGetReply,/tmp/hiredis/read.c,583,0x12239f,0x122380,redisReaderGetReply,1
-525,1,4983,99.44122929554979,0,0,social_network::Creator::read(apache::thrift::protocol::TProtocol*),,0,0x97626,0x97600,_ZN14social_network7Creator4readEPN6apache6thrift8protocol9TProtocolE,1
-526,1,4984,99.4611853921373,0,1,redisReaderFeed,/tmp/hiredis/sds.h,116,0x122240,0x122240,redisReaderFeed,1
-527,1,4985,99.4811414887248,0,1,redisBufferWrite,/tmp/hiredis/hiredis.c,973,0x11bdb9,0x11bd80,redisBufferWrite,1
-528,1,4986,99.50109758531231,0,1,sdsull2str,/tmp/hiredis/sds.c,463,0x11d613,0x11d600,sdsull2str,1
-529,1,4987,99.52105368189982,0,1,redisNetWrite,/tmp/hiredis/net.c,84,0x123317,0x123300,redisNetWrite,1
-530,1,4988,99.54100977848732,0,1,redisvFormatCommand,/tmp/hiredis/sds.h,99,0x11a51f,0x11a500,redisvFormatCommand,1
-531,1,4989,99.56096587507484,0,0,social_network::UserTimelineService_WriteUserTimeline_args::read(apache::thrift::protocol::TProtocol*),,0,0x8c95b,0x8c940,_ZN14social_network42UserTimelineService_WriteUserTimeline_args4readEPN6apache6thrift8protocol9TProtocolE,1
-532,1,4990,99.58092197166235,0,1,redisReaderGetReply,/tmp/hiredis/read.c,533,0x12250e,0x122500,redisReaderGetReply,1
-533,1,4991,99.60087806824986,0,0,"std::_Sp_counted_ptr_inplace<nlohmann::detail::input_stream_adapter, std::allocator<nlohmann::detail::input_stream_adapter>, (__gnu_cxx::_Lock_policy)2>::_M_get_deleter(std::type_info const&)",,0,0x751f1,0x751c0,_ZNSt23_Sp_counted_ptr_inplaceIN8nlohmann6detail20input_stream_adapterESaIS2_ELN9__gnu_cxx12_Lock_policyE2EE14_M_get_deleterERKSt9type_info,1
-534,1,4992,99.62083416483736,0,0,social_network::Media::read(apache::thrift::protocol::TProtocol*),,0,0x95ec3,0x95ec0,_ZN14social_network5Media4readEPN6apache6thrift8protocol9TProtocolE,1
-535,1,4993,99.64079026142487,0,1,sdscatvprintf,/tmp/hiredis/alloc.h,74,0x11d786,0x11d780,sdscatvprintf,1
-536,1,4994,99.66074635801237,0,1,redisvFormatCommand,/tmp/hiredis/hiredis.c,392,0x119d50,0x119d40,redisvFormatCommand,1
-537,1,4995,99.68070245459988,0,1,redisBufferWrite,/tmp/hiredis/hiredis.c,988,0x11bdf0,0x11bdc0,redisBufferWrite,1
-538,1,4996,99.70065855118739,0,0,"std::pair<bool, nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>*> nlohmann::detail::json_sax_dom_callback_parser<nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>>::handle_value<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>&>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>&, bool)",,0,0x7e837,0x7e800,_ZN8nlohmann6detail28json_sax_dom_callback_parserINS_10basic_jsonISt3mapSt6vectorNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEblmdSaNS_14adl_serializerEEEE12handle_valueIRSA_EESt4pairIbPSC_EOT_b,1
-539,1,4997,99.7206146477749,0,1,sdsnewlen,/tmp/hiredis/sds.c,66,0x11c425,0x11c400,sdsnewlen,1
-540,1,4998,99.7405707443624,0,1,processLineItem,/tmp/hiredis/read.c,231,0x121b18,0x121b00,processLineItem,1
-541,1,4999,99.76052684094991,0,0,social_network::User::write(apache::thrift::protocol::TProtocol*) const,,0,0x948dd,0x948c0,_ZNK14social_network4User5writeEPN6apache6thrift8protocol9TProtocolE,1
-542,1,5000,99.78048293753741,0,1,redisReaderGetReply,/tmp/hiredis/read.c,63,0x12291e,0x122900,redisReaderGetReply,1
-543,1,5001,99.80043903412492,0,0,"sw::redis::Sentinel::_get_slave_addr_by_name(sw::redis::Connection&, sw::redis::StringView const&)",,0,0x15d208,0x15d200,_ZN2sw5redis8Sentinel23_get_slave_addr_by_nameERNS0_10ConnectionERKNS0_10StringViewE,1
-544,1,5002,99.82039513071243,0,0,social_network::Post::read(apache::thrift::protocol::TProtocol*),,0,0x98bc0,0x98bc0,_ZN14social_network4Post4readEPN6apache6thrift8protocol9TProtocolE,1
-545,1,5003,99.84035122729993,0,1,redisNetWrite,/tmp/hiredis/net.c,83,0x1232d0,0x1232c0,redisNetWrite,1
-546,1,5004,99.86030732388745,0,1,createStringObject,/tmp/hiredis/hiredis.c,129,0x119aaf,0x119a80,createStringObject,1
-547,1,5005,99.88026342047496,0,0,"void boost::log::v2s_mt_posix::type_dispatcher::callback_base::trampoline<boost::log::v2s_mt_posix::sinks::aux::(anonymous namespace)::message_printer, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>>(void*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>> const&)",default_sink.o,0,0xcf48c,0xcf480,_ZN5boost3log12v2s_mt_posix15type_dispatcher13callback_base10trampolineINS1_5sinks3aux12_GLOBAL__N_115message_printerENSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvPvRKT0_,1
-548,1,5006,99.90021951706247,0,0,"std::_Hashtable<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>> const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>>, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>> const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>>>, std::__detail::_Select1st, std::equal_to<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>>, std::hash<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true>>::~_Hashtable()",,0,0x160263,0x160240,_ZNSt10_HashtableINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4pairIKS5_S5_ESaIS8_ENSt8__detail10_Select1stESt8equal_toIS5_ESt4hashIS5_ENSA_18_Mod_range_hashingENSA_20_Default_ranged_hashENSA_20_Prime_rehash_policyENSA_17_Hashtable_traitsILb1ELb0ELb1EEEED1Ev,1
-549,1,5007,99.92017561364997,0,0,boost::wrapexcept<boost::program_options::multiple_values>::wrapexcept(boost::wrapexcept<boost::program_options::multiple_values> const&),,0,0x117230,0x117200,_ZN5boost10wrapexceptINS_15program_options15multiple_valuesEEC2ERKS3_,1
-550,1,5008,99.94013171023748,0,0,social_network::PostStorageService_StorePost_pargs::write(apache::thrift::protocol::TProtocol*) const,,0,0x9dcf5,0x9dcc0,_ZNK14social_network34PostStorageService_StorePost_pargs5writeEPN6apache6thrift8protocol9TProtocolE,1
-551,1,5009,99.96008780682499,0,0,sw::redis::ConnectionPool::_fetch(),,0,0x13240b,0x132400,_ZN2sw5redis14ConnectionPool6_fetchEv,1
-552,1,5010,99.9800439034125,0,1,sdsrange,/tmp/hiredis/sds.c,735,0x11e3fb,0x11e3c0,sdsrange,1
-553,1,5011,100.0,0,1,sdscatlen,/tmp/hiredis/sds.h,150,0x11d2c3,0x11d2c0,sdscatlen,1
+1,663,663,52.16365066876475,1,1,std::_Sp_counted_base<(__gnu_cxx::_Lock_policy)2>::~_Sp_counted_base(),/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/shared_ptr_base.h,131,0x4aec0,0x4aec0,_ZNSt16_Sp_counted_baseILN9__gnu_cxx12_Lock_policyE2EED2Ev,1
+2,89,752,59.16601101494886,1,1,apache::thrift::protocol::TProtocol::~TProtocol(),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/protocol/TProtocol.cpp,26,0x601f0,0x601c0,_ZN6apache6thrift8protocol9TProtocolD2Ev,2
+3,59,811,63.80802517702596,1,1,apache::thrift::server::TConnectedClient::run(),/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/ext/atomicity.h,85,0x6eb75,0x6eb40,_ZN6apache6thrift6server16TConnectedClient3runEv,1
+4,52,863,67.89929189614477,1,1,apache::thrift::transport::TFramedTransport::writeEnd(),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TBufferTransports.cpp,286,0x6d810,0x6d800,_ZN6apache6thrift9transport16TFramedTransport8writeEndEv,2
+5,41,904,71.12509834775767,1,1,apache::thrift::transport::TFramedTransport::flush(),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TBufferTransports.cpp,274,0x6d7c1,0x6d7c0,_ZN6apache6thrift9transport16TFramedTransport5flushEv,1
+6,37,941,74.03619197482297,1,1,apache::thrift::transport::TFramedTransport::readEnd(),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TBufferTransports.h,156,0x6d87f,0x6d840,_ZN6apache6thrift9transport16TFramedTransport7readEndEv,1
+7,29,970,76.31785995279307,1,1,apache::thrift::transport::TFramedTransport::flush(),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TBufferTransports.cpp,250,0x6d780,0x6d780,_ZN6apache6thrift9transport16TFramedTransport5flushEv,3
+8,19,989,77.81274586939418,0,1,apache::thrift::server::TConnectedClient::run(),/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/shared_ptr_base.h,168,0x6eb8d,0x6eb80,_ZN6apache6thrift6server16TConnectedClient3runEv,2
+9,18,1007,79.22895357985838,0,1,apache::thrift::protocol::TProtocolFactory::~TProtocolFactory(),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/protocol/TProtocol.cpp,31,0x602a0,0x60280,_ZN6apache6thrift8protocol16TProtocolFactoryD2Ev,1
+10,18,1025,80.64516129032258,0,1,"std::_Sp_counted_ptr<apache::thrift::concurrency::Monitor*, (__gnu_cxx::_Lock_policy)2>::~_Sp_counted_ptr()",/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/shared_ptr_base.h,339,0x4aed3,0x4aec0,_ZNSt15_Sp_counted_ptrIPN6apache6thrift11concurrency7MonitorELN9__gnu_cxx12_Lock_policyE2EED0Ev,3
+11,18,1043,82.06136900078678,0,1,apache::thrift::server::TConnectedClient::run(),/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/shared_ptr_base.h,184,0x6eb48,0x6eb40,_ZN6apache6thrift6server16TConnectedClient3runEv,3
+12,13,1056,83.08418568056648,0,0,apache::thrift::server::TConnectedClient::run(),/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/shared_ptr_base.h,0,0x6eb7f,0x6eb40,_ZN6apache6thrift6server16TConnectedClient3runEv,1
+13,13,1069,84.10700236034619,0,1,apache::thrift::server::TConnectedClient::run(),/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/ext/atomicity.h,52,0x6eb98,0x6eb80,_ZN6apache6thrift6server16TConnectedClient3runEv,1
+14,11,1080,84.97246262785208,0,1,apache::thrift::transport::TFramedTransport::flush(),/usr/include/x86_64-linux-gnu/bits/byteswap.h,54,0x6d794,0x6d780,_ZN6apache6thrift9transport16TFramedTransport5flushEv,1
+15,11,1091,85.83792289535799,0,1,apache::thrift::server::TConnectedClient::run(),/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/shared_ptr_base.h,165,0x6eb7a,0x6eb40,_ZN6apache6thrift6server16TConnectedClient3runEv,1
+16,10,1101,86.62470495672699,0,1,apache::thrift::transport::TFramedTransport::readFrame(),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TTransport.h,105,0x6d467,0x6d440,_ZN6apache6thrift9transport16TFramedTransport9readFrameEv,1
+17,9,1110,87.33280881195908,0,1,apache::thrift::protocol::TProtocol::~TProtocol(),/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/ext/atomicity.h,85,0x6021e,0x60200,_ZN6apache6thrift8protocol9TProtocolD2Ev,1
+18,9,1119,88.0409126671912,0,1,apache::thrift::transport::TFramedTransport::isOpen(),/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/shared_ptr_base.h,1296,0x6e0c0,0x6e0c0,_ZN6apache6thrift9transport16TFramedTransport6isOpenEv,1
+19,9,1128,88.74901652242329,0,1,apache::thrift::server::TConnectedClient::run(),/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/shared_ptr_base.h,184,0x6ebb0,0x6eb80,_ZN6apache6thrift6server16TConnectedClient3runEv,1
+20,9,1137,89.45712037765539,0,1,apache::thrift::transport::TFramedTransport::readFrame(),/usr/include/x86_64-linux-gnu/bits/byteswap.h,54,0x6d47b,0x6d440,_ZN6apache6thrift9transport16TFramedTransport9readFrameEv,1
+21,8,1145,90.0865460267506,0,1,apache::thrift::transport::TFramedTransport::readFrame(),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TBufferTransports.cpp,209,0x6d498,0x6d480,_ZN6apache6thrift9transport16TFramedTransport9readFrameEv,1
+22,8,1153,90.7159716758458,0,1,apache::thrift::transport::TFramedTransport::isOpen(),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TBufferTransports.h,348,0x6e0c4,0x6e0c0,_ZN6apache6thrift9transport16TFramedTransport6isOpenEv,1
+23,7,1160,91.26671911880409,0,1,apache::thrift::transport::TFramedTransport::flush(),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TTransport.h,153,0x6d7b1,0x6d780,_ZN6apache6thrift9transport16TFramedTransport5flushEv,1
+24,5,1165,91.66011014948859,0,1,apache::thrift::transport::TFramedTransport::readFrame(),/usr/include/boost/core/checked_delete.hpp,43,0x6d4b0,0x6d480,_ZN6apache6thrift9transport16TFramedTransport9readFrameEv,2
+25,5,1170,92.05350118017309,0,1,apache::thrift::transport::TFramedTransport::readFrame(),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TBufferTransports.cpp,170,0x6d430,0x6d400,_ZN6apache6thrift9transport16TFramedTransport9readFrameEv,3
+26,5,1175,92.4468922108576,0,1,apache::thrift::transport::TMemoryBuffer::ensureCanWrite(unsigned int),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TBufferTransports.cpp,371,0x6d9a1,0x6d980,_ZN6apache6thrift9transport13TMemoryBuffer14ensureCanWriteEj,1
+27,4,1179,92.7616050354052,0,1,"apache::thrift::server::TThreadedServer::TThreadedServer(std::shared_ptr<apache::thrift::TProcessor> const&, std::shared_ptr<apache::thrift::transport::TServerTransport> const&, std::shared_ptr<apache::thrift::transport::TTransportFactory> const&, std::shared_ptr<apache::thrift::protocol::TProtocolFactory> const&, std::shared_ptr<apache::thrift::concurrency::ThreadFactory> const&)",/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/stl_tree.h,211,0x7369e,0x73680,_ZN6apache6thrift6server15TThreadedServerC2ERKSt10shared_ptrINS0_10TProcessorEERKS3_INS0_9transport16TServerTransportEERKS3_INS8_17TTransportFactoryEERKS3_INS0_8protocol16TProtocolFactoryEERKS3_INS0_11concurrency13ThreadFactoryEE,1
+28,4,1183,93.0763178599528,0,1,"apache::thrift::transport::TMemoryBuffer::computeRead(unsigned int, unsigned char**, unsigned int*)",/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TBufferTransports.h,654,0x6d892,0x6d880,_ZN6apache6thrift9transport13TMemoryBuffer11computeReadEjPPhPj,2
+29,4,1187,93.3910306845004,0,1,apache::thrift::transport::TSocket::isOpen(),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TSocket.cpp,194,0x64f60,0x64f40,_ZN6apache6thrift9transport7TSocket6isOpenEv,1
+30,3,1190,93.62706530291109,0,0,"unsigned int apache::thrift::transport::readAll<apache::thrift::transport::TTransport>(apache::thrift::transport::TTransport&, unsigned char*, unsigned int)",/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TTransport.h,0,0x6d207,0x6d200,_ZN6apache6thrift9transport7readAllINS1_10TTransportEEEjRT_Phj,1
+31,3,1193,93.86309992132179,0,1,apache::thrift::transport::TPipedFileReaderTransport::~TPipedFileReaderTransport(),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TTransportUtils.cpp,111,0x6bb65,0x6bb40,_ZN6apache6thrift9transport25TPipedFileReaderTransportD2Ev,1
+32,3,1196,94.09913453973249,0,1,"apache::thrift::transport::TMemoryBuffer::computeRead(unsigned int, unsigned char**, unsigned int*)",/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TBufferTransports.cpp,319,0x6d8ab,0x6d880,_ZN6apache6thrift9transport13TMemoryBuffer11computeReadEjPPhPj,1
+33,3,1199,94.33516915814319,0,1,apache::thrift::transport::TFramedTransport::readFrame(),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TBufferTransports.cpp,201,0x6d586,0x6d580,_ZN6apache6thrift9transport16TFramedTransport9readFrameEv,1
+34,3,1202,94.5712037765539,0,1,"apache::thrift::transport::TMemoryBuffer::computeRead(unsigned int, unsigned char**, unsigned int*)",/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TBufferTransports.cpp,313,0x6d899,0x6d880,_ZN6apache6thrift9transport13TMemoryBuffer11computeReadEjPPhPj,1
+35,2,1204,94.7285601888277,0,1,"std::_Sp_counted_ptr<apache::thrift::concurrency::Monitor*, (__gnu_cxx::_Lock_policy)2>::_M_dispose()",/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/shared_ptr_base.h,348,0x4aeee,0x4aec0,_ZNSt15_Sp_counted_ptrIPN6apache6thrift11concurrency7MonitorELN9__gnu_cxx12_Lock_policyE2EE10_M_disposeEv,1
+36,2,1206,94.8859166011015,0,1,apache::thrift::server::TConnectedClient::run(),/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/ext/atomicity.h,98,0x6eb9b,0x6eb80,_ZN6apache6thrift6server16TConnectedClient3runEv,1
+37,2,1208,95.0432730133753,0,1,apache::thrift::server::TConnectedClient::run(),/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/ext/atomicity.h,52,0x6eb30,0x6eb00,_ZN6apache6thrift6server16TConnectedClient3runEv,1
+38,2,1210,95.2006294256491,0,1,apache::thrift::transport::TTransport::flush(),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TTransport.h,179,0x60f70,0x60f40,_ZN6apache6thrift9transport10TTransport5flushEv,1
+39,2,1212,95.3579858379229,0,1,apache::thrift::transport::TFramedTransport::readFrame(),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TBufferTransports.cpp,211,0x6d4b6,0x6d480,_ZN6apache6thrift9transport16TFramedTransport9readFrameEv,1
+40,2,1214,95.5153422501967,0,1,"apache::thrift::transport::TMemoryBuffer::computeRead(unsigned int, unsigned char**, unsigned int*)",/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TBufferTransports.cpp,322,0x6d8b2,0x6d880,_ZN6apache6thrift9transport13TMemoryBuffer11computeReadEjPPhPj,2
+41,2,1216,95.6726986624705,0,1,"apache::thrift::transport::TMemoryBuffer::computeRead(unsigned int, unsigned char**, unsigned int*)",/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TBufferTransports.cpp,316,0x6d89f,0x6d880,_ZN6apache6thrift9transport13TMemoryBuffer11computeReadEjPPhPj,1
+42,2,1218,95.8300550747443,0,1,apache::thrift::transport::TFramedTransport::flush(),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TBufferTransports.cpp,271,0x6d7bb,0x6d780,_ZN6apache6thrift9transport16TFramedTransport5flushEv,1
+43,2,1220,95.9874114870181,0,0,apache::thrift::server::TConnectedClient::run(),/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/shared_ptr_base.h,0,0x6ebc3,0x6ebc0,_ZN6apache6thrift6server16TConnectedClient3runEv,1
+44,2,1222,96.14476789929189,0,1,apache::thrift::transport::TSocket::openConnection(addrinfo*),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TSocket.cpp,288,0x65302,0x65300,_ZN6apache6thrift9transport7TSocket14openConnectionEP8addrinfo,1
+45,2,1224,96.30212431156569,0,1,"std::_Rb_tree<int, std::pair<int const, std::shared_ptr<apache::thrift::concurrency::Monitor>>, std::_Select1st<std::pair<int const, std::shared_ptr<apache::thrift::concurrency::Monitor>>>, std::less<int>, std::allocator<std::pair<int const, std::shared_ptr<apache::thrift::concurrency::Monitor>>>>::_M_get_insert_hint_unique_pos(std::_Rb_tree_const_iterator<std::pair<int const, std::shared_ptr<apache::thrift::concurrency::Monitor>>>, int const&)",/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/stl_tree.h,302,0x4ae9b,0x4ae80,_ZNSt8_Rb_treeIiSt4pairIKiSt10shared_ptrIN6apache6thrift11concurrency7MonitorEEESt10_Select1stIS8_ESt4lessIiESaIS8_EE29_M_get_insert_hint_unique_posESt23_Rb_tree_const_iteratorIS8_ERS1_,1
+46,1,1225,96.38080251770259,0,1,apache::thrift::transport::TSocket::openConnection(addrinfo*),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TSocket.cpp,308,0x65340,0x65340,_ZN6apache6thrift9transport7TSocket14openConnectionEP8addrinfo,1
+47,1,1226,96.45948072383949,0,1,apache::thrift::transport::TSocket::openConnection(addrinfo*),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TSocket.cpp,276,0x652bd,0x65280,_ZN6apache6thrift9transport7TSocket14openConnectionEP8addrinfo,1
+48,1,1227,96.53815892997639,0,1,apache::thrift::server::TConnectedClient::run(),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/server/TConnectedClient.cpp,51,0x6ea50,0x6ea40,_ZN6apache6thrift6server16TConnectedClient3runEv,1
+49,1,1228,96.61683713611329,0,1,apache::thrift::transport::TFramedTransport::readFrame(),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TTransport.h,121,0x6d4c2,0x6d4c0,_ZN6apache6thrift9transport16TFramedTransport9readFrameEv,1
+50,1,1229,96.6955153422502,0,1,"std::_Sp_counted_ptr<apache::thrift::concurrency::Monitor*, (__gnu_cxx::_Lock_policy)2>::_M_get_deleter(std::type_info const&)",/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/shared_ptr_base.h,356,0x4af02,0x4af00,_ZNSt15_Sp_counted_ptrIPN6apache6thrift11concurrency7MonitorELN9__gnu_cxx12_Lock_policyE2EE14_M_get_deleterERKSt9type_info,1
+51,1,1230,96.7741935483871,0,1,apache::thrift::transport::TFramedTransport::flush(),/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/shared_ptr_base.h,1296,0x6d7b7,0x6d780,_ZN6apache6thrift9transport16TFramedTransport5flushEv,1
+52,1,1231,96.852871754524,0,1,"std::_Rb_tree<int, std::pair<int const, std::shared_ptr<apache::thrift::concurrency::Monitor>>, std::_Select1st<std::pair<int const, std::shared_ptr<apache::thrift::concurrency::Monitor>>>, std::less<int>, std::allocator<std::pair<int const, std::shared_ptr<apache::thrift::concurrency::Monitor>>>>::_M_get_insert_hint_unique_pos(std::_Rb_tree_const_iterator<std::pair<int const, std::shared_ptr<apache::thrift::concurrency::Monitor>>>, int const&)",/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/stl_tree.h,2199,0x4adcd,0x4adc0,_ZNSt8_Rb_treeIiSt4pairIKiSt10shared_ptrIN6apache6thrift11concurrency7MonitorEEESt10_Select1stIS8_ESt4lessIiESaIS8_EE29_M_get_insert_hint_unique_posESt23_Rb_tree_const_iteratorIS8_ERS1_,1
+53,1,1232,96.9315499606609,0,1,apache::thrift::server::TServerFramework::serve(),/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/shared_ptr_base.h,704,0x703f3,0x703c0,_ZN6apache6thrift6server16TServerFramework5serveEv,1
+54,1,1233,97.0102281667978,0,1,apache::thrift::concurrency::ThreadManager::Impl::removeNextPending(),/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/shared_ptr_base.h,704,0x4cae5,0x4cac0,_ZN6apache6thrift11concurrency13ThreadManager4Impl17removeNextPendingEv,1
+55,1,1234,97.0889063729347,0,1,"std::__shared_ptr<apache::thrift::concurrency::Monitor, (__gnu_cxx::_Lock_policy)2>::~__shared_ptr()",/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/shared_ptr_base.h,704,0x4af17,0x4af00,_ZNSt12__shared_ptrIN6apache6thrift11concurrency7MonitorELN9__gnu_cxx12_Lock_policyE2EED2Ev,1
+56,1,1235,97.1675845790716,0,1,apache::thrift::transport::TFramedTransport::readFrame(),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TBufferTransports.cpp,206,0x6d5cb,0x6d5c0,_ZN6apache6thrift9transport16TFramedTransport9readFrameEv,1
+57,1,1236,97.2462627852085,0,1,apache::thrift::transport::TSocket::openConnection(addrinfo*),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TSocket.cpp,261,0x65291,0x65280,_ZN6apache6thrift9transport7TSocket14openConnectionEP8addrinfo,1
+58,1,1237,97.3249409913454,0,0,apache::thrift::server::TConnectedClient::cleanup(),/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/shared_ptr_base.h,0,0x6f294,0x6f280,_ZN6apache6thrift6server16TConnectedClient7cleanupEv,1
+59,1,1238,97.4036191974823,0,1,apache::thrift::transport::TSocket::openConnection(addrinfo*),/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/basic_string.h,195,0x65688,0x65680,_ZN6apache6thrift9transport7TSocket14openConnectionEP8addrinfo,1
+60,1,1239,97.4822974036192,0,1,apache::thrift::server::TServerFramework::serve(),/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/shared_ptr_base.h,1165,0x6fd5e,0x6fd40,_ZN6apache6thrift6server16TServerFramework5serveEv,1
+61,1,1240,97.5609756097561,0,1,"apache::thrift::transport::TMemoryBuffer::readAppendToString(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>&, unsigned int)",/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/basic_string.h,1246,0x6d92c,0x6d900,_ZN6apache6thrift9transport13TMemoryBuffer18readAppendToStringERNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEj,1
+62,1,1241,97.639653815893,0,1,apache::thrift::transport::TFramedTransport::flush(),/usr/include/boost/core/checked_delete.hpp,43,0x6d7e9,0x6d7c0,_ZN6apache6thrift9transport16TFramedTransport5flushEv,1
+63,1,1242,97.7183320220299,0,1,apache::thrift::transport::TFramedTransport::flush(),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TBufferTransports.cpp,267,0x6d7ad,0x6d780,_ZN6apache6thrift9transport16TFramedTransport5flushEv,1
+64,1,1243,97.7970102281668,0,1,apache::thrift::transport::TFramedTransport::readEnd(),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TBufferTransports.cpp,300,0x6d836,0x6d800,_ZN6apache6thrift9transport16TFramedTransport7readEndEv,1
+65,1,1244,97.8756884343037,0,1,apache::thrift::transport::TFramedTransport::readFrame(),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TBufferTransports.cpp,178,0x6d44d,0x6d440,_ZN6apache6thrift9transport16TFramedTransport9readFrameEv,1
+66,1,1245,97.9543666404406,0,1,"apache::thrift::transport::TMemoryBuffer::readSlow(unsigned char*, unsigned int)",/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TBufferTransports.cpp,313,0x6d8cf,0x6d8c0,_ZN6apache6thrift9transport13TMemoryBuffer8readSlowEPhj,1
+67,1,1246,98.0330448465775,0,1,apache::thrift::server::TConnectedClient::cleanup(),/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/ext/atomicity.h,52,0x6f0f7,0x6f0c0,_ZN6apache6thrift6server16TConnectedClient7cleanupEv,1
+68,1,1247,98.1117230527144,0,1,apache::thrift::transport::TFramedTransport::readEnd(),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TBufferTransports.cpp,302,0x6d844,0x6d840,_ZN6apache6thrift9transport16TFramedTransport7readEndEv,1
+69,1,1248,98.1904012588513,0,1,apache::thrift::transport::TFramedTransport::readFrame(),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TBufferTransports.cpp,191,0x6d500,0x6d500,_ZN6apache6thrift9transport16TFramedTransport9readFrameEv,1
+70,1,1249,98.2690794649882,0,1,"std::back_insert_iterator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>> boost::locale::utf::utf_traits<char, 1>::encode<std::back_insert_iterator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>>>(unsigned int, std::back_insert_iterator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>>)",/usr/include/boost/locale/utf.hpp,297,0x5f5c1,0x5f5c0,_ZN5boost6locale3utf10utf_traitsIcLi1EE6encodeISt20back_insert_iteratorINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEET_jSD_,1
+71,1,1250,98.3477576711251,0,1,apache::thrift::concurrency::PthreadThread::join(),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/concurrency/Monitor.h,124,0x7f8e8,0x7f8c0,_ZN6apache6thrift11concurrency13PthreadThread4joinEv,1
+72,1,1251,98.426435877262,0,1,apache::thrift::transport::TFramedTransport::flush(),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TBufferTransports.cpp,264,0x6d7ac,0x6d780,_ZN6apache6thrift9transport16TFramedTransport5flushEv,1
+73,1,1252,98.5051140833989,0,1,"apache::thrift::transport::TMemoryBuffer::readSlow(unsigned char*, unsigned int)",/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TBufferTransports.cpp,325,0x6d8c0,0x6d8c0,_ZN6apache6thrift9transport13TMemoryBuffer8readSlowEPhj,1
+74,1,1253,98.5837922895358,0,1,"std::__shared_ptr<apache::thrift::concurrency::Monitor, (__gnu_cxx::_Lock_policy)2>::~__shared_ptr()",/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/shared_ptr_base.h,1154,0x4af12,0x4af00,_ZNSt12__shared_ptrIN6apache6thrift11concurrency7MonitorELN9__gnu_cxx12_Lock_policyE2EED2Ev,1
+75,1,1254,98.6624704956727,0,1,apache::thrift::concurrency::ThreadManager::Impl::threadFactory(std::shared_ptr<apache::thrift::concurrency::ThreadFactory>),/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/shared_ptr_base.h,723,0x4da45,0x4da40,_ZN6apache6thrift11concurrency13ThreadManager4Impl13threadFactoryESt10shared_ptrINS1_13ThreadFactoryEE,1
+76,1,1255,98.74114870180959,0,1,apache::thrift::transport::TFramedTransport::readFrame(),/usr/include/boost/smart_ptr/scoped_array.hpp,87,0x6d4be,0x6d480,_ZN6apache6thrift9transport16TFramedTransport9readFrameEv,1
+77,1,1256,98.81982690794649,0,1,apache::thrift::transport::TFramedTransport::flush(),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TBufferTransports.cpp,255,0x6d788,0x6d780,_ZN6apache6thrift9transport16TFramedTransport5flushEv,1
+78,1,1257,98.8985051140834,0,1,apache::thrift::transport::TFramedTransport::readFrame(),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TBufferTransports.cpp,181,0x6d459,0x6d440,_ZN6apache6thrift9transport16TFramedTransport9readFrameEv,1
+79,1,1258,98.9771833202203,0,1,"apache::thrift::transport::TMemoryBuffer::computeRead(unsigned int, unsigned char**, unsigned int*)",/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TBufferTransports.cpp,318,0x6d8a8,0x6d880,_ZN6apache6thrift9transport13TMemoryBuffer11computeReadEjPPhPj,1
+80,1,1259,99.0558615263572,0,1,apache::thrift::transport::TFramedTransport::readFrame(),/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/shared_ptr_base.h,1296,0x6d4ba,0x6d480,_ZN6apache6thrift9transport16TFramedTransport9readFrameEv,1
+81,1,1260,99.1345397324941,0,1,apache::thrift::transport::TSocket::openConnection(addrinfo*),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TSocket.cpp,259,0x65281,0x65280,_ZN6apache6thrift9transport7TSocket14openConnectionEP8addrinfo,1
+82,1,1261,99.213217938631,0,1,apache::thrift::transport::TSocket::openConnection(addrinfo*),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TSocket.cpp,413,0x65670,0x65640,_ZN6apache6thrift9transport7TSocket14openConnectionEP8addrinfo,1
+83,1,1262,99.2918961447679,0,0,apache::thrift::server::TThreadedServer::TConnectedClientRunner::run(),/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/shared_ptr_base.h,0,0x7426b,0x74240,_ZN6apache6thrift6server15TThreadedServer22TConnectedClientRunner3runEv,1
+84,1,1263,99.3705743509048,0,1,apache::thrift::transport::TFramedTransport::readEnd(),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TBufferTransports.cpp,308,0x6d88d,0x6d880,_ZN6apache6thrift9transport16TFramedTransport7readEndEv,1
+85,1,1264,99.4492525570417,0,1,apache::thrift::transport::TFramedTransport::flush(),/usr/include/boost/smart_ptr/scoped_array.hpp,96,0x6d7e6,0x6d7c0,_ZN6apache6thrift9transport16TFramedTransport5flushEv,1
+86,1,1265,99.5279307631786,0,1,apache::thrift::transport::TFramedTransport::readEnd(),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TBufferTransports.cpp,300,0x6d884,0x6d880,_ZN6apache6thrift9transport16TFramedTransport7readEndEv,1
+87,1,1266,99.6066089693155,0,1,apache::thrift::server::TConnectedClient::run(),/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/basic_string.h,195,0x6eef8,0x6eec0,_ZN6apache6thrift6server16TConnectedClient3runEv,1
+88,1,1267,99.6852871754524,0,1,apache::thrift::transport::TFramedTransport::readEnd(),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TBufferTransports.cpp,303,0x6d84a,0x6d840,_ZN6apache6thrift9transport16TFramedTransport7readEndEv,1
+89,1,1268,99.7639653815893,0,1,apache::thrift::transport::TSocket::~TSocket(),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TSocket.cpp,169,0x64a20,0x64a00,_ZN6apache6thrift9transport7TSocketD2Ev,1
+90,1,1269,99.8426435877262,0,1,apache::thrift::transport::TFramedTransport::readEnd(),/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TBufferTransports.cpp,298,0x6d830,0x6d800,_ZN6apache6thrift9transport16TFramedTransport7readEndEv,1
+91,1,1270,99.9213217938631,0,1,apache::thrift::transport::TBufferedTransport::~TBufferedTransport(),/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/ext/atomicity.h,66,0x6dc6e,0x6dc40,_ZN6apache6thrift9transport18TBufferedTransportD2Ev,1
+92,1,1271,100.0,0,1,"std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>> apache::thrift::to_string<bool>(bool const&)",/opt/src/thrift-0.12.0/lib/cpp/src/thrift/TToString.h,39,0x5f31b,0x5f300,_ZN6apache6thrift9to_stringIbEENSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKT_,1

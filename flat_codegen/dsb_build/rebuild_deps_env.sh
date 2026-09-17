@@ -45,6 +45,12 @@ cd opentracing-cpp-1.5.1 && rm -rf b && CC=clang-19 CXX=clang++-19 cmake -B b -D
 cd /opt/src
 [ -d jaeger-client-cpp-0.4.2 ] || { wget -qO jaeger.tar.gz https://github.com/jaegertracing/jaeger-client-cpp/archive/v0.4.2.tar.gz && tar -zxf jaeger.tar.gz; }
 cd jaeger-client-cpp-0.4.2 && rm -rf b && CC=clang-19 CXX=clang++-19 cmake -B b -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_CXX_FLAGS=\"-fPIC -Wno-error -Wno-enum-constexpr-conversion -O2 -g \$PF\" -DHUNTER_ENABLED=0 -DBUILD_TESTING=0 -DJAEGERTRACING_WITH_YAML_CPP=1 -DJAEGERTRACING_BUILD_EXAMPLES=0 . > /dev/null && { make -C b -j32 > /dsb/dep_make_\$(basename \$PWD).log 2>&1 || { echo \"DEP_MAKE_FAILED in \$PWD\"; grep -B4 -m3 -E \"error:|Error 1\" /dsb/dep_make_\$(basename \$PWD).log; exit 1; }; } && make -C b install > /dev/null
+cd /opt/src
+[ -d hiredis ] || git clone -q https://github.com/redis/hiredis.git
+cd hiredis && git checkout -q v1.0.0 && make clean > /dev/null 2>&1; make -j\$(nproc) USE_SSL=1 CC=clang-19 OPTIMIZATION=-O2 DEBUG_FLAGS=\"-g \$PF\" && make USE_SSL=1 install
+cd /opt/src
+[ -d redis-plus-plus ] || { git clone -q https://github.com/sewenew/redis-plus-plus.git && cd redis-plus-plus && git checkout -q 1.2.3 && sed -i '/Transaction transaction/i\\    ShardsPool* get_shards_pool(){\\n        return &_pool;\\n    }\\n' src/sw/redis++/redis_cluster.h; cd /opt/src; }
+cd redis-plus-plus && rm -rf b && CC=clang-19 CXX=clang++-19 cmake -B b -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_CXX_FLAGS=\"-fPIC -Wno-enum-constexpr-conversion -O2 -g \$PF\" -DREDIS_PLUS_PLUS_USE_TLS=ON -DREDIS_PLUS_PLUS_BUILD_TEST=OFF . && make -C b -j\$(nproc) && make -C b install
 ldconfig
 echo LIBS_DONE
 "
