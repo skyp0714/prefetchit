@@ -46,6 +46,11 @@ callsite/continuation 계열(PGO RET 1.02x, RET v3 1.00x)은 원리적 한계 �
   → 깊이 상한을 8–16으로 낮추고 함수당 메모이제이션을 depth 무관하게 바꾸거나, 큰 바이너리에서는 `--mode footprint`(도달 깊이 불필요)만 쓰도록 static_plan.py에 가드 필요.
   단일 자릿수 MPKI 워크로드의 PGO/static 검증(`llvm_prefetchit/results/pgo_static_20260916/`)에서는 이 때문에 static arm을 생략하고 PGO ceiling만 측정했다.
 
+### 1-A'''. 일반 코드용 PGO planner의 사이트 비용 (2026-09-16 발견)
+- `prefetchit_trace_to_plan.py`의 top-sites/budget-8/depth 4–24 정책은 SPEC llvm_r/gcc_r에서 hot loop 안에 사이트를 놓아 동적 명령 수를 ×1.87/×2.87로 불렸다(NOP twin이 0.77x/0.60x).
+  Verilator처럼 사이트가 사이클당 한 번 실행되는 코드에서만 안전한 정책. 필요: 사이트별 실행 빈도(LBR 샘플 수 또는 backedge 깊이) 상한, target당 예상 miss 절감 대비 삽입 비용(dynamic count × 7 B) 기준의 선택, 결과 plan의 예상 동적 명령 증가율 출력.
+- 검증 표: `llvm_prefetchit/results/pgo_static_20260916/summarize.py` (CXXRTL seq K=80 1.025x, SPEC PGO 음수, WordPress/MariaDB arm 무효·빌드 불가).
+
 ### 1-B'. 일반화 검증
 - cross-payload: 같은 바이너리로 dhrystone/median/towers(`scripts/static/measure_verilator_variants.sh PAYLOAD=…`).
 - full 538,240 사이클 1회(1-C).
