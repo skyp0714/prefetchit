@@ -19,7 +19,7 @@
 enum { H_RECV, H_READ, H_POLL, H_EPOLL, H_COND, H_ANY, H_MAX };
 static const char *hook_names[H_MAX] = {"recv", "read", "poll", "epoll_wait", "cond", "any"};
 static uintptr_t *lines[H_MAX]; static int nlines[H_MAX];
-static long min_cycles = 20000; static int burst_n = 64; static int stage_n = 0;
+static long min_cycles = 20000; static int burst_n = 64; static int stage_n = 0; static int pace = 0; /* pause iterations between 32-line batches (0 = no pacing) */
 static long stat_calls[H_MAX], stat_warm[H_MAX];
 static char dso_names[64][128]; static uintptr_t dso_base[64]; static int ndso;
 
@@ -40,6 +40,7 @@ __attribute__((constructor)) static void init(void) {
   if ((e = getenv("WARMUP_MIN_CYCLES"))) min_cycles = atol(e);
   if ((e = getenv("WARMUP_N"))) burst_n = atoi(e);
   if ((e = getenv("WARMUP_STAGE"))) stage_n = atoi(e);
+  if ((e = getenv("WARMUP_PACE"))) pace = atoi(e);
   dl_iterate_phdr(cb, NULL);
   const char *lf = getenv("WARMUP_LIST"); if (!lf) return;
   FILE *f = fopen(lf, "r"); if (!f) return;
@@ -67,7 +68,11 @@ static inline void warm(int h, uint64_t dt) {
   stat_warm[h]++;
   int hh = nlines[h] ? h : H_ANY; int n = nlines[hh] < burst_n ? nlines[hh] : burst_n;
   uintptr_t *L = lines[hh];
-  for (int i = 0; i < n; i++) pf(L[i]);
+  if (pace > 0) {
+    for (int i = 0; i < n; i++) { pf(L[i]); if ((i & 31) == 31) for (int k = 0; k < pace; k++) __builtin_ia32_pause(); }
+  } else {
+    for (int i = 0; i < n; i++) pf(L[i]);
+  }
   if (stage_n > 0 && nlines[hh] > n) {  /* second stage after a short pause: lines n..n+stage_n */
     for (int k = 0; k < 64; k++) __builtin_ia32_pause();
     int m = nlines[hh] - n < stage_n ? nlines[hh] - n : stage_n;

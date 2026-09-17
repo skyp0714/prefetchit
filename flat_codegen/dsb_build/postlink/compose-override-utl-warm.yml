@@ -11,6 +11,7 @@ services:
       - WARMUP_STAGE=${WARM_STAGE}
       - WARMUP_MIN_CYCLES=${WARM_MIN}
       - WARMUP_VERBOSE=1
+      - WARMUP_PACE=${WARM_PACE:-0}
     volumes:
       - ${UTL_BIN}:/custom:ro
       - ${UTL_LIBS}:/usr/local/lib:ro
