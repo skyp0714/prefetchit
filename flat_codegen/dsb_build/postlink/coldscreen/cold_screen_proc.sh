@@ -10,7 +10,7 @@ for mode in shared isolated; do
   bash -c "exec taskset -c $cores $CMD" > /tmp/proc_$NAME.log 2>&1 & P=$!; sleep 8
   LP=; if [[ -n $LOADCMD ]]; then bash -c "taskset -c 40-42 $LOADCMD" > /tmp/load_$NAME.log 2>&1 & LP=$!; fi; sleep 12
   if [[ -n $PAT ]]; then pid=$(pgrep -n -f "$PAT"); else pid=$(pgrep -P $P | head -1); fi; [[ -n $pid ]] || pid=$P
-  echo ps101899 | sudo -S perf stat -x, -e $EV -p $pid -- sleep $WIN 2> /tmp/cs_$NAME.txt > /dev/null
+  echo ps101899 | sudo -S -p '' perf stat -x, -e $EV -p $pid -- sleep $WIN 2> /tmp/cs_$NAME.txt > /dev/null
   python3 - $NAME $mode $OUT /tmp/cs_$NAME.txt <<'PY'
 import csv,sys
 c,mode,out,f=sys.argv[1:5]; v={}
