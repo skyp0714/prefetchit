@@ -1,5 +1,5 @@
 #!/bin/bash
-source "$(dirname "${BASH_SOURCE[0]}")/../scripts/project_env.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/../scripts/project_env.sh" 2>/dev/null || true
 # Build PostStorageService inside dsb-deps-jammy with clang-19.
 # Usage: build_service.sh <outdir> [extra CXXFLAGS...]
 set -e

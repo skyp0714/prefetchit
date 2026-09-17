@@ -1,5 +1,5 @@
 #!/bin/bash
-source "$(dirname "${BASH_SOURCE[0]}")/../scripts/project_env.sh"
+PREFETCHIT_ROOT=${PREFETCHIT_ROOT:-/home/hnpark2/prefetchit}
 # Rebuild DSB dependency libs (thrift/mongoc+bson/opentracing/yaml/jaeger)
 # inside dsb-deps-jammy with clang-19 -O2 -g at STABLE source paths
 # (/opt/src/<lib>), optionally with the PrefetchIT pass, then docker-commit

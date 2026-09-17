@@ -67,6 +67,15 @@ Tools: `llvm_prefetchit/tools/postlink/postlink_call_stubs.py` (call-site stubs 
 | pin4_pgo75 | 3 | 6019 | 0 | 4.1 | 14.9 | 38.46 | 1.0028x | 6.33 | 0.904 | 1.062 |
 | pin4_pgo75_nop | 3 | 6019 | 0 | 4.1 | 17.3 | 38.93 | 0.9907x | 6.92 | 0.892 | 1.060 |
 
+## Round 9 — site-frequency-capped plans (exclude call sites above the 90th / 75th percentile of LBR CALL records; coverage 37% / 16.5%)
+| arm | reps | rps | non2xx | p50 ms | p99 ms | svc cycles (G) | cycles vs base | MPKI | IPC | instr vs base |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| base | 3 | 6019 | 0 | 4.1 | 16.9 | 57.40 | 1.0000x | 22.59 | 0.590 | 1.000 |
+| pgo75c90 | 3 | 6019 | 0 | 4.0 | 12.5 | 57.61 | 0.9964x | 22.51 | 0.596 | 1.015 |
+| pgo75c90_nop | 3 | 6019 | 0 | 4.1 | 13.5 | 58.31 | 0.9844x | 23.25 | 0.589 | 1.015 |
+| pgo75c75 | 3 | 6019 | 0 | 4.2 | 19.0 | 57.48 | 0.9985x | 22.44 | 0.594 | 1.009 |
+| pgo75c75_nop | 3 | 6019 | 0 | 4.1 | 16.0 | 57.90 | 0.9914x | 23.03 | 0.590 | 1.009 |
+
 ## Trace (results/trace_utl, 212k L2I-miss samples, 6.6M LBR records)
 - Miss IPs: libc 27%, service 24%, libstdc++ 16%, jaeger 12%, pthread 7%, mongoc 5%, bson 4%, thrift 2%.
 - Only 2,956 distinct miss lines; 50% of misses in 227 lines (14 KB), 90% in 1,050 lines (66 KB).
