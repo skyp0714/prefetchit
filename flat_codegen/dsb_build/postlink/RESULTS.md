@@ -132,6 +132,16 @@ The paced warm-up removes up to 16% of the misses (22.6 → 19.0 MPKI, the large
 thread stalls while it paces (instructions +6%): net 0.98–1.00x. A kernel switch-in warm-up issued the same way would pay the same stall;
 only an asynchronous prefetch engine (hardware "warm-up list" that streams the lines while the thread runs) could turn the miss reduction into time.
 
+## Round 13 — isolation baseline (other 26 containers moved off cores 40-44; service main@40 / pool@41-44): warm-up on top of isolation
+| arm | reps | rps | non2xx | p50 ms | p99 ms | svc cycles (G) | cycles vs gI | MPKI | IPC | instr vs gI |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| gI | 3 | 6019 | 0 | 3.8 | 11.4 | 32.47 | 1.0000x | 1.89 | 0.991 | 1.000 |
+| w64I | 3 | 6019 | 0 | 3.8 | 11.8 | 32.41 | 1.0018x | 2.11 | 0.990 | 0.997 |
+| w64I_nop | 3 | 6019 | 0 | 3.8 | 11.9 | 32.44 | 1.0008x | 1.96 | 0.990 | 0.998 |
+| wp512I | 3 | 6019 | 0 | 3.8 | 11.5 | 34.06 | 0.9533x | 1.88 | 0.975 | 1.032 |
+
+On the isolated baseline the service's intrinsic miss rate is ~1.9 MPKI and the wake-up warm-up is exactly neutral (1.002x, twin 1.001x);
+the paced 512-line variant only pays its stall (0.953x). There is no prefetch headroom left once the pollution is removed.
 ## Conclusion
 No prefetch arm moves user-timeline's CPU time by more than ~1%; the only large effect is core pinning (1.51x). The L2I misses of this
 service are L2 pollution by co-scheduled containers during the ~30 ms idle gaps between a thread's requests, not a
@@ -140,7 +150,9 @@ cancels the gain. Injecting the same kind of plan inline via a full rebuild (rou
 the service pinned (main thread on its own core, workers on a 4-core pool): the prefetchable remainder is small once the pollution is removed by pinning.
 Wake-up warm-up (rounds 11–12): the right hook — 43% of its prefetches are real fills and it removes up to 16% of misses — but a
 software burst is bounded by the fill queue (64–128 lines per wake, +1–2%) and pacing to 1,024 lines stalls the thread as long as the
-misses would have (0.98x). Best DSB result overall: w64 1.019x. Isolation remains the only large lever (1.64x).
+misses would have (0.98x). Best DSB result overall: w64 1.019x (unpinned). On the isolated baseline (the realistic deployment, 1.9 MPKI) every prefetch arm is
+neutral. Isolation remains the only large lever (1.64x); a kernel switch-in warm-up could at best hide 1–3 µs of the wake burst per switch
+when the core was polluted, i.e. a few % only on shared cores, and nothing on isolated cores.
 ## Software-prefetch accounting of the inline-plan arm (30 s windows, R=6000; L2_RQSTS.SWPF_HIT/MISS = prefetcht1 that reached L2 and hit/missed)
 | arm | instr (G) | L2I MPKI | L2I misses (M) | sw prefetches at L2 (M) | of which missed = real fills (M) | useful share |
 |---|---:|---:|---:|---:|---:|---:|
