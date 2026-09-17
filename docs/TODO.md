@@ -41,6 +41,11 @@ callsite/continuation 계열(PGO RET 1.02x, RET v3 1.00x)은 원리적 한계 �
 - 함수 선택 규칙 일반화(구현·검증 중): `static_prefetch/tools/seq/select_seq_functions.py`(main loop에서 도달 가능한 함수 전부, 3,987개/13.6 MB = miss 97.4%)
   → pass `-prefetchit-seq-functions-file`. **round 4 확인 완료: `seq_d4096_k20_b4_auto` 1.149x / 1.236x vs twin(MPKI 13.7) = regex 버전(1.148x)과 동일** → 이제 Verilator 이름에 의존하는 규칙은 없다.
 
+### 1-A''. plan 기반 static 생성기의 확장성 (2026-09-16 발견)
+- `static_prefetch/tools/ret/static_return_target_candidates.py`의 `compute_reachable_depths`(호출 그래프 DFS, max-depth 96)가 60–100 MB 바이너리(llvm-opt, mariadbd, php-fpm)에서 2시간 넘게 끝나지 않는다.
+  → 깊이 상한을 8–16으로 낮추고 함수당 메모이제이션을 depth 무관하게 바꾸거나, 큰 바이너리에서는 `--mode footprint`(도달 깊이 불필요)만 쓰도록 static_plan.py에 가드 필요.
+  단일 자릿수 MPKI 워크로드의 PGO/static 검증(`llvm_prefetchit/results/pgo_static_20260916/`)에서는 이 때문에 static arm을 생략하고 PGO ceiling만 측정했다.
+
 ### 1-B'. 일반화 검증
 - cross-payload: 같은 바이너리로 dhrystone/median/towers(`scripts/static/measure_verilator_variants.sh PAYLOAD=…`).
 - full 538,240 사이클 1회(1-C).
