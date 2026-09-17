@@ -286,3 +286,14 @@ location (266 sites have no matching file:line after -O3 inlining) → service 8
 
 Verdict: +0.5% (twin −0.1%), MPKI unchanged — the inline route places too few of the planned sites. Round 15 places the same plan
 post-link at the exact call sites (57 sites, ~1.3k prefetches).
+
+## MariaDB durable under socialNetwork noise — wake-up warm-up (LD_PRELOAD, host glibc build incl. fsync/pwrite wrappers), 3 reps
+Trace: 1.46 M poll wakes + 130 k cond + 110 k fsync/pwrite per 30 s; 7,805 distinct post-poll miss lines, the top-256 list covers only
+27% of poll-wake misses (cond 75%). A/B (sysbench oltp_rw 8 threads, 50 s runs, server counters over 30 s):
+| arm | tps (median) | MPKI | IPC | cycles per transaction (rel.) |
+|---|---:|---:|---:|---:|
+| base | 2460 | 12.6 | 1.08 | 1.00 |
+| warm64 (64 lines per wake) | 2102 | 13.6 | 1.05 | 1.01 |
+| warm64 NOP twin | 2348 | 12.6 | 1.09 | 1.03 |
+tps swings ±8% between reps (fsync-bound + co-tenant noise); per-transaction cycles are equal within 3% and MPKI does not fall: the
+64-line warm-up covers too little of MariaDB's broad post-wake footprint. No gain.
