@@ -199,3 +199,37 @@ With the pollution removed the service's intrinsic instruction-miss rate is ~2 M
 | pl_b4plt | 3 | 51.50 | 0.9532x | 1.0081x | 57.78 | 0.584 | +101.09% |
 | pl_b4plt_nop | 3 | 51.92 | 0.9455x | - | 59.57 | 0.579 | +101.08% |
 
+# Cold-start screening (2026-09-17 afternoon, default Linux scheduling, cores 0-42 only)
+Protocol: every container of the stack confined to cores 0-35 (they float among themselves = a busy multi-tenant node under default
+scheduling); `shared` = measured in that state; `isolated` = the one container moved to cores 36-39 that nobody else uses. Sequential
+`perf stat -p` 30 s per container under the mixed wrk2 load (R=6000, clients on 40-42). ΔMPKI × 0.7 %/MPKI = I-side headroom estimate.
+
+## socialNetwork (25 containers)
+| container | cs/s | instr/s (G) | MPKI shared | MPKI isolated | ΔMPKI | IPC sh→iso | cycles sh/iso | I-side headroom ≈0.7%×ΔMPKI |
+|---|---:|---:|---:|---:|---:|---|---:|---:|
+| socialnetwork-compose-post-service-1 | 7639 | 0.62 | 22.9 | 4.4 | 18.5 | 0.51→0.83 | 1.77x | 12.9% |
+| socialnetwork-post-storage-memcached-1 | 27750 | 1.45 | 7.3 | 0.3 | 7.1 | 0.77→0.97 | 1.30x | 5.0% |
+| socialnetwork-user-timeline-mongodb-1 | 861 | 1.19 | 10.2 | 7.0 | 3.1 | 1.46→1.86 | 0.56x | 2.2% |
+| socialnetwork-post-storage-service-1 | 32896 | 21.54 | 2.6 | 0.6 | 2.0 | 1.90→2.24 | 1.19x | 1.4% |
+| socialnetwork-home-timeline-service-1 | 14427 | 2.10 | 6.4 | 5.3 | 1.1 | 1.07→1.34 | 1.28x | 0.7% |
+| socialnetwork-url-shorten-mongodb-1 | 791 | 0.19 | 36.6 | 36.5 | 0.1 | 0.53→0.61 | 0.62x | 0.1% |
+| socialnetwork-text-service-1 | 2780 | 0.95 | 6.6 | 8.8 | -2.2 | 1.36→1.54 | 1.15x | -1.5% |
+| socialnetwork-social-graph-mongodb-1 | 35 | 0.01 | 8.5 | 11.5 | -3.0 | 0.98→0.95 | 0.89x | -2.1% |
+| socialnetwork-user-mongodb-1 | 35 | 0.01 | 8.8 | 12.7 | -3.9 | 0.95→0.88 | 0.88x | -2.7% |
+| socialnetwork-user-mention-service-1 | 1328 | 0.20 | 19.9 | 46.2 | -26.2 | 0.66→0.54 | 0.85x | -18.4% |
+| socialnetwork-home-timeline-redis-1 | 2998 | 0.39 | 6.4 | 37.9 | -31.5 | 0.66→0.45 | 0.71x | -22.1% |
+| socialnetwork-post-storage-mongodb-1 | 2928 | 0.78 | 42.0 | 75.1 | -33.1 | 0.48→0.37 | 0.80x | -23.2% |
+| socialnetwork-url-shorten-service-1 | 2113 | 0.18 | 27.3 | 66.6 | -39.3 | 0.49→0.41 | 0.91x | -27.5% |
+| socialnetwork-user-memcached-1 | 2819 | 0.09 | 26.5 | 77.7 | -51.2 | 0.51→0.37 | 0.83x | -35.8% |
+| socialnetwork-social-graph-service-1 | 1332 | 0.11 | 14.8 | 86.8 | -72.1 | 0.67→0.37 | 0.31x | -50.4% |
+| socialnetwork-social-graph-redis-1 | 587 | 0.04 | 22.1 | 114.9 | -92.8 | 0.64→0.32 | 0.53x | -65.0% |
+| socialnetwork-unique-id-service-1 | 725 | 0.05 | 23.8 | 127.4 | -103.7 | 0.47→0.27 | 0.60x | -72.6% |
+| socialnetwork-media-service-1 | 719 | 0.05 | 20.9 | 125.1 | -104.3 | 0.49→0.27 | 0.58x | -73.0% |
+| socialnetwork-user-timeline-redis-1 | 2086 | 0.11 | 19.4 | 126.6 | -107.2 | 0.52→0.25 | 0.56x | -75.0% |
+| socialnetwork-user-service-1 | 722 | 0.05 | 23.5 | 135.2 | -111.6 | 0.48→0.26 | 0.58x | -78.1% |
+
+Two classes. Busy services lose to pollution and recover when isolated (compose-post 22.9→4.4 MPKI, 1.77x; post-storage memcached
+7.3→0.3, 1.30x; home-timeline 6.4→5.3, 1.28x). Low-activity services (≤0.2 G instr/s: unique-id, user, media, social-graph, url-shorten,
+user-mention and their redis/memcached) get *worse* when isolated (24→127, 20→125, 22→115 …): their exclusive cores idle into core C6
+(170 µs exit latency, 650 µs target residency, enabled by default; 2.3 M C6 entries per core during the run), which flushes L2, so every
+wake is fully cold. On shared cores the neighbours keep the core awake and part of the code survives. See the C-state separation below.
