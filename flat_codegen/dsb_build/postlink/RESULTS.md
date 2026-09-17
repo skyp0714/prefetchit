@@ -101,6 +101,24 @@ libs 360 injections (GOT operands); built inline by the IR pass (no stubs): serv
 | pgoP_nop | 3 | 6019 | 0 | 3.9 | 12.8 | 36.16 | 1.4856x | 5.61 | 0.911 | 0.977 |
 
 Read as: unpinned plan 1.0115x vs base (twin 0.998x; MPKI 21.9→21.2); pinned plan vs pinned base 36.11 vs 36.23 G = 1.003x (MPKI 5.74→5.48).
+## Round 11 — wake-up warm-up (LD_PRELOAD, user-space stand-in for a kernel switch-in warm-up), rebuilt base image
+Per request: 5.6 context switches, ~13.6k L2I misses (~2.4k per wake). Trace with sched_switch + sys_exit attributes 99% of misses to a
+preceding wake-up (recv 12.5k, poll 9.8k, cond 8.5k wakes / 30 s). `warmup/warmup.c` wraps recv/recvfrom/read/readv/poll/epoll_wait: when
+the call took >20k cycles (the thread slept), it prefetcht1's the first N lines of that hook's list (lines ordered by median time after the
+wake, `wake_lines.py`). w64 = 64 lines/wake (top-256 list); w128s = 128 + 128 staged (top-1024 list). Twins issue NOPs instead. `P` = main@40 / pool@41-44.
+| arm | reps | rps | non2xx | p50 ms | p99 ms | svc cycles (G) | cycles vs g | MPKI | IPC | instr vs g |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| g | 3 | 6019 | 0 | 3.8 | 12.2 | 53.97 | 1.0000x | 21.82 | 0.623 | 1.000 |
+| w64 | 3 | 6019 | 0 | 4.0 | 13.3 | 52.95 | 1.0193x | 21.31 | 0.637 | 1.002 |
+| w64_nop | 3 | 6019 | 0 | 3.8 | 12.1 | 53.91 | 1.0012x | 21.93 | 0.626 | 1.003 |
+| w128s | 3 | 6019 | 0 | 3.9 | 11.8 | 53.66 | 1.0059x | 20.68 | 0.636 | 1.015 |
+| w128s_nop | 3 | 6019 | 0 | 3.8 | 11.5 | 55.06 | 0.9802x | 21.92 | 0.616 | 1.008 |
+| gP | 3 | 6019 | 0 | 3.8 | 11.8 | 36.17 | 1.4923x | 5.85 | 0.896 | 0.963 |
+| w64P | 3 | 6019 | 0 | 3.7 | 11.0 | 36.69 | 1.4710x | 5.80 | 0.890 | 0.970 |
+| w64P_nop | 3 | 6019 | 0 | 3.8 | 11.6 | 36.74 | 1.4690x | 5.87 | 0.889 | 0.971 |
+
+Accounting (12 s smoke, w64): 43% of the warm-up prefetches were real L2 fills (vs 1% for in-code plans) — the hook is right, but 64–256 lines
+per wake cover only a few % of the ~2,400 lines missed per wake; net +1–2%.
 ## Conclusion
 No prefetch arm moves user-timeline's CPU time by more than ~1%; the only large effect is core pinning (1.51x). The L2I misses of this
 service are L2 pollution by co-scheduled containers during the ~30 ms idle gaps between a thread's requests, not a
