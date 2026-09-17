@@ -51,6 +51,22 @@ Tools: `llvm_prefetchit/tools/postlink/postlink_call_stubs.py` (call-site stubs 
 | hotG550 | 3 | 6019 | 0 | 4.0 | 14.7 | 55.75 | 1.0023x | 21.29 | 0.610 | 1.008 |
 | hotG550_nop | 3 | 6019 | 0 | 4.0 | 13.2 | 55.26 | 1.0113x | 21.98 | 0.615 | 1.007 |
 
+## Round 7 — trace-guided post-link plans (direct-call sites with ≥60 cycles lead → up to 4 missed lines; pgo50 = 321 sites/581 targets, pgo75 = 928 sites/2,861 targets; cross-DSO via GOT anchors; exe + 7 libs incl. libc/libpthread patched)
+| arm | reps | rps | non2xx | p50 ms | p99 ms | svc cycles (G) | cycles vs base | MPKI | IPC | instr vs base |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| base | 3 | 6019 | 0 | 4.1 | 13.6 | 56.01 | 1.0000x | 22.28 | 0.607 | 1.000 |
+| pgo75 | 3 | 6019 | 0 | 4.0 | 15.1 | 55.47 | 1.0098x | 19.82 | 0.648 | 1.057 |
+| pgo75_nop | 3 | 6019 | 0 | 4.0 | 13.1 | 57.48 | 0.9744x | 22.05 | 0.624 | 1.056 |
+| pgo50 | 3 | 6019 | 0 | 4.0 | 11.8 | 56.28 | 0.9953x | 20.74 | 0.629 | 1.042 |
+| pgo50_nop | 3 | 6019 | 0 | 4.1 | 12.8 | 56.80 | 0.9861x | 21.77 | 0.622 | 1.040 |
+
+## Round 8 — pinned to 4 cores: baseline vs trace-guided plan (intrinsic remainder)
+| arm | reps | rps | non2xx | p50 ms | p99 ms | svc cycles (G) | cycles vs pin4 | MPKI | IPC | instr vs pin4 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| pin4 | 3 | 6019 | 0 | 4.0 | 12.3 | 38.57 | 1.0000x | 6.96 | 0.849 | 1.000 |
+| pin4_pgo75 | 3 | 6019 | 0 | 4.1 | 14.9 | 38.46 | 1.0028x | 6.33 | 0.904 | 1.062 |
+| pin4_pgo75_nop | 3 | 6019 | 0 | 4.1 | 17.3 | 38.93 | 0.9907x | 6.92 | 0.892 | 1.060 |
+
 ## Trace (results/trace_utl, 212k L2I-miss samples, 6.6M LBR records)
 - Miss IPs: libc 27%, service 24%, libstdc++ 16%, jaeger 12%, pthread 7%, mongoc 5%, bson 4%, thrift 2%.
 - Only 2,956 distinct miss lines; 50% of misses in 227 lines (14 KB), 90% in 1,050 lines (66 KB).

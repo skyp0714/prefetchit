@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 import csv,statistics as st,sys,collections
 rows=list(csv.DictReader(open(sys.argv[1])))
+ref=sys.argv[2] if len(sys.argv)>2 else 'base'
 by=collections.defaultdict(list)
 for r in rows: by[r['arm']].append(r)
 def med(a,k): return st.median(float(r[k]) for r in a)
-base=by.get('base')
-print("| arm | reps | rps | non2xx | p50 ms | p99 ms | svc cycles (G) | cycles vs base | MPKI | IPC | instr vs base |")
+base=by.get(ref) or by.get(next(iter(by)))
+print(f"| arm | reps | rps | non2xx | p50 ms | p99 ms | svc cycles (G) | cycles vs {ref} | MPKI | IPC | instr vs {ref} |")
 print("|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|")
 for arm,a in by.items():
     i=med(a,'instructions'); c=med(a,'cycles'); m=med(a,'l2i_miss')
