@@ -8,7 +8,7 @@ dynsyms.txt: "<dso-file> <symbol>" per line (nm -D --defined-only, T/W/i)."""
 import argparse, json, subprocess, copy
 ap = argparse.ArgumentParser()
 ap.add_argument('--main', required=True); ap.add_argument('--exe', required=True); ap.add_argument('--dynsyms', required=True)
-ap.add_argument('--libs', nargs='*', default=[]); ap.add_argument('--out-main', required=True); ap.add_argument('--out-libs', required=True)
+ap.add_argument('--libs', nargs='*', default=[]); ap.add_argument('--static-prefixes', default='', help='comma list of source path prefixes whose main-plan sites belong to statically linked libs built in the deps image (routed to libs.plan with GOT operands)'); ap.add_argument('--out-main', required=True); ap.add_argument('--out-libs', required=True)
 a = ap.parse_args()
 exported = {ln.split()[1].split('@')[0] for ln in open(a.dynsyms) if len(ln.split()) >= 2}
 defined_main = set()
@@ -29,7 +29,11 @@ def fix(plan, is_main):
     plan['injections'] = keep
     return st
 main = json.load(open(a.main)); s = fix(main, True)
-json.dump(main, open(a.out_main, 'w')); print(f"main: {s} -> {len(main['injections'])} injections")
+prefixes = [x for x in a.static_prefixes.split(',') if x]
+moved = [i for i in main['injections'] if any((i['site'].get('file') or '').startswith(px) for px in prefixes)]
+main['injections'] = [i for i in main['injections'] if i not in moved]
+for i in moved: i['target']['operand'] = 'got-symbol-offset'
+json.dump(main, open(a.out_main, 'w')); print(f"main: {s} -> {len(main['injections'])} injections (moved {len(moved)} static-lib sites to libs)")
 libs_plan = None; tot = {'pc': 0, 'got': 0, 'drop': 0}
 for lp in a.libs:
     p = json.load(open(lp)); s = fix(p, False)
@@ -38,6 +42,9 @@ for lp in a.libs:
         libs_plan = copy.deepcopy(p); libs_plan['injections'] = []
     libs_plan['injections'].extend(p['injections'])
     print(f"{lp.split('/')[-1]}: {s}")
+if libs_plan is None and moved:
+    libs_plan = copy.deepcopy(main); libs_plan['injections'] = []
 if libs_plan is not None:
+    libs_plan['injections'].extend(moved)
     libs_plan['prefetch']['operand'] = 'got-symbol-offset'
     json.dump(libs_plan, open(a.out_libs, 'w')); print(f"libs: {tot} -> {len(libs_plan['injections'])} injections")
