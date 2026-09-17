@@ -5,6 +5,5 @@ W=/home/hnpark2/prefetchit/benchmarks/php/wp_pipeline.sh; O=/home/hnpark2/prefet
 $W trace 2>&1 | tail -6
 $W plan 2>&1 | tail -2
 VARIANT=pgo_cov90 PLAN=$O/plans/pgo_cov90.plan.json $W build 2>&1 | tail -3
-VARIANT=static_retcond PLAN=$O/plans/static_retcond.plan.json $W build 2>&1 | tail -3
-VARIANTS="pgo_cov90 static_retcond" $W measure 2>&1 | tail -12
+VARIANTS="pgo_cov90" $W measure 2>&1 | tail -12
 echo WP_PGO_DONE

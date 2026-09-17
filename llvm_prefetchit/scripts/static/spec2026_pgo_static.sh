@@ -20,8 +20,10 @@ python3 $ROOT/static_prefetch/tools/ret/miss_stream_characterization.py --binary
 TA=(); for i in 1 2 3; do TA+=(--trace-dir $OUT/traces/trace0$i/l2_miss); done
 python3 $LLVM/tools/prefetchit_trace_to_plan.py "${TA[@]}" --binary $BASE --top-k 999999 --target-coverage-pct 90 --depth 24 --depth-min 4 --site-budget-per-target 8 --candidate-pool 0 --selection-mode top-sites --sites-per-depth 1 --allow-unresolved-targets --prefetch-mnemonic prefetcht1 --prefetch-byte-offsets 0,64 --target-ip-source sample-ip --summary-dir $OUT/plans/pgo_cov90 --output $OUT/plans/pgo_cov90.plan.json > $OUT/plans/pgo_cov90.log 2>&1
 log "PGO plan: $(python3 -c "import json,sys; print(len(json.load(open(sys.argv[1]))['injections']))" $OUT/plans/pgo_cov90.plan.json) injections"
-python3 $ROOT/static_prefetch/tools/static_plan.py --binary $BASE --kinds ret,cond --out-dir $OUT/plans/static_work --output $OUT/plans/static_retcond.plan.json --label static_retcond > $OUT/plans/static.log 2>&1 || tail -2 $OUT/plans/static.log
+if [[ "${SKIP_STATIC:-0}" != 1 ]]; then
+timeout ${STATIC_TIMEOUT:-900} python3 $ROOT/static_prefetch/tools/static_plan.py --binary $BASE --kinds ret --out-dir $OUT/plans/static_work --output $OUT/plans/static_retcond.plan.json --label static_retcond > $OUT/plans/static.log 2>&1 || log "static plan skipped/failed (timeout or error)"
 log "static plan: $(python3 -c "import json,sys; print(len(json.load(open(sys.argv[1]))['injections']))" $OUT/plans/static_retcond.plan.json 2>/dev/null) injections"
+fi
 build(){ local V=$1 PLAN=$2
   PREFETCHIT_PLAN=$PLAN runcpu --config=prefetchit-clang-2026 --action=build --tune=base --rebuild --define label=$V --define build_ncpus=24 --define extra_optimize="-fpass-plugin=$LLVM/build/PrefetchITPass.so" $BENCH > $OUT/build_$V.log 2>&1
   local VB=$(ls $D/exe/*_base.$V 2>/dev/null | head -1); [[ -x "$VB" ]] || { log "BUILD FAILED $V"; return 1; }
@@ -29,7 +31,7 @@ build(){ local V=$1 PLAN=$2
   python3 $LLVM/tools/reanchor_prefetch_targets.py --baseline $BASE --binary $OUT/${V}.unanchored --plan ${PLAN%.json}.resolved.json --output $VB 2>&1 | tail -1 | tee -a $OUT/run.log
   log "$V: $(llvm-objdump-19 -d $VB | grep -cE 'prefetcht[012]') prefetches in $(basename $VB)"; python3 $LLVM/tools/make_nop_control_binary.py --input $VB --output ${VB}_nop > /dev/null 2>&1; }
 build pgo_cov90 $OUT/plans/pgo_cov90.plan.json
-build static_retcond $OUT/plans/static_retcond.plan.json
+[[ -s $OUT/plans/static_retcond.plan.json ]] && build static_retcond $OUT/plans/static_retcond.plan.json
 wait_quiet; exec 9>/tmp/measure.lock; flock 9
 CSV=$OUT/measure/runs.csv; echo "variant,rep,elapsed_sec,instructions,cycles,l2i_misses,l2i_mpki,ipc,rc" > $CSV
 run1(){ local v=$1 rep=$2 bin=$3; local c; c=$(echo "$CMD" | sed -E "s#\.\./run_base_ref[a-z]+_clangbase\.0000/[^ ]+#$bin#"); local s e rc

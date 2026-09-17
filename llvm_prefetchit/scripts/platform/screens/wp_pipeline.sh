@@ -36,8 +36,7 @@ plan)
   TA=(); for i in 1 2 3; do TA+=(--trace-dir $OUT/traces/trace0$i/l2_miss); done
   python3 $LLVM/tools/prefetchit_trace_to_plan.py "${TA[@]}" --binary $P/install_base/sbin/php-fpm --top-k 999999 --target-coverage-pct 90 --depth 24 --depth-min 4 --site-budget-per-target 8 --candidate-pool 0 --selection-mode top-sites --sites-per-depth 1 --allow-unresolved-targets --prefetch-mnemonic prefetcht1 --prefetch-byte-offsets 0,64 --target-ip-source sample-ip --summary-dir $OUT/plans/pgo_cov90 --output $OUT/plans/pgo_cov90.plan.json > $OUT/plans/pgo.log 2>&1
   log "PGO plan: $(python3 -c "import json,sys; print(len(json.load(open(sys.argv[1]))['injections']))" $OUT/plans/pgo_cov90.plan.json) injections"
-  python3 $ROOT/static_prefetch/tools/static_plan.py --binary $P/install_base/sbin/php-fpm --kinds ret,cond --out-dir $OUT/plans/static_work --output $OUT/plans/static_retcond.plan.json --label static_retcond > $OUT/plans/static.log 2>&1 || tail -2 $OUT/plans/static.log
-  log "static plan: $(python3 -c "import json,sys; print(len(json.load(open(sys.argv[1]))['injections']))" $OUT/plans/static_retcond.plan.json 2>/dev/null) injections" ;;
+  ;;
 build)
   V="${VARIANT:?}"; PLAN="${PLAN:?}"; $P/build_php.sh $V $PLAN 2>&1 | tail -2 | tee -a $OUT/run.log
   B=$P/install_$V/sbin/php-fpm; python3 $LLVM/tools/resolve_plan_layout_shift.py --plan $PLAN --shifts $PLAN.shifts.json --output ${PLAN%.json}.resolved.json > /dev/null 2>&1 || true
