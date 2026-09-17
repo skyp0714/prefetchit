@@ -7,7 +7,7 @@ import re,sys,collections,statistics as st
 ev,mapsf,out=sys.argv[1:4]; TOP=256; MINS=2
 if '--top' in sys.argv: TOP=int(sys.argv[sys.argv.index('--top')+1])
 if '--min-samples' in sys.argv: MINS=int(sys.argv[sys.argv.index('--min-samples')+1])
-NR={45:'recv',0:'read',19:'read',7:'poll',232:'epoll_wait',202:'cond',270:'poll',23:'poll',44:'send',1:'send',20:'send'}
+NR={45:'recv',0:'read',19:'read',17:'read',7:'poll',232:'epoll_wait',202:'cond',270:'poll',23:'poll',44:'send',1:'send',20:'send',74:'poll',75:'poll',18:'poll',230:'cond'}  # fsync/fdatasync/pwrite -> the library's poll-hook list; pread -> read; clock_nanosleep -> cond
 segs=[]
 for ln in open(mapsf):
     p=ln.split(None,5)
