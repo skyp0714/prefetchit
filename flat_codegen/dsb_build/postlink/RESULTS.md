@@ -268,8 +268,8 @@ The earlier "isolated is worse" rows for them are that run-to-run swing, not a C
 |---|---:|---:|---:|---:|---:|---|---:|---:|
 | **MariaDB 10.11 durable** (fsync+binlog, sysbench oltp_rw 8 threads) | 61964 | 8.67 | **12.0** | **3.8** | 8.2 | 1.10→1.41 | **1.33x** | 5.8% |
 | TailBench masstree (integrated, 4 threads, 2000 qps) | 2195 | 0.44 | 9.5 | 9.5 | 0.0 | 0.32→0.32 | 1.00x | 0 |
-| PostgreSQL scale 100 (pgbench 16 clients) | — | — | (multi-process; re-screen queued) | | | | | |
-MariaDB is a second strong cold-start candidate (2.1k context switches per second per thread-equivalent; misses fall 3× when isolated);
+| **PostgreSQL 16 scale 100** (pgbench 16 clients, 16 backends) | 300445 | 16.97 | **6.0** | **0.1** | 5.8 | 0.87→1.22 | **1.88x** | 4.1% |
+PostgreSQL loses even more to co-tenancy (1.88x, its isolated MPKI is 0.1). MariaDB is a second strong cold-start candidate (2.1k context switches per second per thread-equivalent; misses fall 3× when isolated);
 masstree's 9.5 MPKI is intrinsic (unchanged by isolation). TailBench xapian/img-dnn/sphinx need the missing 10 GB input set.
 
 ## Round 14 — "timeline" prefetch, inline via the IR pass (default scheduling, every container confined to cores 0-35)
