@@ -67,18 +67,18 @@ def parse_calls(path, secs):
     return calls, plt
 
 def enc_prefetch_rip(from_addr, target):
-    # 0F 18 0D disp32 : prefetcht1 disp32(%rip), 7 bytes
+    # 0F 18 /2 with rip-relative ModRM 0x15 : prefetcht1 disp32(%rip), 7 bytes
     disp = target - (from_addr + 7)
     assert -2**31 <= disp < 2**31, "rip displacement out of range"
-    return b'\x0f\x18\x0d' + struct.pack('<i', disp)
+    return b'\x0f\x18\x15' + struct.pack('<i', disp)
 
 def enc_prefetch_r11(off):
-    # prefetcht1 off(%r11): 41 0F 18 /1 with base r11
+    # prefetcht1 off(%r11): 41 0F 18 /2 with base r11 (ModRM reg=010)
     if off == 0:
-        return b'\x41\x0f\x18\x0b'
+        return b'\x41\x0f\x18\x13'
     if -128 <= off < 128:
-        return b'\x41\x0f\x18\x4b' + struct.pack('<b', off)
-    return b'\x41\x0f\x18\x8b' + struct.pack('<i', off)
+        return b'\x41\x0f\x18\x53' + struct.pack('<b', off)
+    return b'\x41\x0f\x18\x93' + struct.pack('<i', off)
 
 NOP = {4: b'\x0f\x1f\x40\x00', 5: b'\x0f\x1f\x44\x00\x00', 7: b'\x0f\x1f\x80\x00\x00\x00\x00',
        8: b'\x0f\x1f\x84\x00\x00\x00\x00\x00'}
@@ -111,6 +111,42 @@ def build_stub(addr, site, callee, got, a):
         emit(b'\xe9' + struct.pack('<i', rel), False)      # jmp callee
     return code, nop
 
+def patch_plt_inplace(a, path, data, twin, va2off):
+    """Rewrite classic 16-byte PLT entries (`jmp *GOT(%rip); push idx; jmp plt0`) and IBT-style
+    .plt.sec entries (`endbr64; bnd jmp *GOT(%rip); nop`) in place as
+    `mov GOT(%rip),%r11 (7) ; prefetcht1 off(%r11) (5) ; jmp *%r11 (3) ; int3`.
+    The lazy-binding push/jmp bytes are destroyed, so the file must be loaded with eager binding."""
+    secs = sections(lief.parse(path))
+    n = 0
+    for sec in ('.plt', '.plt.sec'):
+        if sec not in secs: continue
+        out = subprocess.run(['objdump', '-d', '-j', sec, path], capture_output=True, text=True, check=True).stdout
+        cur = None
+        for line in out.splitlines():
+            m = FUNC_RE.match(line)
+            if m: cur = int(m.group(1), 16); continue
+            m = PLT_JMP_RE.match(line)
+            m2 = re.match(r'^\s*([0-9a-f]+):\s+f2 ff 25 ([0-9a-f]{2}) ([0-9a-f]{2}) ([0-9a-f]{2}) ([0-9a-f]{2})\s+bnd jmp', line)
+            if cur is None or (not m and not m2): continue
+            if m:
+                at = int(m.group(1), 16); disp = struct.unpack('<i', bytes(int(m.group(i), 16) for i in range(2, 6)))[0]; slot = at + 6 + disp
+            else:
+                at = int(m2.group(1), 16); disp = struct.unpack('<i', bytes(int(m2.group(i), 16) for i in range(2, 6)))[0]; slot = at + 7 + disp
+            entry = cur
+            if sec == '.plt' and entry == secs['.plt'][0]:
+                cur = None; continue   # PLT0 (resolver trampoline)
+            code = b'\x4c\x8b\x1d' + struct.pack('<i', slot - (entry + 7))
+            pf = enc_prefetch_r11(a.plt_inplace_off)
+            assert len(pf) == 5
+            code += pf + b'\x41\xff\xe3' + b'\xcc'
+            assert len(code) == 16
+            nop = code[:7] + NOP[5] + code[12:]
+            off = va2off(entry)
+            data[off:off + 16] = code
+            if twin is not None: twin[off:off + 16] = nop
+            n += 1; cur = None
+    return n
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('inp'); ap.add_argument('out')
@@ -126,8 +162,12 @@ def main():
     ap.add_argument('--funcs', help='regex on containing function name (objdump symbol)')
     ap.add_argument('--max-sites', type=int, default=0)
     ap.add_argument('--align', type=int, default=16)
+    ap.add_argument('--plt-inplace', action='store_true',
+                    help='rewrite each 16-byte PLT entry in place as `mov GOT(%%rip),%%r11; prefetcht1 OFF(%%r11); jmp *%%r11` '
+                         '(no new code; requires eager binding: run with LD_BIND_NOW=1 or DT_BIND_NOW)')
+    ap.add_argument('--plt-inplace-off', type=int, default=64, help='prefetch offset from the callee entry (|off|<128)')
     a = ap.parse_args()
-    if not a.direct and not a.plt: a.direct = a.plt = True
+    if not a.direct and not a.plt and not a.plt_inplace: a.direct = a.plt = True
     if a.seq and a.seq_lines == 0: a.seq_lines = 1
     if not a.seq: a.seq_lines = 0
 
@@ -162,7 +202,7 @@ def main():
               if not a.direct: continue
               sel.append((site, tgt, None))
       if a.max_sites and len(sel) > a.max_sites: sel = sel[:a.max_sites]
-      if not sel:
+      if not sel and not a.plt_inplace:
           print('no sites selected', file=sys.stderr); sys.exit(1)
       return sel
     sel = select(a.inp)
@@ -172,6 +212,21 @@ def main():
         c, _ = build_stub(0x10000000, site, tgt, got if got is not None else 0, a)
         sizes.append((len(c) + a.align - 1) // a.align * a.align)
     total = sum(sizes)
+    if total == 0:
+        # in-place PLT only: no new segment, patch a copy of the input
+        import shutil; shutil.copyfile(a.inp, a.out)
+        data = bytearray(open(a.out, 'rb').read()); twin = bytearray(data) if a.twin else None
+        b2 = lief.parse(a.out)
+        def va2off(va):
+            for sg in b2.segments:
+                if sg.type == lief.ELF.Segment.TYPE.LOAD and sg.virtual_address <= va < sg.virtual_address + sg.physical_size:
+                    return va - sg.virtual_address + sg.file_offset
+            raise KeyError(hex(va))
+        n = patch_plt_inplace(a, a.out, data, twin, va2off)
+        open(a.out, 'wb').write(data); os.chmod(a.out, 0o755)
+        if twin is not None: open(a.twin, 'wb').write(twin); os.chmod(a.twin, 0o755)
+        print(f'{os.path.basename(a.inp)}: plt-inplace entries={n} (no stub segment)')
+        return
     b = lief.parse(a.inp)
 
     seg = lief.ELF.Segment()
@@ -218,12 +273,14 @@ def main():
         if twin is not None: twin[so + 1:so + 5] = struct.pack('<i', rel)
         npf += code.count(b'\x0f\x18'); nplt += (got is not None)
         cur += sz
+    nplt_inplace = patch_plt_inplace(a, a.out, data, twin, va2off) if a.plt_inplace else 0
     open(a.out, 'wb').write(data)
     if twin is not None: open(a.twin, 'wb').write(twin)
     os.chmod(a.out, 0o755)
     if a.twin: os.chmod(a.twin, 0o755)
     print(f'{os.path.basename(a.inp)}: sites={len(sel)} (plt {nplt}, direct {len(sel)-nplt}) prefetches={npf} '
-          f'stub_segment={base:#x}+{total} bytes; burst={a.burst} ret={a.ret} seq={a.seq}x{a.seq_lines}')
+          f'stub_segment={base:#x}+{total} bytes; burst={a.burst} ret={a.ret} seq={a.seq}x{a.seq_lines}'
+          + (f'; plt-inplace entries={nplt_inplace}' if a.plt_inplace else ''))
 
 if __name__ == '__main__':
     main()
