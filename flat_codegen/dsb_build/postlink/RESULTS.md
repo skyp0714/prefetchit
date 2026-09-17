@@ -142,6 +142,16 @@ only an asynchronous prefetch engine (hardware "warm-up list" that streams the l
 
 On the isolated baseline the service's intrinsic miss rate is ~1.9 MPKI and the wake-up warm-up is exactly neutral (1.002x, twin 1.001x);
 the paced 512-line variant only pays its stall (0.953x). There is no prefetch headroom left once the pollution is removed.
+## When do the post-wake misses happen? (results/trace_wake, 16,159 wake windows)
+| within N µs after the wake | 1 | 2 | 5 | 10 | 20 | 40 | 100 |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| share of misses | 0.2% | 1.4% | 5.8% | 13% | 27% | 52% | 92% |
+Run window (wake → next sleep) median 65 µs. The misses are spread over the whole run, not front-loaded: a warm-up that uses the kernel's
+switch-in lead (0.5–1.5 µs before user code resumes) can address ~1–2% of them; 84% of misses sit within 64 B of a taken-branch target
+(next-line hardware prefetch already covers fall-through), so what remains is branch targets scattered through the 65 µs run.
+Upper bounds for a kernel warm-up module (I-side slope measured 0.7% cycles per MPKI): isolated 4-core baseline 1.9 MPKI → ≤1.3% (measured 1.002x);
+4 cores shared with other containers 5.7 MPKI → ≤4% (measured 0%); kernel-lead-only coverage → ≤0.3%.
+
 ## Conclusion
 No prefetch arm moves user-timeline's CPU time by more than ~1%; the only large effect is core pinning (1.51x). The L2I misses of this
 service are L2 pollution by co-scheduled containers during the ~30 ms idle gaps between a thread's requests, not a
