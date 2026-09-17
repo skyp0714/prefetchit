@@ -22,7 +22,7 @@ perf_run(){ # $1 label $2 csv-out ; runs sysbench DUR with perf stat -a -C on se
   taskset -c $CLIENT_CORES sysbench oltp_read_write $SB --threads=$THREADS --time=15 run > /dev/null 2>&1
   perf stat -x, -o $2 -e instructions,cycles,'cpu/event=0x24,umask=0x24,name=L2I_CODE_RD_MISS/' -a -C $SERVER_CORES -- \
     taskset -c $CLIENT_CORES sysbench oltp_read_write $SB --threads=$THREADS --time=$DUR run > ${2%.csv}.sysbench.log 2>&1
-  python3 - $2 ${2%.csv}.sysbench.log $1 <<'PY'
+  python3 - "$2" "${2%.csv}.sysbench.log" "$1" <<'PY'
 import csv,re,sys
 perf,log,label=sys.argv[1:]; ev={}
 for row in csv.reader(open(perf)):

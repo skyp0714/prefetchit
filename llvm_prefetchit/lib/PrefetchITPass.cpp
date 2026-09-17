@@ -130,6 +130,13 @@ static cl::opt<std::string> PrefetchITSeqFunctionsFile(
              "listed functions get sequential lookahead / callee bursts (the "
              "regexes still apply on top); env PREFETCHIT_SEQ_FUNCTIONS_FILE"),
     cl::init(""));
+// Shared-library modules (PIC level 2 without a PIE level) cannot carry
+// rip-relative references to executable-only symbols; skip them so a plan for
+// the main binary does not break the link of DSOs built with the same flags.
+static cl::opt<bool> PrefetchITSkipPICModules(
+    "prefetchit-skip-pic-modules",
+    cl::desc("Do not inject into -fPIC (non-PIE) modules; env PREFETCHIT_SKIP_PIC=1"),
+    cl::init(false));
 static cl::opt<unsigned> PrefetchITSeqMinInsns(
     "prefetchit-seq-min-insns",
     cl::desc("Skip functions with fewer IR instructions than this; env "
@@ -1024,6 +1031,21 @@ static uint64_t runSequentialLookahead(Module &M, const SeqConfig &C) {
 class PrefetchITPass : public PassInfoMixin<PrefetchITPass> {
 public:
   PreservedAnalyses run(Module &M, ModuleAnalysisManager &) {
+    bool SkipPIC = PrefetchITSkipPICModules;
+    if (const char *E = std::getenv("PREFETCHIT_SKIP_PIC"))
+      SkipPIC = SkipPIC || (E[0] == '1');
+    if (SkipPIC) {
+      auto flagVal = [&](const char *Name) -> uint64_t {
+        if (auto *V = mdconst::extract_or_null<ConstantInt>(M.getModuleFlag(Name)))
+          return V->getZExtValue();
+        return 0;
+      };
+      if (flagVal("PIC Level") == 2 && flagVal("PIE Level") == 0) {
+        errs() << "prefetchit-inject: skipping PIC (shared-library) module "
+               << M.getName() << "\n";
+        return PreservedAnalyses::all();
+      }
+    }
     SeqConfig Seq = getSeqConfig();
     std::string PlanPath = getPlanPath();
     bool Changed = false;
