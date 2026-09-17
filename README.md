@@ -73,6 +73,8 @@ NOP으로 치환한 *NOP twin* 대비, 코어·언코어 클럭 고정, 인터�
 | 코어 고정(대조군) | `docker update --cpuset-cpus` | — | **pin4: MPKI 6.4, cycles 1.51x; pin8: 9.7, 1.35x** |
 | **inline trace-guided plan(전면 재빌드)**: 재빌드 base에서 trace → 바이너리별 plan(서비스 90 + hiredis 97 + libs 360) → IR pass로 stub 없이 주입 | `prefetchit_trace_to_plan.py` + `inline_fix_operands.py` + `chain_inline.sh` | 명령 +1.1% | 비고정 **1.012x**(MPKI 21.9→21.2, twin 0.998x); 메인@40+풀@41-44 고정 **1.003x**(5.74→5.48) |
 | 코어 고정 v2(메인 스레드 전용 코어 + 워커 풀 4코어, `pin_threads.sh`) | `docker update` + per-thread `taskset` | — | **1.483x, MPKI 21.9→5.7** |
+| 완전 격리(다른 26개 컨테이너를 코어 40–44 밖으로) + v2 고정 | `docker update --cpuset-cpus` 전 컨테이너 | — | **1.64x, MPKI 1.99, IPC 0.99** — 오염을 없애면 남는 miss가 ~2 MPKI |
+| **진단**: inline plan의 prefetcht1 4.3억 개/30 s 중 L2에서 miss(실제 fill)한 건 0.24%(고정)/1.0%(비고정). miss는 요청 시작 직후 transport/parse 코드(libthrift·libstdc++·libc)의 cold-start 버스트라 우리 코드의 사이트가 돌 때는 이미 데워져 있음 | `L2_RQSTS.SWPF_HIT/MISS`(0x24/0xc8, 0x28) | — | 프리페치가 헛돎 |
 
 결론: DSB의 L2I miss는 프리페치로 잡을 "스트림"이 아니라 86코어를 공유하는 26개 컨테이너에 의한 L2 오염 문제다(스레드는 연결당 1개·71개가 오래 살고 동시에 1~4개만 실행; 각 스레드가 요청 사이 ~30 ms 쉬는 동안 같은 코어에서 다른 컨테이너가 L2를 비운다). hot 라인은 2,956개(90%가 66 KB)뿐이라 코어를 고정하면 miss가 1/3.5로 준다. 소프트웨어 프리페치는 trace-guided 배치로 miss를 11% 줄이지만 stub 오버헤드(명령 +5.7%)에 상쇄되어 +1%에 그친다. Verilator에서 같은 stub 방식은 사이트 밀도가 높아 3–5% 손해(IR pass가 낫다). 전면 재빌드(clang-19로 서비스+thrift/mongoc/bson/jaeger를 IR pass로 재컴파일; libc/libstdc++는 배포판) arm도 **callee-burst 1.001x(MPKI 22.6→22.2), seq D4K K40+burst 0.992x(22.1)** = 효과 없음(round 4, `RESULTS.md`). trace-guided plan을 재빌드로 inline 주입한 arm(round 10)은 비고정 1.012x, 메인/풀 고정 1.003x — stub 비용을 없애도 남는 이득은 1% 수준이다. 스레드는 연결당 1개(71개 상주, 동시 실행 1~4개)로 오래 살며, 요청 사이 idle 동안의 L2 오염이 miss의 원인.
 
