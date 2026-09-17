@@ -64,7 +64,7 @@ build)
   B=$M/build_$VAR; I=$M/install_$VAR; rm -rf $B; mkdir -p $B; cd $B
   F="-O3 -g -DNDEBUG -fno-omit-frame-pointer -fpass-plugin=$LLVM/build/PrefetchITPass.so"
   cmake ../mariadb-$V -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_C_COMPILER=clang-19 -DCMAKE_CXX_COMPILER=clang++-19 -DCMAKE_C_FLAGS_RELWITHDEBINFO="$F" -DCMAKE_CXX_FLAGS_RELWITHDEBINFO="$F" \
-    -DCMAKE_INSTALL_PREFIX=$I -DWITH_SSL=system -DWITH_ZLIB=system -DPLUGIN_ROCKSDB=NO -DPLUGIN_MROONGA=NO -DPLUGIN_SPIDER=NO -DPLUGIN_CONNECT=NO -DPLUGIN_TOKUDB=NO -DPLUGIN_OQGRAPH=NO -DPLUGIN_SPHINX=NO -DWITH_WSREP=OFF -DWITH_UNIT_TESTS=OFF -DWITH_EMBEDDED_SERVER=OFF > cmake.log 2>&1
+    -DCMAKE_INSTALL_PREFIX=$I -DCMAKE_EXE_LINKER_FLAGS="${EXTRA_LDFLAGS:-}" -DWITH_SSL=system -DWITH_ZLIB=system -DPLUGIN_ROCKSDB=NO -DPLUGIN_MROONGA=NO -DPLUGIN_SPIDER=NO -DPLUGIN_CONNECT=NO -DPLUGIN_TOKUDB=NO -DPLUGIN_OQGRAPH=NO -DPLUGIN_SPHINX=NO -DWITH_WSREP=OFF -DWITH_UNIT_TESTS=OFF -DWITH_EMBEDDED_SERVER=OFF > cmake.log 2>&1
   make -j32 > make.log 2>&1; make install > install.log 2>&1
   grep -h "prefetchit-inject: injected=[1-9]" make.log | wc -l | xargs -I{} log "$VAR: {} TUs with injections; $(llvm-objdump-19 -d $I/bin/mariadbd | grep -cE 'prefetcht[012]') prefetches in mariadbd"
   python3 $LLVM/tools/make_nop_control_binary.py --input $I/bin/mariadbd --output $I/bin/mariadbd_nop > /dev/null 2>&1; log "$VAR twin: $(llvm-objdump-19 -d $I/bin/mariadbd_nop | grep -cE 'prefetcht[012]') left"
