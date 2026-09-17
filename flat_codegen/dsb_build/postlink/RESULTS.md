@@ -86,11 +86,27 @@ Images `dsb-deps-g` (base), `dsb-deps-b3` (callee-entry burst 3 lines: service 3
 | seq | 3 | 6019 | 0 | 4.1 | 13.0 | 59.44 | 0.9923x | 22.09 | 0.589 | 1.007 |
 | seq_nop | 3 | 6019 | 0 | 4.1 | 17.0 | 59.52 | 0.9909x | 22.22 | 0.590 | 1.009 |
 
+## Round 10 — inline trace-guided plan in a full clang-19 rebuild, under both baselines (2026-09-17 12:21–12:49)
+Trace taken on the rebuilt base (`dsb-deps-g`, -g everywhere, pass-built hiredis/redis++) with the service pinned main@40 / worker pool@41-44.
+Plans per binary (`prefetchit_trace_to_plan.py`, cov 75%, budget 2, depth 2–8): service 90 sites (+97 hiredis/redis++ sites routed to the libs plan),
+libs 360 injections (GOT operands); built inline by the IR pass (no stubs): service 100 prefetcht1, mongoc 97, bson 52, jaeger 37, redis++ 29, thrift 23.
+`P` = main thread on core 40, worker threads on 41-44 (`pin_threads.sh`); reference arm = g (unpinned rebuilt base).
+| arm | reps | rps | non2xx | p50 ms | p99 ms | svc cycles (G) | cycles vs g | MPKI | IPC | instr vs g |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| g | 3 | 6019 | 0 | 3.9 | 12.0 | 53.72 | 1.0000x | 21.91 | 0.627 | 1.000 |
+| gP | 3 | 6019 | 0 | 3.8 | 11.4 | 36.23 | 1.4828x | 5.74 | 0.898 | 0.965 |
+| pgo | 3 | 6019 | 0 | 3.9 | 16.4 | 53.11 | 1.0115x | 21.22 | 0.641 | 1.011 |
+| pgo_nop | 3 | 6019 | 0 | 3.8 | 11.1 | 53.85 | 0.9976x | 21.86 | 0.634 | 1.013 |
+| pgoP | 3 | 6019 | 0 | 3.9 | 12.3 | 36.11 | 1.4878x | 5.48 | 0.911 | 0.976 |
+| pgoP_nop | 3 | 6019 | 0 | 3.9 | 12.8 | 36.16 | 1.4856x | 5.61 | 0.911 | 0.977 |
+
+Read as: unpinned plan 1.0115x vs base (twin 0.998x; MPKI 21.9→21.2); pinned plan vs pinned base 36.11 vs 36.23 G = 1.003x (MPKI 5.74→5.48).
 ## Conclusion
 No prefetch arm moves user-timeline's CPU time by more than ~1%; the only large effect is core pinning (1.51x). The L2I misses of this
 service are L2 pollution by co-scheduled containers during the ~30 ms idle gaps between a thread's requests, not a
 prefetchable code stream. Trace-guided post-link placement does reduce misses by 11% (pgo75) but its stub overhead (+5.7% instructions)
-cancels the gain; a cheaper injection mechanism (in-place padding or an ISA hint) would be needed to turn that into time.
+cancels the gain. Injecting the same kind of plan inline via a full rebuild (round 10, no stub overhead) gives +1.2% unpinned and +0.3% with
+the service pinned (main thread on its own core, workers on a 4-core pool): the prefetchable remainder is small once the pollution is removed by pinning.
 ## Trace (results/trace_utl, 212k L2I-miss samples, 6.6M LBR records)
 - Miss IPs: libc 27%, service 24%, libstdc++ 16%, jaeger 12%, pthread 7%, mongoc 5%, bson 4%, thrift 2%.
 - Only 2,956 distinct miss lines; 50% of misses in 227 lines (14 KB), 90% in 1,050 lines (66 KB).
