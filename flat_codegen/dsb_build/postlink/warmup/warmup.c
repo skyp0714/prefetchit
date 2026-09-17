@@ -83,9 +83,13 @@ __attribute__((destructor)) static void fini(void) {
     uint64_t t0 = __rdtsc(); ret r = real args; warm(hook, __rdtsc() - t0); return r; }
 WRAP(ssize_t, recv, H_RECV, (int fd, void *buf, size_t len, int flags), (fd, buf, len, flags))
 WRAP(ssize_t, recvfrom, H_RECV, (int fd, void *buf, size_t len, int flags, struct sockaddr *a, socklen_t *al), (fd, buf, len, flags, a, al))
+#ifdef WITH_READ
 WRAP(ssize_t, read, H_READ, (int fd, void *buf, size_t len), (fd, buf, len))
 WRAP(ssize_t, readv, H_READ, (int fd, const struct iovec *iov, int cnt), (fd, iov, cnt))
+#endif
 WRAP(int, poll, H_POLL, (struct pollfd *fds, nfds_t n, int timeout), (fds, n, timeout))
 WRAP(int, epoll_wait, H_EPOLL, (int ep, struct epoll_event *ev, int max, int timeout), (ep, ev, max, timeout))
+#ifdef WITH_COND
 WRAP(int, pthread_cond_wait, H_COND, (pthread_cond_t *c, pthread_mutex_t *m), (c, m))
 WRAP(int, pthread_cond_timedwait, H_COND, (pthread_cond_t *c, pthread_mutex_t *m, const struct timespec *t), (c, m, t))
+#endif
