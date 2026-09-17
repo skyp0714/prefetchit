@@ -107,6 +107,23 @@ service are L2 pollution by co-scheduled containers during the ~30 ms idle gaps 
 prefetchable code stream. Trace-guided post-link placement does reduce misses by 11% (pgo75) but its stub overhead (+5.7% instructions)
 cancels the gain. Injecting the same kind of plan inline via a full rebuild (round 10, no stub overhead) gives +1.2% unpinned and +0.3% with
 the service pinned (main thread on its own core, workers on a 4-core pool): the prefetchable remainder is small once the pollution is removed by pinning.
+## Software-prefetch accounting of the inline-plan arm (30 s windows, R=6000; L2_RQSTS.SWPF_HIT/MISS = prefetcht1 that reached L2 and hit/missed)
+| arm | instr (G) | L2I MPKI | L2I misses (M) | sw prefetches at L2 (M) | of which missed = real fills (M) | useful share |
+|---|---:|---:|---:|---:|---:|---:|
+| g | 41.8 | 18.00 | 753 | 0 | 0.20 | 62.25% |
+| pgo | 34.2 | 21.00 | 717 | 256 | 2.65 | 1.04% |
+| gP | 42.7 | 3.89 | 166 | 0 | 0.28 | 67.06% |
+| pgoP | 60.9 | 3.00 | 183 | 430 | 1.04 | 0.24% |
+
+Reading: the plan's prefetches execute in bulk (250–430 M per 30 s) but 99% of them find their target already in L2. Only 1–2.7 M lines
+were actually fetched against 180–750 M demand code misses. The misses are the cold-start burst at the beginning of each request
+(transport/parse code in libthrift/libstdc++/libc, before any site in our code runs); by the time the plan's sites fire, the request's
+working set is already re-warmed. `P` = pinned main@40 / pool@41-44 (other containers still float over those cores).
+
+## Isolation control (other 26 containers moved off cores 40-44, service main@40 / pool@41-44, rebuilt base)
+instr 32.3 G, cycles 32.7 G (**1.64x vs unpinned g**, 1.11x vs gP), IPC 0.99, **L2I MPKI 1.99** (results/swpf/gP_isolated.csv).
+With the pollution removed the service's intrinsic instruction-miss rate is ~2 MPKI; there is nothing left for software prefetch to recover.
+
 ## Trace (results/trace_utl, 212k L2I-miss samples, 6.6M LBR records)
 - Miss IPs: libc 27%, service 24%, libstdc++ 16%, jaeger 12%, pthread 7%, mongoc 5%, bson 4%, thrift 2%.
 - Only 2,956 distinct miss lines; 50% of misses in 227 lines (14 KB), 90% in 1,050 lines (66 KB).
