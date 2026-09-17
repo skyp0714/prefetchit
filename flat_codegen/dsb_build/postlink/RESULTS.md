@@ -233,3 +233,18 @@ Two classes. Busy services lose to pollution and recover when isolated (compose-
 user-mention and their redis/memcached) get *worse* when isolated (24→127, 20→125, 22→115 …): their exclusive cores idle into core C6
 (170 µs exit latency, 650 µs target residency, enabled by default; 2.3 M C6 entries per core during the run), which flushes L2, so every
 wake is fully cold. On shared cores the neighbours keep the core awake and part of the code survives. See the C-state separation below.
+
+## hotelReservation (Go services; socialNetwork load running as co-tenant noise; wrk2 mixed R=3000 on the frontend)
+| container | cs/s | instr/s (G) | MPKI shared | MPKI isolated | ΔMPKI | IPC sh→iso | cycles sh/iso | I-side headroom ≈0.7%×ΔMPKI |
+|---|---:|---:|---:|---:|---:|---|---:|---:|
+| hotelreservation-frontend-1 | 11727 | 0.64 | 17.7 | 9.0 | 8.6 | 0.70→0.87 | 1.30x | 6.0% |
+| hotelreservation-mongodb-profile-1 | 35 | 0.01 | 7.2 | 6.1 | 1.1 | 0.96→1.10 | 1.03x | 0.8% |
+| hotelreservation-mongodb-geo-1 | 36 | 0.01 | 7.2 | 6.7 | 0.5 | 0.95→1.02 | 1.08x | 0.4% |
+| hotelreservation-mongodb-attractions-1 | 35 | 0.01 | 6.4 | 6.1 | 0.3 | 0.99→1.07 | 1.09x | 0.2% |
+| hotelreservation-mongodb-rate-1 | 35 | 0.02 | 3.9 | 6.1 | -2.2 | 1.18→1.05 | 1.53x | -1.5% |
+| hotelreservation-mongodb-recommendation-1 | 27 | 0.02 | 3.6 | 6.4 | -2.7 | 1.17→1.04 | 1.36x | -1.9% |
+| hotelreservation-mongodb-user-1 | 1 | 0.01 | 0.6 | 5.9 | -5.2 | 1.46→1.10 | 0.60x | -3.7% |
+
+Only the Go frontend is busy enough to read (17.7→9.0 MPKI, 1.30x; 6% I-side headroom — but Go code is not addressable by our AOT
+pass or post-link tools in a stable way). The Go backends executed <5 M instructions per 30 s under this load (rows omitted), so the
+suite adds no candidate. Mongo sidecars: 4–7 MPKI, isolation-neutral.
