@@ -8,6 +8,8 @@
 #include "llvm/IR/InstIterator.h"
 #include "llvm/IR/Instructions.h"
 #include "llvm/IR/IntrinsicInst.h"
+#include "llvm/IR/GlobalAlias.h"
+#include "llvm/Transforms/Utils/ModuleUtils.h"
 #include "llvm/IR/Module.h"
 #include "llvm/IR/PassManager.h"
 #include "llvm/Passes/PassBuilder.h"
@@ -950,9 +952,29 @@ static uint64_t runCalleeEntryBurst(Module &M, const SeqConfig &C) {
         }
         Sites.emplace_back(CB, Callee);
       }
+    // Reference non-local callees through a private alias so the emitted
+    // PC-relative operand binds to this module's definition at assembly time.
+    // A direct reference to a preemptible (default-visibility) symbol would
+    // need an R_X86_64_PC32 dynamic relocation, which the linker rejects when
+    // building a shared object.
+    DenseMap<Function *, std::string> AliasName;
     for (auto &[CB, Callee] : Sites) {
       Instruction *At = moveInsertionEarlier(*CB, C.BurstLead);
-      std::string Symbol = escapeInlineAsmSymbol(Callee->getName());
+      std::string Symbol;
+      if (Callee->hasLocalLinkage()) {
+        Symbol = escapeInlineAsmSymbol(Callee->getName());
+      } else {
+        auto It = AliasName.find(Callee);
+        if (It == AliasName.end()) {
+          auto *GA = GlobalAlias::create(Callee->getValueType(), 0,
+                                         GlobalValue::InternalLinkage,
+                                         "prefetchit.burst." + Callee->getName(),
+                                         Callee, &M);
+          appendToUsed(M, {GA});  // referenced only from inline asm text
+          It = AliasName.try_emplace(Callee, GA->getName().str()).first;
+        }
+        Symbol = escapeInlineAsmSymbol(It->second);
+      }
       for (unsigned L = 0; L < C.BurstLines; ++L) {
         std::string AsmString = C.Mnemonic + " " + Symbol + "+" +
                                 std::to_string(64u * L) + "(%rip)";
