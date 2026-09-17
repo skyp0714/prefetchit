@@ -958,11 +958,20 @@ static uint64_t runCalleeEntryBurst(Module &M, const SeqConfig &C) {
     // need an R_X86_64_PC32 dynamic relocation, which the linker rejects when
     // building a shared object.
     DenseMap<Function *, std::string> AliasName;
+    bool PICModule = false;
+    if (auto *MD = mdconst::extract_or_null<ConstantInt>(M.getModuleFlag("PIC Level")))
+      PICModule = MD->getZExtValue() != 0;
     for (auto &[CB, Callee] : Sites) {
       Instruction *At = moveInsertionEarlier(*CB, C.BurstLead);
       std::string Symbol;
-      if (Callee->hasLocalLinkage()) {
+      if (Callee->hasLocalLinkage() || !PICModule) {
+        // local symbol, or non-PIC code: a direct PC-relative reference links fine
+        // (COMDAT callees resolve to the linker-kept copy).
         Symbol = escapeInlineAsmSymbol(Callee->getName());
+      } else if (Callee->isWeakForLinker()) {
+        // PIC + COMDAT/weak callee: an alias would point into a section the linker may
+        // discard, and a direct reference needs a dynamic PC32 reloc -> skip this site.
+        continue;
       } else {
         auto It = AliasName.find(Callee);
         if (It == AliasName.end()) {
