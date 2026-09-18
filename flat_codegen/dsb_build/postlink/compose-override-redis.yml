@@ -1,0 +1,8 @@
+# socialNetwork redis without RDB snapshots / AOF (the default 60 s BGSAVE of a 30 GB home-timeline set filled the disk and spiked p99).
+services:
+  social-graph-redis:
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+  home-timeline-redis:
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+  user-timeline-redis:
+    command: ["redis-server", "--save", "", "--appendonly", "no"]

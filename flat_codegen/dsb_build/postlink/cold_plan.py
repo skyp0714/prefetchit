@@ -17,6 +17,8 @@ ap.add_argument('--base-plan',default=None,help='previous plan whose bursts are 
 ap.add_argument('--site-exec',default=None,help='site_exec.txt from cold_site_profile.sh (instruction samples on prefetch insns per site of the previous build)'); ap.add_argument('--exec-period',type=float,default=20000.0); ap.add_argument('--exec-secs',type=float,default=20.0); ap.add_argument('--max-exec-ratio',type=float,default=10.0,help='drop a site whose measured prefetch executions per second exceed R x the misses it saves per second')
 ap.add_argument('--orphan-burst',type=int,default=0,help='attach the top-N miss lines that got no site (libc lines with libc-only windows, libstdc++ lines) to --orphan-site as a once-per-request burst'); ap.add_argument('--orphan-site',default=None)
 ap.add_argument('--exclude-sites',default=None,help='functions never used as sites (their misses re-attribute to other candidates)')
+ap.add_argument('--exe-suffix',default='/custom/UserTimelineService',help='path suffix of the traced executable in maps/perf dso fields'); ap.add_argument('--libc-name',default='libc.so.6')
+ap.add_argument('--local-aliases',action='store_true',help='local (static) functions: file-qualified sites, and hidden aliases so other TUs can target their lines (needs nm -l file info)')
 ap.add_argument('--no-got',action='store_true',help='drop libc (GOT-anchored) targets')
 ap.add_argument('--fallback',action='store_true',help='no entry in window: use the oldest instrumentable exe function seen in the LBR (its entry precedes the window)')
 ap.add_argument('--drop-own-line0',action='store_true',help='never prefetch line 0 of the site itself')
@@ -31,10 +33,10 @@ def loc(a):
     for lo,hi,off,name in segs:
         if lo<=a<hi: return name.rsplit('/',1)[-1], a-lo+off   # file offset
     return None,None
-exe_base=next(lo for lo,hi,off,n in segs if n.endswith('/custom/UserTimelineService') and off==0) if any(n.endswith('/custom/UserTimelineService') and off==0 for lo,hi,off,n in segs) else None
+exe_base=next(lo for lo,hi,off,n in segs if n.endswith(A.exe_suffix) and off==0) if any(n.endswith(A.exe_suffix) and off==0 for lo,hi,off,n in segs) else None
 if exe_base is None:
-    lo=min(lo for lo,hi,off,n in segs if n.endswith('/custom/UserTimelineService')); off=min(off for lo,hi,off,n in segs if n.endswith('/custom/UserTimelineService')); exe_base=lo-off
-libc_segs=[(lo,hi,off) for lo,hi,off,n in segs if n.endswith('libc.so.6')]
+    lo=min(lo for lo,hi,off,n in segs if n.endswith(A.exe_suffix)); off=min(off for lo,hi,off,n in segs if n.endswith(A.exe_suffix)); exe_base=lo-off
+libc_segs=[(lo,hi,off) for lo,hi,off,n in segs if n.endswith(A.libc_name)]
 # exe symbols (vaddr == file offset + segment delta; for a PIE the first LOAD has vaddr 0 == offset 0, and objdump/nm addresses are vaddrs)
 def ph_delta(exe):
     d={}
@@ -54,6 +56,17 @@ for l in subprocess.run(['nm','--defined-only',A.exe],capture_output=True,text=T
         syms.append((int(f[0],16),f[2]))
         if f[1] in 'TW': glob.add(f[2])
 syms.sort(); saddr=[a for a,_ in syms]; sname={n:a for a,n in syms}
+localfile=collections.defaultdict(set); aliases={}
+if A.local_aliases:
+    for l in subprocess.run(['nm','-l','--defined-only',A.exe],capture_output=True,text=True).stdout.splitlines():
+        f=l.split()
+        if len(f)>=4 and f[1] in 'tw' and ':' in f[3]: localfile[f[2]].add(f[3].split(':')[0].rsplit('/',1)[-1])
+ambiguous={n for n,fs in localfile.items() if len(fs)>1 or n in glob}
+def usable_site(fn): return fn in instr and fn not in ambiguous
+def local_target(fn):
+    # alias name for a local function's lines, or None if it cannot be referenced from another TU
+    if not A.local_aliases or fn in ambiguous or fn not in localfile: return None
+    (fb,)=tuple(localfile[fn]); a=f"prefetchit.tgt.{fb}.{fn}"; aliases[a]={"file":fb,"fn":fn}; return a
 def func_of(va):
     i=bisect.bisect_right(saddr,va)-1
     return syms[i] if i>=0 else (None,None)
@@ -95,14 +108,14 @@ for ln in open(f"{A.trace}/samples_lbr.txt"):
     m=HEAD.match(ln)
     if not m: continue
     n+=1; ip=int(m.group(1),16); d=m.group(2).rsplit('/',1)[-1]
-    if d.endswith('UserTimelineService'):
+    if d.endswith(A.exe_suffix.rsplit('/',1)[-1]):
         va=off2va(ip-exe_base); fa,fn=func_of(va); tline=(va>>6)<<6
         if fn is None: stat['drop: no exe symbol']+=1; continue
         if fn in glob: target=(fn, tline-fa, 0)
         elif fn in instr: target=(fn, tline-fa, 0)   # local function: only its own entry may reference it (checked below)
         else: stat['drop: local non-instrumentable function']+=1; continue
         kind='exe'
-    elif d=='libc.so.6':
+    elif d==A.libc_name:
         lva=libc_va(ip)
         if lva is None: stat['drop: libc unmapped']+=1; continue
         aa,an=libc_anchor(lva)
@@ -115,9 +128,9 @@ for ln in open(f"{A.trace}/samples_lbr.txt"):
     for fr,to,cyc,ty in ents:
         c=int(cyc) if cyc!='-' else 0; lead+=max(0,c)
         tov=int(to,16); tdso,_=loc(tov)
-        if tdso and tdso.endswith('UserTimelineService'):
+        if tdso and tdso.endswith(A.exe_suffix.rsplit('/',1)[-1]):
             va2=off2va(tov-exe_base); fa2,fn2=func_of(va2)
-            if fn2 is not None and va2==fa2 and fn2 in instr and A.min_lead<=lead<=A.max_lead:
+            if fn2 is not None and va2==fa2 and usable_site(fn2) and A.min_lead<=lead<=A.max_lead:
                 entry_hit=True
                 if best is None or (hz(fn2),-lead)<(hz(best),-best_lead): best=fn2; best_lead=lead
         if lead>A.max_lead: break
@@ -128,20 +141,23 @@ for ln in open(f"{A.trace}/samples_lbr.txt"):
         for fr,to,cyc,ty in reversed(ents):
             for a in (int(fr,16),int(to,16)):
                 dso2,_=loc(a)
-                if dso2 and dso2.endswith('UserTimelineService'):
+                if dso2 and dso2.endswith(A.exe_suffix.rsplit('/',1)[-1]):
                     fa2,fn2=func_of(off2va(a-exe_base))
-                    if fn2 is not None and fn2 in instr and (best is None or hz(fn2)<hz(best)): best=fn2
+                    if fn2 is not None and usable_site(fn2) and (best is None or hz(fn2)<hz(best)): best=fn2
             # keep scanning: choose the lowest-rate function seen anywhere in the window
         if best is not None: stat['attributed: oldest running function (fallback)']+=1
     if best is None:
-        if fn is not None and kind=='exe' and fn in instr: best=fn; stat['attributed: own entry (no earlier entry in window)']+=1
+        if fn is not None and kind=='exe' and usable_site(fn): best=fn; stat['attributed: own entry (no earlier entry in window)']+=1
         else:
             stat['drop: no instrumentable site in LBR window']+=1
             if A.orphan_burst and A.orphan_site and not (A.no_got and target[2]==1): orphans[target]+=1
             continue
     if A.no_got and target[2]==1: stat['drop: got target (--no-got)']+=1; continue
     if A.drop_own_line0 and target[2]==0 and target[0]==best and target[1]==0: stat['drop: own line 0']+=1; continue
-    if target[2]==0 and target[0] not in glob and best!=target[0]: stat['drop: local target from other site']+=1; continue
+    if target[2]==0 and target[0] not in glob and best!=target[0]:
+        a=local_target(target[0])
+        if a is None: stat['drop: local target from other site']+=1; continue
+        target=(a,target[1],0,target[0]); stat['attributed: local target via alias']+=0   # 4th field = function name (for the k shift)
     plan[best][target]+=1; line_sites[target][best]+=1
 # prune: per line keep the top sites; per site keep weight>=min_w and cap
 for t,ss in line_sites.items():
@@ -200,19 +216,24 @@ if A.base_plan:
         if s not in sites: sites[s]=[]; K[s]=k
     grown=[s for s in sites if s in baseK and K[s]>baseK[s]]
     print(f"base plan: {len(baseK)} sites kept, {len(grown)} bursts grew beyond the traced layout (offsets inside them drift)")
-out={"sites":{}}; ntargets=0; wcov=0
+out={"sites":{}}; ntargets=0; wcov=0; used_aliases={}
 for s,ts in sites.items():
     tl=[]
-    for (sym,off,got),w in ts:
+    for t,w in ts:
+        sym,off,got=t[0],t[1],t[2]; fn=t[3] if len(t)>3 else sym
         o=off
-        if not got and sym in K and off>=16 and not A.base_plan: o=off+K[sym]
-        elif not got and A.base_plan and sym in K and sym not in baseK and off>=16: o=off+K[sym]   # new site in an unshifted function
+        if not got and fn in K and off>=16 and not A.base_plan: o=off+K[fn]
+        elif not got and A.base_plan and fn in K and fn not in baseK and off>=16: o=off+K[fn]   # new site in an unshifted function
+        if len(t)>3: used_aliases[sym]=aliases[sym]
         tl.append([sym,o,got]); ntargets+=1; wcov+=w
     out["sites"][s]={"k":K[s],"t":tl}
+    if A.local_aliases and s in localfile and s not in glob: out["sites"][s]["file"]=next(iter(localfile[s]))
+if used_aliases: out["aliases"]=used_aliases
 json.dump(out,open(A.out,'w'))
 tot_attr=sum(v for k,v in stat.items() if k.startswith('attributed'))
 print(f"measured-exec filter: dropped {exec_dropped} sites, weight {exec_dropped_w} ({100*exec_dropped_w/max(1,n):.1f}% of samples)")
 print(f"cost filter: dropped {cost_dropped} (site,target) pairs, weight {cost_dropped_w} ({100*cost_dropped_w/max(1,n):.1f}% of samples)")
+print(f"local aliases used: {len(used_aliases)}; local sites: {sum(1 for v in out['sites'].values() if 'file' in v)}")
 print(f"samples={n} attributed={tot_attr} ({100*tot_attr/max(1,n):.1f}%) kept_weight={wcov} ({100*wcov/max(1,n):.1f}% of samples) sites={len(sites)} targets={ntargets} "
       f"avg_burst={sum(K.values())/max(1,len(K)):.0f}B got_targets={sum(1 for s in sites for (sym,off,got),w in sites[s] if got)}")
 for k,v in stat.most_common(): print(f"  {100*v/max(1,n):5.1f}%  {k}")

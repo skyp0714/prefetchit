@@ -4,19 +4,20 @@ usage: cold_target_analysis.py EXE TWIN_TRACE_DIR [PF_TRACE_DIR] [--own-cap 16]
   EXE            binary with the prefetches (its NOP twin has the identical layout)
   TWIN_TRACE_DIR cold_trace_funcs.sh output for the twin (baseline misses in this layout): samples.txt + maps.txt
   PF_TRACE_DIR   same for the prefetch binary (residual misses)"""
-import sys,re,bisect,collections,subprocess
+import sys,re,bisect,collections,subprocess,os
+EXE_SUFFIX=os.environ.get('EXE_SUFFIX',EXE_SUFFIX)
 exe=sys.argv[1]; twin=sys.argv[2]; pf=sys.argv[3] if len(sys.argv)>3 and not sys.argv[3].startswith('--') else None
 def base_of(d):
     for l in open(f"{d}/maps.txt"):
         f=l.split()
-        if len(f)>=6 and f[5].endswith('/custom/UserTimelineService') and f[2]=='00000000': return int(f[0].split('-')[0],16)
+        if len(f)>=6 and f[5].endswith(EXE_SUFFIX) and f[2]=='00000000': return int(f[0].split('-')[0],16)
 def misses(d):
     b=base_of(d); c=collections.Counter(); tot=0
     for l in open(f"{d}/samples.txt"):
         f=l.split()
         if len(f)<2: continue
         tot+=1
-        if f[1].strip('()').endswith('/custom/UserTimelineService'): c[(int(f[0],16)-b)>>6]+=1
+        if f[1].strip('()').endswith(EXE_SUFFIX): c[(int(f[0],16)-b)>>6]+=1
     return c,tot
 syms=[]
 for l in subprocess.run(['nm','--defined-only',exe],capture_output=True,text=True).stdout.splitlines():
