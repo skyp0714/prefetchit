@@ -644,3 +644,17 @@ snapshot storm gone, cold8's in-round gain is 3.5% — the cleanest measurement 
 No effect: the unattributable lines are needed before the dispatcher runs (socket read/parse) or by other threads, so one burst at
 dispatch entry neither reduces misses (15.5 → 15.45) nor pays. Round 35 (combination) was skipped by rule: only the measured pruning
 qualified, and it was already measured alone (round 32). Round 36 = 5-rep confirmation of v4 (cold8) vs gs and twin.
+
+## Round 36 — 5-rep confirmation of plan v4 (cold8) vs the fat-static base and its twin, 03:45 (redis snapshots off; clean p99 except one gs outlier)
+
+| arm | svc cycles (G, median of 5) | vs gs | MPKI | IPC | instr vs gs |
+|---|---:|---:|---:|---:|---:|
+| gs | 61.46 | 1.000x | 18.13 | 0.592 | 1.000 |
+| cold8 (plan v4) | 60.81 | **1.011x** (mean 1.012x; paired reps 1.001–1.029) | **15.68** | 0.623 | 1.041 |
+| cold8_nop (twin) | 61.78 | 0.995x | 17.68 | 0.613 | 1.041 |
+
+Definitive number for the trace-guided cold plan on user-timeline: **+1.1% net, +1.9% against the twin, −13.5% code misses.** The base
+keeps slowing (gs 55.6 G at 23:00 → 61.5 G now: the write load grows the timelines and the per-request work, instructions +7%), which
+dilutes the relative gain of a fixed miss reduction; the earlier in-round measurements (1.029x at 00:17, 1.035x at 02:55) were taken on
+a lighter dataset. The 5% target was not reached with prefetching alone; the static link itself (gs vs the shared-library build) remains
+the largest single win of the night (4–6%).
