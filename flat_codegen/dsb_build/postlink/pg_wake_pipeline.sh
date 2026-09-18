@@ -13,9 +13,9 @@ stop_server
 if [[ $STEP == trace ]]; then
   noise_on; PM=$(start_server ""); taskset -c 40-42 $PGB -T 15 > /dev/null 2>&1
   taskset -c 40-42 $PGB -T 60 > $OUT/pgbench_trace.log 2>&1 & BP=$!; sleep 10; PL_PIDS=$(pids $PM | tr ' ' ',')
-  echo ps101899 | sudo -S -p '' perf record -e 'cpu/event=0x24,umask=0x24,name=L2I_CODE_RD_MISS/upp' -c 2003 -e sched:sched_switch -e raw_syscalls:sys_exit -p $PL_PIDS -o $OUT/wake.data -- sleep 30 > $OUT/record.log 2>&1
+  echo ps101899 | sudo -S -p '' perf record -a -C 0-42 -e 'cpu/event=0x24,umask=0x24,name=L2I_CODE_RD_MISS/upp' -c 2003 -e sched:sched_switch -e raw_syscalls:sys_exit -o $OUT/wake.data -- sleep 30 > $OUT/record.log 2>&1
   echo ps101899 | sudo -S -p '' chmod a+r $OUT/wake.data; b=$(pgrep -P $PM | head -1); echo ps101899 | sudo -S -p '' cat /proc/$b/maps > $OUT/maps.txt
-  wait $BP; echo ps101899 | sudo -S -p '' perf script -i $OUT/wake.data -F comm,tid,time,event,ip,sym,dso,trace > $OUT/events.txt 2> $OUT/script.err
+  wait $BP; echo ps101899 | sudo -S -p '' perf script -i $OUT/wake.data -F comm,tid,time,event,ip,sym,dso,trace 2> $OUT/script.err | grep -E '^\s*postgres' > $OUT/events.txt
   MAIN_NAME=postgres python3 $PL/wake_lines.py $OUT/events.txt $OUT/maps.txt $PL/warmup/list_pg.txt --top 256 | tail -6
   stop_server; noise_off; echo TRACE_DONE
 else
@@ -24,7 +24,8 @@ else
     pre=; [[ $arm == warm64 ]] && pre=$PL/warmup/libwarmup_host.so; [[ $arm == warm64_nop ]] && pre=$PL/warmup/libwarmup_host_nop.so
     PM=$(start_server "$pre"); taskset -c 40-42 $PGB -T 15 > /dev/null 2>&1
     taskset -c 40-42 $PGB -T 50 > $OUT/pgb_${arm}_r${rep}.log 2>&1 & BP=$!; sleep 10; PL_PIDS=$(pids $PM | tr ' ' ',')
-    echo ps101899 | sudo -S -p '' perf stat -x, -e instructions,cycles,'cpu/event=0x24,umask=0x24,name=L2I/',context-switches -p $PL_PIDS -- sleep 30 2> $OUT/perf_${arm}_r${rep}.txt > /dev/null
+    PL_PIDS=$(pgrep -P $PM | tr '\n' ',' | sed 's/,$//'); echo ps101899 | sudo -S -p '' perf stat -x, -e instructions,cycles,'cpu/event=0x24,umask=0x24,name=L2I/',context-switches -p $PL_PIDS -- sleep 30 2> $OUT/perf_${arm}_r${rep}.txt > /dev/null
+    if ! grep -q instructions $OUT/perf_${arm}_r${rep}.txt; then sleep 2; PL_PIDS=$(pgrep -P $PM | tr '\n' ',' | sed 's/,$//'); echo ps101899 | sudo -S -p '' perf stat -x, -e instructions,cycles,'cpu/event=0x24,umask=0x24,name=L2I/',context-switches -p $PL_PIDS -- sleep 15 2> $OUT/perf_${arm}_r${rep}.txt > /dev/null; fi
     wait $BP; tps=$(grep -E "^tps = " $OUT/pgb_${arm}_r${rep}.log | tail -1 | sed -E 's/tps = ([0-9.]+).*/\1/')
     python3 - $arm $rep "$tps" $CSV $OUT/perf_${arm}_r${rep}.txt <<'PY'
 import csv,sys
