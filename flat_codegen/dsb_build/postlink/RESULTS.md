@@ -372,17 +372,16 @@ instruction prefetch hint changes nothing measurable, same as prefetcht1 did (ro
 prefetchit1 = 0F 18 35, RIP-relative; `/proc/cpuinfo` on this kernel does not list a `prefetchi` flag.)
 
 ## PREFETCHIT on Verilator (the frontend-starved reference: 57 MPKI, IPC 0.6) — same static arm (seq D=4 KB K=20 + burst 4, 209k sites), qsort 100k cycles, 3 reps
-| variant | median s (reps 1–2) | vs base |
-|---|---:|---:|
-| base | 48.2 | 1.000x |
-| prefetcht1 (round-4 arm) | 41.9 | **1.150x** |
-| prefetchit1 | 54.3 | 0.887x |
-| prefetchit1 NOP twin | 51.4 | 0.937x |
-| prefetchit0 | 54.2 | 0.889x |
-| prefetchit0 NOP twin | 51.5 | 0.936x |
-With identical placement, prefetcht1 gains 15% while prefetchit1/0 lose 11% — 5.5% worse than their own NOP twins (the twin cost is the
-+6% instruction bloat of the seq code). So on this Granite Rapids host PREFETCHIT is not inert in a frontend-starved loop: it costs
-issue/fill resources and brings nothing usable into L2 (no MPKI change; final table with rep 3 below when complete).
+| variant | median s | vs base | vs own NOP twin | L2I MPKI | IPC |
+|---|---:|---:|---:|---:|---:|
+| base | 48.17 | 1.000x | — | 57.0 | 0.618 |
+| prefetcht1 (round-4 arm) | 41.96 | **1.148x** | — | 13.7 | 0.757 |
+| prefetchit1 | 54.27 | 0.888x | 0.948x | 59.1 | 0.586 |
+| prefetchit1 NOP twin | 51.44 | 0.936x | — | 59.3 | 0.618 |
+| prefetchit0 | 54.16 | 0.889x | 0.950x | 58.9 | 0.587 |
+| prefetchit0 NOP twin | 51.44 | 0.936x | — | 59.3 | 0.618 |
+With identical placement, prefetcht1 gains 15% and cuts MPKI 57→14, while prefetchit1/0 lose 11% (5% worse than their own NOP twins,
+whose cost is the +7% instruction bloat of the seq code) and leave MPKI unchanged.
 Counters (Verilator, 15k simulated cycles, core 34): prefetcht1 arm L2I 15.7 MPKI, IPC 0.68, 52 M software prefetches (6.8 M fills);
 prefetchit1 arm L2I 65.3 MPKI = its NOP twin (65.4), IPC 0.520 vs twin 0.546, L2 code reads 77.0/kI vs 66.8/kI (+15%), and zero
 SWPF events (PREFETCHIT is not a data prefetch). So PREFETCHIT does issue extra L2 code-read requests (it is not inert) but they do not
