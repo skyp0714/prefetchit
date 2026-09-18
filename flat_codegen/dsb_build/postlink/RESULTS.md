@@ -479,3 +479,16 @@ that remain come from the library archives (19.7k sites), which the function lis
 → Round 21 (`chain_cold6.sh`): trace-guided cold plan (`cold_plan.py`: LBR trace of gs, each missed line attributed to the oldest
   instrumentable function entry with 60–4,000 cycles of lead; exe lines pc-relative, libc lines via GOT anchor + displacement; bursts
   padded to 16 B so offsets stay exact) built into both the service and the static-only archives (`dsb-deps-plan`), arms gs / cold5 / cold5_nop.
+
+## Why does the static link gain? Counter decomposition g / gs / cold3 (per 1k instructions, 2 reps, service pid, 30 s window, `cold_counters.sh`, 23:43)
+
+| arm | IPC | L2 code miss | L2 data miss | ITLB walk | DTLB load walk | branch mispred | indirect mispred | ret mispred |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| g (shared libs) | 0.602 | 19.62 | 5.81 | 0.78 | 0.82 | 7.22 | 1.75 | 0.15 |
+| gs (fat-static) | 0.635 | 17.88 (−9%) | 5.42 (−7%) | 0.66 (−15%) | 0.78 | 7.13 | 1.65 (−6%) | 0.16 |
+| cold3 (gs + cold pass, all direct) | 0.645 | 16.32 (−9% vs gs) | 5.39 | 0.55 (−17% vs gs) | 0.95 (+22%) | 6.93 | 1.57 | 0.16 |
+
+The static link removes work on every front the PLT/GOT touched: fewer code misses (PLT stubs and scattered DSO pages gone), fewer data
+misses (GOT loads gone), fewer ITLB walks (one packed text instead of six DSOs), fewer indirect mispredicts (the PLT's `jmp *GOT`). The
+cold pass then cuts code misses and ITLB walks further (software code prefetch also warms the page walk) but raises DTLB load walks by 22%:
+`prefetcht1` goes through the data path, so every prefetch of a cold code page costs a DTLB lookup/walk — a cost the twin does not pay.
