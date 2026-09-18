@@ -745,3 +745,27 @@ deliverable read load at ~9.7k req/s and 4 dedicated cores cannot be driven past
 (2) At 74% utilization on one core with 232 live threads (2–6 runnable), the code-miss rate is still only ~1 per 1k instructions: all
 threads run the same binary on the same core, so the L2 stays warm between wakes — the 18 MPKI of the shared/oversubscribed regime is
 absent here too. Chosen operating point: **1 core (36), 6,000 req/s, 74% util** (2 cores at 9k hits the front-end limit).
+
+## Round 43 — realistic baseline: 1 dedicated core (36), read-only load 6,000 req/s, ~73% utilization, 3 reps, 09:19
+
+| arm | svc cycles (G) | vs gs | MPKI | IPC | instr vs gs | util | p99 ms |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| gs (fat-static base) | 65.90 | 1.000x | 0.92 | 1.429 | 1.000 | 72% | 9.8 |
+| cold14 (plan v10, traced in the shared regime) | 67.12 | 0.982x | 0.88 | 1.447 | 1.032 | 73% | 10.1 |
+| cold14_nop (twin) | 67.02 | 0.983x | 0.93 | 1.450 | 1.032 | 73% | 10.0 |
+
+## Round 44 — plan re-traced in the realistic regime (LBR + rate traces at 1 core / 6k rps: 8,107 miss samples in 25 s, 67 sites, 233 targets, 128 direct + 105 GOT prefetches) → cold21, 3 reps, 09:37
+
+| arm | svc cycles (G) | vs gs | MPKI | IPC | instr vs gs |
+|---|---:|---:|---:|---:|---:|
+| gs | 66.11 | 1.000x | 0.93 | 1.423 | 1.000 |
+| cold14 (shared-regime plan) | 66.97 | 0.987x | 0.85 | 1.451 | 1.033 |
+| cold21 (realistic-regime plan) | 66.06 | 1.001x | 0.94 | 1.426 | 1.001 |
+| cold21_nop | 66.17 | 0.999x | 0.95 | 1.424 | 1.001 |
+
+**Under the realistic baseline the prefetch strategy does nothing.** With one busy core and 232 threads of the same binary, the code-miss
+rate is 0.9 per 1k instructions (versus 18 in the shared/oversubscribed regime): every wake finds the L2 warm because the previous
+request ran the same code on the same core. The shared-regime plan (v10) removes 5–9% of those few misses but costs 3.2% instructions
+(net −1.3 to −1.8%, equal to its twin); the plan re-traced in this regime keeps only 67 cold sites and is exactly neutral (1.001x vs twin
+0.999x). Consistent with rounds 40–41 (4-core pinning) and with the cold-start screen (user-timeline 21.9 → 1.9 MPKI shared → isolated):
+the 18 MPKI was the oversubscription itself, and dedicating cores removes it far more effectively (cycles per request −45%) than prefetching.
