@@ -4,7 +4,7 @@
 set -u
 PL=/home/hnpark2/prefetchit/flat_codegen/dsb_build/postlink; SN=/home/hnpark2/prefetchit/benchmarks/DeathStarBench/socialNetwork; W=$SN/../wrk2/wrk
 LUA=/home/hnpark2/prefetchit/llvm_prefetchit/scripts/platform/screens/mixed-workload-nosocket.lua
-BIN=$1; LIBS=$2; IMG=$3; OUT=$4; LIST=$5; TOP=${6:-256}; R=${R:-6000}; mkdir -p $OUT; OUT=$(readlink -f $OUT)
+BIN=$1; LIBS=$2; IMG=$3; OUT=$4; LIST=$(readlink -f $5); TOP=${6:-256}; R=${R:-6000}; mkdir -p $OUT; OUT=$(readlink -f $OUT)
 export UTL_BIN=$BIN UTL_LIBS=$LIBS UTL_IMG=$IMG WARM_PRELOAD= WARM_LIST= WARM_N=0 WARM_STAGE=0 WARM_MIN=0 WARM_PACE=0
 cd $SN; docker compose -f docker-compose.yml -f $PL/compose-override-utl-warm.yml up -d --force-recreate --no-deps user-timeline-service > $OUT/up.log 2>&1; sleep 6
 docker update --cpuset-cpus ${SHARED_CORES:-0-35} socialnetwork-user-timeline-service-1 > /dev/null 2>&1
