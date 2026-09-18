@@ -36,12 +36,12 @@ start(){ local cores=$1
   esac
   LEAFPID=$(pgrep -P $LEAF | head -1); MIDPID=$(pgrep -P $MID | head -1); [[ -n $LEAFPID ]] || LEAFPID=$LEAF; [[ -n $MIDPID ]] || MIDPID=$MID
 }
-stop(){ kill $MID $LEAF ${MC:-} 2>/dev/null; pkill -P $MID 2>/dev/null; pkill -P $LEAF 2>/dev/null; [[ -n ${MC:-} ]] && pkill -P $MC 2>/dev/null; sleep 3; }
+stop(){ pkill -P $MID 2>/dev/null; pkill -P $LEAF 2>/dev/null; [[ -n ${MC:-} ]] && pkill -P $MC 2>/dev/null; kill $MIDPID $LEAFPID 2>/dev/null; kill $MID $LEAF ${MC:-} 2>/dev/null; sleep 3; killall -q lookup_server mid_tier_server intersection_server bucket_server 2>/dev/null; sleep 1; }
 for mode in shared isolated; do
   cores=0-42; [[ $mode == isolated ]] && cores=36-39
   MC=; start $cores
   bash -c "$LOAD" > /tmp/load_$SVC.log 2>&1 & LP=$!; sleep 15
-  measure ${SVC}_leaf $mode $LEAFPID & measure ${SVC}_midtier $mode $MIDPID; wait
+  measure ${SVC}_leaf $mode $LEAFPID & M1=$!; measure ${SVC}_midtier $mode $MIDPID & M2=$!; wait $M1 $M2
   wait $LP 2>/dev/null; grep -iE "qps|throughput|latency" /tmp/load_$SVC.log | tail -2 | cut -c1-120
   stop; echo "[$(date +%T)] $SVC $mode done"
 done
