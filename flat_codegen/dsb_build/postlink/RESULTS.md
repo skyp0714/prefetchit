@@ -492,3 +492,31 @@ The static link removes work on every front the PLT/GOT touched: fewer code miss
 misses (GOT loads gone), fewer ITLB walks (one packed text instead of six DSOs), fewer indirect mispredicts (the PLT's `jmp *GOT`). The
 cold pass then cuts code misses and ITLB walks further (software code prefetch also warms the page walk) but raises DTLB load walks by 22%:
 `prefetcht1` goes through the data path, so every prefetch of a cold code page costs a DTLB lookup/walk — a cost the twin does not pay.
+
+## Round 21 — trace-guided cold plan v1 (LBR attribution to the oldest instrumentable entry with 60–4,000 cycles lead; 191 sites, 1,639 targets incl. 288 libc lines via GOT anchors), 23:58 — INVALID (root disk fell to 2.8 GB during rep 2: gs rep 2 returned 946 non-2xx, p99 10 s) but the rep-1 numbers already decide it
+
+| arm | svc cycles (G, rep 1) | MPKI | IPC | instr vs gs |
+|---|---:|---:|---:|---:|
+| gs | 55.25 | 18.07 | 0.627 | 1.000 |
+| cold5 (plan v1) | 57.18 | 12.88 | 0.733 | **1.21** |
+| cold5_nop | 57.30 | 15.18 | 0.732 | 1.21 |
+
+The plan removes far more misses than any static heuristic (misses per instruction −29%, IPC +17%) but costs 21% more instructions:
+the attributed sites are *hot* functions (TVirtualTransport::read, std::function handlers, SpanContext::fromStream) that execute dozens of
+times per request, and each execution re-issues its ~10-line burst. Net −3.5%. Lesson: a plan site must be a *cold* function (executed
+about once per wake) — or the burst must be gated to fire once per epoch. → plan v4 (round 24): sites chosen by lowest entry rate
+(cycles+LBR rate trace), pairs costing > 20 prefetch executions per saved miss dropped. Disk lesson recorded in memory; `janitor.sh` added.
+
+## Round 24 — cost-aware trace-guided plan v4 (site = lowest-entry-rate instrumentable function in the miss's LBR window with 60–4,000 cycles lead, fallback = oldest running function; pairs costing > 20 prefetch executions per saved miss dropped; 336 sites, 2,356 targets incl. 518 libc lines via GOT anchors; hiredis/mongoc/bson/redis++ sites in GOT form), 3 reps, 00:17
+
+| arm | svc cycles (G) | vs gs | MPKI | IPC | instr vs gs | p99 ms |
+|---|---:|---:|---:|---:|---:|---:|
+| gs | 55.98 | 1.000x | 18.29 | 0.623 | 1.000 | 12.6 |
+| cold8 (plan v4) | 54.38 | **1.029x** | **15.58** | 0.667 | 1.040 | 139.8 |
+| cold8_nop (twin) | 56.31 | 0.994x | 17.80 | 0.643 | 1.038 | 12.4 |
+
+Best static-vs-static result so far: 3.5% against the twin, +2.9% net (the +4.0% instructions cost 0.6%). Per-rep spread < 1%.
+Target check in the twin's layout: 757 of 881 planned exe lines are exact miss lines, 120 land one line short (register-allocation drift
+after the burst), 124 never miss. Residual misses on targeted lines fell to 37% (from 53%); the top residual lines are the post-wake
+socket-read path (TSocket::read, TFramedTransport::readFrame, ConnectionPool::fetch) whose only possible site is the previous request's
+tail — a wake burst's job, not a static site's. Open question: p99 is 133–143 ms in all three cold8 reps versus 12–17 ms for gs and the twin.
