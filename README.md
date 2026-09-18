@@ -124,6 +124,12 @@ NOP으로 치환한 *NOP twin* 대비, 코어·언코어 클럭 고정, 인터�
 | plan v7: 사이트당 64라인·가중치≥2·라인당 3사이트 (cold11) | 1.022x | 18.2 → 15.1 | 1.035x | +4.8% |
 | plan v4 + 최소 lead 200 cycles (cold12) / 라인당 사이트 1개 (cold13) | 0.995x / 1.009x | 15.3 / 15.9 | — | +4.9% / +3.8% |
 | **plan v10: 실측 실행 빈도로 사이트 가지치기** (cold14; 명령 샘플링으로 사이트별 prefetch 실행 수 측정, 절약 miss의 10배 넘게 실행되는 사이트 제거) | **1.026x** | 18.3 → 15.9 | 1.030x | **+2.2%** |
+| v4 + wake burst 32/64라인 (LD_PRELOAD, fat-static용 리스트) | 1.013x / 1.025x (v4 단독 1.035x) | 15.7 | — | +4% |
+| v4 + orphan burst(귀속 불가 상위 64/128라인을 요청당 1회) | 1.013x / 1.011x (v4 단독 1.014x) | 15.5 | — | +4.5% |
+| **v4 5회 확인(round 36, redis 스냅샷 끈 뒤)** | **1.011x** (평균 1.012x, twin 대비 1.019x) | 18.1 → 15.7 | 0.995x | +4.1% |
+
+결론(2026-09-18 04:10): user-timeline에서 trace-guided cold plan은 코드 miss를 13~15% 줄이지만 순이익은 1~3%(twin 대비 2~3.5%)에서 포화한다. 남은 miss는 libc 내부에서만 도는 구간과 wake 직후 경로로, 정적 사이트가 앞에 없다. 5% 목표는 prefetch만으로는 미달; 정적 링크(gs) 자체의 4~6%가 밤새 가장 큰 단일 이득이었다. 부수 발견: DSB redis 컨테이너의 기본 RDB 스냅샷(분당 수십 GB 쓰기)이 p99 스파이크와 디스크 고갈의 원인이었다(README §7 참조).
+
 
 정적 타깃 대 trace 비교에서 나온 교훈: miss의 43%는 libc(GOT 앵커+변위로만 도달), exe miss의 57%만 휴리스틱 타깃 위, 휴리스틱 사이트의 84%는 miss 안 나는 라인. plan은 miss 나는 라인만 겨냥하지만 사이트가 뜨거우면 명령 폭증 → 사이트 실행 빈도(cycles+LBR rate trace)를 비용 모델에 넣어야 한다. 이어지는 round 26–28: epoch 게이팅(요청당 1회만 burst), twin의 자체 trace로 plan 재생성(오프셋 드리프트 제거), seq 모드 혼합.
 
@@ -304,6 +310,9 @@ affinity 감사, `valid` 열). memcached는 중립(대조군으로 유지).
 - 공유 서버: GRUB·부팅 변경 전 다른 사용자와 조율.
 
 ## 7. 알려진 함정
+
+- **DSB socialNetwork의 redis 컨테이너는 기본 RDB 스냅샷(`save 60 10000`)을 켜고 있다.** 쓰기 부하가 섞이면 home-timeline-redis가 수십 GB로 자라 분당 fork+전체 덤프를 컨테이너 레이어에 쓴다(4시간에 951 GB). 루트 디스크가 차고 p99가 200~400 ms로 튄다. 스택을 올린 뒤 `docker exec <redis> redis-cli CONFIG SET save ""`와 `appendonly no`를 걸고 `/data/dump.rdb`를 지울 것. mongo 데이터는 익명 볼륨(5~9 GB)에 쌓이니 캠페인 사이에 `docker compose down -v`.
+
 
 - `source benchmarks/chipyard/env.sh`는 `set -u`와 충돌. chipyard 서브모듈은 `--recursive` 금지.
 - pass 로그의 `injected=N`만 믿지 말 것: `objdump` 개수 + drift 게이트 + NOP twin까지가 검증.
