@@ -9,10 +9,10 @@ docker exec cs-dc-client bash -c 'mkdir -p /usr/src/memcached/memcached_client/d
 echo "[$(date +%T)] scale + warm-up"; docker exec cs-dc-client /entrypoint.sh '--m=S&W' --S=30 --w=4 --D=4096 --T=1 > $D/dc2_warm.log 2>&1; tail -1 $D/dc2_warm.log | cut -c1-140
 id=$(docker inspect -f '{{.Id}}' cs-dc-server)
 for rps in 100000 200000 400000 700000 1000000; do
-  docker exec cs-dc-client /entrypoint.sh --m=RPS --S=30 --w=8 --c=200 --g=0.8 --T=1 --r=$rps > $D/dc2_run_$rps.log 2>&1 & LP=$!; sleep 20
+  docker exec cs-dc-client /entrypoint.sh --m=RPS --S=30 --w=8 --c=200 --g=0.8 --T=1 --r=$rps > $D/dc2_run_$rps.log 2>&1 & LP=$!; sleep 20   # loader has no duration: killed after the measurement
   docker stats --no-stream --format '{{.CPUPerc}}' cs-dc-server > $D/dc2_stats_$rps.txt &
   echo ps101899 | sudo -S -p '' perf stat -x, -o $D/dc2_perf_$rps.csv -a -C $CORES -e 'cpu/event=0x24,umask=0x24,name=L2I/u' -e instructions:u -e cycles:u -G system.slice/docker-$id.scope,system.slice/docker-$id.scope,system.slice/docker-$id.scope -- sleep 30 > /dev/null 2>&1; wait
-  docker exec cs-dc-client pkill -f loader > /dev/null 2>&1; sleep 2
+  docker exec cs-dc-client bash -c 'kill -9 $(pidof loader) 2>/dev/null; true' > /dev/null 2>&1; sleep 2   # the client image has no pkill; loader runs until killed
   python3 - $rps $D $OUT $CORES $NC <<'PY'
 import csv,sys,re
 rps,D,out,cores,nc=sys.argv[1:6]; v={}
