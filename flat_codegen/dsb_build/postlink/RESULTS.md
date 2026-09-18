@@ -520,3 +520,15 @@ Target check in the twin's layout: 757 of 881 planned exe lines are exact miss l
 after the burst), 124 never miss. Residual misses on targeted lines fell to 37% (from 53%); the top residual lines are the post-wake
 socket-read path (TSocket::read, TFramedTransport::readFrame, ConnectionPool::fetch) whose only possible site is the previous request's
 tail — a wake burst's job, not a static site's. Open question: p99 is 133–143 ms in all three cold8 reps versus 12–17 ms for gs and the twin.
+
+## Round 25 — plan v4 without libc/GOT targets (cold8n: 1,632 direct + 69 GOT sites), 3 reps, 00:50
+
+| arm | svc cycles (G) | vs gs | MPKI | IPC | instr vs gs |
+|---|---:|---:|---:|---:|---:|
+| gs | 55.85 | 1.000x | 18.29 | 0.620 | 1.000 |
+| cold8n | 55.48 | 1.007x | 16.00 | 0.652 | 1.045 |
+
+Dropping the 518 libc lines loses most of the gain (1.029x → 1.007x): the libc half of the misses is worth prefetching and the GOT form
+is not the problem. The ~200 ms p99 spikes appeared here in one gs rep and one cold8n rep, so the round-24 tail was environmental
+(the disk janitor's image removals and scans coincided with cold8's slots), not the prefetches; the janitor now idles during measurements.
+seqA (sequential mode on the 240 missing functions) did not build: docker rejects the upper-case image name — rebuilt as `seqa` in round 28.
