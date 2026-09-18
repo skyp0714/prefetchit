@@ -543,3 +543,18 @@ seqA (sequential mode on the 240 missing functions) did not build: docker reject
 
 Gating removes nothing that matters: the cost-aware v4 sites were already cold, so the miss reduction is the same as round 24 (15.5 MPKI)
 while the guard itself (epoch load, TLS compare, jump, 31 B per site) costs 2.5% — the twin is 0.975x. Net 1.4% < v4's 2.9%. Dropped.
+
+## Round 27 — self-hosted refinement v6 (LBR trace of cold8's twin → plan with frozen burst sizes and unshifted offsets; 366 sites, 2,756 targets), 3 reps, 01:07
+
+| arm | svc cycles (G) | vs gs | MPKI | IPC | instr vs gs |
+|---|---:|---:|---:|---:|---:|
+| gs | 57.08 | 1.000x | 18.23 | 0.616 | 1.000 |
+| cold8 (plan v4, same binary as round 24) | 56.03 | 1.019x | 15.60 | 0.654 | 1.042 |
+| cold10 (plan v6) | 56.43 | 1.011x | **14.39** | 0.690 | **1.106** |
+| cold10_nop (twin) | 58.31 | 0.979x | 16.89 | 0.668 | 1.107 |
+
+Lowest miss rate so far (−21%) and IPC +12%, but the refined plan executes 10.6% more instructions: the added sites fire many times
+per request (the LBR-entry rate proxy under-estimates some functions), so the twin loses 2.1% and the net is +1.1%. Round-to-round
+noise note: the same cold8 binary measured 1.029x in round 24 and 1.019x here (gs itself moved 55.98 → 57.08 G).
+→ Round 32: measure executed prefetches per site directly (instruction sampling of cold8, `cold_site_profile.sh`) and drop sites whose
+executions exceed 10× the misses they save (`--site-exec`).

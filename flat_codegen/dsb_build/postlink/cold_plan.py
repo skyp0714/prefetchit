@@ -14,6 +14,7 @@ ap.add_argument('--rate-ref-pattern',default='UserTimelineHandler16ReadUserTimel
 ap.add_argument('--miss-period',type=float,default=1000.0); ap.add_argument('--trace-secs',type=float,default=25.0)
 ap.add_argument('--epoch-gate',action='store_true',help='bursts are epoch-gated (guard bytes added to k)'); ap.add_argument('--epoch-fn',default=None,help='function whose entry increments the epoch (6 B added; becomes a site)'); ap.add_argument('--rate-cap',type=float,default=None,help='cap per-site entry rate (Hz) in the cost model, e.g. 6000 with epoch gating')
 ap.add_argument('--base-plan',default=None,help='previous plan whose bursts are already in the traced layout (twin trace): keep each site k >= its old k and do not shift offsets')
+ap.add_argument('--site-exec',default=None,help='site_exec.txt from cold_site_profile.sh (instruction samples on prefetch insns per site of the previous build)'); ap.add_argument('--exec-period',type=float,default=20000.0); ap.add_argument('--exec-secs',type=float,default=20.0); ap.add_argument('--max-exec-ratio',type=float,default=10.0,help='drop a site whose measured prefetch executions per second exceed R x the misses it saves per second')
 ap.add_argument('--no-got',action='store_true',help='drop libc (GOT-anchored) targets')
 ap.add_argument('--fallback',action='store_true',help='no entry in window: use the oldest instrumentable exe function seen in the LBR (its entry precedes the window)')
 ap.add_argument('--drop-own-line0',action='store_true',help='never prefetch line 0 of the site itself')
@@ -140,8 +141,18 @@ for t,ss in line_sites.items():
     keep=set(s for s,_ in ss.most_common(A.max_sites_per_line))
     for s in list(ss):
         if s not in keep: del plan[s][t]
-sites={}; cost_dropped=0; cost_dropped_w=0
+site_exec={}
+if A.site_exec:
+    for l in open(A.site_exec):
+        if l.startswith('#'): continue
+        c,n=l.split(None,1); site_exec[n.strip()]=int(c)
+sites={}; cost_dropped=0; cost_dropped_w=0; exec_dropped=0; exec_dropped_w=0
 for s,ts in plan.items():
+    if A.site_exec and s in site_exec:
+        execs_per_s=site_exec[s]*A.exec_period/A.exec_secs
+        saved_per_s=sum(w for t,w in ts.items() if w>=A.min_w)*A.miss_period/A.trace_secs
+        if execs_per_s>A.max_exec_ratio*max(1e-9,saved_per_s):
+            exec_dropped+=1; exec_dropped_w+=sum(ts.values()); continue
     kept=[]
     for t,w in ts.most_common():
         if w<A.min_w: continue
@@ -188,6 +199,7 @@ for s,ts in sites.items():
     out["sites"][s]={"k":K[s],"t":tl}
 json.dump(out,open(A.out,'w'))
 tot_attr=sum(v for k,v in stat.items() if k.startswith('attributed'))
+print(f"measured-exec filter: dropped {exec_dropped} sites, weight {exec_dropped_w} ({100*exec_dropped_w/max(1,n):.1f}% of samples)")
 print(f"cost filter: dropped {cost_dropped} (site,target) pairs, weight {cost_dropped_w} ({100*cost_dropped_w/max(1,n):.1f}% of samples)")
 print(f"samples={n} attributed={tot_attr} ({100*tot_attr/max(1,n):.1f}%) kept_weight={wcov} ({100*wcov/max(1,n):.1f}% of samples) sites={len(sites)} targets={ntargets} "
       f"avg_burst={sum(K.values())/max(1,len(K)):.0f}B got_targets={sum(1 for s in sites for (sym,off,got),w in sites[s] if got)}")
