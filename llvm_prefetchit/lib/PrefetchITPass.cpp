@@ -980,6 +980,105 @@ static unsigned countIRInsns(Function &F) {
 // Callee-entry bursts: `prefetcht1 callee+64*l(%rip)` before direct calls.
 
 // Cold-path mode (see the option block above).
+// Trace-guided cold-path plan: {"sites": {"<function>": {"k": <burst bytes>, "t": [["sym", off, got], ...]}}}.
+// At the entry of every listed function: direct targets → "prefetcht1 sym+off(%rip)" (7 B); GOT targets grouped by anchor →
+// "movq anchor@GOTPCREL(%rip),%r11" (7 B) + "prefetcht1 off(%r11)" (4/5/8 B); the burst is padded with .nops to "k" (a multiple of 16)
+// so that body offsets shift by exactly k and the plan's offsets (measured on the pass-free layout) stay valid.
+static uint64_t runColdPlan(Module &M, const SeqConfig &C, StringRef PlanPath) {
+  auto Buf = MemoryBuffer::getFile(PlanPath);
+  if (!Buf) {
+    errs() << "prefetchit-cold-plan: cannot read " << PlanPath << "\n";
+    return 0;
+  }
+  Expected<json::Value> Parsed = json::parse((*Buf)->getBuffer());
+  if (!Parsed) {
+    errs() << "prefetchit-cold-plan: bad JSON in " << PlanPath << "\n";
+    consumeError(Parsed.takeError());
+    return 0;
+  }
+  const json::Object *Root = Parsed->getAsObject();
+  const json::Object *Sites = Root ? Root->getObject("sites") : nullptr;
+  if (!Sites) {
+    errs() << "prefetchit-cold-plan: no \"sites\" object\n";
+    return 0;
+  }
+  LLVMContext &Ctx = M.getContext();
+  FunctionType *AsmTy = FunctionType::get(Type::getVoidTy(Ctx), {}, false);
+  bool PICModule = false;
+  if (auto *MD = mdconst::extract_or_null<ConstantInt>(M.getModuleFlag("PIC Level")))
+    PICModule = MD->getZExtValue() != 0;
+  const bool ExeModule = !PICModule || M.getPIELevel() != PIELevel::Default;
+  const bool AllowDirect = ExeModule || C.ColdDirectInPIC;
+  uint64_t Funcs = 0, Direct = 0, Got = 0, Pad = 0, SkippedDirect = 0;
+  for (Function &F : M) {
+    if (F.isDeclaration())
+      continue;
+    const json::Object *S = Sites->getObject(F.getName());
+    if (!S)
+      continue;
+    const json::Array *T = S->getArray("t");
+    if (!T || T->empty())
+      continue;
+    std::vector<std::pair<std::string, int64_t>> DirectT;
+    std::map<std::string, std::vector<int64_t>> GotByAnchor;
+    for (const json::Value &V : *T) {
+      const json::Array *E = V.getAsArray();
+      if (!E || E->size() < 3)
+        continue;
+      std::optional<StringRef> Sym = (*E)[0].getAsString();
+      std::optional<int64_t> Off = (*E)[1].getAsInteger();
+      std::optional<int64_t> G = (*E)[2].getAsInteger();
+      if (!Sym || !Off || !G)
+        continue;
+      if (*G)
+        GotByAnchor[Sym->str()].push_back(*Off);
+      else if (AllowDirect)
+        DirectT.emplace_back(Sym->str(), *Off);
+      else
+        ++SkippedDirect;
+    }
+    if (DirectT.empty() && GotByAnchor.empty())
+      continue;
+    std::string Asm;
+    unsigned Bytes = 0;
+    bool UsesR11 = false;
+    for (auto &[Sym, Off] : DirectT) {
+      Asm += C.Mnemonic + " " + escapeInlineAsmSymbol(Sym) + (Off >= 0 ? "+" : "") + std::to_string(Off) + "(%rip)\n\t";
+      Bytes += 7;
+      ++Direct;
+    }
+    for (auto &[Anchor, Offs] : GotByAnchor) {
+      Asm += "movq " + escapeInlineAsmSymbol(Anchor) + "@GOTPCREL(%rip), %r11\n\t";
+      Bytes += 7;
+      UsesR11 = true;
+      for (int64_t O : Offs) {
+        Asm += C.Mnemonic + " " + std::to_string(O) + "(%r11)\n\t";
+        Bytes += (O == 0) ? 4 : (O >= -128 && O < 128) ? 5 : 8;
+        ++Got;
+      }
+    }
+    unsigned K = (Bytes + 15) / 16 * 16;
+    if (std::optional<int64_t> PK = S->getInteger("k")) {
+      if (*PK >= Bytes)
+        K = static_cast<unsigned>(*PK);
+      else
+        errs() << "prefetchit-cold-plan: " << F.getName() << ": plan k=" << *PK << " < burst bytes " << Bytes << " (offsets drift)\n";
+    }
+    if (K > Bytes) {
+      Asm += ".nops " + std::to_string(K - Bytes) + "\n\t";
+      Pad += K - Bytes;
+    }
+    Asm.erase(Asm.size() - 2);
+    Instruction *At = &*F.getEntryBlock().getFirstInsertionPt();
+    CallInst *CI = CallInst::Create(InlineAsm::get(AsmTy, Asm, UsesR11 ? "~{r11}" : "", true), {}, "", At);
+    CI->setDebugLoc(At->getDebugLoc());
+    ++Funcs;
+  }
+  errs() << "prefetchit-cold-plan: sites=" << Funcs << " direct=" << Direct << " got=" << Got << " pad_bytes=" << Pad
+         << " skipped_direct=" << SkippedDirect << (ExeModule ? " (exe module)" : " (shared-object module)") << "\n";
+  return Direct + Got;
+}
+
 static uint64_t runColdPath(Module &M, const SeqConfig &C) {
   LLVMContext &Ctx = M.getContext();
   FunctionType *AsmTy = FunctionType::get(Type::getVoidTy(Ctx), {}, false);
@@ -1263,7 +1362,9 @@ public:
     else if (!Seq.enabled())
       errs() << "prefetchit-inject: missing -prefetchit-plan or PREFETCHIT_PLAN "
                 "(and no -prefetchit-seq-distance)\n";
-    if (Seq.ColdOwnLines > 0 || std::getenv("PREFETCHIT_COLD"))
+    if (const char *CP = std::getenv("PREFETCHIT_COLD_PLAN"); CP && *CP)
+      Changed |= runColdPlan(M, Seq, CP) > 0;
+    else if (Seq.ColdOwnLines > 0 || std::getenv("PREFETCHIT_COLD"))
       Changed |= runColdPath(M, Seq) > 0;
     if (Seq.BurstLines > 0)
       Changed |= runCalleeEntryBurst(M, Seq) > 0;
