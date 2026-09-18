@@ -24,15 +24,15 @@ start(){ local cores=$1
       taskset -c $cores memcached -p 11311 -t 2 -m 512 -u $USER > /tmp/mc.log 2>&1 & MC=$!; sleep 1
       (cd $S/Router/lookup_service/service && taskset -c $cores ./lookup_server 127.0.0.1:50052 11311 4 0 > /tmp/leaf.log 2>&1) & LEAF=$!; sleep 2
       (cd $S/Router/mid_tier_service/service && taskset -c $cores ./mid_tier_server 1 $R/router_leaf_ips.txt 127.0.0.1:50051 4 4 4 1 > /tmp/mid.log 2>&1) & MID=$!; sleep 2
-      LOAD="cd $S/Router/load_generator && ./load_generator_open_loop $D/Router/twitter_requests_query_set.dat /tmp/res.txt 70 $QPS 127.0.0.1:50051 90 10";;
+      LOAD="cd $S/Router/load_generator && exec taskset -c 40-42 ./load_generator_open_loop $D/Router/twitter_requests_query_set.dat /tmp/res.txt 70 $QPS 127.0.0.1:50051 90 10";;
     SetAlgebra)
       (cd $S/SetAlgebra/intersection_service/service && taskset -c $cores ./intersection_server 127.0.0.1:50054 $D/SetAlgebra/posting_lists_1G.txt 4 0 1 > /tmp/leaf.log 2>&1) & LEAF=$!; sleep 25
       (cd $S/SetAlgebra/union_service/service && taskset -c $cores ./mid_tier_server 1 $R/sa_leaf_ips.txt 127.0.0.1:50053 4 > /tmp/mid.log 2>&1) & MID=$!; sleep 2
-      LOAD="cd $S/SetAlgebra/load_generator && ./load_generator_open_loop $D/SetAlgebra/query_set.txt /tmp/res.txt 70 $QPS 127.0.0.1:50053";;
+      LOAD="cd $S/SetAlgebra/load_generator && exec taskset -c 40-42 ./load_generator_open_loop $D/SetAlgebra/query_set.txt /tmp/res.txt 70 $QPS 127.0.0.1:50053";;
     HDSearch)
       (cd $S/HDSearch/bucket_service/service && taskset -c $cores ./bucket_server $D/HDSearch/image_feature_vectors.dat 127.0.0.1:50056 2 4 4 0 1 > /tmp/leaf.log 2>&1) & LEAF=$!; sleep 40
       (cd $S/HDSearch/mid_tier_service/service && LD_LIBRARY_PATH=/home/hnpark2/prefetchit/benchmarks/MicroSuite/flann_local/lib taskset -c $cores ./mid_tier_server 1 20 2 1 $R/hd_leaf_ips.txt $D/HDSearch/image_feature_vectors.dat 2 127.0.0.1:50055 1 4 4 0 > /tmp/mid.log 2>&1) & MID=$!; sleep 40
-      LOAD="cd $S/HDSearch/load_generator && ./load_generator_open_loop $D/HDSearch/image_feature_vectors.dat /tmp/res.txt 1 70 $QPS 127.0.0.1:50055 /tmp/t /tmp/q /tmp/u";;
+      LOAD="cd $S/HDSearch/load_generator && exec taskset -c 40-42 ./load_generator_open_loop $D/HDSearch/image_feature_vectors.dat /tmp/res.txt 1 70 $QPS 127.0.0.1:50055 /tmp/t /tmp/q /tmp/u";;
   esac
   LEAFPID=$(pgrep -P $LEAF | head -1); MIDPID=$(pgrep -P $MID | head -1); [[ -n $LEAFPID ]] || LEAFPID=$LEAF; [[ -n $MIDPID ]] || MIDPID=$MID
 }
@@ -40,7 +40,7 @@ stop(){ kill $MID $LEAF ${MC:-} 2>/dev/null; pkill -P $MID 2>/dev/null; pkill -P
 for mode in shared isolated; do
   cores=0-42; [[ $mode == isolated ]] && cores=36-39
   MC=; start $cores
-  bash -c "taskset -c 40-42 $LOAD" > /tmp/load_$SVC.log 2>&1 & LP=$!; sleep 15
+  bash -c "$LOAD" > /tmp/load_$SVC.log 2>&1 & LP=$!; sleep 15
   measure ${SVC}_leaf $mode $LEAFPID & measure ${SVC}_midtier $mode $MIDPID; wait
   wait $LP 2>/dev/null; grep -iE "qps|throughput|latency" /tmp/load_$SVC.log | tail -2 | cut -c1-120
   stop; echo "[$(date +%T)] $SVC $mode done"
