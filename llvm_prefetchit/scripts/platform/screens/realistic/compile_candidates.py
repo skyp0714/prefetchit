@@ -11,8 +11,12 @@ if os.path.exists(f):
     for r in csv.DictReader(open(f)): g[(r['workload'],r['config'])].append(r)
     for k,v in g.items():
         mx=max(float(r['tps']) for r in v); ok=[r for r in v if float(r['tps'])>=0.9*mx]; r=max(ok,key=lambda r:float(r['util_pct']))
-        add(k[0],f"{k[1]}, {r['clients']} clients, 4 cores",float(r['util_pct']),float(r['mpki']),float(r['ipc']),f"tps {r['tps']}")
-        lo=min(v,key=lambda r:float(r['util_pct'])); add(k[0],f"{k[1]}, {lo['clients']} clients (under-utilized)",float(lo['util_pct']),float(lo['mpki']),float(lo['ipc']),'low-util reference')
+        add(k[0],f"{k[1]}, {r['clients']} clients, 4 cores (saturated)",float(r['util_pct']),float(r['mpki']),float(r['ipc']),f"tps {r['tps']} — reference")
+        cand=[x for x in v if float(x['util_pct'])>=15]; hi=max(cand or v,key=lambda x:float(x['mpki']))
+        add(k[0],f"{k[1]}, {hi['clients']} clients, 4 cores (max-MPKI point)",float(hi['util_pct']),float(hi['mpki']),float(hi['ipc']),f"tps {hi['tps']}")
+f=f'{R}/db_lowutil.csv'
+if os.path.exists(f):
+    for r in csv.DictReader(open(f)): add(r['workload'].replace('_diag',''),f"{r['config']}, {r['clients']} clients, 4 cores (low-util point)",float(r['util_pct']),float(r['mpki']),float(r['ipc']),f"tps {r['tps']}")
 # musuite: per app/tier, highest-util step with p99 < 3 ms and instr > 1e8
 f=f'{R}/musuite_4core.csv'
 if os.path.exists(f):
@@ -20,7 +24,8 @@ if os.path.exists(f):
     for r in csv.DictReader(open(f)):
         if float(r['instr'])>1e8 and float(r['p99us'])<3000: g[(r['app'],r['tier'])].append(r)
     for k,v in g.items():
-        r=max(v,key=lambda r:float(r['util_pct'])); add(f"μSuite {k[0]} {k[1]}",f"{r['qps']} qps, 4 cores",float(r['util_pct']),float(r['mpki']),float(r['ipc']))
+        r=max(v,key=lambda r:float(r['util_pct'])); add(f"μSuite {k[0]} {k[1]}",f"{r['qps']} qps, 4 cores (highest clean load)",float(r['util_pct']),float(r['mpki']),float(r['ipc']),'reference')
+        cand=[x for x in v if float(x['util_pct'])>=15] or v; hi=max(cand,key=lambda x:float(x['mpki'])); add(f"μSuite {k[0]} {k[1]}",f"{hi['qps']} qps, 4 cores (max-MPKI point)",float(hi['util_pct']),float(hi['mpki']),float(hi['ipc']))
 # jvm
 for f,cores in ((f'{R}/jvm_4core.csv','4'),(f'{R}/jvm_4core_rerun.csv','4'),(f'{R}/jvm_8core.csv','8')):
     if os.path.exists(f):
@@ -44,6 +49,5 @@ if os.path.exists(f):
 rows.sort(key=lambda x:-x[3])
 print("| workload | realistic config | util | L2I MPKI (user) | IPC | note |"); print("|---|---|---:|---:|---:|---|")
 for w,cfg,u,m,i,n in rows:
-    if 'under-utilized' in cfg: continue
     print(f"| {w} | {cfg} | {u:.0f}% | {'**%.2f**'%m if m>=1 else '%.2f'%m} | {i:.2f} | {n} |")
-print("\nCandidates (MPKI >= 1 at the realistic point):", ', '.join(f"{w} ({m:.1f})" for w,cfg,u,m,i,n in rows if m>=1 and 'under-utilized' not in cfg))
+print("\nCandidates (MPKI >= 1; pinned cores, operating point chosen on the high-MPKI side with util >= 15%):", ', '.join(f"{w} ({m:.1f})" for w,cfg,u,m,i,n in rows if m>=1 and 'reference' not in n))
