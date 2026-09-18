@@ -11,7 +11,7 @@ def med(rnd):
         for r in csv.DictReader(open(f'results/{rnd}/runs.csv')): d[r['arm']].append(float(r['cycles']))
     except FileNotFoundError: return {}
     return {a:statistics.median(v) for a,v in d.items() if len(v)>=2}
-m32=med('round32'); prune='1' if ('cold14' in m32 and 'cold8' in m32 and m32['cold8']/m32['cold14']>1.005) else '0'
+m32=med('round32'); prune='1' if ('cold14' in m32 and 'cold8' in m32 and m32['cold8']/m32['cold14']>0.995) else '0'   # keep pruning unless it is clearly slower (it halves the overhead)
 m34=med('round34'); orphan='0'
 for a,nn in (('cold15','64'),('cold16','128')):
     if a in m34 and 'cold8' in m34 and m34['cold8']/m34[a]>1.005 and (orphan=='0' or m34[a]<m34['cold15' if nn=='128' else 'cold16']): orphan=nn
@@ -19,6 +19,7 @@ print(prune, orphan)
 PY
 )"; echo "[$(date +%T)] prune=$PRUNE orphan=$ORPHAN"
 [[ $PRUNE == 0 && $ORPHAN == 0 ]] && { echo "nothing to combine"; echo "[$(date +%T)] CHAIN_COLD21_DONE"; exit 0; }
+[[ $PRUNE == 1 && $ORPHAN == 0 ]] && { echo "pruning alone already measured (round 32)"; echo "[$(date +%T)] CHAIN_COLD21_DONE"; exit 0; }
 PSYM=_ZN6apache6thrift18TDispatchProcessor7processESt10shared_ptrINS0_8protocol9TProtocolEES5_Pv
 OPTS="--fallback --drop-own-line0 --got-only-sites $DB/plans/cold_gotonly_syms.txt --rates results/trace_gs_rate/rates.txt --max-cost 20"
 [[ $PRUNE == 1 ]] && OPTS="$OPTS --site-exec results/prof_cold8/site_exec.txt --max-exec-ratio 10"

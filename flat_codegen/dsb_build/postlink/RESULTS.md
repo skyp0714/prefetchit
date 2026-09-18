@@ -596,3 +596,16 @@ saturating on what LBR attribution can reach: libc misses whose 32-branch window
 Neither variant beats v4: pushing sites further from the miss lowers MPKI a little but not cycles (the further sites are hotter), and
 de-duplicating sites saves 0.8% instructions but loses the same in misses. Noisy round (gs rep 3 and cold8 rep 3 both ~59 G with 300 ms
 p99 spikes). v4's in-round net over the night: 1.029 / 1.019 / 1.017 / 1.011x (mean +1.9%); against its twin consistently +3.5%.
+
+## Round 32 — measured-overhead pruning v10 (instruction sampling of cold8: 2.97% of all instructions were prefetches, 40% of them in six thrift TVirtualProtocol/TVirtualTransport template instantiations; sites whose executions exceed 10× the misses they save dropped → 24 sites / 151 targets removed, 62% of the executed prefetch volume), 3 reps, 02:29
+
+| arm | svc cycles (G) | vs gs | MPKI | IPC | instr vs gs |
+|---|---:|---:|---:|---:|---:|
+| gs | 60.46 | 1.000x | 18.25 | 0.595 | 1.000 |
+| cold8 (v4) | 59.08 | 1.023x | 15.90 | 0.638 | 1.049 |
+| cold14 (v10) | 58.95 | **1.026x** | 15.88 | 0.624 | **1.022** |
+| cold14_nop | 60.70 | 0.996x | 18.00 | 0.611 | 1.031 |
+
+Same miss reduction and speed as v4 with half the instruction overhead (the twin is now free). The gain is limited by coverage, not cost:
+the remaining misses are lines no site can claim (libc-internal windows) and lines prefetched too late. v10 is the base for the final
+combination (round 35: + orphan burst if round 34 shows it helps).
