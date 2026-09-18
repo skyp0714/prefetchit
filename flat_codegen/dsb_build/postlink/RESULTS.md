@@ -683,3 +683,15 @@ so v10 (drop the lines, keep the overhead at +2.6%) stays the best engineering p
 twin, −12.6% code misses, +2.6% instructions.** Against the original shared-library build (g) the same binary is ~+6–8% (round 39 closes
 that loop). The 5% goal against gs was not reached: the remaining misses have no static site ahead of them (libc-only branch windows,
 post-wake socket path) and every attempt to reach them (wake burst, orphan burst, epoch gating, re-attribution) cost more than it saved.
+
+## Round 39 — closing the loop: original clang-19 shared-library build (g) vs fat-static (gs) vs the best plan (cold14), 3 reps, 04:52
+
+| arm | svc cycles (G) | vs g | MPKI | IPC | instr vs g |
+|---|---:|---:|---:|---:|---:|
+| g (shared libs) | 67.37 | 1.000x | 19.73 | 0.548 | 1.000 |
+| gs (fat-static) | 64.65 | 1.042x | 18.27 | 0.574 | 1.005 |
+| cold14 (fat-static + plan v10) | 62.99 | **1.070x** | **15.87** | 0.607 | 1.036 |
+
+Against the build the service shipped with, the night's best binary is 7.0% faster (4.2% from the static link, 2.7% from the trace-guided
+cold plan) with 20% fewer code misses. Platform restored at 05:05 (`MODE=restore`: powersave, 0.8–3.8 GHz, uncore defaults), containers
+un-confined, disk cleaner stopped; both DeathStarBench stacks left running (redis snapshots disabled).
