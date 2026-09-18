@@ -12,9 +12,9 @@ pid=$(docker inspect -f '{{.State.Pid}}' socialnetwork-user-timeline-service-1);
 taskset -c 60-67 $W -D exp -t 8 -c 64 -d 15 -L -s $LUA http://localhost:8080/wrk2-api/post/compose -R $R > /dev/null 2>&1
 taskset -c 60-67 $W -D exp -t 8 -c 64 -d 45 -L -s $LUA http://localhost:8080/wrk2-api/post/compose -R $R > $OUT/wrk2.log 2>&1 & WP=$!; sleep 10
 echo ps101899 | sudo -S -p '' cat /proc/$pid/maps > $OUT/maps.txt
-echo ps101899 | sudo -S -p '' perf record -e 'cpu/event=0x24,umask=0x24,name=L2I_CODE_RD_MISS/upp' -c 1000 -p $pid -o $OUT/l2miss.data -- sleep 20 > $OUT/perf_record.log 2>&1
+echo ps101899 | sudo -S -p '' perf record -e 'cpu/event=0x24,umask=0x24,name=L2I_CODE_RD_MISS/upp' -b -c 1000 -p $pid -o $OUT/l2miss.data -- sleep 25 > $OUT/perf_record.log 2>&1
 wait $WP; echo ps101899 | sudo -S -p '' chmod a+r $OUT/l2miss.data
-echo ps101899 | sudo -S -p '' perf script -i $OUT/l2miss.data -F ip,dso 2>/dev/null > $OUT/samples.txt
+echo ps101899 | sudo -S -p '' perf script -i $OUT/l2miss.data -F ip,dso,brstack 2>/dev/null > $OUT/samples_lbr.txt; awk '{print $1, $2}' $OUT/samples_lbr.txt > $OUT/samples.txt
 python3 - $OUT $BIN/UserTimelineService $COV <<'PY'
 import sys,subprocess,bisect,collections
 out,exe,cov=sys.argv[1],sys.argv[2],float(sys.argv[3])

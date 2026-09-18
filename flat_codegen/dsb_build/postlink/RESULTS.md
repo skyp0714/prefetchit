@@ -440,3 +440,42 @@ Pass: `PREFETCHIT_COLD_DIRECT_SYMS=plans/cold_direct_syms.txt` (13,456 global sy
 Static linking alone (no PLT/GOT hops, one link unit) is worth 3.9% and −9% misses. On top of it the direct-reference cold pass removes a further
 7% of the misses (18.1 → 16.7) and is worth 1.8% against its twin, but the twin costs 1.2% (+1.8% instructions), so the net is +0.6% over gs
 (+4.5% over the original shared-library build). Skipping the libc GOT prefetches changes nothing (0.5% of sites).
+
+## Round 19 — dependency archives rebuilt static-only with direct references (`dsb-deps-cold3`, `rebuild_deps_static.sh`; jaeger 19,293 rip / 275 r11, thrift 6,073 / 240, yaml 8,173 / 204; mongoc/bson keep the GOT form because their shared-library build cannot be disabled), 3 reps, 23:01
+
+| arm | svc cycles (G, median) | vs gs | vs g | MPKI | IPC | instr vs gs |
+|---|---:|---:|---:|---:|---:|---:|
+| g (shared libs) | 57.15 | 0.945x | 1.000x | 19.68 | 0.599 | 1.001 |
+| gs (fat-static, no pass) | 54.00 | 1.000x | 1.058x | 18.23 | 0.633 | 1.000 |
+| cold3 (own 16, callee 1, all direct) | 53.83 | **1.003x** (mean 1.010x) | 1.062x | **16.21** | 0.649 | 1.022 |
+| cold3_nop (twin) | 54.42 | 0.992x | 1.050x | 18.06 | 0.642 | 1.022 |
+| cold3o8 (own 8) | 54.39 | 0.993x | 1.051x | 16.83 | 0.644 | 1.024 |
+
+Like-for-like (static vs static): the pass removes 11% of the code misses and is worth 1.1% against its twin, but +2.2% instructions cost 0.8%,
+net +0.3% (median) / +1.0% (mean; per-rep cold3 53.2/53.8/54.0 vs gs 54.6/54.0/54.0). Own-lines 8 keeps the miss reduction but not the gain.
+Shared vs shared (round 17): the same pass in GOT form is +0.7% net. Either way the cold-path pass is ≈ +1% on user-timeline; the 5–6% between
+g and gs is the static link itself (45k PLT call sites removed, one packed 2.8 MB .text instead of six DSOs), not prefetching.
+
+## Round 20 — cold-path restricted to functions that miss (trace of the cold3 twin: 240 functions = 90% of exe misses → `PREFETCHIT_SEQ_FUNCTIONS_FILE`; service sites 44 instead of 495; library bursts unchanged), 2 reps, 23:33
+
+| arm | svc cycles (G) | vs gs | MPKI | IPC | instr vs gs |
+|---|---:|---:|---:|---:|---:|
+| gs | 55.23 | 1.000x | 18.29 | 0.624 | 1.000 |
+| cold4 | 54.22 | **1.019x** | **16.77** | 0.646 | 1.017 |
+| cold4_nop (twin) | 55.18 | 1.001x | 18.12 | 0.633 | 1.014 |
+
+Same miss reduction as cold3 (−8%) with the twin now free (1.001x): the service-side bursts were mostly overhead; the +1.7% instructions
+that remain come from the library archives (19.7k sites), which the function list does not touch.
+
+## Static targets vs traced misses (cold3 layout: twin trace = baseline misses, prefetch-binary trace = residual; `cold_target_analysis.py`, `results/target_analysis_cold3.txt`)
+
+- Miss samples: exe 55.7%, libc 42.9% (static pass reaches only the exe half; libc only via GOT entry lines).
+- Of the exe misses, 56.9% fall on lines the pass targets. Uncovered: 17.7% in functions with no site at all (prebuilt libstdc++ / thrift
+  template code, functions < 24 IR insns), 15.4% beyond the own-lines cap (IR-size estimate too small or > 16 lines deep), 5.6% callee
+  interior lines, 4.3% entries reached only by virtual/indirect calls.
+- Waste: 16,486 of 17,874 target lines (84% of the 24,706 sites) never miss in the twin trace.
+- Residual: with the prefetches in place 53% of the remaining exe misses are on targeted lines (issued too late at the entry, or dropped
+  from a 32-prefetch burst).
+→ Round 21 (`chain_cold6.sh`): trace-guided cold plan (`cold_plan.py`: LBR trace of gs, each missed line attributed to the oldest
+  instrumentable function entry with 60–4,000 cycles of lead; exe lines pc-relative, libc lines via GOT anchor + displacement; bursts
+  padded to 16 B so offsets stay exact) built into both the service and the static-only archives (`dsb-deps-plan`), arms gs / cold5 / cold5_nop.
