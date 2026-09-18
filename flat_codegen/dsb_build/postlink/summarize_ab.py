@@ -3,7 +3,8 @@ import csv,statistics as st,sys,collections
 rows=list(csv.DictReader(open(sys.argv[1])))
 ref=sys.argv[2] if len(sys.argv)>2 else 'base'
 by=collections.defaultdict(list)
-for r in rows: by[r['arm']].append(r)
+for r in rows:
+    if float(r.get('instructions',0) or 0) > 0: by[r['arm']].append(r)   # drop failed (all-zero) measurements
 def med(a,k): return st.median(float(r[k]) for r in a)
 base=by.get(ref) or by.get(next(iter(by)))
 print(f"| arm | reps | rps | non2xx | p50 ms | p99 ms | svc cycles (G) | cycles vs {ref} | MPKI | IPC | instr vs {ref} |")
