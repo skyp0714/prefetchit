@@ -1002,6 +1002,30 @@ static uint64_t runColdPlan(Module &M, const SeqConfig &C, StringRef PlanPath) {
     errs() << "prefetchit-cold-plan: no \"sites\" object\n";
     return 0;
   }
+  // Module identity for file-qualified entries: the basename of the source file (plans are keyed by "file" = basename).
+  std::string ModFile = M.getSourceFileName();
+  if (size_t Slash = ModFile.find_last_of('/'); Slash != std::string::npos)
+    ModFile = ModFile.substr(Slash + 1);
+  // "aliases": {"<alias>": {"file": "<basename>", "fn": "<local function>"}} — a hidden external alias for a local (static) function so that
+  // sites in other TUs of the same link can reference its lines pc-relative. Emitted only in the module that defines the function.
+  uint64_t Aliases = 0;
+  if (const json::Object *AL = Root->getObject("aliases")) {
+    for (const auto &KV : *AL) {
+      const json::Object *E = KV.second.getAsObject();
+      if (!E)
+        continue;
+      std::optional<StringRef> File = E->getString("file"), Fn = E->getString("fn");
+      if (!File || !Fn || *File != ModFile)
+        continue;
+      Function *G = M.getFunction(*Fn);
+      if (!G || G->isDeclaration() || !G->hasLocalLinkage())
+        continue;
+      auto *GA = GlobalAlias::create(G->getValueType(), 0, GlobalValue::ExternalLinkage, KV.first.str(), G, &M);
+      GA->setVisibility(GlobalValue::HiddenVisibility);
+      appendToUsed(M, {GA});
+      ++Aliases;
+    }
+  }
   LLVMContext &Ctx = M.getContext();
   FunctionType *AsmTy = FunctionType::get(Type::getVoidTy(Ctx), {}, false);
   bool PICModule = false;
@@ -1036,6 +1060,8 @@ static uint64_t runColdPlan(Module &M, const SeqConfig &C, StringRef PlanPath) {
     const json::Object *S = Sites->getObject(F.getName());
     if (!S)
       continue;
+    if (std::optional<StringRef> SF = S->getString("file"); SF && *SF != ModFile)
+      continue;   // a local site function of another TU with the same name
     const json::Array *T = S->getArray("t");
     const bool KeepEmpty = S->getInteger("k").value_or(0) > 0;   // frozen layout: a burst of NOPs only
     if ((!T || T->empty()) && !(!EpochFn.empty() && F.getName() == EpochFn) && !KeepEmpty)
@@ -1135,7 +1161,7 @@ static uint64_t runColdPlan(Module &M, const SeqConfig &C, StringRef PlanPath) {
     CI->setDebugLoc(At->getDebugLoc());
     ++Funcs;
   }
-  errs() << "prefetchit-cold-plan: sites=" << Funcs << " gated=" << Gated << " direct=" << Direct << " got=" << Got << " pad_bytes=" << Pad
+  errs() << "prefetchit-cold-plan: sites=" << Funcs << " aliases=" << Aliases << " gated=" << Gated << " direct=" << Direct << " got=" << Got << " pad_bytes=" << Pad
          << " direct_via_got=" << SkippedDirect << (ExeModule ? " (exe module)" : " (shared-object module)") << "\n";
   return Direct + Got;
 }
