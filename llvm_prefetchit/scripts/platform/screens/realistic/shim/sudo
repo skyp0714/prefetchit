@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# non-interactive sudo for installer scripts; drops the bare "clang" meta-package from apt installs (clang-19 is installed; the
+# meta-package pulls libobjc-13-dev which conflicts with the gcc-13 PPA on this host)
+args=(); skip=0
+if [[ "$1" == apt || "$1" == apt-get ]]; then for a in "$@"; do [[ "$a" == clang ]] && continue; args+=("$a"); done; else args=("$@"); fi
+exec /usr/bin/sudo -S -p '' "${args[@]}" <<< "ps101899"
