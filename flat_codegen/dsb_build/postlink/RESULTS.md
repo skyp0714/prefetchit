@@ -370,3 +370,16 @@ branchy front-end demand (miss 1% removed ≈ 0.16% cycles), and it cannot touch
 The prefetchit arms equal their NOP twins and the base (cycles within ±0.5%, MPKI 20.0–20.6): on this cold-start workload the
 instruction prefetch hint changes nothing measurable, same as prefetcht1 did (round 4). (Encodings verified: prefetchit0 = 0F 18 3D,
 prefetchit1 = 0F 18 35, RIP-relative; `/proc/cpuinfo` on this kernel does not list a `prefetchi` flag.)
+
+## PREFETCHIT on Verilator (the frontend-starved reference: 57 MPKI, IPC 0.6) — same static arm (seq D=4 KB K=20 + burst 4, 209k sites), qsort 100k cycles, 3 reps
+| variant | median s (reps 1–2) | vs base |
+|---|---:|---:|
+| base | 48.2 | 1.000x |
+| prefetcht1 (round-4 arm) | 41.9 | **1.150x** |
+| prefetchit1 | 54.3 | 0.887x |
+| prefetchit1 NOP twin | 51.4 | 0.937x |
+| prefetchit0 | 54.2 | 0.889x |
+| prefetchit0 NOP twin | 51.5 | 0.936x |
+With identical placement, prefetcht1 gains 15% while prefetchit1/0 lose 11% — 5.5% worse than their own NOP twins (the twin cost is the
++6% instruction bloat of the seq code). So on this Granite Rapids host PREFETCHIT is not inert in a frontend-starved loop: it costs
+issue/fill resources and brings nothing usable into L2 (no MPKI change; final table with rep 3 below when complete).
