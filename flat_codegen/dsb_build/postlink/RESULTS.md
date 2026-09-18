@@ -670,3 +670,16 @@ the largest single win of the night (4–6%).
 
 Re-attributing the hot sites' lines recovers a little coverage (15.45 MPKI) but the receiving sites are not free either (+5% instructions),
 so v10 (drop the lines, keep the overhead at +2.6%) stays the best engineering point. v10 in-round: 1.026x (round 32), 1.033x here.
+
+## Round 38 — 5-rep confirmation of the pruned plan v10 (cold14) vs the fat-static base and its twin, 04:30
+
+| arm | svc cycles (G, median of 5) | vs gs | MPKI | IPC | instr vs gs |
+|---|---:|---:|---:|---:|---:|
+| gs | 63.50 | 1.000x | 18.13 | 0.578 | 1.000 |
+| cold14 (plan v10) | 62.16 | **1.022x** (mean 1.032x; paired reps 1.014–1.047) | **15.84** | 0.606 | 1.026 |
+| cold14_nop (twin) | 63.61 | 0.998x | 17.84 | 0.596 | 1.033 |
+
+**Best confirmed configuration of the night: plan v10 = +2.2% (median) / +3.2% (mean) net over the fat-static base, +3.2% against its
+twin, −12.6% code misses, +2.6% instructions.** Against the original shared-library build (g) the same binary is ~+6–8% (round 39 closes
+that loop). The 5% goal against gs was not reached: the remaining misses have no static site ahead of them (libc-only branch windows,
+post-wake socket path) and every attempt to reach them (wake burst, orphan burst, epoch gating, re-attribution) cost more than it saved.
