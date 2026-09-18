@@ -89,7 +89,7 @@ NOP으로 치환한 *NOP twin* 대비, 코어·언코어 클럭 고정, 인터�
 | MariaDB wake burst 64라인 | 트랜잭션당 cycles ±3% 동일 | 12.6 → 13.6 |
 | PostgreSQL wake burst 64라인 | 1.012x tps (twin 1.004x), 트랜잭션당 cycles −3.7% (노이즈 ±2~5%) | 5.85 → 6.00 |
 
-결론: cold start가 지배적인 워크로드는 많지만(DB·RPC 서비스에서 1.3~1.9x 손실), 그 miss는 wake 후 65 µs 실행 구간에 흩어진 분기 목적지들이라 소프트웨어 프리페치가 잡는 몫은 ≤2%다. 하드웨어 next-line 프리페처는 이미 순차 부분을 처리하고 있고(miss의 84%가 taken 분기 목적지), 남는 건 fill queue(32~48)와 리드 타임에 묶인다.
+결론: cold start가 지배적인 워크로드는 많지만(DB·RPC 서비스에서 1.3~1.9x 손실), 그 miss는 wake 후 65 µs 실행 구간에 흩어진 분기 목적지들이라 소프트웨어 프리페치가 잡는 몫은 ≤2%다. 손실 분해(user-timeline, 명령 1k당): 코드 miss +12.6, 분기 예측 실패 +4.9, 데이터 miss +2.7, TLB 워크 +1.2 → 코드 miss가 약 절반, 예측 실패 20~25%, 데이터 25~30%; 프리페치가 회수 못 한 건 miss가 싸서가 아니라 fill이 늦어서다. 하드웨어 next-line 프리페처는 이미 순차 부분을 처리하고 있고(miss의 84%가 taken 분기 목적지), 남는 건 fill queue(32~48)와 리드 타임에 묶인다.
 
 ### 2-2. 2026-09-17 공유 라이브러리/데이터센터: post-link 재작성기와 DeathStarBench 결론
 
