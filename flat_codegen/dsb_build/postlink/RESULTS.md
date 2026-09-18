@@ -330,3 +330,14 @@ tps varies ±2–5% between reps; MPKI does not fall. At most ~1% — same pictu
   40 µs: 52%); the hardware next-line prefetcher already covers the sequential part; a software burst is bounded by 32–48 in-flight
   fills and pacing stalls the thread as long as the misses would have. A kernel switch-in warm-up shares these bounds (≤0.3% from the
   lead window alone). What captures the loss is placement (isolation, 1.3–1.9x) or an asynchronous hardware warm-up engine.
+
+## μSuite (wenischlab/MicroSuite, gRPC C++ microservices; leaf + mid-tier measured separately; open-loop load 3,000 qps; SN stack as co-tenant noise)
+| service / tier | cs/s | instr/s (G) | MPKI shared | MPKI isolated | ΔMPKI | IPC sh→iso | cycles sh/iso | I-side headroom |
+|---|---:|---:|---:|---:|---:|---|---:|---:|
+| Router leaf (memcached lookup, gRPC) | 12060 | 0.50 | **52.8** | **37.9** | 14.9 | 0.42→0.50 | 1.21x | 10.4% |
+| Router mid-tier (gRPC fan-out) | 26287 | 0.96 | **48.0** | **35.0** | 13.0 | 0.39→0.49 | 1.28x | 9.1% |
+| SetAlgebra | — | — | load generator segfaults on the synthesized query set (re-run pending) | | | | | |
+| HDSearch | (pending) | | | | | | | |
+Router is different from everything screened before: even fully isolated it keeps 35–38 MPKI at IPC 0.5 — a large intrinsic
+instruction-miss component (gRPC/protobuf/memcached-client code path), on top of a 13–15 MPKI cold-start share. That makes it the first
+service-class workload where in-code static/PGO prefetch (our original tool) is worth testing.
