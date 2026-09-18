@@ -769,3 +769,13 @@ request ran the same code on the same core. The shared-regime plan (v10) removes
 (net −1.3 to −1.8%, equal to its twin); the plan re-traced in this regime keeps only 67 cold sites and is exactly neutral (1.001x vs twin
 0.999x). Consistent with rounds 40–41 (4-core pinning) and with the cold-start screen (user-timeline 21.9 → 1.9 MPKI shared → isolated):
 the 18 MPKI was the oversubscription itself, and dedicating cores removes it far more effectively (cycles per request −45%) than prefetching.
+
+## Round 45 — 1 core at 7,000 req/s (over the knee: ~87% util, p50 90–360 ms, p99 2–3 s), 3 reps, 10:00
+
+| arm | svc cycles (G) | vs gs | MPKI | IPC | instr vs gs |
+|---|---:|---:|---:|---:|---:|
+|  gs  |  79.91  |  1.0000x  |  0.93  |  1.329  |  1.000  |
+|  cold14  |  80.51  |  0.9925x  |  0.87  |  1.348  |  1.021  |
+|  cold21  |  79.97  |  0.9992x  |  0.93  |  1.327  |  0.999  |
+|  cold21_nop  |  80.26  |  0.9956x  |  0.91  |  1.322  |  0.999  |
+Same picture past saturation: MPKI 0.9, every arm equal to its twin. The realistic-baseline series (rounds 43–45) is closed: prefetching is neutral once the service owns its core(s).
