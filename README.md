@@ -91,6 +91,24 @@ NOP으로 치환한 *NOP twin* 대비, 코어·언코어 클럭 고정, 인터�
 
 결론: cold start가 지배적인 워크로드는 많지만(DB·RPC 서비스에서 1.3~1.9x 손실), 그 miss는 wake 후 65 µs 실행 구간에 흩어진 분기 목적지들이라 소프트웨어 프리페치가 잡는 몫은 ≤2%다. 손실 분해(user-timeline, 명령 1k당): 코드 miss +12.6, 분기 예측 실패 +4.9, 데이터 miss +2.7, TLB 워크 +1.2 → 코드 miss가 약 절반, 예측 실패 20~25%, 데이터 25~30%; 프리페치가 회수 못 한 건 miss가 싸서가 아니라 fill이 늦어서다. 하드웨어 next-line 프리페처는 이미 순차 부분을 처리하고 있고(miss의 84%가 taken 분기 목적지), 남는 건 fill queue(32~48)와 리드 타임에 묶인다.
 
+#### 2-3-1. 2026-09-17 밤: 짧은 디스패치 서비스용 cold-path static pass + GOT 우회(fat-static)
+
+사용자 요청: "cost 함수 없이, next-line prefetch가 못 잡는 점프 목적지(호출 대상)를 전부 프리페치하되 루프 안은 피하고 injection site를 똑똑하게" + "DSO 프리페치는 컴파일러 flag로 GOT를 우회해 명령어 오버헤드를 줄여라". 구현(`llvm_prefetchit/lib/PrefetchITPass.cpp` `runColdPath`, 환경변수 `PREFETCHIT_COLD_*`):
+
+- **삽입 위치**: IR 명령 24개 이상인 함수의 진입점 한 곳(루프 밖). 함수 자신의 다음 라인(크기 추정, 최대 16개)과 루프 밖에서 도달하는 callee들의 첫 라인(블록 순서 = 실행 순서, 최대 8+8개)을 `prefetcht1`로.
+- **참조 형태**: 같은 링크 단위의 심볼은 `prefetcht1 sym(%rip)` 한 명령. 다른 DSO의 심볼만 `mov sym@GOTPCREL(%rip),%r11; prefetcht1 (%r11)`.
+- **GOT 우회**: thrift·mongoc·bson·jaeger·opentracing·yaml-cpp·hiredis·redis++·libstdc++를 실행 파일에 정적으로 링크(`FATSTATIC=1 build_utl_variant.sh`, `-static-libstdc++ -static-libgcc`)하고, 그 아카이브의 전역 심볼 목록(`plans/cold_direct_syms.txt`, 13,456개)을 `PREFETCHIT_COLD_DIRECT_SYMS`로 주면 선언만 보이는 callee도 한 명령으로 참조한다. 의존 라이브러리도 정적 전용으로 다시 빌드(`rebuild_deps_static.sh`, `PREFETCHIT_COLD_DIRECT_IN_PIC=1`)하면 라이브러리 내부 사이트까지 직접 참조가 된다(mongoc/bson은 공유 라이브러리 빌드를 끌 수 없어 GOT 형태 유지). 남는 GOT 형태는 libc 호출뿐.
+
+결과(user-timeline, 기본 스케줄링, 3회, `postlink/RESULTS.md` round 17–19):
+
+| 구성 | speedup vs 원래 빌드(공유 라이브러리) | MPKI | 명령 수 |
+|---|---:|---|---:|
+| cold-path pass, 공유 라이브러리(GOT 형태) | 1.007x (twin 0.998x) | 19.5 → 18.3 | +2.2% |
+| fat-static만(pass 없음) | **1.039x** | 19.9 → 18.1 | +0.6% |
+| fat-static + cold-path pass(직접 참조) | **1.045x** (fat-static 대비 1.006x, twin 대비 1.018x) | 19.9 → 16.7 | +2.4% |
+
+읽는 법: GOT/PLT를 없애는 정적 링크 자체가 3.9%, 그 위에서 pass가 miss를 추가로 7% 줄여 twin 대비 1.8%를 벌지만 추가 명령 1.8%가 1.2%를 도로 먹어 순이익은 0.6%. 명령어 오버헤드를 더 줄이는 두 방향(라이브러리 내부까지 직접 참조 + own-lines 8, trace로 실제 miss 나는 함수만 선택)은 round 19–20.
+
 ### 2-2. 2026-09-17 공유 라이브러리/데이터센터: post-link 재작성기와 DeathStarBench 결론
 
 `llvm_prefetchit/tools/postlink/` — 재빌드 없이 링크된 바이너리·.so에 프리페치를 넣는 세 가지 방식을 구현·검증했다(`docs/shared_library_prefetch_report.md`에 하이레벨 설명).
