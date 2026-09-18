@@ -383,3 +383,7 @@ prefetchit1 = 0F 18 35, RIP-relative; `/proc/cpuinfo` on this kernel does not li
 With identical placement, prefetcht1 gains 15% while prefetchit1/0 lose 11% — 5.5% worse than their own NOP twins (the twin cost is the
 +6% instruction bloat of the seq code). So on this Granite Rapids host PREFETCHIT is not inert in a frontend-starved loop: it costs
 issue/fill resources and brings nothing usable into L2 (no MPKI change; final table with rep 3 below when complete).
+Counters (Verilator, 15k simulated cycles, core 34): prefetcht1 arm L2I 15.7 MPKI, IPC 0.68, 52 M software prefetches (6.8 M fills);
+prefetchit1 arm L2I 65.3 MPKI = its NOP twin (65.4), IPC 0.520 vs twin 0.546, L2 code reads 77.0/kI vs 66.8/kI (+15%), and zero
+SWPF events (PREFETCHIT is not a data prefetch). So PREFETCHIT does issue extra L2 code-read requests (it is not inert) but they do not
+reduce demand code misses at all — they arrive too late or duplicate in-flight demand — and the extra traffic costs ~5% time.
