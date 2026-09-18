@@ -880,6 +880,9 @@ struct SeqConfig {
   std::string Mnemonic = DefaultPrefetchMnemonic.str();
   unsigned ColdOwnLines = 0, ColdCalleeLines = 1, ColdMaxCallees = 8, ColdMaxExternal = 8;
   unsigned ColdMinInsns = 24, ColdMinCalleeInsns = 8, ColdBytesPerInsn = 5;
+  std::set<std::string> ColdDirectSyms;   // declared callees that the final link resolves in-image (pc-relative)
+  bool ColdExternalGot = true;            // unlisted declared callees: GOT-indirect prefetch (false = skip)
+  bool ColdDirectInPIC = false;           // allow pc-relative references to declared callees in shared-object modules
   bool coldEnabled() const { return ColdOwnLines > 0 || ColdCalleeLines > 0 && std::getenv("PREFETCHIT_COLD"); }
   bool enabled() const { return Distance > 0 || BurstLines > 0 || coldEnabled(); }
   bool selects(StringRef Name, const std::optional<Regex> &Inc,
@@ -912,6 +915,21 @@ static SeqConfig getSeqConfig() {
   C.ColdMinInsns = envOrU("PREFETCHIT_COLD_MIN_INSNS", PrefetchITColdMinInsns, 24);
   C.ColdMinCalleeInsns = envOrU("PREFETCHIT_COLD_MIN_CALLEE_INSNS", PrefetchITColdMinCalleeInsns, 8);
   C.ColdBytesPerInsn = std::max(1u, envOrU("PREFETCHIT_COLD_BYTES_PER_INSN", PrefetchITColdBytesPerInsn, 5));
+  if (const char *DS = std::getenv("PREFETCHIT_COLD_DIRECT_SYMS"); DS && *DS) {
+    if (auto Buf = MemoryBuffer::getFile(DS)) {
+      SmallVector<StringRef, 64> Lines;
+      (*Buf)->getBuffer().split(Lines, '\n', -1, false);
+      for (StringRef L : Lines)
+        if (!L.trim().empty())
+          C.ColdDirectSyms.insert(L.trim().str());
+    } else {
+      errs() << "prefetchit-cold: cannot read PREFETCHIT_COLD_DIRECT_SYMS " << DS << "\n";
+    }
+  }
+  if (const char *EM = std::getenv("PREFETCHIT_COLD_EXTERNAL"); EM && StringRef(EM) == "skip")
+    C.ColdExternalGot = false;
+  if (const char *DP = std::getenv("PREFETCHIT_COLD_DIRECT_IN_PIC"); DP && *DP && StringRef(DP) != "0")
+    C.ColdDirectInPIC = true;
   C.Include = envOr("PREFETCHIT_SEQ_FUNCTIONS", PrefetchITSeqFunctions);
   C.Exclude = envOr("PREFETCHIT_SEQ_EXCLUDE", PrefetchITSeqExclude);
   C.FunctionsFile = envOr("PREFETCHIT_SEQ_FUNCTIONS_FILE", PrefetchITSeqFunctionsFile);
@@ -983,8 +1001,13 @@ static uint64_t runColdPath(Module &M, const SeqConfig &C) {
   };
   DenseMap<Function *, std::string> AliasName;
   // symbol usable in a PC-relative operand from inside this module, or "" if none
+  // executables (PIE or not) cannot be interposed: every symbol they define, and every symbol the
+  // link resolves from a static archive, is addressable pc-relative without an alias or the GOT
+  const bool ExeModule = !PICModule || M.getPIELevel() != PIELevel::Default;
   auto ripSymbol = [&](Function *G, bool Own) -> std::string {
-    if (G->hasLocalLinkage() || !PICModule)
+    if (G->isDeclaration())   // listed direct symbol resolved by the final link
+      return (ExeModule || C.ColdDirectInPIC) ? escapeInlineAsmSymbol(G->getName()) : "";
+    if (G->hasLocalLinkage() || !PICModule || ExeModule)
       return escapeInlineAsmSymbol(G->getName());
     if (G->isWeakForLinker() && !Own)
       return "";   // an alias would point into a possibly discarded COMDAT section
@@ -997,7 +1020,7 @@ static uint64_t runColdPath(Module &M, const SeqConfig &C) {
     }
     return escapeInlineAsmSymbol(It->second);
   };
-  uint64_t Funcs = 0, OwnInj = 0, DirectInj = 0, ExtInj = 0;
+  uint64_t Funcs = 0, OwnInj = 0, DirectInj = 0, ExtDirectInj = 0, ExtInj = 0;
   std::vector<Function *> Work;
   for (Function &F : M)
     if (!F.isDeclaration() && selected(F.getName()))
@@ -1023,8 +1046,12 @@ static uint64_t runColdPath(Module &M, const SeqConfig &C) {
         if (!Callee || Callee == &F || Callee->isIntrinsic() || !Seen.insert(Callee).second)
           continue;
         if (Callee->isDeclaration()) {
-          if (External.size() < C.ColdMaxExternal)
+          if (C.ColdDirectSyms.count(Callee->getName().str())) {
+            if (Direct.size() < C.ColdMaxCallees)
+              Direct.push_back(Callee);
+          } else if (C.ColdExternalGot && External.size() < C.ColdMaxExternal) {
             External.push_back(Callee);
+          }
         } else if (Direct.size() < C.ColdMaxCallees && insnsOf(*Callee) >= C.ColdMinCalleeInsns) {
           Direct.push_back(Callee);
         }
@@ -1048,7 +1075,7 @@ static uint64_t runColdPath(Module &M, const SeqConfig &C) {
         continue;
       for (unsigned L = 0; L < C.ColdCalleeLines; ++L) {
         emit(C.Mnemonic + " " + Sym + "+" + std::to_string(64u * L) + "(%rip)", "");
-        ++DirectInj;
+        if (G->isDeclaration()) ++ExtDirectInj; else ++DirectInj;
       }
     }
     for (Function *G : External) {
@@ -1065,8 +1092,9 @@ static uint64_t runColdPath(Module &M, const SeqConfig &C) {
   errs() << "prefetchit-cold: own_lines<=" << C.ColdOwnLines << " callee_lines=" << C.ColdCalleeLines
          << " max_callees=" << C.ColdMaxCallees << " max_external=" << C.ColdMaxExternal
          << " min_insns=" << C.ColdMinInsns << " functions=" << Funcs << " own=" << OwnInj
-         << " direct=" << DirectInj << " external=" << ExtInj << "\n";
-  return OwnInj + DirectInj + ExtInj;
+         << " direct=" << DirectInj << " listed_direct=" << ExtDirectInj << " external_got=" << ExtInj
+         << (ExeModule ? " (exe module)" : " (shared-object module)") << "\n";
+  return OwnInj + DirectInj + ExtDirectInj + ExtInj;
 }
 
 static uint64_t runCalleeEntryBurst(Module &M, const SeqConfig &C) {
