@@ -1030,12 +1030,13 @@ static uint64_t runColdPlan(Module &M, const SeqConfig &C, StringRef PlanPath) {
       std::optional<int64_t> G = (*E)[2].getAsInteger();
       if (!Sym || !Off || !G)
         continue;
-      if (*G)
+      if (*G || !AllowDirect) {
+        // shared-object modules cannot reference other objects pc-relative: use the GOT form for every target
         GotByAnchor[Sym->str()].push_back(*Off);
-      else if (AllowDirect)
+        if (!*G) ++SkippedDirect;   // counted as "direct target emitted through the GOT"
+      } else {
         DirectT.emplace_back(Sym->str(), *Off);
-      else
-        ++SkippedDirect;
+      }
     }
     if (DirectT.empty() && GotByAnchor.empty())
       continue;
@@ -1075,7 +1076,7 @@ static uint64_t runColdPlan(Module &M, const SeqConfig &C, StringRef PlanPath) {
     ++Funcs;
   }
   errs() << "prefetchit-cold-plan: sites=" << Funcs << " direct=" << Direct << " got=" << Got << " pad_bytes=" << Pad
-         << " skipped_direct=" << SkippedDirect << (ExeModule ? " (exe module)" : " (shared-object module)") << "\n";
+         << " direct_via_got=" << SkippedDirect << (ExeModule ? " (exe module)" : " (shared-object module)") << "\n";
   return Direct + Got;
 }
 
