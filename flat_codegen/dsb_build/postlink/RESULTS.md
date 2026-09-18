@@ -570,3 +570,16 @@ executions exceed 10× the misses they save (`--site-exec`).
 Noise (arm = twin, MPKI −2%): the misses in this service are not sequential streams inside functions, so the seq mode has nothing to mix in.
 Drift note: gs has slowed from 55.6 G (round 19) to 58.0 G (round 28) over the night — the mixed load keeps appending posts, so timelines and
 per-request work grow; only in-round comparisons (interleaved reps) are valid.
+
+## Round 30 — wider plan v7 (64 lines per site, weight ≥ 2, up to 3 sites per line, lead window 20k cycles; 349 sites, 2,822 targets, 699 libc), 3 reps, 01:47
+
+| arm | svc cycles (G) | vs gs | MPKI | IPC | instr vs gs |
+|---|---:|---:|---:|---:|---:|
+| gs | 58.20 | 1.000x | 18.18 | 0.608 | 1.000 |
+| cold8 (v4) | 57.21 | 1.017x | 15.62 | 0.646 | 1.043 |
+| cold11 (v7) | 56.97 | 1.022x | 15.07 | 0.651 | 1.048 |
+| cold11_nop | 58.97 | 0.987x | 17.38 | 0.630 | 1.050 |
+
+Slightly more coverage (MPKI 15.1) for slightly more instructions; within noise of v4 (both 3.5% against their twins). The plan is
+saturating on what LBR attribution can reach: libc misses whose 32-branch windows never leave libc get no site (10% of samples).
+→ Round 34: "orphan burst" — those top lines prefetched once per request at TDispatchProcessor::process entry (N = 64 / 128).

@@ -15,6 +15,7 @@ ap.add_argument('--miss-period',type=float,default=1000.0); ap.add_argument('--t
 ap.add_argument('--epoch-gate',action='store_true',help='bursts are epoch-gated (guard bytes added to k)'); ap.add_argument('--epoch-fn',default=None,help='function whose entry increments the epoch (6 B added; becomes a site)'); ap.add_argument('--rate-cap',type=float,default=None,help='cap per-site entry rate (Hz) in the cost model, e.g. 6000 with epoch gating')
 ap.add_argument('--base-plan',default=None,help='previous plan whose bursts are already in the traced layout (twin trace): keep each site k >= its old k and do not shift offsets')
 ap.add_argument('--site-exec',default=None,help='site_exec.txt from cold_site_profile.sh (instruction samples on prefetch insns per site of the previous build)'); ap.add_argument('--exec-period',type=float,default=20000.0); ap.add_argument('--exec-secs',type=float,default=20.0); ap.add_argument('--max-exec-ratio',type=float,default=10.0,help='drop a site whose measured prefetch executions per second exceed R x the misses it saves per second')
+ap.add_argument('--orphan-burst',type=int,default=0,help='attach the top-N miss lines that got no site (libc lines with libc-only windows, libstdc++ lines) to --orphan-site as a once-per-request burst'); ap.add_argument('--orphan-site',default=None)
 ap.add_argument('--no-got',action='store_true',help='drop libc (GOT-anchored) targets')
 ap.add_argument('--fallback',action='store_true',help='no entry in window: use the oldest instrumentable exe function seen in the LBR (its entry precedes the window)')
 ap.add_argument('--drop-own-line0',action='store_true',help='never prefetch line 0 of the site itself')
@@ -86,7 +87,7 @@ def libc_va(a):
 DSO=r'\((?:[^()]|\([^()]*\))*\)'
 ENT=re.compile(r'0x([0-9a-f]+) '+DSO+r'/0x([0-9a-f]+) '+DSO+r'/[MPX-]/[^/]*/[^/]*/([0-9-]+)/(\w+)/')
 HEAD=re.compile(r'\s*([0-9a-f]+)\s+(?:\S+\s+)?\(([^)]*)\)')
-n=0; stat=collections.Counter(); plan=collections.defaultdict(collections.Counter); line_sites=collections.defaultdict(collections.Counter)
+n=0; stat=collections.Counter(); plan=collections.defaultdict(collections.Counter); line_sites=collections.defaultdict(collections.Counter); orphans=collections.Counter()
 for ln in open(f"{A.trace}/samples_lbr.txt"):
     m=HEAD.match(ln)
     if not m: continue
@@ -131,7 +132,10 @@ for ln in open(f"{A.trace}/samples_lbr.txt"):
         if best is not None: stat['attributed: oldest running function (fallback)']+=1
     if best is None:
         if fn is not None and kind=='exe' and fn in instr: best=fn; stat['attributed: own entry (no earlier entry in window)']+=1
-        else: stat['drop: no instrumentable site in LBR window']+=1; continue
+        else:
+            stat['drop: no instrumentable site in LBR window']+=1
+            if A.orphan_burst and A.orphan_site and not (A.no_got and target[2]==1): orphans[target]+=1
+            continue
     if A.no_got and target[2]==1: stat['drop: got target (--no-got)']+=1; continue
     if A.drop_own_line0 and target[2]==0 and target[0]==best and target[1]==0: stat['drop: own line 0']+=1; continue
     if target[2]==0 and target[0] not in glob and best!=target[0]: stat['drop: local target from other site']+=1; continue
@@ -146,6 +150,10 @@ if A.site_exec:
     for l in open(A.site_exec):
         if l.startswith('#'): continue
         c,n=l.split(None,1); site_exec[n.strip()]=int(c)
+if A.orphan_burst and A.orphan_site:
+    top=orphans.most_common(A.orphan_burst)
+    for t,w in top: plan[A.orphan_site][t]+=w
+    print(f"orphan burst: {len(top)} lines (weight {sum(w for t,w in top)}, {100*sum(w for t,w in top)/max(1,n):.1f}% of samples) attached to {A.orphan_site[:50]}")
 sites={}; cost_dropped=0; cost_dropped_w=0; exec_dropped=0; exec_dropped_w=0
 for s,ts in plan.items():
     if A.site_exec and s in site_exec:
@@ -154,13 +162,14 @@ for s,ts in plan.items():
         if execs_per_s>A.max_exec_ratio*max(1e-9,saved_per_s):
             exec_dropped+=1; exec_dropped_w+=sum(ts.values()); continue
     kept=[]
+    cap=A.max_per_site+(A.orphan_burst if (A.orphan_site and s==A.orphan_site) else 0)
     for t,w in ts.most_common():
         if w<A.min_w: continue
-        if A.rates and rate_ref is not None:
+        if A.rates and rate_ref is not None and not (A.orphan_site and s==A.orphan_site):
             saved_per_s=w*A.miss_period/A.trace_secs; ratio=hz(s)/max(1e-9,saved_per_s)
             if ratio>A.max_cost: cost_dropped+=1; cost_dropped_w+=w; continue
         kept.append((t,w))
-    kept=kept[:A.max_per_site]
+    kept=kept[:cap]
     if kept: sites[s]=kept
 gotonly=set(l.strip() for l in open(A.got_only_sites)) if A.got_only_sites else set()
 def burst_bytes(ts,site=None):
