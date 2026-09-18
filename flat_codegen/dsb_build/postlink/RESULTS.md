@@ -341,3 +341,19 @@ tps varies ±2–5% between reps; MPKI does not fall. At most ~1% — same pictu
 Router is different from everything screened before: even fully isolated it keeps 35–38 MPKI at IPC 0.5 — a large intrinsic
 instruction-miss component (gRPC/protobuf/memcached-client code path), on top of a 13–15 MPKI cold-start share. That makes it the first
 service-class workload where in-code static/PGO prefetch (our original tool) is worth testing.
+
+## Cold-start loss decomposition — user-timeline, default scheduling (shared 0-35 with 26 containers) vs isolated (main@40, pool@41-44, others off)
+| per 1,000 instructions | shared | isolated | Δ |
+|---|---:|---:|---:|
+| L2 code misses | 15.23 | 2.62 | +12.6 |
+| L2 demand data misses | 5.16 | 2.50 | +2.7 |
+| branch mispredicts | 7.55 | 2.67 | +4.9 |
+| ITLB walks | 0.89 | 0.22 | +0.7 |
+| DTLB load walks | 0.68 | 0.23 | +0.5 |
+| IPC | 0.670 | 0.954 | CPI +0.44 |
+The shared-core penalty is 0.44 cycles per instruction. With typical exposed costs (code/data L2 miss 20–50 cycles, mispredict ~20,
+page walk ~30) the code misses are the largest single component (roughly half), branch mispredicts ~20–25%, data misses ~25–30%,
+TLB walks <10%. So the earlier "instruction misses are only a quarter of the loss" inference (drawn from what prefetching *recovered*)
+was wrong about the cause: the misses matter; software prefetch recovered little of them because its fills arrive late relative to the
+branchy front-end demand (miss 1% removed ≈ 0.16% cycles), and it cannot touch the mispredict and data-miss shares at all.
+(top-down slots group did not count under `-p`; not needed.)
