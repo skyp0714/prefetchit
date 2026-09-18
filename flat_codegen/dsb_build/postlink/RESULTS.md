@@ -583,3 +583,16 @@ per-request work grow; only in-round comparisons (interleaved reps) are valid.
 Slightly more coverage (MPKI 15.1) for slightly more instructions; within noise of v4 (both 3.5% against their twins). The plan is
 saturating on what LBR attribution can reach: libc misses whose 32-branch windows never leave libc get no site (10% of samples).
 → Round 34: "orphan burst" — those top lines prefetched once per request at TDispatchProcessor::process entry (N = 64 / 128).
+
+## Round 31 — plan v4 with a longer minimum lead (200 cycles; cold12) and a single site per line (cold13), 3 reps, 02:05
+
+| arm | svc cycles (G) | vs gs | MPKI | IPC | instr vs gs |
+|---|---:|---:|---:|---:|---:|
+| gs | 58.37 | 1.000x | 18.31 | 0.609 | 1.000 |
+| cold8 (v4) | 57.73 | 1.011x | 15.78 | 0.644 | 1.046 |
+| cold12 (min lead 200) | 58.66 | 0.995x | 15.26 | 0.636 | 1.049 |
+| cold13 (1 site per line) | 57.87 | 1.009x | 15.89 | 0.638 | 1.038 |
+
+Neither variant beats v4: pushing sites further from the miss lowers MPKI a little but not cycles (the further sites are hotter), and
+de-duplicating sites saves 0.8% instructions but loses the same in misses. Noisy round (gs rep 3 and cold8 rep 3 both ~59 G with 300 ms
+p99 spikes). v4's in-round net over the night: 1.029 / 1.019 / 1.017 / 1.011x (mean +1.9%); against its twin consistently +3.5%.
