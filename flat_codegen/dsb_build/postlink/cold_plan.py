@@ -8,6 +8,10 @@ import sys,re,bisect,collections,json,subprocess,argparse
 ap=argparse.ArgumentParser(); ap.add_argument('trace'); ap.add_argument('exe'); ap.add_argument('libc'); ap.add_argument('instr'); ap.add_argument('out')
 ap.add_argument('--min-w',type=int,default=3); ap.add_argument('--max-per-site',type=int,default=32); ap.add_argument('--min-lead',type=int,default=60); ap.add_argument('--max-lead',type=int,default=4000)
 ap.add_argument('--max-sites-per-line',type=int,default=2)
+ap.add_argument('--got-only-sites',default=None,help='file of site functions compiled in shared-object modules: their bursts use the GOT form for every target')
+ap.add_argument('--no-got',action='store_true',help='drop libc (GOT-anchored) targets')
+ap.add_argument('--fallback',action='store_true',help='no entry in window: use the oldest instrumentable exe function seen in the LBR (its entry precedes the window)')
+ap.add_argument('--drop-own-line0',action='store_true',help='never prefetch line 0 of the site itself')
 A=ap.parse_args()
 # maps
 segs=[]
@@ -50,7 +54,10 @@ instr=set(l.strip() for l in open(A.instr) if l.strip())
 lsyms=[]
 for l in subprocess.run(['readelf','-sW','--dyn-syms',A.libc],capture_output=True,text=True).stdout.splitlines():
     f=l.split()
-    if len(f)>=8 and f[3]=='FUNC' and f[4] in ('GLOBAL','WEAK') and f[6]!='UND': lsyms.append((int(f[1],16),f[7].split('@')[0]))
+    if len(f)>=8 and f[3]=='FUNC' and f[4] in ('GLOBAL','WEAK') and f[6]!='UND':
+        nm=f[7]
+        if '@' in nm and '@@' not in nm: continue   # compat (non-default) version: not linkable by bare name
+        lsyms.append((int(f[1],16),nm.split('@')[0]))
 lsyms.sort(); laddr=[a for a,_ in lsyms]
 def libc_anchor(va):
     i=bisect.bisect_right(laddr,va)-1
@@ -83,19 +90,32 @@ for ln in open(f"{A.trace}/samples_lbr.txt"):
     else: stat['drop: other dso']+=1; continue
     ents=ENT.findall(ln)
     # walk branch history newest->oldest; candidate sites = call/jump targets that are instrumentable function entries
-    lead=0; best=None
+    lead=0; best=None; entry_hit=False
     for fr,to,cyc,ty in ents:
         c=int(cyc) if cyc!='-' else 0; lead+=max(0,c)
         tov=int(to,16); tdso,_=loc(tov)
         if tdso and tdso.endswith('UserTimelineService'):
             va2=off2va(tov-exe_base); fa2,fn2=func_of(va2)
             if fn2 is not None and va2==fa2 and fn2 in instr and A.min_lead<=lead<=A.max_lead:
-                best=fn2   # keep the oldest acceptable entry
+                best=fn2; entry_hit=True   # keep the oldest acceptable entry
         if lead>A.max_lead: break
+    if entry_hit: stat['attributed: earlier entry']+=1
+    if best is None and A.fallback:
+        # oldest branch whose source or target lies in an instrumentable exe function: that function was running at the far end of the
+        # window, so its entry happened even earlier (lead >= window)
+        for fr,to,cyc,ty in reversed(ents):
+            for a in (int(fr,16),int(to,16)):
+                dso2,_=loc(a)
+                if dso2 and dso2.endswith('UserTimelineService'):
+                    fa2,fn2=func_of(off2va(a-exe_base))
+                    if fn2 is not None and fn2 in instr: best=fn2; break
+            if best is not None: break
+        if best is not None: stat['attributed: oldest running function (fallback)']+=1
     if best is None:
         if fn is not None and kind=='exe' and fn in instr: best=fn; stat['attributed: own entry (no earlier entry in window)']+=1
         else: stat['drop: no instrumentable site in LBR window']+=1; continue
-    else: stat['attributed: earlier entry']+=1
+    if A.no_got and target[2]==1: stat['drop: got target (--no-got)']+=1; continue
+    if A.drop_own_line0 and target[2]==0 and target[0]==best and target[1]==0: stat['drop: own line 0']+=1; continue
     if target[2]==0 and target[0] not in glob and best!=target[0]: stat['drop: local target from other site']+=1; continue
     plan[best][target]+=1; line_sites[target][best]+=1
 # prune: per line keep the top sites; per site keep weight>=min_w and cap
@@ -107,15 +127,16 @@ sites={}
 for s,ts in plan.items():
     kept=[(t,w) for t,w in ts.most_common() if w>=A.min_w][:A.max_per_site]
     if kept: sites[s]=kept
-def burst_bytes(ts):
+gotonly=set(l.strip() for l in open(A.got_only_sites)) if A.got_only_sites else set()
+def burst_bytes(ts,site=None):
     b=0; anchors=collections.defaultdict(list)
     for (sym,off,got),w in ts:
-        if got: anchors[sym].append(off)
+        if got or site in gotonly: anchors[sym].append(off)
         else: b+=7
     for a,offs in anchors.items():
         b+=7+sum(4 if o==0 else 5 if -128<=o<128 else 8 for o in offs)
     return b
-K={s:(burst_bytes(ts)+15)//16*16 for s,ts in sites.items()}
+K={s:(burst_bytes(ts,s)+15)//16*16 for s,ts in sites.items()}
 out={"sites":{}}; ntargets=0; wcov=0
 for s,ts in sites.items():
     tl=[]
