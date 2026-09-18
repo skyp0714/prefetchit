@@ -6,7 +6,7 @@ CORES=${CORES:-8-11}; HEAP=${HEAP:-8g}; ONLY=${ONLY:-}; JVMFLAGS=${JVMFLAGS:-}; 
 JDK=/usr/lib/jvm/java-21-openjdk-amd64; DACAPO=/home/hnpark2/prefetchit/benchmarks/tools/dacapo/dacapo-23.11-MR2-chopin.jar; REN=/home/hnpark2/prefetchit/benchmarks/tools/renaissance/renaissance-gpl.jar
 EV='cpu/event=0x24,umask=0x24,name=L2I/u,instructions:u,cycles:u'; SCR=/tmp/jvm_scr; mkdir -p $SCR $(dirname $OUT); [[ -f $OUT ]] || echo "suite,bench,cores,heap,l2i,instr,cycles,mpki,ipc,note" > $OUT
 NC=$(python3 -c "import re;s='$CORES';print(sum(int(b)-int(a)+1 if b else 1 for a,b in re.findall(r'(\d+)-?(\d*)',s)))")
-run_one() { local suite=$1 b=$2; shift 2; [[ -n $ONLY && $b != $ONLY ]] && return; local log=$SCR/$suite.$b.log
+run_one() { local suite=$1 b=$2; shift 2; [[ -n $ONLY && $b != $ONLY ]] && return; local log=$SCR/$suite.$b.log; mkdir -p $SCR/scratch_$b
   taskset -c $CORES $JDK/bin/java -Xms$HEAP -Xmx$HEAP -XX:ActiveProcessorCount=$NC $JVMFLAGS "$@" > $log 2>&1 & local jp=$!
   sleep $DELAY; if ! kill -0 $jp 2>/dev/null; then echo "$suite,$b,$CORES,$HEAP,0,0,0,0,0,finished_before_window" >> $OUT; echo "$suite/$b: finished before the window (short or failed)"; tail -2 $log | cut -c1-120; return; fi
   perf stat -x, -o $SCR/perf.csv -e $EV -p $jp -- sleep $WIN > /dev/null 2>&1
@@ -30,7 +30,7 @@ if [[ $WHICH == both || $WHICH == dacapo ]]; then
 fi
 if [[ $WHICH == both || $WHICH == renaissance ]]; then
   for b in $($JDK/bin/java -jar $REN --raw-list 2>/dev/null | tr -d '\r'); do
-    run_one renaissance $b -jar $REN $b -r 60 --scratch-base $SCR/scratch_$b
+    run_one renaissance $b -jar $REN $b -r 500 --scratch-base $SCR/scratch_$b
   done
 fi
 echo JVM_SCREEN_DONE
