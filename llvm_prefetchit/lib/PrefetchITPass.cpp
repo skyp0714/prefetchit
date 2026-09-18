@@ -848,22 +848,22 @@ static cl::opt<unsigned> PrefetchITColdOwnLines(
     cl::init(0));
 static cl::opt<unsigned> PrefetchITColdCalleeLines(
     "prefetchit-cold-callee-lines",
-    cl::desc("cold-path: entry lines per callee (env PREFETCHIT_COLD_CALLEE_LINES)"), cl::init(1));
+    cl::desc("cold-path: entry lines per callee (env PREFETCHIT_COLD_CALLEE_LINES)"), cl::init(0));
 static cl::opt<unsigned> PrefetchITColdMaxCallees(
     "prefetchit-cold-max-callees",
-    cl::desc("cold-path: max direct callees per function (env PREFETCHIT_COLD_MAX_CALLEES)"), cl::init(8));
+    cl::desc("cold-path: max direct callees per function (env PREFETCHIT_COLD_MAX_CALLEES)"), cl::init(0));
 static cl::opt<unsigned> PrefetchITColdMaxExternal(
     "prefetchit-cold-max-external",
-    cl::desc("cold-path: max external (GOT) callees per function (env PREFETCHIT_COLD_MAX_EXTERNAL)"), cl::init(8));
+    cl::desc("cold-path: max external (GOT) callees per function (env PREFETCHIT_COLD_MAX_EXTERNAL)"), cl::init(0));
 static cl::opt<unsigned> PrefetchITColdMinInsns(
     "prefetchit-cold-min-insns",
-    cl::desc("cold-path: skip functions with fewer IR instructions (env PREFETCHIT_COLD_MIN_INSNS)"), cl::init(24));
+    cl::desc("cold-path: skip functions with fewer IR instructions (env PREFETCHIT_COLD_MIN_INSNS)"), cl::init(0));
 static cl::opt<unsigned> PrefetchITColdMinCalleeInsns(
     "prefetchit-cold-min-callee-insns",
-    cl::desc("cold-path: skip defined callees smaller than this (env PREFETCHIT_COLD_MIN_CALLEE_INSNS)"), cl::init(8));
+    cl::desc("cold-path: skip defined callees smaller than this (env PREFETCHIT_COLD_MIN_CALLEE_INSNS)"), cl::init(0));
 static cl::opt<unsigned> PrefetchITColdBytesPerInsn(
     "prefetchit-cold-bytes-per-insn",
-    cl::desc("cold-path: estimated machine bytes per IR instruction (env PREFETCHIT_COLD_BYTES_PER_INSN)"), cl::init(5));
+    cl::desc("cold-path: estimated machine bytes per IR instruction (env PREFETCHIT_COLD_BYTES_PER_INSN)"), cl::init(0));
 
 struct SeqConfig {
   unsigned Distance = 0;   // bytes ahead
