@@ -725,3 +725,23 @@ between requests and there is nothing left for a cold-start prefetch to fetch. T
 instructions (+0.6% even for the lean pinned-trace plan, +3% for v10) cost as much or more; every arm is within ±1% of gs and equal to
 its twin. The strategy is specific to the shared/oversubscribed regime where each wake finds a cold L2 (the 18 → 1.6 MPKI gap is the
 cold-start loss itself; pinning removes it entirely, and does so better than any prefetch: 31.4 G vs 55–64 G cycles per window).
+
+# 2026-09-18 — realistic baseline (user: "코어 4개 고정 + CPU util 최대"): dedicated cores at high utilization, read-only user-timeline load (`utl_read.lua`), fresh stack
+
+## Utilization sweeps (fat-static gs; `utl_load_sweep.sh`; 30 s perf window per step; threads = alive / running (mean of 40 samples))
+
+| cores | rate | util | threads alive / running | MPKI | IPC | p50 / p99 ms | ctx sw/s | shared cores 0-35 busy | nginx / post-storage CPU |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 4 (36-39) | 5,000 | 23% | 211 / 0.7 | 0.84 | 1.04 | 4.0 / 8.2 | 24k | — | 1087% / 487% |
+| 4 | 10,000 | — | 442 / 3.2 | — | — | 345 / 4,870 | — | saturated (rps 9,709) | 2152% / 985% |
+| 1 (36) | 4,000 | 47% | 195 / 1.1 | 0.89 | 1.46 | 4.0 / 7.8 | 19k | 38% | 846% / 366% |
+| 1 | 5,000 | 60% | 212 / 1.7 | 0.93 | 1.43 | 4.2 / 8.5 | 23k | 48% | 1057% / 475% |
+| 1 | **6,000** | **74%** | 232 / 4.2 | 0.97 | 1.40 | 4.6 / 10.7 | 27k | 58% | 1264% / 587% |
+| 2 (36-37) | 8,000 | 63% | 251 / 2.6 | 1.04 | 1.16 | 4.6 / 11.7 | 40k | 80% | 1768% / 821% |
+| 2 | 9,000 | 74% | 286 / 5.6 | 1.13 | 1.15 | 8.9 / 210 | 49k | 90% (front end saturating) | 1943% / 921% |
+
+Findings: (1) the service needs ~0.19 ms CPU per request; nginx-thrift ~2.2 ms and post-storage ~1 ms, so the shared front end caps the
+deliverable read load at ~9.7k req/s and 4 dedicated cores cannot be driven past ~25% — a high-utilization baseline needs 1–2 cores.
+(2) At 74% utilization on one core with 232 live threads (2–6 runnable), the code-miss rate is still only ~1 per 1k instructions: all
+threads run the same binary on the same core, so the L2 stays warm between wakes — the 18 MPKI of the shared/oversubscribed regime is
+absent here too. Chosen operating point: **1 core (36), 6,000 req/s, 74% util** (2 cores at 9k hits the front-end limit).
