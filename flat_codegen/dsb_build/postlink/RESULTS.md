@@ -297,3 +297,18 @@ Trace: 1.46 M poll wakes + 130 k cond + 110 k fsync/pwrite per 30 s; 7,805 disti
 | warm64 NOP twin | 2348 | 12.6 | 1.09 | 1.03 |
 tps swings ±8% between reps (fsync-bound + co-tenant noise); per-transaction cycles are equal within 3% and MPKI does not fall: the
 64-line warm-up covers too little of MariaDB's broad post-wake footprint. No gain.
+
+## Round 15 — "timeline" prefetch placed post-link at exact call sites (same plan; 57 sites snapped to the preceding direct call)
+Service 13 sites / 890 prefetches, jaeger 5/103, mongoc 6/62, bson 5/110, thrift 3/113; cross-DSO targets through GOT anchors. Default scheduling, containers on 0-35.
+| arm | reps | rps | non2xx | p50 ms | p99 ms | svc cycles (G) | cycles vs g | MPKI | IPC | instr vs g |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| g | 3 | 6019 | 0 | 4.1 | 50.6 | 56.97 | 1.0000x | 19.80 | 0.605 | 1.000 |
+| tlpl | 3 | 6019 | 0 | 4.0 | 63.1 | 57.28 | 0.9947x | 19.99 | 0.601 | 0.998 |
+| tlpl_nop | 3 | 6019 | 0 | 4.0 | 15.4 | 57.30 | 0.9942x | 19.90 | 0.599 | 0.995 |
+| tlplw64 | 2 | 6013 | 0 | 4.0 | 14.4 | 57.24 | 0.9953x | 20.03 | 0.602 | 0.999 |
+| tlplw64_nop | 2 | 6019 | 0 | 4.0 | 11.9 | 58.44 | 0.9749x | 20.40 | 0.593 | 1.005 |
+
+Verdict: identical to the twin and to base (MPKI 19.8 → 20.0). Prefetching lines 10–20 µs ahead along the observed post-wake
+timeline does not convert: the lines a request needs 10–20 µs later are not the ones on this request's path often enough, and
+each site issues 60–70 prefetches at once (fill-queue bound). Together with rounds 11–14 this closes the software side for
+user-timeline: wake burst +1.9%, inline plan +0.5%, post-link timeline 0.
