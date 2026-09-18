@@ -39,7 +39,7 @@ def main() -> None:
     ap.add_argument("--input", required=True)
     ap.add_argument("--output", required=True)
     ap.add_argument(
-        "--mnemonics", default="prefetcht0,prefetcht1,prefetcht2,prefetchnta"
+        "--mnemonics", default="prefetcht0,prefetcht1,prefetcht2,prefetchnta,prefetchit0,prefetchit1"
     )
     args = ap.parse_args()
 
