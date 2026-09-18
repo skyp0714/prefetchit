@@ -558,3 +558,15 @@ per request (the LBR-entry rate proxy under-estimates some functions), so the tw
 noise note: the same cold8 binary measured 1.029x in round 24 and 1.019x here (gs itself moved 55.98 → 57.08 G).
 → Round 32: measure executed prefetches per site directly (instruction sampling of cold8, `cold_site_profile.sh`) and drop sites whose
 executions exceed 10× the misses they save (`--site-exec`).
+
+## Round 28 — regular sequential-lookahead mode (seq D=1 KB, K=40) restricted to the 240 functions that miss (seqa, 644 sites), 3 reps, 01:29
+
+| arm | svc cycles (G) | vs gs | MPKI | IPC | instr vs gs |
+|---|---:|---:|---:|---:|---:|
+| gs | 58.04 | 1.000x | 18.19 | 0.610 | 1.000 |
+| seqa | 57.45 | 1.010x | 17.78 | 0.616 | 0.999 |
+| seqa_nop | 57.03 | 1.018x | 17.96 | 0.617 | 0.994 |
+
+Noise (arm = twin, MPKI −2%): the misses in this service are not sequential streams inside functions, so the seq mode has nothing to mix in.
+Drift note: gs has slowed from 55.6 G (round 19) to 58.0 G (round 28) over the night — the mixed load keeps appending posts, so timelines and
+per-request work grow; only in-round comparisons (interleaved reps) are valid.
