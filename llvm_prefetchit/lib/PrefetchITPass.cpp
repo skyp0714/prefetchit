@@ -1007,8 +1007,8 @@ static uint64_t runColdPath(Module &M, const SeqConfig &C) {
   auto ripSymbol = [&](Function *G, bool Own) -> std::string {
     if (G->isDeclaration())   // listed direct symbol resolved by the final link
       return (ExeModule || C.ColdDirectInPIC) ? escapeInlineAsmSymbol(G->getName()) : "";
-    if (G->hasLocalLinkage() || !PICModule || ExeModule)
-      return escapeInlineAsmSymbol(G->getName());
+    if (G->hasLocalLinkage() || !PICModule || ExeModule || C.ColdDirectInPIC)
+      return escapeInlineAsmSymbol(G->getName());   // static-only archive objects: the final link is an executable
     if (G->isWeakForLinker() && !Own)
       return "";   // an alias would point into a possibly discarded COMDAT section
     auto It = AliasName.find(G);
