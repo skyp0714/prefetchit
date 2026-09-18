@@ -7,7 +7,7 @@ SVC=$1; OUT=$2; QPS=${3:-3000}; S=/home/hnpark2/prefetchit/benchmarks/MicroSuite
 WIN=${WIN:-30}; EV='instructions,cycles,cpu/event=0x24,umask=0x24,name=L2I/,context-switches'
 [[ -f $OUT ]] || echo "container,mode,instr,cycles,l2i,cs,migr,taskclock_ms" > $OUT
 echo "127.0.0.1:50052" > $R/router_leaf_ips.txt; echo "127.0.0.1:50054" > $R/sa_leaf_ips.txt; echo "127.0.0.1:50056" > $R/hd_leaf_ips.txt
-measure(){ local name=$1 mode=$2 pid=$3; echo ps101899 | sudo -S -p '' perf stat -x, -e $EV -p $pid -- sleep $WIN 2> /tmp/cs_$name.txt > /dev/null
+measure(){ local name=$1 mode=$2 pid=$3; perf stat -x, -e $EV -p $pid -- sleep $WIN 2> /tmp/cs_$name.txt > /dev/null
   python3 - $name $mode $OUT /tmp/cs_$name.txt <<'PY'
 import csv,sys
 c,mode,out,f=sys.argv[1:5]; v={}
