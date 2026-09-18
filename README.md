@@ -60,6 +60,37 @@ NOP으로 치환한 *NOP twin* 대비, 코어·언코어 클럭 고정, 인터�
 
 결론: 한 자리수 MPKI에서 유의미한 이득은 flattened 코드(CXXRTL)에서만, 그것도 저밀도 seq로 2.5%다. 일반 코드에서는 trace-guided placement가 (a) 넉넉한 plan이면 hot loop 사이트 때문에 동적 명령 수가 ×1.9–2.9로 늘어 크게 느려지고(0.46x/0.25x), (b) 마른 plan이면 MPKI가 안 움직인다. 멀티 타깃 빌드(MariaDB)에서는 IR pass 주입 자체가 링크를 깨뜨린다.
 
+### 2-3. 2026-09-17 오후: cold start 스크리닝과 프리페치 전용 해법의 한계
+
+사용자 요청: 커널 격리 없이(기본 Linux 스케줄러, co-tenant 부하) "post-wake cold start"가 지배적인 워크로드를 넓게 스크린하고, 가장 유망한 것에 프리페치 해법을 구현·측정. 코어 0–42만 사용(43–85는 다른 에이전트 몫). 상세 `flat_codegen/dsb_build/postlink/RESULTS.md`, 하니스 `postlink/coldscreen/`.
+
+**스크린 프로토콜**: 스택의 모든 컨테이너를 코어 0–35에 가두고(서로 섞여 도는 바쁜 노드), 컨테이너 하나씩 36–39 전용 코어로 옮겨 재측정. ΔMPKI = cold start(오염) 몫. 네이티브 프로세스는 DSB 부하를 노이즈로 두고 0–42 부동 vs 36–39 고정.
+
+| 워크로드 | MPKI 공유 → 격리 | cycles 격리/공유 | 판정 |
+|---|---:|---:|---|
+| socialNetwork compose-post | 22.9 → 4.4 | 1.77x | cold start 지배, 후보 |
+| socialNetwork user-timeline | 21.9 → 1.9 | 1.64x | cold start 지배, 후보(도구 완비) |
+| **PostgreSQL 16** (pgbench 16 clients) | 6.0 → 0.1 | **1.88x** | cold start 지배, 후보 |
+| **MariaDB durable** (sysbench oltp_rw) | 12.0 → 3.8 | 1.33x | cold start 지배, 후보 |
+| socialNetwork home-timeline | 6.4 → 5.3 | 1.28x | C6 flush형: C6 끄면 0.1 MPKI, 1.23x |
+| post-storage memcached | 7.3 → 0.3 | 1.30x | C 바이너리, post-link만 가능 |
+| hotelReservation frontend (Go) | 17.7 → 9.0 | 1.30x | Go: AOT 주입 불가 |
+| TailBench masstree | 9.5 → 9.5 | 1.00x | 고유 miss, 해당 없음 |
+| 저활동 서비스(unique-id·user·media·social-graph·url-shorten) | 10–130(불안정) | — | 명령 수 극소, 후보 아님 |
+
+**프리페치 해법(커널 수정 없음, 재작성기/LD_PRELOAD/재빌드) 결과** — user-timeline, 기본 스케줄링, 3회, NOP twin 대조:
+
+| 방식 | speedup vs base | MPKI |
+|---|---:|---|
+| wake 직후 64라인 burst (LD_PRELOAD) | **1.019x** (twin 1.001x) | 21.8 → 21.3 |
+| paced 1,024라인 | 0.982x (miss −16%) | 22.6 → 19.0 |
+| inline "timeline" plan (재빌드, 사이트 85/410 매칭) | 1.005x (twin 0.999x) | 19.8 → 20.0 |
+| post-link "timeline" plan (정확한 call 사이트 32개, 1.3k prefetch) | 0.995x (twin 0.994x) | 19.8 → 20.0 |
+| MariaDB wake burst 64라인 | 트랜잭션당 cycles ±3% 동일 | 12.6 → 13.6 |
+| PostgreSQL wake burst 64라인 | (측정 중) | |
+
+결론: cold start가 지배적인 워크로드는 많지만(DB·RPC 서비스에서 1.3~1.9x 손실), 그 miss는 wake 후 65 µs 실행 구간에 흩어진 분기 목적지들이라 소프트웨어 프리페치가 잡는 몫은 ≤2%다. 하드웨어 next-line 프리페처는 이미 순차 부분을 처리하고 있고(miss의 84%가 taken 분기 목적지), 남는 건 fill queue(32~48)와 리드 타임에 묶인다.
+
 ### 2-2. 2026-09-17 공유 라이브러리/데이터센터: post-link 재작성기와 DeathStarBench 결론
 
 `llvm_prefetchit/tools/postlink/` — 재빌드 없이 링크된 바이너리·.so에 프리페치를 넣는 세 가지 방식을 구현·검증했다(`docs/shared_library_prefetch_report.md`에 하이레벨 설명).

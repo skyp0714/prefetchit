@@ -128,3 +128,9 @@ seq 모드가 정답이었다(README §2-1). 다른 워크로드도 trace를 뜨
 - `anchors_for()`는 `.plt` 이름만 읽어 `.plt.sec`(IBT) 바이너리에서는 anchor를 못 찾는다 → `.plt.sec`/`.plt.got` 지원.
 - `flat_codegen/scripts/project_env.sh`가 자기 자신을 source 하여 bash가 segfault(재귀) — `rebuild_deps_env.sh`에서는 제거했지만 다른 August 스크립트도 점검 필요.
 - **커널 switch-in warm-up 프로토타입(선택)**: 유저 공간 대역(`postlink/warmup/`)이 1.019x(64라인)·0.982x(paced 1,024라인, miss −16%)로 상한을 보여줌. 커널판은 futex/타이머 wake까지 잡지만 같은 fill-queue 한계라 기대치 ≤2%; 비동기 프리페치 엔진(ISA 제안 4번)이 없으면 의미 없음. 시뮬레이터(gem5)에서 엔진 모델링이 더 생산적.
+
+### 2026-09-17 오후 cold start 후속 (선택)
+- compose-post(22.9→4.4 MPKI)와 PostgreSQL(6.0→0.1)에 user-timeline과 같은 wake-up warm-up/timeline 파이프라인 적용 — 기대치 ≤2%이지만 서비스별 표를 채우려면 필요.
+- home-timeline의 C6 효과(5.3→0.1 MPKI, 1.23x): idle 정책(`cpuidle` C6 비활성/`max_cstate`)을 baseline 항목으로 문서화.
+- 하드웨어 switch-in warm-up 엔진(record/replay)을 gem5에서 모델링해 cold start 몫(공유 코어 ~10%)을 정량화.
+- TailBench xapian/img-dnn/sphinx 입력(10 GB) 확보 후 재스크린; hotelReservation Go 백엔드는 부하 스크립트 점검 필요(실행 명령 수 0).
