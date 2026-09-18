@@ -109,6 +109,18 @@ NOP으로 치환한 *NOP twin* 대비, 코어·언코어 클럭 고정, 인터�
 
 정적 링크가 왜 빨라지나(카운터, 명령 1k당, g → gs): 코드 miss 19.6 → 17.9, 데이터 miss 5.8 → 5.4(GOT 로드 소멸), ITLB walk 0.78 → 0.66(DSO 6개 → 텍스트 1개), 간접 분기 예측 실패 1.75 → 1.65(PLT의 `jmp *GOT` 소멸). 같은 링크끼리 비교한 pass의 몫: 공유 빌드 1.007x, 정적 빌드 1.003–1.019x(round 19–20; miss가 나는 함수만 삽입하면 twin 비용 0). 정적 타깃 대 trace 비교(`cold_target_analysis.py`): miss의 43%는 libc, exe miss 중 57%만 정적 타깃 위에 있고, 정적 사이트의 84%는 한 번도 miss 안 나는 라인을 겨냥 → trace-guided plan 모드(`PREFETCHIT_COLD_PLAN`, round 21).
 
+**밤 라운드(정적끼리 비교, 3회, `postlink/RESULTS.md` round 19–25):**
+
+| 구성 (fat-static 베이스 gs 대비) | speedup | MPKI | twin 대비 | 명령 수 |
+|---|---:|---|---:|---:|
+| cold-path 휴리스틱, 라이브러리까지 직접 참조 (cold3) | 1.003x | 18.2 → 16.2 | 1.011x | +2.2% |
+| 휴리스틱을 miss 나는 함수 240개로 제한 (cold4) | 1.019x | 18.3 → 16.8 | 1.018x | +1.7% |
+| trace-guided plan v1: LBR로 miss 라인을 가장 이른 함수 진입에 귀속 (cold5) | 0.87x | 18.1 → 12.9 | — | **+21%** (hot 함수가 사이트) |
+| plan v4: 진입 빈도가 가장 낮은 사이트 선택 + 비용 필터 (cold8) | **1.029x** | 18.3 → 15.6 | 1.035x | +4.0% |
+| plan v4에서 libc(GOT) 타깃 제외 (cold8n) | 1.007x | 18.3 → 16.0 | — | +4.5% |
+
+정적 타깃 대 trace 비교에서 나온 교훈: miss의 43%는 libc(GOT 앵커+변위로만 도달), exe miss의 57%만 휴리스틱 타깃 위, 휴리스틱 사이트의 84%는 miss 안 나는 라인. plan은 miss 나는 라인만 겨냥하지만 사이트가 뜨거우면 명령 폭증 → 사이트 실행 빈도(cycles+LBR rate trace)를 비용 모델에 넣어야 한다. 이어지는 round 26–28: epoch 게이팅(요청당 1회만 burst), twin의 자체 trace로 plan 재생성(오프셋 드리프트 제거), seq 모드 혼합.
+
 읽는 법: GOT/PLT를 없애는 정적 링크 자체가 3.9%, 그 위에서 pass가 miss를 추가로 7% 줄여 twin 대비 1.8%를 벌지만 추가 명령 1.8%가 1.2%를 도로 먹어 순이익은 0.6%. 명령어 오버헤드를 더 줄이는 두 방향(라이브러리 내부까지 직접 참조 + own-lines 8, trace로 실제 miss 나는 함수만 선택)은 round 19–20.
 
 ### 2-2. 2026-09-17 공유 라이브러리/데이터센터: post-link 재작성기와 DeathStarBench 결론
