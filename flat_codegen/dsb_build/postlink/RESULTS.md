@@ -312,3 +312,21 @@ Verdict: identical to the twin and to base (MPKI 19.8 → 20.0). Prefetching lin
 timeline does not convert: the lines a request needs 10–20 µs later are not the ones on this request's path often enough, and
 each site issues 60–70 prefetches at once (fill-queue bound). Together with rounds 11–14 this closes the software side for
 user-timeline: wake burst +1.9%, inline plan +0.5%, post-link timeline 0.
+
+## PostgreSQL under socialNetwork noise — wake-up warm-up (LD_PRELOAD inherited by the 16 backends; epoll_wait/cond/poll lists), 3 reps
+| arm | tps (median) | MPKI | IPC | cycles per transaction (rel.) |
+|---|---:|---:|---:|---:|
+| base | 38212 | 5.85 | 0.870 | 1.000 |
+| warm64 (64 lines per wake) | 38653 (1.012x) | 6.00 | 0.876 | 0.963 |
+| warm64 NOP twin | 38349 (1.004x) | 6.15 | 0.862 | 0.999 |
+tps varies ±2–5% between reps; MPKI does not fall. At most ~1% — same picture as user-timeline and MariaDB.
+
+# Campaign conclusion (cold start, default Linux scheduling, prefetch-only remedies)
+- Cold-start-dominated workloads are common and the loss is large: PostgreSQL 1.88x, compose-post 1.77x, user-timeline 1.64x,
+  MariaDB 1.33x, home-timeline 1.28x when the service gets cores of its own (or, for home-timeline, when C6 is disabled: 1.23x).
+- Every software prefetch remedy tried on them stays within ±2%: wake burst (user-timeline 1.019x; MariaDB and PostgreSQL ≈1.00x),
+  paced 1,024-line warm-up (miss −16% but 0.982x), inline timeline plan (1.005x), post-link timeline plan at exact call sites (0.995x).
+- Reason (measured): after a wake the misses are taken-branch targets spread over the whole ~65 µs run (2 µs: 1.4%, 10 µs: 13%,
+  40 µs: 52%); the hardware next-line prefetcher already covers the sequential part; a software burst is bounded by 32–48 in-flight
+  fills and pacing stalls the thread as long as the misses would have. A kernel switch-in warm-up shares these bounds (≤0.3% from the
+  lead window alone). What captures the loss is placement (isolation, 1.3–1.9x) or an asynchronous hardware warm-up engine.
