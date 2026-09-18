@@ -695,3 +695,33 @@ post-wake socket path) and every attempt to reach them (wake burst, orphan burst
 Against the build the service shipped with, the night's best binary is 7.0% faster (4.2% from the static link, 2.7% from the trace-guided
 cold plan) with 20% fewer code misses. Platform restored at 05:05 (`MODE=restore`: powersave, 0.8–3.8 GHz, uncore defaults), containers
 un-confined, disk cleaner stopped; both DeathStarBench stacks left running (redis snapshots disabled).
+
+# 2026-09-18 morning — test 1: does the strategy still help under core pinning? (fresh stack: volumes dropped, graph reloaded, redis snapshots off; platform 3.8 GHz)
+
+## Round 40 — fat-static base (gs), plan v10 (cold14) and its twin under (a) main thread on core 36 + pool on 37-40, (b) 4-core cpuset 36-39; 3 reps, 08:05
+
+| arm | pinning | svc cycles (G) | vs gs (same pinning) | MPKI | IPC | instr vs gs |
+|---|---|---:|---:|---:|---:|---:|
+| gs | main:pool | 31.43 | 1.000x | 1.62 | 1.025 | 1.000 |
+| cold14 (plan v10) | main:pool | 31.38 | 1.002x | 1.56 | 1.055 | 1.027 |
+| cold14_nop | main:pool | 31.38 | 1.001x | 1.63 | 1.056 | 1.029 |
+| gs | cpuset 36-39 | 30.88 | 1.000x | 1.41 | 1.035 | 0.992 |
+| cold14 | cpuset 36-39 | 31.31 | 0.986x | 1.37 | 1.053 | 1.032 |
+| cold14_nop | cpuset 36-39 | 31.46 | 0.982x | 1.46 | 1.049 | 1.033 |
+
+(Round-40 rep 1 of gs/cold14 under main:pool ran on the still-warming fresh stack — 44/59 G instructions — medians are shown.)
+
+## Round 41 — plan regenerated from a *pinned* trace (LBR + rate traces of gs under main:pool; 206 sites, 872 targets, 46 B bursts) → cold20, measured pinned (main:pool), 3 reps, 08:37
+
+| arm | svc cycles (G) | vs gs | MPKI | IPC | instr vs gs |
+|---|---:|---:|---:|---:|---:|
+| gs | 31.75 | 1.000x | 1.78 | 1.010 | 1.000 |
+| cold14 (unpinned-trace plan) | 32.08 | 0.990x | 1.74 | 1.031 | 1.031 |
+| cold20 (pinned-trace plan) | 31.79 | 0.999x | 1.75 | 1.014 | 1.006 |
+| cold20_nop | 31.81 | 0.998x | 1.85 | 1.009 | 1.001 |
+
+**Answer: no.** With the service pinned, the code-miss rate is 1.4–1.8 per 1k instructions (versus 18 unpinned) — the L2 stays warm
+between requests and there is nothing left for a cold-start prefetch to fetch. The plan removes 4–6% of those few misses but its
+instructions (+0.6% even for the lean pinned-trace plan, +3% for v10) cost as much or more; every arm is within ±1% of gs and equal to
+its twin. The strategy is specific to the shared/oversubscribed regime where each wake finds a cold L2 (the 18 → 1.6 MPKI gap is the
+cold-start loss itself; pinning removes it entirely, and does so better than any prefetch: 31.4 G vs 55–64 G cycles per window).
