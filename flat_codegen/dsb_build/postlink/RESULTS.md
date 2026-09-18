@@ -336,7 +336,7 @@ tps varies ±2–5% between reps; MPKI does not fall. At most ~1% — same pictu
 |---|---:|---:|---:|---:|---:|---|---:|---:|
 | Router leaf (memcached lookup, gRPC) | 12060 | 0.50 | **52.8** | **37.9** | 14.9 | 0.42→0.50 | 1.21x | 10.4% |
 | Router mid-tier (gRPC fan-out) | 26287 | 0.96 | **48.0** | **35.0** | 13.0 | 0.39→0.49 | 1.28x | 9.1% |
-| SetAlgebra | — | — | load generator segfaults on the synthesized query set (re-run pending) | | | | | |
+| SetAlgebra | — | — | μSuite's open-loop load generator corrupts its heap (SIGSEGV in `UnionServiceClient::Union` → `std::map::operator[]`, `malloc_consolidate` abort): a data race between its sender and response threads; the closed-loop generator aborts at startup. Not measurable without patching the generator. | | | | | |
 | HDSearch | — | — | mid-tier (patched FLANN) segfaults at start with the guessed LSH parameters; load generator fails (debug pending) | | | | | |
 Router is different from everything screened before: even fully isolated it keeps 35–38 MPKI at IPC 0.5 — a large intrinsic
 instruction-miss component (gRPC/protobuf/memcached-client code path), on top of a 13–15 MPKI cold-start share. That makes it the first
