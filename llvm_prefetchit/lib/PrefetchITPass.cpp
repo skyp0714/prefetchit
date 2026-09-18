@@ -1009,7 +1009,27 @@ static uint64_t runColdPlan(Module &M, const SeqConfig &C, StringRef PlanPath) {
     PICModule = MD->getZExtValue() != 0;
   const bool ExeModule = !PICModule || M.getPIELevel() != PIELevel::Default;
   const bool AllowDirect = ExeModule || C.ColdDirectInPIC;
-  uint64_t Funcs = 0, Direct = 0, Got = 0, Pad = 0, SkippedDirect = 0;
+  // Epoch gating: a burst fires only when the global epoch changed since this thread last passed the site (once per request/wake).
+  const char *EG = std::getenv("PREFETCHIT_COLD_EPOCH");
+  const bool EpochGate = EG && *EG && StringRef(EG) != "0";
+  const char *EF = std::getenv("PREFETCHIT_COLD_EPOCH_FN");
+  const std::string EpochFn = (EF && *EF) ? std::string(EF) : std::string();
+  GlobalVariable *Epoch = nullptr;
+  auto epochVar = [&]() {
+    if (!Epoch) {
+      Epoch = M.getGlobalVariable("__prefetchit_epoch", true);
+      if (!Epoch) {
+        Epoch = new GlobalVariable(M, Type::getInt32Ty(Ctx), false, GlobalValue::WeakAnyLinkage,
+                                   ConstantInt::get(Type::getInt32Ty(Ctx), 0), "__prefetchit_epoch");
+        Epoch->setVisibility(GlobalValue::HiddenVisibility);
+        Epoch->setDSOLocal(true);
+        Epoch->setAlignment(Align(4));
+        appendToUsed(M, {Epoch});
+      }
+    }
+    return Epoch;
+  };
+  uint64_t Funcs = 0, Direct = 0, Got = 0, Pad = 0, SkippedDirect = 0, Gated = 0;
   for (Function &F : M) {
     if (F.isDeclaration())
       continue;
@@ -1017,11 +1037,11 @@ static uint64_t runColdPlan(Module &M, const SeqConfig &C, StringRef PlanPath) {
     if (!S)
       continue;
     const json::Array *T = S->getArray("t");
-    if (!T || T->empty())
+    if ((!T || T->empty()) && !(!EpochFn.empty() && F.getName() == EpochFn))
       continue;
     std::vector<std::pair<std::string, int64_t>> DirectT;
     std::map<std::string, std::vector<int64_t>> GotByAnchor;
-    for (const json::Value &V : *T) {
+    for (const json::Value &V : (T ? *T : json::Array())) {
       const json::Array *E = V.getAsArray();
       if (!E || E->size() < 3)
         continue;
@@ -1038,11 +1058,43 @@ static uint64_t runColdPlan(Module &M, const SeqConfig &C, StringRef PlanPath) {
         DirectT.emplace_back(Sym->str(), *Off);
       }
     }
-    if (DirectT.empty() && GotByAnchor.empty())
+    const bool IsEpochFn = !EpochFn.empty() && F.getName() == EpochFn;
+    if (DirectT.empty() && GotByAnchor.empty() && !IsEpochFn)
       continue;
     std::string Asm;
     unsigned Bytes = 0;
-    bool UsesR11 = false;
+    bool UsesR11 = false, UsesR10 = false, Gate = false;
+    if (IsEpochFn) {
+      epochVar();
+      Asm += "incl __prefetchit_epoch(%rip)\n\t";   // ff 05 disp32
+      Bytes += 6;
+    }
+    if (EpochGate && !(DirectT.empty() && GotByAnchor.empty())) {
+      epochVar();
+      auto *Last = new GlobalVariable(M, Type::getInt32Ty(Ctx), false, GlobalValue::InternalLinkage,
+                                      ConstantInt::get(Type::getInt32Ty(Ctx), 0), "prefetchit.last." + F.getName(), nullptr,
+                                      AllowDirect ? GlobalValue::LocalExecTLSModel : GlobalValue::InitialExecTLSModel);
+      Last->setAlignment(Align(4));
+      appendToUsed(M, {Last});   // referenced only from inline asm
+      std::string L = escapeInlineAsmSymbol(Last->getName());
+      Asm += "movl __prefetchit_epoch(%rip), %r11d\n\t";                       // 44 8b 1d disp32 (7)
+      if (AllowDirect) {
+        Asm += "cmpl %r11d, %fs:" + L + "@tpoff\n\t";                            // 64 44 39 1c 25 disp32 (9)
+        Asm += ".byte 0x0f, 0x84\n\t.long 1f - . - 4\n\t";                    // je rel32 (6)
+        Asm += "movl %r11d, %fs:" + L + "@tpoff\n\t";                            // 64 44 89 1c 25 disp32 (9)
+        Bytes += 7 + 9 + 6 + 9;
+      } else {
+        Asm += "movq " + L + "@gottpoff(%rip), %r10\n\t";                        // 4c 8b 15 disp32 (7)
+        Asm += "cmpl %r11d, %fs:(%r10)\n\t";                                     // 64 45 39 1a (4)
+        Asm += ".byte 0x0f, 0x84\n\t.long 1f - . - 4\n\t";                    // je rel32 (6)
+        Asm += "movl %r11d, %fs:(%r10)\n\t";                                     // 64 45 89 1a (4)
+        Bytes += 7 + 7 + 4 + 6 + 4;
+        UsesR10 = true;
+      }
+      UsesR11 = true;
+      Gate = true;
+      ++Gated;
+    }
     for (auto &[Sym, Off] : DirectT) {
       Asm += C.Mnemonic + " " + escapeInlineAsmSymbol(Sym) + (Off >= 0 ? "+" : "") + std::to_string(Off) + "(%rip)\n\t";
       Bytes += 7;
@@ -1058,6 +1110,8 @@ static uint64_t runColdPlan(Module &M, const SeqConfig &C, StringRef PlanPath) {
         ++Got;
       }
     }
+    if (Gate)
+      Asm += "1:\n\t";
     unsigned K = (Bytes + 15) / 16 * 16;
     if (std::optional<int64_t> PK = S->getInteger("k")) {
       if (*PK >= Bytes)
@@ -1071,11 +1125,16 @@ static uint64_t runColdPlan(Module &M, const SeqConfig &C, StringRef PlanPath) {
     }
     Asm.erase(Asm.size() - 2);
     Instruction *At = &*F.getEntryBlock().getFirstInsertionPt();
-    CallInst *CI = CallInst::Create(InlineAsm::get(AsmTy, Asm, UsesR11 ? "~{r11}" : "", true), {}, "", At);
+    std::string Constraints = UsesR11 ? "~{r11}" : "";
+    if (UsesR10)
+      Constraints += ",~{r10}";
+    if (Gate || IsEpochFn)
+      Constraints += std::string(Constraints.empty() ? "" : ",") + "~{dirflag},~{fpsr},~{flags}";
+    CallInst *CI = CallInst::Create(InlineAsm::get(AsmTy, Asm, Constraints, true), {}, "", At);
     CI->setDebugLoc(At->getDebugLoc());
     ++Funcs;
   }
-  errs() << "prefetchit-cold-plan: sites=" << Funcs << " direct=" << Direct << " got=" << Got << " pad_bytes=" << Pad
+  errs() << "prefetchit-cold-plan: sites=" << Funcs << " gated=" << Gated << " direct=" << Direct << " got=" << Got << " pad_bytes=" << Pad
          << " direct_via_got=" << SkippedDirect << (ExeModule ? " (exe module)" : " (shared-object module)") << "\n";
   return Direct + Got;
 }
