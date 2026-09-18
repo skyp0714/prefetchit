@@ -61,7 +61,7 @@ rate_cnt={}; rate_ref=None
 if A.rates:
     for l in open(A.rates):
         if l.startswith('#'): continue
-        c,n=l.split(None,1); rate_cnt[n.strip()]=int(c)
+        cnt_,name_=l.split(None,1); rate_cnt[name_.strip()]=int(cnt_)
     refs=[c for n,c in rate_cnt.items() if A.rate_ref_pattern in n]
     rate_ref=max(refs) if refs else None
 def hz(fn):
@@ -149,7 +149,7 @@ site_exec={}
 if A.site_exec:
     for l in open(A.site_exec):
         if l.startswith('#'): continue
-        c,n=l.split(None,1); site_exec[n.strip()]=int(c)
+        cnt_,name_=l.split(None,1); site_exec[name_.strip()]=int(cnt_)
 if A.orphan_burst and A.orphan_site:
     top=orphans.most_common(A.orphan_burst)
     for t,w in top: plan[A.orphan_site][t]+=w
