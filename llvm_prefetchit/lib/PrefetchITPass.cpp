@@ -2,6 +2,8 @@
 #include "llvm/ADT/StringRef.h"
 #include "llvm/ADT/StringExtras.h"
 #include "llvm/IR/BasicBlock.h"
+#include "llvm/IR/Dominators.h"
+#include "llvm/Analysis/LoopInfo.h"
 #include "llvm/IR/Constants.h"
 #include "llvm/IR/DebugInfoMetadata.h"
 #include "llvm/IR/InlineAsm.h"
@@ -834,6 +836,35 @@ static unsigned envOrU(const char *Name, unsigned Flag, unsigned Default) {
   return Default;
 }
 
+
+// Plan-free "cold-path" mode for short-run (wake-bound) services: at every
+// selected function's entry, prefetch (a) the function's own later cache lines,
+// (b) the entry line(s) of direct callees reached outside loops, (c) the entry
+// line of external (declared) callees through their GOT slot. One site per
+// function invocation, never inside a loop.
+static cl::opt<unsigned> PrefetchITColdOwnLines(
+    "prefetchit-cold-own-lines",
+    cl::desc("cold-path: max own-function lines prefetched at entry (0 = mode off); env PREFETCHIT_COLD_OWN_LINES"),
+    cl::init(0));
+static cl::opt<unsigned> PrefetchITColdCalleeLines(
+    "prefetchit-cold-callee-lines",
+    cl::desc("cold-path: entry lines per callee (env PREFETCHIT_COLD_CALLEE_LINES)"), cl::init(1));
+static cl::opt<unsigned> PrefetchITColdMaxCallees(
+    "prefetchit-cold-max-callees",
+    cl::desc("cold-path: max direct callees per function (env PREFETCHIT_COLD_MAX_CALLEES)"), cl::init(8));
+static cl::opt<unsigned> PrefetchITColdMaxExternal(
+    "prefetchit-cold-max-external",
+    cl::desc("cold-path: max external (GOT) callees per function (env PREFETCHIT_COLD_MAX_EXTERNAL)"), cl::init(8));
+static cl::opt<unsigned> PrefetchITColdMinInsns(
+    "prefetchit-cold-min-insns",
+    cl::desc("cold-path: skip functions with fewer IR instructions (env PREFETCHIT_COLD_MIN_INSNS)"), cl::init(24));
+static cl::opt<unsigned> PrefetchITColdMinCalleeInsns(
+    "prefetchit-cold-min-callee-insns",
+    cl::desc("cold-path: skip defined callees smaller than this (env PREFETCHIT_COLD_MIN_CALLEE_INSNS)"), cl::init(8));
+static cl::opt<unsigned> PrefetchITColdBytesPerInsn(
+    "prefetchit-cold-bytes-per-insn",
+    cl::desc("cold-path: estimated machine bytes per IR instruction (env PREFETCHIT_COLD_BYTES_PER_INSN)"), cl::init(5));
+
 struct SeqConfig {
   unsigned Distance = 0;   // bytes ahead
   unsigned Stride = 14;    // IR instructions between sites
@@ -847,7 +878,10 @@ struct SeqConfig {
   std::string FunctionsFile;
   std::set<std::string> Listed;   // from FunctionsFile (empty = no list)
   std::string Mnemonic = DefaultPrefetchMnemonic.str();
-  bool enabled() const { return Distance > 0 || BurstLines > 0; }
+  unsigned ColdOwnLines = 0, ColdCalleeLines = 1, ColdMaxCallees = 8, ColdMaxExternal = 8;
+  unsigned ColdMinInsns = 24, ColdMinCalleeInsns = 8, ColdBytesPerInsn = 5;
+  bool coldEnabled() const { return ColdOwnLines > 0 || ColdCalleeLines > 0 && std::getenv("PREFETCHIT_COLD"); }
+  bool enabled() const { return Distance > 0 || BurstLines > 0 || coldEnabled(); }
   bool selects(StringRef Name, const std::optional<Regex> &Inc,
                const std::optional<Regex> &Exc) const {
     if (!FunctionsFile.empty() && !Listed.count(Name.str()))
@@ -871,6 +905,13 @@ static SeqConfig getSeqConfig() {
   C.BurstLead = envOrU("PREFETCHIT_CALLEE_BURST_LEAD", PrefetchITCalleeBurstLead, 0);
   C.BurstMinCalleeInsns = envOrU("PREFETCHIT_CALLEE_BURST_MIN_CALLEE_INSNS",
                                  PrefetchITCalleeBurstMinCalleeInsns, 0);
+  C.ColdOwnLines = envOrU("PREFETCHIT_COLD_OWN_LINES", PrefetchITColdOwnLines, 0);
+  C.ColdCalleeLines = envOrU("PREFETCHIT_COLD_CALLEE_LINES", PrefetchITColdCalleeLines, 1);
+  C.ColdMaxCallees = envOrU("PREFETCHIT_COLD_MAX_CALLEES", PrefetchITColdMaxCallees, 8);
+  C.ColdMaxExternal = envOrU("PREFETCHIT_COLD_MAX_EXTERNAL", PrefetchITColdMaxExternal, 8);
+  C.ColdMinInsns = envOrU("PREFETCHIT_COLD_MIN_INSNS", PrefetchITColdMinInsns, 24);
+  C.ColdMinCalleeInsns = envOrU("PREFETCHIT_COLD_MIN_CALLEE_INSNS", PrefetchITColdMinCalleeInsns, 8);
+  C.ColdBytesPerInsn = std::max(1u, envOrU("PREFETCHIT_COLD_BYTES_PER_INSN", PrefetchITColdBytesPerInsn, 5));
   C.Include = envOr("PREFETCHIT_SEQ_FUNCTIONS", PrefetchITSeqFunctions);
   C.Exclude = envOr("PREFETCHIT_SEQ_EXCLUDE", PrefetchITSeqExclude);
   C.FunctionsFile = envOr("PREFETCHIT_SEQ_FUNCTIONS_FILE", PrefetchITSeqFunctionsFile);
@@ -919,6 +960,115 @@ static unsigned countIRInsns(Function &F) {
 }
 
 // Callee-entry bursts: `prefetcht1 callee+64*l(%rip)` before direct calls.
+
+// Cold-path mode (see the option block above).
+static uint64_t runColdPath(Module &M, const SeqConfig &C) {
+  LLVMContext &Ctx = M.getContext();
+  FunctionType *AsmTy = FunctionType::get(Type::getVoidTy(Ctx), {}, false);
+  std::optional<Regex> Include, Exclude;
+  if (!C.Include.empty())
+    Include.emplace(C.Include);
+  if (!C.Exclude.empty())
+    Exclude.emplace(C.Exclude);
+  auto selected = [&](StringRef Name) { return C.selects(Name, Include, Exclude); };
+  bool PICModule = false;
+  if (auto *MD = mdconst::extract_or_null<ConstantInt>(M.getModuleFlag("PIC Level")))
+    PICModule = MD->getZExtValue() != 0;
+  std::map<Function *, unsigned> InsnCount;
+  auto insnsOf = [&](Function &F) {
+    auto It = InsnCount.find(&F);
+    if (It == InsnCount.end())
+      It = InsnCount.emplace(&F, countIRInsns(F)).first;
+    return It->second;
+  };
+  DenseMap<Function *, std::string> AliasName;
+  // symbol usable in a PC-relative operand from inside this module, or "" if none
+  auto ripSymbol = [&](Function *G, bool Own) -> std::string {
+    if (G->hasLocalLinkage() || !PICModule)
+      return escapeInlineAsmSymbol(G->getName());
+    if (G->isWeakForLinker() && !Own)
+      return "";   // an alias would point into a possibly discarded COMDAT section
+    auto It = AliasName.find(G);
+    if (It == AliasName.end()) {
+      auto *GA = GlobalAlias::create(G->getValueType(), 0, GlobalValue::InternalLinkage,
+                                     "prefetchit.cold." + G->getName(), G, &M);
+      appendToUsed(M, {GA});
+      It = AliasName.try_emplace(G, GA->getName().str()).first;
+    }
+    return escapeInlineAsmSymbol(It->second);
+  };
+  uint64_t Funcs = 0, OwnInj = 0, DirectInj = 0, ExtInj = 0;
+  std::vector<Function *> Work;
+  for (Function &F : M)
+    if (!F.isDeclaration() && selected(F.getName()))
+      Work.push_back(&F);
+  for (Function *FP : Work) {
+    Function &F = *FP;
+    unsigned Insns = insnsOf(F);
+    if (Insns < C.ColdMinInsns)
+      continue;
+    DominatorTree DT(F);
+    LoopInfo LI(DT);
+    // callees reached outside loops, in block order (≈ execution order), deduplicated
+    std::vector<Function *> Direct, External;
+    std::set<Function *> Seen;
+    for (BasicBlock &BB : F) {
+      if (LI.getLoopFor(&BB))
+        continue;
+      for (Instruction &I : BB) {
+        auto *CB = dyn_cast<CallBase>(&I);
+        if (!CB || isa<IntrinsicInst>(CB) || CB->isInlineAsm())
+          continue;
+        Function *Callee = CB->getCalledFunction();
+        if (!Callee || Callee == &F || Callee->isIntrinsic() || !Seen.insert(Callee).second)
+          continue;
+        if (Callee->isDeclaration()) {
+          if (External.size() < C.ColdMaxExternal)
+            External.push_back(Callee);
+        } else if (Direct.size() < C.ColdMaxCallees && insnsOf(*Callee) >= C.ColdMinCalleeInsns) {
+          Direct.push_back(Callee);
+        }
+      }
+    }
+    unsigned EstLines = (Insns * C.ColdBytesPerInsn) / 64;
+    unsigned Own = std::min(C.ColdOwnLines, EstLines);
+    Instruction *At = &*F.getEntryBlock().getFirstInsertionPt();
+    auto emit = [&](const std::string &AsmString, const std::string &Constraints) {
+      CallInst *CI = CallInst::Create(InlineAsm::get(AsmTy, AsmString, Constraints, true), {}, "", At);
+      CI->setDebugLoc(At->getDebugLoc());
+    };
+    std::string OwnSym = Own ? ripSymbol(&F, true) : "";
+    for (unsigned L = 1; L <= Own && !OwnSym.empty(); ++L) {
+      emit(C.Mnemonic + " " + OwnSym + "+" + std::to_string(64u * L) + "(%rip)", "");
+      ++OwnInj;
+    }
+    for (Function *G : Direct) {
+      std::string Sym = ripSymbol(G, false);
+      if (Sym.empty())
+        continue;
+      for (unsigned L = 0; L < C.ColdCalleeLines; ++L) {
+        emit(C.Mnemonic + " " + Sym + "+" + std::to_string(64u * L) + "(%rip)", "");
+        ++DirectInj;
+      }
+    }
+    for (Function *G : External) {
+      // r11 is a caller-saved scratch register; at function entry nothing lives in it
+      std::string Sym = escapeInlineAsmSymbol(G->getName());
+      std::string Asm = "movq " + Sym + "@GOTPCREL(%rip), %r11";
+      for (unsigned L = 0; L < C.ColdCalleeLines; ++L)
+        Asm += "\n\t" + C.Mnemonic + " " + std::to_string(64u * L) + "(%r11)";
+      emit(Asm, "~{r11}");
+      ExtInj += C.ColdCalleeLines;
+    }
+    ++Funcs;
+  }
+  errs() << "prefetchit-cold: own_lines<=" << C.ColdOwnLines << " callee_lines=" << C.ColdCalleeLines
+         << " max_callees=" << C.ColdMaxCallees << " max_external=" << C.ColdMaxExternal
+         << " min_insns=" << C.ColdMinInsns << " functions=" << Funcs << " own=" << OwnInj
+         << " direct=" << DirectInj << " external=" << ExtInj << "\n";
+  return OwnInj + DirectInj + ExtInj;
+}
+
 static uint64_t runCalleeEntryBurst(Module &M, const SeqConfig &C) {
   LLVMContext &Ctx = M.getContext();
   FunctionType *AsmTy = FunctionType::get(Type::getVoidTy(Ctx), {}, false);
@@ -1085,6 +1235,8 @@ public:
     else if (!Seq.enabled())
       errs() << "prefetchit-inject: missing -prefetchit-plan or PREFETCHIT_PLAN "
                 "(and no -prefetchit-seq-distance)\n";
+    if (Seq.ColdOwnLines > 0 || std::getenv("PREFETCHIT_COLD"))
+      Changed |= runColdPath(M, Seq) > 0;
     if (Seq.BurstLines > 0)
       Changed |= runCalleeEntryBurst(M, Seq) > 0;
     if (Seq.Distance > 0)
