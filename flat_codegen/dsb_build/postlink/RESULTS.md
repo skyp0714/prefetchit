@@ -357,3 +357,16 @@ TLB walks <10%. So the earlier "instruction misses are only a quarter of the los
 was wrong about the cause: the misses matter; software prefetch recovered little of them because its fills arrive late relative to the
 branchy front-end demand (miss 1% removed ≈ 0.16% cycles), and it cannot touch the mispredict and data-miss shares at all.
 (top-down slots group did not count under `-p`; not needed.)
+
+## Round 16 — PREFETCHIT0/1 in the static modes (seq D=4 KB K=40 + callee burst 3, rebuilt service + libs; 3,763 prefetchit in the service, ~13k in the libs), default scheduling
+| arm | reps | rps | non2xx | p50 ms | p99 ms | svc cycles (G) | cycles vs g | MPKI | IPC | instr vs g |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| seqit1 | 3 | 6019 | 0 | 3.7 | 11.7 | 55.08 | 0.9959x | 20.56 | 0.609 | 1.000 |
+| seqit1_nop | 3 | 6019 | 0 | 3.7 | 11.4 | 54.96 | 0.9979x | 20.30 | 0.611 | 1.001 |
+| seqit0 | 2 | 6013 | 0 | 3.7 | 11.4 | 55.00 | 0.9973x | 20.54 | 0.612 | 1.003 |
+| seqit0_nop | 2 | 6019 | 0 | 3.7 | 12.8 | 55.13 | 0.9949x | 20.05 | 0.611 | 1.004 |
+| g | 2 | 6019 | 0 | 3.8 | 13.1 | 54.85 | 1.0000x | 20.04 | 0.612 | 1.000 |
+
+The prefetchit arms equal their NOP twins and the base (cycles within ±0.5%, MPKI 20.0–20.6): on this cold-start workload the
+instruction prefetch hint changes nothing measurable, same as prefetcht1 did (round 4). (Encodings verified: prefetchit0 = 0F 18 3D,
+prefetchit1 = 0F 18 35, RIP-relative; `/proc/cpuinfo` on this kernel does not list a `prefetchi` flag.)
