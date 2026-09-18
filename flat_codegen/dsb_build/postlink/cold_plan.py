@@ -16,6 +16,7 @@ ap.add_argument('--epoch-gate',action='store_true',help='bursts are epoch-gated 
 ap.add_argument('--base-plan',default=None,help='previous plan whose bursts are already in the traced layout (twin trace): keep each site k >= its old k and do not shift offsets')
 ap.add_argument('--site-exec',default=None,help='site_exec.txt from cold_site_profile.sh (instruction samples on prefetch insns per site of the previous build)'); ap.add_argument('--exec-period',type=float,default=20000.0); ap.add_argument('--exec-secs',type=float,default=20.0); ap.add_argument('--max-exec-ratio',type=float,default=10.0,help='drop a site whose measured prefetch executions per second exceed R x the misses it saves per second')
 ap.add_argument('--orphan-burst',type=int,default=0,help='attach the top-N miss lines that got no site (libc lines with libc-only windows, libstdc++ lines) to --orphan-site as a once-per-request burst'); ap.add_argument('--orphan-site',default=None)
+ap.add_argument('--exclude-sites',default=None,help='functions never used as sites (their misses re-attribute to other candidates)')
 ap.add_argument('--no-got',action='store_true',help='drop libc (GOT-anchored) targets')
 ap.add_argument('--fallback',action='store_true',help='no entry in window: use the oldest instrumentable exe function seen in the LBR (its entry precedes the window)')
 ap.add_argument('--drop-own-line0',action='store_true',help='never prefetch line 0 of the site itself')
@@ -57,6 +58,8 @@ def func_of(va):
     i=bisect.bisect_right(saddr,va)-1
     return syms[i] if i>=0 else (None,None)
 instr=set(l.strip() for l in open(A.instr) if l.strip())
+if A.exclude_sites:
+    excl=set(l.strip() for l in open(A.exclude_sites) if l.strip()); instr-=excl; print(f'excluded {len(excl)} hot sites from the candidate set')
 rate_cnt={}; rate_ref=None
 if A.rates:
     for l in open(A.rates):

@@ -630,3 +630,17 @@ Also removed during the emergency: two *stopped* containers of another workflow 
 The wake burst adds nothing on either base and costs 1–2% on top of the plan (the post-wake lines it fetches are already covered by the
 plan's early sites, and the wrapper's rdtsc + burst on every long syscall return is pure overhead here). Dropped. With the redis
 snapshot storm gone, cold8's in-round gain is 3.5% — the cleanest measurement of v4 so far.
+
+## Round 34 — "orphan burst": the top 64 / 128 miss lines that no site could claim, prefetched once per request at TDispatchProcessor::process entry (cold15 / cold16), 3 reps, 03:05
+
+| arm | svc cycles (G) | vs gs | MPKI | IPC | instr vs gs |
+|---|---:|---:|---:|---:|---:|
+| gs | 61.21 | 1.000x | 18.10 | 0.592 | 1.000 |
+| cold8 (v4) | 60.35 | 1.014x | 15.51 | 0.627 | 1.045 |
+| cold15 (v4 + orphan 64) | 60.44 | 1.013x | 15.45 | 0.626 | 1.045 |
+| cold16 (v4 + orphan 128) | 60.54 | 1.011x | 15.48 | 0.625 | 1.045 |
+| cold15_nop | 61.33 | 0.998x | 17.72 | 0.615 | 1.041 |
+
+No effect: the unattributable lines are needed before the dispatcher runs (socket read/parse) or by other threads, so one burst at
+dispatch entry neither reduces misses (15.5 → 15.45) nor pays. Round 35 (combination) was skipped by rule: only the measured pruning
+qualified, and it was already measured alone (round 32). Round 36 = 5-rep confirmation of v4 (cold8) vs gs and twin.
