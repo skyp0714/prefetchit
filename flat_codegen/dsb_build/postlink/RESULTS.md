@@ -532,3 +532,14 @@ Dropping the 518 libc lines loses most of the gain (1.029x → 1.007x): the libc
 is not the problem. The ~200 ms p99 spikes appeared here in one gs rep and one cold8n rep, so the round-24 tail was environmental
 (the disk janitor's image removals and scans coincided with cold8's slots), not the prefetches; the janitor now idles during measurements.
 seqA (sequential mode on the 240 missing functions) did not build: docker rejects the upper-case image name — rebuilt as `seqa` in round 28.
+
+## Round 26 — epoch-gated plan v5 (burst fires once per request per thread: hidden global epoch incremented at ReadUserTimeline, per-site TLS "last epoch"; 339 sites, 2,459 targets, 319 gated), 3 reps, 00:47
+
+| arm | svc cycles (G) | vs gs | MPKI | IPC | instr vs gs |
+|---|---:|---:|---:|---:|---:|
+| gs | 56.32 | 1.000x | 18.13 | 0.621 | 1.000 |
+| cold9 (plan v5, gated) | 55.57 | 1.014x | 15.52 | 0.656 | 1.042 |
+| cold9_nop (twin) | 57.76 | 0.975x | 17.96 | 0.635 | 1.049 |
+
+Gating removes nothing that matters: the cost-aware v4 sites were already cold, so the miss reduction is the same as round 24 (15.5 MPKI)
+while the guard itself (epoch load, TLS compare, jump, 31 B per site) costs 2.5% — the twin is 0.975x. Net 1.4% < v4's 2.9%. Dropped.

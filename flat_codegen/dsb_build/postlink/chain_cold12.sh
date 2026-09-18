@@ -15,7 +15,7 @@ def ratio(rnd,arm):
     if arm not in d or 'gs' not in d: return None,None
     return statistics.median(c for c,p in d['gs'])/statistics.median(c for c,p in d[arm]), statistics.median(p for c,p in d[arm])
 r8,p8=ratio('round24','cold8'); r9,p9=ratio('round26','cold9'); r8n,p8n=ratio('round25','cold8n')
-nogot='--no-got' if (p8n is not None and p8 is not None and p8n<40 and p8>60) else '-'
+nogot='-'   # round 25: the p99 tail was environmental and libc targets are worth ~2%
 if r9 is not None and r8 is not None and r9>r8: print('cold9 cold_plan_v5.json 1', nogot)
 else: print('cold8 cold_plan_v4.json 0', nogot)
 PY
