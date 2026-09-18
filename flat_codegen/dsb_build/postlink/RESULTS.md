@@ -616,3 +616,17 @@ filled the root disk (twice: 1.6 GB, then 0 GB), broke the load generator (rps=0
 200–400 ms p99 spikes seen all night (a 33 GB fork + write every 60 s on the shared cores). Fix applied at 02:53: `CONFIG SET save ""` and
 `appendonly no` on all socialnetwork redis containers, dump files removed (24 GB freed). The 5-rep confirmation is re-queued as round 36.
 Also removed during the emergency: two *stopped* containers of another workflow (rbr-plot, rbr-design-sweep; 123 kB / 1.4 MB writable layers).
+
+## Round 29b — wake burst (LD_PRELOAD, list regenerated for the fat-static layout: 1,030 lines over recv/poll/cond hooks) on top of plan v4 and on gs, 3 reps, 02:55 (first round after the redis snapshots were disabled: no p99 spikes anywhere)
+
+| arm | svc cycles (G) | vs gs | MPKI | IPC | instr vs gs | p99 ms |
+|---|---:|---:|---:|---:|---:|---:|
+| gs | 60.09 | 1.000x | 18.28 | 0.599 | 1.000 | 16.5 |
+| cold8 (v4) | 58.08 | **1.035x** | 15.52 | 0.643 | 1.039 | 17.1 |
+| cold8 + wake 32 lines | 59.35 | 1.013x | 15.73 | 0.631 | 1.041 | 19.1 |
+| cold8 + wake 64 lines | 58.64 | 1.025x | 15.67 | 0.637 | 1.038 | 15.5 |
+| gs + wake 32 lines | 60.30 | 0.996x | 18.28 | 0.599 | 1.003 | 19.0 |
+
+The wake burst adds nothing on either base and costs 1–2% on top of the plan (the post-wake lines it fetches are already covered by the
+plan's early sites, and the wrapper's rdtsc + burst on every long syscall return is pure overhead here). Dropped. With the redis
+snapshot storm gone, cold8's in-round gain is 3.5% — the cleanest measurement of v4 so far.
