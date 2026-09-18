@@ -34,8 +34,8 @@ data-serving)
   docker run -d --name cs-ds-server --net $NET --cpuset-cpus $CORES cloudsuite/data-serving:server --writer-count 32 --reader-count 16 --heap-size 8 > /dev/null
   for i in $(seq 1 40); do docker logs cs-ds-server 2>&1 | grep -q "Created default superuser" && break; sleep 5; done; sleep 10
   docker run -d -it --name cs-ds-client --net $NET --cpuset-cpus 60-67 --entrypoint bash cloudsuite/data-serving:client > /dev/null; sleep 2
-  echo "[$(date +%T)] warm-up (1M records)"; docker exec cs-ds-client bash -c 'cd /root && ./warmup.sh cs-ds-server 1000000 16' > $D/ds2_warm.log 2>&1; tail -2 $D/ds2_warm.log | cut -c1-120
-  for rate in 2000 5000 10000 20000 40000; do
+  echo "[$(date +%T)] warm-up (1M records)"; docker exec cs-ds-client bash -c 'cd / && ./warmup.sh cs-ds-server 1000000 16' > $D/ds2_warm.log 2>&1; tail -2 $D/ds2_warm.log | cut -c1-120
+  for rate in 5000 10000 20000 40000 80000; do
     docker exec cs-ds-client bash -c "cd / && ./load.sh cs-ds-server 1000000 $rate 32 $((rate*70))" > $D/ds2_run_$rate.log 2>&1 & LP=$!; sleep 25
     measure cs-ds-server rps$rate "target=$rate/s"; wait $LP 2>/dev/null; grep -E "Throughput|99thPercentile" $D/ds2_run_$rate.log | head -3 | tr '\n' ' ' | cut -c1-160; echo
     [[ $(tail -1 $OUT | cut -d, -f5 | cut -d. -f1) -ge 85 ]] && { echo "knee at $rate"; break; }
