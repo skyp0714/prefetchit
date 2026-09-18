@@ -87,7 +87,7 @@ NOP으로 치환한 *NOP twin* 대비, 코어·언코어 클럭 고정, 인터�
 | inline "timeline" plan (재빌드, 사이트 85/410 매칭) | 1.005x (twin 0.999x) | 19.8 → 20.0 |
 | post-link "timeline" plan (정확한 call 사이트 32개, 1.3k prefetch) | 0.995x (twin 0.994x) | 19.8 → 20.0 |
 | MariaDB wake burst 64라인 | 트랜잭션당 cycles ±3% 동일 | 12.6 → 13.6 |
-| PostgreSQL wake burst 64라인 | (측정 중) | |
+| PostgreSQL wake burst 64라인 | 1.012x tps (twin 1.004x), 트랜잭션당 cycles −3.7% (노이즈 ±2~5%) | 5.85 → 6.00 |
 
 결론: cold start가 지배적인 워크로드는 많지만(DB·RPC 서비스에서 1.3~1.9x 손실), 그 miss는 wake 후 65 µs 실행 구간에 흩어진 분기 목적지들이라 소프트웨어 프리페치가 잡는 몫은 ≤2%다. 하드웨어 next-line 프리페처는 이미 순차 부분을 처리하고 있고(miss의 84%가 taken 분기 목적지), 남는 건 fill queue(32~48)와 리드 타임에 묶인다.
 

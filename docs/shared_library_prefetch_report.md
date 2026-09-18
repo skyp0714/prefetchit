@@ -77,7 +77,7 @@ Verilator·arcilator에서 잘 된 이유가 이것이다: 사이트와 대상�
 
 컨테이너 25개를 코어 36개에 섞어 돌리고 하나씩 전용 코어로 빼서 miss 차이를 재는 방식으로 넓게 스크린했다(`RESULTS.md`).
 - **cold start가 지배적인 워크로드는 흔하다**: PostgreSQL(공유 6.0 → 격리 0.1 MPKI, CPU 1.88x), compose-post(22.9 → 4.4, 1.77x), user-timeline(21.9 → 1.9, 1.64x), MariaDB durable(12.0 → 3.8, 1.33x). RPC 서비스와 DB가 모두 해당된다.
-- **소프트웨어 프리페치로 잡히는 몫은 작다**: user-timeline에서 wake 직후 burst(1.019x), inline plan(1.005x), 정확한 call 사이트에 둔 post-link timeline plan(0.995x), MariaDB wake burst(트랜잭션당 사이클 동일). 원인은 §6과 같다: miss가 wake 후 65 µs에 흩어진 분기 목적지들이고, 한 번에 발행할 수 있는 프리페치는 32~48개다.
+- **소프트웨어 프리페치로 잡히는 몫은 작다**: user-timeline에서 wake 직후 burst(1.019x), inline plan(1.005x), 정확한 call 사이트에 둔 post-link timeline plan(0.995x), MariaDB wake burst(트랜잭션당 사이클 동일), PostgreSQL wake burst(tps 1.012x, 쌍둥이 1.004x, miss 불변). 원인은 §6과 같다: miss가 wake 후 65 µs에 흩어진 분기 목적지들이고, 한 번에 발행할 수 있는 프리페치는 32~48개다.
 - 한 예외는 **home-timeline**: 격리해도 5.3 MPKI였는데 코어의 C6 idle 상태를 끄면 0.1 MPKI, CPU 23% 감소. 코어가 요청 사이에 C6로 들어가며 L2를 비우는 경우로, 해법은 프리페치가 아니라 idle 정책이다.
 
 결론은 §4-4와 같다. 이 부류의 손실은 실재하고 크지만(1.3~1.9x), 명령 프리페치 *명령*으로는 잡히지 않고, 스케줄링·idle 정책 또는 실행과 병렬로 스트리밍하는 하드웨어 warm-up 엔진의 영역이다.
