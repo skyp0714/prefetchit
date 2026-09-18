@@ -11,9 +11,12 @@ build(){ local var=$1 envs=$2 pf=$3; mkdir -p $V/$var
     n=$(objdump -d $V/$var/$b | grep -cE "prefetcht1|prefetchit"); echo "$var/$b: $n prefetches"
     if [[ $n -gt 0 ]]; then mkdir -p $V/${var}_nop; python3 $NOP --input $V/$var/$b --output $V/${var}_nop/$b > /dev/null && chmod +x $V/${var}_nop/$b; fi
   done; }
-build base "PREFETCHIT_DUMMY=1" ""
-build seq_t1 "$SEQ PREFETCHIT_SEQ_MNEMONIC=prefetcht1" "-fpass-plugin=$P"
-build seq_it1 "$SEQ PREFETCHIT_SEQ_MNEMONIC=prefetchit1" "-fpass-plugin=$P"
-build seq_it0 "$SEQ PREFETCHIT_SEQ_MNEMONIC=prefetchit0" "-fpass-plugin=$P"
+# (base, seq_t1, seq_it1, seq_it0 already built)
+
+
+
+COLD="PREFETCHIT_COLD_OWN_LINES=16 PREFETCHIT_COLD_CALLEE_LINES=1 PREFETCHIT_COLD_MAX_CALLEES=8 PREFETCHIT_COLD_MAX_EXTERNAL=8 PREFETCHIT_COLD_MIN_INSNS=24"
+build cold "$COLD" "-fpass-plugin=$P"
+build cold_seq "$COLD $SEQ PREFETCHIT_SEQ_MNEMONIC=prefetcht1" "-fpass-plugin=$P"
 (cd $S/Router/lookup_service/service && make clean > /dev/null 2>&1; make -j8 > /dev/null 2>&1); (cd $S/Router/mid_tier_service/service && make clean > /dev/null 2>&1; make -j8 > /dev/null 2>&1)
 echo ROUTER_VARIANTS_DONE
