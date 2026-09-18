@@ -386,3 +386,57 @@ Counters (Verilator, 15k simulated cycles, core 34): prefetcht1 arm L2I 15.7 MPK
 prefetchit1 arm L2I 65.3 MPKI = its NOP twin (65.4), IPC 0.520 vs twin 0.546, L2 code reads 77.0/kI vs 66.8/kI (+15%), and zero
 SWPF events (PREFETCHIT is not a data prefetch). So PREFETCHIT does issue extra L2 code-read requests (it is not inert) but they do not
 reduce demand code misses at all — they arrive too late or duplicate in-flight demand — and the extra traffic costs ~5% time.
+
+## μSuite Router — static "seq" pass on the app binaries (leaf + mid-tier rebuilt with clang-19 + pass: seq D=4 KB K=40; prefetcht1 vs prefetchit0/1; NOP twins), 3 reps, 3,000 qps open loop, 22:00 2026-09-17
+
+| tier / scheduling | base MPKI / IPC | seq prefetcht1 | seq prefetchit1 | seq prefetchit0 |
+|---|---|---|---|---|
+| leaf isolated (36-39) | 29.3 / 0.614 | 29.2 / 0.615, **0.988x** (twin 0.997x) | 29.2, 1.001x (twin 0.987x) | 28.6, 0.989x (twin 0.983x) |
+| mid-tier isolated | 45.9 / 0.410 | 45.3 / 0.411, **0.984x** (twin 1.003x) | 45.0, 1.008x (twin 0.989x) | 45.4, 0.984x (twin 0.981x) |
+| leaf shared (0-42 + SN noise) | 29.5 / 0.673 | 29.5, 0.991x (twin 1.017x) | 28.0, 1.017x (twin 1.012x) | 28.0, 1.011x (twin 0.994x) |
+| mid-tier shared | 53.5 / 0.384 | 53.6, 1.001x (twin 1.000x) | 55.1, 0.987x (twin 0.993x) | 54.4, 1.002x (twin 0.999x) |
+
+Speedup = base median cycles / arm median cycles over the 30 s window at fixed load (service CPU time per request). Every arm is within
+±2% of its NOP twin and MPKI is unchanged (±1): the Router's 30–50 MPKI is not in the application TUs the pass can instrument (lookup/mid-tier
+servers are thin; the misses are in libgrpc++/libprotobuf/libstdc++, prebuilt shared libraries). prefetchit0/1 arms are twins here as well.
+Next for Router: DSO breakdown (`run/router_dso.sh`) and, if the misses are in gRPC/protobuf, the same fat-static + direct-reference cold-path
+build used for the user-timeline round 18 (gRPC/protobuf rebuilt from source with the pass, linked statically).
+
+## Round 17 — cold-path static mode of the IR pass (user request: a pass for short-dispatch services; no cost function; loop-free sites), shared-library build, 3 reps, 22:08 2026-09-17
+
+Mode (`PREFETCHIT_COLD_OWN_LINES=16 PREFETCHIT_COLD_CALLEE_LINES=1 PREFETCHIT_COLD_MAX_CALLEES=8 PREFETCHIT_COLD_MAX_EXTERNAL=8 PREFETCHIT_COLD_MIN_INSNS=24`):
+at the entry of every function with ≥24 IR instructions, `prefetcht1` of the function's own next lines (≤16, sized from the IR instruction count)
+and of the first line of every callee reached outside loops, in block order (defined callee → pc-relative via an internal alias; declared callee →
+`mov sym@GOTPCREL(%rip),%r11; prefetcht1 (%r11)`). Service 11,622 prefetches, jaeger 15,973, mongoc 5,026, redis++ 4,593, bson 1,426, thrift 891+.
+Arms rebuilt in `dsb-deps-cold` (`chain_cold.sh`); default scheduling, containers on 0-35; `w32` = 32-line wake burst (LD_PRELOAD) alone.
+
+| arm | svc cycles (G) | vs g | MPKI | IPC | instr vs g |
+|---|---:|---:|---:|---:|---:|
+| g (clang-19 rebuild, shared libs) | 55.60 | 1.000x | 19.54 | 0.611 | 1.000 |
+| cold | 55.20 | **1.007x** | **18.34** | 0.629 | 1.022 |
+| cold_nop (twin) | 55.72 | 0.998x | 19.79 | 0.627 | 1.029 |
+| coldw32 (+ wake burst 32) | 55.51 | 1.002x | 18.40 | 0.630 | 1.030 |
+| coldw32_nop | 55.81 | 0.996x | 19.73 | 0.627 | 1.031 |
+| w32 (wake burst alone) | 56.20 | 0.989x | 19.82 | 0.607 | 1.005 |
+
+The pass removes 6% of the code misses (IPC +3%) but adds 2.2% instructions, net +0.7%. The wake burst adds nothing on top.
+
+## Round 18 — GOT bypass by fat-static linking + direct references (user: "컴파일러 flag로 GOT 우회해서 명령어 오버헤드 줄여"), 3 reps, 22:37
+
+Build: `FATSTATIC=1 build_utl_variant.sh` links libthrift.a, libjaegertracing.a, libopentracing.a, libyaml-cpp.a, libmongoc-static, libbson-static,
+hiredis/redis++ and `-static-libstdc++ -static-libgcc` into the PIE service (NEEDED shrinks to libc/libm/libssl/libcrypto/libsasl2/libicuuc/libz/libresolv).
+Pass: `PREFETCHIT_COLD_DIRECT_SYMS=plans/cold_direct_syms.txt` (13,456 global symbols of those archives + the service) → listed declared callees get one
+`prefetcht1 sym(%rip)`; executable modules reference every symbol by name (no alias). Service TUs: own 3,007, direct 594, listed-direct 1,204, GOT 217
+(libc). The archives were still the round-17 objects (GOT form inside jaeger/thrift/…: 9,231 `(%r11)` sites of 31,088). `cold2s` = libc callees skipped.
+
+| arm | svc cycles (G) | vs g | vs gs | MPKI | IPC | instr vs gs |
+|---|---:|---:|---:|---:|---:|---:|
+| g (shared libs) | 55.56 | 1.000x | 0.963x | 19.85 | 0.611 | 0.994 |
+| gs (fat-static, no pass) | 53.49 | **1.039x** | 1.000x | 18.07 | 0.639 | 1.000 |
+| cold2 (fat-static + cold pass, direct) | 53.18 | **1.045x** | 1.006x | **16.74** | 0.654 | 1.018 |
+| cold2_nop (twin) | 54.12 | 1.027x | 0.988x | 18.12 | 0.645 | 1.022 |
+| cold2s (libc callees skipped) | 53.45 | 1.040x | 1.001x | 16.92 | 0.650 | 1.017 |
+
+Static linking alone (no PLT/GOT hops, one link unit) is worth 3.9% and −9% misses. On top of it the direct-reference cold pass removes a further
+7% of the misses (18.1 → 16.7) and is worth 1.8% against its twin, but the twin costs 1.2% (+1.8% instructions), so the net is +0.6% over gs
+(+4.5% over the original shared-library build). Skipping the libc GOT prefetches changes nothing (0.5% of sites).

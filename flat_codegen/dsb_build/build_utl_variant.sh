@@ -9,7 +9,7 @@ ROOT=/home/hnpark2/prefetchit; PASSDIR=$ROOT/llvm_prefetchit/build; SN=$ROOT/ben
 NOPTOOL=$ROOT/llvm_prefetchit/tools/make_nop_control_binary.py
 PF=""; [[ -n "$ENVS" ]] && PF="-fpass-plugin=/pass/PrefetchITPass.so"
 mkdir -p out_utl_$V
-docker run --rm -v "$SN":/src -v "$PASSDIR":/pass -v "$PWD":/dsb --entrypoint bash $IMG -c "export ${ENVS:-PREFETCHIT_DUMMY=1} MAKE_TARGET=UserTimelineService && bash /dsb/build_service.sh /dsb/out_utl_$V -O2 -g -Wno-enum-constexpr-conversion -Wno-error $PF" > out_utl_$V/build.log 2>&1 || { tail -20 out_utl_$V/build.log; exit 1; }
+docker run --rm -v "$SN":/src -v "$PASSDIR":/pass -v "$PWD":/dsb --entrypoint bash $IMG -c "export ${ENVS:-PREFETCHIT_DUMMY=1} MAKE_TARGET=UserTimelineService FATSTATIC=${FATSTATIC:-0} && bash /dsb/build_service.sh /dsb/out_utl_$V -O2 -g -Wno-enum-constexpr-conversion -Wno-error $PF" > out_utl_$V/build.log 2>&1 || { tail -20 out_utl_$V/build.log; exit 1; }
 docker rm -f libext_utl_$V 2>/dev/null || true
 docker create --name libext_utl_$V $IMG >/dev/null; rm -rf libs_utl_$V; docker cp libext_utl_$V:/usr/local/lib ./libs_utl_$V; docker rm libext_utl_$V >/dev/null
 n=$(objdump -d out_utl_$V/UserTimelineService | grep -cE "prefetcht1|prefetchit" || true); echo "UserTimelineService.$V: $n prefetcht1"
