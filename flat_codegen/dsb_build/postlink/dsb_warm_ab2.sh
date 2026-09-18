@@ -9,7 +9,7 @@ PL=/home/hnpark2/prefetchit/flat_codegen/dsb_build/postlink; export PL
 SVC=${SVC:-user-timeline-service}; SVCBIN=${SVCBIN:-UserTimelineService}; CONT=socialnetwork-$SVC-1; OVR=$PL/compose-override-${SVC}-warm.yml
 export SVC SVCBIN
 SN=/home/hnpark2/prefetchit/benchmarks/DeathStarBench/socialNetwork; W=$SN/../wrk2/wrk
-LUA=/home/hnpark2/prefetchit/llvm_prefetchit/scripts/platform/screens/mixed-workload-nosocket.lua
+LUA=${LUA:-/home/hnpark2/prefetchit/llvm_prefetchit/scripts/platform/screens/mixed-workload-nosocket.lua}; WRK_URL=${WRK_URL:-http://localhost:8080/wrk2-api/post/compose}; CONN=${CONN:-64}
 mkdir -p $1; OUT=$(readlink -f $1); REPS=$2; shift 2; ARMS=("$@")
 R=${R:-6000}; DUR=${DUR:-60}; PWIN=${PWIN:-30}; CLIENT_CORES=${CLIENT_CORES:-60-67}
 FILES="UserTimelineService libthrift.so.0.12.0 libjaegertracing.so.0 libmongoc-1.0.so.0 libbson-1.0.so.0 libstdc++.so.6.0.21 libc-2.23.so"
@@ -25,8 +25,8 @@ for rep in $(seq 1 $REPS); do for arm in "${ARMS[@]}"; do
   PINPID=; if [[ $cpus == *:* ]]; then echo ps101899 | sudo -S nohup $PL/pin_threads.sh $CONT ${cpus%%:*} ${cpus#*:} > /dev/null 2>&1 & PINPID=$!; sleep 1; elif [[ -n $cpus ]]; then docker update --cpuset-cpus $cpus $CONT > /dev/null; fi
   pid=$(docker inspect -f '{{.State.Pid}}' $CONT)
   if [[ -z "$pid" || "$pid" == 0 ]]; then echo "$name r$rep: service did not start" | tee -a $OUT/errors.log; docker logs $CONT 2>&1 | tail -3 >> $OUT/errors.log; continue; fi
-  taskset -c $CLIENT_CORES $W -D exp -t 8 -c 64 -d 15 -L -s $LUA http://localhost:8080/wrk2-api/post/compose -R $R > /dev/null 2>&1
-  taskset -c $CLIENT_CORES $W -D exp -t 8 -c 64 -d $DUR -L -s $LUA http://localhost:8080/wrk2-api/post/compose -R $R > $OUT/wrk2_${name}_r${rep}.log 2>&1 &
+  taskset -c $CLIENT_CORES $W -D exp -t 8 -c $CONN -d 15 -L -s $LUA $WRK_URL -R $R > /dev/null 2>&1
+  taskset -c $CLIENT_CORES $W -D exp -t 8 -c $CONN -d $DUR -L -s $LUA $WRK_URL -R $R > $OUT/wrk2_${name}_r${rep}.log 2>&1 &
   WP=$!; sleep 15
   echo ps101899 | sudo -S perf stat -x, -o $OUT/perf_${name}_r${rep}.csv -e instructions,cycles,'cpu/event=0x24,umask=0x24,name=L2I_CODE_RD_MISS/',task-clock -p $pid -- sleep $PWIN > /dev/null 2>&1
   wait $WP
