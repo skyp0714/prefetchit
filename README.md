@@ -107,6 +107,8 @@ NOP으로 치환한 *NOP twin* 대비, 코어·언코어 클럭 고정, 인터�
 | fat-static만(pass 없음) | **1.039x** | 19.9 → 18.1 | +0.6% |
 | fat-static + cold-path pass(직접 참조) | **1.045x** (fat-static 대비 1.006x, twin 대비 1.018x) | 19.9 → 16.7 | +2.4% |
 
+정적 링크가 왜 빨라지나(카운터, 명령 1k당, g → gs): 코드 miss 19.6 → 17.9, 데이터 miss 5.8 → 5.4(GOT 로드 소멸), ITLB walk 0.78 → 0.66(DSO 6개 → 텍스트 1개), 간접 분기 예측 실패 1.75 → 1.65(PLT의 `jmp *GOT` 소멸). 같은 링크끼리 비교한 pass의 몫: 공유 빌드 1.007x, 정적 빌드 1.003–1.019x(round 19–20; miss가 나는 함수만 삽입하면 twin 비용 0). 정적 타깃 대 trace 비교(`cold_target_analysis.py`): miss의 43%는 libc, exe miss 중 57%만 정적 타깃 위에 있고, 정적 사이트의 84%는 한 번도 miss 안 나는 라인을 겨냥 → trace-guided plan 모드(`PREFETCHIT_COLD_PLAN`, round 21).
+
 읽는 법: GOT/PLT를 없애는 정적 링크 자체가 3.9%, 그 위에서 pass가 miss를 추가로 7% 줄여 twin 대비 1.8%를 벌지만 추가 명령 1.8%가 1.2%를 도로 먹어 순이익은 0.6%. 명령어 오버헤드를 더 줄이는 두 방향(라이브러리 내부까지 직접 참조 + own-lines 8, trace로 실제 miss 나는 함수만 선택)은 round 19–20.
 
 ### 2-2. 2026-09-17 공유 라이브러리/데이터센터: post-link 재작성기와 DeathStarBench 결론
