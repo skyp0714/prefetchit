@@ -609,3 +609,10 @@ p99 spikes). v4's in-round net over the night: 1.029 / 1.019 / 1.017 / 1.011x (m
 Same miss reduction and speed as v4 with half the instruction overhead (the twin is now free). The gain is limited by coverage, not cost:
 the remaining misses are lines no site can claim (libc-internal windows) and lines prefetched too late. v10 is the base for the final
 combination (round 35: + orphan burst if round 34 shows it helps).
+
+## Round 33 (02:50) — INVALID: disk-full incident #2. The socialNetwork redis containers snapshot their datasets to disk every minute (default
+`save 60 10000`); home-timeline-redis had grown to 33 GB (compose-post fan-out) and had written 951 GB since the stack came up. The snapshots
+filled the root disk (twice: 1.6 GB, then 0 GB), broke the load generator (rps=0 / non-2xx rows) and are the likely source of the random
+200–400 ms p99 spikes seen all night (a 33 GB fork + write every 60 s on the shared cores). Fix applied at 02:53: `CONFIG SET save ""` and
+`appendonly no` on all socialnetwork redis containers, dump files removed (24 GB freed). The 5-rep confirmation is re-queued as round 36.
+Also removed during the emergency: two *stopped* containers of another workflow (rbr-plot, rbr-design-sweep; 123 kB / 1.4 MB writable layers).
