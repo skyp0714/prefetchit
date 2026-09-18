@@ -1037,7 +1037,8 @@ static uint64_t runColdPlan(Module &M, const SeqConfig &C, StringRef PlanPath) {
     if (!S)
       continue;
     const json::Array *T = S->getArray("t");
-    if ((!T || T->empty()) && !(!EpochFn.empty() && F.getName() == EpochFn))
+    const bool KeepEmpty = S->getInteger("k").value_or(0) > 0;   // frozen layout: a burst of NOPs only
+    if ((!T || T->empty()) && !(!EpochFn.empty() && F.getName() == EpochFn) && !KeepEmpty)
       continue;
     std::vector<std::pair<std::string, int64_t>> DirectT;
     std::map<std::string, std::vector<int64_t>> GotByAnchor;
@@ -1059,7 +1060,7 @@ static uint64_t runColdPlan(Module &M, const SeqConfig &C, StringRef PlanPath) {
       }
     }
     const bool IsEpochFn = !EpochFn.empty() && F.getName() == EpochFn;
-    if (DirectT.empty() && GotByAnchor.empty() && !IsEpochFn)
+    if (DirectT.empty() && GotByAnchor.empty() && !IsEpochFn && !KeepEmpty)
       continue;
     std::string Asm;
     unsigned Bytes = 0;
