@@ -30,7 +30,7 @@ if [[ $WHICH == both || $WHICH == dacapo ]]; then
 fi
 if [[ $WHICH == both || $WHICH == renaissance ]]; then
   for b in $($JDK/bin/java -jar $REN --raw-list 2>/dev/null | tr -d '\r'); do
-    run_one renaissance $b -jar $REN $b -r 60 --scratch-directory $SCR/scratch_$b
+    run_one renaissance $b -jar $REN $b -r 60 --scratch-base $SCR/scratch_$b
   done
 fi
 echo JVM_SCREEN_DONE
