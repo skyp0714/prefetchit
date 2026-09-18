@@ -658,3 +658,15 @@ keeps slowing (gs 55.6 G at 23:00 → 61.5 G now: the write load grows the timel
 dilutes the relative gain of a fixed miss reduction; the earlier in-round measurements (1.029x at 00:17, 1.035x at 02:55) were taken on
 a lighter dataset. The 5% target was not reached with prefetching alone; the static link itself (gs vs the shared-library build) remains
 the largest single win of the night (4–6%).
+
+## Round 37 — re-attribution with the 21 hot sites (≥ 100 prefetch-instruction samples in cold8's profile) removed from the candidate set (v14, cold18; their lines move to colder sites instead of being dropped), 3 reps, 04:09
+
+| arm | svc cycles (G) | vs gs | MPKI | IPC | instr vs gs |
+|---|---:|---:|---:|---:|---:|
+| gs | 63.52 | 1.000x | 18.04 | 0.577 | 1.000 |
+| cold14 (v10, pruned) | 61.47 | **1.033x** | 15.86 | 0.612 | 1.026 |
+| cold18 (v14) | 62.00 | 1.025x | 15.45 | 0.620 | 1.050 |
+| cold18_nop | 63.27 | 1.004x | 17.81 | 0.606 | 1.047 |
+
+Re-attributing the hot sites' lines recovers a little coverage (15.45 MPKI) but the receiving sites are not free either (+5% instructions),
+so v10 (drop the lines, keep the overhead at +2.6%) stays the best engineering point. v10 in-round: 1.026x (round 32), 1.033x here.
