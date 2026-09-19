@@ -9,7 +9,8 @@ NC=$(python3 -c "import re;s='$CORES';print(sum(int(b)-int(a)+1 if b else 1 for 
 EV='cpu/event=0x24,umask=0x24,name=L2I/u,instructions:u,cycles:u,task-clock'; [[ -f $OUT ]] || echo "job,config,group,cores,delay_s,util_pct,l2i,instr,cycles,mpki,ipc" > $OUT
 CL=$(python3 -c "import re;s='$CORES';print(' '.join(str(i) for a,b in re.findall(r'(\d+)-?(\d*)',s) for i in range(int(a),int(b or a)+1)))")
 cstate() { local mode=$1 cc; for cc in $CL; do for st in /sys/devices/system/cpu/cpu$cc/cpuidle/state*; do n=$(cat $st/name); [[ $n == C6* ]] && echo ps101899 | sudo -S -p '' sh -c "echo $mode > $st/disable"; done; done; }
-repin() { local pat=$1 cores=$2 p; for p in $(pgrep -f "$pat"); do taskset -apc $cores $p > /dev/null 2>&1; done; }
+pg() { pgrep -f "$1" | grep -vw -e $$ -e $BASHPID; }   # never match this script (its argv carries the patterns)
+repin() { local pat=$1 cores=$2 p; for p in $(pg "$pat"); do taskset -apc $cores $p > /dev/null 2>&1; done; }
 rec() { local cfg=$1 grp=$2 delay=$3 f=$4; python3 - $JOB "$cfg" "$grp" $CORES $NC $delay $f $OUT <<'PY'
 import csv,sys
 job,cfg,grp,cores,nc,delay,f,out=sys.argv[1:9]; v={}
@@ -26,7 +27,7 @@ run_once() { local cfg=$1; cd $V
   (echo ps101899 | sudo -S -p '' env PATH=$PATH PYTHONPATH=/home/hnpark2/.local/lib/python3.12/site-packages JAVA_HOME=${JAVA_HOME:-/usr/lib/jvm/java-11-openjdk-amd64} taskset -c $CORES python3 ./benchpress_cli.py run $JOB "${EXTRA[@]}" > $R/logs/v2_run_${JOB}_$cfg.log 2>&1; echo "JOB_EXIT $?" >> $R/logs/v2_run_${JOB}_$cfg.log) & local JP=$!
   for delay in $D1 $D2; do sleep $delay; kill -0 $JP 2>/dev/null || { echo "  $JOB ended before ${delay}s"; break; }
     [[ -n $CPAT ]] && repin "$CPAT" $CLCORES; [[ -n $DPAT ]] && repin "$DPAT" $DBCORES; sleep 5
-    local sp=$(pgrep -f "$SPAT" | tr '\n' ',' | sed 's/,$//'); [[ -z $sp ]] && { echo "  no server processes match $SPAT"; ps -eo pid,args | grep -vE "grep|benchpress" | tail -8 | cut -c1-120; continue; }
+    local sp=$(pg "$SPAT" | tr '\n' ',' | sed 's/,$//'); [[ -z $sp ]] && { echo "  no server processes match $SPAT"; ps -eo pid,args | grep -vE "grep|benchpress" | tail -8 | cut -c1-120; continue; }
     echo ps101899 | sudo -S -p '' perf stat -x, -o /tmp/v2_srv.csv -e $EV -p $sp -- sleep 30 > /dev/null 2>&1; rec $cfg server $delay /tmp/v2_srv.csv
   done; wait $JP; grep -E "JOB_EXIT|score|Score|QPS|qps|RPS|rps|Throughput|final" $R/logs/v2_run_${JOB}_$cfg.log | tail -4 | cut -c1-160; }
 run_once default; cstate 1; run_once noC6; cstate 0; echo "V2_SCREEN_${JOB}_DONE"
