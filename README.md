@@ -230,6 +230,24 @@ raw 데이터: `llvm_prefetchit/results/repro_20260915/`(3·4단계), `llvm_pref
 
 핵심 발견: **고정 코어 + 낮은 활용률의 높은 MPKI는 대부분 유휴 코어의 C6 진입으로 L2가 비워진 뒤 깨어나는 cold miss다.** 서버 코어의 C6를 끄면 PostgreSQL 18.5 → 0.06, MariaDB 11.7 → 0.9, μSuite Router 55/110 → 0.06/0.11, hotel(Go) 서비스 4~9 → 0.1~0.4, socialNetwork 스토어/서비스 11~48 → 0.1~2.3. 부하가 올라 코어가 쉬지 않으면 같은 값이 나온다(PG 16 clients 0.13). 반면 C6를 꺼도 남는 capacity miss는 JVM 서버(tomcat 4.9→3.0, spring 2.9, cassandra 3.2, dotty 1.9)와 C++ media 서비스(movie-id 4.8, compose-review 3.8, nginx 3.6, rating 2.2), CloudSuite web-search 2.5·web-serving 5.0, media mongodb 1.4 뿐이다. 요약 표(원인 포함)는 `FINAL_TABLE.md`; DCPerf는 v2(ICacheBuster 제거, DjangoBench v2/feedsim_dlrm)로 다시 설치·측정 중.
 
+#### 2-4-1. capacity/interleaving만 남긴 sweep (2026-09-19, 서버 코어 C6 비활성)
+
+사용자 요청: cold(C6 wake) miss를 빼고 capacity·interleaving miss만 남도록 현실적으로 세팅해 다시 sweep, 워크로드별 대응책 정리. 세팅: 사용 코어의 deep C-state 비활성(프로덕션 관행), 나머지는 각 벤치마크 기본값. 마이크로서비스는 두 regime — **alone**(컨테이너별 전용 cpuset) / **interleaved**(스택 전체가 8·16코어 pool 공유 = 논문들의 lukewarm 세팅). 표: `results/realistic_screen_20260918/C6OFF_TABLE.md`.
+
+| 부류 | alone (capacity) | interleaved pool 8/16 | 대응 |
+|---|---:|---:|---|
+| DB (PG, MariaDB durable) | 0.05–0.09 / 0.8–1.1 | — | 제외 |
+| JVM (cassandra, tomcat, spring, dotty, tradesoap, finagle) | 1.2–3.2 | — | AOT pass 불가(JIT); JVM 쪽 prefetch는 중립이었음 → 제외 |
+| media C++ 서비스 (movie-id, compose-review, rating, user 등) | 1–5 | **34–55** | static pass 적용 대상: cold plan(v10)로 interleaving miss, fat-static |
+| socialNetwork C++ 서비스 (compose-post, user/home-timeline, text) | 1 | **4–42** | 동일 |
+| hotel Go 서비스 | ≤0.5 | 3–16 | Go 툴체인에 삽입기 없음 → 보류 |
+| 스토어 (mongodb/redis/memcached) | ≤2.3 | 14–105 | post-link 재작성기 또는 소스 재빌드 |
+| nginx-thrift(OpenResty), post-storage, hotel reservation(포화 tier) | 1.2 / 0.2 / 0.04 | 2.1 / 1.8 / 0.15 | 바쁜 tier는 L2가 안 식음 → 제외 |
+| DCPerf v2 Django (uwsgi×4, CPython) | 2.4 @ 68% | — | CPython AOT C: cold plan 후보 |
+| DCPerf v2 TaoBench | 0.3 | — | 제외 |
+
+읽는 법: interleaving 세팅에서는 pool 크기(8 vs 16)와 무관하게 miss가 같다 → 이웃 서비스가 요청 사이에 코드를 밀어내는 것이 원인. 이것이 논문들이 "cold start"라 부른 것이고, 우리가 어제 공유 환경에서 2~3%를 얻은 문제와 같다(그때는 C6도 켜져 있었음). 남은 정적 prefetch 후보 = interleaved C++ 서비스(media, socialNetwork), Django v2, 그리고 스토어(post-link).
+
 ## 3. 저장소 지도
 
 각 디렉토리는 별도 git 저장소다(umbrella는 문서만 추적). 매니페스트: `llvm_prefetchit/migration/repos.lock.tsv`.
