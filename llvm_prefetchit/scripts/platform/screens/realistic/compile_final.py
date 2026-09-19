@@ -64,7 +64,13 @@ g=collections.defaultdict(list)
 for r in rd(f'{R}/cloudsuite_4core.csv'):
     if float(r['instr'])>1e9: g[r['bench']].append(r)
 for b,v in g.items():
-    r=max(v,key=lambda x:float(x['mpki'])); rows.append((f"CloudSuite {b}",f"{r['load']}, 4 cores, {float(r['util_pct']):.0f}% util",float(r['mpki']),float(r['ipc']),'n.d. (no C6 pass)'))
+    if b.endswith('-noC6'): continue
+    cand=[x for x in v if float(x['util_pct'])>=15] or v; r=max(cand,key=lambda x:float(x['mpki'])); d=float(r['mpki'])
+    n=[x for x in g.get(b+'-noC6',[]) if float(x['instr'])>1e9]; cause='n.d. (no C6 pass)'
+    if n:
+        m=float(n[0]['mpki']); ref=[x for x in v if x['load']==n[0]['load']]; dref=float(ref[0]['mpki']) if ref else d
+        cause=('cold (C6 wake)' if m<=0.35*dref else 'capacity' if m>=0.7*dref else 'mixed (cold %d%% / capacity %d%%)'%(round(100*(1-m/dref)),round(100*m/dref)))+f" (at {n[0]['load']}: {dref:.2f} → {m:.2f})"
+    rows.append((f"CloudSuite {b}",f"{r['load']}, 4 cores, {float(r['util_pct']):.0f}% util",d,float(r['ipc']),cause))
 # dcperf
 for r in rd(f'{R}/dcperf_default.csv'):
     if r['scope']=='process' or (r['scope']=='system' and float(r['mpki'])>=1): rows.append((f"DCPerf {r['job']}",f"default job, whole machine ({r['scope']} @{r['delay_s']}s)",float(r['mpki']),float(r['ipc']),'n.d. (whole-machine default job)'))
