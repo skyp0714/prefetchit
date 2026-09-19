@@ -4,7 +4,7 @@
 # at DELAY1/DELAY2 seconds; then the same with deep C-states disabled on the server cores (cause diagnostic).
 # Usage: dcperf_v2_screen.sh JOB CORES "server_pattern" "client_pattern" "db_pattern" DELAY1 DELAY2 [extra benchpress args...]
 R=/home/hnpark2/prefetchit/llvm_prefetchit/results/realistic_screen_20260918; V=/home/hnpark2/prefetchit/benchmarks/dcperf_v2; OUT=$R/dcperf_v2.csv
-JOB=$1; CORES=$2; SPAT=$3; CPAT=$4; DPAT=$5; D1=$6; D2=$7; shift 7; EXTRA="$@"; DBCORES=${DBCORES:-12-15}; CLCORES=${CLCORES:-60-67}
+JOB=$1; CORES=$2; SPAT=$3; CPAT=$4; DPAT=$5; D1=$6; D2=$7; shift 7; EXTRA=("$@"); DBCORES=${DBCORES:-12-15}; CLCORES=${CLCORES:-60-67}
 NC=$(python3 -c "import re;s='$CORES';print(sum(int(b)-int(a)+1 if b else 1 for a,b in re.findall(r'(\d+)-?(\d*)',s)))")
 EV='cpu/event=0x24,umask=0x24,name=L2I/u,instructions:u,cycles:u,task-clock'; [[ -f $OUT ]] || echo "job,config,group,cores,delay_s,util_pct,l2i,instr,cycles,mpki,ipc" > $OUT
 CL=$(python3 -c "import re;s='$CORES';print(' '.join(str(i) for a,b in re.findall(r'(\d+)-?(\d*)',s) for i in range(int(a),int(b or a)+1)))")
@@ -23,7 +23,7 @@ print(f"{job} [{cfg}] {grp:8s} @{delay}s: util={util:.0f}% MPKI={1000*m/i if i e
 PY
 }
 run_once() { local cfg=$1; cd $V
-  (echo ps101899 | sudo -S -p '' env PATH=$PATH PYTHONPATH=/home/hnpark2/.local/lib/python3.12/site-packages taskset -c $CORES python3 ./benchpress_cli.py run $JOB $EXTRA > $R/logs/v2_run_${JOB}_$cfg.log 2>&1; echo "JOB_EXIT $?" >> $R/logs/v2_run_${JOB}_$cfg.log) & local JP=$!
+  (echo ps101899 | sudo -S -p '' env PATH=$PATH PYTHONPATH=/home/hnpark2/.local/lib/python3.12/site-packages JAVA_HOME=${JAVA_HOME:-/usr/lib/jvm/java-11-openjdk-amd64} taskset -c $CORES python3 ./benchpress_cli.py run $JOB "${EXTRA[@]}" > $R/logs/v2_run_${JOB}_$cfg.log 2>&1; echo "JOB_EXIT $?" >> $R/logs/v2_run_${JOB}_$cfg.log) & local JP=$!
   for delay in $D1 $D2; do sleep $delay; kill -0 $JP 2>/dev/null || { echo "  $JOB ended before ${delay}s"; break; }
     [[ -n $CPAT ]] && repin "$CPAT" $CLCORES; [[ -n $DPAT ]] && repin "$DPAT" $DBCORES; sleep 5
     local sp=$(pgrep -f "$SPAT" | tr '\n' ',' | sed 's/,$//'); [[ -z $sp ]] && { echo "  no server processes match $SPAT"; ps -eo pid,args | grep -vE "grep|benchpress" | tail -8 | cut -c1-120; continue; }
