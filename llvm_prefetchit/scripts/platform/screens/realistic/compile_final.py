@@ -2,7 +2,7 @@
 """Final table: workload, realistic (high-MPKI, pinned) point, MPKI, IPC, and the dominant miss cause from the diagnostics:
  cold  = disappears with deep C-states off (idle-wake L2 flush);  capacity = survives C6-off and one-core;  multi-thread = survives on
  one core only / drops when threads no longer share a core;  mixed / n.d. otherwise."""
-import csv,os,glob,collections
+import csv,os,glob,collections,re
 R=os.path.dirname(os.path.abspath(__file__))
 def rd(f): return list(csv.DictReader(open(f))) if os.path.exists(f) else []
 def classify(d,noc6,one_noc6,one_def):
@@ -62,6 +62,7 @@ for stack,f,fn in (('socialnetwork','dsb_social_pool43.csv','dsb_social_noC6.csv
 # cloudsuite: highest-MPKI step with util >= 2%
 g=collections.defaultdict(list)
 for r in rd(f'{R}/cloudsuite_4core.csv'):
+    if re.match(r'^workers=\d+$',r['note']) or r['note'].startswith('salvaged'): continue   # first-attempt web-search rows, duplicate salvage row
     if float(r['instr'])>1e9: g[r['bench']].append(r)
 for b,v in g.items():
     if b.endswith('-noC6'): continue
@@ -70,6 +71,7 @@ for b,v in g.items():
     if n:
         m=float(n[0]['mpki']); ref=[x for x in v if x['load']==n[0]['load']]; dref=float(ref[0]['mpki']) if ref else d
         cause=('cold (C6 wake)' if m<=0.35*dref else 'capacity' if m>=0.7*dref else 'mixed (cold %d%% / capacity %d%%)'%(round(100*(1-m/dref)),round(100*m/dref)))+f" (at {n[0]['load']}: {dref:.2f} → {m:.2f})"
+        if n[0]['load']!=r['load'] and dref<1: cause=f"n.d. at this point; at {n[0]['load']} the misses are gone anyway ({dref:.2f} → {m:.2f}) — low-load cold-wake regime"
     rows.append((f"CloudSuite {b}",f"{r['load']}, 4 cores, {float(r['util_pct']):.0f}% util",d,float(r['ipc']),cause))
 # dcperf
 for r in rd(f'{R}/dcperf_default.csv'):
