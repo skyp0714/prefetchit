@@ -47,7 +47,7 @@ for k,r in sorted(jv.items(), key=lambda kv:-float(kv[1]['mpki'])):
     e=j8.get(k); extra=f"; 8 cores {float(e['mpki']):.1f}" if e else ''
     rows.append((w,'4 pinned cores, JDK 21, 8 GB heap',d,float(r['ipc']),classify(d,n and n[0],o and o[0],od and od[0])+(f" (C6 off {n[0]:.1f}, 1 core {o[0]:.1f}{extra})" if n and o else extra)))
 # stacks: default vs noC6 per container (instr > 1e9)
-for stack,f,fn in (('socialnetwork','dsb_social_pool43.csv','dsb_social_noC6.csv'),('socialnetwork','dsb_social.csv',None),('hotelreservation','dsb_hotel.csv','dsb_hotel_noC6.csv'),('mediamicroservices','dsb_media.csv','dsb_media_noC6.csv')):
+for stack,f,fn in (('socialnetwork','dsb_social_pool43.csv','dsb_social_noC6.csv'),('hotelreservation','dsb_hotel.csv','dsb_hotel_noC6.csv'),('mediamicroservices','dsb_media.csv','dsb_media_noC6.csv')):
     base={r['container']:r for r in rd(f'{R}/{f}') if float(r['instr'])>1e9}
     if not base: continue
     noc={r['container']:r for r in rd(f'{R}/{fn}') if float(r['instr'])>1e9} if fn else {}
@@ -74,8 +74,8 @@ for b,v in g.items():
         if n[0]['load']!=r['load'] and dref<1: cause=f"n.d. at this point; at {n[0]['load']} the misses are gone anyway ({dref:.2f} → {m:.2f}) — low-load cold-wake regime"
     rows.append((f"CloudSuite {b}",f"{r['load']}, 4 cores, {float(r['util_pct']):.0f}% util",d,float(r['ipc']),cause))
 # dcperf
-for r in rd(f'{R}/dcperf_default.csv'):
+for r in []:   # DCPerf v1 default-job rows dropped: superseded by the v2 screen (see dcperf_v2.csv)
     if r['scope']=='process' or (r['scope']=='system' and float(r['mpki'])>=1): rows.append((f"DCPerf {r['job']}",f"default job, whole machine ({r['scope']} @{r['delay_s']}s)",float(r['mpki']),float(r['ipc']),'n.d. (whole-machine default job)'))
 rows.sort(key=lambda x:-x[2])
-print("| workload | realistic point (pinned) | L2I MPKI (user) | IPC | dominant cause |"); print("|---|---|---:|---:|---|")
-for w,cfg,m,i,c in rows: print(f"| {w} | {cfg} | {m:.2f} | {i:.2f} | {c} |")
+lines=["| workload | realistic point (pinned) | L2I MPKI (user) | IPC | dominant cause |","|---|---|---:|---:|---|"]+[f"| {w} | {cfg} | {m:.2f} | {i:.2f} | {c} |" for w,cfg,m,i,c in rows]
+print("\n".join(lines)); open(f"{R}/FINAL_TABLE.md","w").write("# Realistic-setting screen — final table (pinned cores, high-MPKI operating point; cause from the C6-off / one-core diagnostics)\n\n"+"\n".join(lines)+"\n")
