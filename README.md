@@ -224,6 +224,12 @@ Verilator 재검증(09-15)에서 드러난 파이프라인 결함(모두 수정�
 
 raw 데이터: `llvm_prefetchit/results/repro_20260915/`(3·4단계), `llvm_prefetchit/results/verilator_repro_20260915b/`(2단계: trace, plan, resolved plan, 바이너리, NOP twin, `measure/runs.csv`).
 
+### 2-4. 2026-09-18~19: 현실적 세팅 스크리닝 (코어 고정 + 부하 sweep) 과 miss 원인 분류
+
+사용자 요청: 코어를 고정한 현실적 세팅으로 다시 스크린(DCPerf 기본 job, DaCapo/Renaissance, CloudSuite 4, 마이크로서비스, DB), 워크로드 안에서 여러 config를 시도, L2 code MPKI ≥ 1이면 후보. 이어서 "util은 유리한 쪽으로 잡아도 된다 → MPKI 높은 쪽" 규칙(util ≥ 15% 중 MPKI 최대 지점, 포화점은 참고). 스크립트·CSV·요약: `llvm_prefetchit/results/realistic_screen_20260918/` (`SUMMARY.md`, `FINAL_TABLE.md`, `compile_final.py`; 사본 `llvm_prefetchit/scripts/platform/screens/realistic/`).
+
+핵심 발견: **고정 코어 + 낮은 활용률의 높은 MPKI는 대부분 유휴 코어의 C6 진입으로 L2가 비워진 뒤 깨어나는 cold miss다.** 서버 코어의 C6를 끄면 PostgreSQL 18.5 → 0.06, MariaDB 11.7 → 0.9, μSuite Router 55/110 → 0.06/0.11, hotel(Go) 서비스 4~9 → 0.1~0.4, socialNetwork 스토어/서비스 11~48 → 0.1~2.3. 부하가 올라 코어가 쉬지 않으면 같은 값이 나온다(PG 16 clients 0.13). 반면 C6를 꺼도 남는 capacity miss는 JVM 서버(tomcat 4.9→3.0, spring 2.9, cassandra 3.2, dotty 1.9)와 C++ media 서비스(movie-id 4.8, compose-review 3.8, nginx 3.6, rating 2.2), CloudSuite web-search 2.5·web-serving 5.0, media mongodb 1.4 뿐이다. 요약 표(원인 포함)는 `FINAL_TABLE.md`; DCPerf는 v2(ICacheBuster 제거, DjangoBench v2/feedsim_dlrm)로 다시 설치·측정 중.
+
 ## 3. 저장소 지도
 
 각 디렉토리는 별도 git 저장소다(umbrella는 문서만 추적). 매니페스트: `llvm_prefetchit/migration/repos.lock.tsv`.
