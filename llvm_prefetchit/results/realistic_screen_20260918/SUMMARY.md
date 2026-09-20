@@ -383,3 +383,5 @@ All pinned, deep C-states off on the measured cores, user-mode L2I MPKI; rows al
 | mediaMicroservices pool 0-15 (interleaving regime), 2,000 req/s, 0.1% error tolerance | 16-core pool, C6 off | 22–89 per service | same picture as pool-8 (class B) |
 
 CloudSuite images are the 4.0 line (2023-06-25; Ubuntu 22, PHP 8.1 JIT, Solr 9.1.1, Cassandra 4.1.0).
+
+Clock during these extra screens: intel_pstate powersave, 0.8–3.8 GHz with turbo (not frozen) — MPKI is per-instruction and unaffected; the "util" column of the batch rows (`dcperf_v2_batch.sh`) is cycles/(cores x window x 2 GHz), i.e. only a rough utilization proxy. Deep C-states were disabled on the measured cores by every script and re-enabled by its exit trap (verified: all cores back to C6 enabled).
