@@ -333,3 +333,32 @@ capacity misses of a request path larger than the L2 — the kind a static prefe
 
 Reading: data-serving follows the cold-wake curve (3.9 → 0.8 as the load rises); data-caching is only marginal at low load (1.3 at 35%,
 ≤0.06 above 200k rps — memcached's request path fits the L2); web-search keeps 75% of its misses with C6 off → mostly capacity (Solr).
+
+# 2026-09-19 — capacity/interleaving-only sweep (deep C-states disabled on the cores in use; everything else realistic)
+
+Two regimes per microservice stack: **alone** = each container on its own cpuset (sized from its CPU share), **interleaved** = all containers
+of the stack share one pool of 8 or 16 cores (the "lukewarm" setting of the serverless/microservice literature: other services evict a
+service's code between its requests). Databases and JVM suites: pinned 4 cores. Table: `C6OFF_TABLE.md` (`compile_c6off.py`).
+
+Findings:
+- Databases: PostgreSQL 0.05–0.09 MPKI at every client count; MariaDB durable read-write 0.8–1.1 → out (MariaDB marginal).
+- JVM: capacity misses of 1–3 MPKI survive (cassandra 3.2, tomcat 3.0, spring 2.9, dotty 1.9, tradesoap 1.2, finagle-chirper 1.2).
+- Alone (pinned, C6 off): media C++ services 3.6–4.9 (movie-id, compose-review, nginx), rating 2.2, user-service 1.1; socialNetwork
+  compose-post 1.0, user-timeline 1.1, nginx-thrift 1.2; hotel (Go) ≤0.5; stores ≤2.3.
+- Interleaved (8- or 16-core pool, C6 off, 40–75% pool utilization): the same services jump to **34–55 MPKI (media), 9–44 (socialNetwork
+  compose-post 42, user-timeline 9, home-timeline 8, text 4), 3–16 (hotel Go)**, stores 14–105; only the CPU-heavy tiers stay low
+  (post-storage 1.8, nginx-thrift 2.1–2.3, hotel reservation 0.15). MPKI is nearly identical for the 8- and 16-core pools → it is the
+  interleaving itself (code evicted by neighbours between requests), not the pool size, that sets the miss rate.
+- DCPerf v2 (pinned): DjangoBench v2 (4 uwsgi workers, CPython) 2.4 MPKI at 67–69% util → candidate on AOT C; TaoBench 0.3 → out;
+  FeedSim v2 pending (needed the Silesia corpus and TLS certs the installer did not provide).
+
+## DCPerf v2 (worktree benchmarks/dcperf_v2 = v2-beta b109b09; ICacheBuster removed) — pinned screens
+
+| job | placement | util | MPKI (user) default / C6 off | IPC | note |
+|---|---|---:|---:|---:|---|
+| django_workload_default (DjangoBench v2: 4 uwsgi workers, CPython, thrift mock backends, wrk client) | uwsgi on 36-39, Cassandra/thrift/haproxy on 40-42, wrk on 60-67 | 68% | 2.40 / 2.42 | 1.6 | capacity misses in the CPython interpreter + Django code; AOT C → static-pass candidate |
+| feedsim_dlrm (FeedSim v2: LeafNodeRank + DLRM inference, mock_services on cores 0-7 by run.sh) | LeafNodeRank on 20-27, drivers on 60-67 | 19% | 2.11 / 2.34 | 1.7 | QPS search converged at 60 qps on 8 cores (p95 ≤ 700 ms); C++ AOT → candidate at low utilization |
+| tao_bench_standalone | 28-35 | 42% | 0.27 | 1.5 | the job's own clients reported 0 qps (memtier not started) → unvalidated; memcached-derived, expected ≤0.3 |
+
+v1 → v2 note: the v1 Django/FeedSim results in this repository (manual ICacheBuster prefetch 1.49x / 1.07x) targeted code that no longer
+exists in v2; any DCPerf prefetch work must restart from the v2 binaries above.
