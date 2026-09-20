@@ -980,6 +980,41 @@ static unsigned countIRInsns(Function &F) {
 // Callee-entry bursts: `prefetcht1 callee+64*l(%rip)` before direct calls.
 
 // Cold-path mode (see the option block above).
+// PREFETCHIT_MODULE_ALLOW_FILE: path suffixes (one per line, e.g. "Objects/dictobject.c") of the translation units that belong to the
+// link unit being instrumented; modules outside the list are left alone (extension .so's of a CPython build, client libraries of a
+// multi-target build) so that pc-relative references to symbols of the main link unit are never emitted from a foreign link.
+static bool moduleAllowed(Module &M, const char *Tag) {
+  static std::optional<std::vector<std::string>> Suffixes;
+  if (!Suffixes) {
+    Suffixes.emplace();
+    if (const char *E = std::getenv("PREFETCHIT_MODULE_ALLOW_FILE"); E && *E) {
+      if (auto Buf = MemoryBuffer::getFile(E)) {
+        SmallVector<StringRef, 512> Lines;
+        (*Buf)->getBuffer().split(Lines, '\n', -1, false);
+        for (StringRef L : Lines)
+          if (!L.trim().empty())
+            Suffixes->push_back(L.trim().str());
+      } else
+        errs() << Tag << ": cannot read PREFETCHIT_MODULE_ALLOW_FILE " << E << "\n";
+    }
+  }
+  if (Suffixes->empty())
+    return true;
+  StringRef Src = M.getSourceFileName();
+  for (const std::string &S : *Suffixes)
+    if (Src.ends_with(S) && (Src.size() == S.size() || Src[Src.size() - S.size() - 1] == '/'))
+      return true;
+  errs() << Tag << ": module " << Src << " not in PREFETCHIT_MODULE_ALLOW_FILE, skipped\n";
+  return false;
+}
+// A pc-relative prefetch operand naming a symbol that this module does not define gets a ".weak" declaration: in the intended link the
+// reference binds to the definition, in any other link unit that happens to contain this object (helper executables, extension
+// modules) the undefined weak resolves to 0 and the prefetch is harmless instead of a link error.
+static bool needsWeakDecl(Module &M, StringRef Sym) {
+  GlobalValue *GV = M.getNamedValue(Sym);
+  return !GV || GV->isDeclaration();
+}
+
 // Trace-guided cold-path plan: {"sites": {"<function>": {"k": <burst bytes>, "t": [["sym", off, got], ...]}}}.
 // At the entry of every listed function: direct targets → "prefetcht1 sym+off(%rip)" (7 B); GOT targets grouped by anchor →
 // "movq anchor@GOTPCREL(%rip),%r11" (7 B) + "prefetcht1 off(%r11)" (4/5/8 B); the burst is padded with .nops to "k" (a multiple of 16)
@@ -1002,6 +1037,8 @@ static uint64_t runColdPlan(Module &M, const SeqConfig &C, StringRef PlanPath) {
     errs() << "prefetchit-cold-plan: no \"sites\" object\n";
     return 0;
   }
+  if (!moduleAllowed(M, "prefetchit-cold-plan"))
+    return 0;
   // Module identity for file-qualified entries: the basename of the source file (plans are keyed by "file" = basename).
   std::string ModFile = M.getSourceFileName();
   if (size_t Slash = ModFile.find_last_of('/'); Slash != std::string::npos)
@@ -1015,12 +1052,17 @@ static uint64_t runColdPlan(Module &M, const SeqConfig &C, StringRef PlanPath) {
       if (!E)
         continue;
       std::optional<StringRef> File = E->getString("file"), Fn = E->getString("fn");
-      if (!File || !Fn || *File != ModFile)
+      if (!File || !Fn)
+        continue;
+      // a static function defined in a header (Argument Clinic *.c.h, sre_lib.h ...) is attributed to that header by nm -l; it lives in
+      // the including module, so match such entries by name (the generator only aliases names that are unique among local symbols)
+      if (*File != ModFile && !File->ends_with(".h"))
         continue;
       Function *G = M.getFunction(*Fn);
       if (!G || G->isDeclaration() || !G->hasLocalLinkage())
         continue;
-      auto *GA = GlobalAlias::create(G->getValueType(), 0, GlobalValue::ExternalLinkage, KV.first.str(), G, &M);
+      // weak: a header-defined static of the same name may be instantiated in several TUs; any copy is an acceptable target
+      auto *GA = GlobalAlias::create(G->getValueType(), 0, GlobalValue::WeakAnyLinkage, KV.first.str(), G, &M);
       GA->setVisibility(GlobalValue::HiddenVisibility);
       appendToUsed(M, {GA});
       ++Aliases;
@@ -1060,8 +1102,8 @@ static uint64_t runColdPlan(Module &M, const SeqConfig &C, StringRef PlanPath) {
     const json::Object *S = Sites->getObject(F.getName());
     if (!S)
       continue;
-    if (std::optional<StringRef> SF = S->getString("file"); SF && *SF != ModFile)
-      continue;   // a local site function of another TU with the same name
+    if (std::optional<StringRef> SF = S->getString("file"); SF && *SF != ModFile && !(SF->ends_with(".h") && F.hasLocalLinkage()))
+      continue;   // a local site function of another TU with the same name (header-defined statics match by name, see aliases)
     const json::Array *T = S->getArray("t");
     const bool KeepEmpty = S->getInteger("k").value_or(0) > 0;   // frozen layout: a burst of NOPs only
     if ((!T || T->empty()) && !(!EpochFn.empty() && F.getName() == EpochFn) && !KeepEmpty)
@@ -1091,6 +1133,14 @@ static uint64_t runColdPlan(Module &M, const SeqConfig &C, StringRef PlanPath) {
     std::string Asm;
     unsigned Bytes = 0;
     bool UsesR11 = false, UsesR10 = false, Gate = false;
+    {
+      std::set<std::string> Weak;
+      for (auto &[Sym, Off] : DirectT)
+        if (needsWeakDecl(M, Sym))
+          Weak.insert(Sym);
+      for (const std::string &W : Weak)
+        Asm += ".weak " + escapeInlineAsmSymbol(W) + "\n\t";   // no bytes
+    }
     if (IsEpochFn) {
       epochVar();
       Asm += "incl __prefetchit_epoch(%rip)\n\t";   // ff 05 disp32
@@ -1167,6 +1217,8 @@ static uint64_t runColdPlan(Module &M, const SeqConfig &C, StringRef PlanPath) {
 }
 
 static uint64_t runColdPath(Module &M, const SeqConfig &C) {
+  if (!moduleAllowed(M, "prefetchit-cold"))
+    return 0;
   LLVMContext &Ctx = M.getContext();
   FunctionType *AsmTy = FunctionType::get(Type::getVoidTy(Ctx), {}, false);
   std::optional<Regex> Include, Exclude;
@@ -1259,8 +1311,9 @@ static uint64_t runColdPath(Module &M, const SeqConfig &C) {
       std::string Sym = ripSymbol(G, false);
       if (Sym.empty())
         continue;
+      const std::string WeakDecl = G->isDeclaration() ? ".weak " + Sym + "\n\t" : std::string();
       for (unsigned L = 0; L < C.ColdCalleeLines; ++L) {
-        emit(C.Mnemonic + " " + Sym + "+" + std::to_string(64u * L) + "(%rip)", "");
+        emit(WeakDecl + C.Mnemonic + " " + Sym + "+" + std::to_string(64u * L) + "(%rip)", "");
         if (G->isDeclaration()) ++ExtDirectInj; else ++DirectInj;
       }
     }
