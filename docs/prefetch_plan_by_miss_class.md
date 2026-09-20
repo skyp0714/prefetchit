@@ -39,7 +39,7 @@ miss 원인은 세 가지로 판정했다: **cold(C6 wake)** = 서버 코어 C6�
 | JVM: DaCapo cassandra(JDK 17 / 21) / tomcat / spring / fop / kafka, Renaissance dotty / finagle-chirper / tradesoap | 4코어 | 4.3 / 3.2 / 3.0 / 2.9 / 1.8 / 1.0 / 1.9 / 1.2 / 1.2 | 1.3–2.4 | JIT | **불가**(AOT pass 대상 아님; C2 삽입은 중립이었음) |
 | CloudSuite web-serving(php-fpm+opcache JIT) / web-search(Solr) / data-serving(Cassandra) | 4코어 | 5.0 / 2.5 / 2.1 | 1.3 / 1.9 / 0.9 | JIT/JVM | **불가** |
 | 제외(C6 off 후 ≤0.3): PostgreSQL, TaoBench v2(클라이언트 memtier 22k+80k ops/s 확인 후에도 0.3), data-caching, μSuite Router, hotel Go alone, avrora/jme/tradebeans, DaCapo h2o(0.24) | | | | | |
-| 제외(2026-09-19 밤 추가 스크린, C6 off): DCPerf v2 batch — xsbench / gapbs bc / graph500 / liblinear / syscall / schbench **모두 ≤0.01**(데이터·커널 bound); CloudSuite 4 graph-analytics 0.04–0.25 / in-memory-analytics 0.03–0.09(Spark, JVM); TailBench img-dnn 0.33 / moses 0.42 / shore 0.01; FleetBench 7종 ≤0.65; DCPerf v2 cdn_bench proxy 0.4(활용률 12–81%) | | | | | |
+| 제외(2026-09-19 밤 추가 스크린, C6 off): DCPerf v2 batch — xsbench / gapbs bc / graph500 / liblinear / syscall / schbench **모두 ≤0.01**(데이터·커널 bound); CloudSuite 4 graph-analytics 0.04–0.25 / in-memory-analytics 0.03–0.09(Spark, JVM); TailBench img-dnn 0.33 / moses 0.42 / shore 0.01; FleetBench 7종 ≤0.65; DCPerf v2 cdn_bench proxy 0.4(활용률 12–81%), adsim server 0.6(활용률 90%, IPC 3.6) | | | | | |
 
 읽는 법: 우리 도구로 닿는 capacity 후보는 flattened 시뮬레이터(수십 MPKI, 검증 완료)와 2–5 MPKI의 AOT 서비스(Django v2, FeedSim v2,
 media/socialNetwork C++ alone)다. 후자는 MPKI 자체가 작아 0.7 %/MPKI 환산으로 상한이 1.5–3.5%다.
@@ -152,7 +152,7 @@ CloudSuite는 4.0 이미지(2023-06 릴리스: Ubuntu 22, PHP 8.1 JIT, Solr 9.1.
 | DCPerf v2 TaoBench | 클라이언트 로그 확인: memtier가 실제로 22k+80k ops/s를 냈고(일부 TLS 오류) 서버 MPKI 0.3은 유효 → **탈락 확정** | — |
 | DCPerf v2 신규 batch: xsbench, gapbs bc, graph500, liblinear, schbench, syscall | 설치·측정 완료(4코어 C6 off; jobs_mem/jobs_system.yml은 `-b/-j` 지정 필요, gapbs/graph500은 `dnf` 가드·`install_remove_git.sh` 스텁, graph500은 root MPI 허용 변수와 pid별 측정) → **전부 ≤0.01 MPKI, 탈락** | — |
 | DCPerf v2 cdn_bench (proxygen 리버스 프록시) | 설치 성공(pinned proxygen에 없는 `asBodyEv` 호환 shim). 바이너리가 gflags "static+dynamic" 충돌로 기동 실패 → glog를 gflags 없이 재빌드해 `binaries/lib`에 교체; `run.sh`가 기동 시 8081/8082 리스너를 모두 죽여 같은 호스트의 서버를 잡아먹음 → 9081/9082 포트 사용. **측정 완료: proxy_server 0.39–0.41 MPKI(4코어, 활용률 12→81%, 40k→300k rps, IPC 1.7→1.3), content_server 0.15–2.3(활용률 1–22%) → 탈락** | — |
-| DCPerf v2 adsim (광고 랭킹, C++) | 설치 4회 실패 → 원인 순서대로 해결: `/usr/bin/clang{,++}` 심링크, folly의 `Liburing.h`가 `__has_include`로 io_uring을 켜는 것을 빌드 스크립트 안에서 패치, fizz가 요구하는 libaegis 추가. 설치 재진행 중 | 설치되면 `dcperf_v2_screen.sh adsim`(server/client role) |
+| DCPerf v2 adsim (광고 랭킹, C++/thrift + FBGEMM) | 설치 7회 시도 끝에 성공(`/usr/bin/clang{,++}` 심링크 → folly `Liburing.h`의 `__has_include` io_uring 감지를 빌드 스크립트에서 끔 → fizz용 libaegis HEAD 추가 → clang-19에 omp.h·libomp.so 연결). treadmill 클라이언트는 libunwind.so.1 심링크 필요. **측정 완료: server 0.57–0.58 MPKI(4코어 89–92% 활용률, IPC 3.6 — FBGEMM 랭킹 커널이 지배, 8 workers에서 11 qps·P95 3.0 s로 포화) → 탈락**(저부하 점은 미측정) | 저부하 점: `adsim_screen.sh WORKERS=1` |
 | DCPerf v2 ucache_bench, silo, ai_wdl | ucache_bench(cachelib) 빌드가 디스크를 채워 중단·삭제; silo/ai_wdl은 v2-beta에 job 정의 없음 | 디스크 60 GB+ 확보 후 ucache_bench 재설치 |
 | DCPerf video_transcode, Mediawiki(HHVM), WDL(folly), Spark | 미시도(입력 클립 CDVL 등록 / HHVM 3.30이 24.04에서 안 뜸 / folly-fizz 불일치 / 500 GB 스토리지) | 이전과 동일 |
 | CloudSuite 4 graph-analytics / in-memory-analytics | 측정: 0.04–0.25 / 0.03–0.09 (Spark local[4], 4코어 C6 off) → 탈락 | — |
