@@ -40,6 +40,7 @@
 | FleetBench fleetbench/rpc/rpc_benchmark | core 36, C6 off | 100% | 0.65 | — | 1.91 | C/C++ AOT: static pass (cold plan v10 for interleaving misses, seq mode for streams) + fat-static link |
 | hotelreservation/mongodb-reservation-1 | alone 1 core(s) 0% util; pool8 1% cpu; pool16 5% cpu | 0% | 0.61 | 0.95/1.53 | 3.16 | system daemon (redis/memcached/mongodb): post-link rewriter or rebuild from source |
 | mediamicroservices/movie-review-service-1 | alone 1 core(s) 29% util; pool8 39% cpu; pool16 86% cpu | 29% | 0.59 | 39.91/35.70 | 1.30 | C/C++ AOT: static pass (cold plan v10 for interleaving misses, seq mode for streams) + fat-static link |
+| DCPerf v2 adsim | 8-11 server cores, noC6, util 89% | 89% | 0.58 | — | 3.65 | C/C++ AOT: static pass (cold plan v10 for interleaving misses, seq mode for streams) + fat-static link |
 | hotelreservation/frontend-1 | alone 4 core(s) 13% util; pool8 60% cpu; pool16 92% cpu | 13% | 0.53 | 13.07/10.92 | 1.42 | Go toolchain: no pass; would need a Go-side inserter |
 | hotelreservation/search-1 | alone 4 core(s) 15% util; pool8 57% cpu; pool16 103% cpu | 15% | 0.42 | 4.63/3.19 | 1.89 | Go toolchain: no pass; would need a Go-side inserter |
 | TailBench moses | 0-3, C6 off, 100 qps (other load 25 qps 0.34) | 4% | 0.42 | — | 0.95 | C/C++ AOT: static pass (cold plan v10 for interleaving misses, seq mode for streams) + fat-static link |

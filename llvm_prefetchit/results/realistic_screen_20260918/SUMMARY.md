@@ -373,7 +373,7 @@ All pinned, deep C-states off on the measured cores, user-mode L2I MPKI; rows al
 | FleetBench rpc / compression / stl cord / tcmalloc / swissmap / hashing / libc mem | 1 core | 0.65 / 0.01 / 0.01 / 0.01 / 0.00 / 0.00 / 0.00 | out |
 | DCPerf v2 xsbench / gapbs bc / graph500 / liblinear / syscall / schbench | 4 cores 8-11 (graph500 per pid: Open MPI ignores taskset) | ≤0.01 | out (data/kernel bound) |
 | DCPerf v2 cdn_bench (proxygen proxy) | proxy 4 cores (12→81% util at 40k→300k rps), content 4 cores, client 60-67 (32 conns x 100 streams, 8 threads) | proxy 0.39–0.41, content 0.15–2.3 | out; installed after asBodyEv shim; binaries needed glog rebuilt without gflags; run.sh kills listeners on 8081/8082 → ports 9081/9082 |
-| DCPerf v2 adsim | — | — | install in progress (clang symlinks, folly io_uring forced off, libaegis added) |
+| DCPerf v2 adsim (ads ranking server + treadmill client) | server 4 cores 8-11 (89–92% util, saturated: 11 qps, P95 3.0 s at 8 workers), client 60-67 | 0.57–0.58 (IPC 3.6) | out; install needed clang symlinks, folly io_uring forced off, libaegis HEAD, clang-19 OpenMP header/lib, libunwind.so.1 for treadmill |
 | DCPerf v2 TaoBench | 4 cores | 0.3 | clients confirmed running (memtier 22k+80k ops/s) → out |
 | CloudSuite 4 graph-analytics / in-memory-analytics | 4 cores, Spark local[4] | 0.04–0.25 / 0.03–0.09 | out |
 | CloudSuite 4 data-analytics | 4 cores, Hadoop master+slave | idle only | NodeManager never registers (RM:8031 refused) → job ACCEPTED 0%; not measured |

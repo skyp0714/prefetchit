@@ -7,15 +7,16 @@ CORES=${CORES:-8-11}; CLCORES=${CLCORES:-60-67}; NC=4; D1=${D1:-60}; D2=${D2:-15
 CL=$(python3 -c "import re;s='$CORES';print(' '.join(str(i) for a,b in re.findall(r'(\d+)-?(\d*)',s) for i in range(int(a),int(b or a)+1)))")
 cstate() { local mode=$1 cc; for cc in $CL; do for st in /sys/devices/system/cpu/cpu$cc/cpuidle/state*; do n=$(cat $st/name); [[ $n == C6* ]] && echo ps101899 | sudo -S -p '' sh -c "echo $mode > $st/disable"; done; done; }
 pg() { pgrep -f "$1" | grep -vw -e $$ -e $BASHPID; }
-killall2() { local p; for p in $(pg "adsim_server --config_file|treadmill_adsim|qps_search.sh"); do echo ps101899 | sudo -S -p '' kill -9 $p 2>/dev/null; done; }
+killall2() { local p; for p in $(pg "adsim_server --config_file|treadmill_adsim|qps_search.sh"); do kill -9 $p 2>/dev/null || echo ps101899 | sudo -S -p '' kill -9 $p 2>/dev/null; done; }
 trap 'cstate 0; killall2' EXIT; cstate 1; [[ -f $OUT ]] || echo "job,config,group,cores,delay_s,util_pct,l2i,instr,cycles,mpki,ipc" > $OUT
 SUDO="sudo -S -p '' env PATH=$PATH PYTHONPATH=/home/hnpark2/.local/lib/python3.12/site-packages"
 cd $V; killall2; echo "[$(date +%T)] adsim server on $CORES (C6 off), client on $CLCORES (workers=$WORKERS runtime=$RUNTIME)"
-echo ps101899 | sudo -S -p '' env PATH=$PATH PYTHONPATH=/home/hnpark2/.local/lib/python3.12/site-packages taskset -c $CORES python3 ./benchpress_cli.py -b benchpress/config/benchmarks_ai.yml -j benchpress/config/jobs_ai.yml run adsim -r server -i "{\"cfg_file\": \"default\", \"timeout\": \"$((RUNTIME+120))\"}" > $R/logs/adsim_server.log 2>&1 & SP=$!
-sleep 40; sp=$(pg "adsim_server --config_file" | head -1); [[ -z $sp ]] && { echo "  adsim_server not running"; tail -5 $R/logs/adsim_server.log | cut -c1-160; exit 1; }
-echo ps101899 | sudo -S -p '' env PATH=$PATH PYTHONPATH=/home/hnpark2/.local/lib/python3.12/site-packages taskset -c $CLCORES python3 ./benchpress_cli.py -b benchpress/config/benchmarks_ai.yml -j benchpress/config/jobs_ai.yml run adsim -r client -i "{\"server_ip\": \"::1\", \"num_workers\": \"$WORKERS\", \"runtime\": \"$RUNTIME\"}" > $R/logs/adsim_client.log 2>&1 & CP=$!
+A=$V/benchmarks/adsim; cd $A; export LD_LIBRARY_PATH=$A/lib:${LD_LIBRARY_PATH:-}; rm -f /tmp/qps_search.* 2>/dev/null
+taskset -c $CORES python3 run_adsim.py server --cfg-file default --timeout $((RUNTIME+150)) > $R/logs/adsim_server.log 2>&1 & SP=$!
+sleep 75; sp=$(pg "adsim_server --config_file" | head -1); [[ -z $sp ]] && { echo "  adsim_server not running"; tail -5 $R/logs/adsim_server.log | cut -c1-160; exit 1; }
+taskset -c $CLCORES python3 run_adsim.py client --server ::1 --port 10086 --workers $WORKERS --runtime $RUNTIME --criteria P95 --latency 989 --timeout $((RUNTIME+100)) > $R/logs/adsim_client.log 2>&1 & CP=$!
 T0=$(date +%s)
-for delay in $D1 $D2; do while (( $(date +%s)-T0 < delay )); do sleep 2; done; kill -0 $sp 2>/dev/null || { echo "  server gone before ${delay}s"; break; }
+for delay in $D1 $D2; do while (( $(date +%s)-T0 < delay )); do sleep 2; done; [[ -d /proc/$sp ]] || { echo "  server gone before ${delay}s"; break; }
   echo ps101899 | sudo -S -p '' perf stat -x, -o /tmp/adsim_perf.csv -e 'cpu/event=0x24,umask=0x24,name=L2I/u' -e instructions:u -e cycles:u -e task-clock -p $sp -- sleep $WIN > /dev/null 2>&1
   python3 - $CORES $NC $delay $WIN /tmp/adsim_perf.csv $OUT <<'PY'
 import csv,sys
