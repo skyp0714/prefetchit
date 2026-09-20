@@ -67,11 +67,11 @@ export PATH=$PWD/benchmarks/tools/miniforge3/bin:$PATH; set +u; source benchmark
 
 ---
 
-## 3. 미측정·미완 벤치마크 (`docs/prefetch_plan_by_miss_class.md` §5)
-- DCPerf v2 신규 패키지(adsim, silo 우선), TaoBench 클라이언트 경로, video_transcode 클립, WDL/Mediawiki/Spark.
-- CloudSuite media-streaming(데이터셋 컨테이너), graph/in-memory/data-analytics.
-- μSuite SetAlgebra/HDSearch 크래시, DaCapo h2o/fop/kafka, TailBench 입력, FleetBench, 서버리스(vHive/vSwarm — B 부류 원조 세팅).
-- hotel Go 서비스용 삽입기.
+## 3. 미측정·미완 벤치마크 (`docs/prefetch_plan_by_miss_class.md` §5, 2026-09-19 밤 갱신)
+- 완료(탈락): DCPerf v2 batch 6종, TaoBench(클라이언트 확인), CloudSuite graph/in-memory-analytics, DaCapo h2o/fop/kafka, TailBench img-dnn/moses/shore/masstree, FleetBench 7종.
+- **새 A 부류 후보: FleetBench proto_benchmark 16.9 MPKI(1코어)** → §1-A 순서(seq → cold plan → twin)로 바로 착수 가능.
+- 진행 중/미완: adsim 설치(libaegis 추가 후 재빌드), cdn_bench 측정(IPv6 루프백), TailBench silo/sphinx/xapian(입력 재다운로드), ucache_bench(디스크), data-analytics(YARN NodeManager 등록 실패), media-streaming(클라이언트 ssh), video_transcode 클립, WDL/Mediawiki/Spark, μSuite SetAlgebra/HDSearch, 서버리스(vHive/vSwarm), hotel Go 삽입기.
+- 디스크: 루트 439 GB 단일 파일시스템이 두 번 가득 참. 정리 후보(사용자 결정): `benchmarks/dcperf/benchmarks`(v1 빌드 4.9 GB), DaCapo chopin 데이터 15 GB, django v2 24 GB, cdn_bench `_build` 11 GB.
 
 ## 4. 기록 규칙
 - 결과 디렉토리 `<topic>_<yyyymmdd>/`, 요약은 README §2/§5 표와 `core_results.tsv`에만.

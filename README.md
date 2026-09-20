@@ -202,8 +202,11 @@ affinity 감사, `valid` 열). memcached는 중립(대조군으로 유지).
 | PostgreSQL (pgbench / TPC-C) | 25–108 / 51 | static ≤ +0.3% (모든 밀도) | 데이터 트래픽이 L2 코드를 계속 축출(5번째 축); 정확도 재검 필요 | `archive/scripts/build_postgresql_lbr_pgo_variants.sh`, `run_final_postgresql_paired.sh`, `archive/work/pg_tpcc_variants` |
 | memcached 1.6.14 | 0.04–10 | manual 1.000x (고정 클럭) | 7월 +15%는 불안정 부하 | `scripts/dispatch/run_memcached_paired.sh` |
 | DeathStarBench socialNetwork PostStorage | 5–20 | static/PGO(trace) ≈ 1.00 | miss가 3.6k 지점에 분산, 75%가 DSO 안, 리드타임 ~1 분기 | `flat_codegen/dsb_build/` |
-| TailBench Silo/Xapian/Moses/Masstree/Shore/Sphinx/Img-DNN | 중간 | 중립~느림 | 짧은 실행, 낮은 결정성 | `archive/scripts/run_tailbench_highmpki_pgo.sh`, `run_final_tailbench_variant.sh` |
-| FleetBench proto arena | high | +0.8–1.1% | 미미 | `archive/scripts/build_proto_arena_*` |
+| TailBench Silo/Xapian/Moses/Masstree/Shore/Sphinx/Img-DNN | 8월: 중간; **2026-09-19 4코어 C6 off**: silo 9.8(활용률 3%), masstree 1.4, moses 0.42, img-dnn 0.33, shore 0.01; sphinx/xapian은 입력이 디스크 풀로 잘려 미측정 | 8월 중립~느림; 새 세팅에서는 경계값 이하 | 짧은 실행, 낮은 결정성; 입력 10 GB 재확보(`benchmarks/tailbench`) | `screens/realistic/tailbench_screen.sh` |
+| FleetBench (Google) | **proto_benchmark 16.9** (1코어 C6 off, 2026-09-19); rpc 0.65, swissmap/hashing/compression/libc/stl/tcmalloc ≤0.01 | 8월 proto arena +0.8–1.1%(옛 세팅); proto_benchmark는 A 부류 신규 후보(단일 바이너리) | clang 빌드 필요(gcc는 unroll pragma 거부) | `screens/realistic/chain_fleetbench2.sh`, `docs/prefetch_plan_by_miss_class.md` §1-A |
+| DCPerf v2 batch: xsbench / gapbs bc / graph500 / liblinear / syscall / schbench | ≤0.01 (4코어 C6 off, 2026-09-19) | 스크린 탈락 | 데이터·커널 bound | `screens/realistic/dcperf_v2_batch.sh` |
+| DCPerf v2 cdn_bench (proxygen 리버스 프록시, 서버·프록시·클라이언트 한 호스트) | proxy 0.4 (4코어, 12–81% 활용률, 40k–300k rps), content 0.15–2.3 | 스크린 탈락 | 프록시 코드가 L2에 들어감 | `screens/realistic/cdn_bench_screen.sh` (포트 9081/9082, gflags/glog 수정은 memory 참고) |
+| CloudSuite 4 graph-analytics / in-memory-analytics / data-analytics | 0.04–0.25 / 0.03–0.09 / 미기동(YARN NodeManager 등록 실패) | 스크린 탈락 | Spark/Hadoop JVM | `screens/realistic/cloudsuite_analytics.sh` |
 | HAProxy / Redis / nginx / LevelDB / RocksDB / QuickJS / SQLite / WAMR / wasm3 / serverless / Folly | <2 | 미실시(스크린 탈락) | miss 자체가 없음 | `archive/scripts/newbench_screens.sh` |
 | clang / node.js / Cassandra(부하) / QEMU TCG / PHP / GHDL / vvp / ngspice / LAMMPS / Verilator Rocket | ≤2 | 스크린 탈락 | 코드가 L2에 들어감 | — |
 | DaCapo·Renaissance 40+ (tomcat 12, cassandra 13 포함) | ≤13 | C2 V4 중립 | L1I/L2I≈10: miss가 L2에서 해결 → t1 무력; prefetchit0는 no-op | `jit_prefetch/scripts/ab_jvm_suite.sh` |

@@ -28,14 +28,18 @@ miss 원인은 세 가지로 판정했다: **cold(C6 wake)** = 서버 코어 C6�
 | **Verilator DualMegaBoom** (qsort/dhrystone/median/towers) | 1코어 3.8 GHz | 57 | 0.6 | flattened C++ (단일 TU 수 MB) | **가능, 검증됨: seq D=4 KB K=20 + burst4 → 1.149x / twin 대비 1.236x, MPKI 56.9 → 13.7** |
 | **arcilator DualMegaBoom** | 1코어 | 79 | — | flattened LLVM IR → 오브젝트 | **가능, 검증됨: seq K=10 → 1.543x / 1.683x, MPKI 79 → 35** |
 | CXXRTL picorv32×48 | 1코어 | 3.0 | 1.1 | flattened C++ | 가능: seq K=80 1.025x(저밀도) |
+| **FleetBench proto_benchmark** (protobuf 직렬화·파싱 mix, Google fleet 대표 마이크로벤치) | 1코어 C6 off | **16.9** | 0.70 | C++ 단일 바이너리(bazel, clang-19) | **가능, 즉시 착수 후보**: Verilator처럼 한 링크 단위 — seq/cold plan 그대로 적용. FleetBench 나머지(rpc 0.65, swissmap·hashing·compression·libc·stl·tcmalloc ≤0.01)는 탈락 |
+| TailBench masstree (integrated harness, 4 스레드, 2,000 qps) | 4코어 16% | 1.4 (500 qps 1.2) | 0.19 | C++ | 경계값(IPC 0.19는 데이터 miss 주도) |
+| TailBench silo (TPC-C in-memory DB, integrated harness, 4 스레드, 1,000 qps) | 4코어 3% | 9.8 (250 qps 9.8) | 0.17 | C++ 단일 바이너리 | 가능하나 활용률 3%: 요청 사이 idle 동안 하네스·OS가 L2를 비우는 저부하 패턴(C6는 꺼짐) — 부하를 올려 재측정 필요 |
 | DCPerf v2 DjangoBench (uwsgi×4, CPython) | 4코어 68% | 2.4 (C6 off 2.4) | 1.6 | CPython 인터프리터 = AOT C, 하나의 링크 단위 | 가능(cold plan, file-qualified 사이트) |
 | DCPerf v2 FeedSim (feedsim_dlrm) | 8코어 19% | 2.1 (C6 off 2.3) | 1.7 | C++ AOT + LibTorch | 가능(서비스 코드), LibTorch는 .so |
 | media C++ 서비스 alone: movie-id / compose-review / nginx / rating | 1–2코어 20–70% | 4.9 / 3.8 / 3.6 / 2.2 | 1.0–1.2 | C++ thrift 서비스 | 가능(fat-static + plan) |
 | socialNetwork C++ 서비스 alone: user-timeline / compose-post / nginx-thrift | 1코어 15–27% | 1.1 / 1.0 / 1.2 | 1.3–1.9 | C++ / OpenResty | nginx AOT 부분만 |
 | MariaDB durable read-write | 4코어 45–86% | 0.8–1.1 | 1.9 | C++ 다중 타깃 빌드 | 경계값; pass는 타깃별 주입 필요(과거 6회 빌드 실패) |
-| JVM: DaCapo cassandra / tomcat / spring, Renaissance dotty / finagle-chirper / tradesoap | 4코어 | 3.2 / 3.0 / 2.9 / 1.9 / 1.2 / 1.2 | 1.3–2.4 | JIT | **불가**(AOT pass 대상 아님; C2 삽입은 중립이었음) |
+| JVM: DaCapo cassandra(JDK 17 / 21) / tomcat / spring / fop / kafka, Renaissance dotty / finagle-chirper / tradesoap | 4코어 | 4.3 / 3.2 / 3.0 / 2.9 / 1.8 / 1.0 / 1.9 / 1.2 / 1.2 | 1.3–2.4 | JIT | **불가**(AOT pass 대상 아님; C2 삽입은 중립이었음) |
 | CloudSuite web-serving(php-fpm+opcache JIT) / web-search(Solr) / data-serving(Cassandra) | 4코어 | 5.0 / 2.5 / 2.1 | 1.3 / 1.9 / 0.9 | JIT/JVM | **불가** |
-| 제외(C6 off 후 ≤0.3): PostgreSQL, TaoBench, data-caching, μSuite Router, hotel Go alone, avrora/jme/tradebeans | | | | | |
+| 제외(C6 off 후 ≤0.3): PostgreSQL, TaoBench v2(클라이언트 memtier 22k+80k ops/s 확인 후에도 0.3), data-caching, μSuite Router, hotel Go alone, avrora/jme/tradebeans, DaCapo h2o(0.24) | | | | | |
+| 제외(2026-09-19 밤 추가 스크린, C6 off): DCPerf v2 batch — xsbench / gapbs bc / graph500 / liblinear / syscall / schbench **모두 ≤0.01**(데이터·커널 bound); CloudSuite 4 graph-analytics 0.04–0.25 / in-memory-analytics 0.03–0.09(Spark, JVM); TailBench img-dnn 0.33 / moses 0.42 / shore 0.01; FleetBench 7종 ≤0.65; DCPerf v2 cdn_bench proxy 0.4(활용률 12–81%) | | | | | |
 
 읽는 법: 우리 도구로 닿는 capacity 후보는 flattened 시뮬레이터(수십 MPKI, 검증 완료)와 2–5 MPKI의 AOT 서비스(Django v2, FeedSim v2,
 media/socialNetwork C++ alone)다. 후자는 MPKI 자체가 작아 0.7 %/MPKI 환산으로 상한이 1.5–3.5%다.
@@ -52,6 +56,8 @@ C6를 끄고 스택 전체를 8·16코어 pool에 올린 값(alone 값과 나란
 | socialNetwork nginx-thrift / post-storage, hotel reservation | 1.2 / 0.2 / 0.04 | 2.1–2.3 / 1.8 / 0.15–0.26 | (바쁜 tier) | 코어가 안 식음 → 대상 아님 |
 | hotel frontend / profile / recommendation / geo / search (Go) | ≤0.5 | 11–13 / 12–13 / 15–16 / 8–10 / 3–5 | Go | Go 삽입기 없음 → 보류 |
 | 스토어: mongodb / redis / memcached | ≤2.3 | 14–105 | C/C++ 바이너리(소스 재빌드 또는 post-link) | post-link 재작성기로 가능 |
+
+(media pool 16 재측정 2026-09-19: 오류 허용 0.1%로 2,000 req/s에서 22–89 MPKI — movie-id 54, rating 43, compose-review 38, nginx 22, mongodb 29–89; 3,000 req/s는 non-2xx 454건으로 포화.)
 
 두 가지가 중요하다. (1) pool 8과 16에서 값이 같다 → miss는 **이웃 서비스가 요청 사이에 코드를 밀어내는 것**이 원인이지 pool 크기가 아니다.
 (2) 서비스 안의 스레드 affinity로는 안 풀린다: alone regime(서비스의 모든 스레드를 코어 하나에)에서 1–5인데 그 코어를 다른 서비스와 나누는 순간 34–55가 된다.
@@ -137,17 +143,25 @@ C6를 끄고 스택 전체를 8·16코어 pool에 올린 값(alone 값과 나란
 - 각 워크로드에 한 행: base 대비 실측 speedup, twin 대비, MPKI before→after, 명령 수 증가, 세팅(코어·C6·regime·활용률). 스윕은 CSV에만.
 - A 부류는 "정적 링크 몫"과 "prefetch 몫"을 분리, B 부류는 "alone MPKI"와 "interleaved MPKI"를 함께.
 
-## 5. 테스트하지 못했거나 미완인 벤치마크
-| 항목 | 이유 | 다시 하려면 |
+## 5. 테스트하지 못했거나 미완인 벤치마크 (2026-09-19 밤 추가 시도 반영)
+
+CloudSuite는 4.0 이미지(2023-06 릴리스: Ubuntu 22, PHP 8.1 JIT, Solr 9.1.1, Cassandra 4.1.0 — 현재 최신 라인)로 측정했다. 아래 "추가 시도" 열이 이번에 새로 한 것이다.
+
+| 항목 | 추가 시도(2026-09-19 밤) | 남은 것 / 다시 하려면 |
 |---|---|---|
-| DCPerf v2 TaoBench | standalone job의 자체 클라이언트가 0 qps(memtier 미기동); 서버 MPKI 0.3은 fill 단계 값 | `run_standalone.py`의 client 스폰 경로 점검; 기대 MPKI ≤0.3이라 우선순위 낮음 |
-| DCPerf v2 신규: adsim, ai_wdl, cdn_bench, gapbs, graph500, liblinear, schbench, silo, syscall, ucache_bench, xsbench | 미설치 | `benchpress_cli.py install <job>`(root, `PYTHONPATH` 필요); adsim(광고 랭킹, C++)과 silo(DB)가 A 부류 후보 |
-| DCPerf video_transcode (SVT-AV1/aom/x264), Mediawiki(HHVM), WDL(folly), Spark | 입력 클립은 CDVL 등록 필요 / HHVM 3.30이 24.04에서 안 뜸 / folly-fizz 버전 불일치 / 500 GB 스토리지 | 클립 수동 확보; HHVM은 Docker 22.04 이미지로; WDL은 v2 브랜치 재시도 |
-| CloudSuite media-streaming, graph-analytics, in-memory-analytics, data-analytics | 데이터셋 생성 컨테이너 필요 / Spark 계열 미시도 | `cloudsuite/media-streaming:dataset` 실행 후 재시도 |
-| μSuite SetAlgebra, HDSearch | 로드제너레이터 heap-corruption 크래시 / leaf의 protobuf CHECK 크래시 | 8월 패치(`SetAlgebra out`) 재적용, HDSearch leaf 디버그 |
-| DaCapo h2o, fop, kafka(C6-off 점) | JDK 21에서 h2o 미기동 / fop 40 s 내 종료 / kafka `-n 200` 조기 종료 | JDK 17로 h2o, fop은 `-n 500`, kafka 반복 수 조정 |
-| JVM 전반을 JDK 21로만 측정 | GraalVM/JDK 17 미비교 | 필요 시 `jvm_realistic_screen.sh`의 JDK 변수 |
-| TailBench (Silo/Shore/Masstree/Xapian/Img-DNN/Sphinx/Moses) | 이번 캠페인 범위 밖(입력 10 GB 미확보) | `archive/scripts/run_tailbench_highmpki_pgo.sh` |
-| FleetBench proto arena, 서버리스(vHive/vSwarm, FunctionBench) | 미실시 — 서버리스는 B 부류의 원조 세팅이라 B-3 검증에 가장 적합 | vHive 설치(Firecracker 또는 containerd 모드) |
-| hotelReservation Go 서비스(B 부류 11–16 MPKI) | 도구 없음 | Go 툴체인용 삽입기(SSA 단계 또는 post-link) 필요 |
-| DeathStarBench mediaMicroservices pool-16 측정 | 1,000 req/s 한 점(2,000에서 non-2xx 1건으로 중단) | 오류 허용치를 0.1%로 완화해 2,000·3,000 재측정 |
+| DCPerf v2 TaoBench | 클라이언트 로그 확인: memtier가 실제로 22k+80k ops/s를 냈고(일부 TLS 오류) 서버 MPKI 0.3은 유효 → **탈락 확정** | — |
+| DCPerf v2 신규 batch: xsbench, gapbs bc, graph500, liblinear, schbench, syscall | 설치·측정 완료(4코어 C6 off; jobs_mem/jobs_system.yml은 `-b/-j` 지정 필요, gapbs/graph500은 `dnf` 가드·`install_remove_git.sh` 스텁, graph500은 root MPI 허용 변수와 pid별 측정) → **전부 ≤0.01 MPKI, 탈락** | — |
+| DCPerf v2 cdn_bench (proxygen 리버스 프록시) | 설치 성공(pinned proxygen에 없는 `asBodyEv` 호환 shim). 바이너리가 gflags "static+dynamic" 충돌로 기동 실패 → glog를 gflags 없이 재빌드해 `binaries/lib`에 교체; `run.sh`가 기동 시 8081/8082 리스너를 모두 죽여 같은 호스트의 서버를 잡아먹음 → 9081/9082 포트 사용. **측정 완료: proxy_server 0.39–0.41 MPKI(4코어, 활용률 12→81%, 40k→300k rps, IPC 1.7→1.3), content_server 0.15–2.3(활용률 1–22%) → 탈락** | — |
+| DCPerf v2 adsim (광고 랭킹, C++) | 설치 4회 실패 → 원인 순서대로 해결: `/usr/bin/clang{,++}` 심링크, folly의 `Liburing.h`가 `__has_include`로 io_uring을 켜는 것을 빌드 스크립트 안에서 패치, fizz가 요구하는 libaegis 추가. 설치 재진행 중 | 설치되면 `dcperf_v2_screen.sh adsim`(server/client role) |
+| DCPerf v2 ucache_bench, silo, ai_wdl | ucache_bench(cachelib) 빌드가 디스크를 채워 중단·삭제; silo/ai_wdl은 v2-beta에 job 정의 없음 | 디스크 60 GB+ 확보 후 ucache_bench 재설치 |
+| DCPerf video_transcode, Mediawiki(HHVM), WDL(folly), Spark | 미시도(입력 클립 CDVL 등록 / HHVM 3.30이 24.04에서 안 뜸 / folly-fizz 불일치 / 500 GB 스토리지) | 이전과 동일 |
+| CloudSuite 4 graph-analytics / in-memory-analytics | 측정: 0.04–0.25 / 0.03–0.09 (Spark local[4], 4코어 C6 off) → 탈락 | — |
+| CloudSuite 4 data-analytics (Hadoop/Mahout) | 두 번 재시도(`--master`/`--slave --master-ip`, network alias): NodeManager가 RM:8031에 연결 못 해 job이 ACCEPTED 0%에 머묾 → 미측정(JVM 부류라 우선순위 낮음) | RM 바인드 주소(yarn-site 172.18.0.2) 점검 |
+| CloudSuite 4 media-streaming | 클라이언트 하네스(`peak_hunter/launch_remote.sh`)가 클라이언트 호스트에 ssh를 요구 → 미시도 | 컨테이너에 sshd 추가 또는 videoperf 직접 실행 |
+| μSuite SetAlgebra, HDSearch | 미시도(로드제너레이터 크래시) | 8월 패치 재적용 |
+| DaCapo h2o / fop / kafka | 측정 완료(JDK 17 h2o 0.24, fop 1.8, kafka 1.0; cassandra JDK 17 4.3) | — |
+| TailBench (supreethkurpad 포크, 09-15 빌드 바이너리 + 호환 라이브러리 shim) | img-dnn 0.33 / masstree 1.4 / moses 0.42 / shore 0.01 / **silo 9.8**(TPC-C, 4 스레드, 1,000·250 qps에서 활용률 3%·1% — 저부하에서 요청마다 코드가 밀려나는 패턴, IPC 0.17) 측정. sphinx·xapian은 입력이 두 번 다 디스크 풀로 잘림(xapian DB 14 GB; 두 번째 시도도 zero-length 파일 2개 → DatabaseCorruptError, sphinx 디렉터리 미생성) → 미측정 | 디스크 30 GB+ 확보 후 `tailbench.inputs.tgz` 재다운로드, `tailbench_screen.sh ONLY="sphinx xapian"` |
+| FleetBench | clang으로 빌드(gcc는 `#pragma GCC unroll` 거부), 1코어 C6 off: **proto 16.9**, rpc 0.65, 나머지 ≤0.01 → proto_benchmark가 새 A 부류 후보 | seq/cold plan 적용은 §2-A-7 순서대로 |
+| 서버리스(vHive/vSwarm, FunctionBench) | 미시도 | vHive 설치 |
+| hotelReservation Go 서비스 | 도구 없음 | Go 삽입기 |
+| DeathStarBench media pool-16 | 오류 허용 0.1%로 2,000 req/s 재측정 완료(§1-B 참고) | — |
