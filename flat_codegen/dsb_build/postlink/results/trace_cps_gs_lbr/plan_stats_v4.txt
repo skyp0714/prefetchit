@@ -1,0 +1,12 @@
+measured-exec filter: dropped 0 sites, weight 0 (0.0% of samples)
+cost filter: dropped 23 (site,target) pairs, weight 88 (0.2% of samples)
+local aliases used: 0; local sites: 0
+samples=42850 attributed=37916 (88.5%) kept_weight=28083 (65.5% of samples) sites=238 targets=1335 avg_burst=51B got_targets=249
+   76.0%  attributed: earlier entry
+   12.5%  attributed: oldest running function (fallback)
+    9.9%  drop: no instrumentable site in LBR window
+    1.4%  drop: other dso
+    0.6%  drop: own line 0
+    0.1%  drop: local non-instrumentable function
+    0.0%  drop: libc no anchor
+top sites: _ZN13jaegertracing11SpanContext4swapERS0_ (17 lines, w=2574); _ZNSt10_HashtableINSt7__cxx1112basic_stringIcSt11c (20 lines, w=1357); _ZN13jaegertracingeqERKNS_11SpanContextES2_ (17 lines, w=1257); _ZN6apache6thrift9transport17TVirtualTransportINS1 (32 lines, w=1135); _ZN13jaegertracing11SpanContextC2ERKS0_ (10 lines, w=976); _ZN13jaegertracing5utils10HexParsing9decodeHexIhEE (10 lines, w=904); _ZN6apache6thrift9transport17TVirtualTransportINS1 (18 lines, w=868); _ZNK13jaegertracing11SpanContext5printISoEEvRT_ (23 lines, w=813)

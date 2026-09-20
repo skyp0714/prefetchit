@@ -1,0 +1,13 @@
+orphan burst: 64 lines (weight 21734, 7.1% of samples) attached to _ZN6apache6thrift18TDispatchProcessor7processESt10
+measured-exec filter: dropped 0 sites, weight 0 (0.0% of samples)
+cost filter: dropped 370 (site,target) pairs, weight 2946 (1.0% of samples)
+samples=307884 attributed=269986 (87.7%) kept_weight=224368 (72.9% of samples) sites=336 targets=2420 avg_burst=69B got_targets=562
+   69.4%  attributed: earlier entry
+   18.3%  attributed: oldest running function (fallback)
+   10.4%  drop: no instrumentable site in LBR window
+    1.7%  drop: local target from other site
+    1.4%  drop: other dso
+    0.8%  drop: own line 0
+    0.3%  drop: libc no anchor
+    0.2%  drop: local non-instrumentable function
+top sites: _ZN6apache6thrift18TDispatchProcessor7processESt10 (65 lines, w=21886); _ZN14social_network19UserTimelineHandler16ReadUser (32 lines, w=8745); _ZNSt17_Function_handlerIFSt10unique_ptrINSt13__fu (22 lines, w=6665); _ZN13jaegertracing7TraceID10fromStreamERSi (26 lines, w=6277); sdscatvprintf (32 lines, w=6210); _ZN2sw5redis3cmd9zrevrangeERNS0_10ConnectionERKNS0 (17 lines, w=3829); _ZN13jaegertracing11SpanContext4swapERS0_ (21 lines, w=3781); _ZN13jaegertracing5utils10HexParsing11readSegmentB (23 lines, w=3483)

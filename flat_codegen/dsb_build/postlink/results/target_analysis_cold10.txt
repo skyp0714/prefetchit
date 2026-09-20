@@ -1,0 +1,24 @@
+static: rip-relative prefetch sites=1207 (distinct target lines=1018), GOT-form sites=535, instrumented functions=247, callee-entry targets=75
+twin trace: samples=254161, exe=143994 (56.7%), distinct exe miss lines=2281
+twin misses on lines the pass targets: 50.0% of exe misses (872 lines)
+
+uncovered twin misses by cause (share of exe misses, distinct lines):
+   50.0%    872 lines  covered
+   25.4%    629 lines  function not instrumented (no site, no entry target)
+    7.1%    269 lines  beyond own-lines cap
+    6.9%    160 lines  instrumented function with no own-lines (size estimate too small)
+    5.6%    269 lines  other
+    3.1%     36 lines  entry line, no caller prefetches it (indirect/virtual or loop-only call)
+    1.9%     46 lines  callee interior (only entry targeted; callee too small to self-prefetch)
+    e.g. function not instrumented (no site, no e: _ZNSt5dequeIN2sw5redis10ConnectionESaIS2_EE16_M_pop_front_au+0x70 (0.6%); _init+0x580 (0.6%); _ZNK10__cxxabiv121__vmi_class_type_info12__do_dyncastElNS_17+0xe0 (0.5%); _ZNSt8__detail16_Hashtable_allocISaINS_10_Hash_nodeISt4pairI+0xc0 (0.4%)
+    e.g. entry line, no caller prefetches it (ind: _ZN13jaegertracing7metrics11NullCounter3incEl+0x0 (0.6%); _ZN6apache6thrift8protocol16TVirtualProtocolINS1_16TBinaryPr+0x0 (0.6%); _ZNSt8_Rb_treeINSt7__cxx1112basic_stringIcSt11char_traitsIcE+0x0 (0.4%); _ZN14social_network41UserTimelineService_ReadUserTimeline_ar+0x0 (0.2%)
+    e.g. beyond own-lines cap: _ZN13jaegertracing11SpanContext10fromStreamERSi+0x5f0 (1.2%); _bson_iter_next_internal+0x190 (0.3%); _ZN14social_network19UserTimelineHandler16ReadUserTimelineER+0x23e0 (0.3%); _ZNSt6vectorIN13jaegertracing3TagESaIS1_EE15_M_range_insertI+0x380 (0.3%)
+    e.g. instrumented function with no own-lines : _ZNSt17_Function_handlerIFSt10unique_ptrINSt13__future_base1+0x3d0 (0.8%); _ZN13jaegertracing11SpanContextC2ERKS0_+0x1f0 (0.5%); bson_destroy+0x40 (0.3%); _ZN6apache6thrift9transport17TVirtualTransportINS1_16TFramed+0x80 (0.3%)
+    e.g. other: _ZN6apache6thrift9transport7TSocket4readEPhj+0xd0 (0.6%); _ZNSt17_Function_handlerIFSt10unique_ptrINSt13__future_base1+0x10 (0.5%); _ZNK13jaegertracing6Tracer20StartSpanWithOptionsEN11opentrac+0x6f0 (0.3%); _ZN6apache6thrift9transport7TSocket4readEPhj+0x50 (0.3%)
+    e.g. callee interior (only entry targeted; ca: _ZNSt13__future_base13_State_baseV213_M_set_resultESt8functi+0x90 (0.9%); _ZN6apache6thrift9transport17TVirtualTransportINS1_16TFramed+0x20 (0.1%); _ZNK11opentracing2v213TextMapReader9LookupKeyENS0_11string_v+0x10 (0.1%); _ZNSt7__cxx1119basic_istringstreamIcSt11char_traitsIcESaIcEE+0x120 (0.1%)
+
+waste: 146/1018 target lines (173/1207 sites) never miss in the twin trace
+
+prefetch-binary trace: samples=182717, exe=93267 (51.0%), distinct exe miss lines=2191
+residual misses on targeted lines: 43.9% of exe misses (prefetched too late / evicted / dropped)
+  top residual targeted lines: _ZNSt6locale5_ImplC2ERKS0_m+0x1b0 (1.0%); _ZN2sw5redis14ConnectionPool5fetchEv+0x40 (0.8%); _ZN13jaegertracing4Span17FinishWithOptionsERKN11opentracing2+0x0 (0.8%); _ZN13jaegertracing4Span17FinishWithOptionsERKN11opentracing2+0x100 (0.8%); _ZN6apache6thrift9transport17TVirtualTransportINS1_16TFramed+0x0 (0.7%); _ZNKSt14__basic_futureISt6vectorIN14social_network4PostESaIS+0x0 (0.5%)

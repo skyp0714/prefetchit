@@ -23,3 +23,20 @@ dsb_build/libs_utl_*/
 dsb_build/libs.plan.json
 dsb_build/libs.plan.json.shifts.json
 dsb_build/postlink/warmup/*.so
+# DSB campaign raw artifacts (regenerable): keep only summaries (runs.csv, *_stats*.txt, target_analysis_*.txt, counters.csv)
+dsb_build/postlink/results/*/perf_*.csv
+dsb_build/postlink/results/*/wrk2_*.log
+dsb_build/postlink/results/*/up_*.log
+dsb_build/postlink/results/*/*.data
+dsb_build/postlink/results/*/samples*.txt*
+dsb_build/postlink/results/*/lbr_raw*.txt
+dsb_build/postlink/results/*/maps.txt
+dsb_build/postlink/results/*/events.txt
+dsb_build/postlink/results/*/rates.txt
+dsb_build/postlink/results/*/site_exec.txt
+dsb_build/postlink/results/*/func_shares.txt
+dsb_build/postlink/results/*/funcs.txt
+dsb_build/postlink/results/*/errors.log
+dsb_build/postlink/results/*/*/
+dsb_build/postlink/results/STACK_READY
+dsb_build/plans/sysroot/

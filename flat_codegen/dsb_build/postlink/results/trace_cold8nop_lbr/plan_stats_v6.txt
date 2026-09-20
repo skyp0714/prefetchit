@@ -1,0 +1,13 @@
+base plan: 336 sites kept, 135 bursts grew beyond the traced layout (offsets inside them drift)
+cost filter: dropped 277 (site,target) pairs, weight 1201 (0.4% of samples)
+samples=313809 attributed=274962 (87.6%) kept_weight=210710 (67.1% of samples) sites=366 targets=2756 avg_burst=79B got_targets=557
+   69.9%  attributed: earlier entry
+   17.7%  attributed: oldest running function (fallback)
+    9.9%  drop: no instrumentable site in LBR window
+    1.9%  drop: local target from other site
+    1.4%  drop: other dso
+    0.9%  drop: own line 0
+    0.9%  drop: local non-instrumentable function
+    0.2%  drop: libc no anchor
+    0.0%  attributed: own entry (no earlier entry in window)
+top sites: _ZN14social_network19UserTimelineHandler16ReadUser (32 lines, w=8315); _ZNSt17_Function_handlerIFSt10unique_ptrINSt13__fu (26 lines, w=7398); _ZN13jaegertracing7TraceID10fromStreamERSi (32 lines, w=7271); sdscatvprintf (32 lines, w=5608); redisGetReplyFromReader (32 lines, w=4867); redisvAppendCommand (28 lines, w=4615); _ZN6apache6thrift9transport17TVirtualTransportINS1 (21 lines, w=4115); _ZN2sw5redis5Redis7commandIPFvRNS0_10ConnectionERK (29 lines, w=4019)
