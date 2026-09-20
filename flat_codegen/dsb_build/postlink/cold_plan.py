@@ -22,6 +22,7 @@ ap.add_argument('--local-aliases',action='store_true',help='local (static) funct
 ap.add_argument('--no-got',action='store_true',help='drop libc (GOT-anchored) targets')
 ap.add_argument('--fallback',action='store_true',help='no entry in window: use the oldest instrumentable exe function seen in the LBR (its entry precedes the window)')
 ap.add_argument('--drop-own-line0',action='store_true',help='never prefetch line 0 of the site itself')
+ap.add_argument('--global-syms',default=None,help='file of function names that are global at the object level (e.g. hidden-visibility globals that the linker localized in a .so): referenceable by name from any TU')
 A=ap.parse_args()
 # maps
 segs=[]
@@ -56,6 +57,8 @@ for l in subprocess.run(['nm','--defined-only',A.exe],capture_output=True,text=T
         syms.append((int(f[0],16),f[2]))
         if f[1] in 'TW': glob.add(f[2])
 syms.sort(); saddr=[a for a,_ in syms]; sname={n:a for a,n in syms}
+if A.global_syms:
+    gs=set(l.strip() for l in open(A.global_syms) if l.strip()); defined={n for _,n in syms}; glob|=(gs&defined)
 localfile=collections.defaultdict(set); aliases={}
 if A.local_aliases:
     for l in subprocess.run(['nm','-l','--defined-only',A.exe],capture_output=True,text=True).stdout.splitlines():
@@ -193,7 +196,8 @@ for s,ts in plan.items():
 gotonly=set(l.strip() for l in open(A.got_only_sites)) if A.got_only_sites else set()
 def burst_bytes(ts,site=None):
     b=0; anchors=collections.defaultdict(list)
-    for (sym,off,got),w in ts:
+    for t,w in ts:
+        sym,off,got=t[0],t[1],t[2]   # local-alias targets carry a 4th field (the function name)
         if got or site in gotonly: anchors[sym].append(off)
         else: b+=7
     for a,offs in anchors.items():
@@ -225,7 +229,7 @@ for s,ts in sites.items():
         if not got and fn in K and off>=16 and not A.base_plan: o=off+K[fn]
         elif not got and A.base_plan and fn in K and fn not in baseK and off>=16: o=off+K[fn]   # new site in an unshifted function
         if len(t)>3: used_aliases[sym]=aliases[sym]
-        tl.append([sym,o,got]); ntargets+=1; wcov+=w
+        tl.append([sym,o,got,w]); ntargets+=1; wcov+=w   # 4th field = sample weight (ignored by the pass; used by plan analyses)
     out["sites"][s]={"k":K[s],"t":tl}
     if A.local_aliases and s in localfile and s not in glob: out["sites"][s]["file"]=next(iter(localfile[s]))
 if used_aliases: out["aliases"]=used_aliases
@@ -235,7 +239,7 @@ print(f"measured-exec filter: dropped {exec_dropped} sites, weight {exec_dropped
 print(f"cost filter: dropped {cost_dropped} (site,target) pairs, weight {cost_dropped_w} ({100*cost_dropped_w/max(1,n):.1f}% of samples)")
 print(f"local aliases used: {len(used_aliases)}; local sites: {sum(1 for v in out['sites'].values() if 'file' in v)}")
 print(f"samples={n} attributed={tot_attr} ({100*tot_attr/max(1,n):.1f}%) kept_weight={wcov} ({100*wcov/max(1,n):.1f}% of samples) sites={len(sites)} targets={ntargets} "
-      f"avg_burst={sum(K.values())/max(1,len(K)):.0f}B got_targets={sum(1 for s in sites for (sym,off,got),w in sites[s] if got)}")
+      f"avg_burst={sum(K.values())/max(1,len(K)):.0f}B got_targets={sum(1 for s in sites for t,w in sites[s] if t[2])}")
 for k,v in stat.most_common(): print(f"  {100*v/max(1,n):5.1f}%  {k}")
 top=sorted(sites.items(),key=lambda kv:-sum(w for _,w in kv[1]))[:8]
 print("top sites: "+'; '.join(f"{s[:50]} ({len(ts)} lines, w={sum(w for _,w in ts)})" for s,ts in top))
