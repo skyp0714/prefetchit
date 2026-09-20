@@ -44,8 +44,14 @@ for r in rd(f'{R}/cloudsuite_4core.csv'):
         b=r['bench'][:-5]; kind={'web-serving':'php','web-search':'jvm','data-serving':'jvm','data-caching':'sys'}.get(b,'cpp')
         rows.append((f"CloudSuite {b}",f"{r['load']}, 4 cores, C6 off",float(r['util_pct']),float(r['mpki']),None,float(r['ipc']),kind))
 # dcperf v2 noC6 rows
+dc=collections.defaultdict(dict)
 for r in rd(f'{R}/dcperf_v2.csv'):
-    if r['config']=='noC6' and r['group']=='server': rows.append((f"DCPerf v2 {r['job']}",f"{r['cores']} server cores, C6 off @{r['delay_s']}s",float(r['util_pct']),float(r['mpki']),None,float(r['ipc']),'c' if 'django' in r['job'] else 'cpp'))
+    if r['group']=='server': dc[r['job']][(r['config'],r['delay_s'])]=r
+for job,d in dc.items():
+    pick=[v for (c,dl),v in d.items() if c=='noC6'] or list(d.values()); r=max(pick,key=lambda x:float(x['delay_s']))
+    dflt=[v for (c,dl),v in d.items() if c=='default']; note=f" (default {float(dflt[-1]['mpki']):.2f})" if dflt and r['config']=='noC6' else ''
+    kind='c' if 'django' in job else 'cpp' if 'feedsim' in job else 'sys'
+    rows.append((f"DCPerf v2 {job}",f"{r['cores']} server cores, {r['config']}{note}, util {float(r['util_pct']):.0f}%",float(r['util_pct']),float(r['mpki']),None,float(r['ipc']),kind))
 rows.sort(key=lambda x:-(x[3] if x[3] else 0))
 out=["| workload | setting (C6 off) | util | MPKI alone (capacity) | MPKI interleaved pool8 / pool16 | IPC | code kind → remedy |","|---|---|---:|---:|---:|---:|---|"]
 for w,cfg,u,am,sm,ipc,kind in rows:
