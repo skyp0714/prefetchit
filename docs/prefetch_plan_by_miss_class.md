@@ -103,6 +103,28 @@ C6를 끄고 스택 전체를 8·16코어 pool에 올린 값(alone 값과 나란
 3. media C++ 서비스 alone(C6 off)에 A-2/A-3(2일) — B 부류 실험의 베이스도 된다.
 4. FeedSim v2 A-2(2일).
 
+### A-8. 레지스터 기반 간접 타깃 prefetch — 어디에 쓸 수 있나 (2026-09-21 측정, `llvm_prefetchit/results/indirect_share_20260921/`)
+
+질문: cross-DSO(GOT 경유) 말고 `prefetcht1 (%reg)` 형태가 필요한 miss가 있는가. L2I miss 샘플의 LBR[0](miss 라인으로 들어온 마지막 taken branch) 종류별 비중:
+
+| 워크로드 (MPKI) | vtable·함수포인터 call (same-DSO) | jump table·tail jmp (same-DSO) | cross-DSO (PLT/GOT) | RET | 직접 분기(COND/CALL/UNCOND) |
+|---|---:|---:|---:|---:|---|
+| Verilator (57) | 0.02% | 0.5% | ~0 | 7.5% | 92% |
+| **FleetBench proto (16.9)** | **13.3%** | 2.6% | 0.6% | 6.3% | 77% |
+| **Django uwsgi+libpython (2.4)** | 5.4% | **13.2%** (CPython computed-goto `jmp *(%r14,%rcx,8)`) | 9.7% | 14.5% | 57% |
+| UserTimeline / ComposePost / MovieId gs (1.1 / 1.0 / 4.9) | 3.4 / 8.8 / 8.2% | 2.7 / 2.4 / 2.5% | **13.6 / 13.9 / 10.4%** | 14.0 / 12.3 / 16.0% | 66 / 63 / 63% |
+
+결론.
+- Verilator·arcilator(flattened)는 간접 분기가 없다 — 지금의 rip 상대 prefetch로 충분하고, 레지스터 형태가 필요한 miss는 0.5%.
+- **cross-DSO 말고도 쓸 데가 있다**: proto 16%, Django 19%, thrift 서비스 6–11%의 miss가 레지스터로만 타깃을 아는 분기 뒤에 있다. 다만 세 부류 모두 몇 개의 **런타임 일반 코드 사이트**에 몰려 있다 — proto는 `RepeatedPtrFieldBase::ClearNonEmpty`의 `call *0x10(%rax)`(요소별 virtual Clear) 한 사이트가 전체 miss의 7.9%, `MergeIntoClearedMessages` 3.5%, `InternalWriteMessage` tail-jmp 2.1%; Django는 `_PyEval_EvalFrameDefault`의 opcode 디스패치 점프(한 사이트 3.5%, 복사본 합계 13%); thrift는 `TVirtualProtocol`/handler vtable과 TType switch.
+- 분기 자체에서는 리드타임이 0이므로 "레지스터 prefetch"의 값은 **타깃 주소 로드를 앞당길 수 있느냐**에 달려 있다. 상한: proto 16.9×0.16 ≈ 2.7 MPKI → ~1.9%(0.7%/MPKI), Django·thrift는 <0.5%.
+- RET(6–16%)는 레지스터 형태가 필요 없다: 되돌아갈 지점은 call 사이트가 알고 있으므로 rip 상대 continuation prefetch(RET v3, Verilator 1.001x)로 표현되고, 문제는 형태가 아니라 리드타임이었다.
+
+실험 두 개(각 반나절, 우선순위는 proto 먼저).
+1. **proto — virtual 타깃 hoisting**: IR pass에 "indirect call target prefetch" 모드를 추가. `call *slot(vptr)` 사이트에서 객체 포인터가 루프 밖·함수 진입에서 이미 알려진 경우(ClearNonEmpty의 `rep->elements[0]`, MergeInto*의 소스 메시지), 그 지점에서 `vptr = load obj; f = load vptr[slot]; prefetcht1 f`를 non-null 가드 아래 발행(vptr 슬롯 로드는 유효 객체면 안전). 리드타임 = 루프 준비~첫 호출(20–100 명령). 대상 사이트는 위 6개로 시작(전체 miss의 15%).
+2. **Django — 디스패치 한 칸 앞 prefetch**: ceval `DISPATCH()` 매크로에서 다음-다음 opcode의 핸들러 `opcode_targets[next_instr[1].op.code]`를 레지스터로 계산해 `prefetcht1`. 리드타임 = 핸들러 하나(20–50 명령). CPython 재빌드(clang 19, `-fpass-plugin` 빌드와 같은 트리) 후 uwsgi MPKI·wrk 처리량. 같은 원리가 Cython switch 테이블에는 안 통한다(케이스 결정이 분기 직전).
+ISA 관점: 현재 ISA도 `prefetcht1 (%reg)`는 있으므로 부족한 것은 명령이 아니라 **리드타임**이다. 그래서 하드웨어 쪽 답은 BTB 메타데이터로 타깃을 미리 아는 방식(BTB-Ferret, §6-1)이나 호출 대상 힌트(보고서 §4-2)이지, 새 주소 지정 모드가 아니다 — GOT 경유 한 명령(보고서 §4-1)만이 cross-DSO에서 명령 수를 줄인다.
+
 ## 3. B 부류(interleaving)의 해결 계획
 
 > **2026-09-21 갱신**: B-1/B-2의 프로세스 안 계획은 `docs/prefetch_plan_classB_wakestream.md`(run 종류별 첫 접근 열을 타깃으로, call 경계에 d 라인 앞 k 라인씩 흘리는 wake-stream)로 대체·구체화했다. 아래 B-1/B-2는 배경으로 남긴다. 첫 구현·측정(media movie-id interleaved, 2026-09-21: LD_PRELOAD 1.014x, pass dense drip 1.028–1.031x)은 그 문서 §7.
@@ -179,7 +201,8 @@ CloudSuite는 4.0 이미지(2023-06 릴리스: Ubuntu 22, PHP 8.1 JIT, Solr 9.1.
 |---|---|---|---|---|---|
 | **ARM core-benchmarks `frontend`** (github.com/ARM-software/core-benchmarks) | 합성 프론트엔드 스트레스 생성기 두 종. `dfs_chase_gen`: 깊이 D(기본 20)의 완전 이진 호출 트리(2^19 leaf), 함수마다 조건 분기(확률 `--branch_probability`)로 왼/오른쪽 자식 호출, `--use_indirect_calls` 옵션. `inst_pointer_chase_gen`: `--num_callchains`(1000)×`--depth`(20)개 함수를 무작위로 이어 붙인 직접 호출 사슬. 둘 다 protobuf CFG → C 소스 → gcc/make, **`--insert_code_prefetches`로 생성기 자체가 코드 프리페치를 심을 수 있음** | 함수 하나가 한 라인이고 경로가 무작위라 호출마다 L2I miss — 수십 MPKI 이상(우리 `seq_stream` 마이크로벤치 base 71과 같은 급) | **가능**: inst_pointer_chase는 다음 callee가 정적으로 정해져 있어 직접 참조 prefetch 한 줄로 끝남(A-1 callee burst와 동일); dfs_chase는 분기 뒤에 target이 정해지므로 함수 진입에서 두 자식을 모두 당기는 "양쪽 burst"가 필요 — 리드타임 0인 극단 케이스라 ISA 제안(호출 대상 힌트, §보고서 4-2)의 논거로 쓸 수 있다. 생성기 내장 prefetch와 우리 pass의 삽입을 같은 바이너리에서 비교 가능 | 1시간(순수 C, x86에서 그대로 빌드) | **stage-1 합성 후보로 채택 권장** — 현실 워크로드는 아니므로 §1 표가 아니라 마이크로벤치 절에 둔다 |
 | **OpenMM** (분자동역학 엔진, C++ 코어 + Python API, CPU 플랫폼) | 비결합력 커널·PME FFT가 시간의 대부분 — GROMACS/LAMMPS/NAMD와 같은 부류 | 이미 잰 GROMACS 0.03 / LAMMPS 0.04 / Quantum ESPRESSO 2.1(예외적)에서 유추하면 **≪1 MPKI** | 가능하나 miss가 없음 | 30분(conda `openmm`, CPU 플랫폼 벤치 스크립트) | 탈락 예상, 최하 우선순위 — 확인용 30분만 |
-| **"Prefetching for Hierarchical Branch Target Buffers"의 벤치마크** | 이 제목은 Crossref·OpenAlex·dblp·arXiv·Semantic Scholar 어디에도 색인되어 있지 않다(2026-09-21 조회). 계층형 BTB 계열 논문의 벤치마크는 확인 가능한 것만 적는다: **BTB-X**(HPCA'23, Asheim·Grot·Kumar)와 **CryptoBTB**(MICRO'25, Adak·Rotenberg·Awad·Zhou) = ChampSim + **IPC-1 traces**(Qualcomm 서버 35·클라이언트 8) + **CVP-1 서버 traces** + SPEC2017 simpoint 94 traces(총 476); **Branch Target Buffer Organizations**(MICRO'23, Perais·Sheikh, Qualcomm)와 **AVM-BTB**(ISCA'24, 1,253 traces)는 본문 접근 불가(같은 공개 trace 계열로 추정); **Twig**(MICRO'21, profile-guided BTB prefetch) = 실제 앱 9종: cassandra·kafka·tomcat(DaCapo), finagle-chirper·finagle-http(Renaissance), drupal·wordpress·mediawiki(HHVM OSS-performance), verilator | trace 기반 논문의 워크로드는 **우리 실기 측정 세팅으로 옮길 수 없음**(Qualcomm 내부 앱의 trace). Twig의 9종 중 AOT는 verilator뿐(우리 57 MPKI, 이미 최상위 결과); 나머지 8종은 JVM/HHVM JIT — cassandra 4.3·tomcat 3.0·kafka 1.0·finagle-chirper 1.2는 이미 측정(§1-A JVM 행), finagle-http는 미측정, HHVM 3종은 HHVM 3.30이 24.04에서 안 떠 미측정(php-fpm 8.3 WordPress 1.15로 대체 측정됨) | JIT 부류라 pass 대상 아님(참고값) | finagle-http 30분; HHVM은 Docker 22.04 이미지로 3시간 | **추가할 것 없음**. 논문 원문(저자·링크)을 주면 목록을 다시 확인한다 |
+| **"Prefetching for Hierarchical Branch Target Buffers"** (BTB-Ferret, Huang·Ďuračková·Grot·Schall, MICRO 2026; 사용자 제공 PDF) | gem5 full-system(Granite Rapids급 2-level BTB 128/16K), 37개 앱 Table II: **NodeApp**(Node.js 웹서버), **PHPWiki**(PHP 위키), **Fleetbench Proto / TCMalloc / STL**, **DaCapo** H2·H2O·Luindex·Spring·Tomcat·Lusearch, **BenchBase**(Java) Voter·Twitter·TATP·Epinions·YCSB·Seats·SiBench·Noop·SmallBank, **Renaissance Finagle-HTTP**, SPEC2017 INT 8종·FP 8종. 관찰: L1-BTB 29 MPKI 평균(SiBench 76), miss chain의 트리거는 양방향 조건분기 44%·return 39%, **직접+간접 call은 8.2%**; 코드 저장소 github.com/yongjiehuang/BTB-Ferret에 gem5 체크포인트 워크플로 | 우리 세트와 겹침: Fleetbench Proto(16.9, 이미 1순위 후보 — 이 논문에서도 BTB 미스 상위), TCMalloc(0.01)·STL cord(0.01)는 탈락, DaCapo tomcat 3.0·h2o 0.24, SPEC2017≈우리 SPEC2026 탈락. **새로 추가할 만한 것**: BenchBase(Java, JIT 참고값; SiBench·Twitter·TATP가 BTB miss 최상위) — JVM이라 pass 밖이지만 B/ISA 논거용 참고값 30분; NodeApp·PHPWiki는 V8/opcache JIT라 불가(WordPress 1.15와 같은 급). 결론: **AOT로 추가할 것은 없고, Proto가 1순위임을 재확인** |
+| (참고) 계층형 BTB 계열 다른 논문의 벤치마크 | 확인 가능한 것만 적는다: **BTB-X**(HPCA'23, Asheim·Grot·Kumar)와 **CryptoBTB**(MICRO'25, Adak·Rotenberg·Awad·Zhou) = ChampSim + **IPC-1 traces**(Qualcomm 서버 35·클라이언트 8) + **CVP-1 서버 traces** + SPEC2017 simpoint 94 traces(총 476); **Branch Target Buffer Organizations**(MICRO'23, Perais·Sheikh, Qualcomm)와 **AVM-BTB**(ISCA'24, 1,253 traces)는 본문 접근 불가(같은 공개 trace 계열로 추정); **Twig**(MICRO'21, profile-guided BTB prefetch) = 실제 앱 9종: cassandra·kafka·tomcat(DaCapo), finagle-chirper·finagle-http(Renaissance), drupal·wordpress·mediawiki(HHVM OSS-performance), verilator | trace 기반 논문의 워크로드는 **우리 실기 측정 세팅으로 옮길 수 없음**(Qualcomm 내부 앱의 trace). Twig의 9종 중 AOT는 verilator뿐(우리 57 MPKI, 이미 최상위 결과); 나머지 8종은 JVM/HHVM JIT — cassandra 4.3·tomcat 3.0·kafka 1.0·finagle-chirper 1.2는 이미 측정(§1-A JVM 행), finagle-http는 미측정, HHVM 3종은 HHVM 3.30이 24.04에서 안 떠 미측정(php-fpm 8.3 WordPress 1.15로 대체 측정됨) | JIT 부류라 pass 대상 아님(참고값) | finagle-http 30분; HHVM은 Docker 22.04 이미지로 3시간 | **추가할 것 없음**. 논문 원문(저자·링크)을 주면 목록을 다시 확인한다 |
 
 ### 6-2. 그 밖의 미시도 후보 (우선순위순)
 

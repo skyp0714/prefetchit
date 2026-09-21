@@ -43,7 +43,11 @@ export PATH=$PWD/benchmarks/tools/miniforge3/bin:$PATH; set +u; source benchmark
 ### 1-E. post-link 재작성기 비용 절감 (스토어용, A-5)
 - 직접 call 사이트는 stub 대신 callee 앞 padding에 prefetch, PLT 사이트는 in-place 16 B → 명령 +5.7% → <1%. mongodb/redis/memcached에 C6-off alone에서 재시도.
 
-### 1-F. MariaDB 타깃별 주입 (A-4, 우선순위 낮음, 0.8–1.1 MPKI)
+### 1-F. 레지스터 기반 간접 타깃 prefetch (A-8, 2026-09-21 측정: proto 16% / Django 19% / thrift 6–11%의 miss가 vtable·디스패치 테이블 뒤)
+- proto: IR pass에 indirect-call target hoisting 모드(`ClearNonEmpty`·`MergeIntoClearedMessages`·`InternalWriteMessage` 등 6사이트 = miss 15%) → NOP twin 비교.
+- Django: ceval `DISPATCH()`에 다음-다음 opcode 핸들러 prefetch(레지스터 계산) → uwsgi MPKI·처리량.
+
+### 1-G. MariaDB 타깃별 주입 (A-4, 우선순위 낮음, 0.8–1.1 MPKI)
 
 ---
 
