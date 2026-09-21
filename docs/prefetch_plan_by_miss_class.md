@@ -16,7 +16,7 @@
 | 비교 | NOP twin 필수, 같은 라운드 안의 인터리브 ≥3회(서비스 5회), 중앙값 | 베이스가 시간에 따라 움직인다(socialNetwork는 쓰기 부하로 5시간 동안 55 → 64 G cycles) |
 | 클럭 | `freeze_platform.sh MODE=3.8ghz`(단일 코어) / `2ghz`(서비스), 끝나면 `restore` | DVFS가 prefetch arm에 유리하게 작용하는 것을 막는다 |
 
-## 1. 분류
+## 1. 분류 (2026-09-21 기준 최신: 09-19 밤 추가 스크린까지 반영)
 
 miss 원인은 세 가지로 판정했다: **cold(C6 wake)** = 서버 코어 C6를 끄면 사라짐, **capacity** = C6를 꺼도 코어 하나에 홀로 두어도 남음,
 **interleaving** = 홀로 두면 없는데 다른 서비스와 코어를 나누면 생김. cold는 위의 이유로 제외한다. 남는 두 부류:
@@ -105,6 +105,8 @@ C6를 끄고 스택 전체를 8·16코어 pool에 올린 값(alone 값과 나란
 
 ## 3. B 부류(interleaving)의 해결 계획
 
+> **2026-09-21 갱신**: B-1/B-2의 프로세스 안 계획은 `docs/prefetch_plan_classB_wakestream.md`(run 종류별 첫 접근 열을 타깃으로, call 경계에 d 라인 앞 k 라인씩 흘리는 wake-stream)로 대체·구체화했다. 아래 B-1/B-2는 배경으로 남긴다. 첫 구현·측정(media movie-id interleaved, 2026-09-21: LD_PRELOAD 1.014x, pass dense drip 1.028–1.031x)은 그 문서 §7.
+
 핵심 제약: miss는 **깨어나는 순간마다** 요청 경로 전체에서 난다(hook별 wake당 miss 434–2,086개, wake 후 5 µs 안에 6%, 40 µs 이후 절반). 프로세스 안에는 이 miss보다
 앞서 실행되는 코드가 없다. 블로킹 **전**에 당겨 두는 것은 소용없다(자는 동안 이웃이 다시 밀어낸다). 그래서 프로세스 안 prefetcht의 상한은 낮고, 진짜 해법은 프로세스 밖에 있다.
 
@@ -165,3 +167,33 @@ CloudSuite는 4.0 이미지(2023-06 릴리스: Ubuntu 22, PHP 8.1 JIT, Solr 9.1.
 | 서버리스(vHive/vSwarm, FunctionBench) | 미시도 | vHive 설치 |
 | hotelReservation Go 서비스 | 도구 없음 | Go 삽입기 |
 | DeathStarBench media pool-16 | 오류 허용 0.1%로 2,000 req/s 재측정 완료(§1-B 참고) | — |
+
+## 6. 추가 후보 리스트업 (2026-09-21, 조사만 하고 실행하지 않음)
+
+요청 출처 세 가지(OpenMM, ARM core-benchmarks `frontend`, "Prefetching for Hierarchical Branch Target Buffers"의 벤치마크)와 그 밖에 아직 안 해 본 것을 한 표로 모았다.
+"예상"은 이미 측정한 유사 워크로드에서 유추한 값이고, 실행하면 표 §1에 옮긴다.
+
+### 6-1. 요청한 세 출처
+
+| 후보 | 무엇인가 | 우리 세팅에서의 예상 | 도구 적용 | 준비 비용 | 판단 |
+|---|---|---|---|---|---|
+| **ARM core-benchmarks `frontend`** (github.com/ARM-software/core-benchmarks) | 합성 프론트엔드 스트레스 생성기 두 종. `dfs_chase_gen`: 깊이 D(기본 20)의 완전 이진 호출 트리(2^19 leaf), 함수마다 조건 분기(확률 `--branch_probability`)로 왼/오른쪽 자식 호출, `--use_indirect_calls` 옵션. `inst_pointer_chase_gen`: `--num_callchains`(1000)×`--depth`(20)개 함수를 무작위로 이어 붙인 직접 호출 사슬. 둘 다 protobuf CFG → C 소스 → gcc/make, **`--insert_code_prefetches`로 생성기 자체가 코드 프리페치를 심을 수 있음** | 함수 하나가 한 라인이고 경로가 무작위라 호출마다 L2I miss — 수십 MPKI 이상(우리 `seq_stream` 마이크로벤치 base 71과 같은 급) | **가능**: inst_pointer_chase는 다음 callee가 정적으로 정해져 있어 직접 참조 prefetch 한 줄로 끝남(A-1 callee burst와 동일); dfs_chase는 분기 뒤에 target이 정해지므로 함수 진입에서 두 자식을 모두 당기는 "양쪽 burst"가 필요 — 리드타임 0인 극단 케이스라 ISA 제안(호출 대상 힌트, §보고서 4-2)의 논거로 쓸 수 있다. 생성기 내장 prefetch와 우리 pass의 삽입을 같은 바이너리에서 비교 가능 | 1시간(순수 C, x86에서 그대로 빌드) | **stage-1 합성 후보로 채택 권장** — 현실 워크로드는 아니므로 §1 표가 아니라 마이크로벤치 절에 둔다 |
+| **OpenMM** (분자동역학 엔진, C++ 코어 + Python API, CPU 플랫폼) | 비결합력 커널·PME FFT가 시간의 대부분 — GROMACS/LAMMPS/NAMD와 같은 부류 | 이미 잰 GROMACS 0.03 / LAMMPS 0.04 / Quantum ESPRESSO 2.1(예외적)에서 유추하면 **≪1 MPKI** | 가능하나 miss가 없음 | 30분(conda `openmm`, CPU 플랫폼 벤치 스크립트) | 탈락 예상, 최하 우선순위 — 확인용 30분만 |
+| **"Prefetching for Hierarchical Branch Target Buffers"의 벤치마크** | 이 제목은 Crossref·OpenAlex·dblp·arXiv·Semantic Scholar 어디에도 색인되어 있지 않다(2026-09-21 조회). 계층형 BTB 계열 논문의 벤치마크는 확인 가능한 것만 적는다: **BTB-X**(HPCA'23, Asheim·Grot·Kumar)와 **CryptoBTB**(MICRO'25, Adak·Rotenberg·Awad·Zhou) = ChampSim + **IPC-1 traces**(Qualcomm 서버 35·클라이언트 8) + **CVP-1 서버 traces** + SPEC2017 simpoint 94 traces(총 476); **Branch Target Buffer Organizations**(MICRO'23, Perais·Sheikh, Qualcomm)와 **AVM-BTB**(ISCA'24, 1,253 traces)는 본문 접근 불가(같은 공개 trace 계열로 추정); **Twig**(MICRO'21, profile-guided BTB prefetch) = 실제 앱 9종: cassandra·kafka·tomcat(DaCapo), finagle-chirper·finagle-http(Renaissance), drupal·wordpress·mediawiki(HHVM OSS-performance), verilator | trace 기반 논문의 워크로드는 **우리 실기 측정 세팅으로 옮길 수 없음**(Qualcomm 내부 앱의 trace). Twig의 9종 중 AOT는 verilator뿐(우리 57 MPKI, 이미 최상위 결과); 나머지 8종은 JVM/HHVM JIT — cassandra 4.3·tomcat 3.0·kafka 1.0·finagle-chirper 1.2는 이미 측정(§1-A JVM 행), finagle-http는 미측정, HHVM 3종은 HHVM 3.30이 24.04에서 안 떠 미측정(php-fpm 8.3 WordPress 1.15로 대체 측정됨) | JIT 부류라 pass 대상 아님(참고값) | finagle-http 30분; HHVM은 Docker 22.04 이미지로 3시간 | **추가할 것 없음**. 논문 원문(저자·링크)을 주면 목록을 다시 확인한다 |
+
+### 6-2. 그 밖의 미시도 후보 (우선순위순)
+
+| 우선순위 | 후보 | 왜 | 예상 | 준비 비용 |
+|---|---|---|---|---|
+| 1 | **ScyllaDB** (Seastar C++ AOT, Cassandra 호환 NoSQL; CloudSuite data-serving의 YCSB 클라이언트로 그대로 부하 가능) | data-serving(Cassandra JVM) 2.1·DaCapo cassandra 4.3의 **AOT 대응물** — 단일 대형 바이너리라 cold plan·fat-static이 그대로 적용됨. A 부류에서 "JIT라 불가"였던 DB 부류를 도구 범위 안으로 가져오는 유일한 후보 | 2–5 MPKI(shard-per-core라 코어 고정 세팅과도 맞음) | 2시간(공식 이미지, YCSB 클라이언트 재사용) |
+| 2 | **ARM core-benchmarks frontend** (§6-1) | stage-1 합성, ISA 논거 | 수십 MPKI | 1시간 |
+| 3 | **GHDL LLVM 백엔드 + 더 큰 VHDL 설계** | GHDL mcode NEORV32가 2.8이었고 mcode는 런타임 생성 코드라 pass 밖; LLVM 백엔드는 설계를 elaboration 시점에 AOT 컴파일하므로 pass 적용 가능 — A-1(seq)의 세 번째 flattened 시뮬레이터 | 3–10 (설계 크기에 비례) | 3시간(ghdl-llvm 빌드, 64-bit 코어급 VHDL 설계) |
+| 4 | **MySQL 8 sysbench oltp** | MariaDB(0.8–1.1)와 코드베이스가 갈라진 지 오래고 바이너리가 더 큼; 단일 타깃 빌드라 MariaDB의 다중 타깃 문제(A-4)가 없음 | 1–2 | 1시간 |
+| 5 | **Ruby on Rails 앱 (YJIT off)** | Django v2(CPython 2.4)와 같은 "AOT 인터프리터 + 큰 프레임워크" 부류의 두 번째 표본 | 2–3 | 3시간 |
+| 6 | Renaissance **finagle-http** (JVM, 참고값) | Twig 세트에서 유일하게 안 잰 것 | 1–2 | 30분 |
+| 7 | HHVM drupal/mediawiki (Docker 22.04, JIT, 참고값) | 데이터센터 프론트엔드 논문들의 표준 워크로드 | 5–20 (논문 기준) | 3시간 |
+| 8 | Ceph OSD (대형 C++ AOT 스토리지 데몬) | AOT 대형 서비스 | 미상 | 클러스터 셋업 1일 — 보류 |
+| 9 | OpenMM | 확인용 | ≪1 | 30분 |
+| — | IPC-1 / CVP-1 / SPEC2017 traces | ChampSim 전용; 실기 측정 세팅 밖 | — | 해당 없음 |
+
+B 부류 쪽 추가 후보는 §5의 서버리스(vHive/vSwarm)와 TailBench silo 고부하 재측정 그대로다.
