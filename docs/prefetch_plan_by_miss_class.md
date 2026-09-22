@@ -28,6 +28,11 @@ miss 원인은 세 가지로 판정했다: **cold(C6 wake)** = 서버 코어 C6�
 | **Verilator DualMegaBoom** (qsort/dhrystone/median/towers) | 1코어 3.8 GHz | 57 | 0.6 | flattened C++ (단일 TU 수 MB) | **가능, 검증됨: seq D=4 KB K=20 + burst4 → 1.149x / twin 대비 1.236x, MPKI 56.9 → 13.7** |
 | **arcilator DualMegaBoom** | 1코어 | 79 | — | flattened LLVM IR → 오브젝트 | **가능, 검증됨: seq K=10 → 1.543x / 1.683x, MPKI 79 → 35** |
 | CXXRTL picorv32×48 | 1코어 | 3.0 | 1.1 | flattened C++ | 가능: seq K=80 1.025x(저밀도) |
+| **ARM core-benchmarks `frontend` dfs_chase (depth 16)** — 합성, 65k 함수 9.0 MB text | 1코어 C6 off | **72.1** | 0.47 | C 단일 링크 단위(gcc -O0) | **가능, 즉시 착수**: 함수마다 한 줄, 경로가 무작위 — callee burst의 극단 케이스. 생성기에 `--insert_code_prefetches`가 있어 우리 pass와 같은 바이너리에서 비교 가능 |
+| **ARM core-benchmarks `frontend` inst_pointer_chase (3000 chains × depth 20)** — 60k 함수 6.7 MB text | 1코어 C6 off | **48.9** | 0.41 | C 단일 링크 단위 | **가능, 즉시 착수**: 다음 callee가 정적으로 정해져 있어 직접 참조 prefetch 한 줄로 끝남(A-1 callee burst) |
+| (같은 생성기, 상류 기본값 1000 chains = 20k 함수 2.25 MB text) | 1코어 C6 off | 2.31 | 0.63 | 〃 | 기본 footprint가 L2와 같은 크기라 경계값 — 스케일 파라미터가 곧 MPKI |
+| **MySQL 8.0** sysbench oltp_read_write (16테이블×20만, 16스레드, durable) | 4코어 75% | **2.35** | 1.45 | C++ 단일 타깃 빌드 | **가능**: MariaDB(0.8–1.1)와 달리 단일 타깃이라 A-4의 다중 타깃 문제가 없음 |
+| **Rails 8 API + puma**(4 worker×8 threads, CRuby 3.2 YJIT off, production) | 4코어 38% | **1.91** | 1.34 | CRuby 인터프리터 = AOT C, 하나의 링크 단위 | **가능**(Django/CPython 2.4와 같은 부류, cold plan) |
 | **FleetBench proto_benchmark** (protobuf 직렬화·파싱 mix, Google fleet 대표 마이크로벤치) | 1코어 C6 off | **16.9** | 0.70 | C++ 단일 바이너리(bazel, clang-19) | **가능, 즉시 착수 후보**: Verilator처럼 한 링크 단위 — seq/cold plan 그대로 적용. FleetBench 나머지(rpc 0.65, swissmap·hashing·compression·libc·stl·tcmalloc ≤0.01)는 탈락 |
 | TailBench masstree (integrated harness, 4 스레드, 2,000 qps) | 4코어 16% | 1.4 (500 qps 1.2) | 0.19 | C++ | 경계값(IPC 0.19는 데이터 miss 주도) |
 | TailBench silo (TPC-C in-memory DB, integrated harness, 4 스레드, 1,000 qps) | 4코어 3% | 9.8 (250 qps 9.8) | 0.17 | C++ 단일 바이너리 | 가능하나 활용률 3%: 요청 사이 idle 동안 하네스·OS가 L2를 비우는 저부하 패턴(C6는 꺼짐) — 부하를 올려 재측정 필요 |
@@ -39,6 +44,7 @@ miss 원인은 세 가지로 판정했다: **cold(C6 wake)** = 서버 코어 C6�
 | JVM: DaCapo cassandra(JDK 17 / 21) / tomcat / spring / fop / kafka, Renaissance dotty / finagle-chirper / tradesoap | 4코어 | 4.3 / 3.2 / 3.0 / 2.9 / 1.8 / 1.0 / 1.9 / 1.2 / 1.2 | 1.3–2.4 | JIT | **불가**(AOT pass 대상 아님; C2 삽입은 중립이었음) |
 | CloudSuite web-serving(php-fpm+opcache JIT) / web-search(Solr) / data-serving(Cassandra) | 4코어 | 5.0 / 2.5 / 2.1 | 1.3 / 1.9 / 0.9 | JIT/JVM | **불가** |
 | 제외(C6 off 후 ≤0.3): PostgreSQL, TaoBench v2(클라이언트 memtier 22k+80k ops/s 확인 후에도 0.3), data-caching, μSuite Router, hotel Go alone, avrora/jme/tradebeans, DaCapo h2o(0.24) | | | | | |
+| 제외(2026-09-21 추가 스크린, C6 off): **ScyllaDB 6.2** 0.36–0.50(부하 5k–200k ops/s, Seastar shard-per-core의 hot loop가 작다 — 단, B 부류로는 최상위, §1-B 참고), **Renaissance finagle-http** 0.26(JIT), **OpenMM** 0.01(MD 커널) | | | | |
 | 제외(2026-09-19 밤 추가 스크린, C6 off): DCPerf v2 batch — xsbench / gapbs bc / graph500 / liblinear / syscall / schbench **모두 ≤0.01**(데이터·커널 bound); CloudSuite 4 graph-analytics 0.04–0.25 / in-memory-analytics 0.03–0.09(Spark, JVM); TailBench img-dnn 0.33 / moses 0.42 / shore 0.01; FleetBench 7종 ≤0.65; DCPerf v2 cdn_bench proxy 0.4(활용률 12–81%), adsim server 0.6(활용률 90%, IPC 3.6) | | | | | |
 
 읽는 법: 우리 도구로 닿는 capacity 후보는 flattened 시뮬레이터(수십 MPKI, 검증 완료)와 2–5 MPKI의 AOT 서비스(Django v2, FeedSim v2,
@@ -56,8 +62,14 @@ C6를 끄고 스택 전체를 8·16코어 pool에 올린 값(alone 값과 나란
 | socialNetwork nginx-thrift / post-storage, hotel reservation | 1.2 / 0.2 / 0.04 | 2.1–2.3 / 1.8 / 0.15–0.26 | (바쁜 tier) | 코어가 안 식음 → 대상 아님 |
 | hotel frontend / profile / recommendation / geo / search (Go) | ≤0.5 | 11–13 / 12–13 / 15–16 / 8–10 / 3–5 | Go | Go 삽입기 없음 → 보류 |
 | 스토어: mongodb / redis / memcached | ≤2.3 | 14–105 | C/C++ 바이너리(소스 재빌드 또는 post-link) | post-link 재작성기로 가능 |
+| **ScyllaDB 6.2** (2026-09-21) | 0.40 | **6.05**(이웃=MySQL) / **10.97**(이웃=Rails) | C++ AOT(Seastar) | 가능 — alone 0.4인데 코어를 나누면 셋 중 가장 나빠진다 |
+| **MySQL 8.0** (2026-09-21) | 2.35 | **9.25**(이웃=Scylla) | C++ AOT | 가능 |
+| **Rails + puma** (2026-09-21) | 1.91 | **3.48**(이웃=Scylla) | CRuby AOT 인터프리터 | 가능 |
 
 (media pool 16 재측정 2026-09-19: 오류 허용 0.1%로 2,000 req/s에서 22–89 MPKI — movie-id 54, rating 43, compose-review 38, nginx 22, mongodb 29–89; 3,000 req/s는 non-2xx 454건으로 포화.)
+
+2026-09-21에 DeathStarBench 밖의 재고 서버 소프트웨어로도 같은 것을 확인했다: ScyllaDB·MySQL 8·Rails를 코어 4개짜리 cpuset 하나에 둘씩 올리면
+서비스별 활용률은 alone 때와 같은데(33%·21%·39%) MPKI만 1.8–27배로 뛴다. 즉 B 부류는 마이크로서비스 벤치마크의 성질이 아니라 **코어 공유 자체의 성질**이다.
 
 두 가지가 중요하다. (1) pool 8과 16에서 값이 같다 → miss는 **이웃 서비스가 요청 사이에 코드를 밀어내는 것**이 원인이지 pool 크기가 아니다.
 (2) 서비스 안의 스레드 affinity로는 안 풀린다: alone regime(서비스의 모든 스레드를 코어 하나에)에서 1–5인데 그 코어를 다른 서비스와 나누는 순간 34–55가 된다.
@@ -204,7 +216,25 @@ CloudSuite는 4.0 이미지(2023-06 릴리스: Ubuntu 22, PHP 8.1 JIT, Solr 9.1.
 | **"Prefetching for Hierarchical Branch Target Buffers"** (BTB-Ferret, Huang·Ďuračková·Grot·Schall, MICRO 2026; 사용자 제공 PDF) | gem5 full-system(Granite Rapids급 2-level BTB 128/16K), 37개 앱 Table II: **NodeApp**(Node.js 웹서버), **PHPWiki**(PHP 위키), **Fleetbench Proto / TCMalloc / STL**, **DaCapo** H2·H2O·Luindex·Spring·Tomcat·Lusearch, **BenchBase**(Java) Voter·Twitter·TATP·Epinions·YCSB·Seats·SiBench·Noop·SmallBank, **Renaissance Finagle-HTTP**, SPEC2017 INT 8종·FP 8종. 관찰: L1-BTB 29 MPKI 평균(SiBench 76), miss chain의 트리거는 양방향 조건분기 44%·return 39%, **직접+간접 call은 8.2%**; 코드 저장소 github.com/yongjiehuang/BTB-Ferret에 gem5 체크포인트 워크플로 | 우리 세트와 겹침: Fleetbench Proto(16.9, 이미 1순위 후보 — 이 논문에서도 BTB 미스 상위), TCMalloc(0.01)·STL cord(0.01)는 탈락, DaCapo tomcat 3.0·h2o 0.24, SPEC2017≈우리 SPEC2026 탈락. **새로 추가할 만한 것**: BenchBase(Java, JIT 참고값; SiBench·Twitter·TATP가 BTB miss 최상위) — JVM이라 pass 밖이지만 B/ISA 논거용 참고값 30분; NodeApp·PHPWiki는 V8/opcache JIT라 불가(WordPress 1.15와 같은 급). 결론: **AOT로 추가할 것은 없고, Proto가 1순위임을 재확인** |
 | (참고) 계층형 BTB 계열 다른 논문의 벤치마크 | 확인 가능한 것만 적는다: **BTB-X**(HPCA'23, Asheim·Grot·Kumar)와 **CryptoBTB**(MICRO'25, Adak·Rotenberg·Awad·Zhou) = ChampSim + **IPC-1 traces**(Qualcomm 서버 35·클라이언트 8) + **CVP-1 서버 traces** + SPEC2017 simpoint 94 traces(총 476); **Branch Target Buffer Organizations**(MICRO'23, Perais·Sheikh, Qualcomm)와 **AVM-BTB**(ISCA'24, 1,253 traces)는 본문 접근 불가(같은 공개 trace 계열로 추정); **Twig**(MICRO'21, profile-guided BTB prefetch) = 실제 앱 9종: cassandra·kafka·tomcat(DaCapo), finagle-chirper·finagle-http(Renaissance), drupal·wordpress·mediawiki(HHVM OSS-performance), verilator | trace 기반 논문의 워크로드는 **우리 실기 측정 세팅으로 옮길 수 없음**(Qualcomm 내부 앱의 trace). Twig의 9종 중 AOT는 verilator뿐(우리 57 MPKI, 이미 최상위 결과); 나머지 8종은 JVM/HHVM JIT — cassandra 4.3·tomcat 3.0·kafka 1.0·finagle-chirper 1.2는 이미 측정(§1-A JVM 행), finagle-http는 미측정, HHVM 3종은 HHVM 3.30이 24.04에서 안 떠 미측정(php-fpm 8.3 WordPress 1.15로 대체 측정됨) | JIT 부류라 pass 대상 아님(참고값) | finagle-http 30분; HHVM은 Docker 22.04 이미지로 3시간 | **추가할 것 없음**. 논문 원문(저자·링크)을 주면 목록을 다시 확인한다 |
 
-### 6-2. 그 밖의 미시도 후보 (우선순위순)
+### 6-2. 그 밖의 후보 — **2026-09-21 전부 측정 완료** (원자료 `llvm_prefetchit/results/newcands_20260921/README.md`)
+
+| 후보 | 측정 결과(고정 코어, 사용 코어 C6 off, 2 GHz 고정) | 분류 |
+|---|---|---|
+| **ARM core-benchmarks `frontend`** | dfs_chase depth 16 = **72.1 MPKI**(1코어, IPC 0.47), inst_pointer_chase 3000 chains = **48.9**(IPC 0.41); 상류 기본값(1000 chains, text 2.25 MB)은 2.31 | **A 최상위**(Verilator 57·arcilator 79와 같은 급) |
+| **ScyllaDB 6.2** | alone 0.40(4코어 33%, 5k–200k ops/s에서 0.36–0.50), 코어 공유 시 **6.05**(이웃 MySQL) / **10.97**(이웃 Rails) | A 아님 / **B 최상위** |
+| **MySQL 8.0** | alone **2.35**(4코어 75%), 공유 시 **9.25** | **A + B** |
+| **Rails 8 + puma**(CRuby 3.2, YJIT off) | alone **1.91**(4코어 38%), 공유 시 **3.48** | **A + B** |
+| **Renaissance finagle-http** | 0.26(4코어 92%) | 탈락(JIT) — Twig 세트 완료 |
+| **OpenMM 8.6** | 0.01(4코어 84%) | 탈락(MD 커널, 예상대로) |
+| GHDL LLVM 백엔드 | 미측정: `ghdl-llvm` 설치가 호스트 패키지 충돌(libgnat-13 ↔ PPA의 gcc-13-base 13.4)로 막힘 | 보류(GHDL 소스 빌드 필요) |
+| BenchBase | 미측정: JDK 23 요구(호스트 21/17), JDK 21로는 컴파일 실패 | 보류(JIT 참고값) |
+| HHVM drupal/wordpress/mediawiki | 미측정: JIT라 AOT pass 대상이 아님 — php-fpm 8.3 WordPress 1.15가 대체 표본 | 대상 아님 |
+| Ceph OSD | 미시도(클러스터 셋업 1일) | 보류 |
+
+착수 순서(A 부류): **ARM frontend ipc3000 → FleetBench proto → MySQL 8 → Rails**. ARM frontend는 생성기 자체에 `--insert_code_prefetches`가 있어
+우리 pass가 넣는 prefetch와 같은 바이너리에서 직접 비교되는 유일한 후보다.
+
+<details><summary>측정 전 우선순위 목록(기록용)</summary>
 
 | 우선순위 | 후보 | 왜 | 예상 | 준비 비용 |
 |---|---|---|---|---|
@@ -218,5 +248,7 @@ CloudSuite는 4.0 이미지(2023-06 릴리스: Ubuntu 22, PHP 8.1 JIT, Solr 9.1.
 | 8 | Ceph OSD (대형 C++ AOT 스토리지 데몬) | AOT 대형 서비스 | 미상 | 클러스터 셋업 1일 — 보류 |
 | 9 | OpenMM | 확인용 | ≪1 | 30분 |
 | — | IPC-1 / CVP-1 / SPEC2017 traces | ChampSim 전용; 실기 측정 세팅 밖 | — | 해당 없음 |
+
+</details>
 
 B 부류 쪽 추가 후보는 §5의 서버리스(vHive/vSwarm)와 TailBench silo 고부하 재측정 그대로다.

@@ -54,6 +54,7 @@ export PATH=$PWD/benchmarks/tools/miniforge3/bin:$PATH; set +u; source benchmark
 ## 2. B 부류(interleaving) — `docs/prefetch_plan_by_miss_class.md` §3
 
 ### 2-0. wake-stream (2026-09-21, `docs/prefetch_plan_classB_wakestream.md` §7) — 2-A/2-B보다 우선
+- **최종(18:05, 5회)**: p11a(dense drip + post-call run 시작부) **1.054x, MPKI 86.6→76.9, 명령 +2.8%**; static plan 1.006x, callee-burst static 1.015x(twin 1.011x). 14 라운드의 결론과 안 되는 것 목록은 §7-21. pass에 `after_call`/`@n` 사이트 종류 추가됨(PrefetchITPass.cpp, 백업 .bak_postcall). `media_stack.sh down`에 `-v` 추가(익명 볼륨 207개·14 GB가 디스크를 채웠음).
 - **구현·측정 완료(movie-id interleaved, R=600, 3회, 8 라운드)**: LD_PRELOAD 1.014x → inline drip 1.031x → 아카이브 사이트 **1.046x**(wsp3; 재측정 1.050/1.037) → coverage·overhead·lead 스윕(라벨, 128 B 페어, gap filler, fall-through 제외, d 8–32)은 모두 ±1% 안 = **이 계열의 상한 ≈1.05x**(§7-14). prefetchit1은 같은 자리에서 0.982x. preload stage 0은 래퍼 비용에 지워짐. 남은 일: pass post-call 사이트(run 시작부 inline), glibc 정적 링크, compose-review/compose-post, 5회 확정. 도구 `flat_codegen/dsb_build/media/ws/`; DSB 소스에 mark 패치 적용 상태(`ws_patch_src.sh revert`).
 - §5 순서대로: 심볼화 수정(`MovieIdService=0` — 현재 ab_hi의 `effhi` arm은 빈 plan이라 무효) → fill-queue microbench(Q)·L3 latency → interleaved **Intel PT** trace → `run_paths.py`/`wakestream_plan.py` → pass post-call 사이트(rdtsc 게이트, 표 방식 burst) → movie-id A/B(SWPF 카운터, 게이트 G1–G3).
 
@@ -78,7 +79,8 @@ export PATH=$PWD/benchmarks/tools/miniforge3/bin:$PATH; set +u; source benchmark
 ## 3. 미측정·미완 벤치마크 (`docs/prefetch_plan_by_miss_class.md` §5, 2026-09-19 밤 갱신)
 - 완료(탈락): DCPerf v2 batch 6종, TaoBench(클라이언트 확인), CloudSuite graph/in-memory-analytics, DaCapo h2o/fop/kafka, TailBench img-dnn/moses/shore/masstree, FleetBench 7종.
 - **새 A 부류 후보: FleetBench proto_benchmark 16.9 MPKI(1코어)** → §1-A 순서(seq → cold plan → twin)로 바로 착수 가능.
-- 추가 후보(조사만, 2026-09-21): `docs/prefetch_plan_by_miss_class.md` §6 — 1순위 ScyllaDB(AOT NoSQL, YCSB), 2순위 ARM core-benchmarks frontend(합성, 1시간), 3순위 GHDL LLVM 백엔드; OpenMM은 탈락 예상; "Prefetching for Hierarchical BTBs" 논문은 미색인이라 BTB-X/CryptoBTB/Twig 세트로 대체 확인(추가할 것 없음).
+- 추가 후보 **측정 완료(2026-09-21, `llvm_prefetchit/results/newcands_20260921/`)**: A 부류 신규 = ARM core-benchmarks frontend(dfs16 **72.1**, ipc3000 **48.9** MPKI, 1코어), MySQL 8(**2.35**, 4코어 75%), Rails+puma(**1.91**, 4코어 38%); B 부류 신규 = ScyllaDB(0.40 → **6.05–10.97** 공유 시), MySQL 8(→**9.25**), Rails(→**3.48**). 탈락 = ScyllaDB alone, finagle-http 0.26, OpenMM 0.01. 보류 = GHDL-LLVM(apt 충돌), BenchBase(JDK 23), HHVM(JIT), Ceph(셋업).
+- 다음 착수 순서(A 부류): **ARM frontend ipc3000 → FleetBench proto → MySQL 8 → Rails**. ARM frontend는 생성기 자체의 `--insert_code_prefetches`가 있어 우리 pass와 직접 비교되는 유일한 후보다.
 - 진행 중/미완: adsim 설치(libaegis 추가 후 재빌드), cdn_bench 측정(IPv6 루프백), TailBench silo/sphinx/xapian(입력 재다운로드), ucache_bench(디스크), data-analytics(YARN NodeManager 등록 실패), media-streaming(클라이언트 ssh), video_transcode 클립, WDL/Mediawiki/Spark, μSuite SetAlgebra/HDSearch, 서버리스(vHive/vSwarm), hotel Go 삽입기.
 - 디스크(2026-09-20 정리, 사용자 지시): 삭제 = DCPerf v1 빌드, DCPerf v2 탈락 패키지(adsim, cdn_bench, xsbench/gapbs/graph500/liblinear/schbench/syscall, TaoBench), TailBench moses/img-dnn/shore 입력, PostgreSQL·php/WordPress·ClickHouse 빌드, gem5 빌드, CloudSuite data-caching 이미지 → 69 GB 여유. 남긴 것 = django v2·feedsim v2(A 부류), TailBench 소스(silo/masstree), MariaDB(A-4), MicroSuite(SetAlgebra/HDSearch 미시도), SPEC2026(재설치 어려움), DaCapo 데이터·CloudSuite web-serving/web-search/data-serving 이미지(JVM/JIT 참고값).
 
