@@ -1,0 +1,8 @@
+#!/bin/sh
+# clang-19 that loads the PrefetchIT pass plugin only when COMPILING. Passing -fpass-plugin on a link line makes clang hand the linker
+# an LTO plugin (-plugin LLVMgold.so, which the tarball install does not ship) and multi-target builds such as MariaDB's client
+# plugins then fail to link. PREFETCHIT_PLUGIN selects the .so; CLANGPF_CXX=1 selects clang++.
+CC=clang-19; [ "${CLANGPF_CXX:-0}" = 1 ] && CC=clang++-19
+PLUG=${PREFETCHIT_PLUGIN:-/home/hnpark2/prefetchit/llvm_prefetchit/build/PrefetchITPass.so}
+for a in "$@"; do case "$a" in -c|-S|-E) exec $CC -fpass-plugin=$PLUG "$@";; esac; done
+exec $CC "$@"

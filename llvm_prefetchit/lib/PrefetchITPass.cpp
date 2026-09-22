@@ -25,6 +25,7 @@
 #include "llvm/Support/raw_ostream.h"
 
 #include <algorithm>
+#include <deque>
 #include <cctype>
 #include <cstdlib>
 #include <cstdint>
@@ -1019,6 +1020,106 @@ static bool needsWeakDecl(Module &M, StringRef Sym) {
 // At the entry of every listed function: direct targets → "prefetcht1 sym+off(%rip)" (7 B); GOT targets grouped by anchor →
 // "movq anchor@GOTPCREL(%rip),%r11" (7 B) + "prefetcht1 off(%r11)" (4/5/8 B); the burst is padded with .nops to "k" (a multiple of 16)
 // so that body offsets shift by exactly k and the plan's offsets (measured on the pass-free layout) stay valid.
+// Where should a burst go inside its site function?
+//
+//   entry      the historical choice: the first insertion point of the entry block. Simple, but if the code that uses the targets sits
+//              in a loop the burst is still paid once per call, and if the site function itself is called from a loop the burst is paid
+//              every iteration with no way to tell.
+//   dominator  the nearest common dominator of the instructions that actually reach the targets (the call sites of the target
+//              functions), then hoisted out of every enclosing loop whose preheader still leaves enough lead. Hoisting divides the
+//              execution count of the burst by the trip count of the loop, which is the dominant term of "prefetch executions per
+//              avoided miss"; the lead estimate (IR instructions along the shortest CFG path from the candidate to the first use)
+//              stops the hoist before the prefetch is issued so early that the line is evicted again.
+struct PlacementInfo {
+  Instruction *At = nullptr;
+  unsigned LoopDepthBefore = 0, LoopDepthAfter = 0, Lead = 0;
+  bool Moved = false, SameFuncTargets = false;
+};
+static unsigned shortestLeadInsns(BasicBlock *From, const SmallPtrSetImpl<BasicBlock *> &Uses, unsigned Cap) {
+  // BFS over the CFG accumulating instruction counts; returns the smallest number of IR instructions from From to any use block.
+  if (Uses.count(From))
+    return 0;
+  std::deque<std::pair<BasicBlock *, unsigned>> Q;
+  SmallPtrSet<BasicBlock *, 32> Seen;
+  Q.push_back({From, 0});
+  Seen.insert(From);
+  while (!Q.empty()) {
+    auto [BB, D] = Q.front();
+    Q.pop_front();
+    unsigned N = D + BB->size();
+    if (N > Cap)
+      continue;
+    for (BasicBlock *Succ : successors(BB)) {
+      if (Uses.count(Succ))
+        return N;
+      if (Seen.insert(Succ).second)
+        Q.push_back({Succ, N});
+    }
+  }
+  return Cap + 1;
+}
+static PlacementInfo choosePlacement(Function &F, const std::set<std::string> &TargetFns, bool Dominator,
+                                     unsigned MinLead, unsigned MaxLead) {
+  PlacementInfo P;
+  P.At = &*F.getEntryBlock().getFirstInsertionPt();
+  if (!Dominator)
+    return P;
+  DominatorTree DT(F);
+  LoopInfo LI(DT);
+  SmallPtrSet<BasicBlock *, 16> Uses;
+  for (BasicBlock &BB : F)
+    for (Instruction &I : BB) {
+      auto *CB = dyn_cast<CallBase>(&I);
+      if (!CB || CB->isInlineAsm())
+        continue;
+      Function *Callee = CB->getCalledFunction();
+      if (Callee && TargetFns.count(Callee->getName().str()))
+        Uses.insert(&BB);
+    }
+  if (Uses.empty())
+    return P;   // the targets are not called from this function (libc through the GOT, indirect dispatch): keep the entry
+  BasicBlock *NCD = *Uses.begin();
+  for (BasicBlock *BB : Uses)
+    NCD = DT.findNearestCommonDominator(NCD, BB);
+  if (!NCD)
+    return P;
+  P.LoopDepthBefore = LI.getLoopDepth(NCD);
+  // Candidates: the dominator chain from the nearest common dominator up to the entry, plus the preheader of every loop enclosing one
+  // of them. Every candidate dominates all the uses, so the burst is never issued on a path that cannot reach them.
+  SmallVector<BasicBlock *, 16> Cands;
+  for (BasicBlock *B = NCD; B;) {
+    Cands.push_back(B);
+    if (Loop *L = LI.getLoopFor(B))
+      if (BasicBlock *PH = L->getLoopPreheader())
+        Cands.push_back(PH);
+    if (B == &F.getEntryBlock())
+      break;
+    DomTreeNode *N = DT.getNode(B);
+    B = (N && N->getIDom()) ? N->getIDom()->getBlock() : nullptr;
+  }
+  // Cheapest first: a burst inside a loop is paid once per iteration, so the smallest loop depth wins; among equally cheap points the
+  // latest one (shortest lead) wins, because fewer paths reach it and the line has less time to be evicted again. Points whose lead
+  // falls outside [MinLead, MaxLead] are unusable - too late to cover the miss, or so early that the line is gone by then.
+  BasicBlock *Best = nullptr;
+  unsigned BestDepth = ~0u, BestLead = 0;
+  for (BasicBlock *C : Cands) {
+    unsigned Lead = shortestLeadInsns(C, Uses, MaxLead);
+    if (Lead < MinLead || Lead > MaxLead)
+      continue;
+    unsigned D = LI.getLoopDepth(C);
+    if (D < BestDepth || (D == BestDepth && Lead < BestLead)) {
+      Best = C; BestDepth = D; BestLead = Lead;
+    }
+  }
+  if (!Best)
+    return P;   // nothing inside the window: keep the entry, which is at least outside every loop
+  P.LoopDepthAfter = BestDepth;
+  P.Lead = BestLead;
+  P.Moved = Best != &F.getEntryBlock();
+  P.At = &*Best->getFirstInsertionPt();
+  return P;
+}
+
 static uint64_t runColdPlan(Module &M, const SeqConfig &C, StringRef PlanPath) {
   auto Buf = MemoryBuffer::getFile(PlanPath);
   if (!Buf) {
@@ -1054,13 +1155,14 @@ static uint64_t runColdPlan(Module &M, const SeqConfig &C, StringRef PlanPath) {
       std::optional<StringRef> File = E->getString("file"), Fn = E->getString("fn");
       if (!File || !Fn)
         continue;
-      // a static function defined in a header (Argument Clinic *.c.h, sre_lib.h ...) is attributed to that header by nm -l; it lives in
-      // the including module, so match such entries by name (the generator only aliases names that are unique among local symbols)
-      if (*File != ModFile && !File->ends_with(".h"))
-        continue;
+      // Match by name, not by file: nm -l attributes a static function to whatever source or header the debug line info points at,
+      // which is often not the name of the module that defines it (generated files, Argument Clinic headers, inlining). The alias is
+      // weak and hidden, so if several translation units define a static of the same name the copies merge harmlessly.
       Function *G = M.getFunction(*Fn);
       if (!G || G->isDeclaration() || !G->hasLocalLinkage())
         continue;
+      if (M.getNamedValue(KV.first))
+        continue;   // already created
       // weak: a header-defined static of the same name may be instantiated in several TUs; any copy is an acceptable target
       auto *GA = GlobalAlias::create(G->getValueType(), 0, GlobalValue::WeakAnyLinkage, KV.first.str(), G, &M);
       GA->setVisibility(GlobalValue::HiddenVisibility);
@@ -1095,13 +1197,34 @@ static uint64_t runColdPlan(Module &M, const SeqConfig &C, StringRef PlanPath) {
     }
     return Epoch;
   };
-  uint64_t Funcs = 0, Direct = 0, Got = 0, Pad = 0, SkippedDirect = 0, Gated = 0;
+  uint64_t Funcs = 0, Direct = 0, Got = 0, Pad = 0, SkippedDirect = 0, Gated = 0, MovedSites = 0, LoopLevelsSaved = 0;
+  // PREFETCHIT_COLD_PLACEMENT=dominator moves each burst from the function entry to the nearest common dominator of the target call
+  // sites, hoisted out of the enclosing loops (PREFETCHIT_COLD_PLACE_MAX_LEAD IR instructions of lead at most).
+  const char *PLE = std::getenv("PREFETCHIT_COLD_PLACEMENT");
+  const bool Placement = PLE && StringRef(PLE) == "dominator";
+  unsigned PlaceMaxLead = 4000, PlaceMinLead = 20;
+  if (const char *ML = std::getenv("PREFETCHIT_COLD_PLACE_MAX_LEAD"); ML && *ML)
+    PlaceMaxLead = atoi(ML);
+  if (const char *ML = std::getenv("PREFETCHIT_COLD_PLACE_MIN_LEAD"); ML && *ML)
+    PlaceMinLead = atoi(ML);
+  std::map<std::string, std::string> AliasFn;   // alias name -> the local function it points at (for use detection)
+  if (const json::Object *AL2 = Root->getObject("aliases"))
+    for (const auto &KV : *AL2)
+      if (const json::Object *E = KV.second.getAsObject())
+        if (std::optional<StringRef> Fn = E->getString("fn"))
+          AliasFn[KV.first.str()] = Fn->str();
+  uint64_t MissedAfterCall = 0;
   for (Function &F : M) {
     if (F.isDeclaration())
       continue;
-    const json::Object *S = Sites->getObject(F.getName());
-    if (!S)
+   for (int Var = 0; Var < 4; ++Var) {   // "<fn>" = entry site; "<fn>@1".."<fn>@3" = further sites in the same function (after_call)
+    const std::string SiteKey = Var ? (F.getName().str() + "@" + std::to_string(Var)) : F.getName().str();
+    const json::Object *S = Sites->getObject(SiteKey);
+    if (!S) {
+      if (Var)
+        break;
       continue;
+    }
     if (std::optional<StringRef> SF = S->getString("file"); SF && *SF != ModFile && !(SF->ends_with(".h") && F.hasLocalLinkage()))
       continue;   // a local site function of another TU with the same name (header-defined statics match by name, see aliases)
     const json::Array *T = S->getArray("t");
@@ -1201,7 +1324,44 @@ static uint64_t runColdPlan(Module &M, const SeqConfig &C, StringRef PlanPath) {
       Pad += K - Bytes;
     }
     Asm.erase(Asm.size() - 2);
-    Instruction *At = &*F.getEntryBlock().getFirstInsertionPt();
+    std::set<std::string> TargetFns;
+    for (auto &[Sym, Off] : DirectT)
+      TargetFns.insert(AliasFn.count(Sym) ? AliasFn[Sym] : Sym);
+    PlacementInfo PL = choosePlacement(F, TargetFns, Placement, PlaceMinLead, PlaceMaxLead);
+    if (PL.Moved) {
+      ++MovedSites;
+      LoopLevelsSaved += (PL.LoopDepthBefore > PL.LoopDepthAfter) ? PL.LoopDepthBefore - PL.LoopDepthAfter : 0;
+    }
+    Instruction *At = PL.At;
+    if (std::optional<StringRef> AC = S->getString("after_call")) {   // post-call site: the burst goes right after the nth call to AC
+      const int64_t Nth = S->getInteger("nth").value_or(1);
+      int64_t Seen = 0;
+      Instruction *Found = nullptr;
+      for (BasicBlock &BB : F) {
+        for (Instruction &I : BB) {
+          auto *CB = dyn_cast<CallBase>(&I);
+          if (!CB)
+            continue;
+          Function *Callee = CB->getCalledFunction();
+          if (!Callee || Callee->getName() != *AC)
+            continue;
+          if (++Seen != Nth)
+            continue;
+          if (auto *II = dyn_cast<InvokeInst>(CB))
+            Found = &*II->getNormalDest()->getFirstInsertionPt();
+          else
+            Found = I.getNextNode();
+          break;
+        }
+        if (Found)
+          break;
+      }
+      if (!Found) {
+        ++MissedAfterCall;
+        continue;
+      }
+      At = Found;
+    }
     std::string Constraints = UsesR11 ? "~{r11}" : "";
     if (UsesR10)
       Constraints += ",~{r10}";
@@ -1210,8 +1370,11 @@ static uint64_t runColdPlan(Module &M, const SeqConfig &C, StringRef PlanPath) {
     CallInst *CI = CallInst::Create(InlineAsm::get(AsmTy, Asm, Constraints, true), {}, "", At);
     CI->setDebugLoc(At->getDebugLoc());
     ++Funcs;
+   }
   }
-  errs() << "prefetchit-cold-plan: sites=" << Funcs << " aliases=" << Aliases << " gated=" << Gated << " direct=" << Direct << " got=" << Got << " pad_bytes=" << Pad
+  errs() << "prefetchit-cold-plan: sites=" << Funcs << " aliases=" << Aliases << " gated=" << Gated << " moved=" << MovedSites
+         << " after_call_missing=" << MissedAfterCall
+         << " loop_levels_saved=" << LoopLevelsSaved << " direct=" << Direct << " got=" << Got << " pad_bytes=" << Pad
          << " direct_via_got=" << SkippedDirect << (ExeModule ? " (exe module)" : " (shared-object module)") << "\n";
   return Direct + Got;
 }
