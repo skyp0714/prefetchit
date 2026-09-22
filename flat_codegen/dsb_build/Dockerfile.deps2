@@ -1,0 +1,27 @@
+FROM dsb-deps-jammy
+RUN cd /tmp \
+  && git clone -q https://github.com/CopernicaMarketingSoftware/AMQP-CPP.git \
+  && cd AMQP-CPP && git checkout -q v4.1.4 \
+  && cmake -B b -DCMAKE_BUILD_TYPE=Release -DAMQP-CPP_BUILD_SHARED=on -DAMQP-CPP_LINUX_TCP=on . \
+  && make -C b -j$(nproc) && make -C b install && rm -rf /tmp/*
+RUN cd /tmp \
+  && git clone -q https://github.com/alanxz/SimpleAmqpClient.git \
+  && cd SimpleAmqpClient && git checkout -q v2.4.0 \
+  && cmake -B b -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS=-Wno-error . \
+  && make -C b -j$(nproc) && make -C b install && rm -rf /tmp/*
+RUN cd /tmp \
+  && git clone -q https://github.com/redis/hiredis.git \
+  && cd hiredis && git checkout -q v1.0.0 \
+  && make -j$(nproc) USE_SSL=1 && make USE_SSL=1 install && rm -rf /tmp/*
+RUN cd /tmp \
+  && git clone -q https://github.com/sewenew/redis-plus-plus.git \
+  && cd redis-plus-plus && git checkout -q 1.2.3 \
+  && cmake -B b -DCMAKE_BUILD_TYPE=Release -DREDIS_PLUS_PLUS_USE_TLS=ON -DREDIS_PLUS_PLUS_BUILD_TEST=OFF . \
+  && make -C b -j$(nproc) && make -C b install && rm -rf /tmp/*
+RUN cd /tmp \
+  && git clone -q https://github.com/cpp-redis/cpp_redis.git \
+  && cd cpp_redis && git checkout -q 4.3.1 \
+  && git submodule -q init && git submodule -q update \
+  && cmake -B b -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-Wno-error -include thread -include chrono" . \
+  && make -C b -j$(nproc) && make -C b install && rm -rf /tmp/*
+RUN ldconfig

@@ -1,0 +1,15 @@
+# Bind-mount the (possibly patched) UserTimelineService binary and its hot DSOs
+# from postlink/active/ into the stock DSB image. Swap files + docker restart to
+# change arms; the image itself is never rebuilt.
+services:
+  user-timeline-service:
+    volumes:
+      - ${PL}/active/UserTimelineService:/usr/local/bin/UserTimelineService:ro
+      - ${PL}/active/libthrift.so.0.12.0:/usr/local/lib/libthrift.so.0.12.0:ro
+      - ${PL}/active/libjaegertracing.so.0:/usr/local/lib/libjaegertracing.so.0:ro
+      - ${PL}/active/libmongoc-1.0.so.0:/usr/local/lib/libmongoc-1.0.so.0:ro
+      - ${PL}/active/libbson-1.0.so.0:/usr/local/lib/libbson-1.0.so.0:ro
+      - ${PL}/active/libstdc++.so.6.0.21:/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21:ro
+      - ${PL}/active/libc-2.23.so:/lib/x86_64-linux-gnu/libc-2.23.so:ro
+    environment:
+      - LD_BIND_NOW=1

@@ -1,0 +1,14 @@
+# Extra override: run post-storage on dsb-deps-g base with BOTH the binary
+# and /usr/local/lib mounted from host swap dirs, so A/B arms can swap
+# injected/NOP lib sets without image rebuilds (layout-identical NOP twins
+# made by in-place prefetch->NOP patching).
+# Usage: docker compose -f docker-compose.yml -f compose-override.yml \
+#          -f compose-override-libs.yml up -d post-storage-service
+services:
+  post-storage-service:
+    image: dsb-deps-g
+    volumes:
+      - ${PREFETCHIT_ROOT}/flat_codegen/dsb_build/bin_active:/custom
+      - ${PREFETCHIT_ROOT}/flat_codegen/dsb_build/libs_active:/usr/local/lib
+      - ${PREFETCHIT_ROOT}/benchmarks/DeathStarBench/socialNetwork/config:/social-network-microservices/config
+      - ${PREFETCHIT_ROOT}/benchmarks/DeathStarBench/socialNetwork/keys:/social-network-microservices/keys

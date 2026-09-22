@@ -1,0 +1,6 @@
+FROM dsb-deps-jammy
+RUN cd /tmp \
+  && git clone -q https://github.com/sewenew/redis-plus-plus.git \
+  && cd redis-plus-plus && git checkout -q 1.3.10 \
+  && cmake -B b -DCMAKE_BUILD_TYPE=Release -DREDIS_PLUS_PLUS_USE_TLS=ON -DREDIS_PLUS_PLUS_BUILD_TEST=OFF . \
+  && make -C b -j$(nproc) && make -C b install && ldconfig && rm -rf /tmp/*

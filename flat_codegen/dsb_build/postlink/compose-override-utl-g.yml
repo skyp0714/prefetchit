@@ -1,0 +1,12 @@
+# Run user-timeline-service from a rebuilt deps image (clang-19 userland): binary from ${UTL_BIN}/UserTimelineService,
+# /usr/local/lib from ${UTL_LIBS}; image ${UTL_IMG}. Used by dsb_g_ab.sh for the "full rebuild" arms.
+services:
+  user-timeline-service:
+    image: ${UTL_IMG}
+    working_dir: /social-network-microservices
+    entrypoint: ["/custom/UserTimelineService"]
+    volumes:
+      - ${UTL_BIN}:/custom:ro
+      - ${UTL_LIBS}:/usr/local/lib:ro
+      - /home/hnpark2/prefetchit/benchmarks/DeathStarBench/socialNetwork/config:/social-network-microservices/config
+      - /home/hnpark2/prefetchit/benchmarks/DeathStarBench/socialNetwork/keys:/social-network-microservices/keys

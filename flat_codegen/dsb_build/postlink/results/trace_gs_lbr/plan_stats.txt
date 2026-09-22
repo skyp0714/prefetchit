@@ -1,0 +1,9 @@
+samples=307884 attributed=170787 (55.5%) kept_weight=140901 (45.8% of samples) sites=191 targets=1639 avg_burst=72B got_targets=288
+   49.7%  attributed: earlier entry
+   40.7%  drop: no instrumentable site in LBR window
+    5.8%  attributed: own entry (no earlier entry in window)
+    2.1%  drop: local non-instrumentable function
+    1.4%  drop: other dso
+    0.3%  drop: local target from other site
+    0.3%  drop: libc no anchor
+top sites: _ZNSt17_Function_handlerIFSt10unique_ptrINSt13__fu (24 lines, w=7053); _ZN6apache6thrift9transport17TVirtualTransportINS1 (32 lines, w=6884); _ZN13jaegertracing11SpanContext10fromStreamERSi (27 lines, w=5024); _ZNKSt14__basic_futureISt6vectorIN14social_network (24 lines, w=4642); _ZN6apache6thrift18TDispatchProcessor7processESt10 (23 lines, w=4333); _ZN13jaegertracing11SpanContext4swapERS0_ (30 lines, w=4194); _ZN2sw5redis5Redis7commandIPFvRNS0_10ConnectionERK (29 lines, w=3879); _ZN2sw5redis3cmd9zrevrangeERNS0_10ConnectionERKNS0 (18 lines, w=3822)

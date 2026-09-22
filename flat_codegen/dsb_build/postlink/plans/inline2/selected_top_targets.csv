@@ -1,0 +1,22 @@
+rank,samples,function,file,line,addr,cacheline64,mangled,symbol_size
+1,215,sw::redis::ConnectionPool::fetch(),/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/tuple,301,0x25d04,0x25d00,_ZN2sw5redis14ConnectionPool5fetchEv,0x551
+2,77,sw::redis::ConnectionPool::fetch(),/opt/src/redis-plus-plus/src/sw/redis++/connection_pool.cpp,130,0x25fd5,0x25fc0,_ZN2sw5redis14ConnectionPool5fetchEv,0x551
+3,66,sw::redis::SafeConnection::~SafeConnection(),/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/unique_ptr.h,362,0x36f9b,0x36f80,_ZN2sw5redis14SafeConnectionD2Ev,0x10a
+4,42,sw::redis::ConnectionPool::fetch(),/opt/src/redis-plus-plus/src/sw/redis++/connection.h,129,0x25dd7,0x25dc0,_ZN2sw5redis14ConnectionPool5fetchEv,0x551
+5,28,sw::redis::ConnectionPool::release(sw::redis::Connection),/opt/src/redis-plus-plus/src/sw/redis++/connection_pool.cpp,142,0x26694,0x26680,_ZN2sw5redis14ConnectionPool7releaseENS0_10ConnectionE,0xcf
+6,22,"sw::redis::CmdArgs& sw::redis::CmdArgs::operator<<<double const&, 0>(double const&)",/opt/src/redis-plus-plus/src/sw/redis++/command_args.h,127,0x1f2d0,0x1f2c0,_ZN2sw5redis7CmdArgslsIRKdTnNSt9enable_ifIXsr3std13is_arithmeticINSt5decayIT_E4typeEEE5valueEiE4typeELi0EEERS1_OS7_,0xf2
+7,21,sw::redis::ConnectionPool::fetch(),/opt/src/redis-plus-plus/src/sw/redis++/connection_pool.cpp,76,0x25c90,0x25c80,_ZN2sw5redis14ConnectionPool5fetchEv,0x551
+8,19,sw::redis::Connection::recv(),/opt/src/redis-plus-plus/src/sw/redis++/connection.cpp,434,0x23521,0x23500,_ZN2sw5redis10Connection4recvEv,0xfb
+9,14,sw::redis::ConnectionPool::release(sw::redis::Connection),/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/x86_64-linux-gnu/c++/11/bits/gthr-default.h,779,0x266a3,0x26680,_ZN2sw5redis14ConnectionPool7releaseENS0_10ConnectionE,0xcf
+10,12,sw::redis::ConnectionPool::fetch(),/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/stl_deque.h,269,0x25cc5,0x25cc0,_ZN2sw5redis14ConnectionPool5fetchEv,0x551
+11,11,"sw::redis::CmdArgs& sw::redis::CmdArgs::operator<<<double const&, 0>(double const&)",/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/basic_string.h,6734,0x1f2de,0x1f2c0,_ZN2sw5redis7CmdArgslsIRKdTnNSt9enable_ifIXsr3std13is_arithmeticINSt5decayIT_E4typeEEE5valueEiE4typeELi0EEERS1_OS7_,0xf2
+12,10,sw::redis::ConnectionPool::fetch(),/opt/src/redis-plus-plus/src/sw/redis++/connection_pool.cpp,256,0x25fed,0x25fc0,_ZN2sw5redis14ConnectionPool5fetchEv,0x551
+13,9,sw::redis::ConnectionOptions::ConnectionOptions(sw::redis::ConnectionOptions&&),/opt/src/redis-plus-plus/src/sw/redis++/connection.h,51,0x248c6,0x248c0,_ZN2sw5redis17ConnectionOptionsC2EOS1_,0x332
+14,8,sw::redis::Connection::recv(),/opt/src/redis-plus-plus/src/sw/redis++/connection.cpp,415,0x23470,0x23440,_ZN2sw5redis10Connection4recvEv,0xfb
+15,8,sw::redis::SafeConnection::~SafeConnection(),/opt/src/redis-plus-plus/src/sw/redis++/connection_pool.h,130,0x36fac,0x36f80,_ZN2sw5redis14SafeConnectionD2Ev,0x10a
+16,8,sw::redis::ConnectionOptions::ConnectionOptions(sw::redis::ConnectionOptions&&),/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/char_traits.h,437,0x2485c,0x24840,_ZN2sw5redis17ConnectionOptionsC2EOS1_,0x332
+17,6,sw::redis::ConnectionPool::release(sw::redis::Connection),/opt/src/redis-plus-plus/src/sw/redis++/connection_pool.cpp,138,0x26610,0x26600,_ZN2sw5redis14ConnectionPool7releaseENS0_10ConnectionE,0xcf
+18,6,sw::redis::ConnectionOptions::ConnectionOptions(sw::redis::ConnectionOptions&&),/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/char_traits.h,437,0x24984,0x24980,_ZN2sw5redis17ConnectionOptionsC2EOS1_,0x332
+19,6,sw::redis::ConnectionOptions::~ConnectionOptions(),/opt/src/redis-plus-plus/src/sw/redis++/connection.h,54,0x23a10,0x23a00,_ZN2sw5redis17ConnectionOptionsD2Ev,0xca
+20,6,std::__cxx11::to_string(long),/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/charconv.h,87,0x271cf,0x271c0,_ZNSt7__cxx119to_stringEl,0x13b
+21,6,sw::redis::ConnectionOptions::ConnectionOptions(sw::redis::ConnectionOptions&&),/opt/src/redis-plus-plus/src/sw/redis++/connection.h,51,0x24ad4,0x24ac0,_ZN2sw5redis17ConnectionOptionsC2EOS1_,0x332

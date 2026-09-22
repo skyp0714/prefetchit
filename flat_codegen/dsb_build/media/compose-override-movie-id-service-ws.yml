@@ -1,0 +1,18 @@
+# movie-id from a rebuilt fat-static binary (${SVC_BIN}/MovieIdService in image ${SVC_IMG}) with the wake-stream LD_PRELOAD runtime.
+services:
+  movie-id-service:
+    image: ${SVC_IMG}
+    working_dir: /media-microservices
+    entrypoint: ["/custom/MovieIdService"]
+    environment:
+      - LD_PRELOAD=${WS_PRELOAD}
+      - WS_LIST=${WS_LISTF}
+      - WS_N0=${WS_N0:-32}
+      - WS_QM=${WS_QM:-32}
+      - WS_MIN_CYCLES=${WS_MIN:-20000}
+      - WS_VERBOSE=1
+    volumes:
+      - ${SVC_BIN}:/custom:ro
+      - ${SVC_LIBS}:/usr/local/lib:ro
+      - /home/hnpark2/prefetchit/flat_codegen/dsb_build:/dsb:ro
+      - /home/hnpark2/prefetchit/benchmarks/DeathStarBench/mediaMicroservices/config:/media-microservices/config:ro

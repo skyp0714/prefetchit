@@ -1,0 +1,13 @@
+measured-exec filter: dropped 95 sites, weight 2519 (5.4% of samples)
+cost filter: dropped 624 (site,target) pairs, weight 3819 (8.3% of samples)
+local aliases used: 0; local sites: 0
+samples=46229 attributed=39292 (85.0%) kept_weight=18321 (39.6% of samples) sites=206 targets=872 avg_burst=46B got_targets=230
+   63.4%  attributed: earlier entry
+   21.6%  attributed: oldest running function (fallback)
+   12.8%  drop: no instrumentable site in LBR window
+    3.3%  drop: local target from other site
+    1.8%  drop: other dso
+    0.5%  drop: own line 0
+    0.3%  drop: libc no anchor
+    0.1%  drop: local non-instrumentable function
+top sites: _ZN14social_network19UserTimelineHandler16ReadUser (32 lines, w=1165); sdscatvprintf (26 lines, w=516); sdscat (15 lines, w=501); redisReaderFeed (9 lines, w=409); _ZNSt13__future_base21_Async_state_commonV217_M_co (17 lines, w=399); _ZN13jaegertracing11SpanContext10fromStreamERSi (16 lines, w=392); _ZN2sw5redis7CmdArgslsIRKdTnNSt9enable_ifIXsr3std1 (8 lines, w=384); _ZNK13jaegertracing4Span6thriftEv (10 lines, w=330)

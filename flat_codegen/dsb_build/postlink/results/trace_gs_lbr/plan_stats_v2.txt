@@ -1,0 +1,10 @@
+samples=307884 attributed=208473 (67.7%) kept_weight=165168 (53.6% of samples) sites=176 targets=1778 avg_burst=84B got_targets=343
+   49.7%  attributed: earlier entry
+   28.5%  drop: no instrumentable site in LBR window
+   18.0%  attributed: oldest running function (fallback)
+    2.1%  drop: local non-instrumentable function
+    1.4%  drop: other dso
+    0.6%  drop: local target from other site
+    0.4%  drop: own line 0
+    0.3%  drop: libc no anchor
+top sites: _ZN14social_network19UserTimelineHandler16ReadUser (32 lines, w=8660); _ZN6apache6thrift9transport17TVirtualTransportINS1 (32 lines, w=7166); _ZNSt17_Function_handlerIFSt10unique_ptrINSt13__fu (23 lines, w=6676); _ZN13jaegertracing5utils10HexParsing11readSegmentB (32 lines, w=4743); _ZN13jaegertracing11SpanContext10fromStreamERSi (19 lines, w=4719); _ZN13jaegertracing11SpanContext4swapERS0_ (31 lines, w=4548); _ZNSt8_Rb_treeINSt7__cxx1112basic_stringIcSt11char (29 lines, w=4365); _ZNK13jaegertracing11SpanContext5printISoEEvRT_ (32 lines, w=4115)

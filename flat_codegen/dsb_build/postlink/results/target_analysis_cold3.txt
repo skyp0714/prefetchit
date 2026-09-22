@@ -1,0 +1,22 @@
+static: rip-relative prefetch sites=24706 (distinct target lines=17874), GOT-form sites=5469, instrumented functions=2889, callee-entry targets=1385
+twin trace: samples=254350, exe=141573 (55.7%), distinct exe miss lines=2194
+twin misses on lines the pass targets: 56.9% of exe misses (1388 lines)
+
+uncovered twin misses by cause (share of exe misses, distinct lines):
+   56.9%   1388 lines  covered
+   17.7%    251 lines  function not instrumented (no site, no entry target)
+   15.4%    421 lines  beyond own-lines cap
+    5.6%     80 lines  callee interior (only entry targeted; callee too small to self-prefetch)
+    4.3%     49 lines  entry line, no caller prefetches it (indirect/virtual or loop-only call)
+    0.1%      5 lines  other
+    e.g. entry line, no caller prefetches it (ind: _ZNK13jaegertracing11propagation10PropagatorIRKN11opentracin+0x0 (0.4%); _ZN14social_network28UserTimelineServiceProcessor12dispatchC+0x0 (0.4%); _ZSt13__invoke_implIN11opentracing2v28expectedIvSt10error_co+0x0 (0.2%); _ZNSt8_Rb_treeINSt7__cxx1112basic_stringIcSt11char_traitsIcE+0x0 (0.2%)
+    e.g. beyond own-lines cap: _ZNSt17_Function_handlerIFSt10unique_ptrINSt13__future_base1+0x450 (0.5%); _ZNSt10_HashtableINSt7__cxx1112basic_stringIcSt11char_traits+0x400 (0.5%); bson_init_static+0xf0 (0.4%); _ZN13jaegertracing4Span3LogESt16initializer_listISt4pairIN11+0xd0 (0.4%)
+    e.g. function not instrumented (no site, no e: _ZNSt15basic_streambufIcSt11char_traitsIcEE6xsputnEPKcl+0x80 (0.6%); _ZNSi4swapERSi+0xb0 (0.6%); _ZN6apache6thrift9transport17TVirtualTransportINS1_16TFramed+0x10 (0.5%); _ZN6apache6thrift8protocol16TVirtualProtocolINS1_16TBinaryPr+0x10 (0.5%)
+    e.g. callee interior (only entry targeted; ca: __dynamic_cast+0x20 (0.6%); __dynamic_cast+0x60 (0.3%); _ZN13jaegertracing11SpanContextD2Ev+0x10 (0.3%); _ZNSi3getERc+0x50 (0.2%)
+    e.g. other: redisAppendCommand+0x30 (0.0%); _ZN14social_network19UserTimelineHandler16ReadUserTimelineER+0x20 (0.0%); _bson_append+0x10 (0.0%); _ZNK13jaegertracing6Tracer17startSpanInternalERKNS_11SpanCon+0x20 (0.0%)
+
+waste: 16486/17874 target lines (20768/24706 sites) never miss in the twin trace
+
+prefetch-binary trace: samples=208725, exe=107723 (51.6%), distinct exe miss lines=2105
+residual misses on targeted lines: 53.0% of exe misses (prefetched too late / evicted / dropped)
+  top residual targeted lines: _ZNSt6locale5_ImplC2ERKS0_m+0x1c0 (0.8%); _ZN13jaegertracing11propagation10PropagatorIRKN11opentracing+0x4a0 (0.7%); prefetchit.cold._ZNSt5dequeIN2sw5redis10ConnectionESaIS2_EE1+0x60 (0.7%); _ZN6apache6thrift18TDispatchProcessor7processESt10shared_ptr+0x60 (0.6%); _ZN6apache6thrift9transport16TFramedTransport9readFrameEv+0xa0 (0.6%); _ZN13jaegertracing4Span17FinishWithOptionsERKN11opentracing2+0xe0 (0.5%)

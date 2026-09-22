@@ -1,0 +1,10 @@
+samples=307884 attributed=269986 (87.7%) kept_weight=204487 (66.4% of samples) sites=297 targets=2528 avg_burst=80B got_targets=559
+   69.4%  attributed: earlier entry
+   18.3%  attributed: oldest running function (fallback)
+   10.4%  drop: no instrumentable site in LBR window
+    2.3%  drop: local target from other site
+    1.4%  drop: other dso
+    0.3%  drop: own line 0
+    0.3%  drop: libc no anchor
+    0.2%  drop: local non-instrumentable function
+top sites: _ZN14social_network19UserTimelineHandler16ReadUser (32 lines, w=8444); _ZN6apache6thrift9transport17TVirtualTransportINS1 (32 lines, w=7166); _ZNSt17_Function_handlerIFSt10unique_ptrINSt13__fu (22 lines, w=6666); sdscatvprintf (32 lines, w=6217); _ZN13jaegertracing5utils10HexParsing11readSegmentB (32 lines, w=4743); _ZN13jaegertracing11SpanContext10fromStreamERSi (19 lines, w=4719); _ZN13jaegertracing11SpanContext4swapERS0_ (30 lines, w=4521); _ZNSt8_Rb_treeINSt7__cxx1112basic_stringIcSt11char (28 lines, w=4245)

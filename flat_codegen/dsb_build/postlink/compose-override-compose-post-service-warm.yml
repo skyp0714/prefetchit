@@ -1,0 +1,20 @@
+# Rebuilt-userland compose-post (image ${UTL_IMG}, bin ${UTL_BIN}, libs ${UTL_LIBS}) with an optional LD_PRELOAD warm-up library.
+services:
+  compose-post-service:
+    image: ${UTL_IMG}
+    working_dir: /social-network-microservices
+    entrypoint: ["/custom/ComposePostService"]
+    environment:
+      - LD_PRELOAD=${WARM_PRELOAD}
+      - WARMUP_LIST=${WARM_LIST}
+      - WARMUP_N=${WARM_N}
+      - WARMUP_STAGE=${WARM_STAGE}
+      - WARMUP_MIN_CYCLES=${WARM_MIN}
+      - WARMUP_VERBOSE=1
+      - WARMUP_PACE=${WARM_PACE:-0}
+    volumes:
+      - ${UTL_BIN}:/custom:ro
+      - ${UTL_LIBS}:/usr/local/lib:ro
+      - /home/hnpark2/prefetchit/flat_codegen/dsb_build:/dsb:ro
+      - /home/hnpark2/prefetchit/benchmarks/DeathStarBench/socialNetwork/config:/social-network-microservices/config
+      - /home/hnpark2/prefetchit/benchmarks/DeathStarBench/socialNetwork/keys:/social-network-microservices/keys

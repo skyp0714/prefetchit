@@ -1,0 +1,12 @@
+cost filter: dropped 316 (site,target) pairs, weight 2311 (0.8% of samples)
+samples=307884 attributed=269986 (87.7%) kept_weight=136899 (44.5% of samples) sites=324 targets=1847 avg_burst=53B got_targets=0
+   69.4%  attributed: earlier entry
+   36.2%  drop: got target (--no-got)
+   18.3%  attributed: oldest running function (fallback)
+   10.4%  drop: no instrumentable site in LBR window
+    1.7%  drop: local target from other site
+    1.4%  drop: other dso
+    0.8%  drop: own line 0
+    0.3%  drop: libc no anchor
+    0.2%  drop: local non-instrumentable function
+top sites: _ZN13jaegertracing7TraceID10fromStreamERSi (22 lines, w=4981); _ZN2sw5redis3cmd9zrevrangeERNS0_10ConnectionERKNS0 (17 lines, w=3829); _ZN13jaegertracing5utils10HexParsing11readSegmentB (22 lines, w=3477); _ZNK13jaegertracing7TraceID5printISoEEvRT_ (19 lines, w=3241); _ZN13jaegertracing11SpanContext4swapERS0_ (18 lines, w=3146); _ZN2sw5redis10Connection4recvEv (11 lines, w=2598); redisReaderFeed (29 lines, w=2307); _ZN14social_network19UserTimelineHandler16ReadUser (21 lines, w=2293)
