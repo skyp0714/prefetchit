@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# Keep raw traces out of git. The old flat_codegen repository became unpushable because
+# perf/PT dumps (events.txt 4.7 GB, lbr_symbolic_dump.txt 320 MB, ...) were committed:
+# GitHub rejects any file over 100 MB, so 93 commits could never leave the host.
+# Results belong in git only as summaries (runs.csv, *_stats*.txt, counters.csv, plans).
+set -euo pipefail
+LIMIT_MB=${PREFETCHIT_MAX_BLOB_MB:-10}
+limit=$((LIMIT_MB * 1024 * 1024))
+fail=0
+while IFS= read -r -d '' f; do
+  size=$(git cat-file -s "$(git rev-parse ":$f")" 2>/dev/null || echo 0)
+  if ((size > limit)); then
+    printf '[pre-commit] %s is %d MB (limit %d MB)\n' "$f" $((size / 1048576)) "$LIMIT_MB" >&2
+    fail=1
+  fi
+done < <(git diff --cached --name-only -z --diff-filter=ACM)
+if ((fail)); then
+  cat >&2 <<'MSG'
+[pre-commit] refusing to commit: raw artifacts of this size are regenerable and must stay untracked.
+  add a .gitignore rule, or commit the summary instead.
+  deliberate exception: PREFETCHIT_MAX_BLOB_MB=<n> git commit ...
+MSG
+  exit 1
+fi

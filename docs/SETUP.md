@@ -1,4 +1,4 @@
-# Host setup and restore (state as of 2026-09-15)
+# Host setup and restore (state as of 2026-09-15; layout and boot state updated 2026-09-22)
 
 This is the destination-host log of the September 2026 restore, written so the
 next restore does not have to rediscover the same problems. The canonical
@@ -8,18 +8,26 @@ to be done differently on this host.
 
 ## 1. Layout
 
-The subrepositories must live under the umbrella directory with the *short*
-names used by every script (`ROOT/llvm_prefetchit`, `ROOT/profiling`, ...),
-not their GitHub repository names:
+**One repository since 2026-09-22.** `git clone git@github.com:skyp0714/prefetchit.git`
+brings the whole project: the six former component repositories
+(`llvm_prefetchit_injection`, `frontend_profiling`, `icache_microbenchmark`,
+`static_return_prefetch`, `flat_codegen`, `jit_prefetch`) were merged in with
+their history, each under the *short* directory name the scripts already used
+(`ROOT/llvm_prefetchit`, `ROOT/profiling`, ...). The old GitHub repositories are
+archived read-only; `icache_microbenchmark/` is its old `prefetch_benefit`
+branch (layout `microbench/src`).
 
-| GitHub repo | directory |
-|---|---|
-| `llvm_prefetchit_injection` | `llvm_prefetchit/` |
-| `frontend_profiling` | `profiling/` |
-| all others | same name as the repo |
+After cloning, enable the artifact guard:
 
-`icache_microbenchmark` is pinned to branch `prefetch_benefit` (layout
-`microbench/src`), not `main`.
+```bash
+git config core.hooksPath .githooks   # rejects tracked files >10 MB
+```
+
+Tracked blobs over 10 MB were dropped from the merged history. They were raw
+perf/PT dumps (`events.txt` 4.7 GB, `lbr_symbolic_dump.txt` 320 MB, ...) that
+GitHub's 100 MB limit had made unpushable, which is why the old `flat_codegen`
+repository had 93 commits that never left the host. Results go into git as
+summaries only (`runs.csv`, `*_stats*.txt`, `counters.csv`, plans).
 
 ## 2. Host
 
@@ -32,12 +40,18 @@ not their GitHub repository names:
   with `intel_pstate=disable iommu=pt intel_iommu=on sm_on no5lvl`, but
   `/etc/default/grub` now only has `quiet splash efi=nosoftreserve` (the old
   line is commented out). Consequences:
-  - today: cpufreq driver = `acpi-cpufreq`, P-states 0.8–2.0 GHz plus a global
-    boost flag. `MODE=2ghz` freezing works; `MODE=3.8ghz` (Verilator/JCodeStream
-    single-core protocol) is impossible until intel_pstate is back;
-  - next reboot: kernel 6.8.0-139 with intel_pstate/HWP active — this is the
-    configuration under which the canonical results were taken
-    (README §4; forensics history: `git -C llvm_prefetchit show c7c7bf6:results/paper_goal_20260815/CONFIG_LOG.md`, "Platform
+  - **resolved 2026-09-22**: the host rebooted (11:11) into 6.8.0-139 *without*
+    `intel_pstate=disable`, so the driver is now `intel_pstate` in active/HWP
+    mode, 0.8-3.8 GHz, and **`MODE=3.8ghz` works again** (it was impossible
+    under `acpi-cpufreq`). The protocol itself does not change: after every
+    reboot `freeze_platform.sh show` prints `governor=powersave ... no_turbo=0`
+    with the uncore floating, C6 back on and `perf_event_paranoid=4`, and it
+    must print a frozen state before any measurement;
+  - before that reboot: cpufreq driver = `acpi-cpufreq`, P-states 0.8-2.0 GHz
+    plus a global boost flag; only `MODE=2ghz` was available. Kernel 6.8.0-139
+    with intel_pstate/HWP is the configuration under which the canonical
+    results were taken
+    (README §4; forensics history: `git show 2777fce:llvm_prefetchit/results/paper_goal_20260815/CONFIG_LOG.md`, "Platform
     forensics"). The reference host additionally used
     `isolcpus=10-31 nohz_full=10-31 rcu_nocbs=10-31`; the campaign scripts pin
     threads explicitly, so isolation is optional.

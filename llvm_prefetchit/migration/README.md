@@ -13,18 +13,17 @@ the complete destination-server command sequence.
 
 ## Restore order
 
-1. Clone the umbrella repository and this repository:
+1. Clone the repository. Since 2026-09-22 there is only one: the six component
+   repositories were merged in with their history (see
+   `commit_map_20260922/README.md` for translating pre-merge commit ids).
 
    ```bash
    git clone git@github.com:skyp0714/prefetchit.git
    cd prefetchit
-   git clone git@github.com:skyp0714/llvm_prefetchit_injection.git llvm_prefetchit
+   git config core.hooksPath .githooks   # rejects tracked files >10 MB
    ```
 
-   The other components are cloned by `bootstrap.sh` under the short names in
-   `repos.lock.tsv` (`profiling/`, not `frontend_profiling/`).
-
-2. Install common Ubuntu dependencies, then restore first-party repositories:
+2. Install common Ubuntu dependencies, then restore the pinned tools:
 
    ```bash
    llvm_prefetchit/migration/install_host_deps_ubuntu.sh

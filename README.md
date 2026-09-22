@@ -134,17 +134,21 @@ miss를 cold(C6 wake)·capacity·interleaving으로 분류했다. 결론과 두 
 
 ## 3. 저장소 지도
 
-각 디렉토리는 별도 git 저장소다(umbrella는 문서만 추적). 매니페스트: `llvm_prefetchit/migration/repos.lock.tsv`.
+**저장소는 `skyp0714/prefetchit` 하나다**(2026-09-22 통합). 예전에는 디렉토리마다 별도 GitHub 저장소였고 그 6개는
+history를 경로째 보존해 이 저장소 안으로 합쳤다(옛 저장소는 archive 상태, 새 커밋은 받지 않는다). 매니페스트:
+`llvm_prefetchit/migration/repos.lock.tsv`. `icache_microbenchmark/`는 옛 `prefetch_benefit` 브랜치가 합쳐진 것이다.
+통합 때 10 MB 넘는 추적 blob(LBR/PT 덤프)은 history에서 제거했고,
+`.githooks/pre-commit`이 같은 일이 다시 생기는 것을 막는다(`git config core.hooksPath .githooks` 필요).
 
-| 디렉토리 | 원격 | 단계 | 내용 / 진입점 |
-|---|---|---|---|
-| `icache_microbenchmark/` | icache_microbenchmark (`prefetch_benefit` 브랜치) | 1 | `microbench/src/` `make all prefetch_test`; `run_process_prefetch_experiment.py` |
-| `profiling/` | frontend_profiling | 2 | `run_pebs_sampling.sh`(PEBS+LBR), `analyze_pebs_trace.sh`(symbolize), `run_detailed_profile.sh`; `runscript/bench/bench_common.sh`(Verilator 환경) |
-| `static_prefetch/` | static_return_prefetch (cond 저장소 병합됨) | 2 | **`tools/static_plan.py --kinds ret\|cond\|ret,cond`**; 엔진 `tools/ret/`, `tools/cond/`; 알고리즘 노트 `docs/` |
-| `llvm_prefetchit/` | llvm_prefetchit_injection | 2·3·공통 | pass `lib/PrefetchITPass.cpp`; plan 도구 `tools/`; `scripts/platform/`(클럭 고정·pinning·L2I 스크린), `scripts/static/`(**`run_verilator_repro.sh`**), `scripts/dispatch/`(Django/FeedSim/memcached); `migration/`; 과거 캠페인 스크립트 `archive/` |
-| `flat_codegen/` | flat_codegen | 2(+3) | arcilator(두 번째 flattened-code 워크로드) 빌드/주입 스크립트; DeathStarBench 빌드·A/B 도구 |
-| `jit_prefetch/` | jit_prefetch | 4 | HotSpot 패치 `patches/`(V1–V4), `scripts/ab_jcs.sh`, `ab_jvm_suite.sh`, `wideapi/`; `docs/PLAN.md`(C2 설계 노트+실험 기록) |
-| `benchmarks/`, `worktrees/`, `.tmp/`, `.cache/` | 서드파티, 미추적 | — | `benchmarks.lock.tsv`에 고정; DCPerf·chipyard·JDK 등 |
+| 디렉토리 | 단계 | 내용 / 진입점 |
+|---|---|---|
+| `icache_microbenchmark/` | 1 | `microbench/src/` `make all prefetch_test`; `run_process_prefetch_experiment.py` |
+| `profiling/` | 2 | `run_pebs_sampling.sh`(PEBS+LBR), `analyze_pebs_trace.sh`(symbolize), `run_detailed_profile.sh`; `runscript/bench/bench_common.sh`(Verilator 환경) |
+| `static_prefetch/` | 2 | **`tools/static_plan.py --kinds ret\|cond\|ret,cond`**; 엔진 `tools/ret/`, `tools/cond/`; 알고리즘 노트 `docs/` |
+| `llvm_prefetchit/` | 2·3·공통 | pass `lib/PrefetchITPass.cpp`; plan 도구 `tools/`; `scripts/platform/`(클럭 고정·pinning·L2I 스크린), `scripts/static/`(**`run_verilator_repro.sh`**), `scripts/dispatch/`(Django/FeedSim/memcached); `migration/`; 과거 캠페인 스크립트 `archive/` |
+| `flat_codegen/` | 2(+3) | arcilator(두 번째 flattened-code 워크로드) 빌드/주입 스크립트; DeathStarBench 빌드·A/B 도구 |
+| `jit_prefetch/` | 4 | HotSpot 패치 `patches/`(V1–V4), `scripts/ab_jcs.sh`, `ab_jvm_suite.sh`, `wideapi/`; `docs/PLAN.md`(C2 설계 노트+실험 기록) |
+| `benchmarks/`, `worktrees/`, `.tmp/`, `.cache/` | 미추적 | `benchmarks.lock.tsv`에 고정; DCPerf·chipyard·JDK 등 |
 
 ### 2단계 파이프라인(가장 중요)
 

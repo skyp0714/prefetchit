@@ -75,15 +75,18 @@ for script in "${SCRIPT_DIR}"/*.sh; do
   bash -n "${script}" || fail "shell syntax: ${script}"
 done
 
-for repo in llvm_prefetchit profiling icache_microbenchmark static_prefetch flat_codegen jit_prefetch; do
-  dest="${ROOT}/${repo}"
-  [[ -d "${dest}/.git" ]] || continue
-  if git -C "${dest}" grep -En "echo +['\"][^'\"]+['\"] +[|] +sudo +-S" HEAD -- >/dev/null 2>&1; then
-    fail "${repo}: tracked plaintext value piped to sudo -S"
+# Single repository since 2026-09-22 (components merged, history preserved).
+if [[ -d "${ROOT}/.git" ]]; then
+  if git -C "${ROOT}" grep -En "echo +['\"][^'\"]+['\"] +[|] +sudo +-S" HEAD -- >/dev/null 2>&1; then
+    fail "tracked plaintext value piped to sudo -S"
   fi
-  large="$(git -C "${dest}" ls-tree -rl HEAD | awk '$4 > 95000000 {print $4 " " $5; exit}')"
-  [[ -z "${large}" ]] || fail "${repo}: GitHub-size tracked blob ${large}"
-done
+  # GitHub rejects files >100 MB; committed LBR/PT dumps are what made the old flat_codegen
+  # repository unpushable. .githooks/pre-commit keeps new ones out at 10 MB.
+  large="$(git -C "${ROOT}" ls-tree -rl HEAD | awk '$4 > 95000000 {print $4 " " $5; exit}')"
+  [[ -z "${large}" ]] || fail "GitHub-size tracked blob ${large}"
+  hooks="$(git -C "${ROOT}" config --get core.hooksPath || true)"
+  [[ "${hooks}" == .githooks ]] || fail "core.hooksPath is not .githooks (run: git config core.hooksPath .githooks)"
+fi
 
 for cmd in git python3; do
   command -v "${cmd}" >/dev/null 2>&1 || fail "missing command ${cmd}"

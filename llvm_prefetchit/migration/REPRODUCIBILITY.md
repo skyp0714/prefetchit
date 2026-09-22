@@ -36,7 +36,7 @@ The canonical source data are:
 - `llvm_prefetchit/migration/evidence/` (small final CSVs copied out of ignored result trees)
 - `llvm_prefetchit/results/paper_goal_20260815/` raw run CSVs/logs (the campaign
   reports were removed; platform forensics are summarised in the umbrella
-  `README.md` §4/§7, history: `git -C llvm_prefetchit show c7c7bf6:results/paper_goal_20260815/CONFIG_LOG.md`)
+  `README.md` §4/§7, history: `git show 2777fce:llvm_prefetchit/results/paper_goal_20260815/CONFIG_LOG.md`)
 - `llvm_prefetchit/results/verilator_repro_20260915b/` (2026-09-15 re-verification)
 - `flat_codegen/docs/PLAN.md`
 - `jit_prefetch/docs/PLAN.md`, `jit_prefetch/results/jcs3_final.csv`, and

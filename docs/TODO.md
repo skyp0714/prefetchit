@@ -17,7 +17,7 @@ export PATH=$PWD/benchmarks/tools/miniforge3/bin:$PATH; set +u; source benchmark
 - 소켓 1(코어 0–42)만 사용, 측정 중 빌드 금지, 끝나면 `MODE=restore` + C6 재활성 + `docker compose down -v`.
 - DSB socialNetwork는 `flat_codegen/dsb_build/postlink/reset_sn_stack.sh`로 올린다(redis 스냅샷 off, 새 볼륨, 그래프 로드).
 - 긴 체인은 단계마다 `timeout`, 인자 없는 `wait` 금지, `pgrep` 패턴은 `^`로 앵커(스크립트 자기 자신·툴 셸 매칭 사고 3회).
-- 7개 저장소 커밋 후 **push는 사용자 확인 필요**.
+- 저장소는 `prefetchit` 하나다(2026-09-22 통합, 6개 컴포넌트 history 보존). 커밋 후 **push는 사용자 확인 필요**.
 
 ---
 
