@@ -5,6 +5,9 @@ line to the oldest function entry in its branch history that is instrumentable a
 layout and shifted by the burst size k of the anchor function (bursts sit after the prologue, so offsets < 16 are not shifted).
 usage: cold_plan.py TRACE_DIR EXE LIBC INSTRUMENTABLE_SYMS OUT.json [--min-w 3] [--max-per-site 32] [--min-lead 60] [--max-lead 4000]"""
 import sys,re,bisect,collections,json,subprocess,argparse
+
+# an assembler symbol may not contain '-': 'prefetchit.tgt.Python-ast.c.f' parses as 'prefetchit.tgt.Python' MINUS 'ast.c.f'
+def _sanitize_sym(x): return re.sub(r'[^A-Za-z0-9_.$]', '_', x)
 ap=argparse.ArgumentParser(); ap.add_argument('trace'); ap.add_argument('exe'); ap.add_argument('libc'); ap.add_argument('instr'); ap.add_argument('out')
 ap.add_argument('--min-w',type=int,default=3); ap.add_argument('--max-per-site',type=int,default=32); ap.add_argument('--min-lead',type=int,default=60); ap.add_argument('--max-lead',type=int,default=4000)
 ap.add_argument('--max-sites-per-line',type=int,default=2)
@@ -69,7 +72,7 @@ def usable_site(fn): return fn in instr and fn not in ambiguous
 def local_target(fn):
     # alias name for a local function's lines, or None if it cannot be referenced from another TU
     if not A.local_aliases or fn in ambiguous or fn not in localfile: return None
-    (fb,)=tuple(localfile[fn]); a=f"prefetchit.tgt.{fb}.{fn}"; aliases[a]={"file":fb,"fn":fn}; return a
+    (fb,)=tuple(localfile[fn]); a=_sanitize_sym(f"prefetchit.tgt.{fb}.{fn}"); aliases[a]={"file":fb,"fn":fn}; return a
 def func_of(va):
     i=bisect.bisect_right(saddr,va)-1
     return syms[i] if i>=0 else (None,None)

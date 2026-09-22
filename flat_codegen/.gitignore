@@ -40,3 +40,10 @@ dsb_build/postlink/results/*/errors.log
 dsb_build/postlink/results/*/*/
 dsb_build/postlink/results/STACK_READY
 dsb_build/plans/sysroot/
+
+# wake-stream (class B) raw artifacts (regenerable): keep tooling, plans, marks and per-round summaries
+dsb_build/media/ws/symfs_*/
+dsb_build/media/ws/pt*/
+dsb_build/media/ws/pebs_*/
+*.bak
+*.bak_*

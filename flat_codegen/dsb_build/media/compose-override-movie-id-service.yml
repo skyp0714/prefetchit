@@ -1,0 +1,10 @@
+# Run movie-id-service from a rebuilt (clang-19 + PrefetchIT) fat-static binary: ${SVC_BIN}/MovieIdService in image ${SVC_IMG}, /usr/local/lib from ${SVC_LIBS}.
+services:
+  movie-id-service:
+    image: ${SVC_IMG}
+    working_dir: /media-microservices
+    entrypoint: ["/custom/MovieIdService"]
+    volumes:
+      - ${SVC_BIN}:/custom:ro
+      - ${SVC_LIBS}:/usr/local/lib:ro
+      - /home/hnpark2/prefetchit/benchmarks/DeathStarBench/mediaMicroservices/config:/media-microservices/config:ro

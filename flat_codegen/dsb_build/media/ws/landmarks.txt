@@ -1,0 +1,24 @@
+TConnectedClient::run
+TDispatchProcessor::process
+TFramedTransport::readFrame
+TSocket::read
+readMessageBegin
+MovieIdServiceProcessor::dispatchCall
+process_UploadMovieId
+process_RegisterMovieId
+MovieIdHandler::UploadMovieId
+Tracer::Global
+memcached_pool_pop
+memcached_get
+memcached_pool_push
+mongoc_client_pool_pop
+mongoc_collection_find_with_opts
+mongoc_cursor_next
+ClientPool<media_service::ThriftClient<media_service::ComposeReviewServiceClient> >::Pop
+ComposeReviewServiceClient::UploadMovieId
+ClientPool<media_service::ThriftClient<media_service::RatingServiceClient> >::Pop
+RatingServiceClient::UploadRating
+Span::Finish
+writeMessageBegin
+TFramedTransport::flush
+TSocket::write

@@ -1,0 +1,10 @@
+# Run rating-service from a rebuilt (clang-19 + PrefetchIT) fat-static binary: ${SVC_BIN}/RatingService in image ${SVC_IMG}, /usr/local/lib from ${SVC_LIBS}.
+services:
+  rating-service:
+    image: ${SVC_IMG}
+    working_dir: /media-microservices
+    entrypoint: ["/custom/RatingService"]
+    volumes:
+      - ${SVC_BIN}:/custom:ro
+      - ${SVC_LIBS}:/usr/local/lib:ro
+      - /home/hnpark2/prefetchit/benchmarks/DeathStarBench/mediaMicroservices/config:/media-microservices/config:ro
