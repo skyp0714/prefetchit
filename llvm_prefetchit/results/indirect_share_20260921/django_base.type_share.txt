@@ -1,0 +1,14 @@
+samples with LBR: 299790
+miss IP by DSO: libpython3.14.so.1.0 53.9%, proxygen_binding.cpython-314-x86_64-linux-gnu.so 8.0%, libc.so.6 7.8%, cluster.cpython-314-x86_64-linux-gnu.so 5.7%, protocol.cpython-314-x86_64-linux-gnu.so 4.0%, connection.cpython-314-x86_64-linux-gnu.so 3.2%
+
+LBR[0] type            share   miss-on-its-target-line
+COND                    34.41%    78.8%
+IND_JMP(table/tail)     19.50%    69.8%
+RET                     14.54%    47.5%
+CALL                    14.39%    70.4%
+UNCOND                   8.28%    75.5%
+IND_CALL(vtable/fptr)    7.76%    90.2%
+PLT(cross-DSO)           1.12%    61.7%
+
+indirect/PLT by DSO crossing: IND_JMP(table/tail) same-DSO 13.21%, IND_JMP(table/tail) cross-DSO 6.29%, IND_CALL(vtable/fptr) same-DSO 5.42%, IND_CALL(vtable/fptr) cross-DSO 2.34%, PLT(cross-DSO) cross-DSO 1.12%
+

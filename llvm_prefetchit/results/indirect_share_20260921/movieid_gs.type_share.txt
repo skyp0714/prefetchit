@@ -1,0 +1,14 @@
+samples with LBR: 14517
+miss IP by DSO: MovieIdService 49.5%, libc.so.6 42.4%, libmemcached.so.11.0.0 5.8%, [vdso] 1.0%, ld-linux-x86-64.so.2 0.6%, libmemcachedutil.so.2.0.0 0.6%
+
+LBR[0] type            share   miss-on-its-target-line
+COND                    31.93%    72.5%
+CALL                    21.31%    66.6%
+RET                     15.97%    54.9%
+UNCOND                   9.70%    66.5%
+PLT(cross-DSO)           9.02%    42.0%
+IND_CALL(vtable/fptr)    8.80%    57.9%
+IND_JMP(table/tail)      3.27%    64.2%
+
+indirect/PLT by DSO crossing: PLT(cross-DSO) cross-DSO 9.02%, IND_CALL(vtable/fptr) same-DSO 8.24%, IND_JMP(table/tail) same-DSO 2.50%, IND_JMP(table/tail) cross-DSO 0.77%, IND_CALL(vtable/fptr) cross-DSO 0.56%
+

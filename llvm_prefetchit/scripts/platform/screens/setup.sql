@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS hits ENGINE = MergeTree ORDER BY (k, d) AS SELECT number AS id, intHash64(number) % 5000000 AS k, toString(intHash64(number*7)) AS s, rand() % 100 AS v, toDate('2020-01-01') + number % 1000 AS d, rand64() AS r FROM numbers(120000000);

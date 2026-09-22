@@ -1,0 +1,934 @@
+diff --git a/packages/django_workload/templates/gen_icache_buster.py b/packages/django_workload/templates/gen_icache_buster.py
+index b584e50..f2f9a5d 100755
+--- a/packages/django_workload/templates/gen_icache_buster.py
++++ b/packages/django_workload/templates/gen_icache_buster.py
+@@ -65,6 +65,18 @@ SOURCE_TEMPLATE = """
+ #include <random>
+ #include "ICacheBuster.h"
+ 
++#ifndef ICACHE_BUSTER_PREFETCH_DISTANCE
++#define ICACHE_BUSTER_PREFETCH_DISTANCE 0
++#endif
++
++#ifndef ICACHE_BUSTER_PREFETCH_NEXT_LINE
++#define ICACHE_BUSTER_PREFETCH_NEXT_LINE 0
++#endif
++
++#ifndef ICACHE_BUSTER_SHUFFLE_SEED
++#define ICACHE_BUSTER_SHUFFLE_SEED 1
++#endif
++
+ {INIT_METHOD_DECLS}
+ 
+ ICacheBuster::ICacheBuster(size_t num_methods)
+@@ -73,8 +85,8 @@ ICacheBuster::ICacheBuster(size_t num_methods)
+   assert(num_methods <= {NUM_METHODS});
+ {INIT_METHOD_CALLS}
+   // make a random permutation over data
+-  unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+-  std::shuffle(methods_.begin(), methods_.end(), std::default_random_engine(seed));
++  std::shuffle(methods_.begin(), methods_.end(),
++               std::default_random_engine(ICACHE_BUSTER_SHUFFLE_SEED));
+   for (size_t i = 0; i < {NUM_METHODS}; ++i) {{
+     arr0_[i] = i % 2;
+     arr1_[i] = i % 3;
+@@ -83,6 +95,14 @@ ICacheBuster::ICacheBuster(size_t num_methods)
+ }}
+ 
+ void ICacheBuster::RunNextMethod() {{
++#if ICACHE_BUSTER_PREFETCH_DISTANCE > 0
++  const auto* target = reinterpret_cast<const char*>(
++      methods_[(current_index_ + ICACHE_BUSTER_PREFETCH_DISTANCE) % num_subset_methods_]);
++  __builtin_prefetch(target, 0, 3);
++#if ICACHE_BUSTER_PREFETCH_NEXT_LINE
++  __builtin_prefetch(target + 64, 0, 3);
++#endif
++#endif
+   methods_[current_index_](&arr0_[current_index_], &arr1_[current_index_], &arr2_[current_index_]);
+   current_index_ = (current_index_ + 1) % num_subset_methods_;
+ }}
+diff --git a/packages/django_workload/templates/run-siege b/packages/django_workload/templates/run-siege
+index 2a248f5..8b53db2 100755
+--- a/packages/django_workload/templates/run-siege
++++ b/packages/django_workload/templates/run-siege
+@@ -132,7 +132,10 @@ def validate_output(siege_file):
+ 
+ 
+ def run_siege(options):
+-    cmd = "siege -v -c " + str(WORKERS) + " -b"
++    cmd = "siege"
++    if os.environ.get("SIEGE_VERBOSE", "1") != "0":
++        cmd += " -v"
++    cmd += " -c " + str(WORKERS) + " -b"
+     if options.reps > 0:
+         cmd = cmd + " -r " + str(options.reps)
+     else:
+diff --git a/packages/django_workload/templates/run.sh b/packages/django_workload/templates/run.sh
+index 274b510..823835f 100755
+--- a/packages/django_workload/templates/run.sh
++++ b/packages/django_workload/templates/run.sh
+@@ -10,6 +10,8 @@ SCRIPT_ROOT="$(dirname "$(readlink -f "$0")")"
+ BENCHPRESS_ROOT="$(readlink -f "${SCRIPT_ROOT}/../../..")"
+ MEMCACHED_PID=
+ CLEANUP_REQS=0
++DCPERF_STARTED_CASSANDRA=0
++DCPERF_STARTED_DJANGO=0
+ 
+ if [ -z "$JAVA_HOME" ]; then
+   _JAVA_HOME="$("${BENCHPRESS_ROOT}"/packages/common/find_java_home.py)"
+@@ -23,11 +25,11 @@ cleanup() {
+   cd "${SCRIPT_ROOT}/.." || exit 1
+ 
+   # Stop django-workload
+-  [ -f uwsgi.pid ] && { echo "Stopping uwsgi"; kill -INT "$(cat uwsgi.pid)" || true; }
++  [ "$DCPERF_STARTED_DJANGO" -eq 1 ] && [ -f uwsgi.pid ] && { echo "Stopping uwsgi"; kill -INT "$(cat uwsgi.pid)" || true; }
+   # Stop memcached
+   [ -n "$MEMCACHED_PID" ] && { echo "Stopping memcached"; kill "$MEMCACHED_PID" || true; }
+   # Stop Cassandra
+-  [ -f cassandra.pid ] && { echo "Stopping cassandra"; kill "$(cat cassandra.pid)" || true; }
++  [ "$DCPERF_STARTED_CASSANDRA" -eq 1 ] && [ -f cassandra.pid ] && { echo "Stopping cassandra"; kill "$(cat cassandra.pid)" || true; }
+   # Kill Siege
+   SIEGE_PID="$(pgrep siege)"
+   [ -n "$SIEGE_PID" ] && { echo "Killing siege"; kill -9 "$SIEGE_PID" || true; }
+@@ -339,18 +341,23 @@ main() {
+   readonly django_ib_max
+ 
+   if [ "$role" = "db" ]; then
++    DCPERF_STARTED_CASSANDRA=1
+     start_cassandra "$num_cassandra_writes" "$cassandra_bind_addr";
+   elif [ "$role" = "clientserver" ]; then
++    DCPERF_STARTED_DJANGO=1
+     export IB_MIN="${django_ib_min}"
+     export IB_MAX="${django_ib_max}"
+     start_clientserver "$cassandra_addr" "$num_server_workers" "$num_client_workers" "$duration" "$siege_logs_path" "$urls_path" "$iterations" "$reps";
+   elif [ "$role" = "client" ]; then
+     start_client "$num_client_workers" "$duration" "$siege_logs_path" "$urls_path" "$server_addr" "$iterations" "$reps";
+   elif [ "$role" = "server" ]; then
++    DCPERF_STARTED_DJANGO=1
+     export IB_MIN="${django_ib_min}"
+     export IB_MAX="${django_ib_max}"
+     start_django_server "$cassandra_addr" "$num_server_workers";
+   elif [ "$role" = "standalone" ]; then
++    DCPERF_STARTED_CASSANDRA=1
++    DCPERF_STARTED_DJANGO=1
+     export IB_MIN="${django_ib_min}"
+     export IB_MAX="${django_ib_max}"
+     start_cassandra "$num_cassandra_writes" 127.0.0.1 &
+diff --git a/packages/feedsim/install_feedsim_x86_64_ubuntu.sh b/packages/feedsim/install_feedsim_x86_64_ubuntu.sh
+index 1c6cd2e..f66690e 100755
+--- a/packages/feedsim/install_feedsim_x86_64_ubuntu.sh
++++ b/packages/feedsim/install_feedsim_x86_64_ubuntu.sh
+@@ -12,6 +12,10 @@ FEEDSIM_ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd -P)
+ BENCHPRESS_ROOT="$(readlink -f "$FEEDSIM_ROOT/../..")"
+ FEEDSIM_ROOT_SRC="${BENCHPRESS_ROOT}/benchmarks/feedsim"
+ FEEDSIM_THIRD_PARTY_SRC="${FEEDSIM_ROOT_SRC}/third_party"
++FEEDSIM_DEPS="${FEEDSIM_THIRD_PARTY_SRC}/build-deps"
++DCPERF_ROOTLESS="${DCPERF_ROOTLESS:-0}"
++BP_CC="${BP_CC:-gcc}"
++BP_CXX="${BP_CXX:-g++}"
+ echo "BENCHPRESS_ROOT is ${BENCHPRESS_ROOT}"
+ 
+ cleanup() {
+@@ -34,11 +38,17 @@ die() {
+ #    libunwind-devel bzip2-devel libsodium-devel double-conversion-devel \
+ #    libzstd-devel lz4-devel xz-devel snappy-devel libtool openssl-devel \
+ #    zlib-devel libdwarf-devel libaio-devel libatomic patch perl
+-apt install -y bc cmake ninja-build flex bison texinfo binutils-dev \
+-    libunwind-dev bzip2 libbz2-dev libsodium-dev libghc-double-conversion-dev \
+-    libzstd-dev lz4 liblz4-dev xzip libsnappy-dev libtool libssl-dev \
+-    zlib1g-dev libdwarf-dev libaio-dev libatomic1 patch perl libiberty-dev \
+-    libfmt-dev sysstat jq
++if [ "$DCPERF_ROOTLESS" != "1" ]; then
++    apt install -y bc cmake ninja-build flex bison texinfo binutils-dev \
++        libunwind-dev bzip2 libbz2-dev libsodium-dev libghc-double-conversion-dev \
++        libzstd-dev lz4 liblz4-dev xzip libsnappy-dev libtool libssl-dev \
++        zlib1g-dev libdwarf-dev libaio-dev libatomic1 patch perl libiberty-dev \
++        libfmt-dev sysstat jq
++else
++    for tool in bc cmake ninja flex bison git make perl patch tar wget jq "$BP_CC" "$BP_CXX"; do
++        command -v "$tool" >/dev/null || { echo "Missing required tool: $tool"; exit 1; }
++    done
++fi
+ 
+ # Creates feedsim directory under benchmarks/
+ mkdir -p "${BENCHPRESS_ROOT}/benchmarks/feedsim"
+@@ -53,6 +63,12 @@ chmod u+x "${FEEDSIM_ROOT_SRC}/run-feedsim-multi.sh"
+ 
+ msg "Installing third-party dependencies..."
+ mkdir -p "${FEEDSIM_THIRD_PARTY_SRC}"
++mkdir -p "${FEEDSIM_DEPS}"
++export PATH="${FEEDSIM_DEPS}/bin:${PATH}"
++export PKG_CONFIG_PATH="${FEEDSIM_DEPS}/lib/pkgconfig:${FEEDSIM_DEPS}/lib64/pkgconfig:${PKG_CONFIG_PATH:-}"
++export LD_LIBRARY_PATH="${FEEDSIM_DEPS}/lib:${FEEDSIM_DEPS}/lib64:${LD_LIBRARY_PATH:-}"
++export LIBRARY_PATH="${FEEDSIM_DEPS}/lib:${FEEDSIM_DEPS}/lib64:${LIBRARY_PATH:-}"
++export CPATH="${FEEDSIM_DEPS}/include:/usr/include/x86_64-linux-gnu:/usr/include/libdwarf:${CPATH:-}"
+ if ! [ -d "${FEEDSIM_ROOT_SRC}/src" ]; then
+     cp -r "${BENCHPRESS_ROOT}/packages/feedsim/third_party/src" "${FEEDSIM_ROOT_SRC}/"
+ else
+@@ -82,7 +98,7 @@ if ! [ -d "gengetopt-2.23" ]; then
+     wget "https://ftp.gnu.org/gnu/gengetopt/gengetopt-2.23.tar.xz"
+     tar -xf "gengetopt-2.23.tar.xz"
+     cd "gengetopt-2.23"
+-    ./configure
++    ./configure --prefix="${FEEDSIM_DEPS}"
+     make -j"$(nproc)"
+     make install
+     cd ../
+@@ -91,14 +107,32 @@ else
+ fi
+ 
+ # Installing Boost
+-if ! [ -d "boost_1_71_0" ]; then
+-    wget "https://archives.boost.io/release/1.71.0/source/boost_1_71_0.tar.gz"
+-    tar -xzf "boost_1_71_0.tar.gz"
++if ! [ -f "${FEEDSIM_DEPS}/include/boost/version.hpp" ]; then
++    if ! [ -d "boost_1_71_0" ]; then
++        wget "https://archives.boost.io/release/1.71.0/source/boost_1_71_0.tar.gz"
++        tar -xzf "boost_1_71_0.tar.gz"
++    fi
+     cd "boost_1_71_0"
+-    ./bootstrap.sh --without-libraries=python
++    if ! CPATH= ./bootstrap.sh --prefix="${FEEDSIM_DEPS}" --without-libraries=python; then
++        msg "[WARN] boost bootstrap failed; building b2 engine directly"
++        pushd tools/build/src/engine
++        CPATH= "${BP_CXX}" -x c++ -std=c++11 -O2 -s -DNDEBUG \
++            builtins.cpp class.cpp command.cpp compile.cpp constants.cpp cwd.cpp \
++            debug.cpp debugger.cpp execcmd.cpp filesys.cpp frames.cpp function.cpp \
++            glob.cpp hash.cpp hcache.cpp hdrmacro.cpp headers.cpp jam.cpp jambase.cpp \
++            jamgram.cpp lists.cpp make.cpp make1.cpp md5.cpp mem.cpp modules.cpp \
++            native.cpp object.cpp option.cpp output.cpp parse.cpp pathsys.cpp regexp.cpp \
++            rules.cpp scan.cpp search.cpp strings.cpp subst.cpp sysinfo.cpp timestamp.cpp \
++            variable.cpp w32_getreg.cpp modules/order.cpp modules/path.cpp \
++            modules/property-set.cpp modules/regex.cpp modules/sequence.cpp modules/set.cpp \
++            execunix.cpp fileunix.cpp pathunix.cpp -o b2
++        cp b2 ../../../..
++        popd
++        printf 'using gcc : : %s ;\n' "${BP_CXX}" > project-config.jam
++    fi
+     sed -i 's/if PTHREAD_STACK_MIN > 0/ifdef PTHREAD_STACK_MIN/g' boost/thread/pthread/thread_data.hpp
+     ./b2
+-    ./b2 install
++    ./b2 install --prefix="${FEEDSIM_DEPS}"
+     cd ../
+ else
+     msg "[SKIPPED] boost_1_71_0"
+@@ -110,7 +144,8 @@ if ! [ -d "gflags-2.2.2" ]; then
+     tar -xzf "gflags-2.2.2.tar.gz"
+     cd "gflags-2.2.2"
+     mkdir -p build && cd build
+-    cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF -DCMAKE_BUILD_TYPE=Release ../
++    cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF -DCMAKE_BUILD_TYPE=Release \
++        -DCMAKE_INSTALL_PREFIX="${FEEDSIM_DEPS}" ../
+     make -j8
+     make install
+     cd ../../
+@@ -124,7 +159,8 @@ if ! [ -d "glog-0.4.0" ]; then
+     tar -xzf "glog-0.4.0.tar.gz"
+     cd "glog-0.4.0"
+     mkdir -p build && cd build
+-    cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF -DCMAKE_BUILD_TYPE=Release ../
++    cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF -DCMAKE_BUILD_TYPE=Release \
++        -DCMAKE_INSTALL_PREFIX="${FEEDSIM_DEPS}" ../
+     make -j8
+     make install
+     cd ../../
+@@ -138,7 +174,7 @@ if ! [ -d "jemalloc-5.2.1" ]; then
+     bunzip2 "jemalloc-5.2.1.tar.bz2"
+     tar -xvf "jemalloc-5.2.1.tar"
+     cd "jemalloc-5.2.1"
+-    ./configure --enable-prof --enable-prof-libunwind
++    ./configure --prefix="${FEEDSIM_DEPS}" --enable-prof --enable-prof-libunwind
+     make -j"$(nproc)"
+     make install
+     cd ../
+@@ -151,7 +187,7 @@ if ! [ -d "libevent-2.1.11-stable" ]; then
+     wget "https://github.com/libevent/libevent/releases/download/release-2.1.11-stable/libevent-2.1.11-stable.tar.gz"
+     tar -xzf "libevent-2.1.11-stable.tar.gz"
+     cd "libevent-2.1.11-stable"
+-    ./configure
++    ./configure --prefix="${FEEDSIM_DEPS}"
+     make -j"$(nproc)"
+     make install
+     cd ../
+@@ -161,10 +197,9 @@ fi
+ 
+ # Installing openssl
+ if ! [ -d "openssl" ]; then
+-    mkdir -p build-deps
+     git clone --branch OpenSSL_1_1_1b --depth 1 https://github.com/openssl/openssl.git
+     cd "openssl"
+-    ./config --prefix="${FEEDSIM_THIRD_PARTY_SRC}/build-deps"
++    ./config --prefix="${FEEDSIM_DEPS}"
+     make -j"$(nproc)"
+     make install
+     cd ../
+@@ -220,20 +255,23 @@ if grep -i 'Ubuntu 22.04' /etc/os-release >/dev/null 2>&1; then
+         popd || exit 1
+     done
+ fi
++if [ -f "third_party/rsocket-cpp/CMakeLists.txt" ]; then
++    sed -i 's/CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 13/CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 12/' \
++        "third_party/rsocket-cpp/CMakeLists.txt"
++fi
+ 
+ mkdir -p build && cd build/
+ 
+ # Build FeedSim
+ FS_CFLAGS="${BP_CFLAGS:--O3 -DNDEBUG}"
+-FS_CXXFLAGS="${BP_CXXFLAGS:--O3 -DNDEBUG }"
+-FS_LDFLAGS="${BP_LDFLAGS:-} -latomic -Wl,--export-dynamic"
+-
+-BP_CC=gcc
+-BP_CXX=g++
++FS_CXXFLAGS="${BP_CXXFLAGS:--O3 -DNDEBUG -Wno-error=maybe-uninitialized -Wno-error=stringop-overflow }"
++FS_LDFLAGS="${BP_LDFLAGS:-} -L${FEEDSIM_DEPS}/lib -L${FEEDSIM_DEPS}/lib64 -latomic -Wl,--export-dynamic"
+ 
+ cmake -G Ninja \
+     -DCMAKE_BUILD_TYPE=Release \
+-    -DCMAKE_PREFIX_PATH="${FEEDSIM_THIRD_PARTY_SRC}/build-deps" \
++    -DCMAKE_PREFIX_PATH="${FEEDSIM_DEPS};/usr/local" \
++    -DCMAKE_INCLUDE_PATH="${FEEDSIM_DEPS}/include;/usr/include/x86_64-linux-gnu;/usr/include/libdwarf" \
++    -DCMAKE_LIBRARY_PATH="${FEEDSIM_DEPS}/lib;${FEEDSIM_DEPS}/lib64;/usr/local/lib" \
+     -DCMAKE_C_COMPILER="$BP_CC" \
+     -DCMAKE_CXX_COMPILER="$BP_CXX" \
+     -DCMAKE_C_FLAGS_RELEASE="$FS_CFLAGS" \
+diff --git a/packages/feedsim/third_party/src/oldisim/src/ConnectionUtil.cc b/packages/feedsim/third_party/src/oldisim/src/ConnectionUtil.cc
+index ac32c64..5179520 100644
+--- a/packages/feedsim/third_party/src/oldisim/src/ConnectionUtil.cc
++++ b/packages/feedsim/third_party/src/oldisim/src/ConnectionUtil.cc
+@@ -114,6 +114,7 @@ ConnectionUtil::MakeChildConnectionStatsMap(const ChildConnectionStats& stats,
+     uint32_t type = sampler_pair.first;
+     auto& sampler = sampler_pair.second;
+     double qps = stats.query_counts_.at(type) / elapsed_time;
++    double completed_qps = sampler.total() / elapsed_time;
+     double rx_mbps = stats.rx_bytes_.at(type) / elapsed_time / 1024 / 1024;
+     double tx_mbps = stats.tx_bytes_.at(type) / elapsed_time / 1024 / 1024;
+     double latency_mean = stats.query_samplers_.at(type).average() / 1000000;
+@@ -125,6 +126,7 @@ ConnectionUtil::MakeChildConnectionStatsMap(const ChildConnectionStats& stats,
+     results.insert(
+         std::make_pair(type, std::map<std::string, double>(
+                                  {{"qps", qps},
++                                  {"completed_qps", completed_qps},
+                                   {"rx_mbps", rx_mbps},
+                                   {"tx_mbps", tx_mbps},
+                                   {"latency_mean", latency_mean},
+@@ -174,4 +176,3 @@ ConnectionUtil::MakeLeafNodeStatsMap(const LeafNodeStats& stats,
+   return results;
+ }
+ }  // namespace oldisim
+-
+diff --git a/packages/feedsim/third_party/src/oldisim/src/DriverNode.cc b/packages/feedsim/third_party/src/oldisim/src/DriverNode.cc
+index ed02fca..7d70da0 100644
+--- a/packages/feedsim/third_party/src/oldisim/src/DriverNode.cc
++++ b/packages/feedsim/third_party/src/oldisim/src/DriverNode.cc
+@@ -151,6 +151,8 @@ struct DriverNode::DriverNodeImpl {
+   // Remote monitoring HTTP callbacks
+   static void MonitoringTopologyHandler(evhttp_request* req, void* arg);
+   static void MonitoringChildStatsHandler(evhttp_request* req, void* arg);
++  static void MonitoringCompletionTotalsHandler(evhttp_request* req,
++                                                void* arg);
+   static void MonitoringDefaultHandler(evhttp_request* req, void* arg);
+ };
+ 
+@@ -316,6 +318,29 @@ void DriverNode::DriverNodeImpl::MonitoringChildStatsHandler(
+   evbuffer_free(evb);
+ }
+ 
++void DriverNode::DriverNodeImpl::MonitoringCompletionTotalsHandler(
++    evhttp_request* req, void* arg) {
++  DriverNode* driver = reinterpret_cast<DriverNode*>(arg);
++  if (evhttp_request_get_command(req) != EVHTTP_REQ_GET) {
++    evhttp_send_error(req, HTTP_BADREQUEST, 0);
++    return;
++  }
++  evbuffer* evb = evbuffer_new();
++  if (evb == nullptr) {
++    evhttp_send_error(req, HTTP_SERVUNAVAIL, 0);
++    return;
++  }
++  evbuffer_add_printf(evb, "request_type,sent,completed\n");
++  for (uint32_t type : driver->impl_->request_types) {
++    evbuffer_add_printf(
++        evb, "%u,%lu,%lu\n", type,
++        driver->impl_->total_child_stats->query_counts_.at(type),
++        driver->impl_->total_child_stats->query_samplers_.at(type).total());
++  }
++  evhttp_send_reply(req, 200, "OK", evb);
++  evbuffer_free(evb);
++}
++
+ void DriverNode::DriverNodeImpl::MonitoringDefaultHandler(evhttp_request* req,
+                                                           void* arg) {
+   DriverNode* driver = reinterpret_cast<DriverNode*>(arg);
+@@ -529,6 +554,8 @@ void DriverNode::Run(uint32_t num_threads, bool thread_pinning,
+                   DriverNodeImpl::MonitoringTopologyHandler, this);
+     evhttp_set_cb(monitor_http, "/child_stats",
+                   DriverNodeImpl::MonitoringChildStatsHandler, this);
++    evhttp_set_cb(monitor_http, "/completion_totals",
++                  DriverNodeImpl::MonitoringCompletionTotalsHandler, this);
+     evhttp_set_gencb(monitor_http, DriverNodeImpl::MonitoringDefaultHandler,
+                      this);
+ 
+@@ -565,6 +592,8 @@ void DriverNode::Run(uint32_t num_threads, bool thread_pinning,
+ 
+   // Print stats
+   for (uint32_t type : impl_->request_types) {
++    const uint64_t completed_queries =
++        impl_->total_child_stats->query_samplers_.at(type).total();
+     printf("Stats for node under test, type %d\n", type);
+     printf(
+         "   RX: %.2f MB/sec (%lu bytes)\n",
+@@ -577,6 +606,8 @@ void DriverNode::Run(uint32_t num_threads, bool thread_pinning,
+     printf("    #: %.2f QPS (%lu queries)\n",
+            impl_->total_child_stats->query_counts_[type] / elapsed_time,
+            impl_->total_child_stats->query_counts_[type]);
++    printf(" done: %.2f QPS (%lu responses)\n",
++           completed_queries / elapsed_time, completed_queries);
+     printf(
+         "  min: %.3f ms\n",
+         impl_->total_child_stats->query_samplers_.at(type).minimum() / 1000000);
+@@ -658,4 +689,3 @@ void DriverNode::EnableMonitoring(uint16_t port) {
+   impl_->monitor_port = port;
+ }
+ }  // namespace oldisim
+-
+diff --git a/packages/feedsim/third_party/src/workloads/search/CMakeLists.txt b/packages/feedsim/third_party/src/workloads/search/CMakeLists.txt
+index ca387fd..64d6063 100644
+--- a/packages/feedsim/third_party/src/workloads/search/CMakeLists.txt
++++ b/packages/feedsim/third_party/src/workloads/search/CMakeLists.txt
+@@ -11,6 +11,12 @@ find_package(Python3 COMPONENTS Interpreter REQUIRED)
+ # ICacheBuster parameters
+ set(ICACHEBUSTER_NUM_SPLITS 24)
+ set(ICACHEBUSTER_NUM_METHODS 100000)
++set(ICACHEBUSTER_PREFETCH_DISTANCE 0 CACHE STRING
++    "Lookahead distance for ICacheBuster code-target prefetch")
++set(ICACHEBUSTER_PREFETCH_NEXT_LINE 0 CACHE STRING
++    "Also prefetch target+64B when ICacheBuster prefetch is enabled")
++set(ICACHEBUSTER_SHUFFLE_SEED 1 CACHE STRING
++    "Deterministic ICacheBuster function permutation seed")
+ 
+ find_program(GENGETOPT_EXECUTABLE gengetopt REQUIRED)
+ 
+@@ -53,6 +59,10 @@ add_custom_target(
+ # Define ICacheBuster library target
+ file(GLOB icache_srclist "${CMAKE_CURRENT_BINARY_DIR}/ICacheBuster*")
+ add_library(icachebuster ${icache_srclist})
++set_source_files_properties(
++    ${CMAKE_CURRENT_BINARY_DIR}/ICacheBuster.cc
++    PROPERTIES COMPILE_DEFINITIONS
++    "ICACHE_BUSTER_PREFETCH_DISTANCE=${ICACHEBUSTER_PREFETCH_DISTANCE};ICACHE_BUSTER_PREFETCH_NEXT_LINE=${ICACHEBUSTER_PREFETCH_NEXT_LINE};ICACHE_BUSTER_SHUFFLE_SEED=${ICACHEBUSTER_SHUFFLE_SEED}")
+ 
+ target_include_directories(icachebuster PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/ ${JEMALLOC_INCLUDE_DIR})
+ target_compile_features(icachebuster PRIVATE cxx_std_11)
+diff --git a/packages/feedsim/third_party/src/workloads/search/gen_icache_buster.py b/packages/feedsim/third_party/src/workloads/search/gen_icache_buster.py
+index e93de8b..3f3c140 100755
+--- a/packages/feedsim/third_party/src/workloads/search/gen_icache_buster.py
++++ b/packages/feedsim/third_party/src/workloads/search/gen_icache_buster.py
+@@ -19,6 +19,7 @@
+ 
+ import argparse
+ import itertools
++from pathlib import Path
+ 
+ HEADER_TEMPLATE = """
+ #ifndef ICACHE_BUSTER_H
+@@ -51,6 +52,18 @@ SOURCE_TEMPLATE = """
+ #include <random>
+ #include "ICacheBuster.h"
+ 
++#ifndef ICACHE_BUSTER_PREFETCH_DISTANCE
++#define ICACHE_BUSTER_PREFETCH_DISTANCE 0
++#endif
++
++#ifndef ICACHE_BUSTER_PREFETCH_NEXT_LINE
++#define ICACHE_BUSTER_PREFETCH_NEXT_LINE 0
++#endif
++
++#ifndef ICACHE_BUSTER_SHUFFLE_SEED
++#define ICACHE_BUSTER_SHUFFLE_SEED 1
++#endif
++
+ {INIT_METHOD_DECLS}
+ 
+ ICacheBuster::ICacheBuster(size_t num_methods)
+@@ -59,11 +72,19 @@ ICacheBuster::ICacheBuster(size_t num_methods)
+   assert(num_methods <= {NUM_METHODS});
+ {INIT_METHOD_CALLS}
+   // make a random permutation over data
+-  unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+-  std::shuffle(methods_.begin(), methods_.end(), std::default_random_engine(seed));
++  std::shuffle(methods_.begin(), methods_.end(),
++               std::default_random_engine(ICACHE_BUSTER_SHUFFLE_SEED));
+ }}
+ 
+ void ICacheBuster::RunNextMethod() {{
++#if ICACHE_BUSTER_PREFETCH_DISTANCE > 0
++  const auto* target = reinterpret_cast<const char*>(
++      methods_[(current_index_ + ICACHE_BUSTER_PREFETCH_DISTANCE) % num_subset_methods_]);
++  __builtin_prefetch(target, 0, 3);
++#if ICACHE_BUSTER_PREFETCH_NEXT_LINE
++  __builtin_prefetch(target + 64, 0, 3);
++#endif
++#endif
+   methods_[current_index_]();
+   current_index_ = (current_index_ + 1) % num_subset_methods_;
+ }}
+@@ -94,6 +115,13 @@ def grouper(n, iterable, fillvalue=None):
+     return results
+ 
+ 
++def write_if_changed(path, content):
++    output = Path(path)
++    if output.exists() and output.read_text() == content:
++        return
++    output.write_text(content)
++
++
+ def main():
+     # Parse arguments
+     parser = argparse.ArgumentParser(description="Generate icache busting class")
+@@ -112,50 +140,43 @@ def main():
+     args = parser.parse_args()
+ 
+     # Generate the files
+-    with open(args.output_dir + "/ICacheBuster.h", "w") as f:
+-        f.write(HEADER_TEMPLATE.format())
++    write_if_changed(args.output_dir + "/ICacheBuster.h", HEADER_TEMPLATE.format())
+ 
+     splits = grouper(args.num_methods // args.num_splits, range(args.num_methods))
+     for split_num in range(len(splits)):
+-        with open("%s/ICacheBuster.part%d.cc" % (args.output_dir, split_num), "w") as f:
+-            f.write("#include <vector>\n\n")
+-            methods_code = "\n".join(
+-                [METHOD_CODE_TEMPLATE.format(METHOD_NUM=i) for i in splits[split_num]]
+-            )
+-            f.write(methods_code)
+-            store_methods_code = "\n".join(
+-                [
+-                    STORE_METHOD_CODE_TEMPLATE.format(METHOD_NUM=i)
+-                    for i in splits[split_num]
+-                ]
+-            )
+-            f.write(
+-                INIT_METHOD_CODE_TEMPLATE.format(
+-                    STORE_METHODS_CODE=store_methods_code, SPLIT_NUM=split_num
+-                )
+-            )
+-
+-    with open(args.output_dir + "/ICacheBuster.cc", "w") as f:
+-        init_methods_decl = "\n".join(
+-            [
+-                INIT_METHOD_DECL_TEMPALTE.format(SPLIT_NUM=i)
+-                for i in range(args.num_splits)
+-            ]
++        methods_code = "\n".join(
++            [METHOD_CODE_TEMPLATE.format(METHOD_NUM=i) for i in splits[split_num]]
+         )
+-        init_method_calls = "\n".join(
++        store_methods_code = "\n".join(
+             [
+-                INIT_METHOD_CALL_TEMPLATE.format(SPLIT_NUM=i)
+-                for i in range(args.num_splits)
++                STORE_METHOD_CODE_TEMPLATE.format(METHOD_NUM=i)
++                for i in splits[split_num]
+             ]
+         )
+-        f.write(
+-            SOURCE_TEMPLATE.format(
+-                NUM_METHODS=args.num_methods,
+-                INIT_METHOD_DECLS=init_methods_decl,
+-                INIT_METHOD_CALLS=init_method_calls,
++        write_if_changed(
++            "%s/ICacheBuster.part%d.cc" % (args.output_dir, split_num),
++            "#include <vector>\n\n"
++            + methods_code
++            + INIT_METHOD_CODE_TEMPLATE.format(
++                STORE_METHODS_CODE=store_methods_code, SPLIT_NUM=split_num
+             )
+         )
+ 
++    init_methods_decl = "\n".join(
++        [INIT_METHOD_DECL_TEMPALTE.format(SPLIT_NUM=i) for i in range(args.num_splits)]
++    )
++    init_method_calls = "\n".join(
++        [INIT_METHOD_CALL_TEMPLATE.format(SPLIT_NUM=i) for i in range(args.num_splits)]
++    )
++    write_if_changed(
++        args.output_dir + "/ICacheBuster.cc",
++        SOURCE_TEMPLATE.format(
++            NUM_METHODS=args.num_methods,
++            INIT_METHOD_DECLS=init_methods_decl,
++            INIT_METHOD_CALLS=init_method_calls,
++        )
++    )
++
+ 
+ if __name__ == "__main__":
+     main()
+diff --git a/packages/tao_bench/install_tao_bench_x86_64.sh b/packages/tao_bench/install_tao_bench_x86_64.sh
+index 013b83a..1b235a7 100755
+--- a/packages/tao_bench/install_tao_bench_x86_64.sh
++++ b/packages/tao_bench/install_tao_bench_x86_64.sh
+@@ -11,6 +11,7 @@ COMMON_DIR="${BENCHPRESS_ROOT}/packages/common"
+ TAO_BENCH_ROOT="${BENCHPRESS_ROOT}/benchmarks/tao_bench"
+ TAO_BENCH_DEPS="${TAO_BENCH_ROOT}/build-deps"
+ FOLLY_BUILD_ROOT="${TAO_BENCH_ROOT}/build-folly"
++DCPERF_ROOTLESS="${DCPERF_ROOTLESS:-0}"
+ 
+ if [ -z "${OPENSSL_BRANCH+x}" ]; then
+     OPENSSL_BRANCH="openssl-3.3.2"
+@@ -29,29 +30,35 @@ else
+     echo "Warning: unsupported platform ${LINUX_DIST_ID}-${LINUX_DIST_ID}"
+ fi
+ 
+-if [ "$LINUX_DIST_ID" = "ubuntu" ]; then
+-  sudo apt install -y cmake iperf3 autoconf automake flex bison \
+-    libevent-dev openssl libssl-dev \
+-    libzstd-dev lz4 liblz4-dev xzip libsnappy-dev zlib1g-dev bzip2 \
+-    libaio-dev libunwind-dev patch libghc-double-conversion-dev \
+-    libsodium-dev  libfmt-dev libtool perl git \
+-    libgoogle-glog-dev python3-dev pkg-config \
+-    git libpcre3 libpcre3-dev libgflags2.2 libgflags-dev
+-elif [ "$LINUX_DIST_ID" = "centos" ]; then
+-  sudo dnf install -y cmake iperf3 autoconf automake \
+-    libevent-devel openssl openssl-devel \
+-    zlib-devel bzip2-devel xz-devel lz4-devel libzstd-devel \
+-    snappy-devel libaio-devel libunwind-devel patch \
+-    double-conversion-devel libsodium-devel \
+-    gflags-devel-2.2.2 fmt-devel perl libtool pcre-devel \
+-    git python3-devel ${GLOG_NAME}
++if [ "$DCPERF_ROOTLESS" != "1" ]; then
++  if [ "$LINUX_DIST_ID" = "ubuntu" ]; then
++    sudo apt install -y cmake iperf3 autoconf automake flex bison \
++      libevent-dev openssl libssl-dev \
++      libzstd-dev lz4 liblz4-dev xzip libsnappy-dev zlib1g-dev bzip2 \
++      libaio-dev libunwind-dev patch libghc-double-conversion-dev \
++      libsodium-dev  libfmt-dev libtool perl git \
++      libgoogle-glog-dev python3-dev pkg-config \
++      git libpcre3 libpcre3-dev libgflags2.2 libgflags-dev
++  elif [ "$LINUX_DIST_ID" = "centos" ]; then
++    sudo dnf install -y cmake iperf3 autoconf automake \
++      libevent-devel openssl openssl-devel \
++      zlib-devel bzip2-devel xz-devel lz4-devel libzstd-devel \
++      snappy-devel libaio-devel libunwind-devel patch \
++      double-conversion-devel libsodium-devel \
++      gflags-devel-2.2.2 fmt-devel perl libtool pcre-devel \
++      git python3-devel ${GLOG_NAME}
++  fi
++else
++  for tool in cmake iperf3 autoconf automake flex bison openssl patch perl git python3 pkg-config make curl autoreconf; do
++    command -v "$tool" >/dev/null || { echo "Missing required tool: $tool"; exit 1; }
++  done
+ fi
+ 
+ # Installing dependencies
+ mkdir -p "${TAO_BENCH_DEPS}"
+ pushd "${TAO_BENCH_ROOT}"
+ 
+-if ! [ -f "/usr/local/bin/cmake" ]; then
++if [ "$DCPERF_ROOTLESS" != "1" ] && ! [ -f "/usr/local/bin/cmake" ]; then
+     sudo ln -s /usr/bin/cmake /usr/local/bin/cmake
+ fi
+ 
+@@ -126,10 +133,10 @@ if ! [ -d "${FMT_INSTALLED_PATH}/lib64" ] && [ "$LINUX_DIST_ID" = "ubuntu" ]; th
+ fi
+ 
+ # Build and install
+-if ! [ -f "/usr/bin/aclocal-1.16" ]; then
++if [ "$DCPERF_ROOTLESS" != "1" ] && ! [ -f "/usr/bin/aclocal-1.16" ]; then
+     sudo ln -s /usr/bin/aclocal /usr/bin/aclocal-1.16
+ fi
+-if ! [ -f "/usr/bin/automake-1.16" ]; then
++if [ "$DCPERF_ROOTLESS" != "1" ] && ! [ -f "/usr/bin/automake-1.16" ]; then
+     sudo ln -s /usr/bin/automake /usr/bin/automake-1.16
+ fi
+ 
+@@ -138,10 +145,10 @@ fi
+             --disable-coverage --enable-tls
+ make -j"$(nproc)"
+ 
+-if [ -L /usr/bin/aclocal-1.16 ]; then
++if [ "$DCPERF_ROOTLESS" != "1" ] && [ -L /usr/bin/aclocal-1.16 ]; then
+     sudo rm -f /usr/bin/aclocal-1.16
+ fi
+-if [ -L /usr/bin/automake-1.16 ]; then
++if [ "$DCPERF_ROOTLESS" != "1" ] && [ -L /usr/bin/automake-1.16 ]; then
+     sudo rm -f /usr/bin/automake-1.16
+ fi
+ 
+diff --git a/packages/tao_bench/run_autoscale.py b/packages/tao_bench/run_autoscale.py
+index bf29a44..e257edb 100755
+--- a/packages/tao_bench/run_autoscale.py
++++ b/packages/tao_bench/run_autoscale.py
+@@ -154,6 +154,8 @@ def gen_client_instructions(args, to_file=True):
+             }
+             if clients_per_thread > 0:
+                 client_args["clients_per_thread"] = clients_per_thread
++            if getattr(args, "num_threads", 0) > 0:
++                client_args["num_threads"] = args.num_threads
+             if args.sanity > 0 and i == 0:
+                 client_args["sanity"] = args.sanity
+             if args.client_wait_after_warmup >= 0:
+@@ -186,6 +188,8 @@ def gen_client_instructions(args, to_file=True):
+             }
+             if clients_per_thread > 0:
+                 client_args["clients_per_thread"] = clients_per_thread
++            if getattr(args, "num_threads", 0) > 0:
++                client_args["num_threads"] = args.num_threads
+             if args.sanity > 0 and i == 0:
+                 client_args["sanity"] = args.sanity
+             if args.client_wait_after_warmup >= 0:
+diff --git a/packages/video_transcode_bench/install_video_transcode_bench.sh b/packages/video_transcode_bench/install_video_transcode_bench.sh
+index 1424658..4e1b2db 100755
+--- a/packages/video_transcode_bench/install_video_transcode_bench.sh
++++ b/packages/video_transcode_bench/install_video_transcode_bench.sh
+@@ -35,18 +35,27 @@ FFMPEG_ROOT="${BENCHPRESS_ROOT}/benchmarks/video_transcode_bench"
+ FFMPEG_SOURCE="${FFMPEG_ROOT}/ffmpeg_sources"
+ FFMPEG_BUILD="${FFMPEG_ROOT}/ffmpeg_build"
+ FFMPEG_DATASETS="${FFMPEG_ROOT}/datasets/cuts"
++DCPERF_ROOTLESS="${DCPERF_ROOTLESS:-0}"
++BP_CC="${BP_CC:-clang}"
++BP_CXX="${BP_CXX:-clang++}"
+ 
+ # Determine OS version
+ LINUX_DIST_ID="$(awk -F "=" '/^ID=/ {print $2}' /etc/os-release | tr -d '"')"
+ 
+-if [ "$LINUX_DIST_ID" = "ubuntu" ]; then
+-  sudo apt install -y cmake autoconf automake flex bison \
+-    meson nasm clang patch git \
+-    python3-dev pkg-config time parallel p7zip
+-elif [ "$LINUX_DIST_ID" = "centos" ]; then
+-  sudo dnf install -y cmake autoconf automake flex bison \
+-    meson nasm clang patch \
+-    git python3-devel time parallel p7zip
++if [ "$DCPERF_ROOTLESS" != "1" ]; then
++  if [ "$LINUX_DIST_ID" = "ubuntu" ]; then
++    sudo apt install -y cmake autoconf automake flex bison \
++      meson nasm clang patch git \
++      python3-dev pkg-config time parallel p7zip
++  elif [ "$LINUX_DIST_ID" = "centos" ]; then
++    sudo dnf install -y cmake autoconf automake flex bison \
++      meson nasm clang patch \
++      git python3-devel time parallel p7zip
++  fi
++else
++  for tool in cmake autoconf automake flex bison meson nasm "$BP_CC" "$BP_CXX" patch git python3 pkg-config time; do
++    command -v "$tool" >/dev/null || { echo "Missing required tool: $tool"; exit 1; }
++  done
+ fi
+ 
+ platform_cc_flags=""
+@@ -58,7 +67,7 @@ mkdir -p "${FFMPEG_SOURCE}"
+ mkdir -p "${FFMPEG_BUILD}"
+ mkdir -p "${FFMPEG_DATASETS}"
+ 
+-if ! [ -f "/usr/local/bin/cmake" ]; then
++if [ "$DCPERF_ROOTLESS" != "1" ] && ! [ -f "/usr/local/bin/cmake" ]; then
+     sudo ln -s /usr/bin/cmake /usr/local/bin/cmake
+ fi
+ 
+@@ -85,7 +94,7 @@ build_x264()
+     clone $lib || echo "Failed to clone $lib"
+     cd "$lib" || exit
+     mkdir -p _build && cd _build || exit
+-    CC="clang" ../configure --prefix="${FFMPEG_BUILD}" --enable-static --extra-cflags="${platform_cc_flags}"
++    CC="$BP_CC" ../configure --prefix="${FFMPEG_BUILD}" --enable-static --extra-cflags="${platform_cc_flags}"
+     make -j "$(nproc)" && make install
+     popd || exit
+ }
+@@ -144,8 +153,8 @@ build_ffmpeg()
+             --enable-gpl --enable-nonfree --enable-version3 \
+             --enable-static --disable-shared \
+             --pkg-config-flags=--static \
+-            --cc="clang" \
+-            --cxx="clang++" \
++            --cc="$BP_CC" \
++            --cxx="$BP_CXX" \
+             --enable-libx264 \
+             --enable-libaom \
+             --enable-libsvtav1 \
+@@ -161,8 +170,8 @@ build_ffmpeg()
+             --enable-gpl --enable-nonfree --enable-version3 \
+             --enable-static --disable-shared \
+             --pkg-config-flags=--static \
+-            --cc="clang" \
+-            --cxx="clang++" \
++            --cc="$BP_CC" \
++            --cxx="$BP_CXX" \
+             --enable-libx264 \
+             --enable-libaom \
+             --enable-libsvtav1 \
+@@ -209,6 +218,12 @@ mkdir -p tools
+ ln -s "${FFMPEG_BUILD}/bin/ffmpeg" ./tools/ffmpeg
+ ln -s "${FFMPEG_BUILD}/bin/ffmpeg" ./ffmpeg
+ 
++if [ "${DCPERF_VIDEO_SYNTHETIC_DATASET:-0}" = "1" ] && ! find "${FFMPEG_DATASETS}" -name '*.y4m' -print -quit | grep -q .; then
++    "${FFMPEG_BUILD}/bin/ffmpeg" -hide_banner -loglevel error -f lavfi \
++        -i testsrc2=size=640x360:rate=30 -frames:v 120 \
++        "${FFMPEG_DATASETS}/synthetic_640x360.y4m"
++fi
++
+ popd
+ 
+ exit $?
+diff --git a/packages/wdl_bench/install_wdl_bench.sh b/packages/wdl_bench/install_wdl_bench.sh
+index d0d2037..0f1acef 100755
+--- a/packages/wdl_bench/install_wdl_bench.sh
++++ b/packages/wdl_bench/install_wdl_bench.sh
+@@ -35,19 +35,29 @@ WDL_ROOT="${BENCHPRESS_ROOT}/benchmarks/wdl_bench"
+ WDL_SOURCE="${WDL_ROOT}/wdl_sources"
+ WDL_BUILD="${WDL_ROOT}/wdl_build"
+ WDL_DATASETS="${WDL_ROOT}/datasets"
++DCPERF_ROOTLESS="${DCPERF_ROOTLESS:-0}"
++DCPERF_WDL_MINIMAL="${DCPERF_WDL_MINIMAL:-$DCPERF_ROOTLESS}"
++BP_CC="${BP_CC:-clang}"
++BP_CXX="${BP_CXX:-clang++}"
+ 
+ # Determine OS version
+ LINUX_DIST_ID="$(awk -F "=" '/^ID=/ {print $2}' /etc/os-release | tr -d '"')"
+ 
+-if [ "$LINUX_DIST_ID" = "ubuntu" ]; then
+-  sudo apt install -y cmake autoconf automake flex bison \
+-    nasm clang patch git \
+-    tar unzip perl openssl python3-dev
+-
+-elif [ "$LINUX_DIST_ID" = "centos" ]; then
+-  sudo dnf install -y cmake autoconf automake flex bison \
+-    meson nasm clang patch \
+-    git tar unzip perl openssl-devel python3-devel
++if [ "$DCPERF_ROOTLESS" != "1" ]; then
++  if [ "$LINUX_DIST_ID" = "ubuntu" ]; then
++    sudo apt install -y cmake autoconf automake flex bison \
++      nasm clang patch git \
++      tar unzip perl openssl python3-dev
++
++  elif [ "$LINUX_DIST_ID" = "centos" ]; then
++    sudo dnf install -y cmake autoconf automake flex bison \
++      meson nasm clang patch \
++      git tar unzip perl openssl-devel python3-devel
++  fi
++else
++  for tool in cmake autoconf automake flex bison nasm "$BP_CC" "$BP_CXX" patch git tar unzip perl wget python3 make; do
++    command -v "$tool" >/dev/null || { echo "Missing required tool: $tool"; exit 1; }
++  done
+ fi
+ 
+ 
+@@ -55,7 +65,7 @@ mkdir -p "${WDL_SOURCE}"
+ mkdir -p "${WDL_BUILD}"
+ mkdir -p "${WDL_DATASETS}"
+ 
+-if ! [ -f "/usr/local/bin/cmake" ]; then
++if [ "$DCPERF_ROOTLESS" != "1" ] && ! [ -f "/usr/local/bin/cmake" ]; then
+     sudo ln -s /usr/bin/cmake /usr/local/bin/cmake
+ fi
+ 
+@@ -80,7 +90,12 @@ download_dataset()
+     dataset="$1"
+     pushd "${WDL_DATASETS}"
+     link=${DATASETS[$dataset]}
+-    wget "${link}" || exit 1
++    archive="$(basename "${link}")"
++    if [ -f "${archive}" ]; then
++        echo "[SKIPPED] ${archive}"
++    else
++        wget "${link}" || exit 1
++    fi
+ 
+     popd || exit
+ }
+@@ -95,7 +110,9 @@ build_folly()
+     cd "$lib" || exit
+     git apply "${BPKGS_WDL_ROOT}/0001-folly.patch"
+ 
+-    sudo ./build/fbcode_builder/getdeps.py install-system-deps --recursive
++    if [ "$DCPERF_ROOTLESS" != "1" ]; then
++        sudo ./build/fbcode_builder/getdeps.py install-system-deps --recursive
++    fi
+ 
+     python3 ./build/fbcode_builder/getdeps.py --allow-system-packages build --scratch-path "${WDL_BUILD}"
+ 
+@@ -110,7 +127,9 @@ build_fbthrift()
+     clone "$lib" || echo "Failed to clone $lib"
+     cd "$lib" || exit
+ 
+-    sudo ./build/fbcode_builder/getdeps.py install-system-deps --recursive fbthrift
++    if [ "$DCPERF_ROOTLESS" != "1" ]; then
++        sudo ./build/fbcode_builder/getdeps.py install-system-deps --recursive fbthrift
++    fi
+ 
+     python3 ./build/fbcode_builder/getdeps.py --allow-system-packages build fbthrift --scratch-path "${WDL_BUILD}"
+ 
+@@ -124,14 +143,16 @@ build_lzbench()
+     pushd "${WDL_SOURCE}"
+     clone $lib || echo "Failed to clone $lib"
+     cd "$lib" || exit
+-    make -j
++    make -j"$(nproc)" CC="$BP_CC" CXX="$BP_CXX"
+     cp ./lzbench "${WDL_ROOT}/" || exit
+ 
+     download_dataset 'silesia'
+     pushd "${WDL_DATASETS}"
+-    unzip ./silesia.zip || exit
+-    rm  ./silesia.zip
+-    tar cvf silesia.tar ./*
++    if ! [ -f silesia.tar ]; then
++        unzip -o ./silesia.zip || exit
++        rm ./silesia.zip
++        tar cf silesia.tar ./*
++    fi
+     popd || exit
+ 
+     popd || exit
+@@ -143,7 +164,7 @@ build_openssl()
+     pushd "${WDL_SOURCE}"
+     clone $lib || echo "Failed to clone $lib"
+     cd "$lib" || exit
+-    ./Configure --prefix="${WDL_BUILD}/openssl" --openssldir="${WDL_BUILD}/openssl"
++    CC="$BP_CC" ./Configure --prefix="${WDL_BUILD}/openssl" --openssldir="${WDL_BUILD}/openssl"
+     make -j
+     make install
+     cp "${WDL_BUILD}/openssl/bin/openssl" "${WDL_ROOT}/" || exit
+@@ -157,6 +178,17 @@ build_openssl()
+ 
+ pushd "${WDL_ROOT}"
+ 
++if [ "$DCPERF_WDL_MINIMAL" = "1" ]; then
++    build_lzbench
++    build_openssl
++    cp "${BPKGS_WDL_ROOT}/run.sh" ./
++    cp "${BPKGS_WDL_ROOT}/convert.py" ./
++    cp "${BPKGS_WDL_ROOT}/aggregate_result.py" ./
++    cp "${BPKGS_WDL_ROOT}/parse_line.py" ./
++    popd
++    exit 0
++fi
++
+ build_folly
+ build_fbthrift
+ build_lzbench
+diff --git a/packages/wdl_bench/run.sh b/packages/wdl_bench/run.sh
+index ea083cb..79a7843 100755
+--- a/packages/wdl_bench/run.sh
++++ b/packages/wdl_bench/run.sh
+@@ -125,14 +125,18 @@ main() {
+     if [ "$name" = "openssl" ]; then
+         run_list=$name
+         export LD_LIBRARY_PATH="${WDL_BUILD}/openssl/lib64:${WDL_BUILD}/openssl/lib"
+-        ldconfig
++        if [ "${DCPERF_ROOTLESS:-0}" != "1" ]; then
++            ldconfig
++        fi
+         if [ "$run_type" = "single_core" ]; then
+             ./openssl speed -seconds 20 -evp aes-256-"${algo}" > "out_${name}".txt
+         elif [ "$run_type" = "all_core" ]; then
+             ./openssl speed -seconds 20 -evp aes-256-"${algo}" -multi "$(nproc)" > "out_${name}".txt
+         fi
+         unset LD_LIBRARY_PATH
+-        ldconfig
++        if [ "${DCPERF_ROOTLESS:-0}" != "1" ]; then
++            ldconfig
++        fi
+ 
+     elif [ "$name" = "lzbench" ]; then
+         run_list=$name

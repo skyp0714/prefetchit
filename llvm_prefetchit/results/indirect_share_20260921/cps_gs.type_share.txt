@@ -1,0 +1,14 @@
+samples with LBR: 42704
+miss IP by DSO: ComposePostService 63.1%, libc.so.6 35.4%, [vdso] 0.8%, ld-linux-x86-64.so.2 0.6%, [unknown] 0.0%
+
+LBR[0] type            share   miss-on-its-target-line
+COND                    30.00%    79.6%
+CALL                    24.79%    81.6%
+PLT(cross-DSO)          13.18%    74.1%
+RET                     12.32%    66.6%
+IND_CALL(vtable/fptr)    9.32%    82.2%
+UNCOND                   7.79%    73.4%
+IND_JMP(table/tail)      2.60%    62.5%
+
+indirect/PLT by DSO crossing: PLT(cross-DSO) cross-DSO 13.18%, IND_CALL(vtable/fptr) same-DSO 8.75%, IND_JMP(table/tail) same-DSO 2.43%, IND_CALL(vtable/fptr) cross-DSO 0.58%, IND_JMP(table/tail) cross-DSO 0.17%
+

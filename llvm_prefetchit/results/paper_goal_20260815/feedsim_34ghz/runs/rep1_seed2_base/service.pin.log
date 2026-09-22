@@ -1,0 +1,24 @@
+[2026-08-21 02:32:39] assign pid=1842148 tid=1842148 comm=LeafNodeRank.se core=8
+[2026-08-21 02:32:39] CORRECT repin pid=1842148 tid=1842148 from=8-39 to=8
+[2026-08-21 02:32:39] assign pid=1842148 tid=1842165 comm=FutureTimekeepr core=9
+[2026-08-21 02:32:39] CORRECT repin pid=1842148 tid=1842165 from=8 to=9
+[2026-08-21 02:32:39] assign pid=1842148 tid=1842166 comm=LeafNodeRank.se core=10
+[2026-08-21 02:32:39] CORRECT repin pid=1842148 tid=1842166 from=8 to=10
+[2026-08-21 02:32:39] assign pid=1842148 tid=1842167 comm=LeafNodeRank.se core=11
+[2026-08-21 02:32:39] CORRECT repin pid=1842148 tid=1842167 from=8 to=11
+[2026-08-21 02:32:48] assign pid=1842148 tid=1846399 comm=CPUThreadPool0 core=12
+[2026-08-21 02:32:48] CORRECT repin pid=1842148 tid=1846399 from=11 to=12
+[2026-08-21 02:32:48] assign pid=1842148 tid=1846400 comm=CPUThreadPool1 core=13
+[2026-08-21 02:32:48] CORRECT repin pid=1842148 tid=1846400 from=11 to=13
+[2026-08-21 02:32:48] assign pid=1842148 tid=1846559 comm=IOThreadPool0 core=14
+[2026-08-21 02:32:48] CORRECT repin pid=1842148 tid=1846559 from=9 to=14
+[2026-08-21 02:32:48] assign pid=1842148 tid=1846560 comm=srvIOThread0 core=15
+[2026-08-21 02:32:48] CORRECT repin pid=1842148 tid=1846560 from=11 to=15
+[2026-08-21 02:32:48] assign pid=1842148 tid=1846561 comm=srvIOThread1 core=16
+[2026-08-21 02:32:48] CORRECT repin pid=1842148 tid=1846561 from=11 to=16
+[2026-08-21 02:32:48] assign pid=1842148 tid=1846635 comm=srvCPUThread0 core=17
+[2026-08-21 02:32:48] CORRECT repin pid=1842148 tid=1846635 from=11 to=17
+[2026-08-21 02:32:48] assign pid=1842148 tid=1846636 comm=srvCPUThread1 core=18
+[2026-08-21 02:32:48] CORRECT repin pid=1842148 tid=1846636 from=11 to=18
+[2026-08-21 02:38:06] WARN taskset-raced-thread-exit pid=1842148 tid=1842165 core=9
+[2026-08-21 02:38:06] WARN taskset-raced-thread-exit pid=1842148 tid=1846559 core=14

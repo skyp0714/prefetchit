@@ -1,0 +1,70 @@
+diff --git a/src/HDSearch/mid_tier_service/service/mid_tier_server.cc b/src/HDSearch/mid_tier_service/service/mid_tier_server.cc
+--- a/src/HDSearch/mid_tier_service/service/mid_tier_server.cc
++++ b/src/HDSearch/mid_tier_service/service/mid_tier_server.cc
+@@ -66,5 +66,11 @@ void ProcessRequest(LoadGenRequest &load_gen_request,
+ #define PREFETCHIT_HD_PREFETCH_LOCALITY 3
+ #endif
++#ifndef PREFETCHIT_HD_CLEANUP_RESPONSE_STATE
++#define PREFETCHIT_HD_CLEANUP_RESPONSE_STATE 0
++#endif
++#ifndef PREFETCHIT_HD_LOG_RESPONSE_STATE_INTERVAL
++#define PREFETCHIT_HD_LOG_RESPONSE_STATE_INTERVAL 0
++#endif
+ 
+ #if PREFETCHIT_HD_HANDOFF_STAGE
+ static inline void PrefetchHdSearchHandoff(void *tag) {
+@@ -240,6 +246,27 @@ class ServerImpl final {
+                     } else {
+                         //GPR_ASSERT(status_ == FINISH);
+                         // Once in the FINISH state, deallocate ourselves (CallData).
++#if PREFETCHIT_HD_CLEANUP_RESPONSE_STATE
++                        const uint64_t unique_request_id_value =
++                            reinterpret_cast<uintptr_t>(this);
++                        ResponseIndexKnnQueries* completed_reply = nullptr;
++                        std::unique_ptr<std::mutex> completed_mutex;
++                        {
++                            std::lock_guard<std::mutex> lock(map_coarse_mutex);
++                            auto response_it = response_count_down_map.find(
++                                    unique_request_id_value);
++                            if (response_it != response_count_down_map.end()) {
++                                completed_reply = response_it->second.index_reply;
++                                response_count_down_map.erase(response_it);
++                            }
++                            auto mutex_it = map_fine_mutex.find(unique_request_id_value);
++                            if (mutex_it != map_fine_mutex.end()) {
++                                completed_mutex = std::move(mutex_it->second);
++                                map_fine_mutex.erase(mutex_it);
++                            }
++                        }
++                        delete completed_reply;
++#endif
+                         delete this;
+                     }
+                 }
+@@ -535,11 +562,26 @@ class DistanceServiceClient {
+             unsigned int number_of_nearest_neighbors = (int)load_gen_request.number_nearest_neighbors();
+             // Declare the size of the final response that the map must hold.
+             map_coarse_mutex.lock();
++#if PREFETCHIT_HD_CLEANUP_RESPONSE_STATE
++            map_fine_mutex.emplace(
++                    unique_request_id_value, std::make_unique<std::mutex>());
++            response_count_down_map.emplace(
++                    unique_request_id_value, ResponseMetaData());
++#else
+             ResponseMetaData meta_data;
+             response_count_down_map.erase(unique_request_id_value);
+             map_fine_mutex.erase(unique_request_id_value);
+             map_fine_mutex[unique_request_id_value] = std::make_unique<std::mutex>();
+             response_count_down_map[unique_request_id_value] = meta_data;
++#endif
++            num_requests++;
++#if PREFETCHIT_HD_LOG_RESPONSE_STATE_INTERVAL > 0
++            if (num_requests % PREFETCHIT_HD_LOG_RESPONSE_STATE_INTERVAL == 0) {
++                std::cerr << "prefetchit_response_state requests=" << num_requests
++                    << " response_map=" << response_count_down_map.size()
++                    << " fine_map=" << map_fine_mutex.size() << std::endl;
++            }
++#endif
+             map_coarse_mutex.unlock();
+ 
+             map_fine_mutex[unique_request_id_value]->lock();

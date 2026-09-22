@@ -1,0 +1,16 @@
+workload,config,cores,rate,util_pct,l2i,instr,cycles,mpki,ipc,note
+scylla,noC6,8-11,5000,9.5,4094443,8128000324,5927081254,0.50,1.371,YCSB workloada 50/50, 1M records, 16 client threads
+scylla,noC6,8-11,20000,32.6,14338910,36131712964,24679451672,0.40,1.464,YCSB workloada 50/50, 1M records, 16 client threads
+scylla,noC6,8-11,60000,56.4,35910551,97016744772,50606570274,0.37,1.917,YCSB workloada 50/50, 1M records, 16 client threads
+scylla,noC6,8-11,200000,47.5,23101323,64909971987,43116362390,0.36,1.505,YCSB workloada 50/50, 1M records, 16 client threads
+mysql8,noC6,4-7,200,9.2,75136744,21132440962,9803519029,3.56,2.156,sysbench oltp_read_write, 16 tables x 200k, 16 threads, innodb 4G buffer pool, durable
+mysql8,noC6,4-7,1000,75.2,290528199,123447588404,85447624245,2.35,1.445,sysbench oltp_read_write, 16 tables x 200k, 16 threads, innodb 4G buffer pool, durable
+mysql8,noC6,4-7,4000,77.1,368895613,158629498223,90778879927,2.33,1.747,sysbench oltp_read_write, 16 tables x 200k, 16 threads, innodb 4G buffer pool, durable
+mysql8,noC6,4-7,0,77.4,355948927,152806392268,90524361683,2.33,1.688,sysbench oltp_read_write, 16 tables x 200k, 16 threads, innodb 4G buffer pool, durable
+scylla,interleaved_noC6,8-11,coloc,33.4,232798007,38458497002,31726504695,6.05,1.212,scylla YCSB 20k + mysql sysbench 400/s on the same 4 cores
+mysql8,interleaved_noC6,8-11,coloc,21.0,303343728,32777669776,21864036407,9.25,1.499,scylla YCSB 20k + mysql sysbench 400/s on the same 4 cores
+rails_puma,noC6,0-3,200,9.1,37971567,20179776321,14481865576,1.88,1.393,Rails 8 API + puma 4 workers x 8 threads (CRuby 3.2 no YJIT) production; MySQL 8 on 4-7
+rails_puma,noC6,0-3,800,37.6,154194235,80777532319,60196586515,1.91,1.342,Rails 8 API + puma 4 workers x 8 threads (CRuby 3.2 no YJIT) production; MySQL 8 on 4-7
+rails_puma,noC6,0-3,3000,86.8,324253868,203897189188,138800203906,1.59,1.469,Rails 8 API + puma 4 workers x 8 threads (CRuby 3.2 no YJIT) production; MySQL 8 on 4-7
+rails_puma,interleaved_noC6,8-11,coloc,39.4,277616757,79692715028,63052908874,3.48,1.264,rails 800 rps + scylla YCSB 20k on the same 4 cores
+scylla,interleaved_noC6,8-11,coloc_rails,32.7,287442044,26204620069,26093479289,10.97,1.004,scylla YCSB 20k + rails 800 rps on the same 4 cores

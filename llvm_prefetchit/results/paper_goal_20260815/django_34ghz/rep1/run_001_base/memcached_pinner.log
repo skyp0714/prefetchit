@@ -1,0 +1,19 @@
+[2026-08-21 01:54:05] assign pid=1529311 tid=1529311 comm=memcached core=60
+[2026-08-21 01:54:05] CORRECT repin pid=1529311 tid=1529311 from=60-80 to=60
+[2026-08-21 01:54:05] assign pid=1529311 tid=1529313 comm=memcached core=61
+[2026-08-21 01:54:05] CORRECT repin pid=1529311 tid=1529313 from=60-80 to=61
+[2026-08-21 01:54:05] assign pid=1529311 tid=1529314 comm=memcached core=62
+[2026-08-21 01:54:05] CORRECT repin pid=1529311 tid=1529314 from=60-80 to=62
+[2026-08-21 01:54:05] assign pid=1529311 tid=1529315 comm=memcached core=63
+[2026-08-21 01:54:05] CORRECT repin pid=1529311 tid=1529315 from=60-80 to=63
+[2026-08-21 01:54:05] assign pid=1529311 tid=1529316 comm=memcached core=64
+[2026-08-21 01:54:05] CORRECT repin pid=1529311 tid=1529316 from=60-80 to=64
+[2026-08-21 01:54:05] assign pid=1529311 tid=1529317 comm=memcached core=65
+[2026-08-21 01:54:05] CORRECT repin pid=1529311 tid=1529317 from=60-80 to=65
+[2026-08-21 01:54:05] assign pid=1529311 tid=1529318 comm=memcached core=66
+[2026-08-21 01:54:05] CORRECT repin pid=1529311 tid=1529318 from=60-80 to=66
+[2026-08-21 01:55:40] WARN taskset-raced-thread-exit pid=1529311 tid=1529315 core=63
+[2026-08-21 01:55:40] WARN taskset-raced-thread-exit pid=1529311 tid=1529316 core=64
+[2026-08-21 01:55:40] WARN taskset-raced-thread-exit pid=1529311 tid=1529314 core=62
+[2026-08-21 01:55:40] WARN taskset-raced-thread-exit pid=1529311 tid=1529317 core=65
+[2026-08-21 01:55:40] WARN taskset-raced-thread-exit pid=1529311 tid=1529318 core=66

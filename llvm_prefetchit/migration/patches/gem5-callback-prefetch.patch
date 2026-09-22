@@ -1,0 +1,151 @@
+--- a/src/sim/eventq.cc
++++ b/src/sim/eventq.cc
+@@ -239,6 +239,7 @@
+         // the 'in bin' list and point to the next bin list
+         head = head->nextBin;
+     }
++    prefetchEventCallbackTarget(head);
+ 
+     // handle action
+     if (!event->squashed()) {
+--- a/src/sim/eventq.hh
++++ b/src/sim/eventq.hh
+@@ -38,11 +38,15 @@
+ #include <algorithm>
+ #include <cassert>
+ #include <climits>
++#include <cstdint>
++#include <cstring>
+ #include <functional>
+ #include <iosfwd>
+ #include <list>
+ #include <memory>
+ #include <string>
++#include <type_traits>
++#include <utility>
+ 
+ #include "base/debug.hh"
+ #include "base/flags.hh"
+@@ -274,6 +278,7 @@
+     Tick _when;         //!< timestamp when event should be processed
+     Priority _priority; //!< event priority
+     Flags flags;
++    const void *_prefetchTarget;
+ 
+ #ifndef NDEBUG
+     /// Global counter to generate unique IDs for Event instances
+@@ -404,9 +409,10 @@
+      *
+      * @ingroup api_eventq
+      */
+-    Event(Priority p = Default_Pri, Flags f = 0)
++    Event(Priority p = Default_Pri, Flags f = 0,
++          const void *prefetch_target = nullptr)
+         : nextBin(nullptr), nextInBin(nullptr), _when(0), _priority(p),
+-          flags(Initialized | f)
++          flags(Initialized | f), _prefetchTarget(prefetch_target)
+     {
+         assert(f.noneSet(~PublicWrite));
+ #ifndef NDEBUG
+@@ -617,6 +623,20 @@
+   private:
+     friend void curEventQueue(EventQueue *);
+ 
++    static void
++    prefetchEventCallbackTarget(const Event *event)
++    {
++#if defined(__GNUC__) || defined(__clang__)
++        if (event && event->_prefetchTarget) {
++            const auto target =
++                reinterpret_cast<std::uintptr_t>(event->_prefetchTarget);
++            const auto line = target & ~std::uintptr_t(63);
++            __builtin_prefetch(reinterpret_cast<const void *>(line), 0, 3);
++            __builtin_prefetch(reinterpret_cast<const void *>(line + 64), 0, 3);
++        }
++#endif
++    }
++
+     std::string objName;
+     Event *head;
+     Tick _curTick;
+@@ -776,6 +796,7 @@
+         }
+         event->flags.set(Event::Scheduled);
+         event->acquire();
++        prefetchEventCallbackTarget(event);
+ 
+         if (debug::Event)
+             event->trace("scheduled");
+@@ -828,6 +849,7 @@
+         insert(event);
+         event->flags.clear(Event::Squashed);
+         event->flags.set(Event::Scheduled);
++        prefetchEventCallbackTarget(event);
+ 
+         if (debug::Event)
+             event->trace("rescheduled");
+@@ -1139,6 +1161,40 @@
+       std::function<void(void)> callback;
+       std::string _name;
+ 
++      template <typename T, typename = void>
++      struct HasCallOperator : std::false_type {};
++
++      template <typename T>
++      struct HasCallOperator<T, std::void_t<decltype(&T::operator())>>
++          : std::true_type {};
++
++      template <typename Target>
++      static const void *
++      memberFunctionTarget(Target target)
++      {
++          const void *result = nullptr;
++          std::memcpy(&result, &target, std::min(sizeof(result), sizeof(target)));
++          return result;
++      }
++
++      template <typename Callback>
++      static const void *
++      callbackPrefetchTarget(const Callback &callback)
++      {
++          using CallbackType = std::decay_t<Callback>;
++          if constexpr (
++              std::is_pointer_v<CallbackType> &&
++              std::is_function_v<std::remove_pointer_t<CallbackType>>) {
++              return reinterpret_cast<const void *>(callback);
++          } else if constexpr (std::is_member_function_pointer_v<CallbackType>) {
++              return memberFunctionTarget(callback);
++          } else if constexpr (HasCallOperator<CallbackType>::value) {
++              return memberFunctionTarget(&CallbackType::operator());
++          } else {
++              return nullptr;
++          }
++      }
++
+   public:
+     /**
+      * This function wraps a function into an event, to be
+@@ -1154,6 +1210,23 @@
+     {
+         if (del)
+             setFlags(AutoDelete);
++    }
++
++    template <
++        typename Callback,
++        std::enable_if_t<
++            !std::is_same_v<std::decay_t<Callback>, std::function<void(void)>> &&
++            std::is_invocable_r_v<void, std::decay_t<Callback> &>,
++            int> = 0>
++    EventFunctionWrapper(Callback &&callback,
++                         const std::string &name,
++                         bool del = false,
++                         Priority p = Default_Pri)
++        : Event(p, 0, callbackPrefetchTarget(callback)),
++          callback(std::forward<Callback>(callback)), _name(name)
++    {
++        if (del)
++            setFlags(AutoDelete);
+     }
+ 
+    /**

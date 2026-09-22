@@ -1,0 +1,59 @@
+diff --git a/generators/chipyard/src/main/scala/config/BoomConfigs.scala b/generators/chipyard/src/main/scala/config/BoomConfigs.scala
+index 8580215..1f09c60 100644
+--- a/generators/chipyard/src/main/scala/config/BoomConfigs.scala
++++ b/generators/chipyard/src/main/scala/config/BoomConfigs.scala
+@@ -25,6 +25,10 @@ class MegaBoomV3Config extends Config(
+   new chipyard.config.WithSystemBusWidth(128) ++
+   new chipyard.config.AbstractConfig)
+ 
++class QuadMegaBoomConfig extends Config(
++  new boom.v3.common.WithNMegaBooms(4) ++
++  new chipyard.config.AbstractConfig)
++
+ class DualSmallBoomV3Config extends Config(
+   new boom.v3.common.WithNSmallBooms(2) ++                          // 2 boom cores
+   new chipyard.config.AbstractConfig)
+diff --git a/generators/chipyard/src/main/scala/config/HeteroConfigs.scala b/generators/chipyard/src/main/scala/config/HeteroConfigs.scala
+index 9252ba6..b0faa37 100644
+--- a/generators/chipyard/src/main/scala/config/HeteroConfigs.scala
++++ b/generators/chipyard/src/main/scala/config/HeteroConfigs.scala
+@@ -26,6 +26,12 @@ class DualLargeBoomAndSingleRocketConfig extends Config(
+   new chipyard.config.AbstractConfig)
+ // DOC include end: DualBoomAndSingleRocket
+ 
++class DualMegaBoomAndSingleRocketConfig extends Config(
++  new boom.v3.common.WithNMegaBooms(2) ++              // add 2 mega boom cores
++  new freechips.rocketchip.rocket.WithNHugeCores(1) ++  // add 1 rocket core
++  new chipyard.config.WithSystemBusWidth(128) ++
++  new chipyard.config.AbstractConfig)
++
+ class LargeBoomAndRocketWithControlCoreConfig extends Config(
+   new freechips.rocketchip.rocket.WithNSmallCores(1) ++    // Add a small "control" core
+   new boom.v3.common.WithNLargeBooms(1) ++                 // Add 1 boom core
+diff --git a/sims/verilator/Makefile b/sims/verilator/Makefile
+index 51a14af..81ba0e6 100644
+--- a/sims/verilator/Makefile
++++ b/sims/verilator/Makefile
+@@ -184,6 +184,8 @@ model_header_debug = $(model_dir_debug)/V$(TB).h
+ 
+ model_mk = $(model_dir)/V$(TB).mk
+ model_mk_debug = $(model_dir_debug)/V$(TB).mk
++VM_MAKE_JOBS ?= $(shell nproc)
++VM_PARALLEL_BUILDS ?= $(VM_MAKE_JOBS)
+ 
+ #########################################################################################
+ # build makefile fragment that builds the verilator sim rules
+@@ -208,11 +210,11 @@ $(model_mk_debug): $(sim_common_files) $(EXTRA_SIM_REQS)
+ #########################################################################################
+ $(sim): $(model_mk) $(dramsim_lib)
+ 	$(require_riscv)
+-	$(MAKE) VM_PARALLEL_BUILDS=1 -C $(model_dir) -f V$(TB).mk
++	$(MAKE) -j$(VM_MAKE_JOBS) VM_PARALLEL_BUILDS=$(VM_PARALLEL_BUILDS) -C $(model_dir) -f V$(TB).mk
+ 
+ $(sim_debug): $(model_mk_debug) $(dramsim_lib)
+ 	$(require_riscv)
+-	$(MAKE) VM_PARALLEL_BUILDS=1 -C $(model_dir_debug) -f V$(TB).mk
++	$(MAKE) -j$(VM_MAKE_JOBS) VM_PARALLEL_BUILDS=$(VM_PARALLEL_BUILDS) -C $(model_dir_debug) -f V$(TB).mk
+ 
+ #########################################################################################
+ # create a verilator vpd rule

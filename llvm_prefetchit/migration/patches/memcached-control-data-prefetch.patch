@@ -1,0 +1,177 @@
+--- a/assoc.c
++++ b/assoc.c
+@@ -25,6 +25,31 @@
+ #include <assert.h>
+ #include <pthread.h>
+ 
++#ifndef MEMCACHED_ASSOC_PREFETCH_BUCKET_LINES
++#define MEMCACHED_ASSOC_PREFETCH_BUCKET_LINES 0
++#endif
++#ifndef MEMCACHED_ASSOC_PREFETCH_CHAIN_LINES
++#define MEMCACHED_ASSOC_PREFETCH_CHAIN_LINES 0
++#endif
++#ifndef MEMCACHED_ASSOC_PREFETCH_MATCH_DATA_LINES
++#define MEMCACHED_ASSOC_PREFETCH_MATCH_DATA_LINES 0
++#endif
++#ifndef MEMCACHED_ASSOC_PREFETCH_LOCALITY
++#define MEMCACHED_ASSOC_PREFETCH_LOCALITY 3
++#endif
++
++#if MEMCACHED_ASSOC_PREFETCH_BUCKET_LINES > 0 || \
++    MEMCACHED_ASSOC_PREFETCH_CHAIN_LINES > 0 || \
++    MEMCACHED_ASSOC_PREFETCH_MATCH_DATA_LINES > 0
++static inline void assoc_prefetch_lines(const void *address, const int lines) {
++    const char *bytes = address;
++    for (int line = 0; line < lines; line++) {
++        __builtin_prefetch(bytes + (line * 64), 0,
++                MEMCACHED_ASSOC_PREFETCH_LOCALITY);
++    }
++}
++#endif
++
+ static pthread_cond_t maintenance_cond = PTHREAD_COND_INITIALIZER;
+ static pthread_mutex_t maintenance_lock = PTHREAD_MUTEX_INITIALIZER;
+ 
+@@ -79,10 +104,25 @@
+         it = primary_hashtable[hv & hashmask(hashpower)];
+     }
+ 
++#if MEMCACHED_ASSOC_PREFETCH_BUCKET_LINES > 0
++    if (it != NULL) {
++        assoc_prefetch_lines(it, MEMCACHED_ASSOC_PREFETCH_BUCKET_LINES);
++    }
++#endif
++
+     item *ret = NULL;
+     int depth = 0;
+     while (it) {
++#if MEMCACHED_ASSOC_PREFETCH_CHAIN_LINES > 0
++        if (it->h_next != NULL) {
++            assoc_prefetch_lines(it->h_next, MEMCACHED_ASSOC_PREFETCH_CHAIN_LINES);
++        }
++#endif
+         if ((nkey == it->nkey) && (memcmp(key, ITEM_key(it), nkey) == 0)) {
++#if MEMCACHED_ASSOC_PREFETCH_MATCH_DATA_LINES > 0
++            assoc_prefetch_lines(ITEM_data(it),
++                    MEMCACHED_ASSOC_PREFETCH_MATCH_DATA_LINES);
++#endif
+             ret = it;
+             break;
+         }
+--- a/memcached.c
++++ b/memcached.c
+@@ -44,6 +44,10 @@
+ #include <time.h>
+ #include <assert.h>
+ #include <sysexits.h>
++
++#ifndef MEMCACHED_PREFETCH_CMD_TARGET
++#define MEMCACHED_PREFETCH_CMD_TARGET 0
++#endif
+ #include <stddef.h>
+ 
+ #ifdef HAVE_GETOPT_LONG
+@@ -3111,6 +3115,9 @@
+ 
+         case conn_parse_cmd:
+             c->noreply = false;
++#if MEMCACHED_PREFETCH_CMD_TARGET
++            __builtin_prefetch((const void *)c->try_read_command, 0, 3);
++#endif
+             if (c->try_read_command(c) == 0) {
+                 /* we need more data! */
+                 if (c->resp_head) {
+--- a/proto_text.c
++++ b/proto_text.c
+@@ -51,6 +51,60 @@
+     size_t length;
+ } token_t;
+ 
++#ifndef MEMCACHED_PREFETCH_ASCII_GET_TARGETS
++#define MEMCACHED_PREFETCH_ASCII_GET_TARGETS 0
++#endif
++
++#ifndef MEMCACHED_PREFETCH_ASCII_GET_MASK
++#define MEMCACHED_PREFETCH_ASCII_GET_MASK \
++    (MEMCACHED_PREFETCH_ASCII_GET_TARGETS ? 0x3f : 0)
++#endif
++
++#ifndef MEMCACHED_PREFETCH_ASCII_GET_EARLY
++#define MEMCACHED_PREFETCH_ASCII_GET_EARLY 0
++#endif
++
++#ifndef MEMCACHED_PREFETCH_ASCII_GET_LOCALITY
++#define MEMCACHED_PREFETCH_ASCII_GET_LOCALITY 3
++#endif
++
++#ifndef MEMCACHED_PREFETCH_ASCII_GET_NEXT_LINE
++#define MEMCACHED_PREFETCH_ASCII_GET_NEXT_LINE 0
++#endif
++
++static inline void process_get_command(conn *c, token_t *tokens, size_t ntokens,
++                                       bool return_cas, bool should_touch);
++
++#if MEMCACHED_PREFETCH_ASCII_GET_MASK
++static inline void prefetch_ascii_get_target(const void *target) {
++    __builtin_prefetch(target, 0, MEMCACHED_PREFETCH_ASCII_GET_LOCALITY);
++#if MEMCACHED_PREFETCH_ASCII_GET_NEXT_LINE
++    __builtin_prefetch((const char *)target + 64, 0,
++                       MEMCACHED_PREFETCH_ASCII_GET_LOCALITY);
++#endif
++}
++static inline void prefetch_ascii_get_targets(void) {
++#if MEMCACHED_PREFETCH_ASCII_GET_MASK & 0x01
++    prefetch_ascii_get_target((const void *)process_command_ascii);
++#endif
++#if MEMCACHED_PREFETCH_ASCII_GET_MASK & 0x02
++    prefetch_ascii_get_target((const void *)process_get_command);
++#endif
++#if MEMCACHED_PREFETCH_ASCII_GET_MASK & 0x04
++    prefetch_ascii_get_target((const void *)item_get);
++#endif
++#if MEMCACHED_PREFETCH_ASCII_GET_MASK & 0x08
++    prefetch_ascii_get_target((const void *)do_item_get);
++#endif
++#if MEMCACHED_PREFETCH_ASCII_GET_MASK & 0x10
++    prefetch_ascii_get_target((const void *)assoc_find);
++#endif
++#if MEMCACHED_PREFETCH_ASCII_GET_MASK & 0x20
++    prefetch_ascii_get_target((const void *)resp_add_iov);
++#endif
++}
++#endif
++
+ static void _finalize_mset(conn *c, enum store_item_type ret) {
+     mc_resp *resp = c->resp;
+     item *it = c->item;
+@@ -441,6 +495,12 @@
+     if (c->rbytes == 0)
+         return 0;
+ 
++#if MEMCACHED_PREFETCH_ASCII_GET_MASK && MEMCACHED_PREFETCH_ASCII_GET_EARLY
++    if (c->rcurr[0] == 'g') {
++        prefetch_ascii_get_targets();
++    }
++#endif
++
+     el = memchr(c->rcurr, '\n', c->rbytes);
+     if (!el) {
+         if (c->rbytes > 2048) {
+@@ -482,6 +542,11 @@
+     assert(cont <= (c->rcurr + c->rbytes));
+ 
+     c->last_cmd_time = current_time;
++#if MEMCACHED_PREFETCH_ASCII_GET_MASK && !MEMCACHED_PREFETCH_ASCII_GET_EARLY
++    if (c->rcurr[0] == 'g') {
++        prefetch_ascii_get_targets();
++    }
++#endif
+     process_command_ascii(c, c->rcurr);
+ 
+     c->rbytes -= (cont - c->rcurr);
+@@ -2917,5 +2982,3 @@
+     }
+     return;
+ }
+-
+-

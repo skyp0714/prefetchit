@@ -1,0 +1,56 @@
+bench,server,cores,load,util_pct,l2i,instr,cycles,mpki,ipc,note
+data-caching,cs-dc-server,4-7,rps100000,0.0,26569,2413471,5003539,11.01,0.482,
+data-caching,cs-dc-server,4-7,rps200000,0.0,26889,2418833,4778046,11.12,0.506,
+data-caching,cs-dc-server,4-7,rps400000,0.0,27169,2412211,4340578,11.26,0.556,
+data-caching,cs-dc-server,4-7,rps800000,0.0,27739,2693784,3499863,10.30,0.770,
+media-streaming,cs-ms-server,4-7,sess100,0.0,0,0,0,0.00,0.000,sessions=100
+media-streaming,cs-ms-server,4-7,sess400,0.0,0,0,0,0.00,0.000,sessions=400
+media-streaming,cs-ms-server,4-7,sess1000,0.0,0,0,0,0.00,0.000,sessions=1000
+web-search,cs-wsrch-server,4-7,w25,3.8,41718589,11681203877,7008939564,3.57,1.667,workers=25
+web-search,cs-wsrch-server,4-7,w50,2.5,58684991,13167773424,7297774060,4.46,1.804,workers=50
+web-search,cs-wsrch-server,4-7,w100,3.6,84873103,26915074195,14022734163,3.15,1.919,workers=100
+web-search,cs-wsrch-server,4-7,w200,6.3,132871628,45918167230,22584881777,2.89,2.033,workers=200
+web-serving,cs-ws-web,4-7,scale25,16.6,525460594,75876282890,62841372642,6.93,1.207,ops/sec">15.100</metric>
+web-serving,cs-ws-web,4-7,scale50,15.4,527637578,72401967373,60591577233,7.29,1.195,ops/sec">21.717</metric>
+web-serving,cs-ws-web,4-7,scale100,17.8,444598990,67355268178,55895244113,6.60,1.205,ops/sec">20.533</metric>
+web-serving,cs-ws-web,4-7,scale200,11.3,462605401,68589238904,57170537908,6.74,1.200,ops/sec">17.550</metric>
+web-serving,cs-ws-web,4-7,scale400,15.7,641428300,94578285794,78736361476,6.78,1.201,ops/sec">11.283</metric>
+web-search,cs-wsrch-server,4-7,w25,4.0,46342714,10449110089,6555086947,4.44,1.594,workers=25 925 errors
+web-search,cs-wsrch-server,4-7,w50,2.3,55431216,16186962740,8928680452,3.42,1.813,workers=50 2300 errors
+web-search,cs-wsrch-server,4-7,w100,3.0,45451165,22368640358,10579791963,2.03,2.114,workers=100 4400 errors
+web-search,cs-wsrch-server,4-7,w200,6.6,129038148,45598157743,23543212393,2.83,1.937,workers=200 8491 errors
+web-search,cs-wsrch-server,4-7,w400,11.0,147545071,90743834400,40920146292,1.63,2.218,workers=400 12782 errors
+data-caching,cs-dc-server,4-7,rps100000,35.0,19017529,14846618452,16643128317,1.28,0.892,1789854906;   1.000001;  100009.9;      100010;      80032;  | 0 1 0 1 0 0 0 1 | unix_ts;  timeDiff;     rps;        requests;     gets;     
+data-caching,cs-dc-server,4-7,rps100000,35.0,19017529,14846618452,16643128317,1.28,0.892,salvaged from the stuck rerun (loader at 100k rps; 4 memcached threads)
+web-search-noC6,cs-wsrch-server,4-7,w50,1.9,42508782,16724313854,8626016344,2.54,1.939,workers=50 1550 errors
+data-caching-noC6,cs-dc-server,4-7,rps200000,59.2,960847,24878975026,28379853290,0.04,0.877,1789856655;   1.000001;  200023.8;      200024;     160041;  | 1 1 0 1 1 1 0 1 | unix_ts;  timeDiff;     rps;        requests;     gets; /ent
+data-serving,cs-ds-server,4-7,rps5000,26.4,125519275,32611431387,41786448224,3.85,0.780,target=5000/s
+data-serving,cs-ds-server,4-7,rps10000,36.3,133786544,45276644642,61850478449,2.95,0.732,target=10000/s
+data-serving,cs-ds-server,4-7,rps20000,48.0,179677734,83272931499,102954296045,2.16,0.809,target=20000/s
+data-serving,cs-ds-server,4-7,rps40000,69.7,356523567,268409973704,232167853670,1.33,1.156,target=40000/s
+data-serving,cs-ds-server,4-7,rps80000,83.4,256459767,303886473065,298104781967,0.84,1.019,target=80000/s
+data-caching,cs-dc-server,4-7,rps200000,59.1,1281294,24854102631,29641449932,0.05,0.838,1789857235;   1.000001;  200025.8;      200026;     160300;  | 1 0 1 0 0 1 0 1 | unix_ts;  timeDiff;     rps;        requests;  /entrypoint.s
+data-caching,cs-dc-server,4-7,rps400000,79.3,2239398,36645812908,46311607450,0.06,0.791,285 292 289 290 285 285 292 280 | unix_ts;  timeDiff;     rps;        requests;     gets;      | 1789857286;   1.000001;  357176.6; /entrypoint.sh: line 64: 
+data-caching,cs-dc-server,4-7,rps700000,78.3,2620378,40549244331,50046821029,0.06,0.810,289 291 287 291 291 280 284 287 | unix_ts;  timeDiff;     rps;        requests;     gets;      | 1789857338;   1.000001;  352220.6;      352/entrypoint.sh: l
+web-serving-noC6,cs-ws-web,4-7,scale50,9.2,325221632,65308091460,49934410957,4.98,1.308,ops/sec">12.550</metric>
+data-serving-noC6,cs-ds-server,4-7,rps10000,37.4,109108768,52806756491,60934405750,2.07,0.867,target=10000/s
+in-memory-analytics-noC6,in-memory-analytics-t60,4-7,batch,44.8,69224644,748800070288,239383009394,0.09,3.128,Spark MLlib ALS, movielens, local[4]
+in-memory-analytics-noC6,in-memory-analytics-t180,4-7,batch,98.9,40171102,1171668079750,403691476061,0.03,2.902,Spark MLlib ALS, movielens, local[4]
+graph-analytics-noC6,graph-analytics-t8,4-7,batch,96.1,15883080,422700494315,134851451862,0.04,3.135,Spark GraphX PageRank, twitter graph, local[4]
+graph-analytics-noC6,graph-analytics-t20,4-7,batch,99.2,78172045,311075773736,135416344983,0.25,2.297,Spark GraphX PageRank, twitter graph, local[4]
+data-analytics-master-noC6,data-analytics-master-t90,4-7,batch,0.2,1973368,169180343,477740353,11.66,0.354,Hadoop/Mahout Bayes, wikimedia (master container)
+data-analytics-slave-noC6,data-analytics-slave-t90,4-7,batch,0.1,2220563,1560673550,1122823394,1.42,1.390,Hadoop/Mahout Bayes, wikimedia (slave container)
+data-analytics-master-noC6,data-analytics-master-t210,4-7,batch,0.1,1712215,204271212,437653621,8.38,0.467,Hadoop/Mahout Bayes, wikimedia (master container)
+data-analytics-slave-noC6,data-analytics-slave-t210,4-7,batch,0.1,2035766,130437155,403030382,15.61,0.324,Hadoop/Mahout Bayes, wikimedia (slave container)
+data-analytics-master-noC6,data-analytics-master-t90,4-7,batch,0.3,5483302,837312790,1178270169,6.55,0.711,Hadoop/Mahout Bayes, wikimedia (master container, CS4 flags)
+data-analytics-slave-noC6,data-analytics-slave-t90,4-7,batch,0.1,2469196,273571261,490267911,9.03,0.558,Hadoop/Mahout Bayes, wikimedia (slave container, CS4 flags)
+data-analytics-master-noC6,data-analytics-master-t240,4-7,batch,0.2,4854769,645787634,884804473,7.52,0.730,Hadoop/Mahout Bayes, wikimedia (master container, CS4 flags)
+data-analytics-slave-noC6,data-analytics-slave-t240,4-7,batch,0.1,1680113,94085015,262309072,17.86,0.359,Hadoop/Mahout Bayes, wikimedia (slave container, CS4 flags)
+data-analytics-master-noC6,data-analytics-master-t420,4-7,batch,0.2,4069723,833819509,867872574,4.88,0.961,Hadoop/Mahout Bayes, wikimedia (master container, CS4 flags)
+data-analytics-slave-noC6,data-analytics-slave-t420,4-7,batch,0.1,1532605,60224420,253833684,25.45,0.237,Hadoop/Mahout Bayes, wikimedia (slave container, CS4 flags)
+data-analytics-master-noC6,data-analytics-master-t120,4-7,batch,0.3,5997257,893806650,1151837141,6.71,0.776,Hadoop/Mahout Bayes, wikimedia (master container, CS4 flags+alias)
+data-analytics-slave-noC6,data-analytics-slave-t120,4-7,batch,0.1,2094453,285280185,397830347,7.34,0.717,Hadoop/Mahout Bayes, wikimedia (slave container, CS4 flags+alias)
+data-analytics-master-noC6,data-analytics-master-t300,4-7,batch,0.2,4162519,272193621,759809714,15.29,0.358,Hadoop/Mahout Bayes, wikimedia (master container, CS4 flags+alias)
+data-analytics-slave-noC6,data-analytics-slave-t300,4-7,batch,0.1,1764299,108368082,284373628,16.28,0.381,Hadoop/Mahout Bayes, wikimedia (slave container, CS4 flags+alias)
+data-analytics-master-noC6,data-analytics-master-t480,4-7,batch,0.2,5030339,2347957283,1861348595,2.14,1.261,Hadoop/Mahout Bayes, wikimedia (master container, CS4 flags+alias)
+data-analytics-slave-noC6,data-analytics-slave-t480,4-7,batch,0.1,1885007,151365461,361184405,12.45,0.419,Hadoop/Mahout Bayes, wikimedia (slave container, CS4 flags+alias)

@@ -1,0 +1,7133 @@
+{
+ "schema": "prefetchit.plan.v1",
+ "binary": "install_base/bin/postgres",
+ "trace_dir": "stlb-page-warming-128p-Tanchors",
+ "injections": [
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 92014,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "AllocSetAlloc",
+    "function": "AllocSetAlloc",
+    "demangled": "AllocSetAlloc",
+    "file": "",
+    "line": 0,
+    "addr": "0x59f9cf",
+    "cacheline64": "0x59f9c0",
+    "symbol_offset": "0x80",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 1
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 92014,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "AllocSetAlloc",
+    "function": "AllocSetAlloc",
+    "demangled": "AllocSetAlloc",
+    "file": "",
+    "line": 0,
+    "addr": "0x59f9cf",
+    "cacheline64": "0x59f9c0",
+    "symbol_offset": "0x80",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 1
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 60362,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "hash_search_with_hash_value",
+    "function": "hash_search_with_hash_value",
+    "demangled": "hash_search_with_hash_value",
+    "file": "",
+    "line": 0,
+    "addr": "0x587b52",
+    "cacheline64": "0x587b40",
+    "symbol_offset": "0x240",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 2
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 60362,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "hash_search_with_hash_value",
+    "function": "hash_search_with_hash_value",
+    "demangled": "hash_search_with_hash_value",
+    "file": "",
+    "line": 0,
+    "addr": "0x587b52",
+    "cacheline64": "0x587b40",
+    "symbol_offset": "0x240",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 2
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 41200,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "SearchCatCache",
+    "function": "SearchCatCache",
+    "demangled": "SearchCatCache",
+    "file": "",
+    "line": 0,
+    "addr": "0x561cd9",
+    "cacheline64": "0x561cc0",
+    "symbol_offset": "0x140",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 3
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 41200,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "SearchCatCache",
+    "function": "SearchCatCache",
+    "demangled": "SearchCatCache",
+    "file": "",
+    "line": 0,
+    "addr": "0x561cd9",
+    "cacheline64": "0x561cc0",
+    "symbol_offset": "0x140",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 3
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 31383,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "palloc",
+    "function": "palloc",
+    "demangled": "palloc",
+    "file": "",
+    "line": 0,
+    "addr": "0x5a7660",
+    "cacheline64": "0x5a7640",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 4
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 31383,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "palloc",
+    "function": "palloc",
+    "demangled": "palloc",
+    "file": "",
+    "line": 0,
+    "addr": "0x5a7660",
+    "cacheline64": "0x5a7640",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 4
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 28724,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "base_yyparse",
+    "function": "base_yyparse",
+    "demangled": "base_yyparse",
+    "file": "",
+    "line": 0,
+    "addr": "0x1b471a",
+    "cacheline64": "0x1b4700",
+    "symbol_offset": "0x240",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 5
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 28724,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "base_yyparse",
+    "function": "base_yyparse",
+    "demangled": "base_yyparse",
+    "file": "",
+    "line": 0,
+    "addr": "0x1b471a",
+    "cacheline64": "0x1b4700",
+    "symbol_offset": "0x240",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 5
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 18389,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "ResourceOwnerEnlargeBuffers",
+    "function": "ResourceOwnerEnlargeBuffers",
+    "demangled": "ResourceOwnerEnlargeBuffers",
+    "file": "",
+    "line": 0,
+    "addr": "0x5ab150",
+    "cacheline64": "0x5ab140",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 6
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 18389,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "ResourceOwnerEnlargeBuffers",
+    "function": "ResourceOwnerEnlargeBuffers",
+    "demangled": "ResourceOwnerEnlargeBuffers",
+    "file": "",
+    "line": 0,
+    "addr": "0x5ab150",
+    "cacheline64": "0x5ab140",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 6
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 18360,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "StartTransactionCommand",
+    "function": "StartTransactionCommand",
+    "demangled": "StartTransactionCommand",
+    "file": "",
+    "line": 0,
+    "addr": "0x156b73",
+    "cacheline64": "0x156b40",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 7
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 18360,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "StartTransactionCommand",
+    "function": "StartTransactionCommand",
+    "demangled": "StartTransactionCommand",
+    "file": "",
+    "line": 0,
+    "addr": "0x156b73",
+    "cacheline64": "0x156b40",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 7
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 17975,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "expression_tree_walker_impl",
+    "function": "expression_tree_walker_impl",
+    "demangled": "expression_tree_walker_impl",
+    "file": "",
+    "line": 0,
+    "addr": "0x2f6cd0",
+    "cacheline64": "0x2f6cc0",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 8
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 17975,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "expression_tree_walker_impl",
+    "function": "expression_tree_walker_impl",
+    "demangled": "expression_tree_walker_impl",
+    "file": "",
+    "line": 0,
+    "addr": "0x2f6cd0",
+    "cacheline64": "0x2f6cc0",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 8
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 17585,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "PostgresMain",
+    "function": "PostgresMain",
+    "demangled": "PostgresMain",
+    "file": "",
+    "line": 0,
+    "addr": "0x4441a0",
+    "cacheline64": "0x444180",
+    "symbol_offset": "0x2c80",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 9
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 17585,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "PostgresMain",
+    "function": "PostgresMain",
+    "demangled": "PostgresMain",
+    "file": "",
+    "line": 0,
+    "addr": "0x4441a0",
+    "cacheline64": "0x444180",
+    "symbol_offset": "0x2c80",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 9
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 17359,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "_bt_first",
+    "function": "_bt_first",
+    "demangled": "_bt_first",
+    "file": "",
+    "line": 0,
+    "addr": "0x12cf6e",
+    "cacheline64": "0x12cf40",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 10
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 17359,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "_bt_first",
+    "function": "_bt_first",
+    "demangled": "_bt_first",
+    "file": "",
+    "line": 0,
+    "addr": "0x12cf6e",
+    "cacheline64": "0x12cf40",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 10
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 16549,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "planner",
+    "function": "planner",
+    "demangled": "planner",
+    "file": "",
+    "line": 0,
+    "addr": "0x36e300",
+    "cacheline64": "0x36e300",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 11
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 16549,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "planner",
+    "function": "planner",
+    "demangled": "planner",
+    "file": "",
+    "line": 0,
+    "addr": "0x36e300",
+    "cacheline64": "0x36e300",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 11
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 16316,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "get_cheapest_fractional_path",
+    "function": "get_cheapest_fractional_path",
+    "demangled": "get_cheapest_fractional_path",
+    "file": "",
+    "line": 0,
+    "addr": "0x36fbfe",
+    "cacheline64": "0x36fbc0",
+    "symbol_offset": "0x3c0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 12
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 16316,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "get_cheapest_fractional_path",
+    "function": "get_cheapest_fractional_path",
+    "demangled": "get_cheapest_fractional_path",
+    "file": "",
+    "line": 0,
+    "addr": "0x36fbfe",
+    "cacheline64": "0x36fbc0",
+    "symbol_offset": "0x3c0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 12
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 16288,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "ScanKeywordLookup",
+    "function": "ScanKeywordLookup",
+    "demangled": "ScanKeywordLookup",
+    "file": "",
+    "line": 0,
+    "addr": "0x5c5a65",
+    "cacheline64": "0x5c5a40",
+    "symbol_offset": "0x40",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 13
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 16288,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "ScanKeywordLookup",
+    "function": "ScanKeywordLookup",
+    "demangled": "ScanKeywordLookup",
+    "file": "",
+    "line": 0,
+    "addr": "0x5c5a65",
+    "cacheline64": "0x5c5a40",
+    "symbol_offset": "0x40",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 13
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 14943,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "check_stack_depth",
+    "function": "check_stack_depth",
+    "demangled": "check_stack_depth",
+    "file": "",
+    "line": 0,
+    "addr": "0x4408e0",
+    "cacheline64": "0x4408c0",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 14
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 14943,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "check_stack_depth",
+    "function": "check_stack_depth",
+    "demangled": "check_stack_depth",
+    "file": "",
+    "line": 0,
+    "addr": "0x4408e0",
+    "cacheline64": "0x4408c0",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 14
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 14151,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "get_relation_info",
+    "function": "get_relation_info",
+    "demangled": "get_relation_info",
+    "file": "",
+    "line": 0,
+    "addr": "0x392520",
+    "cacheline64": "0x392500",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 15
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 14151,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "get_relation_info",
+    "function": "get_relation_info",
+    "demangled": "get_relation_info",
+    "file": "",
+    "line": 0,
+    "addr": "0x392520",
+    "cacheline64": "0x392500",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 15
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 14004,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "ExecAllocTableSlot",
+    "function": "ExecAllocTableSlot",
+    "demangled": "ExecAllocTableSlot",
+    "file": "",
+    "line": 0,
+    "addr": "0x2971b4",
+    "cacheline64": "0x297180",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 16
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 14004,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "ExecAllocTableSlot",
+    "function": "ExecAllocTableSlot",
+    "demangled": "ExecAllocTableSlot",
+    "file": "",
+    "line": 0,
+    "addr": "0x2971b4",
+    "cacheline64": "0x297180",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 16
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 13954,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "LockBufHdr",
+    "function": "LockBufHdr",
+    "demangled": "LockBufHdr",
+    "file": "",
+    "line": 0,
+    "addr": "0x408504",
+    "cacheline64": "0x408500",
+    "symbol_offset": "0x80",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 17
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 13954,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "LockBufHdr",
+    "function": "LockBufHdr",
+    "demangled": "LockBufHdr",
+    "file": "",
+    "line": 0,
+    "addr": "0x408504",
+    "cacheline64": "0x408500",
+    "symbol_offset": "0x80",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 17
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 13748,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "pgstat_report_activity",
+    "function": "pgstat_report_activity",
+    "demangled": "pgstat_report_activity",
+    "file": "",
+    "line": 0,
+    "addr": "0x458444",
+    "cacheline64": "0x458440",
+    "symbol_offset": "0xc0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 18
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 13748,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "pgstat_report_activity",
+    "function": "pgstat_report_activity",
+    "demangled": "pgstat_report_activity",
+    "file": "",
+    "line": 0,
+    "addr": "0x458444",
+    "cacheline64": "0x458440",
+    "symbol_offset": "0xc0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 18
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 13490,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "LWLockAcquire",
+    "function": "LWLockAcquire",
+    "demangled": "LWLockAcquire",
+    "file": "",
+    "line": 0,
+    "addr": "0x430780",
+    "cacheline64": "0x430780",
+    "symbol_offset": "0x40",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 19
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 13490,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "LWLockAcquire",
+    "function": "LWLockAcquire",
+    "demangled": "LWLockAcquire",
+    "file": "",
+    "line": 0,
+    "addr": "0x430780",
+    "cacheline64": "0x430780",
+    "symbol_offset": "0x40",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 19
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 13305,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "ResourceOwnerRelease",
+    "function": "ResourceOwnerRelease",
+    "demangled": "ResourceOwnerRelease",
+    "file": "",
+    "line": 0,
+    "addr": "0x5aab77",
+    "cacheline64": "0x5aab40",
+    "symbol_offset": "0xa40",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 20
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 13305,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "ResourceOwnerRelease",
+    "function": "ResourceOwnerRelease",
+    "demangled": "ResourceOwnerRelease",
+    "file": "",
+    "line": 0,
+    "addr": "0x5aab77",
+    "cacheline64": "0x5aab40",
+    "symbol_offset": "0xa40",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 20
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 13085,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "exprType",
+    "function": "exprType",
+    "demangled": "exprType",
+    "file": "",
+    "line": 0,
+    "addr": "0x2f5e5e",
+    "cacheline64": "0x2f5e40",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 21
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 13085,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "exprType",
+    "function": "exprType",
+    "demangled": "exprType",
+    "file": "",
+    "line": 0,
+    "addr": "0x2f5e5e",
+    "cacheline64": "0x2f5e40",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 21
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 12347,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "pq_getbyte",
+    "function": "pq_getbyte",
+    "demangled": "pq_getbyte",
+    "file": "",
+    "line": 0,
+    "addr": "0x2db374",
+    "cacheline64": "0x2db340",
+    "symbol_offset": "0x100",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 22
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 12347,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "pq_getbyte",
+    "function": "pq_getbyte",
+    "demangled": "pq_getbyte",
+    "file": "",
+    "line": 0,
+    "addr": "0x2db374",
+    "cacheline64": "0x2db340",
+    "symbol_offset": "0x100",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 22
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 12218,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "bms_add_member",
+    "function": "bms_add_member",
+    "demangled": "bms_add_member",
+    "file": "",
+    "line": 0,
+    "addr": "0x2deb50",
+    "cacheline64": "0x2deb40",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 23
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 12218,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "bms_add_member",
+    "function": "bms_add_member",
+    "demangled": "bms_add_member",
+    "file": "",
+    "line": 0,
+    "addr": "0x2deb50",
+    "cacheline64": "0x2deb40",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 23
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 12156,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "expression_tree_mutator_impl",
+    "function": "expression_tree_mutator_impl",
+    "demangled": "expression_tree_mutator_impl",
+    "file": "",
+    "line": 0,
+    "addr": "0x2f74c7",
+    "cacheline64": "0x2f74c0",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 24
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 12156,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "expression_tree_mutator_impl",
+    "function": "expression_tree_mutator_impl",
+    "demangled": "expression_tree_mutator_impl",
+    "file": "",
+    "line": 0,
+    "addr": "0x2f74c7",
+    "cacheline64": "0x2f74c0",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 24
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 12001,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "list_make1_impl",
+    "function": "list_make1_impl",
+    "demangled": "list_make1_impl",
+    "file": "",
+    "line": 0,
+    "addr": "0x2f2840",
+    "cacheline64": "0x2f2840",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 25
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 12001,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "list_make1_impl",
+    "function": "list_make1_impl",
+    "demangled": "list_make1_impl",
+    "file": "",
+    "line": 0,
+    "addr": "0x2f2840",
+    "cacheline64": "0x2f2840",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 25
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 11277,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "getRTEPermissionInfo",
+    "function": "getRTEPermissionInfo",
+    "demangled": "getRTEPermissionInfo",
+    "file": "",
+    "line": 0,
+    "addr": "0x1e8390",
+    "cacheline64": "0x1e8380",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 26
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 11277,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "getRTEPermissionInfo",
+    "function": "getRTEPermissionInfo",
+    "demangled": "getRTEPermissionInfo",
+    "file": "",
+    "line": 0,
+    "addr": "0x1e8390",
+    "cacheline64": "0x1e8380",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 26
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 10745,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "hash_bytes",
+    "function": "hash_bytes",
+    "demangled": "hash_bytes",
+    "file": "",
+    "line": 0,
+    "addr": "0x5c3990",
+    "cacheline64": "0x5c3980",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 27
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 10745,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "hash_bytes",
+    "function": "hash_bytes",
+    "demangled": "hash_bytes",
+    "file": "",
+    "line": 0,
+    "addr": "0x5c3990",
+    "cacheline64": "0x5c3980",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 27
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 10366,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "core_yylex",
+    "function": "core_yylex",
+    "demangled": "core_yylex",
+    "file": "",
+    "line": 0,
+    "addr": "0x1f3e78",
+    "cacheline64": "0x1f3e40",
+    "symbol_offset": "0x1600",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 28
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 10366,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "core_yylex",
+    "function": "core_yylex",
+    "demangled": "core_yylex",
+    "file": "",
+    "line": 0,
+    "addr": "0x1f3e78",
+    "cacheline64": "0x1f3e40",
+    "symbol_offset": "0x1600",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 28
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 10119,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "_bt_preprocess_array_keys",
+    "function": "_bt_preprocess_array_keys",
+    "demangled": "_bt_preprocess_array_keys",
+    "file": "",
+    "line": 0,
+    "addr": "0x132100",
+    "cacheline64": "0x132100",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 29
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 10119,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "_bt_preprocess_array_keys",
+    "function": "_bt_preprocess_array_keys",
+    "demangled": "_bt_preprocess_array_keys",
+    "file": "",
+    "line": 0,
+    "addr": "0x132100",
+    "cacheline64": "0x132100",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 29
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 10091,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "SearchSysCache1",
+    "function": "SearchSysCache1",
+    "demangled": "SearchSysCache1",
+    "file": "",
+    "line": 0,
+    "addr": "0x574e60",
+    "cacheline64": "0x574e40",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 30
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 10091,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "SearchSysCache1",
+    "function": "SearchSysCache1",
+    "demangled": "SearchSysCache1",
+    "file": "",
+    "line": 0,
+    "addr": "0x574e60",
+    "cacheline64": "0x574e40",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 30
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 9979,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "parserOpenTable",
+    "function": "parserOpenTable",
+    "demangled": "parserOpenTable",
+    "file": "",
+    "line": 0,
+    "addr": "0x1e3ed0",
+    "cacheline64": "0x1e3ec0",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 31
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 9979,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "parserOpenTable",
+    "function": "parserOpenTable",
+    "demangled": "parserOpenTable",
+    "file": "",
+    "line": 0,
+    "addr": "0x1e3ed0",
+    "cacheline64": "0x1e3ec0",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 31
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 9934,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "ExecInterpExprStillValid",
+    "function": "ExecInterpExprStillValid",
+    "demangled": "ExecInterpExprStillValid",
+    "file": "",
+    "line": 0,
+    "addr": "0x284540",
+    "cacheline64": "0x284540",
+    "symbol_offset": "0x4c0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 32
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 9934,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "ExecInterpExprStillValid",
+    "function": "ExecInterpExprStillValid",
+    "demangled": "ExecInterpExprStillValid",
+    "file": "",
+    "line": 0,
+    "addr": "0x284540",
+    "cacheline64": "0x284540",
+    "symbol_offset": "0x4c0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 32
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 9913,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "RangeVarGetRelidExtended",
+    "function": "RangeVarGetRelidExtended",
+    "demangled": "RangeVarGetRelidExtended",
+    "file": "",
+    "line": 0,
+    "addr": "0x1903a3",
+    "cacheline64": "0x190380",
+    "symbol_offset": "0x180",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 33
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 9913,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "RangeVarGetRelidExtended",
+    "function": "RangeVarGetRelidExtended",
+    "demangled": "RangeVarGetRelidExtended",
+    "file": "",
+    "line": 0,
+    "addr": "0x1903a3",
+    "cacheline64": "0x190380",
+    "symbol_offset": "0x180",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 33
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 9875,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "LockAcquireExtended",
+    "function": "LockAcquireExtended",
+    "demangled": "LockAcquireExtended",
+    "file": "",
+    "line": 0,
+    "addr": "0x42a850",
+    "cacheline64": "0x42a840",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 34
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 9875,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "LockAcquireExtended",
+    "function": "LockAcquireExtended",
+    "demangled": "LockAcquireExtended",
+    "file": "",
+    "line": 0,
+    "addr": "0x42a850",
+    "cacheline64": "0x42a840",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 34
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 9845,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "ReceiveSharedInvalidMessages",
+    "function": "ReceiveSharedInvalidMessages",
+    "demangled": "ReceiveSharedInvalidMessages",
+    "file": "",
+    "line": 0,
+    "addr": "0x4240e0",
+    "cacheline64": "0x4240c0",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 35
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 9845,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "ReceiveSharedInvalidMessages",
+    "function": "ReceiveSharedInvalidMessages",
+    "demangled": "ReceiveSharedInvalidMessages",
+    "file": "",
+    "line": 0,
+    "addr": "0x4240e0",
+    "cacheline64": "0x4240c0",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 35
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 9700,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "ExecBuildParamSetEqual",
+    "function": "ExecBuildParamSetEqual",
+    "demangled": "ExecBuildParamSetEqual",
+    "file": "",
+    "line": 0,
+    "addr": "0x283c10",
+    "cacheline64": "0x283c00",
+    "symbol_offset": "0x740",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 36
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 9700,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "ExecBuildParamSetEqual",
+    "function": "ExecBuildParamSetEqual",
+    "demangled": "ExecBuildParamSetEqual",
+    "file": "",
+    "line": 0,
+    "addr": "0x283c10",
+    "cacheline64": "0x283c00",
+    "symbol_offset": "0x740",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 36
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 9481,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "fmgr_info",
+    "function": "fmgr_info",
+    "demangled": "fmgr_info",
+    "file": "",
+    "line": 0,
+    "addr": "0x580d80",
+    "cacheline64": "0x580d80",
+    "symbol_offset": "0x40",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 37
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 9481,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "fmgr_info",
+    "function": "fmgr_info",
+    "demangled": "fmgr_info",
+    "file": "",
+    "line": 0,
+    "addr": "0x580d80",
+    "cacheline64": "0x580d80",
+    "symbol_offset": "0x40",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 37
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 9136,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "XLogInsert",
+    "function": "XLogInsert",
+    "demangled": "XLogInsert",
+    "file": "",
+    "line": 0,
+    "addr": "0x168d1f",
+    "cacheline64": "0x168d00",
+    "symbol_offset": "0xc0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 38
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 9136,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "XLogInsert",
+    "function": "XLogInsert",
+    "demangled": "XLogInsert",
+    "file": "",
+    "line": 0,
+    "addr": "0x168d1f",
+    "cacheline64": "0x168d00",
+    "symbol_offset": "0xc0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 38
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 9014,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "PostgresMain",
+    "function": "PostgresMain",
+    "demangled": "PostgresMain",
+    "file": "",
+    "line": 0,
+    "addr": "0x441930",
+    "cacheline64": "0x441900",
+    "symbol_offset": "0x400",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 40
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 9014,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "PostgresMain",
+    "function": "PostgresMain",
+    "demangled": "PostgresMain",
+    "file": "",
+    "line": 0,
+    "addr": "0x441930",
+    "cacheline64": "0x441900",
+    "symbol_offset": "0x400",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 40
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 8864,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "eval_const_expressions",
+    "function": "eval_const_expressions",
+    "demangled": "eval_const_expressions",
+    "file": "",
+    "line": 0,
+    "addr": "0x3884a6",
+    "cacheline64": "0x388480",
+    "symbol_offset": "0xec0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 41
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 8864,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "eval_const_expressions",
+    "function": "eval_const_expressions",
+    "demangled": "eval_const_expressions",
+    "file": "",
+    "line": 0,
+    "addr": "0x3884a6",
+    "cacheline64": "0x388480",
+    "symbol_offset": "0xec0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 41
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 8764,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "relation_open",
+    "function": "relation_open",
+    "demangled": "relation_open",
+    "file": "",
+    "line": 0,
+    "addr": "0xdd64e",
+    "cacheline64": "0xdd640",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 42
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 8764,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "relation_open",
+    "function": "relation_open",
+    "demangled": "relation_open",
+    "file": "",
+    "line": 0,
+    "addr": "0xdd64e",
+    "cacheline64": "0xdd640",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 42
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 8558,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "clauselist_selectivity",
+    "function": "clauselist_selectivity",
+    "demangled": "clauselist_selectivity",
+    "file": "",
+    "line": 0,
+    "addr": "0x34a820",
+    "cacheline64": "0x34a800",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 43
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 8558,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "clauselist_selectivity",
+    "function": "clauselist_selectivity",
+    "demangled": "clauselist_selectivity",
+    "file": "",
+    "line": 0,
+    "addr": "0x34a820",
+    "cacheline64": "0x34a800",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 43
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 8518,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "index_getnext_slot",
+    "function": "index_getnext_slot",
+    "demangled": "index_getnext_slot",
+    "file": "",
+    "line": 0,
+    "addr": "0x1229c0",
+    "cacheline64": "0x1229c0",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 44
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 8518,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "index_getnext_slot",
+    "function": "index_getnext_slot",
+    "demangled": "index_getnext_slot",
+    "file": "",
+    "line": 0,
+    "addr": "0x1229c0",
+    "cacheline64": "0x1229c0",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 44
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 8512,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "XLogInsertRecord",
+    "function": "XLogInsertRecord",
+    "demangled": "XLogInsertRecord",
+    "file": "",
+    "line": 0,
+    "addr": "0x15b179",
+    "cacheline64": "0x15b140",
+    "symbol_offset": "0x40",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 45
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 8512,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "XLogInsertRecord",
+    "function": "XLogInsertRecord",
+    "demangled": "XLogInsertRecord",
+    "file": "",
+    "line": 0,
+    "addr": "0x15b179",
+    "cacheline64": "0x15b140",
+    "symbol_offset": "0x40",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 45
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 8453,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "create_index_paths",
+    "function": "create_index_paths",
+    "demangled": "create_index_paths",
+    "file": "",
+    "line": 0,
+    "addr": "0x356420",
+    "cacheline64": "0x356400",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 46
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 8453,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "create_index_paths",
+    "function": "create_index_paths",
+    "demangled": "create_index_paths",
+    "file": "",
+    "line": 0,
+    "addr": "0x356420",
+    "cacheline64": "0x356400",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 46
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 8434,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "pull_up_subqueries",
+    "function": "pull_up_subqueries",
+    "demangled": "pull_up_subqueries",
+    "file": "",
+    "line": 0,
+    "addr": "0x37f85b",
+    "cacheline64": "0x37f840",
+    "symbol_offset": "0x780",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 47
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 8434,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "pull_up_subqueries",
+    "function": "pull_up_subqueries",
+    "demangled": "pull_up_subqueries",
+    "file": "",
+    "line": 0,
+    "addr": "0x37f85b",
+    "cacheline64": "0x37f840",
+    "symbol_offset": "0x780",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 47
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 8413,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "PortalSetResultFormat",
+    "function": "PortalSetResultFormat",
+    "demangled": "PortalSetResultFormat",
+    "file": "",
+    "line": 0,
+    "addr": "0x445035",
+    "cacheline64": "0x445000",
+    "symbol_offset": "0x180",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 48
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 8413,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "PortalSetResultFormat",
+    "function": "PortalSetResultFormat",
+    "demangled": "PortalSetResultFormat",
+    "file": "",
+    "line": 0,
+    "addr": "0x445035",
+    "cacheline64": "0x445000",
+    "symbol_offset": "0x180",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 48
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 8391,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "get_cheapest_fractional_path",
+    "function": "get_cheapest_fractional_path",
+    "demangled": "get_cheapest_fractional_path",
+    "file": "",
+    "line": 0,
+    "addr": "0x3721ed",
+    "cacheline64": "0x3721c0",
+    "symbol_offset": "0x29c0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 49
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 8391,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "get_cheapest_fractional_path",
+    "function": "get_cheapest_fractional_path",
+    "demangled": "get_cheapest_fractional_path",
+    "file": "",
+    "line": 0,
+    "addr": "0x3721ed",
+    "cacheline64": "0x3721c0",
+    "symbol_offset": "0x29c0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 49
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 8373,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "_bt_first",
+    "function": "_bt_first",
+    "demangled": "_bt_first",
+    "file": "",
+    "line": 0,
+    "addr": "0x12d044",
+    "cacheline64": "0x12d040",
+    "symbol_offset": "0x100",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 50
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 8373,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "_bt_first",
+    "function": "_bt_first",
+    "demangled": "_bt_first",
+    "file": "",
+    "line": 0,
+    "addr": "0x12d044",
+    "cacheline64": "0x12d040",
+    "symbol_offset": "0x100",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 50
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 8345,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "assign_query_collations",
+    "function": "assign_query_collations",
+    "demangled": "assign_query_collations",
+    "file": "",
+    "line": 0,
+    "addr": "0x1d5490",
+    "cacheline64": "0x1d5480",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 51
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 8345,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "assign_query_collations",
+    "function": "assign_query_collations",
+    "demangled": "assign_query_collations",
+    "file": "",
+    "line": 0,
+    "addr": "0x1d5490",
+    "cacheline64": "0x1d5480",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 51
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 8226,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "nocachegetattr",
+    "function": "nocachegetattr",
+    "demangled": "nocachegetattr",
+    "file": "",
+    "line": 0,
+    "addr": "0xda530",
+    "cacheline64": "0xda500",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 52
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 8226,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "nocachegetattr",
+    "function": "nocachegetattr",
+    "demangled": "nocachegetattr",
+    "file": "",
+    "line": 0,
+    "addr": "0xda530",
+    "cacheline64": "0xda500",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 52
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 8123,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "cost_index",
+    "function": "cost_index",
+    "demangled": "cost_index",
+    "file": "",
+    "line": 0,
+    "addr": "0x34b8d0",
+    "cacheline64": "0x34b8c0",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 53
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 8123,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "cost_index",
+    "function": "cost_index",
+    "demangled": "cost_index",
+    "file": "",
+    "line": 0,
+    "addr": "0x34b8d0",
+    "cacheline64": "0x34b8c0",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 53
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 8074,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "ExecutorRun",
+    "function": "ExecutorRun",
+    "demangled": "ExecutorRun",
+    "file": "",
+    "line": 0,
+    "addr": "0x28c1e0",
+    "cacheline64": "0x28c1c0",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 54
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 8074,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "ExecutorRun",
+    "function": "ExecutorRun",
+    "demangled": "ExecutorRun",
+    "file": "",
+    "line": 0,
+    "addr": "0x28c1e0",
+    "cacheline64": "0x28c1c0",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 54
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7947,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "get_mergejoin_opfamilies",
+    "function": "get_mergejoin_opfamilies",
+    "demangled": "get_mergejoin_opfamilies",
+    "file": "",
+    "line": 0,
+    "addr": "0x5655e0",
+    "cacheline64": "0x5655c0",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 55
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7947,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "get_mergejoin_opfamilies",
+    "function": "get_mergejoin_opfamilies",
+    "demangled": "get_mergejoin_opfamilies",
+    "file": "",
+    "line": 0,
+    "addr": "0x5655e0",
+    "cacheline64": "0x5655c0",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 55
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7819,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "get_cheapest_fractional_path",
+    "function": "get_cheapest_fractional_path",
+    "demangled": "get_cheapest_fractional_path",
+    "file": "",
+    "line": 0,
+    "addr": "0x371d63",
+    "cacheline64": "0x371d40",
+    "symbol_offset": "0x2540",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 56
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7819,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "get_cheapest_fractional_path",
+    "function": "get_cheapest_fractional_path",
+    "demangled": "get_cheapest_fractional_path",
+    "file": "",
+    "line": 0,
+    "addr": "0x371d63",
+    "cacheline64": "0x371d40",
+    "symbol_offset": "0x2540",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 56
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7724,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "LWLockRelease",
+    "function": "LWLockRelease",
+    "demangled": "LWLockRelease",
+    "file": "",
+    "line": 0,
+    "addr": "0x4315eb",
+    "cacheline64": "0x4315c0",
+    "symbol_offset": "0xc0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 57
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7724,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "LWLockRelease",
+    "function": "LWLockRelease",
+    "demangled": "LWLockRelease",
+    "file": "",
+    "line": 0,
+    "addr": "0x4315eb",
+    "cacheline64": "0x4315c0",
+    "symbol_offset": "0xc0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 57
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7709,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "get_cheapest_fractional_path",
+    "function": "get_cheapest_fractional_path",
+    "demangled": "get_cheapest_fractional_path",
+    "file": "",
+    "line": 0,
+    "addr": "0x3708fc",
+    "cacheline64": "0x3708c0",
+    "symbol_offset": "0x10c0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 58
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7709,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "get_cheapest_fractional_path",
+    "function": "get_cheapest_fractional_path",
+    "demangled": "get_cheapest_fractional_path",
+    "file": "",
+    "line": 0,
+    "addr": "0x3708fc",
+    "cacheline64": "0x3708c0",
+    "symbol_offset": "0x10c0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 58
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7649,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "match_foreign_keys_to_quals",
+    "function": "match_foreign_keys_to_quals",
+    "demangled": "match_foreign_keys_to_quals",
+    "file": "",
+    "line": 0,
+    "addr": "0x36d99f",
+    "cacheline64": "0x36d980",
+    "symbol_offset": "0x840",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 59
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7649,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "match_foreign_keys_to_quals",
+    "function": "match_foreign_keys_to_quals",
+    "demangled": "match_foreign_keys_to_quals",
+    "file": "",
+    "line": 0,
+    "addr": "0x36d99f",
+    "cacheline64": "0x36d980",
+    "symbol_offset": "0x840",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 59
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7639,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "RelationIdGetRelation",
+    "function": "RelationIdGetRelation",
+    "demangled": "RelationIdGetRelation",
+    "file": "",
+    "line": 0,
+    "addr": "0x56bf9b",
+    "cacheline64": "0x56bf80",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 60
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7639,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "RelationIdGetRelation",
+    "function": "RelationIdGetRelation",
+    "demangled": "RelationIdGetRelation",
+    "file": "",
+    "line": 0,
+    "addr": "0x56bf9b",
+    "cacheline64": "0x56bf80",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 60
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7631,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "PopActiveSnapshot",
+    "function": "PopActiveSnapshot",
+    "demangled": "PopActiveSnapshot",
+    "file": "",
+    "line": 0,
+    "addr": "0x5b93a1",
+    "cacheline64": "0x5b9380",
+    "symbol_offset": "0x40",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 61
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7631,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "PopActiveSnapshot",
+    "function": "PopActiveSnapshot",
+    "demangled": "PopActiveSnapshot",
+    "file": "",
+    "line": 0,
+    "addr": "0x5b93a1",
+    "cacheline64": "0x5b9380",
+    "symbol_offset": "0x40",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 61
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7520,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "table_openrv_extended",
+    "function": "table_openrv_extended",
+    "demangled": "table_openrv_extended",
+    "file": "",
+    "line": 0,
+    "addr": "0x146130",
+    "cacheline64": "0x146100",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 62
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7520,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "table_openrv_extended",
+    "function": "table_openrv_extended",
+    "demangled": "table_openrv_extended",
+    "file": "",
+    "line": 0,
+    "addr": "0x146130",
+    "cacheline64": "0x146100",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 62
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7489,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "add_path",
+    "function": "add_path",
+    "demangled": "add_path",
+    "file": "",
+    "line": 0,
+    "addr": "0x38cd80",
+    "cacheline64": "0x38cd80",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 63
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7489,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "add_path",
+    "function": "add_path",
+    "demangled": "add_path",
+    "file": "",
+    "line": 0,
+    "addr": "0x38cd80",
+    "cacheline64": "0x38cd80",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 63
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7475,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "core_yylex",
+    "function": "core_yylex",
+    "demangled": "core_yylex",
+    "file": "",
+    "line": 0,
+    "addr": "0x1f2eb8",
+    "cacheline64": "0x1f2e80",
+    "symbol_offset": "0x640",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 64
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7475,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "core_yylex",
+    "function": "core_yylex",
+    "demangled": "core_yylex",
+    "file": "",
+    "line": 0,
+    "addr": "0x1f2eb8",
+    "cacheline64": "0x1f2e80",
+    "symbol_offset": "0x640",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 64
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7427,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "_bt_checkpage",
+    "function": "_bt_checkpage",
+    "demangled": "_bt_checkpage",
+    "file": "",
+    "line": 0,
+    "addr": "0x1289f2",
+    "cacheline64": "0x1289c0",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 65
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7427,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "_bt_checkpage",
+    "function": "_bt_checkpage",
+    "demangled": "_bt_checkpage",
+    "file": "",
+    "line": 0,
+    "addr": "0x1289f2",
+    "cacheline64": "0x1289c0",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 65
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7425,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "set_baserel_size_estimates",
+    "function": "set_baserel_size_estimates",
+    "demangled": "set_baserel_size_estimates",
+    "file": "",
+    "line": 0,
+    "addr": "0x351890",
+    "cacheline64": "0x351880",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 66
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7425,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "set_baserel_size_estimates",
+    "function": "set_baserel_size_estimates",
+    "demangled": "set_baserel_size_estimates",
+    "file": "",
+    "line": 0,
+    "addr": "0x351890",
+    "cacheline64": "0x351880",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 66
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7402,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "btcostestimate",
+    "function": "btcostestimate",
+    "demangled": "btcostestimate",
+    "file": "",
+    "line": 0,
+    "addr": "0x52ed90",
+    "cacheline64": "0x52ed80",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 67
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7402,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "btcostestimate",
+    "function": "btcostestimate",
+    "demangled": "btcostestimate",
+    "file": "",
+    "line": 0,
+    "addr": "0x52ed90",
+    "cacheline64": "0x52ed80",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 67
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7395,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "set_plan_references",
+    "function": "set_plan_references",
+    "demangled": "set_plan_references",
+    "file": "",
+    "line": 0,
+    "addr": "0x3779ad",
+    "cacheline64": "0x377980",
+    "symbol_offset": "0xd00",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 68
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7395,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "set_plan_references",
+    "function": "set_plan_references",
+    "demangled": "set_plan_references",
+    "file": "",
+    "line": 0,
+    "addr": "0x3779ad",
+    "cacheline64": "0x377980",
+    "symbol_offset": "0xd00",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 68
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7379,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "planstate_tree_walker_impl",
+    "function": "planstate_tree_walker_impl",
+    "demangled": "planstate_tree_walker_impl",
+    "file": "",
+    "line": 0,
+    "addr": "0x2f8840",
+    "cacheline64": "0x2f8840",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 69
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7379,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "planstate_tree_walker_impl",
+    "function": "planstate_tree_walker_impl",
+    "demangled": "planstate_tree_walker_impl",
+    "file": "",
+    "line": 0,
+    "addr": "0x2f8840",
+    "cacheline64": "0x2f8840",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 69
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7321,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "GetUserId",
+    "function": "GetUserId",
+    "demangled": "GetUserId",
+    "file": "",
+    "line": 0,
+    "addr": "0x5891f0",
+    "cacheline64": "0x5891c0",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 70
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7321,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "GetUserId",
+    "function": "GetUserId",
+    "demangled": "GetUserId",
+    "file": "",
+    "line": 0,
+    "addr": "0x5891f0",
+    "cacheline64": "0x5891c0",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 70
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7321,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "GetTransactionSnapshot",
+    "function": "GetTransactionSnapshot",
+    "demangled": "GetTransactionSnapshot",
+    "file": "",
+    "line": 0,
+    "addr": "0x5b89c0",
+    "cacheline64": "0x5b89c0",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 71
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7321,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "GetTransactionSnapshot",
+    "function": "GetTransactionSnapshot",
+    "demangled": "GetTransactionSnapshot",
+    "file": "",
+    "line": 0,
+    "addr": "0x5b89c0",
+    "cacheline64": "0x5b89c0",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 71
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7241,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "QueryRewrite",
+    "function": "QueryRewrite",
+    "demangled": "QueryRewrite",
+    "file": "",
+    "line": 0,
+    "addr": "0x3fa1b0",
+    "cacheline64": "0x3fa180",
+    "symbol_offset": "0x2f00",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 72
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7241,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "QueryRewrite",
+    "function": "QueryRewrite",
+    "demangled": "QueryRewrite",
+    "file": "",
+    "line": 0,
+    "addr": "0x3fa1b0",
+    "cacheline64": "0x3fa180",
+    "symbol_offset": "0x2f00",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 72
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7226,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "name_matches_visible_ENR",
+    "function": "name_matches_visible_ENR",
+    "demangled": "name_matches_visible_ENR",
+    "file": "",
+    "line": 0,
+    "addr": "0x1d8040",
+    "cacheline64": "0x1d8040",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 73
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7226,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "name_matches_visible_ENR",
+    "function": "name_matches_visible_ENR",
+    "demangled": "name_matches_visible_ENR",
+    "file": "",
+    "line": 0,
+    "addr": "0x1d8040",
+    "cacheline64": "0x1d8040",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 73
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7084,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "pg_rewrite_query",
+    "function": "pg_rewrite_query",
+    "demangled": "pg_rewrite_query",
+    "file": "",
+    "line": 0,
+    "addr": "0x43fe40",
+    "cacheline64": "0x43fe40",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 74
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 7084,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "pg_rewrite_query",
+    "function": "pg_rewrite_query",
+    "demangled": "pg_rewrite_query",
+    "file": "",
+    "line": 0,
+    "addr": "0x43fe40",
+    "cacheline64": "0x43fe40",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 74
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6997,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "check_index_predicates",
+    "function": "check_index_predicates",
+    "demangled": "check_index_predicates",
+    "file": "",
+    "line": 0,
+    "addr": "0x357940",
+    "cacheline64": "0x357940",
+    "symbol_offset": "0x280",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 75
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6997,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "check_index_predicates",
+    "function": "check_index_predicates",
+    "demangled": "check_index_predicates",
+    "file": "",
+    "line": 0,
+    "addr": "0x357940",
+    "cacheline64": "0x357940",
+    "symbol_offset": "0x280",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 75
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6973,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "pull_paramids",
+    "function": "pull_paramids",
+    "demangled": "pull_paramids",
+    "file": "",
+    "line": 0,
+    "addr": "0x389810",
+    "cacheline64": "0x389800",
+    "symbol_offset": "0x1c0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 76
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6973,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "pull_paramids",
+    "function": "pull_paramids",
+    "demangled": "pull_paramids",
+    "file": "",
+    "line": 0,
+    "addr": "0x389810",
+    "cacheline64": "0x389800",
+    "symbol_offset": "0x1c0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 76
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6920,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "is_projection_capable_path",
+    "function": "is_projection_capable_path",
+    "demangled": "is_projection_capable_path",
+    "file": "",
+    "line": 0,
+    "addr": "0x369800",
+    "cacheline64": "0x369800",
+    "symbol_offset": "0x3a40",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 77
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6920,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "is_projection_capable_path",
+    "function": "is_projection_capable_path",
+    "demangled": "is_projection_capable_path",
+    "file": "",
+    "line": 0,
+    "addr": "0x369800",
+    "cacheline64": "0x369800",
+    "symbol_offset": "0x3a40",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 77
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6910,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "list_copy",
+    "function": "list_copy",
+    "demangled": "list_copy",
+    "file": "",
+    "line": 0,
+    "addr": "0x2f328d",
+    "cacheline64": "0x2f3280",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 78
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6910,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "list_copy",
+    "function": "list_copy",
+    "demangled": "list_copy",
+    "file": "",
+    "line": 0,
+    "addr": "0x2f328d",
+    "cacheline64": "0x2f3280",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 78
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6848,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "ModifyWaitEvent",
+    "function": "ModifyWaitEvent",
+    "demangled": "ModifyWaitEvent",
+    "file": "",
+    "line": 0,
+    "addr": "0x41bbf0",
+    "cacheline64": "0x41bbc0",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 79
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6848,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "ModifyWaitEvent",
+    "function": "ModifyWaitEvent",
+    "demangled": "ModifyWaitEvent",
+    "file": "",
+    "line": 0,
+    "addr": "0x41bbf0",
+    "cacheline64": "0x41bbc0",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 79
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6723,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "secure_read",
+    "function": "secure_read",
+    "demangled": "secure_read",
+    "file": "",
+    "line": 0,
+    "addr": "0x2d3fa7",
+    "cacheline64": "0x2d3f80",
+    "symbol_offset": "0x80",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 80
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6723,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "secure_read",
+    "function": "secure_read",
+    "demangled": "secure_read",
+    "file": "",
+    "line": 0,
+    "addr": "0x2d3fa7",
+    "cacheline64": "0x2d3f80",
+    "symbol_offset": "0x80",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 80
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6714,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "base_yyparse",
+    "function": "base_yyparse",
+    "demangled": "base_yyparse",
+    "file": "",
+    "line": 0,
+    "addr": "0x1c73fe",
+    "cacheline64": "0x1c73c0",
+    "symbol_offset": "0x12f40",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 81
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6714,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "base_yyparse",
+    "function": "base_yyparse",
+    "demangled": "base_yyparse",
+    "file": "",
+    "line": 0,
+    "addr": "0x1c73fe",
+    "cacheline64": "0x1c73c0",
+    "symbol_offset": "0x12f40",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 81
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6712,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "make_restrictinfo",
+    "function": "make_restrictinfo",
+    "demangled": "make_restrictinfo",
+    "file": "",
+    "line": 0,
+    "addr": "0x399350",
+    "cacheline64": "0x399340",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 82
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6712,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "make_restrictinfo",
+    "function": "make_restrictinfo",
+    "demangled": "make_restrictinfo",
+    "file": "",
+    "line": 0,
+    "addr": "0x399350",
+    "cacheline64": "0x399340",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 82
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6701,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "GetCommandTagNameAndLen",
+    "function": "GetCommandTagNameAndLen",
+    "demangled": "GetCommandTagNameAndLen",
+    "file": "",
+    "line": 0,
+    "addr": "0x43e570",
+    "cacheline64": "0x43e540",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 83
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6701,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "GetCommandTagNameAndLen",
+    "function": "GetCommandTagNameAndLen",
+    "demangled": "GetCommandTagNameAndLen",
+    "file": "",
+    "line": 0,
+    "addr": "0x43e570",
+    "cacheline64": "0x43e540",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 83
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6689,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "QueryRewrite",
+    "function": "QueryRewrite",
+    "demangled": "QueryRewrite",
+    "file": "",
+    "line": 0,
+    "addr": "0x3f746a",
+    "cacheline64": "0x3f7440",
+    "symbol_offset": "0x1c0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 84
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6689,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "QueryRewrite",
+    "function": "QueryRewrite",
+    "demangled": "QueryRewrite",
+    "file": "",
+    "line": 0,
+    "addr": "0x3f746a",
+    "cacheline64": "0x3f7440",
+    "symbol_offset": "0x1c0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 84
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6672,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "ExecScanReScan",
+    "function": "ExecScanReScan",
+    "demangled": "ExecScanReScan",
+    "file": "",
+    "line": 0,
+    "addr": "0x296950",
+    "cacheline64": "0x296940",
+    "symbol_offset": "0x1440",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 85
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6672,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "ExecScanReScan",
+    "function": "ExecScanReScan",
+    "demangled": "ExecScanReScan",
+    "file": "",
+    "line": 0,
+    "addr": "0x296950",
+    "cacheline64": "0x296940",
+    "symbol_offset": "0x1440",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 85
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6668,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "stmt_requires_parse_analysis",
+    "function": "stmt_requires_parse_analysis",
+    "demangled": "stmt_requires_parse_analysis",
+    "file": "",
+    "line": 0,
+    "addr": "0x1b2970",
+    "cacheline64": "0x1b2940",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 86
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6668,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "stmt_requires_parse_analysis",
+    "function": "stmt_requires_parse_analysis",
+    "demangled": "stmt_requires_parse_analysis",
+    "file": "",
+    "line": 0,
+    "addr": "0x1b2970",
+    "cacheline64": "0x1b2940",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 86
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6658,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "relation_excluded_by_constraints",
+    "function": "relation_excluded_by_constraints",
+    "demangled": "relation_excluded_by_constraints",
+    "file": "",
+    "line": 0,
+    "addr": "0x3941fb",
+    "cacheline64": "0x3941c0",
+    "symbol_offset": "0x40",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 87
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6658,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "relation_excluded_by_constraints",
+    "function": "relation_excluded_by_constraints",
+    "demangled": "relation_excluded_by_constraints",
+    "file": "",
+    "line": 0,
+    "addr": "0x3941fb",
+    "cacheline64": "0x3941c0",
+    "symbol_offset": "0x40",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 87
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6537,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "plan_create_index_workers",
+    "function": "plan_create_index_workers",
+    "demangled": "plan_create_index_workers",
+    "file": "",
+    "line": 0,
+    "addr": "0x3735c0",
+    "cacheline64": "0x3735c0",
+    "symbol_offset": "0x400",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 88
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6537,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "plan_create_index_workers",
+    "function": "plan_create_index_workers",
+    "demangled": "plan_create_index_workers",
+    "file": "",
+    "line": 0,
+    "addr": "0x3735c0",
+    "cacheline64": "0x3735c0",
+    "symbol_offset": "0x400",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 88
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6350,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "is_pseudo_constant_for_index",
+    "function": "is_pseudo_constant_for_index",
+    "demangled": "is_pseudo_constant_for_index",
+    "file": "",
+    "line": 0,
+    "addr": "0x358410",
+    "cacheline64": "0x358400",
+    "symbol_offset": "0x440",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 89
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6350,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "is_pseudo_constant_for_index",
+    "function": "is_pseudo_constant_for_index",
+    "demangled": "is_pseudo_constant_for_index",
+    "file": "",
+    "line": 0,
+    "addr": "0x358410",
+    "cacheline64": "0x358400",
+    "symbol_offset": "0x440",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 89
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6303,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "make_const",
+    "function": "make_const",
+    "demangled": "make_const",
+    "file": "",
+    "line": 0,
+    "addr": "0x1e1348",
+    "cacheline64": "0x1e1340",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 90
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6303,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "make_const",
+    "function": "make_const",
+    "demangled": "make_const",
+    "file": "",
+    "line": 0,
+    "addr": "0x1e1348",
+    "cacheline64": "0x1e1340",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 90
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6177,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "AfterTriggerBeginQuery",
+    "function": "AfterTriggerBeginQuery",
+    "demangled": "AfterTriggerBeginQuery",
+    "file": "",
+    "line": 0,
+    "addr": "0x267290",
+    "cacheline64": "0x267280",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 91
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6177,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "AfterTriggerBeginQuery",
+    "function": "AfterTriggerBeginQuery",
+    "demangled": "AfterTriggerBeginQuery",
+    "file": "",
+    "line": 0,
+    "addr": "0x267290",
+    "cacheline64": "0x267280",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 91
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6152,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "canonicalize_qual",
+    "function": "canonicalize_qual",
+    "demangled": "canonicalize_qual",
+    "file": "",
+    "line": 0,
+    "addr": "0x382820",
+    "cacheline64": "0x382800",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 92
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6152,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "canonicalize_qual",
+    "function": "canonicalize_qual",
+    "demangled": "canonicalize_qual",
+    "file": "",
+    "line": 0,
+    "addr": "0x382820",
+    "cacheline64": "0x382800",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 92
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6044,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "eqsel",
+    "function": "eqsel",
+    "demangled": "eqsel",
+    "file": "",
+    "line": 0,
+    "addr": "0x528370",
+    "cacheline64": "0x528340",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 93
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 6044,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "eqsel",
+    "function": "eqsel",
+    "demangled": "eqsel",
+    "file": "",
+    "line": 0,
+    "addr": "0x528370",
+    "cacheline64": "0x528340",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 93
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5969,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "RelationGetIndexPredicate",
+    "function": "RelationGetIndexPredicate",
+    "demangled": "RelationGetIndexPredicate",
+    "file": "",
+    "line": 0,
+    "addr": "0x5715c0",
+    "cacheline64": "0x5715c0",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 94
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5969,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "RelationGetIndexPredicate",
+    "function": "RelationGetIndexPredicate",
+    "demangled": "RelationGetIndexPredicate",
+    "file": "",
+    "line": 0,
+    "addr": "0x5715c0",
+    "cacheline64": "0x5715c0",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 94
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5966,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "ExecInitNode",
+    "function": "ExecInitNode",
+    "demangled": "ExecInitNode",
+    "file": "",
+    "line": 0,
+    "addr": "0x292910",
+    "cacheline64": "0x292900",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 95
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5966,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "ExecInitNode",
+    "function": "ExecInitNode",
+    "demangled": "ExecInitNode",
+    "file": "",
+    "line": 0,
+    "addr": "0x292910",
+    "cacheline64": "0x292900",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 95
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5954,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "_bt_get_endpoint",
+    "function": "_bt_get_endpoint",
+    "demangled": "_bt_get_endpoint",
+    "file": "",
+    "line": 0,
+    "addr": "0x12eeb0",
+    "cacheline64": "0x12ee80",
+    "symbol_offset": "0xa40",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 96
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5954,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "_bt_get_endpoint",
+    "function": "_bt_get_endpoint",
+    "demangled": "_bt_get_endpoint",
+    "file": "",
+    "line": 0,
+    "addr": "0x12eeb0",
+    "cacheline64": "0x12ee80",
+    "symbol_offset": "0xa40",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 96
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5944,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "set_ps_display_with_len",
+    "function": "set_ps_display_with_len",
+    "demangled": "set_ps_display_with_len",
+    "file": "",
+    "line": 0,
+    "addr": "0x59d370",
+    "cacheline64": "0x59d340",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 97
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5944,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "set_ps_display_with_len",
+    "function": "set_ps_display_with_len",
+    "demangled": "set_ps_display_with_len",
+    "file": "",
+    "line": 0,
+    "addr": "0x59d370",
+    "cacheline64": "0x59d340",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 97
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5896,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "create_plan",
+    "function": "create_plan",
+    "demangled": "create_plan",
+    "file": "",
+    "line": 0,
+    "addr": "0x3622c0",
+    "cacheline64": "0x3622c0",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 98
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5896,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "create_plan",
+    "function": "create_plan",
+    "demangled": "create_plan",
+    "file": "",
+    "line": 0,
+    "addr": "0x3622c0",
+    "cacheline64": "0x3622c0",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 98
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5847,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "canonicalize_ec_expression",
+    "function": "canonicalize_ec_expression",
+    "demangled": "canonicalize_ec_expression",
+    "file": "",
+    "line": 0,
+    "addr": "0x353230",
+    "cacheline64": "0x353200",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 99
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5847,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "canonicalize_ec_expression",
+    "function": "canonicalize_ec_expression",
+    "demangled": "canonicalize_ec_expression",
+    "file": "",
+    "line": 0,
+    "addr": "0x353230",
+    "cacheline64": "0x353200",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 99
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5822,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "setTargetTable",
+    "function": "setTargetTable",
+    "demangled": "setTargetTable",
+    "file": "",
+    "line": 0,
+    "addr": "0x1ce5f0",
+    "cacheline64": "0x1ce5c0",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 100
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5822,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "setTargetTable",
+    "function": "setTargetTable",
+    "demangled": "setTargetTable",
+    "file": "",
+    "line": 0,
+    "addr": "0x1ce5f0",
+    "cacheline64": "0x1ce5c0",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 100
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5767,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "make_op",
+    "function": "make_op",
+    "demangled": "make_op",
+    "file": "",
+    "line": 0,
+    "addr": "0x1e2090",
+    "cacheline64": "0x1e2080",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 101
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5767,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "make_op",
+    "function": "make_op",
+    "demangled": "make_op",
+    "file": "",
+    "line": 0,
+    "addr": "0x1e2090",
+    "cacheline64": "0x1e2080",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 101
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5745,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "QueryRewrite",
+    "function": "QueryRewrite",
+    "demangled": "QueryRewrite",
+    "file": "",
+    "line": 0,
+    "addr": "0x3f9970",
+    "cacheline64": "0x3f9940",
+    "symbol_offset": "0x26c0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 102
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5745,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "QueryRewrite",
+    "function": "QueryRewrite",
+    "demangled": "QueryRewrite",
+    "file": "",
+    "line": 0,
+    "addr": "0x3f9970",
+    "cacheline64": "0x3f9940",
+    "symbol_offset": "0x26c0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 102
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5731,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "eval_const_expressions",
+    "function": "eval_const_expressions",
+    "demangled": "eval_const_expressions",
+    "file": "",
+    "line": 0,
+    "addr": "0x387d3c",
+    "cacheline64": "0x387d00",
+    "symbol_offset": "0x740",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 103
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5731,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "eval_const_expressions",
+    "function": "eval_const_expressions",
+    "demangled": "eval_const_expressions",
+    "file": "",
+    "line": 0,
+    "addr": "0x387d3c",
+    "cacheline64": "0x387d00",
+    "symbol_offset": "0x740",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 103
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5701,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "has_useful_pathkeys",
+    "function": "has_useful_pathkeys",
+    "demangled": "has_useful_pathkeys",
+    "file": "",
+    "line": 0,
+    "addr": "0x360520",
+    "cacheline64": "0x360500",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 104
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5701,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "has_useful_pathkeys",
+    "function": "has_useful_pathkeys",
+    "demangled": "has_useful_pathkeys",
+    "file": "",
+    "line": 0,
+    "addr": "0x360520",
+    "cacheline64": "0x360500",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 104
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5685,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "SS_identify_outer_params",
+    "function": "SS_identify_outer_params",
+    "demangled": "SS_identify_outer_params",
+    "file": "",
+    "line": 0,
+    "addr": "0x37c600",
+    "cacheline64": "0x37c600",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 105
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5685,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "SS_identify_outer_params",
+    "function": "SS_identify_outer_params",
+    "demangled": "SS_identify_outer_params",
+    "file": "",
+    "line": 0,
+    "addr": "0x37c600",
+    "cacheline64": "0x37c600",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 105
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5678,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "HeapTupleSatisfiesVisibility",
+    "function": "HeapTupleSatisfiesVisibility",
+    "demangled": "HeapTupleSatisfiesVisibility",
+    "file": "",
+    "line": 0,
+    "addr": "0x117b01",
+    "cacheline64": "0x117b00",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 106
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5678,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "HeapTupleSatisfiesVisibility",
+    "function": "HeapTupleSatisfiesVisibility",
+    "demangled": "HeapTupleSatisfiesVisibility",
+    "file": "",
+    "line": 0,
+    "addr": "0x117b01",
+    "cacheline64": "0x117b00",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 106
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5673,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "heap_hot_search_buffer",
+    "function": "heap_hot_search_buffer",
+    "demangled": "heap_hot_search_buffer",
+    "file": "",
+    "line": 0,
+    "addr": "0x10a112",
+    "cacheline64": "0x10a100",
+    "symbol_offset": "0xc0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 107
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5673,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "heap_hot_search_buffer",
+    "function": "heap_hot_search_buffer",
+    "demangled": "heap_hot_search_buffer",
+    "file": "",
+    "line": 0,
+    "addr": "0x10a112",
+    "cacheline64": "0x10a100",
+    "symbol_offset": "0xc0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 107
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5670,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "equal",
+    "function": "equal",
+    "demangled": "equal",
+    "file": "",
+    "line": 0,
+    "addr": "0x2eb918",
+    "cacheline64": "0x2eb900",
+    "symbol_offset": "0xc00",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 108
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5670,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "equal",
+    "function": "equal",
+    "demangled": "equal",
+    "file": "",
+    "line": 0,
+    "addr": "0x2eb918",
+    "cacheline64": "0x2eb900",
+    "symbol_offset": "0xc00",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 108
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5669,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "ExecInitIndexScan",
+    "function": "ExecInitIndexScan",
+    "demangled": "ExecInitIndexScan",
+    "file": "",
+    "line": 0,
+    "addr": "0x2af2a0",
+    "cacheline64": "0x2af280",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 109
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5669,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "ExecInitIndexScan",
+    "function": "ExecInitIndexScan",
+    "demangled": "ExecInitIndexScan",
+    "file": "",
+    "line": 0,
+    "addr": "0x2af2a0",
+    "cacheline64": "0x2af280",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 109
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5650,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "transformStmt",
+    "function": "transformStmt",
+    "demangled": "transformStmt",
+    "file": "",
+    "line": 0,
+    "addr": "0x1b0d40",
+    "cacheline64": "0x1b0d40",
+    "symbol_offset": "0xe00",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 110
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5650,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "transformStmt",
+    "function": "transformStmt",
+    "demangled": "transformStmt",
+    "file": "",
+    "line": 0,
+    "addr": "0x1b0d40",
+    "cacheline64": "0x1b0d40",
+    "symbol_offset": "0xe00",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 110
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5621,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "btcanreturn",
+    "function": "btcanreturn",
+    "demangled": "btcanreturn",
+    "file": "",
+    "line": 0,
+    "addr": "0x12b2e0",
+    "cacheline64": "0x12b2c0",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 111
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5621,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "btcanreturn",
+    "function": "btcanreturn",
+    "demangled": "btcanreturn",
+    "file": "",
+    "line": 0,
+    "addr": "0x12b2e0",
+    "cacheline64": "0x12b2c0",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 111
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5563,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "DataChecksumsEnabled",
+    "function": "DataChecksumsEnabled",
+    "demangled": "DataChecksumsEnabled",
+    "file": "",
+    "line": 0,
+    "addr": "0x15e1b7",
+    "cacheline64": "0x15e180",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 112
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5563,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "DataChecksumsEnabled",
+    "function": "DataChecksumsEnabled",
+    "demangled": "DataChecksumsEnabled",
+    "file": "",
+    "line": 0,
+    "addr": "0x15e1b7",
+    "cacheline64": "0x15e180",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 112
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5543,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "core_yy_scan_buffer",
+    "function": "core_yy_scan_buffer",
+    "demangled": "core_yy_scan_buffer",
+    "file": "",
+    "line": 0,
+    "addr": "0x1f4d90",
+    "cacheline64": "0x1f4d80",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 113
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5543,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "core_yy_scan_buffer",
+    "function": "core_yy_scan_buffer",
+    "demangled": "core_yy_scan_buffer",
+    "file": "",
+    "line": 0,
+    "addr": "0x1f4d90",
+    "cacheline64": "0x1f4d80",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 113
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5529,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "ExecInitModifyTable",
+    "function": "ExecInitModifyTable",
+    "demangled": "ExecInitModifyTable",
+    "file": "",
+    "line": 0,
+    "addr": "0x2b6ae6",
+    "cacheline64": "0x2b6ac0",
+    "symbol_offset": "0xbc0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 114
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5529,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "ExecInitModifyTable",
+    "function": "ExecInitModifyTable",
+    "demangled": "ExecInitModifyTable",
+    "file": "",
+    "line": 0,
+    "addr": "0x2b6ae6",
+    "cacheline64": "0x2b6ac0",
+    "symbol_offset": "0xbc0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 114
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5523,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "CopyTriggerDesc",
+    "function": "CopyTriggerDesc",
+    "demangled": "CopyTriggerDesc",
+    "file": "",
+    "line": 0,
+    "addr": "0x264140",
+    "cacheline64": "0x264140",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 115
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5523,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "CopyTriggerDesc",
+    "function": "CopyTriggerDesc",
+    "demangled": "CopyTriggerDesc",
+    "file": "",
+    "line": 0,
+    "addr": "0x264140",
+    "cacheline64": "0x264140",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 115
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5505,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "max_parallel_hazard",
+    "function": "max_parallel_hazard",
+    "demangled": "max_parallel_hazard",
+    "file": "",
+    "line": 0,
+    "addr": "0x3868a0",
+    "cacheline64": "0x386880",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 116
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5505,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "max_parallel_hazard",
+    "function": "max_parallel_hazard",
+    "demangled": "max_parallel_hazard",
+    "file": "",
+    "line": 0,
+    "addr": "0x3868a0",
+    "cacheline64": "0x386880",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 116
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5498,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "pq_check_connection",
+    "function": "pq_check_connection",
+    "demangled": "pq_check_connection",
+    "file": "",
+    "line": 0,
+    "addr": "0x2dc160",
+    "cacheline64": "0x2dc140",
+    "symbol_offset": "0x1c0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 117
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5498,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "pq_check_connection",
+    "function": "pq_check_connection",
+    "demangled": "pq_check_connection",
+    "file": "",
+    "line": 0,
+    "addr": "0x2dc160",
+    "cacheline64": "0x2dc140",
+    "symbol_offset": "0x1c0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 117
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5488,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "AcceptInvalidationMessages",
+    "function": "AcceptInvalidationMessages",
+    "demangled": "AcceptInvalidationMessages",
+    "file": "",
+    "line": 0,
+    "addr": "0x5641b0",
+    "cacheline64": "0x564180",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 118
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5488,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "AcceptInvalidationMessages",
+    "function": "AcceptInvalidationMessages",
+    "demangled": "AcceptInvalidationMessages",
+    "file": "",
+    "line": 0,
+    "addr": "0x5641b0",
+    "cacheline64": "0x564180",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 118
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5405,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "ExecInitExpr",
+    "function": "ExecInitExpr",
+    "demangled": "ExecInitExpr",
+    "file": "",
+    "line": 0,
+    "addr": "0x2801e0",
+    "cacheline64": "0x2801c0",
+    "symbol_offset": "0x2840",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 119
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5405,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "ExecInitExpr",
+    "function": "ExecInitExpr",
+    "demangled": "ExecInitExpr",
+    "file": "",
+    "line": 0,
+    "addr": "0x2801e0",
+    "cacheline64": "0x2801c0",
+    "symbol_offset": "0x2840",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 119
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5348,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "ExecBuildUpdateProjection",
+    "function": "ExecBuildUpdateProjection",
+    "demangled": "ExecBuildUpdateProjection",
+    "file": "",
+    "line": 0,
+    "addr": "0x281700",
+    "cacheline64": "0x281700",
+    "symbol_offset": "0x980",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 120
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5348,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "ExecBuildUpdateProjection",
+    "function": "ExecBuildUpdateProjection",
+    "demangled": "ExecBuildUpdateProjection",
+    "file": "",
+    "line": 0,
+    "addr": "0x281700",
+    "cacheline64": "0x281700",
+    "symbol_offset": "0x980",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 120
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5323,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "add_base_rels_to_query",
+    "function": "add_base_rels_to_query",
+    "demangled": "add_base_rels_to_query",
+    "file": "",
+    "line": 0,
+    "addr": "0x36aa90",
+    "cacheline64": "0x36aa80",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 121
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5323,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "add_base_rels_to_query",
+    "function": "add_base_rels_to_query",
+    "demangled": "add_base_rels_to_query",
+    "file": "",
+    "line": 0,
+    "addr": "0x36aa90",
+    "cacheline64": "0x36aa80",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 121
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5270,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "apply_tlist_labeling",
+    "function": "apply_tlist_labeling",
+    "demangled": "apply_tlist_labeling",
+    "file": "",
+    "line": 0,
+    "addr": "0x39a080",
+    "cacheline64": "0x39a080",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 122
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5270,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "apply_tlist_labeling",
+    "function": "apply_tlist_labeling",
+    "demangled": "apply_tlist_labeling",
+    "file": "",
+    "line": 0,
+    "addr": "0x39a080",
+    "cacheline64": "0x39a080",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 122
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5254,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "heap_tableam_handler",
+    "function": "heap_tableam_handler",
+    "demangled": "heap_tableam_handler",
+    "file": "",
+    "line": 0,
+    "addr": "0x114780",
+    "cacheline64": "0x114780",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 123
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5254,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "heap_tableam_handler",
+    "function": "heap_tableam_handler",
+    "demangled": "heap_tableam_handler",
+    "file": "",
+    "line": 0,
+    "addr": "0x114780",
+    "cacheline64": "0x114780",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 123
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5224,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "find_coercion_pathway",
+    "function": "find_coercion_pathway",
+    "demangled": "find_coercion_pathway",
+    "file": "",
+    "line": 0,
+    "addr": "0x1d1e50",
+    "cacheline64": "0x1d1e40",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 124
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5224,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "find_coercion_pathway",
+    "function": "find_coercion_pathway",
+    "demangled": "find_coercion_pathway",
+    "file": "",
+    "line": 0,
+    "addr": "0x1d1e50",
+    "cacheline64": "0x1d1e40",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 124
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5127,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "resetStringInfo",
+    "function": "resetStringInfo",
+    "demangled": "resetStringInfo",
+    "file": "",
+    "line": 0,
+    "addr": "0x5c8470",
+    "cacheline64": "0x5c8440",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 125
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5127,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "resetStringInfo",
+    "function": "resetStringInfo",
+    "demangled": "resetStringInfo",
+    "file": "",
+    "line": 0,
+    "addr": "0x5c8470",
+    "cacheline64": "0x5c8440",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 125
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5099,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "parser_init",
+    "function": "parser_init",
+    "demangled": "parser_init",
+    "file": "",
+    "line": 0,
+    "addr": "0x1c9de0",
+    "cacheline64": "0x1c9dc0",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 126
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5099,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "parser_init",
+    "function": "parser_init",
+    "demangled": "parser_init",
+    "file": "",
+    "line": 0,
+    "addr": "0x1c9de0",
+    "cacheline64": "0x1c9dc0",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 126
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5096,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "SearchCatCacheList",
+    "function": "SearchCatCacheList",
+    "demangled": "SearchCatCacheList",
+    "file": "",
+    "line": 0,
+    "addr": "0x562600",
+    "cacheline64": "0x562600",
+    "symbol_offset": "0x680",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 127
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5096,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "SearchCatCacheList",
+    "function": "SearchCatCacheList",
+    "demangled": "SearchCatCacheList",
+    "file": "",
+    "line": 0,
+    "addr": "0x562600",
+    "cacheline64": "0x562600",
+    "symbol_offset": "0x680",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 127
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5076,
+   "site": {
+    "mangled": "PortalRun",
+    "function": "PortalRun",
+    "demangled": "PortalRun",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/pquery.c",
+    "line": 707,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "is_projection_capable_path",
+    "function": "is_projection_capable_path",
+    "demangled": "is_projection_capable_path",
+    "file": "",
+    "line": 0,
+    "addr": "0x365db0",
+    "cacheline64": "0x365d80",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 128
+  },
+  {
+   "prefetch_mnemonic": "prefetcht0",
+   "samples": 5076,
+   "site": {
+    "mangled": "exec_simple_query",
+    "function": "exec_simple_query",
+    "demangled": "exec_simple_query",
+    "file": "/home/hnpark2/prefetchit/llvm_prefetchit/work/pg_tpcc_variants/src/src/backend/tcop/postgres.c",
+    "line": 1023,
+    "branch_type": "BURST",
+    "lbr_depth": 1
+   },
+   "target": {
+    "mangled": "is_projection_capable_path",
+    "function": "is_projection_capable_path",
+    "demangled": "is_projection_capable_path",
+    "file": "",
+    "line": 0,
+    "addr": "0x365db0",
+    "cacheline64": "0x365d80",
+    "symbol_offset": "0x0",
+    "symbol_size": "0x0",
+    "symbol_type": "T",
+    "operand": "got-symbol-offset"
+   },
+   "site_rank": 1,
+   "target_rank": 128
+  }
+ ],
+ "prefetch": {
+  "mnemonic": "prefetcht0",
+  "operand": "got-symbol-offset",
+  "offset_mode": "target-symbol-offset",
+  "byte_offsets": [
+   0
+  ]
+ },
+ "options": {
+  "generator": "make_burst_plan"
+ },
+ "stats": {
+  "planned_prefetches": 254
+ }
+}

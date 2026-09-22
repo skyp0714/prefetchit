@@ -1,0 +1,108 @@
+diff --git a/src/HDSearch/load_generator/load_generator_closed_loop.cc b/src/HDSearch/load_generator/load_generator_closed_loop.cc
+index b12ae98..91a0134 100644
+--- a/src/HDSearch/load_generator/load_generator_closed_loop.cc
++++ b/src/HDSearch/load_generator/load_generator_closed_loop.cc
+@@ -15,6 +15,7 @@
+ #include "helper_files/timing.h"
+ 
+ #define QUERIES_TOTAL 100000
++#define PREFETCHIT_QUERY_SEED 1
+ 
+ using grpc::Channel;
+ using grpc::ClientAsyncResponseReader;
+@@ -30,7 +31,7 @@ int num_requests = 0, util_requests = 0;
+ float qps = 0;
+ std::string ip = "localhost";
+ bool resp_recvd = false;
+-int responses_recvd = 0;
++int responses_recvd = 0, responses_failed = 0;
+ std::string timing_file_name = "", qps_file_name = "";
+ std::map<void*, uint64_t> resp_times;
+ uint64_t interval_start_time = GetTimeInSec();
+@@ -179,8 +180,14 @@ class LoadGenIndexClient {
+                     }
+ 
+                 } else {
+-                    std::cout << " * " << std::endl;
+-                    CHECK(false, "");
++                    outstanding_mutex.lock();
++                    if (outstanding > 0) {
++                        outstanding--;
++                    }
++                    outstanding_mutex.unlock();
++                    responses_recvd_mutex.lock();
++                    responses_failed++;
++                    responses_recvd_mutex.unlock();
+                 }
+ 
+                 // Once we're complete, deallocate the call object.
+@@ -244,6 +251,8 @@ class LoadGenIndexClient {
+             CreatePointsFromBinFile(queries_file_name, &queries);
+             end_time = GetTimeInMicro();
+             timing_info.create_queries_time = end_time - start_time;
++            const uint64_t queries_total = queries.GetSize();
++            CHECK((queries_total > 0), "ERROR: Query file must contain at least one query");
+ 
+             // Instantiate the client. It requires a channel, out of which the actual RPCs
+             // are created. This channel models a connection to an endpoint (in this case,
+@@ -256,7 +265,9 @@ class LoadGenIndexClient {
+             // Spawn reader thread that loops indefinitely
+             
+             std::thread thread_ = std::thread(&LoadGenIndexClient::AsyncCompleteRpc, &loadgen_index);
+-            uint64_t query_id = rand() % QUERIES_TOTAL;
++            thread_.detach();
++            srand(PREFETCHIT_QUERY_SEED);
++            uint64_t query_id = rand() % queries_total;
+             MultiplePoints query(1, queries.GetPointAtIndex(query_id));
+ 
+             //To calculate max throughput of the system.
+@@ -283,11 +294,14 @@ class LoadGenIndexClient {
+                             false,
+                             last_request);
+                     requests_sent++;
+-                    query_id = rand() % QUERIES_TOTAL;
++                    query_id = rand() % queries_total;
+                     query.SetPoint(0, queries.GetPointAtIndex(query_id));
+                 }
+                 curr_time = (double)GetTimeInMicro();
+             }
++            srand(PREFETCHIT_QUERY_SEED);
++            query_id = rand() % queries_total;
++            query.SetPoint(0, queries.GetPointAtIndex(query_id));
+             start_counter_mutex.lock();
+             start_counter = true;
+             start_counter_mutex.unlock();
+@@ -320,7 +334,7 @@ class LoadGenIndexClient {
+                                 last_request);                                                                                  
+                     }
+                     requests_sent++;
+-                    query_id = rand() % QUERIES_TOTAL;
++                    query_id = rand() % queries_total;
+                     query.SetPoint(0, queries.GetPointAtIndex(query_id));
+                 }
+                 curr_time = (double)GetTimeInMicro();
+@@ -329,7 +343,10 @@ class LoadGenIndexClient {
+             responses_recvd_mutex.lock();
+             std::cout << std::endl;
+             std::cout << responses_recvd << std::endl;
+-            std::cout << responses_recvd/time_duration << std::endl;
++            std::cout << (static_cast<double>(responses_recvd)/static_cast<double>(time_duration)) << std::endl;
++            std::cout << "responses=" << responses_recvd << std::endl;
++            std::cout << "qps=" << (static_cast<double>(responses_recvd)/static_cast<double>(time_duration)) << std::endl;
++            std::cout << "failed_responses=" << responses_failed << std::endl;
+             std::cout.flush();
+             //PrintTimingHistogram(start_vec);
+             //PrintTimingHistogram(end_vec);
+@@ -347,11 +364,7 @@ class LoadGenIndexClient {
+                     (util_requests-1));
+             std::cout << std::endl;
+                 global_stats_mutex.unlock();
+-                std::string s = "./kill_index_server_empty " + ip;
+-                char* cmd = new char[s.length() + 1];
+-                std::strcpy(cmd, s.c_str());
+-                ExecuteShellCommand(cmd);
+-                exit(0);
++                _Exit(0);
+                 /*WriteToUtilFile(util_file_name, 
+                  *global_stats,
+                  number_of_bucket_servers,

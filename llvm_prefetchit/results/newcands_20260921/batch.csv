@@ -1,0 +1,6 @@
+workload,cores,util_pct,l2i,instr,cycles,mpki,ipc,note
+armfe_ipc3000,36,100.0,796706931,16309992022,39618817163,48.85,0.412,ARM core-benchmarks ipc3000, 6.7 MB text, gcc -O0, 1 core C6 off
+armfe_dfs16,36,100.0,1328823986,18423867577,39587922213,72.13,0.465,ARM core-benchmarks dfs16, 9.0 MB text, gcc -O0, 1 core C6 off
+renaissance_finagle_http,0-3,92.4,61423120,238158832104,100752597152,0.26,2.364,Renaissance finagle-http (Twig/BTB-Ferret 벤치마크 세트), JDK 21, 4 cores C6 off
+openmm,0-3,83.5,3070675,232804878623,130967409306,0.01,1.778,OpenMM 8.x CPU platform, 12k-particle LJ fluid, LangevinMiddle, 4 threads, 4 cores C6 off
+armfe_ipc1000,36,100.0,57717253,24966972446,39793892460,2.31,0.627,ARM core-benchmarks inst_pointer_chase at the upstream defaults (1000 chains x depth 20 = 20k functions, 2.25 MB text), gcc -O0, 1 core C6 off
