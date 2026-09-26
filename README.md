@@ -4,6 +4,15 @@
 > 호스트 복구 절차는 [`docs/SETUP.md`](docs/SETUP.md). 나머지 문서는 각 컴포넌트의
 > 설계 노트뿐입니다(아래 "문서 지도").
 
+최근 결과: [Class A 종합](docs/results_summary_20260924.md),
+[AsmDB trace 삽입](docs/class_a_asmdb_trace_20260926.md),
+[JVM 확인 현황](docs/class_a_jvm_status_20260926.md),
+[Class B 서비스 확장](docs/class_b_coldmiss_summary_20260926.md),
+[DSB 누적 결과](docs/dsb_results_summary_20260926.md).
+[스킴 소스 지도](llvm_prefetchit/migration/schemes/README.md)와
+[공개 결과 목록](llvm_prefetchit/migration/evidence/README.md)을 별도로 유지한다.
+Git에는 구현·작은 결과 요약을 포함하고 raw trace·빌드·생성 plan·압축 실행 묶음은 넣지 않는다.
+
 ## 1. 무엇을 하는 프로젝트인가
 
 Intel Granite Rapids(Xeon 6787P)에서 ISA의 명령어 프리페치 `prefetchit0/1`은 측정상
@@ -189,11 +198,30 @@ affinity 감사, `valid` 열). memcached는 중립(대조군으로 유지).
 3. 반드시 NOP twin과 비교(`make_nop_control_binary.py`), `objdump`로 주입 개수 확인, callsite/RET plan은 `check_prefetch_drift.py` ≥90%.
 4. 인터리브 ≥3회(서비스는 5회), 중앙값 보고. 완료 작업량 동일(`+max-cycles`, 요청 수) 확인.
 5. 레이아웃을 바꾸는 최적화는 어느 arm에도 넣지 않는다.
-6. **세팅(2026-09-19)**: 워크로드를 코어에 고정하고 사용 코어의 C6를 끈다(cold miss는 대상이 아님); 서비스는 alone/interleaved 두 regime을 모두 재고, 부하는 벤치마크 기본 config의 현실 범위로 둔다. 상세 `docs/prefetch_plan_by_miss_class.md` §0.
+6. **세팅(2026-09-22)**: 워크로드를 코어에 고정하고 사용 코어의 C6를 끈다(cold miss는 대상이 아님); 서비스는 alone/interleaved 두 regime을 모두 잰다. 정상 동작·기본 config를 유지한 **활용률 ≥15% 부하 중 baseline MPKI 최대점**을 후보로 선택하고 전체 부하 sweep·오류율·지연을 보고한다(사용자 합의). 배치는 정상 포화 실행. 상세 `docs/prefetch_plan_by_miss_class.md` §0.
+
+A 부류는 **A-1: 순차 코드 스트림**(Verilator/arcilator/CXXRTL), **A-2: 복잡한 control flow의 정적 타깃 분석**(protobuf schema·서비스·DB), **A-3: 미래 함수 포인터·dispatch 주소 기반 코드 prefetch**(FeedSim, protobuf, DSB RPC, MySQL, Scylla/Seastar, Envoy, VPP 후보)로 구분한다. 한 workload에서 A-2/A-3를 각각 또는 결합해 평가할 수 있다. A-3는 방법 분류이며, Scylla처럼 interleaved에서만 MPKI가 높은 경우 B miss regime도 함께 표시한다. 후보 분류가 성능 성공을 뜻하지는 않는다. ARM은 합성 대조군이다. 09-22 일반 call-graph 정책의 Verilator 전이는 0.98792x/0.98627x로 실패했으며, 기존 A-1 sequential 정책과 구분한다.
+
+09-23 DCPerf v2 검증: FeedSim은 v2에도 shuffled 함수 포인터 배열을 유지한다. 40 QPS·새 paired 5회에서 요청당 CPU **−5.19%**, NOP 대비 **−4.95%**, 모든 오류·처리율·p95 기준 통과. 배열 lookahead의 성공이며 임의 control flow 일반화는 아직 미확인이다. Rails/MySQL/Django/Silo의 추가 정책 및 측정 제외 사유는 [A-2 실험 기록](docs/class_a2_campaign_20260923.md)에 정리한다.
+
+09-23 커널 경계 실험: Media의 user return-code prefetch는 새 5 paired 라운드에서 유의한 이득이 없었다. Static T1의 세 서비스 CPU 합계 개선은 +0.14% (95% CI −0.64~+0.93%), dynamic T0는 NOP 대비 −0.10%다. MySQL 전이 스크린도 +0.3~0.4%에 그쳤다. 커널 miss·stall 분석과 조건부 개선 여지, 전체 reference 입력에서 L2I MPKI 1.489를 확인한 LLVM 후보는 [커널 실험 기록](docs/class_a_kernel_20260923.md)에 정리한다. 전체 workload의 ≥1% 목표는 미달성이다.
+
+09-23–24 **A-3 미래 함수 포인터 실험 완료**: FeedSim의 기존 lead4 정책을 새 paired 5회에서 재검증해 CPU 효율 **+6.13%**(95% CI +5.26~+7.00%), 그래프 단독 −0.43%, 결합 +6.17%를 얻었다. 그래프 추가분은 +0.04%(CI −0.84~+0.93%)로 미확인이다. protobuf 다섯 A-3 정책은 모두 baseline보다 느렸으며, 별도 5회에서 F −0.46% / 기존 schema G +3.45% / 결합 +2.81%였다. FeedSim은 F, FleetBench는 G 단독이 현재 선택이다. [전체 결과·적용 범위](docs/class_a3_campaign_20260923.md).
+
+09-24 **A-3 dispatch 확장 완료**: DSB Media와 MySQL의 live future-target 스크린은 baseline·NOP 양쪽을 이기지 못했다. Scylla는 실제 MySQL과 코어를 공유할 때 L2 code MPKI 12.29인 조건에서, queue 깊이 부족을 확인한 후 online/frozen aggressive predictor까지 시험했다. 최종 새 5쌍에서 CPU 효율 **+0.08% [−0.84, +1.01]**, NOP 대비 **+0.19% [−1.51, +1.92]**로 유의하지 않았다. 예측 정확도 97.22%는 cold-miss coverage가 아니며, miss/operation 감소도 2.45%에 그쳤다. VPP AF_PACKET은 낮은 MPKI로 제외했다. [전체 정책·대조군·분류](docs/class_a3_dispatch_20260924.md). 새로운 ≥1% 성공이나 일반 C++ 자동 변환은 확인되지 않았다.
+
+09-24 **8시간 후속 실험 완료**: FeedSim v2 staged entry12/body4가 새 paired 5회에서 CPU 효율 **+8.54% [8.14, 8.94]**, 기존 lead4 대비 **+2.09% [1.86, 2.32]**, 같은 코드의 NOP 대비 **+8.33% [7.84, 8.82]**를 확인했다. 정상 40 QPS의 요청당 leaf CPU 비용 기준(약 −7.87%)이며 최대 처리량 증가는 미측정이다. A-1의 새 lead/spacing/cache 대안과 A-2 LLVM 전체 reference mix의 sparse call/wrapper 대안은 기존 정책을 넘지 못했다. Scylla의 실제 callback 주소 해석도 +0.60% baseline / +0.23% NOP의 스크린으로 승격하지 않았다. staged+graph의 같은 코드 기준 graph 추가분도 +0.03%(스크린)로 미확인이다. 최종 구성요소 비교와 검증·범위는 [후속 실험 기록](docs/class_a_overnight_20260924.md)에 정리했다.
+
+09-24 **A-3 후보를 삽입 전에 재선별**: gem5의 정상 O3/Timing/Ruby 5설정은 host user L2 code MPKI **0.0034–0.0575**, Envoy의 유효 proxy/JWT+RBAC/TLS+gzip 설정은 최대 **0.3640**이었다. μSuite SetAlgebra는 결과 전달·빈 교집합 버그를 실험용 복사본에서 고치고 정답을 대조했으며, 정상 3,000 QPS의 전체 MPKI **0.0444**였다. 새로운 고MPKI 설정은 없어 prefetch 삽입으로 승격하지 않았다. Ceph RGW의 operation 객체와 ATS continuation을 다음 구조적 후보로 추가했다(미측정). [전체 sweep·입력 검증·다음 계획](docs/class_a3_qualification_20260924.md).
+
+09-24 **추가 탐색에서 Ceph RGW를 새 후보로 확인**: 실제 S3 GET/LIST/PUT, 인증·RADOS 3중 복제를 유지하고 debug/access log를 모두 꺼도 **1 worker/core MPKI 5.91–6.96**, 활용률 30–49%, p99 7.35–18.17 ms, 응답 검증 오류 0이었다. 4-worker 진단의 간접 CALL target 같은 cache line은 전체 retired-L2-miss 표본의 **8.88%**, target +256 B는 **10.89%**(인과적 stall coverage나 speedup 상한 아님). 직접 CALL 비중도 커 A-2 방식의 후보로 남긴다. 기존 정적 callee 정책 2개의 새 2쌍 스크린은 **+0.007%/−0.131%**로 탈락했으며, 새로운 F/F+G 이득은 아직 미확인이다. ATS 초기 높은 MPKI는 worker affinity 이탈로 폐기했고, 실제 pin 뒤에는 낮았다. [전체 설정·음성 결과·보존 기록](docs/class_a_search_20260924b.md).
+
+09-24 **JVM 후보 5종과 기존 4묶음을 새로 조사·측정**: Artemis·Keycloak·Flink/Nexmark·OpenSearch·Pinot의 dispatch 소스를 확인했다. Artemis AMQP는 MPKI 2.41–3.54지만 backend가 높았으며 나머지 신규 4종은 아직 소스 조사 단계다. 별도 Solr/Cassandra/Trino 및 CSV 없는 DaCapo 8종을 새로 측정했으며, 이번 정상 설정의 최대 MPKI는 DaCapo Cassandra **3.28**이었다. Cassandra·Spring의 PEBS/LBR에서는 간접 CALL/JMP target 같은 line 연관 **6.70%/9.53%**, 직접 CALL **13.80%/25.59%**였다(인과적 stall 비중/이득 상한 아님). Spring/PetClinic의 A-2/G와 제한된 A-3/F 검증 후보를 남겼으며 새 prefetch speedup은 미측정이다. [신규 5종과 JVM 구현 조건](docs/class_a_jvm_candidates_20260924.md), [재측정 전체 표·추적·운영 조건](docs/class_a_jvm_recheck_20260924.md).
+
 
 ## 5. 워크로드 카탈로그 (지금까지의 결론과 재시도 출발점)
 
-스크린 기준: 부하 상태 L2I MPKI ≥ 한 자리 수 → trace-guided plan으로 ceiling 확인 → static.
+현재 선별은 정상 활용률 ≥15% 중 baseline MPKI 최대점과 Top-down FE/BE 진단을 함께 사용한다. 높은 MPKI만으로 frontend-bound로 분류하지 않으며, 제한된 padding/LBR 실험을 성능 상한으로 부르지 않는다.
 
 | 워크로드 | L2I MPKI | 결과 | 원인/메모 | 재시도 출발점 |
 |---|---:|---|---|---|
@@ -201,19 +229,20 @@ affinity 감사, `valid` 열). memcached는 중립(대조군으로 유지).
 | arcilator DualMegaBoom | 79 | **static seq lookahead 1.543x / 1.683x vs twin, MPKI 79→35** (D=4 KB K=10); K=20 1.504x, K=40 1.407x; (Aug MegaBoom callsite s4la16 1.051x) | `.fir`→`firtool --ir-hw`→`stub_externs.py`→`arcilator --emit-llvm`→clang+pass | `flat_codegen/work/{build,measure}_arc_variants.sh` |
 | Django (DCPerf v1) | 85 | manual 1.46–1.49x — **v1 코드, 폐기** | v2는 `docs/prefetch_plan_by_miss_class.md` A 부류(2.4 MPKI) | `benchmarks/dcperf_v2` |
 | FeedSim (DCPerf v1) | 8 | manual 1.05–1.07x — **v1 코드, 폐기** | v2 feedsim_dlrm 2.1–2.3 MPKI(A 부류) | `benchmarks/dcperf_v2` |
+| **FeedSim DCPerf v2-beta (A-3)** | **40 QPS: 3.598 → 2.988**, FE 39.44% → 29.00% / BE 14.25% → 19.25% (user counters) | **Staged CPU 효율 +8.54% [8.14, 8.94]**, 요청당 leaf CPU 약 −7.87%; 기존 lead4 대비 **+2.09% [1.86, 2.32]**, 자체 NOP 대비 +8.33% | full DLRM/RPC/TLS/ZSTD, 8코어 2 GHz. 별도 새 paired 5회 모두 SLA 통과. entry12/body4 source prototype; 최대 처리량·임의 C++ 일반화 미확인 | [8시간 후속 실험](docs/class_a_overnight_20260924.md), [이전 A-3 결과](docs/class_a3_campaign_20260923.md) |
 | JCodeStream / WideApi (자작) | 93 / 35–50 | C2 V4 1.29x / 1.11x | 스트리밍 JIT 코드 | `jit_prefetch/scripts/ab_jcs.sh`, `wideapi/` |
 | MicroSuite Router / HDSearch / Recommend / SetAlgebra | 85 / 79 / high / 25 | PGO(trace) 0.98 / 0.99 / 1.006 / 미확정 (NOP twin 기준) | 7월의 +198%는 빌드 혼동 | `archive/scripts/build_microsuite_lbr_pgo_variants.sh`, `run_final_microsuite_paired.sh`, `run_router_*`, `run_setalgebra_*` |
 | PostgreSQL (pgbench / TPC-C) | 25–108 / 51 | static ≤ +0.3% (모든 밀도) | 데이터 트래픽이 L2 코드를 계속 축출(5번째 축); 정확도 재검 필요 | `archive/scripts/build_postgresql_lbr_pgo_variants.sh`, `run_final_postgresql_paired.sh`, `archive/work/pg_tpcc_variants` |
 | memcached 1.6.14 | 0.04–10 | manual 1.000x (고정 클럭) | 7월 +15%는 불안정 부하 | `scripts/dispatch/run_memcached_paired.sh` |
 | DeathStarBench socialNetwork PostStorage | 5–20 | static/PGO(trace) ≈ 1.00 | miss가 3.6k 지점에 분산, 75%가 DSO 안, 리드타임 ~1 분기 | `flat_codegen/dsb_build/` |
 | TailBench Silo/Xapian/Moses/Masstree/Shore/Sphinx/Img-DNN | 8월: 중간; **2026-09-19 4코어 C6 off**: silo 9.8(활용률 3%), masstree 1.4, moses 0.42, img-dnn 0.33, shore 0.01; sphinx/xapian은 입력이 디스크 풀로 잘려 미측정 | 8월 중립~느림; 새 세팅에서는 경계값 이하 | 짧은 실행, 낮은 결정성; 입력 10 GB 재확보(`benchmarks/tailbench`) | `screens/realistic/tailbench_screen.sh` |
-| FleetBench (Google) | **proto_benchmark 16.9** (1코어 C6 off, 2026-09-19); rpc 0.65, swissmap/hashing/compression/libc/stl/tcmalloc ≤0.01 | 8월 proto arena +0.8–1.1%(옛 세팅); proto_benchmark는 A 부류 신규 후보(단일 바이너리) | clang 빌드 필요(gcc는 unroll pragma 거부) | `screens/realistic/chain_fleetbench2.sh`, `docs/prefetch_plan_by_miss_class.md` §1-A |
+| FleetBench (Google) | **proto 16.59 → 12.93**, baseline FE-bound **56%**, BE-bound **11%** (1코어 2 GHz C6 off); rpc 0.65, 나머지 ≤0.01은 이전 스크린 | **static schema: seed 0 CPU 1.03484x / wall 1.03516x, seed 1 CPU 1.03445x / wall 1.03439x**, 각 5회. NOP 대비 1.04401x / 1.04463x | 기본 Arena·작업량 유지. 정확히 두 단계 아래 타입·생성자 예측, 크기 제한 최대 8라인. 명령 +1.03%, absolute speculative L2 code miss −21.3%. 10개 paired 라운드 모두 CPU/wall +3% 이상. 추가 22개 정책에서도 5% 미달; 동일 정책의 NoArena 전이는 CPU +2.18%(3회) | [확장·전이 실험](docs/class_a_generalization_20260922.md), [latency·coverage](docs/class_a_proto_lead_20260922.md) |
 | DCPerf v2 batch: xsbench / gapbs bc / graph500 / liblinear / syscall / schbench | ≤0.01 (4코어 C6 off, 2026-09-19) | 스크린 탈락 | 데이터·커널 bound | `screens/realistic/dcperf_v2_batch.sh` |
 | DCPerf v2 adsim (광고 랭킹 서버 + treadmill 클라이언트, 한 호스트) | server 0.58 (4코어 90% 활용률, IPC 3.6) | 스크린 탈락 | FBGEMM 커널 지배; 설치 우회(clang 심링크·folly io_uring·libaegis·OpenMP·libunwind)는 memory/host quirks 참고 | `screens/realistic/adsim_screen.sh` |
-| **ARM core-benchmarks `frontend`** (합성 프론트엔드 스트레스: 무작위 호출 사슬 / 이진 호출 트리) | dfs16 **72.1**, ipc3000 **48.9**, 상류 기본값 ipc1000 2.31 (1코어 C6 off, 2026-09-21) | A 부류 최상위 신규 후보 — seq/cold plan 즉시 적용 대상; 생성기 자체 `--insert_code_prefetches`와 직접 비교 가능 | 단일 링크 단위 C, gcc -O0 | `screens/newcands/build_armfe.sh`, `docs/prefetch_plan_by_miss_class.md` §6-2 |
+| **ARM core-benchmarks `frontend`** (합성 프론트엔드 스트레스) | **clang-19 ipc3000 59.55 → 45.44**, 기본 ipc1000 약 4.0 | **static call graph: 4단계 선행·진입 1라인, CPU 1.09198x / wall 1.09226x / NOP 대비 1.10418x**, 새 5회 반복 | upstream -O0·10,000 loops, 1코어 2 GHz/C6 off. 기본 크기에서는 NOP 대비 효과 없음. 합성 ideal-case이며 실서비스 일반화 주장은 아님 | [확장·전이 실험](docs/class_a_generalization_20260922.md), `tools/callgraph_prefetch_plan.py` |
 | **MySQL 8.0** sysbench oltp_read_write (16테이블×20만, durable) | **2.35** (4코어 75%), 공유 시 9.25 | A+B — MariaDB(0.8–1.1)의 2–3배, 단일 타깃 빌드라 주입이 단순 | — | `screens/newcands/svc_screen.sh` |
 | **Rails 8 API + puma** (CRuby 3.2, YJIT off, production) | **1.91** (4코어 38%), 공유 시 3.48 | A+B — Django/CPython(2.4)과 같은 AOT 인터프리터 부류의 둘째 표본 | — | `screens/newcands/rails_screen.sh` |
-| **ScyllaDB 6.2** YCSB workloada | alone 0.40 (4코어 33%), **공유 시 6.05–10.97** | B 부류 최상위 — alone은 탈락인데 코어를 나누면 가장 나빠진다 | Seastar shard-per-core | `screens/newcands/colocate.sh` |
+| **ScyllaDB 6.2 / Seastar (A-3 방법, B miss regime)** YCSB workloada | alone 0.40; **새 공유 조건 12.29** | queue lookahead 및 aggressive online/frozen 예측 시험. frozen 4라인 새 5쌍 **+0.08% [−0.84, +1.01]**, 유의한 이득 없음 | 20k ops/s + durable MySQL 400 TPS, 4코어 공유; 매 arm 데이터 초기화 | [A-3 확장](docs/class_a3_dispatch_20260924.md) |
 | Renaissance finagle-http / OpenMM 8.6 | 0.26 / 0.01 | 스크린 탈락 | JIT / MD 커널 | `screens/newcands/` |
 | DCPerf v2 cdn_bench (proxygen 리버스 프록시, 서버·프록시·클라이언트 한 호스트) | proxy 0.4 (4코어, 12–81% 활용률, 40k–300k rps), content 0.15–2.3 | 스크린 탈락 | 프록시 코드가 L2에 들어감 | `screens/realistic/cdn_bench_screen.sh` (포트 9081/9082, gflags/glog 수정은 memory 참고) |
 | CloudSuite 4 graph-analytics / in-memory-analytics / data-analytics | 0.04–0.25 / 0.03–0.09 / 미기동(YARN NodeManager 등록 실패) | 스크린 탈락 | Spark/Hadoop JVM | `screens/realistic/cloudsuite_analytics.sh` |

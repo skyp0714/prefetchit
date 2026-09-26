@@ -10,3 +10,14 @@ tools/*.so
 # editor/backup leftovers
 *.bak
 *.bak_*
+
+# Review evidence contains summaries, measured counters and reproduction inputs.
+# Generated plans and duplicate machine snapshots belong in ignored results/.
+/migration/evidence/**/platform_*/
+/migration/evidence/**/platform_*.json
+/migration/evidence/**/hwp_*.json
+/migration/evidence/**/plans/
+/migration/evidence/**/padding/
+/migration/evidence/**/*.json.gz
+/migration/evidence/**/build/*.log
+/migration/evidence/**/warm.log

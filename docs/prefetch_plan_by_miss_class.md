@@ -1,5 +1,18 @@
 # 명령어 프리페치 대상 워크로드의 두 부류와 해결 계획 (2026-09-19)
 
+2026-09-24 [8시간 후속 실험](class_a_overnight_20260924.md) 완료: FeedSim staged entry12/body4가 정상 40 QPS에서 새 paired 5회 CPU 효율 +8.54% [8.14, 8.94], 기존 lead4 대비 +2.09% [1.86, 2.32]를 확인했다. A-1 lead/spacing/cache 추가 대안, A-2 LLVM 전체 ref sparse call/wrapper, A-3 Scylla offline/실제 callback은 새로운 ≥1% 이득을 확정하지 못했다. 모든 Class A에서 ≥1%라는 목표는 아직 달성되지 않았다. 전체 조건·구성요소·결합·검증 결과는 링크를 참조한다.
+
+2026-09-23 결과는 [A-2 캠페인](class_a2_campaign_20260923.md)에 기록한다. FeedSim v2의 배열 lookahead는 고정 40 QPS에서 CPU/request −5.19%(새 5회·NOP 검증). 일반 control flow의 Rails/MySQL/Django에는 아직 3%가 확인되지 않았다. 기존 MPKI 비례 성능 환산은 경험적 참고값이며 상한이 아니다.
+
+[커널 경계 후속](class_a_kernel_20260923.md): Media의 static return-code prefetch는 새 5회에서 세 서비스 CPU 합계 +0.14%로 유의하지 않았다. 커널 I-cache stall을 기반으로 한 조건부 모델과 실제 성능을 구분한다. 새 LLVM reference 후보는 user L2I MPKI 1.489, FE 39.6% / BE 15.5%다. 커널 수정 없는 복귀 코드 hint를 Class A 공통 ≥1% 방법으로 채택할 근거는 아직 없다.
+
+2026-09-23 분류 정리(사용자 지정): **A-1 = 순차 코드 스트림형**(Verilator, arcilator, CXXRTL), **A-2 = 복잡한 control flow의 정적 타깃 분석**(FleetBench schema, Django, media, MySQL/Rails), **A-3 = 미래 함수 포인터·dispatch 주소 기반 코드 prefetch**(FeedSim, protobuf, DSB RPC, MySQL, Scylla/Seastar, Envoy, VPP 후보). 같은 workload에서 A-2/A-3의 단독 및 결합 효과를 비교한다. ARM은 합성 대조군이다. 기존 A-3~A-8 도구 항목은 아래에서 구현 항목으로 이름을 바꿔 새 분류와 구분한다.
+
+
+2026-09-22 업데이트: [FleetBench proto latency/coverage 실험](class_a_proto_lead_20260922.md)에서
+static schema prefetch **+3.44–3.48%**를 seed 0/1 각각 5회 확인했다. CPU/wall 모두 10개 paired 라운드 전체가 +3% 이상이다. 아래 09-19 후보 표의 proto "즉시 착수" 상태는 이 결과로 갱신된다.
+[후속 5% 탐색·전이 실험](class_a_generalization_20260922.md): 추가 22개 정책에서 Arena 최선 유지, NoArena +2.18%. ARM 합성의 정적 call-graph 정책은 큰 코드 설정에서 +9.20%(5회), 기본 크기는 NOP 대비 중립이다. 합성 ideal-case와 실프로그램 일반화를 구분한다.
+
 이 문서는 2026-09-18~19의 현실적 세팅 스크리닝(README §2-4, `llvm_prefetchit/results/realistic_screen_20260918/`)에서
 확정한 사실 위에 세운 설계 문서다. 이전(2026-09-17)의 공유 코어·C6 켜진 세팅에서 얻은 결론과 설계는 `docs/archive/`로
 옮겼고, 이 문서와 충돌하면 이 문서가 우선한다. 유효한 과거 결과는 Verilator/arcilator의 sequential lookahead(README §2-1)뿐이다.
@@ -10,7 +23,7 @@
 |---|---|---|
 | 코어 | 워크로드를 코어에 고정한다(서비스는 cpuset, 배치·JVM은 taskset). 소켓 1(0–42)만 사용 | 프로덕션 배치 방식; 스케줄러 이동을 원인에서 제거 |
 | C-state | 사용 코어의 deep C-state(C6/C6P)를 끈다 | 유휴 코어가 C6로 들어가면 L2가 통째로 비워져 wake마다 전량 cold miss가 난다(PG 18.5 → 0.06, Router 55/110 → 0.06/0.11, MariaDB 11.7 → 0.9). 이것은 설정 한 줄로 없어지는 miss이고 latency-critical 서비스는 이미 그렇게 운영한다 → **프리페치 대상이 아니다** |
-| 부하 | 벤치마크 기본 config, 활용률은 현실 범위(서비스 20–70%, 배치 100%) | "MPKI가 잘 나오는" 저부하 점을 골라 맞추지 않는다 |
+| 부하 | 벤치마크 기본 config와 정상 동작 조건 유지. 서비스는 **활용률 ≥15%인 유효 부하 중 baseline MPKI 최대점**을 선택하고 전체 sweep·오류율·지연을 함께 남긴다(2026-09-22 사용자 합의). 배치는 정상 포화 실행 | 후보를 찾기 위한 선택 편향은 명시한다. prefetch arm 결과로 부하를 재선택하거나 낮은 활용률·오류가 큰 점을 채택하지 않는다 |
 | 두 regime | **alone** = 서비스별 전용 cpuset / **interleaved** = 스택 전체가 8·16코어 pool 공유 | 후자가 논문들(Lukewarm/Ignite, DeathStarBench)의 "cold start" 세팅이다 |
 | 카운터 | user-mode(`:u`) L2 code read miss(0x24/0x24) / 명령 / 사이클, 30 s 창, 컨테이너는 cgroup별 | 커널 fsync 경로·다른 컨테이너를 섞지 않는다 |
 | 비교 | NOP twin 필수, 같은 라운드 안의 인터리브 ≥3회(서비스 5회), 중앙값 | 베이스가 시간에 따라 움직인다(socialNetwork는 쓰기 부하로 5시간 동안 55 → 64 G cycles) |
@@ -48,7 +61,7 @@ miss 원인은 세 가지로 판정했다: **cold(C6 wake)** = 서버 코어 C6�
 | 제외(2026-09-19 밤 추가 스크린, C6 off): DCPerf v2 batch — xsbench / gapbs bc / graph500 / liblinear / syscall / schbench **모두 ≤0.01**(데이터·커널 bound); CloudSuite 4 graph-analytics 0.04–0.25 / in-memory-analytics 0.03–0.09(Spark, JVM); TailBench img-dnn 0.33 / moses 0.42 / shore 0.01; FleetBench 7종 ≤0.65; DCPerf v2 cdn_bench proxy 0.4(활용률 12–81%), adsim server 0.6(활용률 90%, IPC 3.6) | | | | | |
 
 읽는 법: 우리 도구로 닿는 capacity 후보는 flattened 시뮬레이터(수십 MPKI, 검증 완료)와 2–5 MPKI의 AOT 서비스(Django v2, FeedSim v2,
-media/socialNetwork C++ alone)다. 후자는 MPKI 자체가 작아 0.7 %/MPKI 환산으로 상한이 1.5–3.5%다.
+media/socialNetwork C++ alone)다. 후자는 MPKI가 작아 이득이 제한될 수 있다. 과거 0.7 %/MPKI 환산은 경험적 참고값이며 성능 상한이 아니다. Top-down·긴 frontend starvation·NOP 대조군으로 다시 판정한다.
 
 ### B. interleaving-dominant — 요청 사이에 다른 서비스가 같은 코어에서 돌아 L2를 밀어낸다 (논문들의 "cold start")
 
@@ -84,38 +97,50 @@ C6를 끄고 스택 전체를 8·16코어 pool에 올린 값(alone 값과 나란
 - 남은 일: (a) 명령 비용 절감 — MachineFunction pass로 정확히 128 B마다 하나(IR K는 31–125 B로 흔들림; twin 열이 −5.7%를 보여줌), (b) 다른 설계(LargeBoom/Quad)와 ESSENT로 일반화, (c) 인접하지 않은 callee 전환(잔여 miss 11%)용 burst 규칙.
 - 기대치: 현재 1.15x에서 명령 비용을 절반으로 줄이면 1.18–1.20x.
 
-### A-2. trace-guided cold plan (분산형 capacity miss에 사용) — 도구는 있고, 대상만 바꾼다
+### A-2. 복잡한 control flow — static 분석을 목표로 trace-guided ceiling부터 확인
 - 무엇: LBR 붙은 L2I miss trace에서 miss 라인마다 60–4,000 cycle 앞의 함수 진입 중 **실행 빈도가 가장 낮은 것**을 사이트로 잡아 그 라인만 `prefetcht1`(exe 라인은 pc-relative, 다른 파일 라인은 GOT 앵커+변위). 사이트 실행 빈도는 명령 샘플링으로 실측해 가지치기(v10). 도구: `flat_codegen/dsb_build/postlink/cold_plan.py` + pass `PREFETCHIT_COLD_PLAN`(burst는 16 B 배수로 패딩해 오프셋 보존).
 - 어디에: Django v2(CPython 2.4), FeedSim v2(2.1–2.3), media C++ 서비스 alone(2–5). 모두 **C6 off, alone** 세팅에서 측정.
 - 절차: (1) `-O3 -g` 재빌드(Django는 CPython 3.x를 pass로 재빌드) → (2) LBR trace + rate trace → (3) plan v4 → 빌드 → 명령 샘플링 → v10 → 빌드 → (4) NOP twin과 5회 A/B.
 - 기대치: MPKI 2–5의 절반을 잡으면 1.5–3.5%. 이 부류에서 5%는 어렵다는 것을 미리 적어 둔다.
 - 알려진 함정: hot 함수를 사이트로 잡으면 명령 +21%(v1); libc 라인은 GOT 형태로라도 넣어야 한다(빼면 이득 2/3 소실); site-exec 가지치기가 오버헤드를 +2%로 묶는다.
 
-### A-3. 링크 단위 통합(fat-static) + 직접 참조
+### A-3. 미래 함수 포인터 기반 코드 prefetch
+
+A-3는 방법 분류이며 alone/interleaved miss regime과 별개다. Scylla의 고 MPKI는 B/interleaved로 유지한다. 후보 등록은 고 MPKI 검증이나 성능 성공을 뜻하지 않는다. [09-24 확장 실험](class_a3_dispatch_20260924.md)은 live queue/handler/engine 타깃과, 읽을 수 있는 미래 깊이가 부족할 때만 허용한 조건부 예측을 구분한다.
+
+- 실행 전에 읽을 수 있는 미래 작업의 함수 주소를 타깃으로 삼는다. 삽입 위치는 정적이어도 타깃 값은 동적이다. FeedSim v2의 lead-4 배열 lookahead가 확인된 사례다.
+- protobuf는 bounds-checked 미래 원소의 virtual Clear 타깃과 reserve/할당 전에 알 수 있는 merge/copy 타깃을 시험한다. source prototype과 자동 compiler 분석의 성과를 구분한다.
+- baseline / 함수 포인터만 / 정적 그래프만 / 결합을 같은 workload와 부하에서 비교한다. 결합 바이너리에서는 두 종류 hint를 각각 제거한 동일 레이아웃 대조군도 사용한다.
+
+09-23–24 확인 실험: FeedSim F +6.13%, G −0.43%(유의하지 않음), 결합 +6.17%; G 추가분 +0.04%(95% CI −0.84~+0.93%). protobuf F −0.46%, 기존 schema G +3.45%, 결합 +2.81%. FeedSim은 F, FleetBench는 G 단독을 유지한다. [A-3 실험 기록](class_a3_campaign_20260923.md).
+
+09-24 dispatch 확장: RPC·MySQL 기본 미래 타깃 스크린은 미통과. Scylla는 queue 다음 주소 가용률 45.22%로 깊이 부족 gate를 통과해 aggressive 예측을 시험했다. 학습 후 고정·4라인 정책의 예측 정확도 97.22%에도 새 5쌍은 **+0.08% [−0.84, +1.01]**로 유의하지 않았다. miss/op −2.45%, 명령/op +1.08%. 이 조건에서는 ≥1%, 특히 3–5% 목표 미달성이다. [정책별 결과와 한계](class_a3_dispatch_20260924.md).
+
+### 구현 1. 링크 단위 통합(fat-static) + 직접 참조
 - 무엇: thrift/mongoc/jaeger/libstdc++를 실행 파일에 정적 링크하고 아카이브 전역 심볼 목록(`PREFETCHIT_COLD_DIRECT_SYMS`)으로 선언만 보이는 callee도 한 명령으로 참조.
 - 효과: 정적 링크 자체가 PLT/GOT 경유·페이지 분산·ITLB walk를 없애 **4–6%**(user-timeline, 공유 세팅 측정치라 C6-off alone에서 재확인 필요). pass는 그 위에서 동작.
 - 제약: .so에는 PC32로 다른 파일을 가리킬 수 없다(bfd/lld 모두 거부) → 라이브러리를 정적 전용으로 다시 빌드해야 한다(`rebuild_deps_static.sh`).
 - 계획: A-2의 모든 서비스 실험은 fat-static 베이스(gs)를 기준으로 하고, "정적 링크 몫"과 "prefetch 몫"을 항상 분리해 보고한다.
 
-### A-4. 다중 타깃 빌드의 타깃별 주입 (MariaDB류)
+### 구현 2. 다중 타깃 빌드의 타깃별 주입 (MariaDB류)
 - 문제: IR pass가 실행 파일 심볼 참조를 넣은 오브젝트가 서버·클라이언트 라이브러리·도구에 함께 링크되어 링크 실패(6회 시도).
 - 계획: (a) plan에 "타깃 이름"을 넣고 `-DPREFETCHIT_TARGET=`으로 서버 TU에서만 주입, 또는 (b) 약한 참조(`.weak` + 0 체크 없는 prefetch는 주소 0이면 무해) — prefetcht는 fault를 내지 않으므로 미해결 심볼을 0으로 두는 `-z undefs` 계열이 실용적. 우선순위 낮음(MPKI 0.8–1.1).
 
-### A-5. 소스가 없는 바이너리 — post-link 재작성기
+### 구현 3. 소스가 없는 바이너리 — post-link 재작성기
 - 무엇: `llvm_prefetchit/tools/postlink/postlink_call_stubs.py`(call 사이트 → stub), `--plt-inplace`, `postlink_trace_plan.py`(LBR plan). 스토어(mongodb/redis/memcached)와 배포 바이너리용.
 - 결과(공유 세팅): stub 방식은 명령 +5.7%로 이득 상쇄(pgo75 1.010x). 계획: 직접 call 사이트는 callee 앞 padding에 prefetch를 두는 방식으로 stub 비용을 1% 이하로 → C6-off alone에서 스토어에 재시도. 우선순위 중.
 
-### A-6. JIT 코드(JVM/php/LuaJIT)
+### 구현 4. JIT 코드(JVM/php/LuaJIT)
 - 우리 AOT pass 밖이다. JVM 쪽(C2에 entry burst 삽입, `jit_prefetch/`)은 DaCapo/Renaissance 40종에서 중립이었고 자작 JCS/WideApi에서만 1.1–1.3x였다.
 - 계획: 이 문서의 범위에서 제외하고 §5의 "테스트 못 한 목록"에 JVM 후보를 남긴다. 다시 열 조건: L1I≈L2I인 워크로드(miss가 L2에서 해결되지 않는 것)를 찾았을 때.
 
-### A-7. 측정 프로그램 (순서)
+### 구현 5. 이전 측정 프로그램 (순서)
 1. Verilator A-1 명령 비용 절감(Machine pass, 1주) → 1.15x → 1.18x 확인.
-2. Django v2 CPython 재빌드 + A-2/A-3(3일) → 2.4 MPKI 위에서 상한 확인.
-3. media C++ 서비스 alone(C6 off)에 A-2/A-3(2일) — B 부류 실험의 베이스도 된다.
+2. Django v2 CPython 재빌드 + A-2/링크 단위 통합(3일) → 2.4 MPKI 위에서 기회 확인.
+3. media C++ 서비스 alone(C6 off)에 A-2/링크 단위 통합(2일) — B 부류 실험의 베이스도 된다.
 4. FeedSim v2 A-2(2일).
 
-### A-8. 레지스터 기반 간접 타깃 prefetch — 어디에 쓸 수 있나 (2026-09-21 측정, `llvm_prefetchit/results/indirect_share_20260921/`)
+### 구현 6. A-3의 기존 간접 타깃 진단 (2026-09-21 측정, `llvm_prefetchit/results/indirect_share_20260921/`)
 
 질문: cross-DSO(GOT 경유) 말고 `prefetcht1 (%reg)` 형태가 필요한 miss가 있는가. L2I miss 샘플의 LBR[0](miss 라인으로 들어온 마지막 taken branch) 종류별 비중:
 
@@ -203,6 +228,8 @@ CloudSuite는 4.0 이미지(2023-06 릴리스: Ubuntu 22, PHP 8.1 JIT, Solr 9.1.
 | DeathStarBench media pool-16 | 오류 허용 0.1%로 2,000 req/s 재측정 완료(§1-B 참고) | — |
 
 ## 6. 추가 후보 리스트업 (2026-09-21, 조사만 하고 실행하지 않음)
+
+2026-09-25 추가: ASPLOS 2025 **Hierarchical Prefetching**의 [11개 구성 대조 목록](hierarchical_prefetch_candidates_20260925.md)을 별도로 등록했다. MySQL/sysbench 외 10개 구성은 당시 미측정이었다. 최초의 실행 보류는 후속 사용자 요청으로 해제했고 [확장 실험](class_a_expansion_20260925.md)에서 진행한다. 아래 BTB-Ferret와 다른 논문이다. 아래 표의 JIT 적용 제한은 09-21 당시 기록이며, 이후 JVM A-2/A-3 적용 결과는 [09-25 보고서](class_a_jvm_fg_20260925.md)를 따른다.
 
 요청 출처 세 가지(OpenMM, ARM core-benchmarks `frontend`, "Prefetching for Hierarchical Branch Target Buffers"의 벤치마크)와 그 밖에 아직 안 해 본 것을 한 표로 모았다.
 "예상"은 이미 측정한 유사 워크로드에서 유추한 값이고, 실행하면 표 §1에 옮긴다.

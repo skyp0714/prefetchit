@@ -46,7 +46,7 @@ latency로 대려면 평균 7개 in-flight면 되고, queue 32–48의 절반 �
 
 | 논문 | 취하는 것 | 우리 맥락에서 바뀌는 것 |
 |---|---|---|
-| **AsmDB** (Ayers+, ISCA'19) | 거리 d = L3 latency(cycle) × IPC(명령 단위), 창 w 안의 후보 중 fan-in 최소·fan-out 최대 지점 선택, fan-out 임계로 가지치기. 측정 L3 76 cycle. 실측 end-to-end 0.5–1% | 그들의 상한 "w ≤ 200 명령"은 L1I(32 KB) self-eviction 때문. 우리는 L2 타깃 + run 안 self-eviction 없음 → 상한은 wake 시점. IPC는 alone IPC(성공 후 상태)로 계산 |
+| **AsmDB** (Ayers+, ISCA'19) | 거리 d = L3 latency(cycle) × IPC(명령 단위), 창 w 안에서 fan-in 비용과 fan-out을 줄이는 지점 선택, 높은 fan-out 가지치기. 측정 L3 76 cycle. code-prefetch 평가는 trace simulation이며, 실측 end-to-end 0.5–1%는 별도의 memcmp 코드 크기 최적화 결과(§4.4) | 약200명령을 넘는 창의 악화는 논문 L1I 구성의 경험적 결과이지 보편적 상한이 아니다. 우리 L2 타깃은 실측 latency·IPC·축출과 wake 시점으로 별도 검증해야 한다. 성공 후 IPC를 이용한 거리는 실험 가설이다 |
 | **I-SPY** (Khan+, MICRO'20) | 주입 창 27–200 cycle 앞(L1I 기준); **context 조건부** prefetch(직전 32 basic block의 해시)로 accuracy↑; **coalescing**(8라인 창의 비연속 라인 묶기, 비연속 8이 연속 8보다 7.6% 우세); AsmDB식 무조건 삽입은 코드 footprint +13.7% | 새 ISA 없이 context를 얻는 방법 = **사이트를 handler/generated 코드의 call 경계에 둔다**(호출 문맥이 곧 context). coalescing은 128 B 페어(L2 adjacent-line prefetcher) + 표 방식 burst로 대신 |
 | **PDIP** (Godala+, ASPLOS'24) | FDIP가 못 가리는 miss = resteer(분기 예측 실패·BTB miss) 직후의 라인; trigger = 마지막 taken branch; prefetch queue는 demand용 MSHR이 모자라면 **drop** | cold run에서는 BTB도 cold라 사실상 모든 불연속이 resteer → "84% taken-branch 타깃" 관측과 일치. 타깃 = 불연속의 첫 라인, 그 뒤 순차 라인은 HW에 맡긴다 |
 | **RDIP** (Kolli+, MICRO'13) | 호출 스택 서명(RAS 상위 4개 XOR)이 다음 miss 집합을 강하게 예측; 서명 전이 시 다음 서명의 miss 집합을 prefetch | 소프트웨어 판: **call 복귀 지점**(스택 서명이 바뀌는 곳)을 사이트로, "그 지점 이후 d 라인 뒤에 처음 닿는 라인들"을 타깃으로 |
