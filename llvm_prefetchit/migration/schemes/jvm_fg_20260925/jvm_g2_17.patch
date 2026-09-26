@@ -1,0 +1,332 @@
+--- a/src/hotspot/cpu/x86/globals_x86.hpp
++++ b/src/hotspot/cpu/x86/globals_x86.hpp
+@@ -101,6 +101,51 @@
+   product(bool, UseStoreImmI16, true,                                       \
+           "Use store immediate 16-bits value instruction on x86")           \
+                                                                             \
++  product(bool, PrefetchGraphApplicationOnly, true, \
++          "Skip java/jdk/sun root methods in graph prefetch selection") \
++                                                                          \
++  product(bool, PrefetchGraphPrint, false, \
++          "Print selected graph/future sites in diagnostic runs") \
++                                                                          \
++  product(bool, PrefetchGraph, false, \
++          "Entry prefetch of static resolved callee graph") \
++                                                                          \
++  product(bool, PrefetchFuture, false, \
++          "Entry prefetch of future parameter/final-field receiver") \
++                                                                          \
++  product(bool, PrefetchGraphIR, false, \
++          "Select only direct calls surviving C2 optimization") \
++                                                                            \
++  product(bool, PrefetchFutureLive, false, \
++          "Admit future receivers only for surviving root calls") \
++                                                                            \
++  product(bool, PrefetchGraphNOP, false, \
++          "Keep hint byte lengths and target lookup, replace hints by NOP") \
++                                                                          \
++  product(intx, PrefetchGraphTargets, 1, \
++          "Max distinct graph/future targets per entry") \
++          range(1, 8) \
++                                                                          \
++  product(intx, PrefetchGraphLines, 2, \
++          "Target code lines to prefetch") \
++          range(1, 4) \
++                                                                          \
++  product(intx, PrefetchGraphMinCaller, 64, \
++          "Minimum root bytecode size") \
++          range(0, 65535) \
++                                                                          \
++  product(intx, PrefetchGraphMinCallee, 64, \
++          "Minimum direct callee bytecode size") \
++          range(0, 65535) \
++                                                                          \
++  product(intx, PrefetchGraphMinBCI, 16, \
++          "Minimum target call bytecode offset") \
++          range(0, 65535) \
++                                                                          \
++  product(intx, PrefetchGraphMaxBCI, 192, \
++          "Maximum target call bytecode offset") \
++          range(0, 65535) \
++                                                                          \
+   product(bool, PrefetchRetTarget, false,                                   \
+           "Emit prefetcht1 of the return-target code lines before "        \
+           "C2-compiled Java calls (prefetchit V1)")                         \
+--- a/src/hotspot/cpu/x86/x86_64.ad
++++ b/src/hotspot/cpu/x86/x86_64.ad
+@@ -334,6 +334,10 @@
+ %}
+ 
+ source %{
++#include "opto/block.hpp"
++#include "opto/parse.hpp"
++#include "ci/ciStreams.hpp"
++#include "ci/ciField.hpp"
+ #define   RELOC_IMM64    Assembler::imm_operand
+ #define   RELOC_DISP32   Assembler::disp32_operand
+ 
+@@ -934,6 +938,230 @@
+ }
+ #endif
+ 
++// Experimental entry-anchored code prefetch. No execution of future targets.
++// G: resolved static/special edges from the root method's bytecode call graph.
++// F: actual virtual/interface receiver already present in an unchanged entry
++// parameter, optionally through one final reference field. No history profile.
++// Restrict to register arguments and simple contiguous reference-load sequences.
++// This deliberately does NOT claim to handle arbitrary queued future tasks.
++static void fg_hint(MacroAssembler& masm, Address adr) {
++  address start = masm.pc();
++  masm.prefetcht1(adr);
++  if (PrefetchGraphNOP) {
++    const int n = (int)(masm.pc() - start);
++    // One architectural NOP per hint, preserving BOTH instruction count and
++    // byte length. A stream of 0x90 would bias frontend/retirement overhead.
++    static const unsigned char nop3[] = {0x0f,0x1f,0x00};
++    static const unsigned char nop4[] = {0x0f,0x1f,0x40,0x00};
++    static const unsigned char nop5[] = {0x0f,0x1f,0x44,0x00,0x00};
++    static const unsigned char nop7[] = {0x0f,0x1f,0x80,0,0,0,0};
++    static const unsigned char nop8[] = {0x0f,0x1f,0x84,0,0,0,0,0};
++    const unsigned char* bytes = n==3 ? nop3 : n==4 ? nop4 : n==5 ? nop5 : n==7 ? nop7 : n==8 ? nop8 : NULL;
++    guarantee(bytes != NULL, "unexpected prefetch hint size");
++    memcpy(start,bytes,n);
++  }
++}
++
++// Candidate G2: only direct Java calls that survive C2 optimization/inlining.
++// Selection has no external profile; ordinary HotSpot optimization can itself
++// use its normal runtime type profiles. Do not call this a profile-free JVM.
++static void emit_live_graph_entry(Compile* C, MacroAssembler& masm) {
++  if (!PrefetchGraph || !PrefetchGraphIR || C->cfg() == NULL) return;
++  ciMethod* chosen[8]; int bcis[8]; int count = 0;
++  for (uint b=0; b<C->cfg()->number_of_blocks(); ++b) {
++    Block* block=C->cfg()->get_block(b);
++    for (uint i=0; i<block->number_of_nodes(); ++i) {
++      Node* n=block->get_node(i);
++      if (!n->is_MachCallStaticJava()) continue;
++      MachCallJavaNode* call=n->as_MachCallJava();
++      ciMethod* target=call->_method;
++      if (target==NULL || target==C->method() || !target->is_loaded() ||
++          !target->holder()->is_linked() || target->is_native() || target->is_abstract() ||
++          target->code_size()<PrefetchGraphMinCallee || call->jvms()==NULL) continue;
++      JVMState* state=call->jvms()->of_depth(1);
++      if (state==NULL || !state->has_method() || state->method()!=C->method()) continue;
++      int bc=state->bci();
++      if (bc<PrefetchGraphMinBCI || bc>PrefetchGraphMaxBCI) continue;
++      bool duplicate=false;
++      for (int j=0;j<count;++j) duplicate |= chosen[j]==target;
++      if (duplicate) continue;
++      int pos=count;
++      for (int j=0;j<count;++j) if (bc<bcis[j]) {pos=j;break;}
++      if (pos>=PrefetchGraphTargets) continue;
++      int end=MIN2(count,(int)PrefetchGraphTargets-1);
++      for (int j=end;j>pos;--j) {chosen[j]=chosen[j-1];bcis[j]=bcis[j-1];}
++      chosen[pos]=target;bcis[pos]=bc;
++      count=MIN2(count+1,(int)PrefetchGraphTargets);
++    }
++  }
++  for (int i=0;i<count;++i) {
++    if (PrefetchGraphPrint && !C->output()->in_scratch_emit_size())
++      tty->print_cr("FG G2 %s.%s -> %s.%s bci=%d", C->method()->holder()->name()->as_utf8(), C->method()->name()->as_utf8(),chosen[i]->holder()->name()->as_utf8(),chosen[i]->name()->as_utf8(),bcis[i]);
++    masm.mov_metadata(rscratch1,chosen[i]->constant_encoding());
++    masm.movptr(rscratch1,Address(rscratch1,Method::from_compiled_offset()));
++    for (int j=0;j<PrefetchGraphLines;++j) fg_hint(masm,Address(rscratch1,j*64));
++  }
++}
++
++// F2 admission: the receiver's own root bytecode call must survive inlining.
++// Do not confuse calls inside an inlined callee (same root BCI) with the original
++// receiver call. The original target itself must still be fetched/executed.
++static bool future_call_survives(Compile* C, int bci) {
++  if (!PrefetchFutureLive) return true;
++  if (C->cfg()==NULL) return false;
++  // A fallback call can survive alongside inlined profiled receivers. Skip
++  // the entire original site if any root callee was inlined at this BCI.
++  if (C->ilt()!=NULL) {
++    GrowableArray<InlineTree*> children=C->ilt()->subtrees();
++    for (int i=0;i<children.length();++i)
++      if (children.at(i)->caller_bci()==bci) return false;
++  }
++  for (uint b=0;b<C->cfg()->number_of_blocks();++b) {
++    Block* block=C->cfg()->get_block(b);
++    for (uint i=0;i<block->number_of_nodes();++i) {
++      Node* n=block->get_node(i);
++      if (!n->is_MachCallJava()) continue;
++      MachCallJavaNode* call=n->as_MachCallJava();
++      JVMState* st=call->jvms();
++      if (st!=NULL && st->depth()==1 && st->has_method() && st->method()==C->method() && st->bci()==bci)
++        return true;
++    }
++  }
++  return false;
++}
++
++static int fg_aload(ciBytecodeStream& s) {
++  if (s.cur_bc() == Bytecodes::_aload) return s.get_index();
++  if (s.cur_bc() >= Bytecodes::_aload_0 && s.cur_bc() <= Bytecodes::_aload_3)
++    return s.cur_bc() - Bytecodes::_aload_0;
++  return -1;
++}
++
++static void emit_future_entry(Compile* C, MacroAssembler& masm) {
++  if ((!UseG1GC && !UseParallelGC && !UseSerialGC) || (!PrefetchGraph && !PrefetchFuture) || C->method() == NULL ||
++      C->is_osr_compilation() || C->method()->is_native() ||
++      C->method()->code_size() < PrefetchGraphMinCaller) return;
++  ciMethod* caller = C->method();
++  const char* holder_name = caller->holder()->name()->as_utf8();
++  if (PrefetchGraphApplicationOnly &&
++      (strncmp(holder_name,"java/",5)==0 || strncmp(holder_name,"jdk/",4)==0 || strncmp(holder_name,"sun/",4)==0)) return;
++  emit_live_graph_entry(C,masm);
++  const int limit = 32;
++  Register input[limit]; ciKlass* types[limit]; bool modified[limit];
++  for (int i = 0; i < limit; ++i) { input[i] = noreg; types[i] = NULL; modified[i] = false; }
++  Register arg_regs[] = {j_rarg0,j_rarg1,j_rarg2,j_rarg3,j_rarg4,j_rarg5};
++  int slot = 0, ir = 0;
++  if (!caller->is_static()) { input[slot] = arg_regs[ir++]; types[slot++] = caller->holder(); }
++  ciSignature* sig = caller->signature();
++  for (int i = 0; i < sig->count() && slot < limit; ++i) {
++    ciType* ty = sig->type_at(i); BasicType bt = ty->basic_type();
++    if (bt != T_FLOAT && bt != T_DOUBLE) {
++      if (is_reference_type(bt) && ir < 6 && ty->is_loaded()) {
++        input[slot] = arg_regs[ir]; types[slot] = ty->as_klass();
++      }
++      ++ir;
++    }
++    slot += type2size[bt];
++  }
++  // An entry value is only a valid future receiver if its local is never reassigned.
++  ciBytecodeStream stores(caller);
++  while (stores.next() != ciBytecodeStream::EOBC()) {
++    int ix = -1; Bytecodes::Code bc = stores.cur_bc();
++    if (bc == Bytecodes::_astore) ix = stores.get_index();
++    if (bc >= Bytecodes::_astore_0 && bc <= Bytecodes::_astore_3) ix = bc - Bytecodes::_astore_0;
++    // JVM local slots may be reused for primitive values on another path.
++    if (bc >= Bytecodes::_istore && bc <= Bytecodes::_dstore) ix = stores.get_index();
++    if (bc >= Bytecodes::_istore_0 && bc <= Bytecodes::_dstore_3) ix = (bc - Bytecodes::_istore_0) % 4;
++    if (bc == Bytecodes::_iinc) ix = stores.get_index();
++    if (ix >= 0 && ix < limit) modified[ix] = true;
++    if ((bc == Bytecodes::_lstore || bc == Bytecodes::_dstore ||
++         (bc >= Bytecodes::_lstore_0 && bc <= Bytecodes::_lstore_3) ||
++         (bc >= Bytecodes::_dstore_0 && bc <= Bytecodes::_dstore_3)) && ix >= 0 && ix+1 < limit)
++      modified[ix+1] = true;
++  }
++  struct Receiver { int local; ciField* field; ciKlass* type; };
++  Receiver stack[16]; int sp = 0, count_g = 0, count_f = 0;
++  ciMethod* seen_g[8]; ciMethod* seen_f[8];
++  ciBytecodeStream s(caller);
++  while (s.next() != ciBytecodeStream::EOBC()) {
++    Bytecodes::Code bc = s.cur_bc(); int local = fg_aload(s);
++    if (local >= 0 && local < limit && sp < 16) {
++      stack[sp++] = {local, NULL, types[local]}; continue;
++    }
++    if (bc == Bytecodes::_getfield && sp > 0) {
++      bool links = false; ciField* f = s.get_field(links); Receiver& r = stack[sp-1];
++      if (links && f->is_final() && !f->is_static() && r.field == NULL && r.type != NULL &&
++          r.type->is_loaded() && r.type->is_subtype_of(f->holder()) &&
++          is_reference_type(f->layout_type()) && f->type()->is_loaded()) {
++        r.field = f; r.type = f->type()->as_klass(); continue;
++      }
++      sp = 0; continue;
++    }
++    bool direct = bc == Bytecodes::_invokestatic || bc == Bytecodes::_invokespecial;
++    bool dynamic = bc == Bytecodes::_invokevirtual || bc == Bytecodes::_invokeinterface;
++    if (direct || dynamic) {
++      bool links = false; ciSignature* declared = NULL; ciMethod* target = s.get_method(links, &declared);
++      if (links && target->is_loaded() && target->holder()->is_linked() &&
++          !target->is_native() && s.cur_bci() >= PrefetchGraphMinBCI && s.cur_bci() <= PrefetchGraphMaxBCI) {
++        if (direct && PrefetchGraph && !PrefetchGraphIR && count_g < PrefetchGraphTargets &&
++            !target->is_abstract() && target->code_size() >= PrefetchGraphMinCallee) {
++          bool duplicate = target == caller;
++          for (int j=0; j<count_g; ++j) duplicate |= seen_g[j] == target;
++          if (!duplicate) {
++            seen_g[count_g++] = target;
++            if (PrefetchGraphPrint && !C->output()->in_scratch_emit_size())
++              tty->print_cr("FG G %s.%s -> %s.%s bci=%d", caller->holder()->name()->as_utf8(), caller->name()->as_utf8(), target->holder()->name()->as_utf8(), target->name()->as_utf8(), s.cur_bci());
++            masm.mov_metadata(rscratch1, target->constant_encoding());
++            masm.movptr(rscratch1, Address(rscratch1, Method::from_compiled_offset()));
++            for (int j=0; j<PrefetchGraphLines; ++j) {
++              fg_hint(masm, Address(rscratch1, j*64));
++            }
++          }
++        }
++        // Only a contiguous sequence of reference loads is interpreted here.
++        // Non-reference argument preparation or any unknown opcode clears sp.
++        int nargs = target->signature()->size();
++        if (dynamic && PrefetchFuture && future_call_survives(C,s.cur_bci()) && count_f < PrefetchGraphTargets && sp == nargs+1) {
++          Receiver r = stack[0]; bool duplicate = false;
++          for (int j=0; j<count_f; ++j) duplicate |= seen_f[j] == target;
++          int vi = (bc == Bytecodes::_invokevirtual) ? target->vtable_index() : -1;
++          int ii = (bc == Bytecodes::_invokeinterface) ? target->prefetch_itable_index() : -1;
++          if (!duplicate && r.local >= 0 && input[r.local] != noreg && !modified[r.local] &&
++              r.type != NULL && r.type->is_loaded() && r.type->is_subtype_of(target->holder()) &&
++              ((vi >= 0) || (ii >= 0))) {
++            seen_f[count_f++] = target;
++            if (PrefetchGraphPrint && !C->output()->in_scratch_emit_size())
++              tty->print_cr("FG F %s.%s -> %s.%s bci=%d local=%d field=%s", caller->holder()->name()->as_utf8(), caller->name()->as_utf8(), target->holder()->name()->as_utf8(), target->name()->as_utf8(), s.cur_bci(), r.local, r.field == NULL ? "-" : r.field->name()->as_utf8());
++            Label skip;
++            // rax/rbx/r10/r11 are caller-saved in the Java ABI and none is
++            // an incoming Java argument. No push/pop after frame_complete:
++            // asynchronous frame walkers must always see the declared SP.
++            masm.movptr(rscratch1, input[r.local]);
++            masm.testptr(rscratch1,rscratch1); masm.jcc(Assembler::zero,skip);
++            if (r.field != NULL) {
++              masm.load_heap_oop(rscratch1, Address(rscratch1,r.field->offset()), rscratch2, rax, AS_NORMAL);
++              masm.testptr(rscratch1,rscratch1); masm.jcc(Assembler::zero,skip);
++            }
++            masm.load_klass(rscratch1,rscratch1,rscratch2);
++            if (vi >= 0) masm.lookup_virtual_method(rscratch1,vi,rax);
++            else {
++              masm.mov_metadata(rscratch2,target->holder()->constant_encoding());
++              masm.lookup_interface_method(rscratch1,rscratch2,ii,rax,rbx,skip);
++            }
++            masm.testptr(rax,rax); masm.jcc(Assembler::zero,skip);
++            masm.movptr(rax,Address(rax,Method::from_compiled_offset()));
++            for (int j=0; j<PrefetchGraphLines; ++j) {
++              fg_hint(masm, Address(rax,j*64));
++            }
++            masm.bind(skip);
++          }
++        }
++      }
++    }
++    sp = 0;
++  }
++}
++
+ void MachPrologNode::emit(CodeBuffer &cbuf, PhaseRegAlloc *ra_) const {
+   Compile* C = ra_->C;
+   MacroAssembler _masm(&cbuf);
+@@ -966,6 +1194,8 @@
+     ConstantTable& constant_table = C->output()->constant_table();
+     constant_table.set_table_base_offset(constant_table.calculate_table_base_offset());
+   }
++
++  emit_future_entry(C, _masm);
+ 
+   // prefetchit V4: burst-prefetcht1 this method's own body from the entry,
+   // giving the interior lines a head start equal to the execution time to
+--- a/src/hotspot/share/ci/ciMethod.hpp
++++ b/src/hotspot/share/ci/ciMethod.hpp
+@@ -232,6 +232,7 @@
+ 
+   // Runtime information.
+   int           vtable_index();
++  int           prefetch_itable_index();
+ 
+   // Analysis and profiling.
+   //
+--- a/src/hotspot/share/ci/ciMethod.cpp
++++ b/src/hotspot/share/ci/ciMethod.cpp
+@@ -278,6 +278,12 @@
+   assert(holder()->is_linked(), "must be linked");
+   VM_ENTRY_MARK;
+   return get_Method()->vtable_index();
++}
++
++int ciMethod::prefetch_itable_index() {
++  check_is_loaded();
++  VM_ENTRY_MARK;
++  return get_Method()->has_itable_index() ? get_Method()->itable_index() : -1;
+ }
+ 
+ // ------------------------------------------------------------------
