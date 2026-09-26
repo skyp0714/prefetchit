@@ -1,0 +1,24 @@
+{
+  "reason": "All three kernel T1 screen policies lacked net pool CPU benefit. No performance promotion; single-block exploratory evidence does not establish an absolute upper bound.",
+  "target_reductions_pct": [
+    0.3203,
+    -1.2543,
+    0.1148
+  ],
+  "pool_reductions_pct": [
+    -0.3477,
+    -0.1304,
+    -0.507
+  ],
+  "files": [
+    {
+      "path": "/home/hnpark2/prefetchit/llvm_prefetchit/kernel/wake_prefetch/wake_prefetch.ko",
+      "bytes": 391160,
+      "sha256": "e85fd7be2e282ea60f00a72fc1d0c290feab57f3825cd794be85b0e42f153d88"
+    }
+  ],
+  "source": "Committed wake_prefetch source/UAPI/controller and retained build log/hash; module already unloaded",
+  "free_before": 17448353792,
+  "bytes_removed": 391160,
+  "free_after": 17448747008
+}

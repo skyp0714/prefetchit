@@ -1,0 +1,96 @@
+{
+  "profiles": [
+    {
+      "syscall_nr": 7,
+      "ip_start": 132140282109215,
+      "ip_end": 132140282109216,
+      "lines": [
+        95373343875328,
+        95373343879872,
+        132140282109184,
+        132140281551360,
+        132140282169024,
+        132140282169088,
+        132140281551232,
+        132140281551296,
+        132140282169152,
+        132140282689664,
+        132140282689728
+      ]
+    },
+    {
+      "syscall_nr": 45,
+      "ip_start": 132140282169166,
+      "ip_end": 132140282169167,
+      "lines": [
+        95373346123328,
+        95373346121216,
+        95373346097472,
+        95373346087552,
+        95373346121344,
+        95373346127168,
+        95373346270912,
+        95373346123264,
+        132140281640128,
+        95373346120384,
+        95373343875328,
+        95373346122688,
+        95373346272640,
+        95373346125184,
+        95373346272704,
+        95373346102528
+      ]
+    },
+    {
+      "syscall_nr": 202,
+      "ip_start": 132140281553111,
+      "ip_end": 132140281553112,
+      "lines": [
+        95373346505216,
+        95373347024640,
+        95373343881152,
+        95373345490496,
+        95373345472448,
+        95373343877248,
+        95373345472384,
+        95373345818752,
+        95373346551168,
+        95373346498176,
+        95373343876352,
+        95373343875328,
+        95373345691776,
+        95373345820544,
+        95373347032896,
+        95373345691328
+      ]
+    },
+    {
+      "syscall_nr": 44,
+      "ip_start": 132140282169742,
+      "ip_end": 132140282169743,
+      "lines": [
+        132140281635712,
+        132140282169728,
+        132140281551360,
+        132140281635776,
+        132140281635840,
+        132140281624128,
+        132140281624192,
+        132140281624256,
+        132140281624320,
+        132140281624512,
+        132140281624448,
+        132140281551232,
+        132140281551296
+      ]
+    }
+  ],
+  "audit": {
+    "mapped_binary_hashes": {
+      "/custom/UserTimelineService": "4775b98c08cce7e4279a13aabf5aaf404e099ab5760b3fabea1a508625f13f00",
+      "/usr/lib/x86_64-linux-gnu/libc.so.6": "b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793"
+    },
+    "maps": "56bdd63eb000-56bdd6486000 r--p 00000000 103:05 48267756                  /custom/UserTimelineService\n56bdd6486000-56bdd67ad000 r-xp 0009b000 103:05 48267756                  /custom/UserTimelineService\n56bdd67ad000-56bdd689c000 r--p 003c2000 103:05 48267756                  /custom/UserTimelineService\n56bdd689c000-56bdd68b3000 r--p 004b0000 103:05 48267756                  /custom/UserTimelineService\n56bdd68b3000-56bdd68b5000 rw-p 004c7000 103:05 48267756                  /custom/UserTimelineService\n56bdd68b5000-56bdd68c1000 rw-p 00000000 00:00 0 \n56be072e5000-56be073fc000 rw-p 00000000 00:00 0                          [heap]\n782e44000000-782e44021000 rw-p 00000000 00:00 0 \n782e44021000-782e48000000 ---p 00000000 00:00 0 \n782e4b7f4000-782e4b7f5000 ---p 00000000 00:00 0 \n782e4b7f5000-782e4bff5000 rw-p 00000000 00:00 0 \n782e4bff5000-782e4bff6000 ---p 00000000 00:00 0 \n782e4bff6000-782e4c7f6000 rw-p 00000000 00:00 0 \n782e4c7f6000-782e4c816000 r--p 00000000 00:d7 28352601                   /usr/lib/x86_64-linux-gnu/libdb-5.3.so\n782e4c816000-782e4c957000 r-xp 00020000 00:d7 28352601                   /usr/lib/x86_64-linux-gnu/libdb-5.3.so\n782e4c957000-782e4c99d000 r--p 00161000 00:d7 28352601                   /usr/lib/x86_64-linux-gnu/libdb-5.3.so\n782e4c99d000-782e4c9a4000 r--p 001a6000 00:d7 28352601                   /usr/lib/x86_64-linux-gnu/libdb-5.3.so\n782e4c9a4000-782e4c9a5000 rw-p 001ad000 00:d7 28352601                   /usr/lib/x86_64-linux-gnu/libdb-5.3.so\n782e4c9a5000-782e4c9a7000 r--p 00000000 00:d7 28592061                   /usr/lib/x86_64-linux-gnu/sasl2/libsasldb.so.2.0.25\n782e4c9a7000-782e4c9aa000 r-xp 00002000 00:d7 28592061                   /usr/lib/x86_64-linux-gnu/sasl2/libsasldb.so.2.0.25\n782e4c9aa000-782e4c9ac000 r--p 00005000 00:d7 28592061                   /usr/lib/x86_64-linux-gnu/sasl2/libsasldb.so.2.0.25\n782e4c9ac000-782e4c9ad000 r--p 00006000 00:d7 28592061                   /usr/lib/x86_64-linux-gnu/sasl2/libsasldb.so.2.0.25\n782e4c9ad000-782e4c9ae000 rw-p 00007000 00:d7 28592061                   /usr/lib/x86_64-linux-gnu/sasl2/libsasldb.so.2.0.25\n782e4c9ae000-782e4c9b3000 rw-p 00000000 00:00 0 \n782e4c9b3000-782e4c9b6000 r--p 00000000 00:d7 28352615                   /usr/lib/x86_64-linux-gnu/libgcc_s.so.1\n782e4c9b6000-782e4c9cd000 r-xp 00003000 00:d7 28352615                   /usr/lib/x86_64-linux-gnu/libgcc_s.so.1\n782e4c9cd000-782e4c9d1000 r--p 0001a000 00:d7 28352615                   /usr/lib/x86_64-linux-gnu/libgcc_s.so.1\n782e4c9d1000-782e4c9d2000 r--p 0001d000 00:d7 28352615                   /usr/lib/x86_64-linux-gnu/libgcc_s.so.1\n782e4c9d2000-782e4c9d3000 rw-p 0001e000 00:d7 28352615                   /usr/lib/x86_64-linux-gnu/libgcc_s.so.1\n782e4c9d3000-782e4ca6d000 r--p 00000000 00:d7 28352699                   /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30\n782e4ca6d000-782e4cb7e000 r-xp 0009a000 00:d7 28352699                   /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30\n782e4cb7e000-782e4cbed000 r--p 001ab000 00:d7 28352699                   /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30\n782e4cbed000-782e4cbee000 ---p 0021a000 00:d7 28352699                   /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30\n782e4cbee000-782e4cbf9000 r--p 0021a000 00:d7 28352699                   /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30\n782e4cbf9000-782e4cbfc000 rw-p 00225000 00:d7 28352699                   /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30\n782e4cbfc000-782e4cbff000 rw-p 00000000 00:00 0 \n782e4cbff000-782e4cc00000 r--p 00000000 00:d7 28589627                   /usr/lib/x86_64-linux-gnu/libicudata.so.70.1\n782e4cc00000-782e4cc01000 r-xp 00001000 00:d7 28589627                   /usr/lib/x86_64-linux-gnu/libicudata.so.70.1\n782e4cc01000-782e4e81b000 r--p 00002000 00:d7 28589627                   /usr/lib/x86_64-linux-gnu/libicudata.so.70.1\n782e4e81b000-782e4e81c000 r--p 01c1b000 00:d7 28589627                   /usr/lib/x86_64-linux-gnu/libicudata.so.70.1\n782e4e81c000-782e4e81d000 rw-p 01c1c000 00:d7 28589627                   /usr/lib/x86_64-linux-gnu/libicudata.so.70.1\n782e4e81d000-782e4e845000 r--p 00000000 00:d7 28589504                   /usr/lib/x86_64-linux-gnu/libc.so.6\n782e4e845000-782e4e9da000 r-xp 00028000 00:d7 28589504                   /usr/lib/x86_64-linux-gnu/libc.so.6\n782e4e9da000-782e4ea32000 r--p 001bd000 00:d7 28589504                   /usr/lib/x86_64-linux-gnu/libc.so.6\n782e4ea32000-782e4ea33000 ---p 00215000 00:d7 28589504                   /usr/lib/x86_64-linux-gnu/libc.so.6\n782e4ea33000-782e4ea37000 r--p 00215000 00:d7 28589504                   /usr/lib/x86_64-linux-gnu/libc.so.6\n782e4ea37000-782e4ea39000 rw-p 00219000 00:d7 28589504                   /usr/lib/x86_64-linux-gnu/libc.so.6\n782e4ea39000-782e4ea46000 rw-p 00000000 00:00 0 \n782e4ea46000-782e4eaac000 r--p 00000000 00:d7 28589647                   /usr/lib/x86_64-linux-gnu/libicuuc.so.70.1\n782e4eaac000-782e4eb9f000 r-xp 00066000 00:d7 28589647                   /usr/lib/x86_64-linux-gnu/libicuuc.so.70.1\n782e4eb9f000-782e4ec2b000 r--p 00159000 00:d7 28589647                   /usr/lib/x86_64-linux-gnu/libicuuc.so.70.1\n782e4ec2b000-782e4ec3e000 r--p 001e4000 00:d7 28589647                   /usr/lib/x86_64-linux-gnu/libicuuc.so.70.1\n782e4ec3e000-782e4ec3f000 rw-p 001f7000 00:d7 28589647                   /usr/lib/x86_64-linux-gnu/libicuuc.so.70.1\n782e4ec3f000-782e4ec41000 rw-p 00000000 00:00 0 \n782e4ec41000-782e4ec44000 r--p 00000000 00:d7 28589831                   /usr/lib/x86_64-linux-gnu/libresolv.so.2\n782e4ec44000-782e4ec4d000 r-xp 00003000 00:d7 28589831                   /usr/lib/x86_64-linux-gnu/libresolv.so.2\n782e4ec4d000-782e4ec50000 r--p 0000c000 00:d7 28589831                   /usr/lib/x86_64-linux-gnu/libresolv.so.2\n782e4ec50000-782e4ec51000 r--p 0000e000 00:d7 28589831                   /usr/lib/x86_64-linux-gnu/libresolv.so.2\n782e4ec51000-782e4ec52000 rw-p 0000f000 00:d7 28589831                   /usr/lib/x86_64-linux-gnu/libresolv.so.2\n782e4ec52000-782e4ec56000 rw-p 00000000 00:00 0 \n782e4ec56000-782e4ec58000 r--p 00000000 00:d7 28352721                   /usr/lib/x86_64-linux-gnu/libz.so.1.2.11\n782e4ec58000-782e4ec69000 r-xp 00002000 00:d7 28352721                   /usr/lib/x86_64-linux-gnu/libz.so.1.2.11\n782e4ec69000-782e4ec6f000 r--p 00013000 00:d7 28352721                   /usr/lib/x86_64-linux-gnu/libz.so.1.2.11\n782e4ec6f000-782e4ec70000 ---p 00019000 00:d7 28352721                   /usr/lib/x86_64-linux-gnu/libz.so.1.2.11\n782e4ec70000-782e4ec71000 r--p 00019000 00:d7 28352721                   /usr/lib/x86_64-linux-gnu/libz.so.1.2.11\n782e4ec71000-782e4ec72000 rw-p 0001a000 00:d7 28352721                   /usr/lib/x86_64-linux-gnu/libz.so.1.2.11\n782e4ec72000-782e4ed24000 r--p 00000000 00:d7 28352600                   /usr/lib/x86_64-linux-gnu/libcrypto.so.3\n782e4ed24000-782e4ef83000 r-xp 000b2000 00:d7 28352600                   /usr/lib/x86_64-linux-gnu/libcrypto.so.3\n782e4ef83000-782e4f055000 r--p 00311000 00:d7 28352600                   /usr/lib/x86_64-linux-gnu/libcrypto.so.3\n782e4f055000-782e4f0b0000 r--p 003e2000 00:d7 28352600                   /usr/lib/x86_64-linux-gnu/libcrypto.so.3\n782e4f0b0000-782e4f0b3000 rw-p 0043d000 00:d7 28352600                   /usr/lib/x86_64-linux-gnu/libcrypto.so.3\n782e4f0b3000-782e4f0b6000 rw-p 00000000 00:00 0 \n782e4f0b6000-782e4f0d4000 r--p 00000000 00:d7 28352697                   /usr/lib/x86_64-linux-gnu/libssl.so.3\n782e4f0d4000-782e4f12f000 r-xp 0001e000 00:d7 28352697                   /usr/lib/x86_64-linux-gnu/libssl.so.3\n782e4f12f000-782e4f14c000 r--p 00079000 00:d7 28352697                   /usr/lib/x86_64-linux-gnu/libssl.so.3\n782e4f14c000-782e4f156000 r--p 00095000 00:d7 28352697                   /usr/lib/x86_64-linux-gnu/libssl.so.3\n782e4f156000-782e4f15a000 rw-p 0009f000 00:d7 28352697                   /usr/lib/x86_64-linux-gnu/libssl.so.3\n782e4f15a000-782e4f15d000 r--p 00000000 00:d7 28589840                   /usr/lib/x86_64-linux-gnu/libsasl2.so.2.0.25\n782e4f15d000-782e4f16e000 r-xp 00003000 00:d7 28589840                   /usr/lib/x86_64-linux-gnu/libsasl2.so.2.0.25\n782e4f16e000-782e4f173000 r--p 00014000 00:d7 28589840                   /usr/lib/x86_64-linux-gnu/libsasl2.so.2.0.25\n782e4f173000-782e4f174000 r--p 00018000 00:d7 28589840                   /usr/lib/x86_64-linux-gnu/libsasl2.so.2.0.25\n782e4f174000-782e4f175000 rw-p 00019000 00:d7 28589840                   /usr/lib/x86_64-linux-gnu/libsasl2.so.2.0.25\n782e4f175000-782e4f183000 r--p 00000000 00:d7 28589673                   /usr/lib/x86_64-linux-gnu/libm.so.6\n782e4f183000-782e4f1ff000 r-xp 0000e000 00:d7 28589673                   /usr/lib/x86_64-linux-gnu/libm.so.6\n782e4f1ff000-782e4f25a000 r--p 0008a000 00:d7 28589673                   /usr/lib/x86_64-linux-gnu/libm.so.6\n782e4f25a000-782e4f25b000 r--p 000e4000 00:d7 28589673                   /usr/lib/x86_64-linux-gnu/libm.so.6\n782e4f25b000-782e4f25c000 rw-p 000e5000 00:d7 28589673                   /usr/lib/x86_64-linux-gnu/libm.so.6\n782e4f25c000-782e4f263000 rw-s 00000000 00:631 2                         /dev/shm/mongoc-1\n782e4f263000-782e4f265000 rw-p 00000000 00:00 0 \n782e4f265000-782e4f267000 r--p 00000000 00:d7 28589191                   /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2\n782e4f267000-782e4f291000 r-xp 00002000 00:d7 28589191                   /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2\n782e4f291000-782e4f29c000 r--p 0002c000 00:d7 28589191                   /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2\n782e4f29d000-782e4f29f000 r--p 00037000 00:d7 28589191                   /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2\n782e4f29f000-782e4f2a1000 rw-p 00039000 00:d7 28589191                   /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2\n7ffe864af000-7ffe864d0000 rw-p 00000000 00:00 0                          [stack]\n7ffe8657e000-7ffe86582000 r--p 00000000 00:00 0                          [vvar]\n7ffe86582000-7ffe86584000 r-xp 00000000 00:00 0                          [vdso]\nffffffffff600000-ffffffffff601000 --xp 00000000 00:00 0                  [vsyscall]\n"
+  },
+  "plan_sha256": "996adc623946ed85c78f10b5b067a34e53ede5c1f3296b0dc1847c270e4f29b4"
+}

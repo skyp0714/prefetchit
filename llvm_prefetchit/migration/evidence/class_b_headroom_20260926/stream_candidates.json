@@ -1,0 +1,77 @@
+{
+  "accuracy": {
+    "binary": "/storage/prefetchit/class_b_extension_20260926/social_build/usertimeline/headroom_accuracy/UserTimelineService",
+    "nop": "/storage/prefetchit/class_b_extension_20260926/social_build/usertimeline/headroom_accuracy/UserTimelineService.nop",
+    "binary_sha256": "0569a35c755ba4c13723172d661a12a0f543a56a466e33cf2d591891225df2e5",
+    "nop_sha256": "6abef55e20929f1b4655b3f79c12600cee60867f4798cfd3578323aa2a6abb2d",
+    "plan": "/storage/prefetchit/class_b_extension_20260926/social_build/usertimeline/headroom_accuracy.plan.json",
+    "plan_sha256": "b545386861ebd00f5ea8b9453597a300cfddb93a6442201983e678679136946c",
+    "config": {
+      "d": 4,
+      "dmax": 16,
+      "k": 4,
+      "kmerge": 8,
+      "gap_k": 8,
+      "post_call": 8,
+      "p_min": 0.8,
+      "merge_policy": "support"
+    },
+    "sites": 48,
+    "targets": 256
+  },
+  "balanced": {
+    "binary": "/storage/prefetchit/class_b_extension_20260926/social_build/usertimeline/headroom_balanced/UserTimelineService",
+    "nop": "/storage/prefetchit/class_b_extension_20260926/social_build/usertimeline/headroom_balanced/UserTimelineService.nop",
+    "binary_sha256": "030d663ce3483f5f066b73e0fd41e0c9c1737bb04c8e700ed551648db2b4f77d",
+    "nop_sha256": "61c2c6ddae32db2ce30e7da62b032ffd8703a012868c6376421e54d9945c5f3f",
+    "plan": "/storage/prefetchit/class_b_extension_20260926/social_build/usertimeline/headroom_balanced.plan.json",
+    "plan_sha256": "36706f1655eb9c7445aa4eca15410bd53504a670fca63848b673aa277af1bf84",
+    "config": {
+      "d": 8,
+      "dmax": 32,
+      "k": 8,
+      "kmerge": 16,
+      "gap_k": 16,
+      "post_call": 16,
+      "p_min": 0.65,
+      "merge_policy": "support"
+    },
+    "sites": 48,
+    "targets": 460
+  },
+  "coverage": {
+    "build_failed": true,
+    "error": "CalledProcessError(2, ['docker', 'run', '--rm', '--cpuset-cpus', '48-63', '-v', '/storage/prefetchit/class_b_extension_20260926/social_build/socialNetwork:/src', '-v', '/home/hnpark2/prefetchit/llvm_prefetchit/build:/pass:ro', '-v', '/home/hnpark2/prefetchit/flat_codegen/dsb_build:/dsb:ro', '-v', '/storage/prefetchit/class_b_extension_20260926/social_build:/storage/prefetchit/class_b_extension_20260926/social_build', '-v', '/trace/prefetchit/class_b_extension_20260926:/trace/prefetchit/class_b_extension_20260926:ro', '-e', 'MAKE_TARGET=UserTimelineService', '-e', 'BIN_GLOB=UserTimelineService', '-e', 'FATSTATIC=1', '-e', 'PREFETCHIT_COLD_PLAN=/storage/prefetchit/class_b_extension_20260926/social_build/usertimeline/headroom_coverage.plan.json', '-e', 'PREFETCHIT_COLD_DIRECT_IN_PIC=1', '--entrypoint', 'bash', 'dsb-deps-jammy', '/storage/prefetchit/class_b_extension_20260926/social_build/build_service.sh', '/storage/prefetchit/class_b_extension_20260926/social_build/usertimeline/headroom_coverage', '-O3', '-g', '-Wno-enum-constexpr-conversion', '-Wno-error', '-fpass-plugin=/pass/PrefetchITPass.so'])",
+    "plan": "/storage/prefetchit/class_b_extension_20260926/social_build/usertimeline/headroom_coverage.plan.json",
+    "config": {
+      "d": 8,
+      "dmax": 48,
+      "k": 12,
+      "kmerge": 32,
+      "gap_k": 32,
+      "post_call": 24,
+      "p_min": 0.5,
+      "merge_policy": "byte-efficiency"
+    }
+  },
+  "coverage_v2": {
+    "binary": "/storage/prefetchit/class_b_extension_20260926/social_build/usertimeline/headroom_coverage_v2/UserTimelineService",
+    "nop": "/storage/prefetchit/class_b_extension_20260926/social_build/usertimeline/headroom_coverage_v2/UserTimelineService.nop",
+    "binary_sha256": "0b5faa7cae1300aeb85b28b1c83cb332cf845b621c3db5b4eb92f055b4171d4c",
+    "nop_sha256": "a0cfc61c36558f78d26383756b161d521004357565c1318c2b9032a28be64087",
+    "plan": "/storage/prefetchit/class_b_extension_20260926/social_build/usertimeline/headroom_coverage_v2.plan.json",
+    "plan_sha256": "c78850128c1e943d0f3fb096b1b68f23200a8a573abf86ffdbdd2daa0303798a",
+    "config": {
+      "d": 8,
+      "dmax": 48,
+      "k": 12,
+      "kmerge": 32,
+      "gap_k": 32,
+      "post_call": 24,
+      "p_min": 0.5,
+      "merge_policy": "byte-efficiency"
+    },
+    "sites": 47,
+    "targets": 657
+  }
+}

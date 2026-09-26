@@ -1,0 +1,105 @@
+{
+  "target": {
+    "start": 1790448550.2894437,
+    "end": 1790448580.297035,
+    "wall_s": 30.007591114001116,
+    "cpu_us": 2988855,
+    "user_us": 1961091,
+    "system_us": 1027765,
+    "delta": {
+      "usage_usec": 2988855,
+      "user_usec": 1961091,
+      "system_usec": 1027765,
+      "core_sched.force_idle_usec": 0,
+      "nr_periods": 0,
+      "nr_throttled": 0,
+      "throttled_usec": 0,
+      "nr_bursts": 0,
+      "burst_usec": 0
+    },
+    "completed": 18200,
+    "achieved_rps": 606.5131963061219,
+    "cpu_us_per_request": 164.2228021978022,
+    "p99_ms": 11.030912399291992,
+    "user_us_per_request": 107.75225274725275
+  },
+  "whole_stack_cpu_us_per_request": 3837.4155494505494,
+  "pool": {
+    "start": 1790448550.2937844,
+    "end": 1790448580.2952018,
+    "wall_s": 30.001418714004103,
+    "cpu_us": 69220000.0,
+    "completed": 18196,
+    "achieved_rps": 606.504651445248,
+    "cpu_us_per_request": 3804.132776434381,
+    "p99_ms": 11.030912399291992
+  },
+  "pool_util_pct": 57.68060559056945,
+  "load": {
+    "rate": 600,
+    "seconds": 110,
+    "seed": 8101,
+    "offered": 66130,
+    "completed": 66130,
+    "errors": 0,
+    "error_examples": [],
+    "dropped": [],
+    "response_bodies": {
+      "Successfully upload post\n": 66130
+    },
+    "warmup_s": 50,
+    "warmup_errors": 0,
+    "steady_errors": 0,
+    "steady_error_examples": [],
+    "steady_drops": [],
+    "validation": "Zero errors/drops after the fixed 50s startup warmup; startup errors retained separately"
+  },
+  "kernel_before": null,
+  "kernel_after": null,
+  "binary": "/storage/prefetchit/class_b_extension_20260926/social_build/usertimeline/base/UserTimelineService",
+  "binary_sha256": "4775b98c08cce7e4279a13aabf5aaf404e099ab5760b3fabea1a508625f13f00",
+  "mode": "empty",
+  "pmu": {
+    "counters": {
+      "instructions:u": 1161055711.0,
+      "cycles:u": 2462319989.0,
+      "L2I": 63702153.0,
+      "context-switches": 41603.0,
+      "slots:u": 14773919934.0,
+      "topdown-retiring:u": 1144554224.0,
+      "topdown-bad-spec:u": 1390592572.0,
+      "topdown-fe-bound:u": 11254158592.0,
+      "topdown-be-bound:u": 927148713.0,
+      "topdown-fetch-lat:u": 9995636308.0
+    },
+    "fully_scheduled": true,
+    "mpki": 54.86571608621113,
+    "window": {
+      "start": 1790448580.300777,
+      "end": 1790448600.4802852,
+      "wall_s": 20.17950846500753,
+      "cpu_us": 2219393,
+      "user_us": 1276101,
+      "system_us": 943292,
+      "delta": {
+        "usage_usec": 2219393,
+        "user_usec": 1276101,
+        "system_usec": 943292,
+        "core_sched.force_idle_usec": 0,
+        "nr_periods": 0,
+        "nr_throttled": 0,
+        "throttled_usec": 0,
+        "nr_bursts": 0,
+        "burst_usec": 0
+      },
+      "completed": 12079,
+      "achieved_rps": 598.5775134684626,
+      "cpu_us_per_request": 183.7397963407567,
+      "p99_ms": 14.038324356079102,
+      "user_us_per_request": 105.64624555012833
+    },
+    "user_cycles_per_request": 203851.31128404668,
+    "code_misses_per_request": 5273.793608742446
+  },
+  "valid": true
+}

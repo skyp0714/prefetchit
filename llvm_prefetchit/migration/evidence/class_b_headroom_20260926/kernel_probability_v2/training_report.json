@@ -1,0 +1,4544 @@
+{
+  "training_capture": {
+    "complete_runs_with_branches": 427,
+    "verified_pt_resume_context": 424,
+    "direct_clock_join_matches": 2
+  },
+  "validation_capture": {
+    "complete_runs_with_branches": 423,
+    "verified_pt_resume_context": 410,
+    "direct_clock_join_matches": 1
+  },
+  "threshold": 0.8,
+  "horizon": 128,
+  "miss_samples": "None",
+  "retired_l2_samples": null,
+  "policies": {
+    "8": {
+      "training": {
+        "runs": 427,
+        "matched_runs": 411,
+        "issued": 3288,
+        "touched": 3280,
+        "touch_precision": 0.9975669099756691,
+        "all_first_touch_coverage_pct": 0.9881184778155352,
+        "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+      },
+      "validation": {
+        "runs": 423,
+        "matched_runs": 394,
+        "issued": 3152,
+        "touched": 3141,
+        "touch_precision": 0.996510152284264,
+        "all_first_touch_coverage_pct": 0.9649562067789633,
+        "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+      },
+      "details": [
+        {
+          "context": [
+            7,
+            "/usr/lib/x86_64-linux-gnu/libc.so.6",
+            1150239
+          ],
+          "runs": 238,
+          "targets": [
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                1150208
+              ],
+              "hits": 238,
+              "total": 238,
+              "p": 1.0,
+              "ci_lower": 0.9841152225258184,
+              "mean_rank": 0.0,
+              "score": 1.0,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                592384
+              ],
+              "hits": 238,
+              "total": 238,
+              "p": 1.0,
+              "ci_lower": 0.9841152225258184,
+              "mean_rank": 1.0,
+              "score": 0.9922480620155039,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                639680
+              ],
+              "hits": 238,
+              "total": 238,
+              "p": 1.0,
+              "ci_lower": 0.9841152225258184,
+              "mean_rank": 4.932773109243698,
+              "score": 0.9628927239395664,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                1210048
+              ],
+              "hits": 238,
+              "total": 238,
+              "p": 1.0,
+              "ci_lower": 0.9841152225258184,
+              "mean_rank": 5.932773109243698,
+              "score": 0.955703350483122,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                1210112
+              ],
+              "hits": 238,
+              "total": 238,
+              "p": 1.0,
+              "ci_lower": 0.9841152225258184,
+              "mean_rank": 6.932773109243698,
+              "score": 0.9486205393286418,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                592256
+              ],
+              "hits": 238,
+              "total": 238,
+              "p": 1.0,
+              "ci_lower": 0.9841152225258184,
+              "mean_rank": 7.932773109243698,
+              "score": 0.9416419386745796,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                592320
+              ],
+              "hits": 238,
+              "total": 238,
+              "p": 1.0,
+              "ci_lower": 0.9841152225258184,
+              "mean_rank": 8.932773109243698,
+              "score": 0.9347652654188401,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                1210176
+              ],
+              "hits": 238,
+              "total": 238,
+              "p": 1.0,
+              "ci_lower": 0.9841152225258184,
+              "mean_rank": 9.932773109243698,
+              "score": 0.9279883026684538,
+              "retired_l2_samples": null
+            }
+          ]
+        },
+        {
+          "context": [
+            45,
+            "/usr/lib/x86_64-linux-gnu/libc.so.6",
+            1210190
+          ],
+          "runs": 114,
+          "targets": [
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                1210176
+              ],
+              "hits": 114,
+              "total": 114,
+              "p": 1.0,
+              "ci_lower": 0.9674003068525885,
+              "mean_rank": 0.0,
+              "score": 1.0,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                592384
+              ],
+              "hits": 114,
+              "total": 114,
+              "p": 1.0,
+              "ci_lower": 0.9674003068525885,
+              "mean_rank": 1.0,
+              "score": 0.9922480620155039,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2886976
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 2.0,
+              "score": 0.9673414304993252,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2856640
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 3.0,
+              "score": 0.9599571447703227,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2856704
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 4.0,
+              "score": 0.9526847421584264,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2882496
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 5.0,
+              "score": 0.9455216989843028,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2882560
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 6.0,
+              "score": 0.9384655669023304,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2882688
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 7.0,
+              "score": 0.9315139701104613,
+              "retired_l2_samples": null
+            }
+          ]
+        },
+        {
+          "context": [
+            202,
+            "/usr/lib/x86_64-linux-gnu/libc.so.6",
+            594135
+          ],
+          "runs": 32,
+          "targets": [
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                594112
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 0.0,
+              "score": 1.0,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                592384
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 1.0,
+              "score": 0.9922480620155039,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                593984
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 2.0,
+              "score": 0.9846153846153847,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                594048
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 3.0,
+              "score": 0.9770992366412213,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                606848
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 4.0,
+              "score": 0.9696969696969697,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                592576
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 5.0,
+              "score": 0.9624060150375939,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                606912
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 6.0,
+              "score": 0.9552238805970149,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                606528
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 7.0,
+              "score": 0.9481481481481482,
+              "retired_l2_samples": null
+            }
+          ]
+        },
+        {
+          "context": [
+            44,
+            "/usr/lib/x86_64-linux-gnu/libc.so.6",
+            1210766
+          ],
+          "runs": 27,
+          "targets": [
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                1210752
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 0.0,
+              "score": 1.0,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                592384
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 1.0,
+              "score": 0.9922480620155039,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                676736
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 13.74074074074074,
+              "score": 0.9030572249804024,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                676800
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 14.74074074074074,
+              "score": 0.896730669434354,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                676864
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 15.74074074074074,
+              "score": 0.8904921412007215,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                665152
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 16.74074074074074,
+              "score": 0.8843398157625384,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                665216
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 17.74074074074074,
+              "score": 0.878271918678526,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                665280
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 18.74074074074074,
+              "score": 0.8722867238768299,
+              "retired_l2_samples": null
+            }
+          ]
+        }
+      ],
+      "plan_sha256": "face28a998fa086c4828a911439591d6e7710eaf2626aa470be240e1b5de38fa"
+    },
+    "16": {
+      "training": {
+        "runs": 427,
+        "matched_runs": 411,
+        "issued": 5305,
+        "touched": 5291,
+        "touch_precision": 0.9973609802073515,
+        "all_first_touch_coverage_pct": 1.593943556744511,
+        "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+      },
+      "validation": {
+        "runs": 423,
+        "matched_runs": 394,
+        "issued": 5044,
+        "touched": 5021,
+        "touch_precision": 0.9954401268834259,
+        "all_first_touch_coverage_pct": 1.5425167507918416,
+        "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+      },
+      "details": [
+        {
+          "context": [
+            7,
+            "/usr/lib/x86_64-linux-gnu/libc.so.6",
+            1150239
+          ],
+          "runs": 238,
+          "targets": [
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                1150208
+              ],
+              "hits": 238,
+              "total": 238,
+              "p": 1.0,
+              "ci_lower": 0.9841152225258184,
+              "mean_rank": 0.0,
+              "score": 1.0,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                592384
+              ],
+              "hits": 238,
+              "total": 238,
+              "p": 1.0,
+              "ci_lower": 0.9841152225258184,
+              "mean_rank": 1.0,
+              "score": 0.9922480620155039,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                639680
+              ],
+              "hits": 238,
+              "total": 238,
+              "p": 1.0,
+              "ci_lower": 0.9841152225258184,
+              "mean_rank": 4.932773109243698,
+              "score": 0.9628927239395664,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                1210048
+              ],
+              "hits": 238,
+              "total": 238,
+              "p": 1.0,
+              "ci_lower": 0.9841152225258184,
+              "mean_rank": 5.932773109243698,
+              "score": 0.955703350483122,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                1210112
+              ],
+              "hits": 238,
+              "total": 238,
+              "p": 1.0,
+              "ci_lower": 0.9841152225258184,
+              "mean_rank": 6.932773109243698,
+              "score": 0.9486205393286418,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                592256
+              ],
+              "hits": 238,
+              "total": 238,
+              "p": 1.0,
+              "ci_lower": 0.9841152225258184,
+              "mean_rank": 7.932773109243698,
+              "score": 0.9416419386745796,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                592320
+              ],
+              "hits": 238,
+              "total": 238,
+              "p": 1.0,
+              "ci_lower": 0.9841152225258184,
+              "mean_rank": 8.932773109243698,
+              "score": 0.9347652654188401,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                1210176
+              ],
+              "hits": 238,
+              "total": 238,
+              "p": 1.0,
+              "ci_lower": 0.9841152225258184,
+              "mean_rank": 9.932773109243698,
+              "score": 0.9279883026684538,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                635136
+              ],
+              "hits": 236,
+              "total": 238,
+              "p": 0.9915966386554622,
+              "ci_lower": 0.9698829604625083,
+              "mean_rank": 25.64830508474576,
+              "score": 0.8260707443397645,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                1730688
+              ],
+              "hits": 236,
+              "total": 238,
+              "p": 0.9915966386554622,
+              "ci_lower": 0.9698829604625083,
+              "mean_rank": 26.64830508474576,
+              "score": 0.8207291355592021,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                1730752
+              ],
+              "hits": 236,
+              "total": 238,
+              "p": 0.9915966386554622,
+              "ci_lower": 0.9698829604625083,
+              "mean_rank": 27.64830508474576,
+              "score": 0.8154561636812729,
+              "retired_l2_samples": null
+            }
+          ]
+        },
+        {
+          "context": [
+            45,
+            "/usr/lib/x86_64-linux-gnu/libc.so.6",
+            1210190
+          ],
+          "runs": 114,
+          "targets": [
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                1210176
+              ],
+              "hits": 114,
+              "total": 114,
+              "p": 1.0,
+              "ci_lower": 0.9674003068525885,
+              "mean_rank": 0.0,
+              "score": 1.0,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                592384
+              ],
+              "hits": 114,
+              "total": 114,
+              "p": 1.0,
+              "ci_lower": 0.9674003068525885,
+              "mean_rank": 1.0,
+              "score": 0.9922480620155039,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2886976
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 2.0,
+              "score": 0.9673414304993252,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2856640
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 3.0,
+              "score": 0.9599571447703227,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2856704
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 4.0,
+              "score": 0.9526847421584264,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2882496
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 5.0,
+              "score": 0.9455216989843028,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2882560
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 6.0,
+              "score": 0.9384655669023304,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2882688
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 7.0,
+              "score": 0.9315139701104613,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2862336
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 8.0,
+              "score": 0.9246646026831785,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2862400
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 9.0,
+              "score": 0.9179152260212575,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2862528
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 10.0,
+              "score": 0.9112636664124077,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2859648
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 11.0,
+              "score": 0.9047078126972106,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2859712
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 12.0,
+              "score": 0.8982456140350876,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                635136
+              ],
+              "hits": 114,
+              "total": 114,
+              "p": 1.0,
+              "ci_lower": 0.9674003068525885,
+              "mean_rank": 14.964912280701755,
+              "score": 0.895324579703031,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2859776
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 13.0,
+              "score": 0.8918750777653353,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                1730688
+              ],
+              "hits": 114,
+              "total": 114,
+              "p": 1.0,
+              "ci_lower": 0.9674003068525885,
+              "mean_rank": 15.964912280701755,
+              "score": 0.889105532537168,
+              "retired_l2_samples": null
+            }
+          ]
+        },
+        {
+          "context": [
+            202,
+            "/usr/lib/x86_64-linux-gnu/libc.so.6",
+            594135
+          ],
+          "runs": 32,
+          "targets": [
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                594112
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 0.0,
+              "score": 1.0,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                592384
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 1.0,
+              "score": 0.9922480620155039,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                593984
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 2.0,
+              "score": 0.9846153846153847,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                594048
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 3.0,
+              "score": 0.9770992366412213,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                606848
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 4.0,
+              "score": 0.9696969696969697,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                592576
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 5.0,
+              "score": 0.9624060150375939,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                606912
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 6.0,
+              "score": 0.9552238805970149,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                606528
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 7.0,
+              "score": 0.9481481481481482,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                606592
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 8.0,
+              "score": 0.9411764705882353,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                606656
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 9.0,
+              "score": 0.9343065693430657,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                618816
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 10.0,
+              "score": 0.927536231884058,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                618880
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 11.0,
+              "score": 0.920863309352518,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                606720
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 12.0,
+              "score": 0.9142857142857143,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2412224
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 13.0,
+              "score": 0.9078014184397163,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                3310976
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 14.0,
+              "score": 0.9014084507042254,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                636480
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 15.0,
+              "score": 0.8951048951048951,
+              "retired_l2_samples": null
+            }
+          ]
+        },
+        {
+          "context": [
+            44,
+            "/usr/lib/x86_64-linux-gnu/libc.so.6",
+            1210766
+          ],
+          "runs": 27,
+          "targets": [
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                1210752
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 0.0,
+              "score": 1.0,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                592384
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 1.0,
+              "score": 0.9922480620155039,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                676736
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 13.74074074074074,
+              "score": 0.9030572249804024,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                676800
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 14.74074074074074,
+              "score": 0.896730669434354,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                676864
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 15.74074074074074,
+              "score": 0.8904921412007215,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                665152
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 16.74074074074074,
+              "score": 0.8843398157625384,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                665216
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 17.74074074074074,
+              "score": 0.878271918678526,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                665280
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 18.74074074074074,
+              "score": 0.8722867238768299,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                665344
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 19.74074074074074,
+              "score": 0.8663825520180497,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                665536
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 23.62962962962963,
+              "score": 0.8441621885686371,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                665472
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 23.666666666666668,
+              "score": 0.843956043956044,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                592256
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 56.0,
+              "score": 0.6956521739130435,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                592320
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 57.0,
+              "score": 0.6918918918918919,
+              "retired_l2_samples": null
+            }
+          ]
+        }
+      ],
+      "plan_sha256": "5b485a80479796946e59c2e77a53030067f09e2bbd548543c1e4cecd8dd36bc1"
+    },
+    "32": {
+      "training": {
+        "runs": 427,
+        "matched_runs": 411,
+        "issued": 7641,
+        "touched": 7617,
+        "touch_precision": 0.9968590498625834,
+        "all_first_touch_coverage_pct": 2.294664160219796,
+        "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+      },
+      "validation": {
+        "runs": 423,
+        "matched_runs": 394,
+        "issued": 7156,
+        "touched": 7114,
+        "touch_precision": 0.9941307993292342,
+        "all_first_touch_coverage_pct": 2.1855136755891578,
+        "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+      },
+      "details": [
+        {
+          "context": [
+            7,
+            "/usr/lib/x86_64-linux-gnu/libc.so.6",
+            1150239
+          ],
+          "runs": 238,
+          "targets": [
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                1150208
+              ],
+              "hits": 238,
+              "total": 238,
+              "p": 1.0,
+              "ci_lower": 0.9841152225258184,
+              "mean_rank": 0.0,
+              "score": 1.0,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                592384
+              ],
+              "hits": 238,
+              "total": 238,
+              "p": 1.0,
+              "ci_lower": 0.9841152225258184,
+              "mean_rank": 1.0,
+              "score": 0.9922480620155039,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                639680
+              ],
+              "hits": 238,
+              "total": 238,
+              "p": 1.0,
+              "ci_lower": 0.9841152225258184,
+              "mean_rank": 4.932773109243698,
+              "score": 0.9628927239395664,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                1210048
+              ],
+              "hits": 238,
+              "total": 238,
+              "p": 1.0,
+              "ci_lower": 0.9841152225258184,
+              "mean_rank": 5.932773109243698,
+              "score": 0.955703350483122,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                1210112
+              ],
+              "hits": 238,
+              "total": 238,
+              "p": 1.0,
+              "ci_lower": 0.9841152225258184,
+              "mean_rank": 6.932773109243698,
+              "score": 0.9486205393286418,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                592256
+              ],
+              "hits": 238,
+              "total": 238,
+              "p": 1.0,
+              "ci_lower": 0.9841152225258184,
+              "mean_rank": 7.932773109243698,
+              "score": 0.9416419386745796,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                592320
+              ],
+              "hits": 238,
+              "total": 238,
+              "p": 1.0,
+              "ci_lower": 0.9841152225258184,
+              "mean_rank": 8.932773109243698,
+              "score": 0.9347652654188401,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                1210176
+              ],
+              "hits": 238,
+              "total": 238,
+              "p": 1.0,
+              "ci_lower": 0.9841152225258184,
+              "mean_rank": 9.932773109243698,
+              "score": 0.9279883026684538,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                635136
+              ],
+              "hits": 236,
+              "total": 238,
+              "p": 0.9915966386554622,
+              "ci_lower": 0.9698829604625083,
+              "mean_rank": 25.64830508474576,
+              "score": 0.8260707443397645,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                1730688
+              ],
+              "hits": 236,
+              "total": 238,
+              "p": 0.9915966386554622,
+              "ci_lower": 0.9698829604625083,
+              "mean_rank": 26.64830508474576,
+              "score": 0.8207291355592021,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                1730752
+              ],
+              "hits": 236,
+              "total": 238,
+              "p": 0.9915966386554622,
+              "ci_lower": 0.9698829604625083,
+              "mean_rank": 27.64830508474576,
+              "score": 0.8154561636812729,
+              "retired_l2_samples": null
+            }
+          ]
+        },
+        {
+          "context": [
+            45,
+            "/usr/lib/x86_64-linux-gnu/libc.so.6",
+            1210190
+          ],
+          "runs": 114,
+          "targets": [
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                1210176
+              ],
+              "hits": 114,
+              "total": 114,
+              "p": 1.0,
+              "ci_lower": 0.9674003068525885,
+              "mean_rank": 0.0,
+              "score": 1.0,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                592384
+              ],
+              "hits": 114,
+              "total": 114,
+              "p": 1.0,
+              "ci_lower": 0.9674003068525885,
+              "mean_rank": 1.0,
+              "score": 0.9922480620155039,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2886976
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 2.0,
+              "score": 0.9673414304993252,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2856640
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 3.0,
+              "score": 0.9599571447703227,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2856704
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 4.0,
+              "score": 0.9526847421584264,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2882496
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 5.0,
+              "score": 0.9455216989843028,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2882560
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 6.0,
+              "score": 0.9384655669023304,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2882688
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 7.0,
+              "score": 0.9315139701104613,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2862336
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 8.0,
+              "score": 0.9246646026831785,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2862400
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 9.0,
+              "score": 0.9179152260212575,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2862528
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 10.0,
+              "score": 0.9112636664124077,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2859648
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 11.0,
+              "score": 0.9047078126972106,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2859712
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 12.0,
+              "score": 0.8982456140350876,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                635136
+              ],
+              "hits": 114,
+              "total": 114,
+              "p": 1.0,
+              "ci_lower": 0.9674003068525885,
+              "mean_rank": 14.964912280701755,
+              "score": 0.895324579703031,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2859776
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 13.0,
+              "score": 0.8918750777653353,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                1730688
+              ],
+              "hits": 114,
+              "total": 114,
+              "p": 1.0,
+              "ci_lower": 0.9674003068525885,
+              "mean_rank": 15.964912280701755,
+              "score": 0.889105532537168,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2862464
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 14.0,
+              "score": 0.8855942673585372,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                1730752
+              ],
+              "hits": 114,
+              "total": 114,
+              "p": 1.0,
+              "ci_lower": 0.9674003068525885,
+              "mean_rank": 16.964912280701753,
+              "score": 0.8829722860946387,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2862656
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 18.0,
+              "score": 0.8613314107185772,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2862592
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 19.0,
+              "score": 0.8554720133667502,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2882752
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 20.0,
+              "score": 0.849691797060218,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2882816
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 21.0,
+              "score": 0.8439891675497468,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2857536
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 22.0,
+              "score": 0.8383625730994152,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2857600
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 23.0,
+              "score": 0.8328105030788893,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2857280
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 24.0,
+              "score": 0.827331486611265,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2857344
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 25.0,
+              "score": 0.8219240912739364,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2883072
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 26.0,
+              "score": 0.8165869218500797,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2883136
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 27.0,
+              "score": 0.8113186191284663,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2883200
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 28.0,
+              "score": 0.8061178587494376,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2883648
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 29.0,
+              "score": 0.8009833500949827,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2883712
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 30.0,
+              "score": 0.7959138352209637,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2884992
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 31.0,
+              "score": 0.790908087829637,
+              "retired_l2_samples": null
+            }
+          ]
+        },
+        {
+          "context": [
+            202,
+            "/usr/lib/x86_64-linux-gnu/libc.so.6",
+            594135
+          ],
+          "runs": 32,
+          "targets": [
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                594112
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 0.0,
+              "score": 1.0,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                592384
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 1.0,
+              "score": 0.9922480620155039,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                593984
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 2.0,
+              "score": 0.9846153846153847,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                594048
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 3.0,
+              "score": 0.9770992366412213,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                606848
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 4.0,
+              "score": 0.9696969696969697,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                592576
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 5.0,
+              "score": 0.9624060150375939,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                606912
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 6.0,
+              "score": 0.9552238805970149,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                606528
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 7.0,
+              "score": 0.9481481481481482,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                606592
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 8.0,
+              "score": 0.9411764705882353,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                606656
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 9.0,
+              "score": 0.9343065693430657,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                618816
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 10.0,
+              "score": 0.927536231884058,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                618880
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 11.0,
+              "score": 0.920863309352518,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                606720
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 12.0,
+              "score": 0.9142857142857143,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2412224
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 13.0,
+              "score": 0.9078014184397163,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                3310976
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 14.0,
+              "score": 0.9014084507042254,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                636480
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 15.0,
+              "score": 0.8951048951048951,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                939520
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 16.0,
+              "score": 0.8888888888888888,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                3311040
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 17.0,
+              "score": 0.8827586206896552,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2412288
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 18.0,
+              "score": 0.8767123287671232,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2412352
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 19.0,
+              "score": 0.8707482993197279,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2408064
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 20.0,
+              "score": 0.8648648648648649,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2451136
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 21.0,
+              "score": 0.8590604026845637,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2451200
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 22.0,
+              "score": 0.8533333333333334,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2451264
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 23.0,
+              "score": 0.847682119205298,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2451328
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 24.0,
+              "score": 0.8421052631578947,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2451392
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 25.0,
+              "score": 0.8366013071895425,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2451456
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 26.0,
+              "score": 0.8311688311688312,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2451520
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 27.0,
+              "score": 0.8258064516129032,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2451584
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 28.0,
+              "score": 0.8205128205128205,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2250304
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 29.0,
+              "score": 0.8152866242038217,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                636160
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 30.0,
+              "score": 0.810126582278481,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                622208
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 31.0,
+              "score": 0.8050314465408805,
+              "retired_l2_samples": null
+            }
+          ]
+        },
+        {
+          "context": [
+            44,
+            "/usr/lib/x86_64-linux-gnu/libc.so.6",
+            1210766
+          ],
+          "runs": 27,
+          "targets": [
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                1210752
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 0.0,
+              "score": 1.0,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                592384
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 1.0,
+              "score": 0.9922480620155039,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                676736
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 13.74074074074074,
+              "score": 0.9030572249804024,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                676800
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 14.74074074074074,
+              "score": 0.896730669434354,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                676864
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 15.74074074074074,
+              "score": 0.8904921412007215,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                665152
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 16.74074074074074,
+              "score": 0.8843398157625384,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                665216
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 17.74074074074074,
+              "score": 0.878271918678526,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                665280
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 18.74074074074074,
+              "score": 0.8722867238768299,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                665344
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 19.74074074074074,
+              "score": 0.8663825520180497,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                665536
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 23.62962962962963,
+              "score": 0.8441621885686371,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                665472
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 23.666666666666668,
+              "score": 0.843956043956044,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                592256
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 56.0,
+              "score": 0.6956521739130435,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                592320
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 57.0,
+              "score": 0.6918918918918919,
+              "retired_l2_samples": null
+            }
+          ]
+        }
+      ],
+      "plan_sha256": "b21536981818c62cffbf874e8116ba6006eb915b77d41660e2b940b5ee297847"
+    },
+    "64": {
+      "training": {
+        "runs": 427,
+        "matched_runs": 411,
+        "issued": 12313,
+        "touched": 12265,
+        "touch_precision": 0.9961016811500041,
+        "all_first_touch_coverage_pct": 3.694900344636445,
+        "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+      },
+      "validation": {
+        "runs": 423,
+        "matched_runs": 394,
+        "issued": 11380,
+        "touched": 11296,
+        "touch_precision": 0.9926186291739895,
+        "all_first_touch_coverage_pct": 3.470278672962486,
+        "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+      },
+      "details": [
+        {
+          "context": [
+            7,
+            "/usr/lib/x86_64-linux-gnu/libc.so.6",
+            1150239
+          ],
+          "runs": 238,
+          "targets": [
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                1150208
+              ],
+              "hits": 238,
+              "total": 238,
+              "p": 1.0,
+              "ci_lower": 0.9841152225258184,
+              "mean_rank": 0.0,
+              "score": 1.0,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                592384
+              ],
+              "hits": 238,
+              "total": 238,
+              "p": 1.0,
+              "ci_lower": 0.9841152225258184,
+              "mean_rank": 1.0,
+              "score": 0.9922480620155039,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                639680
+              ],
+              "hits": 238,
+              "total": 238,
+              "p": 1.0,
+              "ci_lower": 0.9841152225258184,
+              "mean_rank": 4.932773109243698,
+              "score": 0.9628927239395664,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                1210048
+              ],
+              "hits": 238,
+              "total": 238,
+              "p": 1.0,
+              "ci_lower": 0.9841152225258184,
+              "mean_rank": 5.932773109243698,
+              "score": 0.955703350483122,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                1210112
+              ],
+              "hits": 238,
+              "total": 238,
+              "p": 1.0,
+              "ci_lower": 0.9841152225258184,
+              "mean_rank": 6.932773109243698,
+              "score": 0.9486205393286418,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                592256
+              ],
+              "hits": 238,
+              "total": 238,
+              "p": 1.0,
+              "ci_lower": 0.9841152225258184,
+              "mean_rank": 7.932773109243698,
+              "score": 0.9416419386745796,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                592320
+              ],
+              "hits": 238,
+              "total": 238,
+              "p": 1.0,
+              "ci_lower": 0.9841152225258184,
+              "mean_rank": 8.932773109243698,
+              "score": 0.9347652654188401,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                1210176
+              ],
+              "hits": 238,
+              "total": 238,
+              "p": 1.0,
+              "ci_lower": 0.9841152225258184,
+              "mean_rank": 9.932773109243698,
+              "score": 0.9279883026684538,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                635136
+              ],
+              "hits": 236,
+              "total": 238,
+              "p": 0.9915966386554622,
+              "ci_lower": 0.9698829604625083,
+              "mean_rank": 25.64830508474576,
+              "score": 0.8260707443397645,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                1730688
+              ],
+              "hits": 236,
+              "total": 238,
+              "p": 0.9915966386554622,
+              "ci_lower": 0.9698829604625083,
+              "mean_rank": 26.64830508474576,
+              "score": 0.8207291355592021,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                1730752
+              ],
+              "hits": 236,
+              "total": 238,
+              "p": 0.9915966386554622,
+              "ci_lower": 0.9698829604625083,
+              "mean_rank": 27.64830508474576,
+              "score": 0.8154561636812729,
+              "retired_l2_samples": null
+            }
+          ]
+        },
+        {
+          "context": [
+            45,
+            "/usr/lib/x86_64-linux-gnu/libc.so.6",
+            1210190
+          ],
+          "runs": 114,
+          "targets": [
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                1210176
+              ],
+              "hits": 114,
+              "total": 114,
+              "p": 1.0,
+              "ci_lower": 0.9674003068525885,
+              "mean_rank": 0.0,
+              "score": 1.0,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                592384
+              ],
+              "hits": 114,
+              "total": 114,
+              "p": 1.0,
+              "ci_lower": 0.9674003068525885,
+              "mean_rank": 1.0,
+              "score": 0.9922480620155039,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2886976
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 2.0,
+              "score": 0.9673414304993252,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2856640
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 3.0,
+              "score": 0.9599571447703227,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2856704
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 4.0,
+              "score": 0.9526847421584264,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2882496
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 5.0,
+              "score": 0.9455216989843028,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2882560
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 6.0,
+              "score": 0.9384655669023304,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2882688
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 7.0,
+              "score": 0.9315139701104613,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2862336
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 8.0,
+              "score": 0.9246646026831785,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2862400
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 9.0,
+              "score": 0.9179152260212575,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2862528
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 10.0,
+              "score": 0.9112636664124077,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2859648
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 11.0,
+              "score": 0.9047078126972106,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2859712
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 12.0,
+              "score": 0.8982456140350876,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                635136
+              ],
+              "hits": 114,
+              "total": 114,
+              "p": 1.0,
+              "ci_lower": 0.9674003068525885,
+              "mean_rank": 14.964912280701755,
+              "score": 0.895324579703031,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2859776
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 13.0,
+              "score": 0.8918750777653353,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                1730688
+              ],
+              "hits": 114,
+              "total": 114,
+              "p": 1.0,
+              "ci_lower": 0.9674003068525885,
+              "mean_rank": 15.964912280701755,
+              "score": 0.889105532537168,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2862464
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 14.0,
+              "score": 0.8855942673585372,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                1730752
+              ],
+              "hits": 114,
+              "total": 114,
+              "p": 1.0,
+              "ci_lower": 0.9674003068525885,
+              "mean_rank": 16.964912280701753,
+              "score": 0.8829722860946387,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2862656
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 18.0,
+              "score": 0.8613314107185772,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2862592
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 19.0,
+              "score": 0.8554720133667502,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2882752
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 20.0,
+              "score": 0.849691797060218,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2882816
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 21.0,
+              "score": 0.8439891675497468,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2857536
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 22.0,
+              "score": 0.8383625730994152,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2857600
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 23.0,
+              "score": 0.8328105030788893,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2857280
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 24.0,
+              "score": 0.827331486611265,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2857344
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 25.0,
+              "score": 0.8219240912739364,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2883072
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 26.0,
+              "score": 0.8165869218500797,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2883136
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 27.0,
+              "score": 0.8113186191284663,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2883200
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 28.0,
+              "score": 0.8061178587494376,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2883648
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 29.0,
+              "score": 0.8009833500949827,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2883712
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 30.0,
+              "score": 0.7959138352209637,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2884992
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 31.0,
+              "score": 0.790908087829637,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2885056
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 32.0,
+              "score": 0.7859649122807018,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2883904
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 33.0,
+              "score": 0.7810831426392066,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2881024
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 34.0,
+              "score": 0.7762616417587177,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2881088
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 35.0,
+              "score": 0.7714993003982348,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2881152
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 36.0,
+              "score": 0.7667950363714163,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2881216
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 37.0,
+              "score": 0.762147793726741,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2881472
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 38.0,
+              "score": 0.7575565419573028,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2880192
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 39.0,
+              "score": 0.7530202752389956,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2880384
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 40.0,
+              "score": 0.7485380116959064,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2880448
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 41.0,
+              "score": 0.7441087926917886,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2847360
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 42.0,
+              "score": 0.7397316821465428,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2847424
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 43.0,
+              "score": 0.7354057658766799,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                681152
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 44.0,
+              "score": 0.7311301509587923,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                670016
+              ],
+              "hits": 114,
+              "total": 114,
+              "p": 1.0,
+              "ci_lower": 0.9674003068525885,
+              "mean_rank": 47.87719298245614,
+              "score": 0.7277805486284289,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                681216
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 45.0,
+              "score": 0.7269039651150998,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                670080
+              ],
+              "hits": 114,
+              "total": 114,
+              "p": 1.0,
+              "ci_lower": 0.9674003068525885,
+              "mean_rank": 48.87719298245614,
+              "score": 0.7236659392977584,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                681280
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 46.0,
+              "score": 0.7227263561201854,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                670336
+              ],
+              "hits": 114,
+              "total": 114,
+              "p": 1.0,
+              "ci_lower": 0.9674003068525885,
+              "mean_rank": 49.87719298245614,
+              "score": 0.7195975934510307,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                681344
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 47.0,
+              "score": 0.7185964912280701,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                670400
+              ],
+              "hits": 114,
+              "total": 114,
+              "p": 1.0,
+              "ci_lower": 0.9674003068525885,
+              "mean_rank": 50.87719298245614,
+              "score": 0.7155747351902707,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                670976
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 52.0,
+              "score": 0.6986354775828459,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                671040
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 53.0,
+              "score": 0.6947756130658137,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                670144
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 54.0,
+              "score": 0.6909581646423751,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                671744
+              ],
+              "hits": 114,
+              "total": 114,
+              "p": 1.0,
+              "ci_lower": 0.9674003068525885,
+              "mean_rank": 69.36842105263158,
+              "score": 0.6485333333333334,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                671808
+              ],
+              "hits": 114,
+              "total": 114,
+              "p": 1.0,
+              "ci_lower": 0.9674003068525885,
+              "mean_rank": 69.98245614035088,
+              "score": 0.6465219317678335,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                681408
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 71.27678571428571,
+              "score": 0.6310538656781296,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                681728
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 72.27678571428571,
+              "score": 0.627902956982309,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                681792
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 73.27678571428571,
+              "score": 0.6247833574976789,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                681600
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 74.27678571428571,
+              "score": 0.6216946028722213,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                681664
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 75.27678571428571,
+              "score": 0.6186362378912538,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                681472
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 76.27678571428571,
+              "score": 0.6156078162537775,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                681536
+              ],
+              "hits": 112,
+              "total": 114,
+              "p": 0.9824561403508771,
+              "ci_lower": 0.9382807541193635,
+              "mean_rank": 77.27678571428571,
+              "score": 0.612608900355364,
+              "retired_l2_samples": null
+            }
+          ]
+        },
+        {
+          "context": [
+            202,
+            "/usr/lib/x86_64-linux-gnu/libc.so.6",
+            594135
+          ],
+          "runs": 32,
+          "targets": [
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                594112
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 0.0,
+              "score": 1.0,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                592384
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 1.0,
+              "score": 0.9922480620155039,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                593984
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 2.0,
+              "score": 0.9846153846153847,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                594048
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 3.0,
+              "score": 0.9770992366412213,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                606848
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 4.0,
+              "score": 0.9696969696969697,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                592576
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 5.0,
+              "score": 0.9624060150375939,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                606912
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 6.0,
+              "score": 0.9552238805970149,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                606528
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 7.0,
+              "score": 0.9481481481481482,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                606592
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 8.0,
+              "score": 0.9411764705882353,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                606656
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 9.0,
+              "score": 0.9343065693430657,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                618816
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 10.0,
+              "score": 0.927536231884058,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                618880
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 11.0,
+              "score": 0.920863309352518,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                606720
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 12.0,
+              "score": 0.9142857142857143,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2412224
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 13.0,
+              "score": 0.9078014184397163,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                3310976
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 14.0,
+              "score": 0.9014084507042254,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                636480
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 15.0,
+              "score": 0.8951048951048951,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                939520
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 16.0,
+              "score": 0.8888888888888888,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                3311040
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 17.0,
+              "score": 0.8827586206896552,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2412288
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 18.0,
+              "score": 0.8767123287671232,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2412352
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 19.0,
+              "score": 0.8707482993197279,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2408064
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 20.0,
+              "score": 0.8648648648648649,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2451136
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 21.0,
+              "score": 0.8590604026845637,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2451200
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 22.0,
+              "score": 0.8533333333333334,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2451264
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 23.0,
+              "score": 0.847682119205298,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2451328
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 24.0,
+              "score": 0.8421052631578947,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2451392
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 25.0,
+              "score": 0.8366013071895425,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2451456
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 26.0,
+              "score": 0.8311688311688312,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2451520
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 27.0,
+              "score": 0.8258064516129032,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2451584
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 28.0,
+              "score": 0.8205128205128205,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2250304
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 29.0,
+              "score": 0.8152866242038217,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                636160
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 30.0,
+              "score": 0.810126582278481,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                622208
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 31.0,
+              "score": 0.8050314465408805,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                622272
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 32.0,
+              "score": 0.8,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                622336
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 33.0,
+              "score": 0.7950310559006211,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                637056
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 34.0,
+              "score": 0.7901234567901234,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                626176
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 35.0,
+              "score": 0.7852760736196319,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                626240
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 36.0,
+              "score": 0.7804878048780488,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                626304
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 37.0,
+              "score": 0.7757575757575758,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2453824
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 38.0,
+              "score": 0.7710843373493976,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2451648
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 39.0,
+              "score": 0.7664670658682635,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2232192
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 40.0,
+              "score": 0.7619047619047619,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2232256
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 41.0,
+              "score": 0.757396449704142,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2232320
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 42.0,
+              "score": 0.7529411764705882,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2232384
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 43.0,
+              "score": 0.7485380116959064,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2232896
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 44.0,
+              "score": 0.7441860465116279,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2232960
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 45.0,
+              "score": 0.7398843930635838,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2233280
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 46.0,
+              "score": 0.735632183908046,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2233024
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 47.0,
+              "score": 0.7314285714285714,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2451712
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 48.0,
+              "score": 0.7272727272727273,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2451776
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 49.0,
+              "score": 0.7231638418079096,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2458176
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 50.0,
+              "score": 0.7191011235955056,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2459008
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 51.0,
+              "score": 0.7150837988826816,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2451840
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 52.0,
+              "score": 0.7111111111111111,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2451904
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 53.0,
+              "score": 0.7071823204419889,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2451968
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 54.0,
+              "score": 0.7032967032967034,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                3792704
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 55.0,
+              "score": 0.6994535519125683,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                3792768
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 56.0,
+              "score": 0.6956521739130435,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                3792832
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 57.0,
+              "score": 0.6918918918918919,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                3792896
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 58.0,
+              "score": 0.6881720430107527,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                3792960
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 59.0,
+              "score": 0.6844919786096256,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2452032
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 60.0,
+              "score": 0.6808510638297872,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                2452160
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 61.0,
+              "score": 0.6772486772486772,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/custom/UserTimelineService",
+                636352
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 62.0,
+              "score": 0.6736842105263158,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                1732864
+              ],
+              "hits": 32,
+              "total": 32,
+              "p": 1.0,
+              "ci_lower": 0.8928172849426365,
+              "mean_rank": 63.0,
+              "score": 0.6701570680628273,
+              "retired_l2_samples": null
+            }
+          ]
+        },
+        {
+          "context": [
+            44,
+            "/usr/lib/x86_64-linux-gnu/libc.so.6",
+            1210766
+          ],
+          "runs": 27,
+          "targets": [
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                1210752
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 0.0,
+              "score": 1.0,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                592384
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 1.0,
+              "score": 0.9922480620155039,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                676736
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 13.74074074074074,
+              "score": 0.9030572249804024,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                676800
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 14.74074074074074,
+              "score": 0.896730669434354,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                676864
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 15.74074074074074,
+              "score": 0.8904921412007215,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                665152
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 16.74074074074074,
+              "score": 0.8843398157625384,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                665216
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 17.74074074074074,
+              "score": 0.878271918678526,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                665280
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 18.74074074074074,
+              "score": 0.8722867238768299,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                665344
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 19.74074074074074,
+              "score": 0.8663825520180497,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                665536
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 23.62962962962963,
+              "score": 0.8441621885686371,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                665472
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 23.666666666666668,
+              "score": 0.843956043956044,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                592256
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 56.0,
+              "score": 0.6956521739130435,
+              "retired_l2_samples": null
+            },
+            {
+              "key": [
+                "/usr/lib/x86_64-linux-gnu/libc.so.6",
+                592320
+              ],
+              "hits": 27,
+              "total": 27,
+              "p": 1.0,
+              "ci_lower": 0.8754409628553642,
+              "mean_rank": 57.0,
+              "score": 0.6918918918918919,
+              "retired_l2_samples": null
+            }
+          ]
+        }
+      ],
+      "plan_sha256": "68c7fd088eb087d7954bc4d99230793271a190ea98ebe75886375b62cfbe9e04"
+    }
+  },
+  "source_sha256": "bc094796bdd6d2507ab2909bb337cebf086272080bd7183e06b6a801a349afe1",
+  "parser_sha256": "89a46d2f81d24e34e647c176e008815dc723fe23081216eb08a83bfebf4af357",
+  "training": "/trace/prefetchit/class_b_headroom_20260926/training",
+  "validation": "/trace/prefetchit/class_b_headroom_20260926/validation",
+  "limits": [
+    "Context uses first PT trace-start destination, unique observed syscall/IP mapping, and verified preceding SYSCALL opcode.",
+    "Cross-recorder timestamp join was rejected for insufficient matches; no widened time window or future method labels.",
+    "Saved return IP/syscall is matched by the kernel. Runtime match counts must independently establish applicability.",
+    "Two separate temporal captures; not independent applications or a miss oracle."
+  ]
+}

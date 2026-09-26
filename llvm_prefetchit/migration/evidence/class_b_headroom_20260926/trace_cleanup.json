@@ -1,0 +1,227 @@
+{
+  "reason": "PT paths, context fits, held-out validation, PEBS-ranked plans and stream plans extracted. Original baseline/input artifacts remain; generated raw/decoded traces and ELF snapshots are now superseded.",
+  "files": [
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/misses.txt",
+      "bytes": 474849,
+      "sha256": "f9a38c556644e1b3f7ec3abfd43ef1434ae2bbc487737e077961c426a0ff4d79"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/misses.data",
+      "bytes": 8672250,
+      "sha256": "f20d80cb996d1411127af9e0a91adbf489f70615825f6fb59cdb17cb7476ef2a"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/validation.syscall.data",
+      "bytes": 4686746,
+      "sha256": "cccd93570787d9278365f79cc82d8d857c4de2bdd07ba2ab3e0f559df025e439"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/training.syscall.data",
+      "bytes": 4754898,
+      "sha256": "f40723379f60da7776a206f26f5f7800e97c3dc770502c28f8c8d48349dce722"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/training/pt.data",
+      "bytes": 7761130,
+      "sha256": "5f490c271b416c66647702cf42a8535cc42aadc00da59c6a3f3f40ebca49b7d4"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/training/branches.txt",
+      "bytes": 126359158,
+      "sha256": "2a4b75a9b1479f6e146e0db3e78f1624e45a417ea7edf17290c7e45dd9f6f696"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/training/syscall_context.txt",
+      "bytes": 1235065,
+      "sha256": "bedc8db73debfdc6e4d8a28a96dd64c0683710707d5106fc54392aa451a0aa60"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/validation/pt.data",
+      "bytes": 7698922,
+      "sha256": "25f96c119a9cadb81c91e68b8f67700c880dcaaa38c9dd98fe1e13d34733f8ee"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/validation/branches.txt",
+      "bytes": 123434471,
+      "sha256": "1db2efe2265f95e8c16c686c7fd503df6d0dba18929b9264f32c446bad54489c"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/validation/syscall_context.txt",
+      "bytes": 1194589,
+      "sha256": "ac45732dbe4a3bddeeb808ddc02e7b174b85dec76b2e08667dea8c76aee2e281"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/training/symfs/[vdso]",
+      "bytes": 8192,
+      "sha256": "75770411ac954592260fdee78498079b634de25fafdc24918e74a67dd96977de"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/training/symfs/custom/UserTimelineService",
+      "bytes": 12330488,
+      "sha256": "4775b98c08cce7e4279a13aabf5aaf404e099ab5760b3fabea1a508625f13f00"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/training/symfs/usr/lib/x86_64-linux-gnu/libssl.so.3",
+      "bytes": 667864,
+      "sha256": "3db6aff36baf2ced6dde3f340159edd2504f089c0d735765596ce96d2d835cb1"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/training/symfs/usr/lib/x86_64-linux-gnu/libgcc_s.so.1",
+      "bytes": 125488,
+      "sha256": "fc9d43b2f6c20e53b009238f767c5b949d202389e20de9e202ea684b4ba3729a"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/training/symfs/usr/lib/x86_64-linux-gnu/libresolv.so.2",
+      "bytes": 64456,
+      "sha256": "7230adfc1d3676f2485bec78f2d5c916d6becb15bc554ff95901f46800215194"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/training/symfs/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+      "bytes": 240936,
+      "sha256": "41daf7836f7fce21a40ca63a00c5caf21b05a35a76ccc075d86f1716212cdf01"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/training/symfs/usr/lib/x86_64-linux-gnu/libc.so.6",
+      "bytes": 2220400,
+      "sha256": "b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/training/symfs/usr/lib/x86_64-linux-gnu/libdb-5.3.so",
+      "bytes": 1760880,
+      "sha256": "659c3fb811bb0384b6a70127981ec1c1a7f95002cf1e569edc872066f20ef4c3"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/training/symfs/usr/lib/x86_64-linux-gnu/libcrypto.so.3",
+      "bytes": 4455728,
+      "sha256": "7be3a37c9d754ec214b30db1d00ce329d22ccebd5654dd7c3f92010a7b1ccf07"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/training/symfs/usr/lib/x86_64-linux-gnu/libz.so.1.2.11",
+      "bytes": 108936,
+      "sha256": "64c206f0146cc58bbddc4f22054436f4ff278f5a554aa3ce6921ddf7e9133370"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/training/symfs/usr/lib/x86_64-linux-gnu/libm.so.6",
+      "bytes": 940560,
+      "sha256": "3dd5511ae94785c9f921429b0f2b2f7aabb461b6f0e6de6dfdbef15f24bdfee6"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/training/symfs/usr/lib/x86_64-linux-gnu/libsasl2.so.2.0.25",
+      "bytes": 105392,
+      "sha256": "344870a9ff3cfee1df28f518e9e93073df8d0522a288f016f06fdacbfa49eed8"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/training/symfs/usr/lib/x86_64-linux-gnu/libicuuc.so.70.1",
+      "bytes": 2062664,
+      "sha256": "4683f3623dc47a92e862dc3c8770caff81c9f4c7e116bb672fc439737b06d88a"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/training/symfs/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30",
+      "bytes": 2260296,
+      "sha256": "ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/training/symfs/usr/lib/x86_64-linux-gnu/libicudata.so.70.1",
+      "bytes": 29476472,
+      "sha256": "c1404396288e178c8db2f30203cb8150e4d2c14cacee9a2883e0092f45399cc8"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/training/symfs/usr/lib/x86_64-linux-gnu/sasl2/libsasldb.so.2.0.25",
+      "bytes": 30784,
+      "sha256": "97fcd9e3b5a4276f4c4025a5bd9dcebeb51f8886a4fe17e0924c90c2299391a2"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/validation/symfs/[vdso]",
+      "bytes": 8192,
+      "sha256": "75770411ac954592260fdee78498079b634de25fafdc24918e74a67dd96977de"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/validation/symfs/custom/UserTimelineService",
+      "bytes": 12330488,
+      "sha256": "4775b98c08cce7e4279a13aabf5aaf404e099ab5760b3fabea1a508625f13f00"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/validation/symfs/usr/lib/x86_64-linux-gnu/libssl.so.3",
+      "bytes": 667864,
+      "sha256": "3db6aff36baf2ced6dde3f340159edd2504f089c0d735765596ce96d2d835cb1"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/validation/symfs/usr/lib/x86_64-linux-gnu/libgcc_s.so.1",
+      "bytes": 125488,
+      "sha256": "fc9d43b2f6c20e53b009238f767c5b949d202389e20de9e202ea684b4ba3729a"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/validation/symfs/usr/lib/x86_64-linux-gnu/libresolv.so.2",
+      "bytes": 64456,
+      "sha256": "7230adfc1d3676f2485bec78f2d5c916d6becb15bc554ff95901f46800215194"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/validation/symfs/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+      "bytes": 240936,
+      "sha256": "41daf7836f7fce21a40ca63a00c5caf21b05a35a76ccc075d86f1716212cdf01"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/validation/symfs/usr/lib/x86_64-linux-gnu/libc.so.6",
+      "bytes": 2220400,
+      "sha256": "b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/validation/symfs/usr/lib/x86_64-linux-gnu/libdb-5.3.so",
+      "bytes": 1760880,
+      "sha256": "659c3fb811bb0384b6a70127981ec1c1a7f95002cf1e569edc872066f20ef4c3"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/validation/symfs/usr/lib/x86_64-linux-gnu/libcrypto.so.3",
+      "bytes": 4455728,
+      "sha256": "7be3a37c9d754ec214b30db1d00ce329d22ccebd5654dd7c3f92010a7b1ccf07"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/validation/symfs/usr/lib/x86_64-linux-gnu/libz.so.1.2.11",
+      "bytes": 108936,
+      "sha256": "64c206f0146cc58bbddc4f22054436f4ff278f5a554aa3ce6921ddf7e9133370"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/validation/symfs/usr/lib/x86_64-linux-gnu/libm.so.6",
+      "bytes": 940560,
+      "sha256": "3dd5511ae94785c9f921429b0f2b2f7aabb461b6f0e6de6dfdbef15f24bdfee6"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/validation/symfs/usr/lib/x86_64-linux-gnu/libsasl2.so.2.0.25",
+      "bytes": 105392,
+      "sha256": "344870a9ff3cfee1df28f518e9e93073df8d0522a288f016f06fdacbfa49eed8"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/validation/symfs/usr/lib/x86_64-linux-gnu/libicuuc.so.70.1",
+      "bytes": 2062664,
+      "sha256": "4683f3623dc47a92e862dc3c8770caff81c9f4c7e116bb672fc439737b06d88a"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/validation/symfs/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30",
+      "bytes": 2260296,
+      "sha256": "ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/validation/symfs/usr/lib/x86_64-linux-gnu/libicudata.so.70.1",
+      "bytes": 29476472,
+      "sha256": "c1404396288e178c8db2f30203cb8150e4d2c14cacee9a2883e0092f45399cc8"
+    },
+    {
+      "path": "/trace/prefetchit/class_b_headroom_20260926/validation/symfs/usr/lib/x86_64-linux-gnu/sasl2/libsasldb.so.2.0.25",
+      "bytes": 30784,
+      "sha256": "97fcd9e3b5a4276f4c4025a5bd9dcebeb51f8886a4fe17e0924c90c2299391a2"
+    }
+  ],
+  "bytes_removed": 399991150,
+  "free_before": {
+    "/": 17540366336,
+    "/storage": 917529374720,
+    "/trace": 895474356224
+  },
+  "status": "complete",
+  "free_after": {
+    "/": 17540366336,
+    "/storage": 917529362432,
+    "/trace": 895874416640
+  }
+}

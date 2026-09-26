@@ -1,0 +1,14 @@
+{
+  "original_plan_sha256": "59ad4f941c6a3273bc8719bc44714023d2af29909f8003f5473288f2d38465e5",
+  "removed": [
+    {
+      "site": "_ZNK13jaegertracing11propagation10PropagatorIRKN11opentracing2v213TextMapReaderERKNS3_13TextMapWriterEE11decodeValueERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE",
+      "target": [
+        "_ZN13jaegertracing7logging13consoleLoggerEv",
+        32,
+        0
+      ]
+    }
+  ],
+  "reason": "Observed PIE linker rejection of one strong-symbol anchor; exclude that target and retain allocated burst bytes. No benchmark result used for selection."
+}
