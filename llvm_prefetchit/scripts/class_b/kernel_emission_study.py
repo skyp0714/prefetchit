@@ -41,6 +41,7 @@ def sequence(spec):
     h.c.space();out=Path(spec['out']);out.mkdir(parents=True,exist_ok=False)
     h.c.save(out/'protocol.json',dict(**spec,module_sha256=h.c.sha(h.REPO/'llvm_prefetchit/kernel/wake_prefetch/wake_prefetch.ko'),
         nop_module_sha256=h.c.sha(h.REPO/'llvm_prefetchit/kernel/wake_prefetch/wake_prefetch_nop.ko'),
+        driver_sha256=h.c.sha(__file__),
         nop_control='Same-layout whole-module NOP twin; both modules run mode=1 and the same branches. Only three prefetch opcodes in emit are replaced.',
         diagnostic_exclusion='Any phase with diagnostic!=0 is excluded from CPU performance claims',
         phase_transition='Close registration, unload module, set next arm, settle; no builds or transfers'))
@@ -52,8 +53,12 @@ def sequence(spec):
         pid=stack.states[name]['State']['Pid']
         group=str(Path(h.c.cpu(pid)['path']).parent.relative_to('/sys/fs/cgroup'))
         roi=spec.get('roi_s',20);settle=spec.get('settle_s',8);pmu_s=spec.get('pmu_s',10)
-        seconds=65+len(spec['order'])*(roi+settle+pmu_s+2)
+        # Docker health checks and module replacement cost about three seconds
+        # per phase here; preserve an additional margin beyond that overhead.
+        seconds=65+len(spec['order'])*(roi+settle+pmu_s+5)
         client=h.load(out/'load',family,h.RATE[family],spec['seed'],seconds)
+        load_started=json.loads((out/'load/started.json').read_text())
+        load_deadline=load_started['epoch']+load_started['seconds']
         time.sleep(50)
         for index,arm in enumerate(spec['order']):
             h.c.space();setting=spec['arms'][arm];dest=out/f'{index:02d}_{arm}';dest.mkdir()
@@ -88,6 +93,8 @@ def sequence(spec):
                          '--','sleep',str(pmu_s)],dest/'pmu.log')
                 window['pmu']=dict(**h.c.counters(dest/'pmu.csv'),window=h.c.diff_cpu(before,h.c.cpu(pid)))
             windows.append(window);h.c.save(dest/'windows.json',window);stack.check()
+            assert client.poll() is None,'Load ended before the final measurement/health check'
+            assert time.time()<load_deadline,'Measurement/health check exceeded the offered-load interval'
         if fd is not None:os.close(fd);fd=None
         if loaded:subprocess.run(['rmmod','wake_prefetch'],check=True);loaded=False
         assert client.wait(timeout=120)==0;client=None
@@ -131,22 +138,47 @@ def run_sequence(spec):
     return json.loads((out/'rows.json').read_text())
 
 
+def screen_with_retry(spec):
+    """Repeat a failed operating block, preserving every failed attempt."""
+    base=Path(spec['out'])
+    for attempt in range(3):
+        out=base if not attempt else base.with_name(base.name+f'_retry{attempt}')
+        if (out/'attempt_exclusion.json').exists():continue
+        chosen=dict(spec,out=str(out))
+        try:
+            if (out/'complete.json').exists():
+                complete=json.loads((out/'complete.json').read_text())
+                rows=complete['rows']
+            else:rows=run_sequence(chosen)
+            if all(row['valid'] for row in rows):return rows
+            h.c.save(out/'attempt_exclusion.json',dict(reason='At least one operating gate failed; entire block excluded',rows=rows))
+        except subprocess.CalledProcessError as error:
+            h.c.save(out/'attempt_exclusion.json',dict(reason='Measurement process failed; entire block excluded',error=str(error)))
+            raise  # Diagnose unfamiliar failures before deciding to repeat.
+    raise RuntimeError(f'{base}: three operating blocks failed')
+
+
 def campaign():
     h.c.space()
     module=h.REPO/'llvm_prefetchit/kernel/wake_prefetch'
     original=module/'wake_prefetch.ko';nop=module/'wake_prefetch_nop.ko'
-    assert not nop.exists()
-    h.c.run(['objdump','-d','--disassemble=emit',original],h.OUT/'kernel_emit_disassembly.log')
-    h.c.run(['python3',h.REPO/'llvm_prefetchit/tools/make_nop_control_binary.py',
-             '--input',original,'--output',nop,'--symbol','emit','--mnemonics','prefetcht0,prefetcht1,prefetchnta'],
-            h.OUT/'kernel_nop_build.log')
-    before=original.read_bytes();after=nop.read_bytes();assert len(before)==len(after)
-    differences=[dict(offset=i,before=a,after=b) for i,(a,b) in enumerate(zip(before,after)) if a!=b]
-    assert len(differences)==6,differences
-    h.c.save(h.OUT/'kernel_nop_audit.json',dict(original_sha256=h.c.sha(original),nop_sha256=h.c.sha(nop),
-        equal_size=True,differences=differences,scope='Three 3-byte prefetch instructions in emit changed to equal-length NOPs; all other bytes identical'))
-    h.c.run(['taskset','-c','84-85','python3',module/'smoke.py','--module',nop,'--out',h.OUT/'kernel_nop_smoke'],
-            h.OUT/'kernel_nop_smoke.log')
+    if not (h.OUT/'kernel_nop_audit.json').exists():
+        assert not nop.exists()
+        h.c.run(['objdump','-d','--disassemble=emit',original],h.OUT/'kernel_emit_disassembly.log')
+        h.c.run(['python3',h.REPO/'llvm_prefetchit/tools/make_nop_control_binary.py',
+                 '--input',original,'--output',nop,'--symbol','emit','--mnemonics','prefetcht0,prefetcht1,prefetchnta'],
+                h.OUT/'kernel_nop_build.log')
+        before=original.read_bytes();after=nop.read_bytes();assert len(before)==len(after)
+        differences=[dict(offset=i,before=a,after=b) for i,(a,b) in enumerate(zip(before,after)) if a!=b]
+        assert len(differences)==6,differences
+        h.c.save(h.OUT/'kernel_nop_audit.json',dict(original_sha256=h.c.sha(original),nop_sha256=h.c.sha(nop),
+            equal_size=True,differences=differences,scope='Three 3-byte prefetch instructions in emit changed to equal-length NOPs; all other bytes identical'))
+    audit=json.loads((h.OUT/'kernel_nop_audit.json').read_text())
+    assert h.c.sha(original)==audit['original_sha256'] and h.c.sha(nop)==audit['nop_sha256']
+    smoke=h.OUT/'kernel_nop_smoke.log'
+    if not smoke.exists():
+        h.c.run(['taskset','-c','84-85','python3',module/'smoke.py','--module',nop,'--out',h.OUT/'kernel_nop_smoke'],smoke)
+    assert json.loads(smoke.read_text())['passed']
     finalists=[]
     for family,key in [('media','movie'),('social','usertimeline')]:
         selected=json.loads((h.OUT/(family+'_selection.json')).read_text());pool=selected['pool']
@@ -160,7 +192,7 @@ def campaign():
             pair=[name+'_nop',name]
             if i%2:pair.reverse()
             order+=pair
-        rows=run_sequence(dict(out=str(base/'screen'),family=family,service=key,pool=pool,seed=17001,
+        rows=screen_with_retry(dict(out=str(base/'screen'),family=family,service=key,pool=pool,seed=17001,
             arms=arms,order=order,roi_s=20,settle_s=8,pmu_s=10))
         summary=summarize(rows,arms);h.c.save(base/'screen_summary.json',summary)
         eligible=[]
