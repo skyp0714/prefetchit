@@ -292,9 +292,12 @@ def decode_family(family,out,root):
                     for match in parsed:
                         resolved=maps.resolve(int(match[3],16))
                         if not resolved:break
-                        dso,va=resolved;symbol=dso.sym(va)[0]
-                        locations.append(dict(path=dso.path,elf_va=hex(va),symbol=symbol))
-                    if len(locations)==len(parsed) and all(v['symbol'].startswith(('tacopie::io_service::process_events','__fdelt_chk')) for v in locations):
+                        dso,va=resolved;symbol,offset=dso.sym(va)
+                        aliases=[name for address,size,name in dso.syms if address==va-offset]
+                        locations.append(dict(path=dso.path,elf_va=hex(va),symbol=symbol,aliases=aliases))
+                    # glibc exports __fdelt_chk and __fdelt_warn at the same
+                    # address; nm's chosen alias is not a distinct function.
+                    if len(locations)==len(parsed) and all(any(name.startswith(('tacopie::io_service::process_events','__fdelt_chk')) for name in v['aliases']) for v in locations):
                         excluded=sorted(tids)
         accepted=not errors or bool(excluded)
         c.save(dest/'capture_admission.json',dict(valid=not errors,errors=errors,
