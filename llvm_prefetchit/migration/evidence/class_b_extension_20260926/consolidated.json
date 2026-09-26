@@ -1,0 +1,498 @@
+{
+  "sources": [
+    {
+      "path": "/home/hnpark2/prefetchit/llvm_prefetchit/migration/evidence/class_b_extension_20260926/results.json",
+      "sha256": "27e7d47f55d78b063cc891b80bee100cfd7b9660eaa492829036a20f7f9b91ca"
+    },
+    {
+      "path": "/home/hnpark2/prefetchit/llvm_prefetchit/migration/evidence/class_b_extension_20260926_sampling10/results.json",
+      "sha256": "12187361c47e5fcd2ece387ee8133ed6db486ccb8f973350f2be79e6f58ba36a"
+    }
+  ],
+  "rows": [
+    {
+      "service": "compose",
+      "family": "media",
+      "sampling_pct": 100,
+      "rate": 600,
+      "alone_mpki": 2.4758399636423434,
+      "shared_mpki": 43.35224913156341,
+      "phase": "confirmation",
+      "arm": "wake8",
+      "comparisons": {
+        "base": {
+          "pairs": 7,
+          "cpu_cost_reduction_pct": 1.3545063489735942,
+          "ci95_pct": [
+            1.0372019793369658,
+            1.6707933457690727
+          ]
+        },
+        "wake8_nop": {
+          "pairs": 7,
+          "cpu_cost_reduction_pct": 1.195141463464311,
+          "ci95_pct": [
+            0.9336706441950504,
+            1.4559221694551927
+          ]
+        }
+      },
+      "confirmed_gain": true,
+      "exploratory_counters": {
+        "user_us_per_request": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": 3.9893399366384252,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "user_cycles_per_request": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": 4.043955908406982,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "code_misses_per_request": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": 8.125448362544352,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "mpki": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": 9.324208243249776,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "whole_stack_cpu_us_per_request": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": 0.3007075754439148,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "p99_ms": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": 5.131287705624665,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        }
+      },
+      "secondary": {
+        "user_us_per_request": {
+          "valid_pairs": 7,
+          "geometric_reduction_pct": 3.375700272003268,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "whole_stack_cpu_us_per_request": {
+          "valid_pairs": 7,
+          "geometric_reduction_pct": 0.4652724149536658,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "p99_ms": {
+          "valid_pairs": 7,
+          "geometric_reduction_pct": 0.5170266438880744,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        }
+      }
+    },
+    {
+      "service": "rating",
+      "family": "media",
+      "sampling_pct": 100,
+      "rate": 600,
+      "alone_mpki": 0.6423617481952695,
+      "shared_mpki": 55.8370932647311,
+      "phase": "confirmation",
+      "arm": "wake16",
+      "comparisons": {
+        "base": {
+          "pairs": 7,
+          "cpu_cost_reduction_pct": 0.7752921802619106,
+          "ci95_pct": [
+            -0.4316938610039234,
+            1.9677726879874458
+          ]
+        },
+        "wake16_nop": {
+          "pairs": 7,
+          "cpu_cost_reduction_pct": 1.7540848664390984,
+          "ci95_pct": [
+            0.8424848875409396,
+            2.6573040935547465
+          ]
+        }
+      },
+      "confirmed_gain": false,
+      "exploratory_counters": {
+        "user_us_per_request": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": 3.1268335448818463,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "user_cycles_per_request": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": 3.1653050032695584,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "code_misses_per_request": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": 3.93379746613588,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "mpki": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": 4.4630880485987845,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "whole_stack_cpu_us_per_request": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": 0.25729845228116277,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "p99_ms": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": 1.3239345240541156,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        }
+      },
+      "secondary": {
+        "user_us_per_request": {
+          "valid_pairs": 7,
+          "geometric_reduction_pct": 2.594595079927897,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "whole_stack_cpu_us_per_request": {
+          "valid_pairs": 7,
+          "geometric_reduction_pct": 0.25370988904906966,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "p99_ms": {
+          "valid_pairs": 7,
+          "geometric_reduction_pct": -4.9127901649980155,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        }
+      }
+    },
+    {
+      "service": "composepost",
+      "family": "social",
+      "sampling_pct": 10,
+      "rate": 600,
+      "alone_mpki": 1.1951935935593425,
+      "shared_mpki": 28.353244731033254,
+      "phase": "confirmation",
+      "arm": "wake16",
+      "comparisons": {
+        "base": {
+          "pairs": 7,
+          "cpu_cost_reduction_pct": 1.0695850696427978,
+          "ci95_pct": [
+            0.8140882967121899,
+            1.3244236986913016
+          ]
+        },
+        "wake16_nop": {
+          "pairs": 7,
+          "cpu_cost_reduction_pct": 1.2896953292547142,
+          "ci95_pct": [
+            0.8977905782742046,
+            1.6800502728723243
+          ]
+        }
+      },
+      "confirmed_gain": true,
+      "exploratory_counters": {
+        "user_us_per_request": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": 1.5878916239818075,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "user_cycles_per_request": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": 3.0939045670949628,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "code_misses_per_request": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": 8.741633395276626,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "mpki": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": 9.681572492237766,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "whole_stack_cpu_us_per_request": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": 0.2509892496220467,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "p99_ms": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": -0.6654194807688363,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        }
+      },
+      "secondary": {
+        "user_us_per_request": {
+          "valid_pairs": 7,
+          "geometric_reduction_pct": 1.9705068135909887,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "whole_stack_cpu_us_per_request": {
+          "valid_pairs": 7,
+          "geometric_reduction_pct": 0.24216813594932773,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "p99_ms": {
+          "valid_pairs": 7,
+          "geometric_reduction_pct": 1.6143372074872153,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        }
+      }
+    },
+    {
+      "service": "usertimeline",
+      "family": "social",
+      "sampling_pct": 10,
+      "rate": 600,
+      "alone_mpki": 0.06641104945947061,
+      "shared_mpki": 51.811316956191796,
+      "phase": "confirmation",
+      "arm": "wake16",
+      "comparisons": {
+        "base": {
+          "pairs": 7,
+          "cpu_cost_reduction_pct": 1.41360245430604,
+          "ci95_pct": [
+            1.0417967193133149,
+            1.7840112408903486
+          ]
+        },
+        "wake16_nop": {
+          "pairs": 7,
+          "cpu_cost_reduction_pct": 1.5357580967620965,
+          "ci95_pct": [
+            1.0035637562040511,
+            2.06509141699589
+          ]
+        }
+      },
+      "confirmed_gain": true,
+      "exploratory_counters": {
+        "user_us_per_request": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": -1.2856090886953941,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "user_cycles_per_request": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": 2.0848101075375824,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "code_misses_per_request": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": 3.1670114668762794,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "mpki": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": 3.3576794109838604,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "whole_stack_cpu_us_per_request": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": -0.22773006935985496,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "p99_ms": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": -1.3064737061414755,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        }
+      },
+      "secondary": {
+        "user_us_per_request": {
+          "valid_pairs": 7,
+          "geometric_reduction_pct": 2.3752031705105536,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "whole_stack_cpu_us_per_request": {
+          "valid_pairs": 7,
+          "geometric_reduction_pct": 0.12946420275973258,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "p99_ms": {
+          "valid_pairs": 7,
+          "geometric_reduction_pct": 0.05831567775695934,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        }
+      }
+    },
+    {
+      "service": "compose",
+      "family": "media",
+      "sampling_pct": 10,
+      "rate": 300,
+      "alone_mpki": 2.3540246488096743,
+      "shared_mpki": 49.13501194139075,
+      "phase": "screen",
+      "arm": "wake8",
+      "comparisons": {
+        "base": {
+          "pairs": 3,
+          "cpu_cost_reduction_pct": 0.9733759669415587,
+          "ci95_pct": [
+            0.35456104208415606,
+            1.5883479471019202
+          ]
+        },
+        "wake8_nop": {
+          "pairs": 3,
+          "cpu_cost_reduction_pct": 1.1767259720005252,
+          "ci95_pct": [
+            0.5257761704566488,
+            1.8234160203357996
+          ]
+        }
+      },
+      "confirmed_gain": false,
+      "exploratory_counters": {
+        "user_us_per_request": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": 4.183562403870367,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "user_cycles_per_request": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": 4.138881416461948,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "code_misses_per_request": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": 7.200538043432636,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "mpki": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": 8.658244001888416,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "whole_stack_cpu_us_per_request": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": 0.1593711391088659,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "p99_ms": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": -0.3506893808279843,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        }
+      },
+      "secondary": {
+        "user_us_per_request": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": 4.183562403870367,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "user_cycles_per_request": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": 4.138881416461948,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "code_misses_per_request": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": 7.200538043432636,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "mpki": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": 8.658244001888416,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "whole_stack_cpu_us_per_request": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": 0.1593711391088659,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "p99_ms": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": -0.3506893808279843,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        }
+      }
+    },
+    {
+      "service": "rating",
+      "family": "media",
+      "sampling_pct": 10,
+      "rate": 300,
+      "alone_mpki": 0.6018634904279119,
+      "shared_mpki": 65.05212126684127,
+      "phase": "confirmation",
+      "arm": "wake16",
+      "comparisons": {
+        "base": {
+          "pairs": 7,
+          "cpu_cost_reduction_pct": 0.6734806720659514,
+          "ci95_pct": [
+            0.13851931494958114,
+            1.205576222951088
+          ]
+        },
+        "wake16_nop": {
+          "pairs": 7,
+          "cpu_cost_reduction_pct": 1.2881900377227251,
+          "ci95_pct": [
+            1.0412875161465163,
+            1.5344765361754442
+          ]
+        }
+      },
+      "confirmed_gain": false,
+      "exploratory_counters": {
+        "user_us_per_request": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": 1.4912955047501342,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "user_cycles_per_request": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": 2.88991515167778,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "code_misses_per_request": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": 6.1001549194875775,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "mpki": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": 7.347818952352059,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "whole_stack_cpu_us_per_request": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": 0.09843033727600092,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "p99_ms": {
+          "valid_pairs": 3,
+          "geometric_reduction_pct": 2.407347563998652,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        }
+      },
+      "secondary": {
+        "user_us_per_request": {
+          "valid_pairs": 7,
+          "geometric_reduction_pct": -0.06002539761096326,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "whole_stack_cpu_us_per_request": {
+          "valid_pairs": 7,
+          "geometric_reduction_pct": -0.13716493625468562,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        },
+        "p99_ms": {
+          "valid_pairs": 7,
+          "geometric_reduction_pct": -0.7062797160048317,
+          "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+        }
+      }
+    }
+  ],
+  "document": "/home/hnpark2/prefetchit/docs/class_b_coldmiss_summary_20260926.md"
+}

@@ -1,0 +1,327 @@
+{
+  "utc": "2026-09-26T15:37:09.267985+00:00",
+  "families": {
+    "media": {
+      "selection": {
+        "compose": {
+          "rate": 300,
+          "mpki": 49.13501194139075,
+          "alone_mpki": 2.3540246488096743,
+          "inflation": 20.872768671405435
+        },
+        "rating": {
+          "rate": 300,
+          "mpki": 65.05212126684127,
+          "alone_mpki": 0.6018634904279119,
+          "inflation": 108.08451135753495
+        }
+      },
+      "results": {
+        "compose": {
+          "selection": {
+            "rate": 300,
+            "mpki": 49.13501194139075,
+            "alone_mpki": 2.3540246488096743,
+            "inflation": 20.872768671405435
+          },
+          "screen": [
+            {
+              "arm": "wake8",
+              "comparisons": {
+                "base": {
+                  "pairs": 3,
+                  "cpu_cost_reduction_pct": 0.9733759669415587,
+                  "ci95_pct": [
+                    0.35456104208415606,
+                    1.5883479471019202
+                  ]
+                },
+                "wake8_nop": {
+                  "pairs": 3,
+                  "cpu_cost_reduction_pct": 1.1767259720005252,
+                  "ci95_pct": [
+                    0.5257761704566488,
+                    1.8234160203357996
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "rating": {
+          "selection": {
+            "rate": 300,
+            "mpki": 65.05212126684127,
+            "alone_mpki": 0.6018634904279119,
+            "inflation": 108.08451135753495
+          },
+          "screen": [
+            {
+              "arm": "wake16",
+              "comparisons": {
+                "base": {
+                  "pairs": 3,
+                  "cpu_cost_reduction_pct": 1.6506768317560483,
+                  "ci95_pct": [
+                    -1.5134177102692714,
+                    4.716148999550529
+                  ]
+                },
+                "wake16_nop": {
+                  "pairs": 3,
+                  "cpu_cost_reduction_pct": 1.7995541965151296,
+                  "ci95_pct": [
+                    0.8924559613373906,
+                    2.6983500646405534
+                  ]
+                }
+              }
+            }
+          ],
+          "confirmation": [
+            {
+              "arm": "wake16",
+              "comparisons": {
+                "base": {
+                  "pairs": 7,
+                  "cpu_cost_reduction_pct": 0.6734806720659514,
+                  "ci95_pct": [
+                    0.13851931494958114,
+                    1.205576222951088
+                  ]
+                },
+                "wake16_nop": {
+                  "pairs": 7,
+                  "cpu_cost_reduction_pct": 1.2881900377227251,
+                  "ci95_pct": [
+                    1.0412875161465163,
+                    1.5344765361754442
+                  ]
+                }
+              }
+            }
+          ],
+          "confirmed_gain": false
+        }
+      },
+      "secondary_metrics": {
+        "rating/confirmation": {
+          "wake16": {
+            "base": {
+              "user_us_per_request": {
+                "valid_pairs": 7,
+                "geometric_reduction_pct": -0.06002539761096326,
+                "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+              },
+              "whole_stack_cpu_us_per_request": {
+                "valid_pairs": 7,
+                "geometric_reduction_pct": -0.13716493625468562,
+                "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+              },
+              "p99_ms": {
+                "valid_pairs": 7,
+                "geometric_reduction_pct": -0.7062797160048317,
+                "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+              }
+            },
+            "wake16_nop": {
+              "user_us_per_request": {
+                "valid_pairs": 7,
+                "geometric_reduction_pct": 1.2043091364220326,
+                "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+              },
+              "whole_stack_cpu_us_per_request": {
+                "valid_pairs": 7,
+                "geometric_reduction_pct": 0.0554219571069714,
+                "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+              },
+              "p99_ms": {
+                "valid_pairs": 7,
+                "geometric_reduction_pct": -1.1092402268172208,
+                "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+              }
+            }
+          }
+        },
+        "rating/screen": {
+          "wake16": {
+            "base": {
+              "user_us_per_request": {
+                "valid_pairs": 3,
+                "geometric_reduction_pct": 1.4912955047501342,
+                "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+              },
+              "user_cycles_per_request": {
+                "valid_pairs": 3,
+                "geometric_reduction_pct": 2.88991515167778,
+                "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+              },
+              "code_misses_per_request": {
+                "valid_pairs": 3,
+                "geometric_reduction_pct": 6.1001549194875775,
+                "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+              },
+              "mpki": {
+                "valid_pairs": 3,
+                "geometric_reduction_pct": 7.347818952352059,
+                "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+              },
+              "whole_stack_cpu_us_per_request": {
+                "valid_pairs": 3,
+                "geometric_reduction_pct": 0.09843033727600092,
+                "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+              },
+              "p99_ms": {
+                "valid_pairs": 3,
+                "geometric_reduction_pct": 2.407347563998652,
+                "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+              }
+            },
+            "wake16_nop": {
+              "user_us_per_request": {
+                "valid_pairs": 3,
+                "geometric_reduction_pct": 7.497755431876163,
+                "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+              },
+              "user_cycles_per_request": {
+                "valid_pairs": 3,
+                "geometric_reduction_pct": 4.270337174262795,
+                "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+              },
+              "code_misses_per_request": {
+                "valid_pairs": 3,
+                "geometric_reduction_pct": 8.606081189645543,
+                "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+              },
+              "mpki": {
+                "valid_pairs": 3,
+                "geometric_reduction_pct": 8.774924578633803,
+                "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+              },
+              "whole_stack_cpu_us_per_request": {
+                "valid_pairs": 3,
+                "geometric_reduction_pct": 0.28593752863470545,
+                "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+              },
+              "p99_ms": {
+                "valid_pairs": 3,
+                "geometric_reduction_pct": -4.306616237735161,
+                "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+              }
+            }
+          }
+        },
+        "compose/screen": {
+          "wake8": {
+            "base": {
+              "user_us_per_request": {
+                "valid_pairs": 3,
+                "geometric_reduction_pct": 4.183562403870367,
+                "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+              },
+              "user_cycles_per_request": {
+                "valid_pairs": 3,
+                "geometric_reduction_pct": 4.138881416461948,
+                "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+              },
+              "code_misses_per_request": {
+                "valid_pairs": 3,
+                "geometric_reduction_pct": 7.200538043432636,
+                "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+              },
+              "mpki": {
+                "valid_pairs": 3,
+                "geometric_reduction_pct": 8.658244001888416,
+                "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+              },
+              "whole_stack_cpu_us_per_request": {
+                "valid_pairs": 3,
+                "geometric_reduction_pct": 0.1593711391088659,
+                "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+              },
+              "p99_ms": {
+                "valid_pairs": 3,
+                "geometric_reduction_pct": -0.3506893808279843,
+                "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+              }
+            },
+            "wake8_nop": {
+              "user_us_per_request": {
+                "valid_pairs": 3,
+                "geometric_reduction_pct": 4.891434324539357,
+                "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+              },
+              "user_cycles_per_request": {
+                "valid_pairs": 3,
+                "geometric_reduction_pct": 4.0218000522136315,
+                "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+              },
+              "code_misses_per_request": {
+                "valid_pairs": 3,
+                "geometric_reduction_pct": 9.519401112851645,
+                "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+              },
+              "mpki": {
+                "valid_pairs": 3,
+                "geometric_reduction_pct": 9.574403446186563,
+                "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+              },
+              "whole_stack_cpu_us_per_request": {
+                "valid_pairs": 3,
+                "geometric_reduction_pct": 0.27069034120640323,
+                "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+              },
+              "p99_ms": {
+                "valid_pairs": 3,
+                "geometric_reduction_pct": -0.16847285459202777,
+                "role": "Secondary descriptive metric, not an additional independently confirmed endpoint"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "metric": "Target cgroup user+kernel CPU per exactly completed external request, fixed arrival rate; not maximum throughput",
+  "warmup_policy": {
+    "utc": "2026-09-26T06:05:22.948407+00:00",
+    "stage": "Before any prefetch trace, build, or performance result",
+    "change": "Zero errors and drops required after the fixed 50-second startup warmup; all startup errors retained and reported. Do not reclassify excluded qualification points.",
+    "reason": "The first request for username109 at 12.72s failed once per fresh Media stack in two attempts; later loads on the same stack had no errors. Root cause unconfirmed.",
+    "added_validation": "Read every registration body; verify 1000 expected usernames and nonzero IDs directly in MongoDB before any load.",
+    "hashes": {
+      "load.py": "69cbeec142e03f10ddeea2360786e91360d27095712d3ccf76dc7ec8e6ce91a2",
+      "pipeline.py": "6ab253666c9c87c4f585a47f7ecf15fa6b7b8f2cc24593c00518db08280865ab",
+      "campaign.py": "5a5d472a624a9801059a596f9a83a583bdaf58718d38eb4eed11b4ddeb722917",
+      "cleanup_initial.py": "f02142db819ad62c702cf283112675e38ef227f1a90e66dd38bd9e939a93fb86",
+      "common.py": "e76a92effad20e84b7e156a88e0ed117227c3877cd78c13737ef6a8fb364d8e3",
+      "run_paths.py": "89a46d2f81d24e34e647c176e008815dc723fe23081216eb08a83bfebf4af357",
+      "social_campaign.py": "1b37ec0273dbc31dd7bb6f5d1b0360350352b31efa006bb1816a6c52af5db93b",
+      "gate.py": "1d0c4865bfc7d27ac6731bdc2af1fa8ae2afcb69b83169286fe64faa5da88b60",
+      "audit_qualification.py": "7d0af7b3cf02ffb6b0f487f56c84cc986a475131a9f16f9eec0816570cce4b27",
+      "social.py": "ad6a0b5a0fbcd34d7f33ded45b22fc61ffbabd70abc4571e1c1098db9b140306",
+      "trace_media.py": "acc13dbc76c7361a115f05cde41c79a08fcc7f2cfac80e9666c850192b317b7e",
+      "build.py": "060b54049e6d0c8d5970ef0b63cd435aac0121fd5a14a907c936745296ad27ca",
+      "trace_social.py": "b672bf3bd33a38b47b62a6a9a376f55fd75ff331bb24bca52bdac17bfe0a9cec",
+      "media.py": "e3aa16539001ba362aa59b3672cc6462a2c96a611cf7f60c56aeaf7da176674e"
+    }
+  },
+  "sampling_policy": {
+    "media_sample_rate": "0.1",
+    "social_sample_rate": ".1"
+  },
+  "confirmation_policy": {
+    "utc": "2026-09-26T07:04:02.638696+00:00",
+    "primary_only": true,
+    "blocks": 7,
+    "stage": "Before any independent confirmation has started",
+    "unchanged": [
+      "fixed 50-second warmup",
+      "same 30-second clean cgroup CPU window",
+      "fresh processes and same request-seed prefix",
+      "7 independent paired blocks, no efficacy stopping",
+      "both original and exact-layout NOP controls"
+    ],
+    "change": "Independent confirmation omits all PMU collection AFTER the primary measurement window. Load ends at95s instead of155s. Mechanistic PMU outcomes come from the three exploratory blocks, reported separately. No confirmation counter values are imputed."
+  }
+}
