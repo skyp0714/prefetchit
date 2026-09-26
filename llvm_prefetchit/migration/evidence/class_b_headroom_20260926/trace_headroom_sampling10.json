@@ -1,0 +1,4652 @@
+{
+  "compose": {
+    "runs": 1448,
+    "first_touches": 437338,
+    "mean_first_touches_per_run": 302.0290055248619,
+    "represented_runs": 1409,
+    "by_type": {
+      "UploadUniqueId__mr04db9a1a9d7e": 106,
+      "UploadText__mr04db9a1a9d7e": 106,
+      "UploadRating__mr04db9a1a9d7e": 53,
+      "UploadText__mr1b9c632f4c03": 53,
+      "UploadUniqueId__mr2c28702fc497": 53,
+      "UploadText__mr7f47dd826e60": 53,
+      "UploadUniqueId__mr7d4d0ce765a0": 53,
+      "UploadRating__mrc737e02d1884": 53,
+      "UploadText__mra1a0d8e32989": 53,
+      "UploadUniqueId__mr7127eea80dcc": 53,
+      "UploadUniqueId__mr24042a8bf16c": 53,
+      "UploadRating__mrcd900bda0bc9": 53,
+      "UploadUniqueId__mr1fbd8f43f4dc": 53,
+      "UploadMovieId__mr63428fcb2d5f": 51,
+      "UploadUserId__mr059c63fa128e": 52,
+      "UploadText__mrd6721431e52e": 53,
+      "UploadText__mr3eac4fc83320": 53,
+      "UploadText__mreeec6e88883a": 50,
+      "UploadText__mr3550b9868eda": 50,
+      "none__mr3d5fc4efea31": 53,
+      "none__mr15c4d2230d5b": 53,
+      "none__mrf93877b1b15a": 53,
+      "UploadText__mr831947fd83f0": 75,
+      "UploadRating__mr831947fd83f0": 51,
+      "UploadUniqueId__m0": 4,
+      "none__m0": 20,
+      "UploadRating__mr63428fcb2d5f": 2,
+      "UploadUniqueId__mr059c63fa128e": 1,
+      "UploadUniqueId__mr3550b9868eda": 2,
+      "UploadUniqueId__mr831947fd83f0": 5,
+      "UploadRating__mr7f3d03342cc9": 1,
+      "UploadMovieId__mr51f48a8c1cbb": 1,
+      "UploadUserId__mr831947fd83f0": 1,
+      "UploadRating__mreeec6e88883a": 3,
+      "UploadRating__mr3550b9868eda": 1,
+      "UploadMovieId__mr831947fd83f0": 1,
+      "UploadText__m0": 2,
+      "UploadMovieId__m0": 1,
+      "UploadText__mr38bc71acd0b8": 2,
+      "UploadMovieId__mr80e3040e4f11": 3,
+      "UploadText__mrb3431e17f10a": 4,
+      "UploadText__mr889ca8b2e5aa": 1,
+      "none__mr8522c867c943": 1,
+      "UploadUniqueId__mr80eef3b72d32": 1,
+      "UploadUserId__mr46fb7943a05c": 1,
+      "none__mr04db9a1a9d7e": 1
+    },
+    "policies": [
+      {
+        "budget": 8,
+        "p_min": 0.5,
+        "horizon": 32,
+        "global_issued_per_run": 8,
+        "global_expected_touched_per_run": 5.824703038674032,
+        "global_touch_precision": 0.728087879834254,
+        "global_total_first_touch_coverage_pct": 1.9285243907458303,
+        "oracle_context_issued_per_run": 7.7845303867403315,
+        "oracle_context_expected_touched_per_run": 7.7845303867403315,
+        "oracle_context_touch_precision": 1.0,
+        "oracle_context_total_first_touch_coverage_pct": 2.5774115215233984,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9723342541436464,
+            "mean_context_median_rank": 17.404349617171185
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1276c0",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 29.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x127700",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 30.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x118d00",
+            "p": 0.79167817679558,
+            "mean_context_median_rank": 9.290958258821476
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xc680",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 15.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xc780",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 22.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xc900",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 24.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0x13300",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 26.0
+          }
+        ]
+      },
+      {
+        "budget": 8,
+        "p_min": 0.5,
+        "horizon": 64,
+        "global_issued_per_run": 8,
+        "global_expected_touched_per_run": 7.422617403314916,
+        "global_touch_precision": 0.9278271754143645,
+        "global_total_first_touch_coverage_pct": 2.457584294070033,
+        "oracle_context_issued_per_run": 7.7845303867403315,
+        "oracle_context_expected_touched_per_run": 7.7845303867403315,
+        "oracle_context_touch_precision": 1.0,
+        "oracle_context_total_first_touch_coverage_pct": 2.5774115215233984,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90980",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 39.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x909c0",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 40.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9723342541436464,
+            "mean_context_median_rank": 17.404349617171185
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a6880",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 34.8042334791515
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a68c0",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 35.804233479151506
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a6900",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 40.341169496739724
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1276c0",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 29.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x127700",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 30.37993882434981
+          }
+        ]
+      },
+      {
+        "budget": 8,
+        "p_min": 0.5,
+        "horizon": 128,
+        "global_issued_per_run": 8,
+        "global_expected_touched_per_run": 7.422617403314916,
+        "global_touch_precision": 0.9278271754143645,
+        "global_total_first_touch_coverage_pct": 2.457584294070033,
+        "oracle_context_issued_per_run": 7.7845303867403315,
+        "oracle_context_expected_touched_per_run": 7.7845303867403315,
+        "oracle_context_touch_precision": 1.0,
+        "oracle_context_total_first_touch_coverage_pct": 2.5774115215233984,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90980",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 39.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x909c0",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 40.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9723342541436464,
+            "mean_context_median_rank": 17.404349617171185
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a6880",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 34.8042334791515
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a68c0",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 35.804233479151506
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a6900",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 40.341169496739724
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1276c0",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 29.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x127700",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 30.37993882434981
+          }
+        ]
+      },
+      {
+        "budget": 8,
+        "p_min": 0.8,
+        "horizon": 32,
+        "global_issued_per_run": 3,
+        "global_expected_touched_per_run": 2.7153453038674034,
+        "global_touch_precision": 0.9051151012891344,
+        "global_total_first_touch_coverage_pct": 0.8990346139599121,
+        "oracle_context_issued_per_run": 7.7845303867403315,
+        "oracle_context_expected_touched_per_run": 7.7845303867403315,
+        "oracle_context_touch_precision": 1.0,
+        "oracle_context_total_first_touch_coverage_pct": 2.5774115215233984,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9723342541436464,
+            "mean_context_median_rank": 17.404349617171185
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1276c0",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 29.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x127700",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 30.37993882434981
+          }
+        ]
+      },
+      {
+        "budget": 8,
+        "p_min": 0.8,
+        "horizon": 64,
+        "global_issued_per_run": 8,
+        "global_expected_touched_per_run": 7.422617403314916,
+        "global_touch_precision": 0.9278271754143645,
+        "global_total_first_touch_coverage_pct": 2.457584294070033,
+        "oracle_context_issued_per_run": 7.7845303867403315,
+        "oracle_context_expected_touched_per_run": 7.7845303867403315,
+        "oracle_context_touch_precision": 1.0,
+        "oracle_context_total_first_touch_coverage_pct": 2.5774115215233984,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90980",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 39.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x909c0",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 40.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9723342541436464,
+            "mean_context_median_rank": 17.404349617171185
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a6880",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 34.8042334791515
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a68c0",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 35.804233479151506
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a6900",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 40.341169496739724
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1276c0",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 29.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x127700",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 30.37993882434981
+          }
+        ]
+      },
+      {
+        "budget": 8,
+        "p_min": 0.8,
+        "horizon": 128,
+        "global_issued_per_run": 8,
+        "global_expected_touched_per_run": 7.422617403314916,
+        "global_touch_precision": 0.9278271754143645,
+        "global_total_first_touch_coverage_pct": 2.457584294070033,
+        "oracle_context_issued_per_run": 7.7845303867403315,
+        "oracle_context_expected_touched_per_run": 7.7845303867403315,
+        "oracle_context_touch_precision": 1.0,
+        "oracle_context_total_first_touch_coverage_pct": 2.5774115215233984,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90980",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 39.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x909c0",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 40.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9723342541436464,
+            "mean_context_median_rank": 17.404349617171185
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a6880",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 34.8042334791515
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a68c0",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 35.804233479151506
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a6900",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 40.341169496739724
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1276c0",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 29.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x127700",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 30.37993882434981
+          }
+        ]
+      },
+      {
+        "budget": 8,
+        "p_min": 0.95,
+        "horizon": 32,
+        "global_issued_per_run": 1,
+        "global_expected_touched_per_run": 0.9723342541436464,
+        "global_touch_precision": 0.9723342541436464,
+        "global_total_first_touch_coverage_pct": 0.3219340647279678,
+        "oracle_context_issued_per_run": 7.7845303867403315,
+        "oracle_context_expected_touched_per_run": 7.7845303867403315,
+        "oracle_context_touch_precision": 1.0,
+        "oracle_context_total_first_touch_coverage_pct": 2.5774115215233984,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9723342541436464,
+            "mean_context_median_rank": 17.404349617171185
+          }
+        ]
+      },
+      {
+        "budget": 8,
+        "p_min": 0.95,
+        "horizon": 64,
+        "global_issued_per_run": 3,
+        "global_expected_touched_per_run": 2.9184668508287293,
+        "global_touch_precision": 0.9728222836095765,
+        "global_total_first_touch_coverage_pct": 0.9662869451088174,
+        "oracle_context_issued_per_run": 7.7845303867403315,
+        "oracle_context_expected_touched_per_run": 7.7845303867403315,
+        "oracle_context_touch_precision": 1.0,
+        "oracle_context_total_first_touch_coverage_pct": 2.5774115215233984,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90980",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 39.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x909c0",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 40.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9723342541436464,
+            "mean_context_median_rank": 17.404349617171185
+          }
+        ]
+      },
+      {
+        "budget": 8,
+        "p_min": 0.95,
+        "horizon": 128,
+        "global_issued_per_run": 3,
+        "global_expected_touched_per_run": 2.9184668508287293,
+        "global_touch_precision": 0.9728222836095765,
+        "global_total_first_touch_coverage_pct": 0.9662869451088174,
+        "oracle_context_issued_per_run": 7.7845303867403315,
+        "oracle_context_expected_touched_per_run": 7.7845303867403315,
+        "oracle_context_touch_precision": 1.0,
+        "oracle_context_total_first_touch_coverage_pct": 2.5774115215233984,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90980",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 39.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x909c0",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 40.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9723342541436464,
+            "mean_context_median_rank": 17.404349617171185
+          }
+        ]
+      },
+      {
+        "budget": 16,
+        "p_min": 0.5,
+        "horizon": 32,
+        "global_issued_per_run": 14,
+        "global_expected_touched_per_run": 9.187575966850828,
+        "global_touch_precision": 0.6562554262036305,
+        "global_total_first_touch_coverage_pct": 3.041951534053752,
+        "oracle_context_issued_per_run": 15.569060773480663,
+        "oracle_context_expected_touched_per_run": 15.567679558011049,
+        "oracle_context_touch_precision": 0.9999112845990064,
+        "oracle_context_total_first_touch_coverage_pct": 5.15436573085348,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9723342541436464,
+            "mean_context_median_rank": 17.404349617171185
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1276c0",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 29.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x127700",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 30.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x118d00",
+            "p": 0.79167817679558,
+            "mean_context_median_rank": 9.290958258821476
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xc680",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 15.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xc780",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 22.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xc900",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 24.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0x13300",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 26.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0x13340",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 27.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0x13380",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 28.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xab80",
+            "p": 0.5510082872928177,
+            "mean_context_median_rank": 3.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xadc0",
+            "p": 0.5510082872928177,
+            "mean_context_median_rank": 4.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xabc0",
+            "p": 0.5510082872928177,
+            "mean_context_median_rank": 5.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xac00",
+            "p": 0.5510082872928177,
+            "mean_context_median_rank": 6.0
+          }
+        ]
+      },
+      {
+        "budget": 16,
+        "p_min": 0.5,
+        "horizon": 64,
+        "global_issued_per_run": 16,
+        "global_expected_touched_per_run": 12.56232044198895,
+        "global_touch_precision": 0.7851450276243094,
+        "global_total_first_touch_coverage_pct": 4.159309275663217,
+        "oracle_context_issued_per_run": 15.569060773480663,
+        "oracle_context_expected_touched_per_run": 15.569060773480663,
+        "oracle_context_touch_precision": 1.0,
+        "oracle_context_total_first_touch_coverage_pct": 5.154823043046797,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90980",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 39.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x909c0",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 40.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9723342541436464,
+            "mean_context_median_rank": 17.404349617171185
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a6880",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 34.8042334791515
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a68c0",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 35.804233479151506
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a6900",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 40.341169496739724
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1276c0",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 29.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x127700",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 30.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x127740",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 33.12962581422254
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x118d00",
+            "p": 0.79167817679558,
+            "mean_context_median_rank": 9.290958258821476
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xc680",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 15.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xc780",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 22.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xc900",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 24.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0x13300",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 26.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0x13340",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 27.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0x13380",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 28.0
+          }
+        ]
+      },
+      {
+        "budget": 16,
+        "p_min": 0.5,
+        "horizon": 128,
+        "global_issued_per_run": 16,
+        "global_expected_touched_per_run": 13.189102209944751,
+        "global_touch_precision": 0.824318888121547,
+        "global_total_first_touch_coverage_pct": 4.366832975867635,
+        "oracle_context_issued_per_run": 15.569060773480663,
+        "oracle_context_expected_touched_per_run": 15.569060773480663,
+        "oracle_context_touch_precision": 1.0,
+        "oracle_context_total_first_touch_coverage_pct": 5.154823043046797,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90980",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 39.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x909c0",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 40.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9723342541436464,
+            "mean_context_median_rank": 17.404349617171185
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a6880",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 34.8042334791515
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a68c0",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 35.804233479151506
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a6900",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 40.341169496739724
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1276c0",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 29.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x127700",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 30.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x127740",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 33.12962581422254
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x118d00",
+            "p": 0.79167817679558,
+            "mean_context_median_rank": 9.290958258821476
+          },
+          {
+            "dso": "ComposeReviewService",
+            "elf_line": "0x8f640",
+            "p": 0.7339157458563536,
+            "mean_context_median_rank": 99.92212362733012
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a6940",
+            "p": 0.698004143646409,
+            "mean_context_median_rank": 73.42441452048558
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa5040",
+            "p": 0.6678453038674033,
+            "mean_context_median_rank": 73.58996525479816
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa5080",
+            "p": 0.6678453038674033,
+            "mean_context_median_rank": 74.4803524156188
+          },
+          {
+            "dso": "ComposeReviewService",
+            "elf_line": "0x8f980",
+            "p": 0.6678453038674033,
+            "mean_context_median_rank": 74.49681502316346
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa5140",
+            "p": 0.6678453038674033,
+            "mean_context_median_rank": 75.58996525479816
+          }
+        ]
+      },
+      {
+        "budget": 16,
+        "p_min": 0.8,
+        "horizon": 32,
+        "global_issued_per_run": 3,
+        "global_expected_touched_per_run": 2.7153453038674034,
+        "global_touch_precision": 0.9051151012891344,
+        "global_total_first_touch_coverage_pct": 0.8990346139599121,
+        "oracle_context_issued_per_run": 15.569060773480663,
+        "oracle_context_expected_touched_per_run": 15.567679558011049,
+        "oracle_context_touch_precision": 0.9999112845990064,
+        "oracle_context_total_first_touch_coverage_pct": 5.15436573085348,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9723342541436464,
+            "mean_context_median_rank": 17.404349617171185
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1276c0",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 29.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x127700",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 30.37993882434981
+          }
+        ]
+      },
+      {
+        "budget": 16,
+        "p_min": 0.8,
+        "horizon": 64,
+        "global_issued_per_run": 9,
+        "global_expected_touched_per_run": 8.294122928176796,
+        "global_touch_precision": 0.9215692142418662,
+        "global_total_first_touch_coverage_pct": 2.746134568686005,
+        "oracle_context_issued_per_run": 15.569060773480663,
+        "oracle_context_expected_touched_per_run": 15.569060773480663,
+        "oracle_context_touch_precision": 1.0,
+        "oracle_context_total_first_touch_coverage_pct": 5.154823043046797,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90980",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 39.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x909c0",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 40.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9723342541436464,
+            "mean_context_median_rank": 17.404349617171185
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a6880",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 34.8042334791515
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a68c0",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 35.804233479151506
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a6900",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 40.341169496739724
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1276c0",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 29.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x127700",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 30.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x127740",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 33.12962581422254
+          }
+        ]
+      },
+      {
+        "budget": 16,
+        "p_min": 0.8,
+        "horizon": 128,
+        "global_issued_per_run": 9,
+        "global_expected_touched_per_run": 8.294122928176796,
+        "global_touch_precision": 0.9215692142418662,
+        "global_total_first_touch_coverage_pct": 2.746134568686005,
+        "oracle_context_issued_per_run": 15.569060773480663,
+        "oracle_context_expected_touched_per_run": 15.569060773480663,
+        "oracle_context_touch_precision": 1.0,
+        "oracle_context_total_first_touch_coverage_pct": 5.154823043046797,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90980",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 39.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x909c0",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 40.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9723342541436464,
+            "mean_context_median_rank": 17.404349617171185
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a6880",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 34.8042334791515
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a68c0",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 35.804233479151506
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a6900",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 40.341169496739724
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1276c0",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 29.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x127700",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 30.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x127740",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 33.12962581422254
+          }
+        ]
+      },
+      {
+        "budget": 16,
+        "p_min": 0.95,
+        "horizon": 32,
+        "global_issued_per_run": 1,
+        "global_expected_touched_per_run": 0.9723342541436464,
+        "global_touch_precision": 0.9723342541436464,
+        "global_total_first_touch_coverage_pct": 0.3219340647279678,
+        "oracle_context_issued_per_run": 15.569060773480663,
+        "oracle_context_expected_touched_per_run": 15.567679558011049,
+        "oracle_context_touch_precision": 0.9999112845990064,
+        "oracle_context_total_first_touch_coverage_pct": 5.15436573085348,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9723342541436464,
+            "mean_context_median_rank": 17.404349617171185
+          }
+        ]
+      },
+      {
+        "budget": 16,
+        "p_min": 0.95,
+        "horizon": 64,
+        "global_issued_per_run": 3,
+        "global_expected_touched_per_run": 2.9184668508287293,
+        "global_touch_precision": 0.9728222836095765,
+        "global_total_first_touch_coverage_pct": 0.9662869451088174,
+        "oracle_context_issued_per_run": 15.569060773480663,
+        "oracle_context_expected_touched_per_run": 15.569060773480663,
+        "oracle_context_touch_precision": 1.0,
+        "oracle_context_total_first_touch_coverage_pct": 5.154823043046797,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90980",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 39.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x909c0",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 40.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9723342541436464,
+            "mean_context_median_rank": 17.404349617171185
+          }
+        ]
+      },
+      {
+        "budget": 16,
+        "p_min": 0.95,
+        "horizon": 128,
+        "global_issued_per_run": 3,
+        "global_expected_touched_per_run": 2.9184668508287293,
+        "global_touch_precision": 0.9728222836095765,
+        "global_total_first_touch_coverage_pct": 0.9662869451088174,
+        "oracle_context_issued_per_run": 15.569060773480663,
+        "oracle_context_expected_touched_per_run": 15.569060773480663,
+        "oracle_context_touch_precision": 1.0,
+        "oracle_context_total_first_touch_coverage_pct": 5.154823043046797,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90980",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 39.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x909c0",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 40.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9723342541436464,
+            "mean_context_median_rank": 17.404349617171185
+          }
+        ]
+      },
+      {
+        "budget": 32,
+        "p_min": 0.5,
+        "horizon": 32,
+        "global_issued_per_run": 14,
+        "global_expected_touched_per_run": 9.187575966850828,
+        "global_touch_precision": 0.6562554262036305,
+        "global_total_first_touch_coverage_pct": 3.041951534053752,
+        "oracle_context_issued_per_run": 31.138121546961326,
+        "oracle_context_expected_touched_per_run": 30.758784530386745,
+        "oracle_context_touch_precision": 0.9878176011355573,
+        "oracle_context_total_first_touch_coverage_pct": 10.184049865321558,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9723342541436464,
+            "mean_context_median_rank": 17.404349617171185
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1276c0",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 29.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x127700",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 30.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x118d00",
+            "p": 0.79167817679558,
+            "mean_context_median_rank": 9.290958258821476
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xc680",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 15.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xc780",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 22.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xc900",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 24.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0x13300",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 26.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0x13340",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 27.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0x13380",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 28.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xab80",
+            "p": 0.5510082872928177,
+            "mean_context_median_rank": 3.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xadc0",
+            "p": 0.5510082872928177,
+            "mean_context_median_rank": 4.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xabc0",
+            "p": 0.5510082872928177,
+            "mean_context_median_rank": 5.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xac00",
+            "p": 0.5510082872928177,
+            "mean_context_median_rank": 6.0
+          }
+        ]
+      },
+      {
+        "budget": 32,
+        "p_min": 0.5,
+        "horizon": 64,
+        "global_issued_per_run": 21,
+        "global_expected_touched_per_run": 15.345773480662983,
+        "global_touch_precision": 0.7307511181268087,
+        "global_total_first_touch_coverage_pct": 5.080893953875492,
+        "oracle_context_issued_per_run": 31.138121546961326,
+        "oracle_context_expected_touched_per_run": 31.12845303867403,
+        "oracle_context_touch_precision": 0.9996894960965224,
+        "oracle_context_total_first_touch_coverage_pct": 10.306444900740388,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90980",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 39.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x909c0",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 40.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9723342541436464,
+            "mean_context_median_rank": 17.404349617171185
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a6880",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 34.8042334791515
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a68c0",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 35.804233479151506
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a6900",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 40.341169496739724
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1276c0",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 29.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x127700",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 30.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x127740",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 33.12962581422254
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x118d00",
+            "p": 0.79167817679558,
+            "mean_context_median_rank": 9.290958258821476
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xc680",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 15.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xc780",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 22.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xc900",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 24.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0x13300",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 26.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0x13340",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 27.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0x13380",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 28.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0x13f00",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 37.28605482717521
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xab80",
+            "p": 0.5510082872928177,
+            "mean_context_median_rank": 3.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xadc0",
+            "p": 0.5510082872928177,
+            "mean_context_median_rank": 4.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xabc0",
+            "p": 0.5510082872928177,
+            "mean_context_median_rank": 5.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xac00",
+            "p": 0.5510082872928177,
+            "mean_context_median_rank": 6.0
+          }
+        ]
+      },
+      {
+        "budget": 32,
+        "p_min": 0.5,
+        "horizon": 128,
+        "global_issued_per_run": 32,
+        "global_expected_touched_per_run": 22.259972375690605,
+        "global_touch_precision": 0.6956241367403314,
+        "global_total_first_touch_coverage_pct": 7.370143916147235,
+        "oracle_context_issued_per_run": 31.138121546961326,
+        "oracle_context_expected_touched_per_run": 31.138121546961326,
+        "oracle_context_touch_precision": 1.0,
+        "oracle_context_total_first_touch_coverage_pct": 10.309646086093593,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90980",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 39.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x909c0",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 40.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9723342541436464,
+            "mean_context_median_rank": 17.404349617171185
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a6880",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 34.8042334791515
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a68c0",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 35.804233479151506
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a6900",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 40.341169496739724
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1276c0",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 29.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x127700",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 30.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x127740",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 33.12962581422254
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x118d00",
+            "p": 0.79167817679558,
+            "mean_context_median_rank": 9.290958258821476
+          },
+          {
+            "dso": "ComposeReviewService",
+            "elf_line": "0x8f640",
+            "p": 0.7339157458563536,
+            "mean_context_median_rank": 99.92212362733012
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a6940",
+            "p": 0.698004143646409,
+            "mean_context_median_rank": 73.42441452048558
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa5040",
+            "p": 0.6678453038674033,
+            "mean_context_median_rank": 73.58996525479816
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa5080",
+            "p": 0.6678453038674033,
+            "mean_context_median_rank": 74.4803524156188
+          },
+          {
+            "dso": "ComposeReviewService",
+            "elf_line": "0x8f980",
+            "p": 0.6678453038674033,
+            "mean_context_median_rank": 74.49681502316346
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa5140",
+            "p": 0.6678453038674033,
+            "mean_context_median_rank": 75.58996525479816
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa51c0",
+            "p": 0.6678453038674033,
+            "mean_context_median_rank": 79.33028623428193
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa5200",
+            "p": 0.5946408839779005,
+            "mean_context_median_rank": 79.34600018582181
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xc680",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 15.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xc780",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 22.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xc900",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 24.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0x13300",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 26.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0x13340",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 27.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0x13380",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 28.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0x13f00",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 37.28605482717521
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xab80",
+            "p": 0.5510082872928177,
+            "mean_context_median_rank": 3.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xadc0",
+            "p": 0.5510082872928177,
+            "mean_context_median_rank": 4.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xabc0",
+            "p": 0.5510082872928177,
+            "mean_context_median_rank": 5.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xac00",
+            "p": 0.5510082872928177,
+            "mean_context_median_rank": 6.0
+          },
+          {
+            "dso": "ComposeReviewService",
+            "elf_line": "0x22b4c0",
+            "p": 0.5344337016574585,
+            "mean_context_median_rank": 77.61122166800197
+          },
+          {
+            "dso": "ComposeReviewService",
+            "elf_line": "0x2a9880",
+            "p": 0.5069889502762431,
+            "mean_context_median_rank": 82.9698686863183
+          },
+          {
+            "dso": "ComposeReviewService",
+            "elf_line": "0x2a98c0",
+            "p": 0.5069889502762431,
+            "mean_context_median_rank": 83.6810875606168
+          }
+        ]
+      },
+      {
+        "budget": 32,
+        "p_min": 0.8,
+        "horizon": 32,
+        "global_issued_per_run": 3,
+        "global_expected_touched_per_run": 2.7153453038674034,
+        "global_touch_precision": 0.9051151012891344,
+        "global_total_first_touch_coverage_pct": 0.8990346139599121,
+        "oracle_context_issued_per_run": 30.593232044198892,
+        "oracle_context_expected_touched_per_run": 30.416926795580114,
+        "oracle_context_touch_precision": 0.9942371159619858,
+        "oracle_context_total_first_touch_coverage_pct": 10.070862810915129,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9723342541436464,
+            "mean_context_median_rank": 17.404349617171185
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1276c0",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 29.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x127700",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 30.37993882434981
+          }
+        ]
+      },
+      {
+        "budget": 32,
+        "p_min": 0.8,
+        "horizon": 64,
+        "global_issued_per_run": 9,
+        "global_expected_touched_per_run": 8.294122928176796,
+        "global_touch_precision": 0.9215692142418662,
+        "global_total_first_touch_coverage_pct": 2.746134568686005,
+        "oracle_context_issued_per_run": 31.138121546961326,
+        "oracle_context_expected_touched_per_run": 31.12845303867403,
+        "oracle_context_touch_precision": 0.9996894960965224,
+        "oracle_context_total_first_touch_coverage_pct": 10.306444900740388,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90980",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 39.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x909c0",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 40.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9723342541436464,
+            "mean_context_median_rank": 17.404349617171185
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a6880",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 34.8042334791515
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a68c0",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 35.804233479151506
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a6900",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 40.341169496739724
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1276c0",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 29.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x127700",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 30.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x127740",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 33.12962581422254
+          }
+        ]
+      },
+      {
+        "budget": 32,
+        "p_min": 0.8,
+        "horizon": 128,
+        "global_issued_per_run": 9,
+        "global_expected_touched_per_run": 8.294122928176796,
+        "global_touch_precision": 0.9215692142418662,
+        "global_total_first_touch_coverage_pct": 2.746134568686005,
+        "oracle_context_issued_per_run": 31.138121546961326,
+        "oracle_context_expected_touched_per_run": 31.138121546961326,
+        "oracle_context_touch_precision": 1.0,
+        "oracle_context_total_first_touch_coverage_pct": 10.309646086093593,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90980",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 39.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x909c0",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 40.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9723342541436464,
+            "mean_context_median_rank": 17.404349617171185
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a6880",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 34.8042334791515
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a68c0",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 35.804233479151506
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a6900",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 40.341169496739724
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1276c0",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 29.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x127700",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 30.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x127740",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 33.12962581422254
+          }
+        ]
+      },
+      {
+        "budget": 32,
+        "p_min": 0.95,
+        "horizon": 32,
+        "global_issued_per_run": 1,
+        "global_expected_touched_per_run": 0.9723342541436464,
+        "global_touch_precision": 0.9723342541436464,
+        "global_total_first_touch_coverage_pct": 0.3219340647279678,
+        "oracle_context_issued_per_run": 29.141574585635354,
+        "oracle_context_expected_touched_per_run": 29.087790055248618,
+        "oracle_context_touch_precision": 0.998154371163827,
+        "oracle_context_total_first_touch_coverage_pct": 9.63079357384906,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9723342541436464,
+            "mean_context_median_rank": 17.404349617171185
+          }
+        ]
+      },
+      {
+        "budget": 32,
+        "p_min": 0.95,
+        "horizon": 64,
+        "global_issued_per_run": 3,
+        "global_expected_touched_per_run": 2.9184668508287293,
+        "global_touch_precision": 0.9728222836095765,
+        "global_total_first_touch_coverage_pct": 0.9662869451088174,
+        "oracle_context_issued_per_run": 31.138121546961326,
+        "oracle_context_expected_touched_per_run": 31.12845303867403,
+        "oracle_context_touch_precision": 0.9996894960965224,
+        "oracle_context_total_first_touch_coverage_pct": 10.306444900740388,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90980",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 39.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x909c0",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 40.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9723342541436464,
+            "mean_context_median_rank": 17.404349617171185
+          }
+        ]
+      },
+      {
+        "budget": 32,
+        "p_min": 0.95,
+        "horizon": 128,
+        "global_issued_per_run": 3,
+        "global_expected_touched_per_run": 2.9184668508287293,
+        "global_touch_precision": 0.9728222836095765,
+        "global_total_first_touch_coverage_pct": 0.9662869451088174,
+        "oracle_context_issued_per_run": 31.138121546961326,
+        "oracle_context_expected_touched_per_run": 31.138121546961326,
+        "oracle_context_touch_precision": 1.0,
+        "oracle_context_total_first_touch_coverage_pct": 10.309646086093593,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90980",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 39.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x909c0",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 40.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9723342541436464,
+            "mean_context_median_rank": 17.404349617171185
+          }
+        ]
+      },
+      {
+        "budget": 64,
+        "p_min": 0.5,
+        "horizon": 32,
+        "global_issued_per_run": 14,
+        "global_expected_touched_per_run": 9.187575966850828,
+        "global_touch_precision": 0.6562554262036305,
+        "global_total_first_touch_coverage_pct": 3.041951534053752,
+        "oracle_context_issued_per_run": 31.138121546961326,
+        "oracle_context_expected_touched_per_run": 30.758784530386745,
+        "oracle_context_touch_precision": 0.9878176011355573,
+        "oracle_context_total_first_touch_coverage_pct": 10.184049865321558,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9723342541436464,
+            "mean_context_median_rank": 17.404349617171185
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1276c0",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 29.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x127700",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 30.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x118d00",
+            "p": 0.79167817679558,
+            "mean_context_median_rank": 9.290958258821476
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xc680",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 15.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xc780",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 22.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xc900",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 24.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0x13300",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 26.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0x13340",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 27.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0x13380",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 28.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xab80",
+            "p": 0.5510082872928177,
+            "mean_context_median_rank": 3.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xadc0",
+            "p": 0.5510082872928177,
+            "mean_context_median_rank": 4.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xabc0",
+            "p": 0.5510082872928177,
+            "mean_context_median_rank": 5.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xac00",
+            "p": 0.5510082872928177,
+            "mean_context_median_rank": 6.0
+          }
+        ]
+      },
+      {
+        "budget": 64,
+        "p_min": 0.5,
+        "horizon": 64,
+        "global_issued_per_run": 21,
+        "global_expected_touched_per_run": 15.345773480662983,
+        "global_touch_precision": 0.7307511181268087,
+        "global_total_first_touch_coverage_pct": 5.080893953875492,
+        "oracle_context_issued_per_run": 62.27624309392265,
+        "oracle_context_expected_touched_per_run": 61.55331491712706,
+        "oracle_context_touch_precision": 0.9883915897799856,
+        "oracle_context_total_first_touch_coverage_pct": 20.379934970206108,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90980",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 39.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x909c0",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 40.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9723342541436464,
+            "mean_context_median_rank": 17.404349617171185
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a6880",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 34.8042334791515
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a68c0",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 35.804233479151506
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a6900",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 40.341169496739724
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1276c0",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 29.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x127700",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 30.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x127740",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 33.12962581422254
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x118d00",
+            "p": 0.79167817679558,
+            "mean_context_median_rank": 9.290958258821476
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xc680",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 15.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xc780",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 22.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xc900",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 24.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0x13300",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 26.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0x13340",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 27.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0x13380",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 28.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0x13f00",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 37.28605482717521
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xab80",
+            "p": 0.5510082872928177,
+            "mean_context_median_rank": 3.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xadc0",
+            "p": 0.5510082872928177,
+            "mean_context_median_rank": 4.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xabc0",
+            "p": 0.5510082872928177,
+            "mean_context_median_rank": 5.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xac00",
+            "p": 0.5510082872928177,
+            "mean_context_median_rank": 6.0
+          }
+        ]
+      },
+      {
+        "budget": 64,
+        "p_min": 0.5,
+        "horizon": 128,
+        "global_issued_per_run": 32,
+        "global_expected_touched_per_run": 22.259972375690605,
+        "global_touch_precision": 0.6956241367403314,
+        "global_total_first_touch_coverage_pct": 7.370143916147235,
+        "oracle_context_issued_per_run": 62.27624309392265,
+        "oracle_context_expected_touched_per_run": 62.12869475138122,
+        "oracle_context_touch_precision": 0.9976307443222143,
+        "oracle_context_total_first_touch_coverage_pct": 20.57043979713631,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90980",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 39.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x909c0",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 40.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9723342541436464,
+            "mean_context_median_rank": 17.404349617171185
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a6880",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 34.8042334791515
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a68c0",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 35.804233479151506
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a6900",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 40.341169496739724
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1276c0",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 29.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x127700",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 30.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x127740",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 33.12962581422254
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x118d00",
+            "p": 0.79167817679558,
+            "mean_context_median_rank": 9.290958258821476
+          },
+          {
+            "dso": "ComposeReviewService",
+            "elf_line": "0x8f640",
+            "p": 0.7339157458563536,
+            "mean_context_median_rank": 99.92212362733012
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a6940",
+            "p": 0.698004143646409,
+            "mean_context_median_rank": 73.42441452048558
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa5040",
+            "p": 0.6678453038674033,
+            "mean_context_median_rank": 73.58996525479816
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa5080",
+            "p": 0.6678453038674033,
+            "mean_context_median_rank": 74.4803524156188
+          },
+          {
+            "dso": "ComposeReviewService",
+            "elf_line": "0x8f980",
+            "p": 0.6678453038674033,
+            "mean_context_median_rank": 74.49681502316346
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa5140",
+            "p": 0.6678453038674033,
+            "mean_context_median_rank": 75.58996525479816
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa51c0",
+            "p": 0.6678453038674033,
+            "mean_context_median_rank": 79.33028623428193
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa5200",
+            "p": 0.5946408839779005,
+            "mean_context_median_rank": 79.34600018582181
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xc680",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 15.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xc780",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 22.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xc900",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 24.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0x13300",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 26.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0x13340",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 27.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0x13380",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 28.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0x13f00",
+            "p": 0.5794198895027624,
+            "mean_context_median_rank": 37.28605482717521
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xab80",
+            "p": 0.5510082872928177,
+            "mean_context_median_rank": 3.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xadc0",
+            "p": 0.5510082872928177,
+            "mean_context_median_rank": 4.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xabc0",
+            "p": 0.5510082872928177,
+            "mean_context_median_rank": 5.0
+          },
+          {
+            "dso": "libmemcached.so.11.0.0",
+            "elf_line": "0xac00",
+            "p": 0.5510082872928177,
+            "mean_context_median_rank": 6.0
+          },
+          {
+            "dso": "ComposeReviewService",
+            "elf_line": "0x22b4c0",
+            "p": 0.5344337016574585,
+            "mean_context_median_rank": 77.61122166800197
+          },
+          {
+            "dso": "ComposeReviewService",
+            "elf_line": "0x2a9880",
+            "p": 0.5069889502762431,
+            "mean_context_median_rank": 82.9698686863183
+          },
+          {
+            "dso": "ComposeReviewService",
+            "elf_line": "0x2a98c0",
+            "p": 0.5069889502762431,
+            "mean_context_median_rank": 83.6810875606168
+          }
+        ]
+      },
+      {
+        "budget": 64,
+        "p_min": 0.8,
+        "horizon": 32,
+        "global_issued_per_run": 3,
+        "global_expected_touched_per_run": 2.7153453038674034,
+        "global_touch_precision": 0.9051151012891344,
+        "global_total_first_touch_coverage_pct": 0.8990346139599121,
+        "oracle_context_issued_per_run": 30.593232044198892,
+        "oracle_context_expected_touched_per_run": 30.416926795580114,
+        "oracle_context_touch_precision": 0.9942371159619858,
+        "oracle_context_total_first_touch_coverage_pct": 10.070862810915129,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9723342541436464,
+            "mean_context_median_rank": 17.404349617171185
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1276c0",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 29.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x127700",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 30.37993882434981
+          }
+        ]
+      },
+      {
+        "budget": 64,
+        "p_min": 0.8,
+        "horizon": 64,
+        "global_issued_per_run": 9,
+        "global_expected_touched_per_run": 8.294122928176796,
+        "global_touch_precision": 0.9215692142418662,
+        "global_total_first_touch_coverage_pct": 2.746134568686005,
+        "oracle_context_issued_per_run": 61.11187845303868,
+        "oracle_context_expected_touched_per_run": 60.84659530386739,
+        "oracle_context_touch_precision": 0.9956590575206236,
+        "oracle_context_total_first_touch_coverage_pct": 20.14594432681358,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90980",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 39.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x909c0",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 40.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9723342541436464,
+            "mean_context_median_rank": 17.404349617171185
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a6880",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 34.8042334791515
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a68c0",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 35.804233479151506
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a6900",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 40.341169496739724
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1276c0",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 29.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x127700",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 30.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x127740",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 33.12962581422254
+          }
+        ]
+      },
+      {
+        "budget": 64,
+        "p_min": 0.8,
+        "horizon": 128,
+        "global_issued_per_run": 9,
+        "global_expected_touched_per_run": 8.294122928176796,
+        "global_touch_precision": 0.9215692142418662,
+        "global_total_first_touch_coverage_pct": 2.746134568686005,
+        "oracle_context_issued_per_run": 62.017265193370164,
+        "oracle_context_expected_touched_per_run": 61.955179558011054,
+        "oracle_context_touch_precision": 0.998998897562388,
+        "oracle_context_total_first_touch_coverage_pct": 20.512989952851115,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90980",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 39.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x909c0",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 40.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9723342541436464,
+            "mean_context_median_rank": 17.404349617171185
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a6880",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 34.8042334791515
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a68c0",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 35.804233479151506
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1a6900",
+            "p": 0.9203798342541436,
+            "mean_context_median_rank": 40.341169496739724
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x1276c0",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 29.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x127700",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 30.37993882434981
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x127740",
+            "p": 0.8715055248618784,
+            "mean_context_median_rank": 33.12962581422254
+          }
+        ]
+      },
+      {
+        "budget": 64,
+        "p_min": 0.95,
+        "horizon": 32,
+        "global_issued_per_run": 1,
+        "global_expected_touched_per_run": 0.9723342541436464,
+        "global_touch_precision": 0.9723342541436464,
+        "global_total_first_touch_coverage_pct": 0.3219340647279678,
+        "oracle_context_issued_per_run": 29.141574585635354,
+        "oracle_context_expected_touched_per_run": 29.087790055248618,
+        "oracle_context_touch_precision": 0.998154371163827,
+        "oracle_context_total_first_touch_coverage_pct": 9.63079357384906,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9723342541436464,
+            "mean_context_median_rank": 17.404349617171185
+          }
+        ]
+      },
+      {
+        "budget": 64,
+        "p_min": 0.95,
+        "horizon": 64,
+        "global_issued_per_run": 3,
+        "global_expected_touched_per_run": 2.9184668508287293,
+        "global_touch_precision": 0.9728222836095765,
+        "global_total_first_touch_coverage_pct": 0.9662869451088174,
+        "oracle_context_issued_per_run": 59.00000000000001,
+        "oracle_context_expected_touched_per_run": 58.91225138121546,
+        "oracle_context_touch_precision": 0.9985127352748382,
+        "oracle_context_total_first_touch_coverage_pct": 19.50549460600268,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90980",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 39.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x909c0",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 40.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9723342541436464,
+            "mean_context_median_rank": 17.404349617171185
+          }
+        ]
+      },
+      {
+        "budget": 64,
+        "p_min": 0.95,
+        "horizon": 128,
+        "global_issued_per_run": 3,
+        "global_expected_touched_per_run": 2.9184668508287293,
+        "global_touch_precision": 0.9728222836095765,
+        "global_total_first_touch_coverage_pct": 0.9662869451088174,
+        "oracle_context_issued_per_run": 61.982734806629836,
+        "oracle_context_expected_touched_per_run": 61.92272099447514,
+        "oracle_context_touch_precision": 0.9990317656627782,
+        "oracle_context_total_first_touch_coverage_pct": 20.50224311630821,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90980",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 39.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x909c0",
+            "p": 0.9730662983425414,
+            "mean_context_median_rank": 40.71327182398864
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9723342541436464,
+            "mean_context_median_rank": 17.404349617171185
+          }
+        ]
+      }
+    ],
+    "input_hashes": {
+      "entry_UploadMovieId__mr63428fcb2d5f.tsv": "dd93fdbcb66b48a981e897bb445376e3cd9026e527cb9800d741e1e0b88cd847",
+      "entry_UploadRating__mr04db9a1a9d7e.tsv": "61dad15c67ed1399c22aaf141636dd8b84e681cd3e25dcd772fdc47ebac48c7c",
+      "entry_UploadRating__mr831947fd83f0.tsv": "6bc8cff48c59c0316cdf33a1bf88a25a2521cd06a63b43fe07d2e4b984cac3c4",
+      "entry_UploadRating__mrc737e02d1884.tsv": "b8149ebfb125d55dba4f4d7ea7db8c7d027f45f5f9ded3cb295f616a6ec37e95",
+      "entry_UploadRating__mrcd900bda0bc9.tsv": "e1b2c4ca9249e41715f0e6c33608102dee8ff4e09f81e996451588c5981d3650",
+      "entry_UploadText__mr04db9a1a9d7e.tsv": "d2a6e7baded8706a879b5eec806f369940d738e0f08bfe870a13726c52ad97cb",
+      "entry_UploadText__mr1b9c632f4c03.tsv": "8baaf3dbeee94a8855079edb80b314a69980898458e64c0b0615233721967c08",
+      "entry_UploadText__mr3550b9868eda.tsv": "4134e2c2a15da2da3a5a70965fc2bb793a8bfbd5c94e20ee2e64a43e1cd5299a",
+      "entry_UploadText__mr3eac4fc83320.tsv": "3da909b8727409c6ef32c1f4459ff5c55d394293f8b3283f482718dec55472cb",
+      "entry_UploadText__mr7f47dd826e60.tsv": "b0ccefaa09c18ca1d25f7d46fdcdece6b72ec35addf9597cb5b96aca2b8afb70",
+      "entry_UploadText__mr831947fd83f0.tsv": "fc16266fc981ad32c1f3b578300b2f43869dfb33f8fdd73308b8a08e0dd3d591",
+      "entry_UploadText__mra1a0d8e32989.tsv": "09c7ff64039d99fe460b35e5b99011f445d68078c2fe83b9981e5cdb553f3ebd",
+      "entry_UploadText__mrd6721431e52e.tsv": "2d4721a7463ed43791a2a5c874805248ec0c6f8cad25148e83814cc5a271544a",
+      "entry_UploadText__mreeec6e88883a.tsv": "a77720d4b2c087c5a256f62c91b95676a75fa17356ae3ed3aea4734c9e9f6175",
+      "entry_UploadUniqueId__mr04db9a1a9d7e.tsv": "d2a6e7baded8706a879b5eec806f369940d738e0f08bfe870a13726c52ad97cb",
+      "entry_UploadUniqueId__mr1fbd8f43f4dc.tsv": "a9e68befbc09b70e0782dafd74680dbc10a002164e57baab4a51e37a17d1cade",
+      "entry_UploadUniqueId__mr24042a8bf16c.tsv": "0650d8bd87ae616103e4cf39f3b3e7bcfe3f5a64ee46aaf0a4a943a39490bae2",
+      "entry_UploadUniqueId__mr2c28702fc497.tsv": "100a650eabffb71fdaad93297407d0035471fc8595fa8530b63e580d0b6b577d",
+      "entry_UploadUniqueId__mr7127eea80dcc.tsv": "1ed9fb29cafbb8a6e798f3701548a7de4bf5723ff839f94568eefaf39d186edb",
+      "entry_UploadUniqueId__mr7d4d0ce765a0.tsv": "41b9429278c0b418ace885ae8a4fcea745f1fc875dea6982a16995fff5847861",
+      "entry_UploadUserId__mr059c63fa128e.tsv": "bf91b3b3e9f45d4560bdc8f65dcac7eb2ea6aa47b16bff50a62b02c43ee1fad5",
+      "entry_clone__all.tsv": "a265a09943086108f890183dd9dc5dc24576a5e8aa19aaae0101ab09f05dcb62",
+      "entry_futex__all.tsv": "95ceb9831fae37ff63ae023357320a2306ddb49d890c1b94dd73b99a78a38973",
+      "entry_none__all.tsv": "0d9a9b29b060a122ffc584588b6038e76d2961d9048f5a5ee11a5f71e0831484",
+      "entry_none__m0.tsv": "3dae066d0c8d9d9431f5b0c1954308cbedf238193b3daa60e54fe48f215d2bf3",
+      "entry_none__mr15c4d2230d5b.tsv": "2ea66a208f5c7172b7fd0a64f5ca12615976b2bad4defb873d8ca74fcb326f57",
+      "entry_none__mr3d5fc4efea31.tsv": "d61d5d117d1f8ec558698354188f0e5d86adec25d0a35cb840d0ddf0a3d20f3f",
+      "entry_none__mrf93877b1b15a.tsv": "1e4b04b617840e20ee1e3f16e3b5dd330fa1fcfa939d3763a1db1a4bbe6279f3",
+      "entry_recv__all.tsv": "090255e645c0bfd24125ca7edd69a34a93071c13300a8fe42ff8f92336794304",
+      "entry_send__all.tsv": "7681f6604961586cd0f72db4fe5e3d0c96bb16c768b84b7f0ca8eac012635e5f",
+      "list_UploadMovieId__mr63428fcb2d5f.tsv": "0571ec1643242be81bbb5e8b5f4691bdaad96d44a3327c0e1d89be558b5388d3",
+      "list_UploadRating__mr04db9a1a9d7e.tsv": "390a76340c47981bbf519ff056dcab6a57bd4e34262cc8cb33682c02c6236d26",
+      "list_UploadRating__mr831947fd83f0.tsv": "a1c9ad0881b46b70075d5ac11dee1eadf903ce40fb49995ebb39fe1a4799ab30",
+      "list_UploadRating__mrc737e02d1884.tsv": "30610cbceaabe4209277bf1503d7599b1c9a0abde2f656de6f19eb424ba4dd8a",
+      "list_UploadRating__mrcd900bda0bc9.tsv": "2029a65b1e11686299226049179c4e68e141463a59797110292fa3f4d949870b",
+      "list_UploadText__mr04db9a1a9d7e.tsv": "6384f723e0820c7264ae54af8a32509ccd436723cb963b869971089c12afc3c1",
+      "list_UploadText__mr1b9c632f4c03.tsv": "1485eea3236016859b7fc54c36f7cf8df3860121870731a9972ab5d595561e13",
+      "list_UploadText__mr3550b9868eda.tsv": "9d838a59dc03d4849259b37c70b7ca6eaa95adfd49cc7ba39a8f3de1e08d2fd0",
+      "list_UploadText__mr3eac4fc83320.tsv": "01e1643d27b26e326a0b2fec9e78f0d50dbf6299beddfabf81b7ed7cbd360b81",
+      "list_UploadText__mr7f47dd826e60.tsv": "4ed5cffa98e4cd096292db1c0c1bd9f69defceb342ad308513959580f19b782d",
+      "list_UploadText__mr831947fd83f0.tsv": "91e7d0576175db3fed008086afce2c9e5c34dc21c3b54bc8086e882d6fcc471a",
+      "list_UploadText__mra1a0d8e32989.tsv": "04a083cbb1a6f68bf35207c75967f360a18aa77088d22a814b7a0ab11517e8d2",
+      "list_UploadText__mrd6721431e52e.tsv": "1024cd1bb1830dc62dc9dffefefc2301e770d798883835f30a95db6b9ac49106",
+      "list_UploadText__mreeec6e88883a.tsv": "fc39d349c82a896c289ba6139627c21db89918d9220795928465507cf38a2c88",
+      "list_UploadUniqueId__mr04db9a1a9d7e.tsv": "2d7b311d3f4abd63e5065a8cfff2c8a0dce44ae99d955cf9c7e50f6c353b5d1e",
+      "list_UploadUniqueId__mr1fbd8f43f4dc.tsv": "c84a35a8a0e981c7907c62583ea67554894baf02e949e016bcc663c50f7df6cd",
+      "list_UploadUniqueId__mr24042a8bf16c.tsv": "eda426f0cad2bef49356267ede2185df0171b11d2f173859bacbab833d6ec59d",
+      "list_UploadUniqueId__mr2c28702fc497.tsv": "39bf0695759eb77fd579bc0cbc9839cdcc7ed51d4d2750f35cf313435d7b5ba1",
+      "list_UploadUniqueId__mr7127eea80dcc.tsv": "94db9f0c07b234e4112678af501de88949db7f3d20afff27512bc26459827fa0",
+      "list_UploadUniqueId__mr7d4d0ce765a0.tsv": "eb6ced4ca3d8e0fe9eb79fb8276e87f96313c8ea0444d651fbe959dfdf793e36",
+      "list_UploadUserId__mr059c63fa128e.tsv": "f9bb00c9224222a8a8ca7e49d7cf4d13311d27d2a7e0b81e5fac9e18ebc10782",
+      "list_clone__all.tsv": "e463f48f3b9649b2b9d3e2a774a5a878302354c5da518ac2c40d3266c3aa716d",
+      "list_futex__all.tsv": "ae67b71c2c8b38b89b7e45bd3e12c960ad203d31f5bab69a84285755fcf6416c",
+      "list_none__all.tsv": "696efde3dc3c4cad6bb7054eea2a6c6f07b7690403d70f41996da453b22ecfd7",
+      "list_none__m0.tsv": "c75e1d31783f5eae9f623887fd133c73cabf900b6b1e85c2745de19e7936ff56",
+      "list_none__mr15c4d2230d5b.tsv": "e94046b8649930db69d76f1ffcade0202b1051fbb193137aea27c3c2a08cb912",
+      "list_none__mr3d5fc4efea31.tsv": "917c2ee3f8e8033754abcb012303f0e576ccfde522dd7e1a21146c97fe984df3",
+      "list_none__mrf93877b1b15a.tsv": "c9650585050fc5c3bcbe87395e9647d2eca2d97542c713a47e0236fd86a15f85",
+      "list_recv__all.tsv": "61f973ce1df80f19156d53c11c0ac04dd93308d9cd24aa8c7e23a91a55d1b8ed",
+      "list_send__all.tsv": "0ffd25930738e7241dedde4c77aa8c7a1c52a8df7b304569973635454ba737e5",
+      "runs.tsv": "02c687fe87bb726ec8557da32e4344142d1b77d9ea6c83e1707e98f581b51a42"
+    },
+    "limitations": [
+      "Rounded training marginals; no held-out accuracy estimate.",
+      "A touched line need not be a cache miss, critical, or reached after prefetch completes.",
+      "Median rank is not a per-run timing guarantee; global rank averages context medians.",
+      "Oracle method/return context is known after resumption, not at sched_switch.",
+      "Rare types omitted by the original exporter contribute zero predicted coverage."
+    ]
+  },
+  "rating": {
+    "runs": 692,
+    "first_touches": 156716,
+    "mean_first_touches_per_run": 226.46820809248555,
+    "represented_runs": 690,
+    "by_type": {
+      "UploadRating__mr1418ce15b523": 62,
+      "none__mr28458fa6f0ed": 62,
+      "none__mr0a55cb000f7e": 62,
+      "none__m0": 380,
+      "none__mr2296158b3557": 59,
+      "UploadRating__mr4dd190256ce5": 65,
+      "none__mrb424041636f3": 1,
+      "none__mr1418ce15b523": 1
+    },
+    "policies": [
+      {
+        "budget": 8,
+        "p_min": 0.5,
+        "horizon": 32,
+        "global_issued_per_run": 0,
+        "global_expected_touched_per_run": 0,
+        "global_touch_precision": null,
+        "global_total_first_touch_coverage_pct": 0.0,
+        "oracle_context_issued_per_run": 7.976878612716763,
+        "oracle_context_expected_touched_per_run": 7.916473988439306,
+        "oracle_context_touch_precision": 0.9924275362318841,
+        "oracle_context_total_first_touch_coverage_pct": 3.495622654993747,
+        "global_targets": []
+      },
+      {
+        "budget": 8,
+        "p_min": 0.5,
+        "horizon": 64,
+        "global_issued_per_run": 8,
+        "global_expected_touched_per_run": 7.286575144508671,
+        "global_touch_precision": 0.9108218930635839,
+        "global_total_first_touch_coverage_pct": 3.217482579953547,
+        "oracle_context_issued_per_run": 7.976878612716763,
+        "oracle_context_expected_touched_per_run": 7.916473988439306,
+        "oracle_context_touch_precision": 0.9924275362318841,
+        "oracle_context_total_first_touch_coverage_pct": 3.495622654993747,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9898265895953756,
+            "mean_context_median_rank": 53.13192011212333
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36b80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 57.92671498645582
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97e80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 58.92671498645581
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97ec0",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 59.926714986455806
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97f00",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 60.92671498645581
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36c80",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 37.92659942575278
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36300",
+            "p": 0.7991329479768786,
+            "mean_context_median_rank": 36.27160940325498
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x232e80",
+            "p": 0.5684971098265897,
+            "mean_context_median_rank": 46.045754956786986
+          }
+        ]
+      },
+      {
+        "budget": 8,
+        "p_min": 0.5,
+        "horizon": 128,
+        "global_issued_per_run": 8,
+        "global_expected_touched_per_run": 7.881806358381502,
+        "global_touch_precision": 0.9852257947976878,
+        "global_total_first_touch_coverage_pct": 3.4803147094106537,
+        "oracle_context_issued_per_run": 7.976878612716763,
+        "oracle_context_expected_touched_per_run": 7.916473988439306,
+        "oracle_context_touch_precision": 0.9924275362318841,
+        "oracle_context_total_first_touch_coverage_pct": 3.495622654993747,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9898265895953756,
+            "mean_context_median_rank": 53.13192011212333
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36b80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 57.92671498645582
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97e80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 58.92671498645581
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97ec0",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 59.926714986455806
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97f00",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 60.92671498645581
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36c80",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 37.92659942575278
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x99a00",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 71.79120960023559
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x99a40",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 72.79120960023559
+          }
+        ]
+      },
+      {
+        "budget": 8,
+        "p_min": 0.8,
+        "horizon": 32,
+        "global_issued_per_run": 0,
+        "global_expected_touched_per_run": 0,
+        "global_touch_precision": null,
+        "global_total_first_touch_coverage_pct": 0.0,
+        "oracle_context_issued_per_run": 7.976878612716763,
+        "oracle_context_expected_touched_per_run": 7.916473988439306,
+        "oracle_context_touch_precision": 0.9924275362318841,
+        "oracle_context_total_first_touch_coverage_pct": 3.495622654993747,
+        "global_targets": []
+      },
+      {
+        "budget": 8,
+        "p_min": 0.8,
+        "horizon": 64,
+        "global_issued_per_run": 6,
+        "global_expected_touched_per_run": 5.918945086705202,
+        "global_touch_precision": 0.9864908477842004,
+        "global_total_first_touch_coverage_pct": 2.6135876362336963,
+        "oracle_context_issued_per_run": 7.976878612716763,
+        "oracle_context_expected_touched_per_run": 7.916473988439306,
+        "oracle_context_touch_precision": 0.9924275362318841,
+        "oracle_context_total_first_touch_coverage_pct": 3.495622654993747,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9898265895953756,
+            "mean_context_median_rank": 53.13192011212333
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36b80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 57.92671498645582
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97e80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 58.92671498645581
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97ec0",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 59.926714986455806
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97f00",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 60.92671498645581
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36c80",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 37.92659942575278
+          }
+        ]
+      },
+      {
+        "budget": 8,
+        "p_min": 0.8,
+        "horizon": 128,
+        "global_issued_per_run": 8,
+        "global_expected_touched_per_run": 7.881806358381502,
+        "global_touch_precision": 0.9852257947976878,
+        "global_total_first_touch_coverage_pct": 3.4803147094106537,
+        "oracle_context_issued_per_run": 7.976878612716763,
+        "oracle_context_expected_touched_per_run": 7.916473988439306,
+        "oracle_context_touch_precision": 0.9924275362318841,
+        "oracle_context_total_first_touch_coverage_pct": 3.495622654993747,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9898265895953756,
+            "mean_context_median_rank": 53.13192011212333
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36b80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 57.92671498645582
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97e80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 58.92671498645581
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97ec0",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 59.926714986455806
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97f00",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 60.92671498645581
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36c80",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 37.92659942575278
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x99a00",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 71.79120960023559
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x99a40",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 72.79120960023559
+          }
+        ]
+      },
+      {
+        "budget": 8,
+        "p_min": 0.95,
+        "horizon": 32,
+        "global_issued_per_run": 0,
+        "global_expected_touched_per_run": 0,
+        "global_touch_precision": null,
+        "global_total_first_touch_coverage_pct": 0.0,
+        "oracle_context_issued_per_run": 7.976878612716763,
+        "oracle_context_expected_touched_per_run": 7.916473988439306,
+        "oracle_context_touch_precision": 0.9924275362318841,
+        "oracle_context_total_first_touch_coverage_pct": 3.495622654993747,
+        "global_targets": []
+      },
+      {
+        "budget": 8,
+        "p_min": 0.95,
+        "horizon": 64,
+        "global_issued_per_run": 6,
+        "global_expected_touched_per_run": 5.918945086705202,
+        "global_touch_precision": 0.9864908477842004,
+        "global_total_first_touch_coverage_pct": 2.6135876362336963,
+        "oracle_context_issued_per_run": 7.976878612716763,
+        "oracle_context_expected_touched_per_run": 7.916473988439306,
+        "oracle_context_touch_precision": 0.9924275362318841,
+        "oracle_context_total_first_touch_coverage_pct": 3.495622654993747,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9898265895953756,
+            "mean_context_median_rank": 53.13192011212333
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36b80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 57.92671498645582
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97e80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 58.92671498645581
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97ec0",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 59.926714986455806
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97f00",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 60.92671498645581
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36c80",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 37.92659942575278
+          }
+        ]
+      },
+      {
+        "budget": 8,
+        "p_min": 0.95,
+        "horizon": 128,
+        "global_issued_per_run": 8,
+        "global_expected_touched_per_run": 7.881806358381502,
+        "global_touch_precision": 0.9852257947976878,
+        "global_total_first_touch_coverage_pct": 3.4803147094106537,
+        "oracle_context_issued_per_run": 7.976878612716763,
+        "oracle_context_expected_touched_per_run": 7.916473988439306,
+        "oracle_context_touch_precision": 0.9924275362318841,
+        "oracle_context_total_first_touch_coverage_pct": 3.495622654993747,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9898265895953756,
+            "mean_context_median_rank": 53.13192011212333
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36b80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 57.92671498645582
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97e80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 58.92671498645581
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97ec0",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 59.926714986455806
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97f00",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 60.92671498645581
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36c80",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 37.92659942575278
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x99a00",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 71.79120960023559
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x99a40",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 72.79120960023559
+          }
+        ]
+      },
+      {
+        "budget": 16,
+        "p_min": 0.5,
+        "horizon": 32,
+        "global_issued_per_run": 0,
+        "global_expected_touched_per_run": 0,
+        "global_touch_precision": null,
+        "global_total_first_touch_coverage_pct": 0.0,
+        "oracle_context_issued_per_run": 15.953757225433526,
+        "oracle_context_expected_touched_per_run": 15.195953757225434,
+        "oracle_context_touch_precision": 0.9525,
+        "oracle_context_total_first_touch_coverage_pct": 6.7099721789734295,
+        "global_targets": []
+      },
+      {
+        "budget": 16,
+        "p_min": 0.5,
+        "horizon": 64,
+        "global_issued_per_run": 13,
+        "global_expected_touched_per_run": 10.12906069364162,
+        "global_touch_precision": 0.7791585148955092,
+        "global_total_first_touch_coverage_pct": 4.472619260318028,
+        "oracle_context_issued_per_run": 15.953757225433526,
+        "oracle_context_expected_touched_per_run": 15.316763005780347,
+        "oracle_context_touch_precision": 0.960072463768116,
+        "oracle_context_total_first_touch_coverage_pct": 6.76331708313127,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9898265895953756,
+            "mean_context_median_rank": 53.13192011212333
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36b80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 57.92671498645582
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97e80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 58.92671498645581
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97ec0",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 59.926714986455806
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97f00",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 60.92671498645581
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36c80",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 37.92659942575278
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36300",
+            "p": 0.7991329479768786,
+            "mean_context_median_rank": 36.27160940325498
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x232e80",
+            "p": 0.5684971098265897,
+            "mean_context_median_rank": 46.045754956786986
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa5040",
+            "p": 0.5684971098265897,
+            "mean_context_median_rank": 48.045754956786986
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa5080",
+            "p": 0.5684971098265897,
+            "mean_context_median_rank": 49.04575495678698
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa5140",
+            "p": 0.5684971098265897,
+            "mean_context_median_rank": 50.04575495678698
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa51c0",
+            "p": 0.5684971098265897,
+            "mean_context_median_rank": 55.143365531265886
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x232ec0",
+            "p": 0.5684971098265897,
+            "mean_context_median_rank": 58.694966954753426
+          }
+        ]
+      },
+      {
+        "budget": 16,
+        "p_min": 0.5,
+        "horizon": 128,
+        "global_issued_per_run": 16,
+        "global_expected_touched_per_run": 14.294393063583815,
+        "global_touch_precision": 0.8933995664739884,
+        "global_total_first_touch_coverage_pct": 6.311876260241457,
+        "oracle_context_issued_per_run": 15.953757225433526,
+        "oracle_context_expected_touched_per_run": 15.316763005780347,
+        "oracle_context_touch_precision": 0.960072463768116,
+        "oracle_context_total_first_touch_coverage_pct": 6.76331708313127,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9898265895953756,
+            "mean_context_median_rank": 53.13192011212333
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36b80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 57.92671498645582
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97e80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 58.92671498645581
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97ec0",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 59.926714986455806
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97f00",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 60.92671498645581
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36c80",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 37.92659942575278
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x99a00",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 71.79120960023559
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x99a40",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 72.79120960023559
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x99a80",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 73.79120960023559
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90980",
+            "p": 0.980635838150289,
+            "mean_context_median_rank": 91.57353374594756
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x909c0",
+            "p": 0.980635838150289,
+            "mean_context_median_rank": 92.57353374594756
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36300",
+            "p": 0.7991329479768786,
+            "mean_context_median_rank": 36.27160940325498
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x231300",
+            "p": 0.6676878612716763,
+            "mean_context_median_rank": 90.04830750584364
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x364c0",
+            "p": 0.6676878612716763,
+            "mean_context_median_rank": 123.3874989178426
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa5380",
+            "p": 0.6676878612716763,
+            "mean_context_median_rank": 124.52168643407497
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa53c0",
+            "p": 0.6676878612716763,
+            "mean_context_median_rank": 125.52168643407497
+          }
+        ]
+      },
+      {
+        "budget": 16,
+        "p_min": 0.8,
+        "horizon": 32,
+        "global_issued_per_run": 0,
+        "global_expected_touched_per_run": 0,
+        "global_touch_precision": null,
+        "global_total_first_touch_coverage_pct": 0.0,
+        "oracle_context_issued_per_run": 13.208092485549132,
+        "oracle_context_expected_touched_per_run": 13.092774566473986,
+        "oracle_context_touch_precision": 0.991269146608315,
+        "oracle_context_total_first_touch_coverage_pct": 5.781285892952857,
+        "global_targets": []
+      },
+      {
+        "budget": 16,
+        "p_min": 0.8,
+        "horizon": 64,
+        "global_issued_per_run": 6,
+        "global_expected_touched_per_run": 5.918945086705202,
+        "global_touch_precision": 0.9864908477842004,
+        "global_total_first_touch_coverage_pct": 2.6135876362336963,
+        "oracle_context_issued_per_run": 13.757225433526012,
+        "oracle_context_expected_touched_per_run": 13.630924855491328,
+        "oracle_context_touch_precision": 0.9908193277310923,
+        "oracle_context_total_first_touch_coverage_pct": 6.018913193292324,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9898265895953756,
+            "mean_context_median_rank": 53.13192011212333
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36b80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 57.92671498645582
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97e80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 58.92671498645581
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97ec0",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 59.926714986455806
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97f00",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 60.92671498645581
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36c80",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 37.92659942575278
+          }
+        ]
+      },
+      {
+        "budget": 16,
+        "p_min": 0.8,
+        "horizon": 128,
+        "global_issued_per_run": 11,
+        "global_expected_touched_per_run": 10.824508670520231,
+        "global_touch_precision": 0.9840462427745664,
+        "global_total_first_touch_coverage_pct": 4.779703412542434,
+        "oracle_context_issued_per_run": 13.757225433526012,
+        "oracle_context_expected_touched_per_run": 13.630924855491328,
+        "oracle_context_touch_precision": 0.9908193277310923,
+        "oracle_context_total_first_touch_coverage_pct": 6.018913193292324,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9898265895953756,
+            "mean_context_median_rank": 53.13192011212333
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36b80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 57.92671498645582
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97e80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 58.92671498645581
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97ec0",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 59.926714986455806
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97f00",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 60.92671498645581
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36c80",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 37.92659942575278
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x99a00",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 71.79120960023559
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x99a40",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 72.79120960023559
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x99a80",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 73.79120960023559
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90980",
+            "p": 0.980635838150289,
+            "mean_context_median_rank": 91.57353374594756
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x909c0",
+            "p": 0.980635838150289,
+            "mean_context_median_rank": 92.57353374594756
+          }
+        ]
+      },
+      {
+        "budget": 16,
+        "p_min": 0.95,
+        "horizon": 32,
+        "global_issued_per_run": 0,
+        "global_expected_touched_per_run": 0,
+        "global_touch_precision": null,
+        "global_total_first_touch_coverage_pct": 0.0,
+        "oracle_context_issued_per_run": 13.208092485549132,
+        "oracle_context_expected_touched_per_run": 13.092774566473986,
+        "oracle_context_touch_precision": 0.991269146608315,
+        "oracle_context_total_first_touch_coverage_pct": 5.781285892952857,
+        "global_targets": []
+      },
+      {
+        "budget": 16,
+        "p_min": 0.95,
+        "horizon": 64,
+        "global_issued_per_run": 6,
+        "global_expected_touched_per_run": 5.918945086705202,
+        "global_touch_precision": 0.9864908477842004,
+        "global_total_first_touch_coverage_pct": 2.6135876362336963,
+        "oracle_context_issued_per_run": 13.757225433526012,
+        "oracle_context_expected_touched_per_run": 13.630924855491328,
+        "oracle_context_touch_precision": 0.9908193277310923,
+        "oracle_context_total_first_touch_coverage_pct": 6.018913193292324,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9898265895953756,
+            "mean_context_median_rank": 53.13192011212333
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36b80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 57.92671498645582
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97e80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 58.92671498645581
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97ec0",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 59.926714986455806
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97f00",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 60.92671498645581
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36c80",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 37.92659942575278
+          }
+        ]
+      },
+      {
+        "budget": 16,
+        "p_min": 0.95,
+        "horizon": 128,
+        "global_issued_per_run": 11,
+        "global_expected_touched_per_run": 10.824508670520231,
+        "global_touch_precision": 0.9840462427745664,
+        "global_total_first_touch_coverage_pct": 4.779703412542434,
+        "oracle_context_issued_per_run": 13.757225433526012,
+        "oracle_context_expected_touched_per_run": 13.630924855491328,
+        "oracle_context_touch_precision": 0.9908193277310923,
+        "oracle_context_total_first_touch_coverage_pct": 6.018913193292324,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9898265895953756,
+            "mean_context_median_rank": 53.13192011212333
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36b80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 57.92671498645582
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97e80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 58.92671498645581
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97ec0",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 59.926714986455806
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97f00",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 60.92671498645581
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36c80",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 37.92659942575278
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x99a00",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 71.79120960023559
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x99a40",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 72.79120960023559
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x99a80",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 73.79120960023559
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90980",
+            "p": 0.980635838150289,
+            "mean_context_median_rank": 91.57353374594756
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x909c0",
+            "p": 0.980635838150289,
+            "mean_context_median_rank": 92.57353374594756
+          }
+        ]
+      },
+      {
+        "budget": 32,
+        "p_min": 0.5,
+        "horizon": 32,
+        "global_issued_per_run": 0,
+        "global_expected_touched_per_run": 0,
+        "global_touch_precision": null,
+        "global_total_first_touch_coverage_pct": 0.0,
+        "oracle_context_issued_per_run": 31.90751445086705,
+        "oracle_context_expected_touched_per_run": 28.503627167630057,
+        "oracle_context_touch_precision": 0.8933201992753623,
+        "oracle_context_total_first_touch_coverage_pct": 12.586149467827152,
+        "global_targets": []
+      },
+      {
+        "budget": 32,
+        "p_min": 0.5,
+        "horizon": 64,
+        "global_issued_per_run": 13,
+        "global_expected_touched_per_run": 10.12906069364162,
+        "global_touch_precision": 0.7791585148955092,
+        "global_total_first_touch_coverage_pct": 4.472619260318028,
+        "oracle_context_issued_per_run": 31.90751445086705,
+        "oracle_context_expected_touched_per_run": 29.013583815028905,
+        "oracle_context_touch_precision": 0.9093025362318842,
+        "oracle_context_total_first_touch_coverage_pct": 12.811327496873327,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9898265895953756,
+            "mean_context_median_rank": 53.13192011212333
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36b80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 57.92671498645582
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97e80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 58.92671498645581
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97ec0",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 59.926714986455806
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97f00",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 60.92671498645581
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36c80",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 37.92659942575278
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36300",
+            "p": 0.7991329479768786,
+            "mean_context_median_rank": 36.27160940325498
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x232e80",
+            "p": 0.5684971098265897,
+            "mean_context_median_rank": 46.045754956786986
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa5040",
+            "p": 0.5684971098265897,
+            "mean_context_median_rank": 48.045754956786986
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa5080",
+            "p": 0.5684971098265897,
+            "mean_context_median_rank": 49.04575495678698
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa5140",
+            "p": 0.5684971098265897,
+            "mean_context_median_rank": 50.04575495678698
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa51c0",
+            "p": 0.5684971098265897,
+            "mean_context_median_rank": 55.143365531265886
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x232ec0",
+            "p": 0.5684971098265897,
+            "mean_context_median_rank": 58.694966954753426
+          }
+        ]
+      },
+      {
+        "budget": 32,
+        "p_min": 0.5,
+        "horizon": 128,
+        "global_issued_per_run": 26,
+        "global_expected_touched_per_run": 20.217919075144508,
+        "global_touch_precision": 0.7776122721209426,
+        "global_total_first_touch_coverage_pct": 8.92748666377396,
+        "oracle_context_issued_per_run": 31.90751445086705,
+        "oracle_context_expected_touched_per_run": 29.013583815028905,
+        "oracle_context_touch_precision": 0.9093025362318842,
+        "oracle_context_total_first_touch_coverage_pct": 12.811327496873327,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9898265895953756,
+            "mean_context_median_rank": 53.13192011212333
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36b80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 57.92671498645582
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97e80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 58.92671498645581
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97ec0",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 59.926714986455806
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97f00",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 60.92671498645581
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36c80",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 37.92659942575278
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x99a00",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 71.79120960023559
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x99a40",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 72.79120960023559
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x99a80",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 73.79120960023559
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90980",
+            "p": 0.980635838150289,
+            "mean_context_median_rank": 91.57353374594756
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x909c0",
+            "p": 0.980635838150289,
+            "mean_context_median_rank": 92.57353374594756
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36300",
+            "p": 0.7991329479768786,
+            "mean_context_median_rank": 36.27160940325498
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x231300",
+            "p": 0.6676878612716763,
+            "mean_context_median_rank": 90.04830750584364
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x364c0",
+            "p": 0.6676878612716763,
+            "mean_context_median_rank": 123.3874989178426
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa5380",
+            "p": 0.6676878612716763,
+            "mean_context_median_rank": 124.52168643407497
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa53c0",
+            "p": 0.6676878612716763,
+            "mean_context_median_rank": 125.52168643407497
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa5400",
+            "p": 0.6676878612716763,
+            "mean_context_median_rank": 126.59146394251582
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa2640",
+            "p": 0.6676878612716763,
+            "mean_context_median_rank": 127.5914639425158
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x21afc0",
+            "p": 0.6086705202312139,
+            "mean_context_median_rank": 102.04320987654322
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x232e80",
+            "p": 0.5684971098265897,
+            "mean_context_median_rank": 46.045754956786986
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa5040",
+            "p": 0.5684971098265897,
+            "mean_context_median_rank": 48.045754956786986
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa5080",
+            "p": 0.5684971098265897,
+            "mean_context_median_rank": 49.04575495678698
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa5140",
+            "p": 0.5684971098265897,
+            "mean_context_median_rank": 50.04575495678698
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa51c0",
+            "p": 0.5684971098265897,
+            "mean_context_median_rank": 55.143365531265886
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x232ec0",
+            "p": 0.5684971098265897,
+            "mean_context_median_rank": 58.694966954753426
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa5200",
+            "p": 0.5684971098265897,
+            "mean_context_median_rank": 81.87900355871885
+          }
+        ]
+      },
+      {
+        "budget": 32,
+        "p_min": 0.8,
+        "horizon": 32,
+        "global_issued_per_run": 0,
+        "global_expected_touched_per_run": 0,
+        "global_touch_precision": null,
+        "global_total_first_touch_coverage_pct": 0.0,
+        "oracle_context_issued_per_run": 20.3757225433526,
+        "oracle_context_expected_touched_per_run": 20.206228323699424,
+        "oracle_context_touch_precision": 0.991681560283688,
+        "oracle_context_total_first_touch_coverage_pct": 8.922324459531893,
+        "global_targets": []
+      },
+      {
+        "budget": 32,
+        "p_min": 0.8,
+        "horizon": 64,
+        "global_issued_per_run": 6,
+        "global_expected_touched_per_run": 5.918945086705202,
+        "global_touch_precision": 0.9864908477842004,
+        "global_total_first_touch_coverage_pct": 2.6135876362336963,
+        "oracle_context_issued_per_run": 20.92485549132948,
+        "oracle_context_expected_touched_per_run": 20.798554913294797,
+        "oracle_context_touch_precision": 0.9939640883977899,
+        "oracle_context_total_first_touch_coverage_pct": 9.183874014140228,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9898265895953756,
+            "mean_context_median_rank": 53.13192011212333
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36b80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 57.92671498645582
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97e80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 58.92671498645581
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97ec0",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 59.926714986455806
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97f00",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 60.92671498645581
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36c80",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 37.92659942575278
+          }
+        ]
+      },
+      {
+        "budget": 32,
+        "p_min": 0.8,
+        "horizon": 128,
+        "global_issued_per_run": 11,
+        "global_expected_touched_per_run": 10.824508670520231,
+        "global_touch_precision": 0.9840462427745664,
+        "global_total_first_touch_coverage_pct": 4.779703412542434,
+        "oracle_context_issued_per_run": 20.92485549132948,
+        "oracle_context_expected_touched_per_run": 20.798554913294797,
+        "oracle_context_touch_precision": 0.9939640883977899,
+        "oracle_context_total_first_touch_coverage_pct": 9.183874014140228,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9898265895953756,
+            "mean_context_median_rank": 53.13192011212333
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36b80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 57.92671498645582
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97e80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 58.92671498645581
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97ec0",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 59.926714986455806
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97f00",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 60.92671498645581
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36c80",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 37.92659942575278
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x99a00",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 71.79120960023559
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x99a40",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 72.79120960023559
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x99a80",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 73.79120960023559
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90980",
+            "p": 0.980635838150289,
+            "mean_context_median_rank": 91.57353374594756
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x909c0",
+            "p": 0.980635838150289,
+            "mean_context_median_rank": 92.57353374594756
+          }
+        ]
+      },
+      {
+        "budget": 32,
+        "p_min": 0.95,
+        "horizon": 32,
+        "global_issued_per_run": 0,
+        "global_expected_touched_per_run": 0,
+        "global_touch_precision": null,
+        "global_total_first_touch_coverage_pct": 0.0,
+        "oracle_context_issued_per_run": 20.3757225433526,
+        "oracle_context_expected_touched_per_run": 20.206228323699424,
+        "oracle_context_touch_precision": 0.991681560283688,
+        "oracle_context_total_first_touch_coverage_pct": 8.922324459531893,
+        "global_targets": []
+      },
+      {
+        "budget": 32,
+        "p_min": 0.95,
+        "horizon": 64,
+        "global_issued_per_run": 6,
+        "global_expected_touched_per_run": 5.918945086705202,
+        "global_touch_precision": 0.9864908477842004,
+        "global_total_first_touch_coverage_pct": 2.6135876362336963,
+        "oracle_context_issued_per_run": 20.92485549132948,
+        "oracle_context_expected_touched_per_run": 20.798554913294797,
+        "oracle_context_touch_precision": 0.9939640883977899,
+        "oracle_context_total_first_touch_coverage_pct": 9.183874014140228,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9898265895953756,
+            "mean_context_median_rank": 53.13192011212333
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36b80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 57.92671498645582
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97e80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 58.92671498645581
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97ec0",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 59.926714986455806
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97f00",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 60.92671498645581
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36c80",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 37.92659942575278
+          }
+        ]
+      },
+      {
+        "budget": 32,
+        "p_min": 0.95,
+        "horizon": 128,
+        "global_issued_per_run": 11,
+        "global_expected_touched_per_run": 10.824508670520231,
+        "global_touch_precision": 0.9840462427745664,
+        "global_total_first_touch_coverage_pct": 4.779703412542434,
+        "oracle_context_issued_per_run": 20.92485549132948,
+        "oracle_context_expected_touched_per_run": 20.798554913294797,
+        "oracle_context_touch_precision": 0.9939640883977899,
+        "oracle_context_total_first_touch_coverage_pct": 9.183874014140228,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9898265895953756,
+            "mean_context_median_rank": 53.13192011212333
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36b80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 57.92671498645582
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97e80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 58.92671498645581
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97ec0",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 59.926714986455806
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97f00",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 60.92671498645581
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36c80",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 37.92659942575278
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x99a00",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 71.79120960023559
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x99a40",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 72.79120960023559
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x99a80",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 73.79120960023559
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90980",
+            "p": 0.980635838150289,
+            "mean_context_median_rank": 91.57353374594756
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x909c0",
+            "p": 0.980635838150289,
+            "mean_context_median_rank": 92.57353374594756
+          }
+        ]
+      },
+      {
+        "budget": 64,
+        "p_min": 0.5,
+        "horizon": 32,
+        "global_issued_per_run": 0,
+        "global_expected_touched_per_run": 0,
+        "global_touch_precision": null,
+        "global_total_first_touch_coverage_pct": 0.0,
+        "oracle_context_issued_per_run": 34.104046242774565,
+        "oracle_context_expected_touched_per_run": 29.68975433526012,
+        "oracle_context_touch_precision": 0.8705639830508476,
+        "oracle_context_total_first_touch_coverage_pct": 13.109899435922307,
+        "global_targets": []
+      },
+      {
+        "budget": 64,
+        "p_min": 0.5,
+        "horizon": 64,
+        "global_issued_per_run": 13,
+        "global_expected_touched_per_run": 10.12906069364162,
+        "global_touch_precision": 0.7791585148955092,
+        "global_total_first_touch_coverage_pct": 4.472619260318028,
+        "oracle_context_issued_per_run": 59.42196531791908,
+        "oracle_context_expected_touched_per_run": 51.38273121387283,
+        "oracle_context_touch_precision": 0.8647093871595329,
+        "oracle_context_total_first_touch_coverage_pct": 22.688717169912454,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9898265895953756,
+            "mean_context_median_rank": 53.13192011212333
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36b80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 57.92671498645582
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97e80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 58.92671498645581
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97ec0",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 59.926714986455806
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97f00",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 60.92671498645581
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36c80",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 37.92659942575278
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36300",
+            "p": 0.7991329479768786,
+            "mean_context_median_rank": 36.27160940325498
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x232e80",
+            "p": 0.5684971098265897,
+            "mean_context_median_rank": 46.045754956786986
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa5040",
+            "p": 0.5684971098265897,
+            "mean_context_median_rank": 48.045754956786986
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa5080",
+            "p": 0.5684971098265897,
+            "mean_context_median_rank": 49.04575495678698
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa5140",
+            "p": 0.5684971098265897,
+            "mean_context_median_rank": 50.04575495678698
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa51c0",
+            "p": 0.5684971098265897,
+            "mean_context_median_rank": 55.143365531265886
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x232ec0",
+            "p": 0.5684971098265897,
+            "mean_context_median_rank": 58.694966954753426
+          }
+        ]
+      },
+      {
+        "budget": 64,
+        "p_min": 0.5,
+        "horizon": 128,
+        "global_issued_per_run": 26,
+        "global_expected_touched_per_run": 20.217919075144508,
+        "global_touch_precision": 0.7776122721209426,
+        "global_total_first_touch_coverage_pct": 8.92748666377396,
+        "oracle_context_issued_per_run": 63.8150289017341,
+        "oracle_context_expected_touched_per_run": 53.95222543352601,
+        "oracle_context_touch_precision": 0.8454470108695652,
+        "oracle_context_total_first_touch_coverage_pct": 23.823310957400647,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9898265895953756,
+            "mean_context_median_rank": 53.13192011212333
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36b80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 57.92671498645582
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97e80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 58.92671498645581
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97ec0",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 59.926714986455806
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97f00",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 60.92671498645581
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36c80",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 37.92659942575278
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x99a00",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 71.79120960023559
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x99a40",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 72.79120960023559
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x99a80",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 73.79120960023559
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90980",
+            "p": 0.980635838150289,
+            "mean_context_median_rank": 91.57353374594756
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x909c0",
+            "p": 0.980635838150289,
+            "mean_context_median_rank": 92.57353374594756
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36300",
+            "p": 0.7991329479768786,
+            "mean_context_median_rank": 36.27160940325498
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x231300",
+            "p": 0.6676878612716763,
+            "mean_context_median_rank": 90.04830750584364
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x364c0",
+            "p": 0.6676878612716763,
+            "mean_context_median_rank": 123.3874989178426
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa5380",
+            "p": 0.6676878612716763,
+            "mean_context_median_rank": 124.52168643407497
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa53c0",
+            "p": 0.6676878612716763,
+            "mean_context_median_rank": 125.52168643407497
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa5400",
+            "p": 0.6676878612716763,
+            "mean_context_median_rank": 126.59146394251582
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa2640",
+            "p": 0.6676878612716763,
+            "mean_context_median_rank": 127.5914639425158
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x21afc0",
+            "p": 0.6086705202312139,
+            "mean_context_median_rank": 102.04320987654322
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x232e80",
+            "p": 0.5684971098265897,
+            "mean_context_median_rank": 46.045754956786986
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa5040",
+            "p": 0.5684971098265897,
+            "mean_context_median_rank": 48.045754956786986
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa5080",
+            "p": 0.5684971098265897,
+            "mean_context_median_rank": 49.04575495678698
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa5140",
+            "p": 0.5684971098265897,
+            "mean_context_median_rank": 50.04575495678698
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa51c0",
+            "p": 0.5684971098265897,
+            "mean_context_median_rank": 55.143365531265886
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x232ec0",
+            "p": 0.5684971098265897,
+            "mean_context_median_rank": 58.694966954753426
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0xa5200",
+            "p": 0.5684971098265897,
+            "mean_context_median_rank": 81.87900355871885
+          }
+        ]
+      },
+      {
+        "budget": 64,
+        "p_min": 0.8,
+        "horizon": 32,
+        "global_issued_per_run": 0,
+        "global_expected_touched_per_run": 0,
+        "global_touch_precision": null,
+        "global_total_first_touch_coverage_pct": 0.0,
+        "oracle_context_issued_per_run": 20.3757225433526,
+        "oracle_context_expected_touched_per_run": 20.206228323699424,
+        "oracle_context_touch_precision": 0.991681560283688,
+        "oracle_context_total_first_touch_coverage_pct": 8.922324459531893,
+        "global_targets": []
+      },
+      {
+        "budget": 64,
+        "p_min": 0.8,
+        "horizon": 64,
+        "global_issued_per_run": 6,
+        "global_expected_touched_per_run": 5.918945086705202,
+        "global_touch_precision": 0.9864908477842004,
+        "global_total_first_touch_coverage_pct": 2.6135876362336963,
+        "oracle_context_issued_per_run": 35.26011560693642,
+        "oracle_context_expected_touched_per_run": 34.9746387283237,
+        "oracle_context_touch_precision": 0.9919036885245901,
+        "oracle_context_total_first_touch_coverage_pct": 15.443509277929502,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9898265895953756,
+            "mean_context_median_rank": 53.13192011212333
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36b80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 57.92671498645582
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97e80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 58.92671498645581
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97ec0",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 59.926714986455806
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97f00",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 60.92671498645581
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36c80",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 37.92659942575278
+          }
+        ]
+      },
+      {
+        "budget": 64,
+        "p_min": 0.8,
+        "horizon": 128,
+        "global_issued_per_run": 11,
+        "global_expected_touched_per_run": 10.824508670520231,
+        "global_touch_precision": 0.9840462427745664,
+        "global_total_first_touch_coverage_pct": 4.779703412542434,
+        "oracle_context_issued_per_run": 35.26011560693642,
+        "oracle_context_expected_touched_per_run": 35.01812138728324,
+        "oracle_context_touch_precision": 0.9931368852459016,
+        "oracle_context_total_first_touch_coverage_pct": 15.462709614844687,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9898265895953756,
+            "mean_context_median_rank": 53.13192011212333
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36b80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 57.92671498645582
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97e80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 58.92671498645581
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97ec0",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 59.926714986455806
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97f00",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 60.92671498645581
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36c80",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 37.92659942575278
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x99a00",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 71.79120960023559
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x99a40",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 72.79120960023559
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x99a80",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 73.79120960023559
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90980",
+            "p": 0.980635838150289,
+            "mean_context_median_rank": 91.57353374594756
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x909c0",
+            "p": 0.980635838150289,
+            "mean_context_median_rank": 92.57353374594756
+          }
+        ]
+      },
+      {
+        "budget": 64,
+        "p_min": 0.95,
+        "horizon": 32,
+        "global_issued_per_run": 0,
+        "global_expected_touched_per_run": 0,
+        "global_touch_precision": null,
+        "global_total_first_touch_coverage_pct": 0.0,
+        "oracle_context_issued_per_run": 20.3757225433526,
+        "oracle_context_expected_touched_per_run": 20.206228323699424,
+        "oracle_context_touch_precision": 0.991681560283688,
+        "oracle_context_total_first_touch_coverage_pct": 8.922324459531893,
+        "global_targets": []
+      },
+      {
+        "budget": 64,
+        "p_min": 0.95,
+        "horizon": 64,
+        "global_issued_per_run": 6,
+        "global_expected_touched_per_run": 5.918945086705202,
+        "global_touch_precision": 0.9864908477842004,
+        "global_total_first_touch_coverage_pct": 2.6135876362336963,
+        "oracle_context_issued_per_run": 35.26011560693642,
+        "oracle_context_expected_touched_per_run": 34.9746387283237,
+        "oracle_context_touch_precision": 0.9919036885245901,
+        "oracle_context_total_first_touch_coverage_pct": 15.443509277929502,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9898265895953756,
+            "mean_context_median_rank": 53.13192011212333
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36b80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 57.92671498645582
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97e80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 58.92671498645581
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97ec0",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 59.926714986455806
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97f00",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 60.92671498645581
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36c80",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 37.92659942575278
+          }
+        ]
+      },
+      {
+        "budget": 64,
+        "p_min": 0.95,
+        "horizon": 128,
+        "global_issued_per_run": 11,
+        "global_expected_touched_per_run": 10.824508670520231,
+        "global_touch_precision": 0.9840462427745664,
+        "global_total_first_touch_coverage_pct": 4.779703412542434,
+        "oracle_context_issued_per_run": 35.26011560693642,
+        "oracle_context_expected_touched_per_run": 35.01812138728324,
+        "oracle_context_touch_precision": 0.9931368852459016,
+        "oracle_context_total_first_touch_coverage_pct": 15.462709614844687,
+        "global_targets": [
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90a00",
+            "p": 0.9898265895953756,
+            "mean_context_median_rank": 53.13192011212333
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36b80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 57.92671498645582
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97e80",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 58.92671498645581
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97ec0",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 59.926714986455806
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x97f00",
+            "p": 0.9869219653179191,
+            "mean_context_median_rank": 60.92671498645581
+          },
+          {
+            "dso": "RatingService",
+            "elf_line": "0x36c80",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 37.92659942575278
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x99a00",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 71.79120960023559
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x99a40",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 72.79120960023559
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x99a80",
+            "p": 0.9814306358381502,
+            "mean_context_median_rank": 73.79120960023559
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x90980",
+            "p": 0.980635838150289,
+            "mean_context_median_rank": 91.57353374594756
+          },
+          {
+            "dso": "libc.so.6",
+            "elf_line": "0x909c0",
+            "p": 0.980635838150289,
+            "mean_context_median_rank": 92.57353374594756
+          }
+        ]
+      }
+    ],
+    "input_hashes": {
+      "entry_UploadRating__mr1418ce15b523.tsv": "cc2597311db07c587d1a65db63a4de0493ce81a8664a90f242cd7ec01a4df676",
+      "entry_UploadRating__mr4dd190256ce5.tsv": "9fe95294852111418f1e6153fe3844937bdb41c19cc0d125efdffa05b8d43efc",
+      "entry_clone__all.tsv": "a941400f300c0362a32e5075d8d8767ca12c8cef3a6f40327968078fe2a0461b",
+      "entry_futex__all.tsv": "a6c8679fbcd32e547001740f30610f97ab43392a3e4842f383ca5c801a50142d",
+      "entry_none__all.tsv": "3dae066d0c8d9d9431f5b0c1954308cbedf238193b3daa60e54fe48f215d2bf3",
+      "entry_none__m0.tsv": "3dae066d0c8d9d9431f5b0c1954308cbedf238193b3daa60e54fe48f215d2bf3",
+      "entry_none__mr0a55cb000f7e.tsv": "1d6fe17178e6c638407b53d72c12b55b984f20d77abb913b1f4dde43fb76cb02",
+      "entry_none__mr2296158b3557.tsv": "3228c7b35dcd8f996989ada641849619d8215c9451443da45a810906755615f0",
+      "entry_none__mr28458fa6f0ed.tsv": "df7021f4b2e67e949af556ff6bab427ce0da930477b48c1a4b0c4383b120647b",
+      "entry_poll__all.tsv": "3dae066d0c8d9d9431f5b0c1954308cbedf238193b3daa60e54fe48f215d2bf3",
+      "entry_read__all.tsv": "3dae066d0c8d9d9431f5b0c1954308cbedf238193b3daa60e54fe48f215d2bf3",
+      "entry_recv__all.tsv": "147714cd133b27309347513d54a3e2df72280686ff54d9181ad9ab060d9cd530",
+      "entry_send__all.tsv": "868c279b2ef220a03f875a88fc6e2b3b7e3696932504bfcca8caddcc8a2200e2",
+      "list_UploadRating__mr1418ce15b523.tsv": "43e99280b41464a6a214e6e920d53f5f85b90e7ca6691dcebd368a755c7b124c",
+      "list_UploadRating__mr4dd190256ce5.tsv": "f6333635a675b3dfb6f27684b97c6adebd66659842a529406a8ce381cc3632b7",
+      "list_clone__all.tsv": "4643b279970fde7f2e49edf3d163f003ba05544b25a69331c6083e46727f3ad3",
+      "list_futex__all.tsv": "fc9b242d15f38f785387e2986672e8142d969531a32dcb1da492fe5f10971718",
+      "list_none__all.tsv": "e357b82394e781c282801df266c09686f6fd9f9499987d2b0c101e910778f380",
+      "list_none__m0.tsv": "06cfee0698b9ad17b08748ef2bc2ad5938e6a61685bb83663f35df002284f09c",
+      "list_none__mr0a55cb000f7e.tsv": "facbcb6a42ce80ff4d0b0643e8b5d82396f9acc1d33ea509363642962c39ab9b",
+      "list_none__mr2296158b3557.tsv": "ebafcac37e0d10942046dc06cdd25e0f7da078941fc1f16b8d985a52928fef4d",
+      "list_none__mr28458fa6f0ed.tsv": "18cc071a593a3b0c7bc058967813bb337a80a9a049fa09032722f492530757de",
+      "list_poll__all.tsv": "0243fd48f6246a45c7e68b69662cb2096bdb8d21d37b28d5b26655b9570d5ba4",
+      "list_read__all.tsv": "240c312e7bbf41d79795f7e914b68279f5e5b8263d7f98b1cb4861d921123524",
+      "list_recv__all.tsv": "fbdd92e24f571cb1ff2665311a3948f813093ab29fc77578ae7a2ba73c7b8a70",
+      "list_send__all.tsv": "794885bfa3394631e48b33c59e2edf533a4c2bd210d6f6a62c8b851e9feb6abf",
+      "runs.tsv": "63d761e652e4a5d4c939b2c30d3aa843d348afce960a00db62a0dc590998cd76"
+    },
+    "limitations": [
+      "Rounded training marginals; no held-out accuracy estimate.",
+      "A touched line need not be a cache miss, critical, or reached after prefetch completes.",
+      "Median rank is not a per-run timing guarantee; global rank averages context medians.",
+      "Oracle method/return context is known after resumption, not at sched_switch.",
+      "Rare types omitted by the original exporter contribute zero predicted coverage."
+    ]
+  }
+}
