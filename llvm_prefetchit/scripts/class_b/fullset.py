@@ -5,6 +5,7 @@ import fcntl
 import gzip
 import json
 import os
+import re
 from pathlib import Path
 import signal
 import shutil
@@ -257,11 +258,18 @@ def capture_family(spec):
 
 def decode_family(family,out,root):
     from fullset_cleanup import cleanup
+    import train_kernel_wake
     captured=json.loads((out/'captured.json').read_text())
     # Check all captures before expensive path reconstruction. Never suppress
     # overflow or lost-data events. Within each fixed phase, use the first
     # zero-error capture; this selection never sees plans or performance.
-    selected={}
+    admitted={}
+    def discard(row,reason):
+        dest=Path(row['trace'])
+        paths=[p for p in dest.rglob('*') if p.is_file() and not p.is_symlink() and
+               ('symfs' in p.parts or p.name in ('pt.data','branches.txt','syscall_context.txt'))]
+        if Path(row['syscalls']).is_file():paths.append(Path(row['syscalls']))
+        cleanup(paths,out/'capture_cleanup'/f'{dest.parent.name}_{dest.name}.json',reason)
     for row in captured['outputs']:
         dest=Path(row['trace']);meta=json.loads((dest/'capture_record.json').read_text())
         group=(dest.parent.name,dest.name.split('_')[0])
@@ -271,40 +279,64 @@ def decode_family(family,out,root):
         with (dest/'quality_preflight_errors.txt').open('w') as f,(dest/'quality_preflight.err').open('w') as err:
             subprocess.run(command,stdout=f,stderr=err,check=True)
         errors=(dest/'quality_preflight_errors.txt').read_text().strip()
+        excluded=[];locations=[]
+        if errors and group[0]=='rating':
+            # Repeated errors were localized to Rating's asynchronous Redis I/O
+            # thread, in tacopie process_events / libc fdelt_chk. Require that
+            # exact diagnosis; never accept unknown-PID, map or other errors.
+            parsed=[re.search(r'\bpid (\d+) tid (\d+) ip 0x([0-9a-f]+) code (\d+):',line) for line in errors.splitlines()]
+            if all(m and int(m[1])==meta['pid'] and int(m[2])>0 and int(m[4])==7 for m in parsed):
+                tids={int(m[2]) for m in parsed}
+                if len(tids)==1:
+                    maps=train_kernel_wake.rp.Maps(str(dest/'maps.txt'),str(dest/'symfs'))
+                    for match in parsed:
+                        resolved=maps.resolve(int(match[3],16))
+                        if not resolved:break
+                        dso,va=resolved;symbol=dso.sym(va)[0]
+                        locations.append(dict(path=dso.path,elf_va=hex(va),symbol=symbol))
+                    if len(locations)==len(parsed) and all(v['symbol'].startswith(('tacopie::io_service::process_events','__fdelt_chk')) for v in locations):
+                        excluded=sorted(tids)
+        accepted=not errors or bool(excluded)
         c.save(dest/'capture_admission.json',dict(valid=not errors,errors=errors,
-            selected=not errors and group not in selected,rule='First chronological zero-error capture for this service and phase'))
-        if not errors and group not in selected:
-            selected[group]=row
+            admitted=accepted,excluded_tids=excluded,error_locations=locations,
+            rule='Prefer first zero-error capture; Rating-only fallback drops the entire single I/O thread with symbol-verified overflow. All timed costs still include that thread.'))
+        if accepted:
+            admitted.setdefault(group,[]).append(dict(row,excluded_tids=excluded))
         else:
-            paths=[p for p in dest.rglob('*') if p.is_file() and not p.is_symlink() and
-                   ('symfs' in p.parts or p.name in ('pt.data','branches.txt','syscall_context.txt'))]
-            if Path(row['syscalls']).is_file():paths.append(Path(row['syscalls']))
-            cleanup(paths,out/'capture_cleanup'/f'{group[0]}_{dest.name}.json',
-                    'Decoder error: rejected' if errors else 'Superseded by the earlier zero-error capture in the same fixed phase')
+            discard(row,'Decoder error: no admitted thread-scope fallback; rejected')
     required={(k,phase) for k in TARGETS[family] for phase in ('training','validation')}
-    assert set(selected)==required,dict(missing=sorted(required-set(selected)))
+    assert set(admitted)==required,dict(missing=sorted(required-set(admitted)))
+    selected={}
+    for group,choices in admitted.items():
+        selected[group]=next((r for r in choices if not r['excluded_tids']),choices[0])
+        for row in choices:
+            if row is not selected[group]:discard(row,'Superseded by first capture with preferred zero-error thread scope; no performance consulted')
     outputs=[]
     for (key,phase),row in selected.items():
         dest=Path(row['trace']);target=root/key/phase
         if dest!=target:
             assert not target.exists();dest.rename(target)
         outputs.append(dict(**row,original_trace=row['trace'],selected_trace=str(target)))
-    c.save(out/'selected_captures.json',dict(outputs=outputs,rule='First zero-error capture in each temporal phase; same baseline process/maps for PEBS and both phases'))
+    c.save(out/'selected_captures.json',dict(outputs=outputs,rule='Prefer first zero-error capture; explicitly exclude symbol-verified Rating I/O thread only if all captures have overflow there. Same baseline process/maps for PEBS and both phases.'))
     for row in outputs:
         row['trace']=row['selected_trace']
-        dest=Path(row['trace']);trace_media.decode(dest)
+        dest=Path(row['trace']);trace_media.decode(dest,row['excluded_tids'])
         cmd=json.loads((dest/'decode_command.json').read_text())+['--ns']
         c.save(dest/'context_branch_decode_command.json',cmd)
         with (dest/'branches.txt').open('w') as f,(dest/'context_branch_decode.err').open('w') as err:
             subprocess.run(cmd,stdout=f,stderr=err,check=True)
+        if row['excluded_tids']:trace_media.filter_tids(dest/'branches.txt',row['excluded_tids'],dest/'thread_filter_ns.json')
         cmd=['perf','script','--ns','-i',row['syscalls'],'-F','tid,time,event,trace,uregs']
         c.save(dest/'syscall_decode_command.json',cmd)
         with (dest/'syscall_context.txt').open('w') as f,(dest/'syscall_decode.err').open('w') as err:
             subprocess.run(cmd,stdout=f,stderr=err,check=True)
+        if row['excluded_tids']:trace_media.filter_tids(dest/'syscall_context.txt',row['excluded_tids'],dest/'thread_filter_syscalls.json')
     for key in TARGETS[family]:
         dest=root/key
         with (dest/'misses.txt').open('w') as f,(dest/'misses_decode.err').open('w') as err:
             subprocess.run(['perf','script','--ns','-i',str(dest/'misses.data'),'-F','tid,time,ip'],stdout=f,stderr=err,check=True)
+        excluded=sorted({tid for row in outputs if Path(row['selected_trace']).parent.name==key for tid in row['excluded_tids']})
+        if excluded:trace_media.filter_tids(dest/'misses.txt',excluded,dest/'thread_filter_misses.json')
 
 
 def candidates():
@@ -342,7 +374,7 @@ def candidates():
                            ('symfs' in p.parts or p.name in ('pt.data','branches.txt','syscall_context.txt','misses.txt','misses.data') or p.name.endswith('.syscall.data'))]
                     cleanup(paths,out/'trace_rejection_cleanup.json','Rejected capture batch; preserve decoder errors, quality records, commands, mapped hashes and settings before deleting raw/decoded copies')
                     continue
-                c.save(selection,dict(root=str(trace_root),out=str(out),attempt=attempt,quality='All six/four captures passed zero-decoder-error gate'))
+                c.save(selection,dict(root=str(trace_root),out=str(out),attempt=attempt,quality='Zero decoder errors in admitted thread scope; selected_captures.json lists any explicit Rating I/O-thread exclusion'))
                 break
             else:raise RuntimeError(f'{family}: twelve capture batches failed quality gates')
         for key,(_,exe,_) in targets.items():

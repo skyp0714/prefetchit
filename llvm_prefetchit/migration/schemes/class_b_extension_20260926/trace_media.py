@@ -3,10 +3,27 @@ from common import *
 from media import Stack,TARGETS,BUILD
 import argparse,gzip,re,collections
 
-def sanitize(out):
+def filter_tids(path,tids,record):
+ tids=set(tids);counts=collections.Counter();kept=0;digest=sha(path)
+ temp=path.with_name(path.name+'.filtered')
+ with path.open() as src,temp.open('w') as dst:
+  for line in src:
+   m=re.match(r'^\s*(\d+)\s+\d+\.\d+:',line)
+   if m and int(m[1]) in tids:counts[int(m[1])]+=1
+   else:dst.write(line);kept+=1
+ save(record,dict(excluded_tids=sorted(tids),removed_lines=dict(counts),retained_lines=kept,original_sha256=digest,filtered_sha256=sha(temp),reason='Omit every branch/switch/syscall record from each excluded thread, including records before and after an error'))
+ temp.replace(path)
+
+def sanitize(out,excluded_tids=()):
  errors=(out/'decoder_errors.txt').read_text().strip();raw=out/'branches.txt'
- quality=dict(decoder_error_records=len(errors.splitlines()) if errors else 0,excluded_tids=[],raw_sha256=sha(raw),policy='All decoder errors reject the capture. Snapshot the target vDSO as well as file-backed mappings. Only complete switch-IN/OUT runs are planned.')
- save(out/'trace_quality.json',quality);assert not errors,errors[:500]
+ quality=dict(decoder_error_records=len(errors.splitlines()) if errors else 0,excluded_tids=list(excluded_tids),raw_sha256=sha(raw),policy='Zero decoder errors in admitted threads; explicit whole-thread exclusions must cover every reported overflow. Only complete switch-IN/OUT runs are planned.')
+ save(out/'trace_quality.json',quality)
+ if excluded_tids:
+  for line in errors.splitlines():
+   m=re.search(r'\btid (\d+) .*?\bcode (\d+):',line)
+   assert m and int(m[1]) in excluded_tids and int(m[2])==7,line
+  filter_tids(raw,excluded_tids,out/'thread_filter.json')
+ else:assert not errors,errors[:500]
  return quality
 
 def capture(stack,key,out):
@@ -33,7 +50,7 @@ def capture(stack,key,out):
  save(out/'capture_record.json',dict(pid=pid,exe=exe,build_root=build_root,key=key,mapped=mapped,record=record))
  return out
 
-def decode(out):
+def decode(out,excluded_tids=()):
  metadata=json.loads((out/'capture_record.json').read_text());pid=metadata['pid'];exe=metadata['exe'];build_root=Path(metadata['build_root']);key=metadata['key'];mapped=metadata['mapped'];record=metadata['record'];symfs=out/'symfs'
  assert not Path(f'/proc/{pid}').exists(),'Decode against the frozen symfs only after the recorded process exits'
  cmd=['perf','script','-i',str(out/'pt.data'),'--symfs='+str(symfs),'--pid='+str(pid),'--itrace=b','--show-switch-events','-F','tid,time,ip,addr,flags']
@@ -41,7 +58,7 @@ def decode(out):
  with (out/'branches.txt').open('w') as f,(out/'decode.err').open('w') as err:subprocess.run(cmd,stdout=f,stderr=err,check=True)
  cmd=['perf','script','-i',str(out/'pt.data'),'--symfs='+str(symfs),'--pid='+str(pid),'--itrace=e']
  with (out/'decoder_errors.txt').open('w') as f,(out/'error_decode.err').open('w') as err:subprocess.run(cmd,stdout=f,stderr=err,check=True)
- quality=sanitize(out)
+ quality=sanitize(out,excluded_tids)
  # Branch order is an execution-order approximation, not a retired-miss oracle.
  counts=dict(branches=0,switch_in=0,switch_out=0,unparsed=0);rb=re.compile(r'^\s*\d+\s+\d+\.\d+:\s+.*?\s*[0-9a-f]+\s+=>\s+[0-9a-f]+\s*$');rs=re.compile(r'PERF_RECORD_SWITCH(?:_CPU_WIDE)?\s+(IN|OUT)')
  with (out/'branches.txt').open() as f:
@@ -50,7 +67,7 @@ def decode(out):
    elif (match:=rs.search(line)):counts['switch_'+match[1].lower()]+=1
    elif line.strip():counts['unparsed']+=1
  assert counts['branches']>1000 and min(counts['switch_in'],counts['switch_out'])>=8,counts
- save(out/'capture.json',dict(pid=pid,binary_sha256=sha(build_root/key/'base'/exe),mapped=mapped,counts=counts,quality=quality,record_log=record,decode_stderr=(out/'decode.err').read_text(),scope='PT branch reconstruction and context switches; 0.30s workload with 100ms deferred enable; unmodified baseline at selected shared rate. No decoder errors accepted; incomplete boundary runs are excluded.'))
+ save(out/'capture.json',dict(pid=pid,binary_sha256=sha(build_root/key/'base'/exe),mapped=mapped,counts=counts,quality=quality,record_log=record,decode_stderr=(out/'decode.err').read_text(),scope='PT branch reconstruction and context switches; 0.30s workload with 100ms deferred enable; unmodified baseline at selected shared rate. No decoder errors in admitted threads; explicit entire-thread exclusions and incomplete boundary runs are excluded.'))
  ws=REPO/'flat_codegen/dsb_build/media/ws'
  run(['python3',B/'run_paths.py',out,'--symfs',symfs,'--exe','/custom/'+exe,'--instrumentable',build_root/key/'base/instrumentable.txt','--min-runs','8','--resume-context','--out',out/'runs'],out/'run_paths.log')
  return out
