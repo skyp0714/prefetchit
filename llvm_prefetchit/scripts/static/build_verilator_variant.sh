@@ -35,7 +35,11 @@ if [[ -x "${final}" && -x "${twin}" ]]; then log "reuse ${final}"; exit 0; fi
 
 # plan-free modes: sequential lookahead (SEQ_DISTANCE>0) and/or callee-entry burst
 # (PREFETCHIT_CALLEE_BURST_LINES>0 in the environment); both use the same function regexes.
-seq_on=0; burst_on=0
+seq_on=0; burst_on=0; cold_on=0
+if [[ -n "${PREFETCHIT_COLD_PLAN:-}" ]]; then
+  [[ -s "${PREFETCHIT_COLD_PLAN}" ]] || { echo "[err] missing cold plan" >&2; exit 1; }
+  cold_on=1
+fi
 if [[ -n "${SEQ_DISTANCE:-}" && "${SEQ_DISTANCE}" != 0 ]]; then
   seq_on=1
   export PREFETCHIT_SEQ_DISTANCE="${SEQ_DISTANCE}"
@@ -49,7 +53,7 @@ if ((seq_on || burst_on)); then
   export PREFETCHIT_SEQ_EXCLUDE="${SEQ_EXCLUDE:-eval_initial|eval_static|eval_final|_settle|__Vdpi|_debug}"
 fi
 if [[ -z "${PLAN}" ]]; then
-  ((seq_on || burst_on)) || { echo "[err] give PLAN= and/or SEQ_DISTANCE= and/or PREFETCHIT_CALLEE_BURST_LINES=" >&2; exit 1; }
+  ((seq_on || burst_on || cold_on)) || { echo "[err] give PLAN=, PREFETCHIT_COLD_PLAN=, SEQ_DISTANCE= or PREFETCHIT_CALLEE_BURST_LINES=" >&2; exit 1; }
   PLAN="${RUNS}/${LABEL}.empty.plan.json"
   printf '{"schema":"prefetchit.plan.v1","prefetch":{"mnemonic":"prefetcht1","operand":"pc-relative-symbol-offset","byte_offsets":[0]},"injections":[]}\n' > "${PLAN}"
   plan_based=0
@@ -69,7 +73,7 @@ if [[ ! -x "${built}" ]]; then
     bash "${SCRIPT_DIR}/run_prefetcht1_l2_eval.sh" > "${RUNS}/${LABEL}.build.log" 2>&1 || {
       [[ -x "${built}" ]] || { log "BUILD FAILED: ${RUNS}/${LABEL}.build.log"; exit 1; }
       log "build script exited non-zero after producing the binary (see ${RUNS}/${LABEL}.build.log); continuing"; }
-  grep -h "prefetchit-inject: injected=\|prefetchit-seq:\|prefetchit-callee-burst:" "${RUNS}/${LABEL}/build/build_${LABEL}.log" | tail -3 | tee -a "${LOG}"
+  { grep -h "prefetchit-inject: injected=\|prefetchit-seq:\|prefetchit-callee-burst:\|prefetchit-cold:\|prefetchit-cold-plan:" "${RUNS}/${LABEL}/build/build_${LABEL}.log" || true; } | tail -3 | tee -a "${LOG}"
 fi
 
 if ((plan_based)); then
@@ -82,7 +86,7 @@ if ((plan_based)); then
 else
   cp -f "${built}" "${final}"
 fi
-log "$(llvm-objdump-19 -d "${final}" | grep -cE 'prefetcht[012]|prefetchnta|prefetchit') prefetch instructions in binary"
+log "$(llvm-objdump-19 -d "${final}" | grep -cE '[[:space:]]prefetch(t[012]|nta|it[01])[[:space:]]') prefetch instructions in binary"
 if ((seq_on)); then
   python3 - "${final}" "${PREFETCHIT_SEQ_DISTANCE}" <<'PY' 2>&1 | tee -a "${LOG}"
 import re, subprocess, sys, statistics as st
@@ -103,6 +107,6 @@ print(f"seq validation: {n} prefetches, {const_ok} with constant rip+{dist} oper
       f"p10={sorted(gaps)[len(gaps)//10]} p90={sorted(gaps)[9*len(gaps)//10]} (n={len(gaps)})")
 PY
 fi
-python3 "${LLVM_DIR}/tools/make_nop_control_binary.py" --input "${final}" --output "${twin}" >> "${LOG}" 2>&1
-log "nop twin: $(llvm-objdump-19 -d "${twin}" | grep -cE 'prefetcht[012]|prefetchnta') prefetches left (expect 0)"
+python3 "${LLVM_DIR}/tools/make_nop_control_binary.py" --input "${final}" --output "${twin}" --mnemonics prefetcht1 >> "${LOG}" 2>&1
+log "nop twin: $(llvm-objdump-19 -d "${twin}" | grep -cE '[[:space:]]prefetcht1[[:space:]]') T1s left (expect 0; native other hints retained)"
 log "done ${final}"

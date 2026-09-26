@@ -1510,9 +1510,47 @@ static uint64_t runCalleeEntryBurst(Module &M, const SeqConfig &C) {
   auto selected = [&](StringRef Name) { return C.selects(Name, Include, Exclude); };
   std::map<Function *, unsigned> InsnCount;
   uint64_t Calls = 0, Injected = 0;
+  const char *DomEnv = std::getenv("PREFETCHIT_CALLEE_DOMINATOR");
+  const char *ExtEnv = std::getenv("PREFETCHIT_CALLEE_EXTERNAL");
+  const bool AcrossBlocks = DomEnv && StringRef(DomEnv) != "0";
+  const bool External = C.ColdDirectInPIC && ExtEnv && StringRef(ExtEnv) != "0";
+  // A static type graph can expose concrete targets behind generic runtime
+  // calls. Issue the callee's planned targets in its caller to add lead time.
+  const char *TargetPlanPath = std::getenv("PREFETCHIT_CALLEE_TARGET_PLAN");
+  const bool TargetPlanMode = TargetPlanPath && *TargetPlanPath;
+  std::map<std::string, std::vector<std::pair<std::string, int64_t>>> TargetPlan;
+  if (TargetPlanMode) {
+    if (!C.ColdDirectInPIC) {
+      errs() << "prefetchit-callee: target plan requires explicit in-image link assumption\n";
+      return 0;
+    }
+    auto Buf = MemoryBuffer::getFile(TargetPlanPath);
+    if (!Buf) { errs() << "prefetchit-callee: cannot read target plan\n"; return 0; }
+    auto Parsed = json::parse((*Buf)->getBuffer());
+    if (!Parsed) { consumeError(Parsed.takeError()); return 0; }
+    const auto *Root = Parsed->getAsObject();
+    const auto *PS = Root ? Root->getObject("sites") : nullptr;
+    if (!PS) return 0;
+    for (const auto &KV : *PS) {
+      const auto *S = KV.second.getAsObject();
+      const auto *Targets = S ? S->getArray("t") : nullptr;
+      if (!Targets) continue;
+      for (const auto &V : *Targets) {
+        const auto *E = V.getAsArray();
+        if (!E || E->size() < 3) continue;
+        auto Sym = (*E)[0].getAsString();
+        auto Off = (*E)[1].getAsInteger();
+        auto Got = (*E)[2].getAsInteger();
+        if (Sym && Off && Got && !*Got)
+          TargetPlan[KV.first.str()].emplace_back(Sym->str(), *Off);
+      }
+    }
+  }
   for (Function &F : M) {
     if (F.isDeclaration() || !selected(F.getName()))
       continue;
+    DominatorTree DT(F);
+    std::set<std::pair<Instruction *, Function *>> Emitted;
     // collect first, then insert (do not mutate while iterating instructions)
     std::vector<std::pair<CallBase *, Function *>> Sites;
     for (BasicBlock &BB : F)
@@ -1521,9 +1559,11 @@ static uint64_t runCalleeEntryBurst(Module &M, const SeqConfig &C) {
         if (!CB || isa<IntrinsicInst>(CB) || CB->isInlineAsm())
           continue;
         Function *Callee = CB->getCalledFunction();
-        if (!Callee || Callee->isDeclaration() || !selected(Callee->getName()))
+        if (!Callee || Callee->isIntrinsic() || (Callee->isDeclaration() && !External) || !selected(Callee->getName()))
           continue;
-        if (C.BurstMinCalleeInsns) {
+        if (Callee->isDeclaration() && Callee->hasExternalWeakLinkage()) continue;
+        if (TargetPlanMode && !TargetPlan.count(Callee->getName().str())) continue;
+        if (C.BurstMinCalleeInsns && !Callee->isDeclaration()) {
           auto It = InsnCount.find(Callee);
           if (It == InsnCount.end())
             It = InsnCount.emplace(Callee, countIRInsns(*Callee)).first;
@@ -1543,8 +1583,40 @@ static uint64_t runCalleeEntryBurst(Module &M, const SeqConfig &C) {
       PICModule = MD->getZExtValue() != 0;
     for (auto &[CB, Callee] : Sites) {
       Instruction *At = moveInsertionEarlier(*CB, C.BurstLead);
+      if (AcrossBlocks) {
+        unsigned Lead = 0;
+        BasicBlock *B = CB->getParent();
+        for (auto It = At->getIterator(); &*It != CB; ++It)
+          if (!isIgnorableInstruction(*It)) ++Lead;
+        while (Lead < C.BurstLead && B != &F.getEntryBlock()) {
+          DomTreeNode *N = DT.getNode(B);
+          if (!N || !N->getIDom()) break;
+          B = N->getIDom()->getBlock();
+          if (B->isEHPad()) break;
+          At = B->getTerminator();
+          for (auto It = At->getIterator(), First = B->getFirstInsertionPt();
+               It != First && Lead < C.BurstLead;) {
+            --It; At = &*It;
+            if (!isIgnorableInstruction(*It)) ++Lead;
+          }
+        }
+      }
+      if (AcrossBlocks && !Emitted.emplace(At, Callee).second) continue;
+      if (TargetPlanMode) {
+        for (const auto &[Target, Offset] : TargetPlan.at(Callee->getName().str())) {
+          // The plan names definitions in this executable. Preserve existing
+          // strong references; never emit a .weak directive on a call target.
+          std::string Asm = C.Mnemonic + " " + escapeInlineAsmSymbol(Target) +
+              (Offset >= 0 ? "+" : "") + std::to_string(Offset) + "(%rip)";
+          auto *CI = CallInst::Create(InlineAsm::get(AsmTy, Asm, "", true), {}, "", At);
+          CI->setDebugLoc(At->getDebugLoc());
+          ++Injected;
+        }
+        ++Calls;
+        continue;
+      }
       std::string Symbol;
-      if (Callee->hasLocalLinkage() || !PICModule) {
+      if (Callee->hasLocalLinkage() || !PICModule || C.ColdDirectInPIC) {
         // local symbol, or non-PIC code: a direct PC-relative reference links fine
         // (COMDAT callees resolve to the linker-kept copy).
         Symbol = escapeInlineAsmSymbol(Callee->getName());
@@ -1565,6 +1637,8 @@ static uint64_t runCalleeEntryBurst(Module &M, const SeqConfig &C) {
         Symbol = escapeInlineAsmSymbol(It->second);
       }
       for (unsigned L = 0; L < C.BurstLines; ++L) {
+        // An actual call already references this symbol. Do not turn that strong
+        // reference weak: doing so can prevent extraction of its archive member.
         std::string AsmString = C.Mnemonic + " " + Symbol + "+" +
                                 std::to_string(64u * L) + "(%rip)";
         CallInst *CI = CallInst::Create(InlineAsm::get(AsmTy, AsmString, "", true),
@@ -1578,6 +1652,69 @@ static uint64_t runCalleeEntryBurst(Module &M, const SeqConfig &C) {
   errs() << "prefetchit-callee-burst: lines=" << C.BurstLines << " lead_insns="
          << C.BurstLead << " min_callee_insns=" << C.BurstMinCalleeInsns
          << " calls=" << Calls << " injected=" << Injected << "\n";
+  return Injected;
+}
+
+// Prefetch an indirect target only after its existing SSA value is available.
+// Never add, clone, or speculate pointer loads. Arguments can be used at entry;
+// an instruction result can be used after its definition. In loops this can
+// provide an entire setup phase's lead without paying at every iteration.
+static uint64_t runEarlyIndirect(Module &M, const SeqConfig &C) {
+  const char *Mode = std::getenv("PREFETCHIT_INDIRECT_EARLY");
+  if (!Mode || StringRef(Mode) == "0") return 0;
+  unsigned MinLead = 16, Lines = 1;
+  if (const char *E = std::getenv("PREFETCHIT_INDIRECT_MIN_LEAD")) MinLead = atoi(E);
+  if (const char *E = std::getenv("PREFETCHIT_INDIRECT_LINES")) Lines = atoi(E);
+  if (!Lines) return 0;
+  std::optional<Regex> Include, Exclude;
+  if (!C.Include.empty()) Include.emplace(C.Include);
+  if (!C.Exclude.empty()) Exclude.emplace(C.Exclude);
+  uint64_t Injected = 0;
+  for (Function &F : M) {
+    if (F.isDeclaration() || !C.selects(F.getName(), Include, Exclude)) continue;
+    DominatorTree DT(F);
+    LoopInfo LI(DT);
+    SmallVector<CallBase *, 16> Calls;
+    for (Instruction &I : instructions(F))
+      if (auto *CB = dyn_cast<CallBase>(&I); CB && !CB->isInlineAsm() && !CB->getCalledFunction())
+        Calls.push_back(CB);
+    SmallPtrSet<Value *, 16> Emitted;
+    for (CallBase *CB : Calls) {
+      Value *Target = CB->getCalledOperand();
+      if (!Target->getType()->isPointerTy() || isa<Constant>(Target) || Emitted.count(Target)) continue;
+      Instruction *At = nullptr;
+      if (isa<Argument>(Target)) At = &*F.getEntryBlock().getFirstInsertionPt();
+      else if (auto *Def = dyn_cast<Instruction>(Target)) {
+        if (Def->isTerminator() || Def->getParent()->isEHPad()) continue;
+        At = isa<PHINode>(Def) ? &*Def->getParent()->getFirstInsertionPt() : Def->getNextNode();
+      }
+      if (!At || At->getParent()->isEHPad() || !DT.dominates(At, CB)) continue;
+      // Only hoist loop calls when the target is already defined outside it.
+      if (Loop *L = LI.getLoopFor(CB->getParent()); L && L->contains(At->getParent())) continue;
+      unsigned Lead = 0;
+      if (At->getParent() == CB->getParent()) {
+        for (auto It = At->getIterator(); &*It != CB; ++It)
+          if (!isIgnorableInstruction(*It)) ++Lead;
+      } else {
+        SmallPtrSet<BasicBlock *, 16> Uses;
+        Uses.insert(CB->getParent());
+        Lead = shortestLeadInsns(At->getParent(), Uses, 4096);
+        if (Lead > 4096) continue;
+      }
+      if (Lead < MinLead) continue;
+      FunctionType *Ty = FunctionType::get(Type::getVoidTy(M.getContext()), {Target->getType()}, false);
+      // The hint may run on a path that never calls Target. Freeze it so a
+      // poison/undef value on that path cannot introduce new undefined behavior.
+      Value *HintTarget = new FreezeInst(Target, "prefetchit.target", At);
+      for (unsigned L = 0; L < Lines; ++L) {
+        auto *A = InlineAsm::get(Ty, C.Mnemonic + " " + std::to_string(64*L) + "($0)", "r", true);
+        auto *CI = CallInst::Create(A, {HintTarget}, "", At);
+        CI->setDebugLoc(At->getDebugLoc()); ++Injected;
+      }
+      Emitted.insert(Target);
+    }
+  }
+  errs() << "prefetchit-indirect-early: injected=" << Injected << " min_lead=" << MinLead << " lines=" << Lines << "\n";
   return Injected;
 }
 
@@ -1662,7 +1799,7 @@ public:
     bool Changed = false;
     if (!PlanPath.empty())
       Changed |= runPlan(M, PlanPath);
-    else if (!Seq.enabled())
+    else if (!Seq.enabled() && !std::getenv("PREFETCHIT_INDIRECT_EARLY"))
       errs() << "prefetchit-inject: missing -prefetchit-plan or PREFETCHIT_PLAN "
                 "(and no -prefetchit-seq-distance)\n";
     if (const char *CP = std::getenv("PREFETCHIT_COLD_PLAN"); CP && *CP)
@@ -1673,6 +1810,7 @@ public:
       Changed |= runCalleeEntryBurst(M, Seq) > 0;
     if (Seq.Distance > 0)
       Changed |= runSequentialLookahead(M, Seq) > 0;
+    Changed |= runEarlyIndirect(M, Seq) > 0;
     return Changed ? PreservedAnalyses::none() : PreservedAnalyses::all();
   }
 

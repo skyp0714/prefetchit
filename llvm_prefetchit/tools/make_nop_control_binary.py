@@ -5,7 +5,10 @@ NOP, so code layout and size are identical and only the prefetch semantics
 are removed. Used for layout-controlled prefetch-vs-NOP A/B evaluations."""
 
 import argparse
+import os
+import re
 import shutil
+import stat
 import subprocess
 import sys
 
@@ -18,20 +21,52 @@ MULTI_NOP = {
     6: bytes([0x66, 0x0F, 0x1F, 0x44, 0x00, 0x00]),
     7: bytes([0x0F, 0x1F, 0x80, 0x00, 0x00, 0x00, 0x00]),
     8: bytes([0x0F, 0x1F, 0x84, 0x00, 0x00, 0x00, 0x00, 0x00]),
+    9: bytes([0x66, 0x0F, 0x1F, 0x84, 0x00, 0x00, 0x00, 0x00, 0x00]),
 }
 
 
-def text_section(binary: str):
+def executable_sections(binary: str):
     out = subprocess.check_output(["readelf", "-SW", binary], text=True)
+    sections = []
     for line in out.splitlines():
-        if " .text " in line:
-            parts = line.split()
-            idx = parts.index(".text")
-            addr = int(parts[idx + 2], 16)
-            off = int(parts[idx + 3], 16)
-            size = int(parts[idx + 4], 16)
-            return addr, off, size
-    raise SystemExit("no .text section found")
+        m = re.search(r'\[\s*\d+\]\s+(\S+)\s+PROGBITS\s+([0-9a-fA-F]+)\s+([0-9a-fA-F]+)\s+([0-9a-fA-F]+)\s+\S+\s+(\S+)', line)
+        if m and 'X' in m[5]:
+            sections.append(tuple(int(m[i],16) for i in (2,3,4)))
+    if not sections: raise SystemExit("no executable sections found")
+    return sections
+
+
+def selected_prefetch(line, mnemonics, addressing='all'):
+    parts = line.split('\t', 2)
+    # objdump can print prefixes as separate words: "data16 prefetcht1 ...".
+    if len(parts) != 3:
+        return False
+    instruction = parts[2].split('#', 1)[0]
+    if not any(m in instruction.split() for m in mnemonics):
+        return False
+    if addressing == 'rip':
+        return '(%rip)' in instruction
+    if addressing == 'register':
+        return '(%rip)' not in instruction and '(' in instruction and '%' in instruction
+    return True
+
+
+def disassemble(binary, symbol=None):
+    llvm = shutil.which("llvm-objdump-19") if symbol else None
+    if llvm:
+        symbols = symbol if isinstance(symbol, list) else [symbol]
+        raw = subprocess.check_output([llvm, "-d", "--disassemble-symbols=" + ','.join(symbols), binary], text=True)
+        lines = []
+        for line in raw.splitlines():
+            match = re.match(r"^\s*([0-9a-fA-F]+):\s*((?:[0-9a-fA-F]{2}\s+)+)(.*)$", line)
+            if match:
+                line = match[1] + ":\t" + match[2].strip() + "\t" + match[3]
+            lines.append(line)
+        return "\n".join(lines)
+    if isinstance(symbol, list):
+        return '\n'.join(disassemble(binary, name) for name in symbol)
+    command = ["objdump", "-d"] + (["--disassemble=" + symbol] if symbol else [])
+    return subprocess.check_output(command + [binary], text=True)
 
 
 def main() -> None:
@@ -41,19 +76,37 @@ def main() -> None:
     ap.add_argument(
         "--mnemonics", default="prefetcht0,prefetcht1,prefetcht2,prefetchnta,prefetchit0,prefetchit1"
     )
+    scope = ap.add_mutually_exclusive_group()
+    scope.add_argument("--symbol", help="limit replacements and verification to one exact disassembly symbol")
+    scope.add_argument("--symbols-file", help="newline-delimited exact symbols, all must exist")
+    ap.add_argument("--addressing", choices=['all', 'rip', 'register'], default='all',
+                    help="select addressing form; useful for audited direct-graph/indirect-target factorial controls")
     args = ap.parse_args()
 
     mnemonics = tuple(m.strip() for m in args.mnemonics.split(",") if m.strip())
-    vaddr, off, size = text_section(args.input)
+    sections = executable_sections(args.input)
+    if os.path.exists(args.output):
+        if os.path.samefile(args.input, args.output):
+            ap.error("input and output must be different files")
+        os.chmod(args.output, os.stat(args.output).st_mode | stat.S_IWUSR)
     shutil.copy2(args.input, args.output)
+    # Bazel outputs are read-only; make only the control copy writable.
+    os.chmod(args.output, os.stat(args.output).st_mode | stat.S_IWUSR)
 
-    dis = subprocess.check_output(
-        ["objdump", "-d", "--section=.text", args.input], text=True
-    )
+    symbols = args.symbol
+    if args.symbols_file:
+        with open(args.symbols_file) as handle:
+            symbols = sorted(set(s.strip() for s in handle if s.strip()))
+        if not symbols:
+            ap.error('empty symbol list')
+    dis = disassemble(args.input, symbols)
+    required = symbols if isinstance(symbols, list) else ([symbols] if symbols else [])
+    if any(f"<{name}>:" not in dis for name in required):
+        ap.error("requested disassembly symbol not found")
     patches = []
     lines = dis.splitlines()
     for i, line in enumerate(lines):
-        if not any(f"\t{m} " in line or line.rstrip().endswith(m) for m in mnemonics):
+        if not selected_prefetch(line, mnemonics, args.addressing):
             continue
         head, _, _ = line.partition("\t")
         addr = int(head.strip().rstrip(":"), 16)
@@ -82,6 +135,11 @@ def main() -> None:
 
     with open(args.output, "r+b") as handle:
         for addr, nbytes in patches:
+            matches = [(vaddr, off, size) for vaddr, off, size in sections
+                       if vaddr <= addr and addr+nbytes <= vaddr+size]
+            if len(matches) != 1:
+                raise SystemExit(f"cannot map executable address {addr:#x}")
+            vaddr, off, size = matches[0]
             file_off = off + (addr - vaddr)
             handle.seek(file_off)
             existing = handle.read(nbytes)
@@ -100,9 +158,11 @@ def main() -> None:
             handle.seek(file_off)
             handle.write(MULTI_NOP[nbytes])
 
-    check = subprocess.check_output(["objdump", "-d", args.output], text=True)
-    remaining = sum(check.count(m) for m in mnemonics)
+    check = disassemble(args.output, symbols)
+    remaining = sum(selected_prefetch(line, mnemonics, args.addressing) for line in check.splitlines())
     print(f"[ok] patched={len(patches)} remaining_prefetch_mnemonics={remaining}")
+    if remaining:
+        raise SystemExit("control binary still contains requested prefetch instructions")
 
 
 if __name__ == "__main__":
