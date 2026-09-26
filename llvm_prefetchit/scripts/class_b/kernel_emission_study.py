@@ -133,7 +133,14 @@ def sequence(spec):
 
 
 def run_sequence(spec):
-    out=Path(spec['out']);manifest=out.with_suffix('.json');h.c.save(manifest,spec)
+    out=Path(spec['out'])
+    if (out/'complete.json').exists():
+        recorded=json.loads((out/'protocol.json').read_text())
+        assert all(recorded[k]==v for k,v in spec.items()),'Cached sequence protocol differs'
+        verified=out.with_name(out.name+'_platform')/'verified.json'
+        assert json.loads(verified.read_text())['restored']
+        return json.loads((out/'rows.json').read_text())
+    manifest=out.with_suffix('.json');h.c.save(manifest,spec)
     h.platform(out,['python3',Path(__file__),'sequence',manifest])
     return json.loads((out/'rows.json').read_text())
 
@@ -211,10 +218,30 @@ def campaign():
             for mode in ('nop','t1'):
                 settings=best['variant'];options=dict(settings['options'],diagnostic=phase)
                 diagnostic[f'd{phase}_{mode}']=dict(plan=settings['plan'],options=options,mode=mode)
-        run_sequence(dict(out=str(base/'diagnostic'),family=family,service=key,pool=pool,seed=17501,
+        diagnostic_rows=run_sequence(dict(out=str(base/'diagnostic'),family=family,service=key,pool=pool,seed=17501,
             arms=diagnostic,order=list(diagnostic),roi_s=30,settle_s=8,pmu_s=0))
-    best=max(finalists,key=lambda r:r['score'])
+        assert all(row['valid'] for row in diagnostic_rows),'Diagnostic operating gate failed'
+    # A long screen's initial off phase is not a local control for its late
+    # candidates. Rank by adjacent matched-path pairs, then require off AND NOP
+    # improvements in independent, rotated fresh-process confirmation blocks.
+    # The amendment is recorded before any independent confirmation is run.
+    candidates=[]
+    for finalist in finalists:
+        selection=h.OUT/'kernel_emission'/finalist['service']/'selection.json'
+        for row in json.loads(selection.read_text())['candidates']:
+            row['adjacent_nop_score']=row['summary'][row['name']+'_nop'][row['service']+'_cpu']['cost_reduction_pct']
+            candidates.append(row)
+    amendment=h.OUT/'kernel_emission/selection_amendment.json'
+    if not amendment.exists():
+        assert not (h.OUT/'kernel_emission/confirmation').exists()
+        h.c.save(amendment,dict(
+            reason='Long-screen NOP costs vary with phase/time. The initial off phase cannot separate this variation from emission effects; candidate ranking must not depend on that distant control.',
+            original_rule='Highest minimum target saving against initial off and adjacent NOP',
+            rule='Highest target saving against adjacent matched-path NOP across both services; retain original exploratory selections and diagnostics. Confirm against rotated off and NOP in seven fresh processes.',
+            confirmation_started=False,original_finalists=finalists,candidates=candidates))
+    best=max(candidates,key=lambda r:r['adjacent_nop_score'])
     h.c.save(h.OUT/'kernel_emission/frozen_finalist.json',dict(selected=best,finalists=finalists,
+        selection='Highest adjacent matched-path NOP saving; see pre-confirmation selection_amendment.json',
         confirmation='Seven new baseline processes; within each, rotate module-off, matching-NOP and candidate. No screen data pooled.'))
     arms={'off':dict(mode='off'),'nop':dict(**best['variant'],mode='nop',controls=['off']),
           'candidate':dict(**best['variant'],mode='t1',controls=['off','nop'])}
