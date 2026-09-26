@@ -1,0 +1,86 @@
+[
+  {
+    "workload": "mysql",
+    "kernel_mpki": 5.738819734017157,
+    "kernel_cpu_fraction": 0.28364778186165973,
+    "kernel_cpu_fraction_source": "same-run kernel cycles / (2 GHz \u00d7 total task-clock)",
+    "kernel_icache_stall_cycle_pct": 10.993685002871558,
+    "kernel_itlb_walk_active_cycle_pct": 0.39349322927166086,
+    "kernel_baclears_per_kinstr": 4.523376794348707,
+    "hypothetical_runtime_fraction": 0.03118334365550312,
+    "speedup_pct": {
+      "0.25": 0.7857088486477259,
+      "0.5": 1.583862243089773,
+      "1": 3.2187043287594808
+    },
+    "fraction_required_for_speedup": {
+      "0.01": 0.3175089306775677,
+      "0.03": 0.9340311261679891,
+      "0.05": 1.5270667618302067
+    },
+    "qualification": "Conditional I-cache-stall-to-runtime scenario, not a strict L2 code-prefetch upper bound."
+  },
+  {
+    "workload": "rails",
+    "kernel_mpki": 15.97731682139708,
+    "kernel_cpu_fraction": 0.13331242777915947,
+    "kernel_cpu_fraction_source": "kernel/user cycles per achieved request from separate same-setting runs; per-CPU kernel scope",
+    "kernel_icache_stall_cycle_pct": 18.526036089309727,
+    "kernel_itlb_walk_active_cycle_pct": 0.769546994578525,
+    "kernel_baclears_per_kinstr": 6.326695895704432,
+    "hypothetical_runtime_fraction": 0.02469750848190205,
+    "speedup_pct": {
+      "0.25": 0.6212736901052951,
+      "0.5": 1.2503152599641076,
+      "1": 2.5322921551711897
+    },
+    "fraction_required_for_speedup": {
+      "0.01": 0.40089023985011285,
+      "0.03": 1.1793178900445052,
+      "0.05": 1.928091153564829
+    },
+    "qualification": "Conditional I-cache-stall-to-runtime scenario, not a strict L2 code-prefetch upper bound."
+  },
+  {
+    "workload": "django",
+    "kernel_mpki": 14.754480784102752,
+    "kernel_cpu_fraction": 0.10415272508949021,
+    "kernel_cpu_fraction_source": "kernel/user cycles per achieved request from separate same-setting runs; per-CPU kernel scope",
+    "kernel_icache_stall_cycle_pct": 16.12163239290342,
+    "kernel_itlb_walk_active_cycle_pct": 0.5333688382535232,
+    "kernel_baclears_per_kinstr": 5.90785568744194,
+    "hypothetical_runtime_fraction": 0.016791119466118904,
+    "speedup_pct": {
+      "0.25": 0.42154755047312253,
+      "0.5": 0.8466641931130781,
+      "1": 1.707787612435041
+    },
+    "fraction_required_for_speedup": {
+      "0.01": 0.5896563429846421,
+      "0.03": 1.7346201157703527,
+      "0.05": 2.835966221021375
+    },
+    "qualification": "Conditional I-cache-stall-to-runtime scenario, not a strict L2 code-prefetch upper bound."
+  },
+  {
+    "workload": "feedsim",
+    "kernel_mpki": 8.157803599656672,
+    "kernel_cpu_fraction": 0.052853794542126326,
+    "kernel_cpu_fraction_source": "same-run kernel cycles / (2 GHz \u00d7 total task-clock)",
+    "kernel_icache_stall_cycle_pct": 11.968159602371538,
+    "kernel_itlb_walk_active_cycle_pct": 0.2670900354488097,
+    "kernel_baclears_per_kinstr": 3.240835950116293,
+    "hypothetical_runtime_fraction": 0.006325626486711216,
+    "speedup_pct": {
+      "0.25": 0.1583911429700935,
+      "0.5": 0.3172848370200043,
+      "1": 0.6365894759211788
+    },
+    "fraction_required_for_speedup": {
+      "0.01": 1.5652188948888726,
+      "0.03": 4.6044788849643465,
+      "0.05": 7.527957542084579
+    },
+    "qualification": "Conditional I-cache-stall-to-runtime scenario, not a strict L2 code-prefetch upper bound."
+  }
+]

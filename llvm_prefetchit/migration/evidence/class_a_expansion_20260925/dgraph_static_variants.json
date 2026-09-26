@@ -1,0 +1,70 @@
+[
+  {
+    "arm": "lead128",
+    "command": [
+      "python3",
+      "/home/hnpark2/prefetchit/llvm_prefetchit/tools/prefetch_in_padding.py",
+      "/storage/prefetchit/class_a_expansion_20260925/hp/binaries/dgraph/dgraph",
+      "/storage/prefetchit/class_a_expansion_20260925/hp/dgraph_padding/lead128",
+      "--distance",
+      "1024",
+      "--next-call",
+      "--min-call-lead",
+      "128",
+      "--functions",
+      "github.com/dgraph-io/",
+      "--index",
+      "/storage/prefetchit/class_a_expansion_20260925/hp/dgraph_padding/static_index.json"
+    ],
+    "exit": 0,
+    "stdout": "lead128 537\n",
+    "stderr": "",
+    "metadata": {
+      "source_sha256": "7139a5b0cf1faaf766e3ca9b6966f2893bbddf6a8261efebf4208dfb239b7a45",
+      "sha256": "8fec997179c005fa038de83a22a23e0fd453dc835e4f5164e7dbd407d0cc176a",
+      "distance": 1024,
+      "sites": 537,
+      "twin": "/storage/prefetchit/class_a_expansion_20260925/hp/binaries/dgraph/dgraph",
+      "static_selection": "github.com/dgraph-io/",
+      "next_call": true,
+      "min_call_lead": 128,
+      "reversed_patches_sha256": "7139a5b0cf1faaf766e3ca9b6966f2893bbddf6a8261efebf4208dfb239b7a45"
+    },
+    "patch_record": "/storage/prefetchit/class_a_expansion_20260925/hp/dgraph_padding/lead128.json",
+    "baseline_and_exact_nop": "/storage/prefetchit/class_a_expansion_20260925/hp/binaries/dgraph/dgraph"
+  },
+  {
+    "arm": "lead512",
+    "command": [
+      "python3",
+      "/home/hnpark2/prefetchit/llvm_prefetchit/tools/prefetch_in_padding.py",
+      "/storage/prefetchit/class_a_expansion_20260925/hp/binaries/dgraph/dgraph",
+      "/storage/prefetchit/class_a_expansion_20260925/hp/dgraph_padding/lead512",
+      "--distance",
+      "4096",
+      "--next-call",
+      "--min-call-lead",
+      "512",
+      "--functions",
+      "github.com/dgraph-io/",
+      "--index",
+      "/storage/prefetchit/class_a_expansion_20260925/hp/dgraph_padding/static_index.json"
+    ],
+    "exit": 0,
+    "stdout": "lead512 426\n",
+    "stderr": "",
+    "metadata": {
+      "source_sha256": "7139a5b0cf1faaf766e3ca9b6966f2893bbddf6a8261efebf4208dfb239b7a45",
+      "sha256": "723775e2d5c9592abc45a72e3863430e8c552f4119c1ff2f54813beeee14838a",
+      "distance": 4096,
+      "sites": 426,
+      "twin": "/storage/prefetchit/class_a_expansion_20260925/hp/binaries/dgraph/dgraph",
+      "static_selection": "github.com/dgraph-io/",
+      "next_call": true,
+      "min_call_lead": 512,
+      "reversed_patches_sha256": "7139a5b0cf1faaf766e3ca9b6966f2893bbddf6a8261efebf4208dfb239b7a45"
+    },
+    "patch_record": "/storage/prefetchit/class_a_expansion_20260925/hp/dgraph_padding/lead512.json",
+    "baseline_and_exact_nop": "/storage/prefetchit/class_a_expansion_20260925/hp/binaries/dgraph/dgraph"
+  }
+]

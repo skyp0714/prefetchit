@@ -1,0 +1,157 @@
+{
+  "rows": [
+    {
+      "name": "flink",
+      "mode": "g",
+      "counter": "L2I",
+      "reference": "base",
+      "valid_blocks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "status": "five independent paired PMU windows",
+      "reduction_pct": 7.369795116559919,
+      "ci95_pct": [
+        -0.7648452647541548,
+        14.847734503003785
+      ]
+    },
+    {
+      "name": "flink",
+      "mode": "g",
+      "counter": "L2I",
+      "reference": "nop",
+      "valid_blocks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "status": "five independent paired PMU windows",
+      "reduction_pct": 4.247195040662266,
+      "ci95_pct": [
+        -3.841727309528764,
+        11.706017463948326
+      ]
+    },
+    {
+      "name": "flink",
+      "mode": "g",
+      "counter": "ITLB_WALKS",
+      "reference": "base",
+      "valid_blocks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "status": "five independent paired PMU windows",
+      "reduction_pct": -22.443653959643584,
+      "ci95_pct": [
+        -178.3928632034363,
+        46.14643413458063
+      ]
+    },
+    {
+      "name": "flink",
+      "mode": "g",
+      "counter": "ITLB_WALKS",
+      "reference": "nop",
+      "valid_blocks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "status": "five independent paired PMU windows",
+      "reduction_pct": -15.118445473487796,
+      "ci95_pct": [
+        -206.53898110149865,
+        56.76811986321437
+      ]
+    },
+    {
+      "name": "flink",
+      "mode": "g",
+      "counter": "ITLB_STLB_HIT",
+      "reference": "base",
+      "valid_blocks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "status": "five independent paired PMU windows",
+      "reduction_pct": 0.2656448298810177,
+      "ci95_pct": [
+        -18.168047875506012,
+        15.823763021972958
+      ]
+    },
+    {
+      "name": "flink",
+      "mode": "g",
+      "counter": "ITLB_STLB_HIT",
+      "reference": "nop",
+      "valid_blocks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "status": "five independent paired PMU windows",
+      "reduction_pct": -6.003245945259383,
+      "ci95_pct": [
+        -20.38487078258562,
+        6.660296448508518
+      ]
+    },
+    {
+      "name": "flink",
+      "mode": "g",
+      "counter": "instructions:u",
+      "reference": "base",
+      "valid_blocks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "status": "five independent paired PMU windows",
+      "reduction_pct": 1.911157482762782,
+      "ci95_pct": [
+        -18.217483245208356,
+        18.612537145504295
+      ]
+    },
+    {
+      "name": "flink",
+      "mode": "g",
+      "counter": "instructions:u",
+      "reference": "nop",
+      "valid_blocks": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "status": "five independent paired PMU windows",
+      "reduction_pct": -1.3798019840868703,
+      "ci95_pct": [
+        -21.313529724754176,
+        15.278499655793498
+      ]
+    }
+  ],
+  "scope": "Counter/operation ratios in separate windows AFTER CPU timing. Require full scheduling and audited load/source rate. Flink uses paced nominal events; Pinot uses completed queries. ITLB events are speculative. No event intersection, exact dynamic hint coverage, or causal attribution inferred from these ratios alone."
+}

@@ -1,0 +1,173 @@
+{
+  "results": [
+    {
+      "arm": "base",
+      "paired_reps": 5,
+      "comparisons": {
+        "base": {
+          "speedup_pct": 0.0,
+          "ci95_pct": [
+            0.0,
+            0.0
+          ]
+        },
+        "nop": {
+          "speedup_pct": 0.8084428237820582,
+          "ci95_pct": [
+            0.6924909785286275,
+            0.9245281927003326
+          ]
+        },
+        "static_all": {
+          "speedup_pct": -3.3948516529310613,
+          "ci95_pct": [
+            -3.460109697013135,
+            -3.329549496386211
+          ]
+        }
+      },
+      "mean_l2_mpki": 16.588436824291705
+    },
+    {
+      "arm": "static_all",
+      "paired_reps": 5,
+      "comparisons": {
+        "base": {
+          "speedup_pct": 3.5141518966820806,
+          "ci95_pct": [
+            3.444226730133784,
+            3.584124330526692
+          ]
+        },
+        "nop": {
+          "speedup_pct": 4.351004629289662,
+          "ci95_pct": [
+            4.2294257530183295,
+            4.472725321780826
+          ]
+        },
+        "static_all": {
+          "speedup_pct": 0.0,
+          "ci95_pct": [
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "mean_l2_mpki": 12.878648838036632
+    },
+    {
+      "arm": "nop",
+      "paired_reps": 5,
+      "comparisons": {
+        "base": {
+          "speedup_pct": -0.8019594402378132,
+          "ci95_pct": [
+            -0.9160589692676891,
+            -0.6877285205669372
+          ]
+        },
+        "nop": {
+          "speedup_pct": 0.0,
+          "ci95_pct": [
+            0.0,
+            0.0
+          ]
+        },
+        "static_all": {
+          "speedup_pct": -4.169585759856122,
+          "ci95_pct": [
+            -4.281237335395075,
+            -4.057803947841338
+          ]
+        }
+      },
+      "mean_l2_mpki": 17.086795239603916
+    },
+    {
+      "arm": "only_stlb",
+      "paired_reps": 5,
+      "comparisons": {
+        "base": {
+          "speedup_pct": -0.6360203038285294,
+          "ci95_pct": [
+            -0.6699443629647855,
+            -0.6020846586543825
+          ]
+        },
+        "nop": {
+          "speedup_pct": 0.16728065944943035,
+          "ci95_pct": [
+            0.08547806116705386,
+            0.24915011723245947
+          ]
+        },
+        "static_all": {
+          "speedup_pct": -4.009280010962088,
+          "ci95_pct": [
+            -4.0786050645654495,
+            -3.93990485421896
+          ]
+        }
+      },
+      "mean_l2_mpki": 16.815787556607326
+    },
+    {
+      "arm": "only_fe128",
+      "paired_reps": 5,
+      "comparisons": {
+        "base": {
+          "speedup_pct": 0.7935747752269154,
+          "ci95_pct": [
+            0.6906048425751168,
+            0.8966500087361964
+          ]
+        },
+        "nop": {
+          "speedup_pct": 1.6084331973306345,
+          "ci95_pct": [
+            1.5470867582291339,
+            1.6698166969299852
+          ]
+        },
+        "static_all": {
+          "speedup_pct": -2.6282175640781817,
+          "ci95_pct": [
+            -2.7250958141292947,
+            -2.531242830813731
+          ]
+        }
+      },
+      "mean_l2_mpki": 15.609998595645807
+    },
+    {
+      "arm": "only_l2",
+      "paired_reps": 5,
+      "comparisons": {
+        "base": {
+          "speedup_pct": 2.1476842000142815,
+          "ci95_pct": [
+            2.048481449393471,
+            2.246983387011126
+          ]
+        },
+        "nop": {
+          "speedup_pct": 2.973489822588856,
+          "ci95_pct": [
+            2.8683703860633227,
+            3.078716678877082
+          ]
+        },
+        "static_all": {
+          "speedup_pct": -1.3200781454807071,
+          "ci95_pct": [
+            -1.4576861665870116,
+            -1.182277963598629
+          ]
+        }
+      },
+      "mean_l2_mpki": 14.435699134335396
+    }
+  ],
+  "scope": "five fresh seed1 paired rounds, training seed0; exploratory target-filter comparison, no new cross-workload generalization; same-layout NOP removal retains insertion overhead"
+}

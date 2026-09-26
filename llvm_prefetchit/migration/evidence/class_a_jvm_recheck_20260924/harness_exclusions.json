@@ -1,0 +1,23 @@
+[
+  {
+    "attempt": "initial direct TestHarness",
+    "reason": "perf SIGINT sent only to parent left its sleep child running; window did not close cleanly; terminated, superseded"
+  },
+  {
+    "attempt": "controlled direct TestHarness",
+    "reason": "bypasses JAR manifest Add-Opens/Add-Exports and official Harness System.exit; WildFly InaccessibleObjectException java.util.EnumMap.keyType produced HTTP404 startup loop; Spring passed timed validation but teardown hung; all superseded by official launcher"
+  },
+  {
+    "attempt": "callback_smoke",
+    "reason": "official launcher with dacapo.callback.classpath directory did not resolve class; no workload measurement"
+  },
+  {
+    "attempt": "verified launcher",
+    "result": "temporary launcher contains one added WindowCallback.class; every original JAR entry byte-identical, original manifest and Harness retained; small H2 smoke completed validation and exit0; no performance result from smoke"
+  },
+  {
+    "attempt": "verified",
+    "classification": "CSV-enabled diagnostic pass, superseded for final qualification",
+    "reason": "optional per-request latency CSV serialization/export occurred between measured iterations, up to 946MB on Kafka; may change user instruction mix and backend/I/O fractions. Final clean group disables CSV. All eight validations/exits passed; retain diagnostic values only. NAS package transfer overlapped final H2 diagnostic, never clean measurements."
+  }
+]

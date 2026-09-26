@@ -1,0 +1,254 @@
+[
+  {
+    "name": "core_queue_10k",
+    "rate": 10000,
+    "exit": 0,
+    "fully_scheduled": true,
+    "wall_s": 30.046699890997843,
+    "mpki": 0.36276493474359045,
+    "util_pct": 40.065148730715435,
+    "counters": {
+      "instructions:u": 13080831540.0,
+      "cycles:u": 13477654901.0,
+      "L2I": 4745267.0,
+      "INDIRECT_BRANCH": 52938815.0,
+      "task-clock": 24076.51,
+      "slots:u": 81658434240.0,
+      "topdown-retiring:u": 12886510799.0,
+      "topdown-bad-spec:u": 2965943712.0,
+      "topdown-fe-bound:u": 10502965603.0,
+      "topdown-be-bound:u": 55652031451.0,
+      "topdown-fetch-lat:u": 6979825176.0
+    },
+    "status": "preliminary: client delivery/latency, GC and compilation still require audit",
+    "client_summary": {
+      "sampleType": "summary",
+      "time": 1790289461686,
+      "result": "success",
+      "totalSent": 800993,
+      "totalBlocked": 0,
+      "totalCompleted": 800993,
+      "totalReceived": 800993,
+      "totalDelaySendTime": {
+        "mean": "50.63",
+        "50": 59,
+        "90": 61,
+        "99": 68,
+        "99.9": 2039,
+        "99.99": 9983,
+        "max": 13439,
+        "count": 410211
+      },
+      "totalSendTime": {
+        "mean": "23.62",
+        "50": 21,
+        "90": 26,
+        "99": 33,
+        "99.9": 919,
+        "99.99": 3407,
+        "max": 13439,
+        "count": 410211
+      },
+      "totalTransferTime": {
+        "mean": "122.62",
+        "50": 114,
+        "90": 134,
+        "99": 164,
+        "99.9": 2639,
+        "99.99": 6367,
+        "max": 17407,
+        "count": 410220
+      }
+    },
+    "classification": "preliminary only; CORE low-MPKI, AMQP backend-heavy; no A-3 cold-target promotion"
+  },
+  {
+    "name": "core_queue_30k",
+    "rate": 30000,
+    "exit": 0,
+    "fully_scheduled": true,
+    "wall_s": 30.051971908003907,
+    "mpki": 0.36822468983155543,
+    "util_pct": 75.37147668492042,
+    "counters": {
+      "instructions:u": 35723085288.0,
+      "cycles:u": 26376580813.0,
+      "L2I": 13154122.0,
+      "INDIRECT_BRANCH": 132533717.0,
+      "task-clock": 45301.23,
+      "slots:u": 158262295872.0,
+      "topdown-retiring:u": 36664642175.0,
+      "topdown-bad-spec:u": 8418007208.0,
+      "topdown-fe-bound:u": 24992649755.0,
+      "topdown-be-bound:u": 88685240225.0,
+      "topdown-fetch-lat:u": 14872592841.0
+    },
+    "status": "preliminary: client delivery/latency, GC and compilation still require audit",
+    "client_summary": {
+      "sampleType": "summary",
+      "time": 1790289545246,
+      "result": "success",
+      "totalSent": 2403439,
+      "totalBlocked": 18,
+      "totalCompleted": 2403439,
+      "totalReceived": 2403439,
+      "totalDelaySendTime": {
+        "mean": "51.68",
+        "50": 10,
+        "90": 59,
+        "99": 85,
+        "99.9": 10303,
+        "99.99": 18687,
+        "max": 21375,
+        "count": 1230786
+      },
+      "totalSendTime": {
+        "mean": "22.15",
+        "50": 19,
+        "90": 29,
+        "99": 53,
+        "99.9": 643,
+        "99.99": 2799,
+        "max": 21375,
+        "count": 1230786
+      },
+      "totalTransferTime": {
+        "mean": "181.07",
+        "50": 139,
+        "90": 224,
+        "99": 735,
+        "99.9": 3359,
+        "99.99": 10559,
+        "max": 22527,
+        "count": 1230790
+      }
+    },
+    "classification": "preliminary only; CORE low-MPKI, AMQP backend-heavy; no A-3 cold-target promotion"
+  },
+  {
+    "name": "amqp_durable_1k",
+    "rate": 1000,
+    "exit": 0,
+    "fully_scheduled": true,
+    "wall_s": 30.056374014995527,
+    "mpki": 3.541814914941172,
+    "util_pct": 15.487546826764802,
+    "counters": {
+      "instructions:u": 4309118451.0,
+      "cycles:u": 4912617284.0,
+      "L2I": 15262100.0,
+      "INDIRECT_BRANCH": 27418326.0,
+      "task-clock": 9309.99,
+      "slots:u": 29474981058.0,
+      "topdown-retiring:u": 4370727115.0,
+      "topdown-bad-spec:u": 1543839547.0,
+      "topdown-fe-bound:u": 6311390069.0,
+      "topdown-be-bound:u": 17569431958.0,
+      "topdown-fetch-lat:u": 4641026764.0
+    },
+    "status": "preliminary: client delivery/latency, GC and compilation still require audit",
+    "client_summary": {
+      "sampleType": "summary",
+      "time": 1790289629040,
+      "result": "success",
+      "totalSent": 80073,
+      "totalBlocked": 0,
+      "totalCompleted": 80073,
+      "totalReceived": 80073,
+      "totalDelaySendTime": {
+        "mean": "59.29",
+        "50": 60,
+        "90": 61,
+        "99": 66,
+        "99.9": 69,
+        "99.99": 5599,
+        "max": 7071,
+        "count": 41020
+      },
+      "totalSendTime": {
+        "mean": "270.77",
+        "50": 236,
+        "90": 293,
+        "99": 353,
+        "99.9": 11327,
+        "99.99": 31359,
+        "max": 33279,
+        "count": 41020
+      },
+      "totalTransferTime": {
+        "mean": "290.25",
+        "50": 259,
+        "90": 311,
+        "99": 367,
+        "99.9": 11327,
+        "99.99": 31615,
+        "max": 33279,
+        "count": 41020
+      }
+    },
+    "classification": "preliminary only; CORE low-MPKI, AMQP backend-heavy; no A-3 cold-target promotion"
+  },
+  {
+    "name": "amqp_durable_5k",
+    "rate": 5000,
+    "exit": 0,
+    "fully_scheduled": true,
+    "wall_s": 30.055999360003625,
+    "mpki": 2.4095743945247223,
+    "util_pct": 69.21365265825415,
+    "counters": {
+      "instructions:u": 18131941101.0,
+      "cycles:u": 20066897844.0,
+      "L2I": 43690261.0,
+      "INDIRECT_BRANCH": 102897130.0,
+      "task-clock": 41605.71,
+      "slots:u": 120405079878.0,
+      "topdown-retiring:u": 19664792550.0,
+      "topdown-bad-spec:u": 5762932398.0,
+      "topdown-fe-bound:u": 25649274598.0,
+      "topdown-be-bound:u": 70856572208.0,
+      "topdown-fetch-lat:u": 18730197721.0
+    },
+    "status": "preliminary: client delivery/latency, GC and compilation still require audit",
+    "client_summary": {
+      "sampleType": "summary",
+      "time": 1790289713469,
+      "result": "success",
+      "totalSent": 400529,
+      "totalBlocked": 0,
+      "totalCompleted": 400529,
+      "totalReceived": 400529,
+      "totalDelaySendTime": {
+        "mean": "54.47",
+        "50": 59,
+        "90": 64,
+        "99": 73,
+        "99.9": 90,
+        "99.99": 1687,
+        "max": 4255,
+        "count": 205145
+      },
+      "totalSendTime": {
+        "mean": "367.01",
+        "50": 305,
+        "90": 485,
+        "99": 1151,
+        "99.9": 10623,
+        "99.99": 29439,
+        "max": 33535,
+        "count": 205145
+      },
+      "totalTransferTime": {
+        "mean": "359.52",
+        "50": 303,
+        "90": 453,
+        "99": 931,
+        "99.9": 10879,
+        "99.99": 29567,
+        "max": 33535,
+        "count": 205146
+      }
+    },
+    "classification": "preliminary only; CORE low-MPKI, AMQP backend-heavy; no A-3 cold-target promotion"
+  }
+]

@@ -1,0 +1,5 @@
+{
+  "reason": "Per-PID perf attach races with transient std::async threads; missing Top-down counters and inconsistent slots/cycles coverage. Client results alone do not qualify these PMU measurements.",
+  "exclude_performance_credit": true,
+  "replacement": "fresh per-CPU qualification, all required events checked"
+}

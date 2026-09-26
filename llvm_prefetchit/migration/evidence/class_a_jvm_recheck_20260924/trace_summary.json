@@ -1,0 +1,258 @@
+[
+  {
+    "name": "cassandra",
+    "samples": 8566,
+    "stable_jit_pct": 93.24071912211068,
+    "unresolved_pct": 3.0352556619192153,
+    "shares_pct": {
+      "IND_CALL_same_line_last32": 0.548680831193089,
+      "IND_CALL_target_plus256_last32": 0.7121176745272005,
+      "IND_CALL_same_function_last32": 0.6537473733364464,
+      "CALL_same_line_last32": 13.79873920149428,
+      "CALL_target_plus256_last32": 24.515526500116742,
+      "CALL_same_function_last32": 57.7632500583703,
+      "IND_same_line_last32": 6.152229745505487,
+      "IND_target_plus256_last32": 8.568760214802708,
+      "IND_same_function_last32": 13.285080551015643,
+      "IND_CALL_OR_IND_same_line_last32": 6.7009105766985755,
+      "IND_CALL_OR_IND_target_plus256_last32": 9.28087788932991
+    },
+    "indirect_jump_targets": [
+      {
+        "key": [
+          "/tmp/perf-287642.map",
+          "org.apache.cassandra.db.transform.DuplicateRowChecker$2.applyToPartition(Lorg/apache/cassandra/db/rows/BaseRowIterator;)Lorg/apache/cassandra/db/rows/BaseRowIterator;"
+        ],
+        "samples": 36,
+        "share_all_pct": 0.42026616857342985
+      },
+      {
+        "key": [
+          "/tmp/perf-287642.map",
+          "java.util.Spliterators$IteratorSpliterator.estimateSize()J"
+        ],
+        "samples": 30,
+        "share_all_pct": 0.3502218071445249
+      },
+      {
+        "key": [
+          "/tmp/perf-287642.map",
+          "com.datastax.driver.core.SegmentBuilder$1.operationComplete(Lcom/datastax/shaded/netty/util/concurrent/Future;)V"
+        ],
+        "samples": 28,
+        "share_all_pct": 0.3268736866682232
+      },
+      {
+        "key": [
+          "/tmp/perf-287642.map",
+          "java.util.stream.ReferencePipeline$7$1.accept(Ljava/lang/Object;)V"
+        ],
+        "samples": 26,
+        "share_all_pct": 0.30352556619192156
+      },
+      {
+        "key": [
+          "/tmp/perf-287642.map",
+          "com.google.common.collect.Iterators$3.hasNext()Z"
+        ],
+        "samples": 24,
+        "share_all_pct": 0.28017744571561987
+      },
+      {
+        "key": [
+          "/tmp/perf-287642.map",
+          "com.datastax.shaded.netty.buffer.AbstractDerivedByteBuf.internalNioBuffer(II)Ljava/nio/ByteBuffer;"
+        ],
+        "samples": 23,
+        "share_all_pct": 0.26850338547746905
+      },
+      {
+        "key": [
+          "/tmp/perf-287642.map",
+          "io.netty.util.Recycler$DefaultHandle.unguardedRecycle(Ljava/lang/Object;)V"
+        ],
+        "samples": 22,
+        "share_all_pct": 0.25682932523931823
+      },
+      {
+        "key": [
+          "/tmp/perf-287642.map",
+          "org.apache.cassandra.db.filter.DataLimits$CQLLimits$CQLCounter.applyToRow(Lorg/apache/cassandra/db/rows/Row;)Lorg/apache/cassandra/db/rows/Row;"
+        ],
+        "samples": 21,
+        "share_all_pct": 0.2451552650011674
+      },
+      {
+        "key": [
+          "/tmp/perf-287642.map",
+          "com.datastax.driver.core.Responses$Result$Void$1.decode(Lcom/datastax/shaded/netty/buffer/ByteBuf;Lcom/datastax/driver/core/ProtocolVersion;Lcom/datastax/driver/core/CodecRegistry;)Lcom/datastax/driver/core/Message$Response;"
+        ],
+        "samples": 20,
+        "share_all_pct": 0.23348120476301656
+      },
+      {
+        "key": [
+          "/tmp/perf-287642.map",
+          "org.apache.cassandra.db.transform.StoppingTransformation.onPartitionClose()V"
+        ],
+        "samples": 18,
+        "share_all_pct": 0.21013308428671493
+      },
+      {
+        "key": [
+          "/tmp/perf-287642.map",
+          "com.datastax.shaded.netty.channel.DefaultChannelPipeline$HeadContext.flush(Lcom/datastax/shaded/netty/channel/ChannelHandlerContext;)V"
+        ],
+        "samples": 18,
+        "share_all_pct": 0.21013308428671493
+      },
+      {
+        "key": [
+          "/tmp/perf-287642.map",
+          "org.apache.cassandra.db.transform.Transformation.attachTo(Lorg/apache/cassandra/db/transform/BaseRows;)V"
+        ],
+        "samples": 17,
+        "share_all_pct": 0.19845902404856408
+      }
+    ],
+    "jit_packages": {
+      "com.datastax.": 1531,
+      "io.netty.": 446,
+      "org.apache.cassandra.": 4656,
+      "java.": 666,
+      "other root nmethod": 545,
+      "sun.": 140,
+      "jdk.": 3
+    },
+    "limitations": "Retired L2-miss sampled instructions, not all speculative requests or stall cycles. 32-entry LBR temporal proximity is not a call stack, causal attribution, or prefetch speedup ceiling. Same function and +256 byte associations can include returned/revisited paths; exact cache-line association is stricter. Unresolved samples stay in denominator. Raw perf.log/decode.log retain loss warnings."
+  },
+  {
+    "name": "spring",
+    "samples": 23015,
+    "stable_jit_pct": 86.46969367803607,
+    "unresolved_pct": 4.3797523354334125,
+    "shares_pct": {
+      "IND_CALL_same_line_last32": 1.3295676732565718,
+      "IND_CALL_target_plus256_last32": 1.6554421029763198,
+      "IND_CALL_same_function_last32": 1.5077123615033674,
+      "CALL_same_line_last32": 25.592005213990877,
+      "CALL_target_plus256_last32": 39.417771018900716,
+      "CALL_same_function_last32": 62.750380186834676,
+      "IND_same_line_last32": 8.203345644145124,
+      "IND_target_plus256_last32": 11.079730610471431,
+      "IND_same_function_last32": 12.656962850315011,
+      "IND_CALL_OR_IND_same_line_last32": 9.532913317401695,
+      "IND_CALL_OR_IND_target_plus256_last32": 12.735172713447751
+    },
+    "indirect_jump_targets": [
+      {
+        "key": [
+          "/tmp/perf-288251.map",
+          "org.springframework.util.AntPathMatcher$AntPatternComparator.compare(Ljava/lang/Object;Ljava/lang/Object;)I"
+        ],
+        "samples": 32,
+        "share_all_pct": 0.1390397566804258
+      },
+      {
+        "key": [
+          "/tmp/perf-288251.map",
+          "org.springframework.web.servlet.handler.WebRequestHandlerInterceptorAdapter.preHandle(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;Ljava/lang/Object;)Z"
+        ],
+        "samples": 31,
+        "share_all_pct": 0.1346947642841625
+      },
+      {
+        "key": [
+          "/tmp/perf-288251.map",
+          "org.springframework.web.filter.RequestContextFilter.doFilterInternal(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;Ljavax/servlet/FilterChain;)V"
+        ],
+        "samples": 28,
+        "share_all_pct": 0.12165978709537258
+      },
+      {
+        "key": [
+          "/tmp/perf-288251.map",
+          "org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;Ljavax/servlet/FilterChain;)V"
+        ],
+        "samples": 25,
+        "share_all_pct": 0.10862480990658266
+      },
+      {
+        "key": [
+          "/home/hnpark2/prefetchit/benchmarks/tools/jdk17/lib/server/libjvm.so",
+          "JVM_FindClassFromCaller@@SUNWprivate_1.1"
+        ],
+        "samples": 23,
+        "share_all_pct": 0.09993482511405605
+      },
+      {
+        "key": [
+          "/tmp/perf-288251.map",
+          "sun.nio.cs.ISO_8859_1$Decoder.decodeLoop(Ljava/nio/ByteBuffer;Ljava/nio/CharBuffer;)Ljava/nio/charset/CoderResult;"
+        ],
+        "samples": 23,
+        "share_all_pct": 0.09993482511405605
+      },
+      {
+        "key": [
+          "/tmp/perf-288251.map",
+          "jdk.internal.reflect.GeneratedConstructorAccessor45.newInstance([Ljava/lang/Object;)Ljava/lang/Object;"
+        ],
+        "samples": 23,
+        "share_all_pct": 0.09993482511405605
+      },
+      {
+        "key": [
+          "/tmp/perf-288251.map",
+          "org.springframework.web.servlet.handler.WebRequestHandlerInterceptorAdapter.afterCompletion(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;Ljava/lang/Object;Ljava/lang/Exception;)V"
+        ],
+        "samples": 22,
+        "share_all_pct": 0.09558983271779274
+      },
+      {
+        "key": [
+          "/tmp/perf-288251.map",
+          "org.springframework.web.servlet.handler.WebRequestHandlerInterceptorAdapter.postHandle(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;Ljava/lang/Object;Lorg/springframework/web/servlet/ModelAndView;)V"
+        ],
+        "samples": 21,
+        "share_all_pct": 0.09124484032152944
+      },
+      {
+        "key": [
+          "/tmp/perf-288251.map",
+          "jdk.internal.reflect.GeneratedConstructorAccessor54.newInstance([Ljava/lang/Object;)Ljava/lang/Object;"
+        ],
+        "samples": 20,
+        "share_all_pct": 0.08689984792526613
+      },
+      {
+        "key": [
+          "/home/hnpark2/prefetchit/benchmarks/tools/jdk17/lib/server/libjvm.so",
+          "_ZN19CardTableBarrierSet27on_slowpath_allocation_exitEP10JavaThreadP7oopDesc"
+        ],
+        "samples": 20,
+        "share_all_pct": 0.08689984792526613
+      },
+      {
+        "key": [
+          "/tmp/perf-288251.map",
+          "org.thymeleaf.standard.processor.StandardFragmentTagProcessor.doProcess(Lorg/thymeleaf/context/ITemplateContext;Lorg/thymeleaf/model/IProcessableElementTag;Lorg/thymeleaf/processor/element/IElementTagStructureHandler;)V"
+        ],
+        "samples": 19,
+        "share_all_pct": 0.08255485552900282
+      }
+    ],
+    "jit_packages": {
+      "org.springframework.": 6152,
+      "sun.": 583,
+      "other root nmethod": 7398,
+      "org.apache.catalina.": 1516,
+      "java.": 2917,
+      "org.apache.tomcat.": 573,
+      "jdk.": 588,
+      "org.dacapo.": 71,
+      "javax.": 103
+    },
+    "limitations": "Retired L2-miss sampled instructions, not all speculative requests or stall cycles. 32-entry LBR temporal proximity is not a call stack, causal attribution, or prefetch speedup ceiling. Same function and +256 byte associations can include returned/revisited paths; exact cache-line association is stricter. Unresolved samples stay in denominator. Raw perf.log/decode.log retain loss warnings."
+  }
+]

@@ -1,0 +1,22 @@
+{
+  "measured_trial_exclusions": [],
+  "setup_failures_before_measurement": [
+    {
+      "item": "protobuf unique4 exact NOP generation",
+      "reason": "9-byte REX+SIB+disp32 encoding initially unsupported",
+      "resolution": "helper extended; regression checked; control regenerated before screen"
+    },
+    {
+      "item": "FeedSim initial binary-only depth-two graph",
+      "reason": "large code model lowered direct calls to registers and produced an empty eligible plan",
+      "resolution": "added optimized LLVM IR direct edges from seven handwritten translation units; empty plan never timed"
+    }
+  ],
+  "not_claimed": [
+    "No generic arbitrary-C++ automatic transform",
+    "No prediction of unreadable or unavailable future pointer values",
+    "No universal whole-program graph ceiling",
+    "No confirmed positive FleetBench future-pointer result",
+    "No capacity gain from fixed-QPS CPU efficiency"
+  ]
+}

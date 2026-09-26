@@ -1,0 +1,167 @@
+{
+  "source": "llvm_prefetchit/results/class_a3_20260923/feedsim/confirmation/summary.json",
+  "definition": "mean of per-trial metrics; rate-normalized 25s counter sample uses whole-run achieved QPS; fetch latency is a subset of FE-bound, not a fifth top-level category",
+  "arms": {
+    "base": {
+      "cpu_ms_per_request": 171.9129122217043,
+      "util_pct": 85.642456,
+      "mpki": 3.595755689670584,
+      "ipc": 2.2220304047295723,
+      "n": 5,
+      "qps_range": [
+        39.63,
+        39.99
+      ],
+      "p95_ms_range": [
+        446.11,
+        464.13
+      ],
+      "topdown-retiring:u": 36.62146384451232,
+      "topdown-bad-spec:u": 10.03586316382066,
+      "topdown-fe-bound:u": 39.541170433089064,
+      "topdown-be-bound:u": 14.158746337076524,
+      "topdown-fetch-lat:u": 29.285510105347935,
+      "instructions:u_per_request": 719680351.3386064,
+      "cycles:u_per_request": 323885709.9546631,
+      "L2I_per_request": 2587792.3693900052
+    },
+    "both": {
+      "cpu_ms_per_request": 161.91828288544679,
+      "util_pct": 80.76854,
+      "mpki": 3.4001605573930394,
+      "ipc": 2.3703555528693547,
+      "n": 5,
+      "qps_range": [
+        39.61,
+        39.98
+      ],
+      "p95_ms_range": [
+        431.75,
+        442.09
+      ],
+      "topdown-retiring:u": 39.59850827995844,
+      "topdown-bad-spec:u": 11.018853266700502,
+      "topdown-fe-bound:u": 32.54560749557716,
+      "topdown-be-bound:u": 17.156512160722198,
+      "topdown-fetch-lat:u": 22.129878662234024,
+      "instructions:u_per_request": 719803436.7086009,
+      "cycles:u_per_request": 303670051.09378016,
+      "L2I_per_request": 2447444.3487299825
+    },
+    "both_nop": {
+      "cpu_ms_per_request": 171.94170317329514,
+      "util_pct": 85.902132,
+      "mpki": 3.601418005104751,
+      "ipc": 2.2215724749546695,
+      "n": 5,
+      "qps_range": [
+        39.93,
+        39.98
+      ],
+      "p95_ms_range": [
+        449.47,
+        500.47
+      ],
+      "topdown-retiring:u": 36.8086644315349,
+      "topdown-bad-spec:u": 10.022353629226338,
+      "topdown-fe-bound:u": 39.12507109898741,
+      "topdown-be-bound:u": 14.574775597540404,
+      "topdown-fetch-lat:u": 29.26037278665717,
+      "instructions:u_per_request": 719838409.1044731,
+      "cycles:u_per_request": 324022456.0016339,
+      "L2I_per_request": 2592440.436900248
+    },
+    "future": {
+      "cpu_ms_per_request": 161.988890029877,
+      "util_pct": 80.779657,
+      "mpki": 3.3962479372818124,
+      "ipc": 2.3707709237341623,
+      "n": 5,
+      "qps_range": [
+        39.76,
+        39.98
+      ],
+      "p95_ms_range": [
+        430.7,
+        446.85
+      ],
+      "topdown-retiring:u": 39.75715883663416,
+      "topdown-bad-spec:u": 10.684949249837448,
+      "topdown-fe-bound:u": 33.201400390351196,
+      "topdown-be-bound:u": 16.519901572176956,
+      "topdown-fetch-lat:u": 21.89700680592776,
+      "instructions:u_per_request": 720106674.5162456,
+      "cycles:u_per_request": 303745912.7768191,
+      "L2I_per_request": 2445665.3626533463
+    },
+    "future_nop": {
+      "cpu_ms_per_request": 171.9978059496199,
+      "util_pct": 85.813595,
+      "mpki": 3.606727549521358,
+      "ipc": 2.2200749454228945,
+      "n": 5,
+      "qps_range": [
+        39.68,
+        39.98
+      ],
+      "p95_ms_range": [
+        449.39,
+        473.56
+      ],
+      "topdown-retiring:u": 36.659766140659414,
+      "topdown-bad-spec:u": 9.820498640786806,
+      "topdown-fe-bound:u": 39.751057240528844,
+      "topdown-be-bound:u": 14.02664645506943,
+      "topdown-fetch-lat:u": 28.87844875699468,
+      "instructions:u_per_request": 719430818.6118512,
+      "cycles:u_per_request": 324058703.95609933,
+      "L2I_per_request": 2594780.7875937624
+    },
+    "graph": {
+      "cpu_ms_per_request": 172.65863978871985,
+      "util_pct": 86.036449,
+      "mpki": 3.6073008713938597,
+      "ipc": 2.2114903612240466,
+      "n": 5,
+      "qps_range": [
+        39.47,
+        39.97
+      ],
+      "p95_ms_range": [
+        462.3,
+        477.76
+      ],
+      "topdown-retiring:u": 36.55430823741547,
+      "topdown-bad-spec:u": 9.865899689754169,
+      "topdown-fe-bound:u": 40.6007681244265,
+      "topdown-be-bound:u": 13.476239126042913,
+      "topdown-fetch-lat:u": 29.6797207733125,
+      "instructions:u_per_request": 719077520.6117244,
+      "cycles:u_per_request": 325173798.88520384,
+      "L2I_per_request": 2593923.084180903
+    },
+    "graph_nop": {
+      "cpu_ms_per_request": 172.35397146272902,
+      "util_pct": 86.11667800000001,
+      "mpki": 3.6090050292063234,
+      "ipc": 2.2200069369600657,
+      "n": 5,
+      "qps_range": [
+        39.96,
+        39.98
+      ],
+      "p95_ms_range": [
+        451.51,
+        456.32
+      ],
+      "topdown-retiring:u": 36.73497204631078,
+      "topdown-bad-spec:u": 9.806802115308997,
+      "topdown-fe-bound:u": 39.79817058746133,
+      "topdown-be-bound:u": 13.995041557772888,
+      "topdown-fetch-lat:u": 29.133382137259616,
+      "instructions:u_per_request": 719894514.3863437,
+      "cycles:u_per_request": 324276031.61583745,
+      "L2I_per_request": 2598098.9909690255
+    }
+  }
+}

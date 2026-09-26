@@ -1,0 +1,63 @@
+{
+  "updated_utc": "2026-09-25T22:54:09.775513+00:00",
+  "family_complete": false,
+  "results": [
+    {
+      "name": "pinot",
+      "mode": "lead32_f16",
+      "metric": "cpu_ms_per_query",
+      "complete_blocks": 1,
+      "comparisons": {
+        "base": {
+          "gain_pct": -6.5832290362950685,
+          "ci95_pct": null,
+          "p_two_sided": null
+        },
+        "nop": {
+          "gain_pct": -11.934805467928399,
+          "ci95_pct": null,
+          "p_two_sided": null
+        }
+      },
+      "status": "descriptive interim; no significance decision"
+    },
+    {
+      "name": "spring",
+      "mode": "gf",
+      "metric": "mean_operation_ms",
+      "complete_blocks": 1,
+      "comparisons": {
+        "base": {
+          "gain_pct": 7.866795366795354,
+          "ci95_pct": null,
+          "p_two_sided": null
+        },
+        "nop": {
+          "gain_pct": -0.9380607972157229,
+          "ci95_pct": null,
+          "p_two_sided": null
+        }
+      },
+      "status": "descriptive interim; no significance decision"
+    },
+    {
+      "name": "flink",
+      "mode": "g",
+      "metric": "cpu_ms_per_nominal_event",
+      "complete_blocks": 1,
+      "comparisons": {
+        "base": {
+          "gain_pct": -12.097949900637195,
+          "ci95_pct": null,
+          "p_two_sided": null
+        },
+        "nop": {
+          "gain_pct": -9.120909827387425,
+          "ci95_pct": null,
+          "p_two_sided": null
+        }
+      },
+      "status": "descriptive interim; no significance decision"
+    }
+  ]
+}

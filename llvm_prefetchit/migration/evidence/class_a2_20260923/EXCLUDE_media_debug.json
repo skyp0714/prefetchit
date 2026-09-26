@@ -1,0 +1,10 @@
+{
+  "directories": [
+    "media_screen7",
+    "media_screen_high7",
+    "media_screen8",
+    "media_movie_rpc_screen8"
+  ],
+  "reason": "Per-request debug logging is unsuitable for production qualification; screen8 MovieId base also has 182 HTTP errors / 100082 requests. These exploratory measurements cannot establish a prefetch performance claim.",
+  "replacement": "all-service info-level builds, fresh stack per arm, fresh baseline qualification"
+}

@@ -1,0 +1,32 @@
+{
+  "date": "2026-09-24",
+  "scope": "five additional datacenter JVM workload candidates; source-qualified, not five high-MPKI or speedup results",
+  "candidate_order": [
+    "Artemis",
+    "Keycloak",
+    "Flink/Nexmark",
+    "OpenSearch",
+    "Pinot"
+  ],
+  "existing_not_counted": [
+    "Solr",
+    "Cassandra",
+    "Trino",
+    "DaCapo",
+    "Renaissance",
+    "Ceph RGW"
+  ],
+  "promotion": {
+    "minimum_util_pct": 15,
+    "preferred_L2_code_mpki": 5,
+    "strong_L2_code_mpki": 10,
+    "needs": [
+      "correct useful work",
+      "sustainable offered load",
+      "GC/JIT stability",
+      "actual machine indirect targets associated with misses",
+      "lead-time opportunity"
+    ]
+  },
+  "implementation_scope": "future receiver resolved at runtime from statically selected sites, then graph composition; predictor only after insufficient lookahead is demonstrated"
+}

@@ -1,0 +1,74 @@
+{
+  "results": [
+    {
+      "arm": "pt4",
+      "sites": 15,
+      "hints": 46,
+      "comparisons": {
+        "base": {
+          "speedup_pct": 0.25799591233023955,
+          "ci95_pct": [
+            -0.018007775173353426,
+            0.5347615173933895
+          ]
+        },
+        "nop4": {
+          "speedup_pct": 0.15541635708523274,
+          "ci95_pct": [
+            -0.006596395776244667,
+            0.3176916085830567
+          ]
+        }
+      },
+      "mean_l2_mpki": 16.426570287855974,
+      "follow_up": false
+    },
+    {
+      "arm": "pt16",
+      "sites": 12,
+      "hints": 24,
+      "comparisons": {
+        "base": {
+          "speedup_pct": 0.16624740715637717,
+          "ci95_pct": [
+            0.06011457584291473,
+            0.2724928125752198
+          ]
+        },
+        "nop16": {
+          "speedup_pct": -0.0076810614539138886,
+          "ci95_pct": [
+            -0.0344064985961283,
+            0.01905152063653145
+          ]
+        }
+      },
+      "mean_l2_mpki": 16.470284794021524,
+      "follow_up": false
+    },
+    {
+      "arm": "pt64",
+      "sites": 4,
+      "hints": 4,
+      "comparisons": {
+        "base": {
+          "speedup_pct": 0.09361427581005877,
+          "ci95_pct": [
+            -0.19088202266152607,
+            0.3789215036384425
+          ]
+        },
+        "nop64": {
+          "speedup_pct": -0.10769132247154348,
+          "ci95_pct": [
+            -0.32469710471792634,
+            0.10978690889874965
+          ]
+        }
+      },
+      "mean_l2_mpki": 16.510379518298834,
+      "follow_up": false
+    }
+  ],
+  "scope": "three independent-seed1 paired repetitions; exploratory selection only; positive candidates require new independent confirmation; no causal per-miss or cross-workload claim"
+}

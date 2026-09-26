@@ -1,0 +1,76 @@
+[
+  {
+    "workload": "MySQL",
+    "kernel_source": "mysql_kernel/summary.json",
+    "user_source": "class_a2_20260923/mysql/screen2/summary.json",
+    "kernel_mpki": 5.877058539331046,
+    "user_mpki": 4.243065807761692,
+    "kernel_topdown_pct": {
+      "fe-bound": 37.30649686199218,
+      "be-bound": 39.481479514425935,
+      "bad-spec": 4.34268443580654,
+      "retiring": 19.303865455742965,
+      "fetch-lat": 28.67759441586312
+    },
+    "estimated_kernel_cycle_fraction_separate_runs": 0.31028311809862924,
+    "estimated_kernel_code_miss_fraction_separate_runs": 0.25974315753944055,
+    "estimated_combined_mpki_separate_runs": 4.573334319756308,
+    "scope": "MySQL/FeedSim process-attached kernel PMU; Rails/Django per-CPU kernel PMU. User/kernel combined estimates normalize by achieved request rate across separate 25-second windows; not simultaneous measurements.",
+    "kernel_cpu_fraction_same_run_cycles_over_task_clock": 0.2807621772088176
+  },
+  {
+    "workload": "Rails",
+    "kernel_source": "rails_kernel_v2/summary.json",
+    "user_source": "class_a2_20260923/rails/screen/summary.json",
+    "kernel_mpki": 16.393106530057857,
+    "user_mpki": 1.888549612817404,
+    "kernel_topdown_pct": {
+      "fe-bound": 39.31421661761442,
+      "be-bound": 38.72549683416626,
+      "bad-spec": 6.274509800135696,
+      "retiring": 15.686274505577831,
+      "fetch-lat": 30.7848217507118
+    },
+    "estimated_kernel_cycle_fraction_separate_runs": 0.1312891381060249,
+    "estimated_kernel_code_miss_fraction_separate_runs": 0.4503405212146719,
+    "estimated_combined_mpki_separate_runs": 3.1395221852787385,
+    "scope": "MySQL/FeedSim process-attached kernel PMU; Rails/Django per-CPU kernel PMU. User/kernel combined estimates normalize by achieved request rate across separate 25-second windows; not simultaneous measurements."
+  },
+  {
+    "workload": "Django v2",
+    "kernel_source": "django_kernel/summary.json",
+    "user_source": "class_a2_20260923/django/screen_c20_retry/summary.json",
+    "kernel_mpki": 14.919861704101788,
+    "user_mpki": 1.7840504822134022,
+    "kernel_topdown_pct": {
+      "fe-bound": 40.58740728232749,
+      "be-bound": 32.84403465062362,
+      "bad-spec": 8.724297643965812,
+      "retiring": 17.940811927988992,
+      "fetch-lat": 30.78348571414166
+    },
+    "estimated_kernel_cycle_fraction_separate_runs": 0.10479919817618719,
+    "estimated_kernel_code_miss_fraction_separate_runs": 0.34516609874108545,
+    "estimated_combined_mpki_separate_runs": 2.5628957248199336,
+    "scope": "MySQL/FeedSim process-attached kernel PMU; Rails/Django per-CPU kernel PMU. User/kernel combined estimates normalize by achieved request rate across separate 25-second windows; not simultaneous measurements."
+  },
+  {
+    "workload": "FeedSim v2",
+    "kernel_source": "feedsim_kernel/summary.json",
+    "user_source": "class_a2_20260923/feedsim/fixed40_confirmation/summary.json",
+    "kernel_mpki": 8.505541855442926,
+    "user_mpki": 3.6157784847832204,
+    "kernel_topdown_pct": {
+      "fe-bound": 28.772818291688846,
+      "be-bound": 45.66580276838141,
+      "bad-spec": 5.693484734383301,
+      "retiring": 20.204262149785457,
+      "fetch-lat": 20.67097656456137
+    },
+    "estimated_kernel_cycle_fraction_separate_runs": 0.05061902793192652,
+    "estimated_kernel_code_miss_fraction_separate_runs": 0.053833238824412856,
+    "estimated_combined_mpki_separate_runs": 3.73125434895716,
+    "scope": "MySQL/FeedSim process-attached kernel PMU; Rails/Django per-CPU kernel PMU. User/kernel combined estimates normalize by achieved request rate across separate 25-second windows; not simultaneous measurements.",
+    "kernel_cpu_fraction_same_run_cycles_over_task_clock": 0.05101544689685366
+  }
+]

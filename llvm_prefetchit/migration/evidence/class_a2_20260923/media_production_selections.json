@@ -1,0 +1,686 @@
+{
+  "movie": {
+    "eligible": true,
+    "baseline": {
+      "arm": "base",
+      "rep": 1,
+      "rate": 2500,
+      "rps": 2502.17,
+      "requests": 125104,
+      "non2xx": 0,
+      "socket_error_line": null,
+      "p99_ms": 12.19,
+      "services": {
+        "movie": {
+          "util_pct": 34.62481996077481,
+          "user_util_pct": 5.931757172,
+          "mpki": 1.4046599862086557,
+          "cpu_us_per_request": 276.7583334527614,
+          "user_cpu_us_per_request": 47.41290297621664,
+          "cgroup_user_cpu_us_per_request": 61.95160154878579,
+          "metric": "cgroup user+kernel CPU",
+          "account_elapsed_s": 25.1509870949958,
+          "cpu_account_delta": {
+            "usage_usec": 17416968,
+            "user_usec": 3898741,
+            "system_usec": 13518227,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "counters": {
+            "instructions:u": 6363462395.0,
+            "cycles:u": 5931757172.0,
+            "L2I": 8938501.0,
+            "slots:u": 35590549506.0,
+            "topdown-retiring:u": 6559826771.0,
+            "topdown-bad-spec:u": 1535278605.0,
+            "topdown-fe-bound:u": 14934073714.0,
+            "topdown-be-bound:u": 12561370413.0,
+            "topdown-fetch-lat:u": 11096049853.0
+          }
+        },
+        "compose": {
+          "util_pct": 82.52170364662075,
+          "user_util_pct": 12.933834723,
+          "mpki": 2.7768608707375915,
+          "cpu_us_per_request": 659.6010954221396,
+          "user_cpu_us_per_request": 103.38094312536718,
+          "cgroup_user_cpu_us_per_request": 122.59933816430946,
+          "metric": "cgroup user+kernel CPU",
+          "account_elapsed_s": 25.15093130999594,
+          "cpu_account_delta": {
+            "usage_usec": 41509954,
+            "user_usec": 7715410,
+            "system_usec": 33794544,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "counters": {
+            "instructions:u": 17861813144.0,
+            "cycles:u": 12933834723.0,
+            "L2I": 49599770.0,
+            "slots:u": 77603015640.0,
+            "topdown-retiring:u": 17955207539.0,
+            "topdown-bad-spec:u": 4717104009.0,
+            "topdown-fe-bound:u": 35910415079.0,
+            "topdown-be-bound:u": 19020289008.0,
+            "topdown-fetch-lat:u": 25563346327.0
+          }
+        },
+        "rating": {
+          "util_pct": 31.71367138182028,
+          "user_util_pct": 6.210936954,
+          "mpki": 0.7106389943883455,
+          "cpu_us_per_request": 253.4893423054411,
+          "user_cpu_us_per_request": 49.64440428907708,
+          "cgroup_user_cpu_us_per_request": 67.6092609787205,
+          "metric": "cgroup user+kernel CPU",
+          "account_elapsed_s": 25.15092750999611,
+          "cpu_account_delta": {
+            "usage_usec": 15952565,
+            "user_usec": 4254779,
+            "system_usec": 11697786,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "counters": {
+            "instructions:u": 7020412670.0,
+            "cycles:u": 6210936954.0,
+            "L2I": 4988979.0,
+            "slots:u": 37265620818.0,
+            "topdown-retiring:u": 7160844784.0,
+            "topdown-bad-spec:u": 2045955652.0,
+            "topdown-fe-bound:u": 14321689568.0,
+            "topdown-be-bound:u": 13663722862.0,
+            "topdown-fetch-lat:u": 10010230625.0
+          }
+        }
+      },
+      "trial_path": "media_production_qualification/base_2500"
+    },
+    "screen_baseline": {
+      "arm": "base",
+      "rep": 1,
+      "rate": 2500,
+      "rps": 2502.06,
+      "requests": 125107,
+      "non2xx": 0,
+      "socket_error_line": null,
+      "p99_ms": 12.92,
+      "services": {
+        "movie": {
+          "util_pct": 34.671851106854476,
+          "user_util_pct": 5.805281843,
+          "mpki": 1.2000941653670727,
+          "cpu_us_per_request": 277.1464401881208,
+          "user_cpu_us_per_request": 46.40401783330535,
+          "cgroup_user_cpu_us_per_request": 60.49183735908377,
+          "metric": "cgroup user+kernel CPU",
+          "account_elapsed_s": 25.150625713999034,
+          "cpu_account_delta": {
+            "usage_usec": 17440375,
+            "user_usec": 3806653,
+            "system_usec": 13633722,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "counters": {
+            "instructions:u": 6387176291.0,
+            "cycles:u": 5805281843.0,
+            "L2I": 7665213.0,
+            "slots:u": 34831700652.0,
+            "topdown-retiring:u": 6556555416.0,
+            "topdown-bad-spec:u": 1639138853.0,
+            "topdown-fe-bound:u": 13659490451.0,
+            "topdown-be-bound:u": 13044508446.0,
+            "topdown-fetch-lat:u": 9902825642.0
+          }
+        },
+        "compose": {
+          "util_pct": 82.78208171969098,
+          "user_util_pct": 13.019264629,
+          "mpki": 2.5721034584368945,
+          "cpu_us_per_request": 661.7114035609936,
+          "user_cpu_us_per_request": 104.06836469948762,
+          "cgroup_user_cpu_us_per_request": 119.30006156661445,
+          "metric": "cgroup user+kernel CPU",
+          "account_elapsed_s": 25.15060574400559,
+          "cpu_account_delta": {
+            "usage_usec": 41640390,
+            "user_usec": 7507353,
+            "system_usec": 34133037,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "counters": {
+            "instructions:u": 17855486275.0,
+            "cycles:u": 13019264629.0,
+            "L2I": 45926158.0,
+            "slots:u": 78115584822.0,
+            "topdown-retiring:u": 17920704069.0,
+            "topdown-bad-spec:u": 4595034400.0,
+            "topdown-fe-bound:u": 36760275209.0,
+            "topdown-be-bound:u": 18839571139.0,
+            "topdown-fetch-lat:u": 26344863900.0
+          }
+        },
+        "rating": {
+          "util_pct": 31.367549582646433,
+          "user_util_pct": 6.159831938,
+          "mpki": 0.7113048100953976,
+          "cpu_us_per_request": 250.7337920165498,
+          "user_cpu_us_per_request": 49.23808332334157,
+          "cgroup_user_cpu_us_per_request": 65.60546157422097,
+          "metric": "cgroup user+kernel CPU",
+          "account_elapsed_s": 25.150582703994587,
+          "cpu_account_delta": {
+            "usage_usec": 15778243,
+            "user_usec": 4128438,
+            "system_usec": 11649805,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "counters": {
+            "instructions:u": 6937100565.0,
+            "cycles:u": 6159831938.0,
+            "L2I": 4934393.0,
+            "slots:u": 36959004564.0,
+            "topdown-retiring:u": 7174957973.0,
+            "topdown-bad-spec:u": 1884184545.0,
+            "topdown-fe-bound:u": 14203852733.0,
+            "topdown-be-bound:u": 13767914974.0,
+            "topdown-fetch-lat:u": 9855734550.0
+          }
+        }
+      },
+      "trial_path": "media_movie_production_screen_2500/01_base"
+    },
+    "screen_group": "media_movie_production_screen_2500",
+    "excluded_rates": [],
+    "policy_selection": {
+      "arm": "handler4",
+      "screen_cpu_speedup": 0.0012743594783288792,
+      "requires_fresh_confirmation": true
+    }
+  },
+  "compose": {
+    "eligible": true,
+    "baseline": {
+      "arm": "base",
+      "rep": 1,
+      "rate": 2500,
+      "rps": 2502.17,
+      "requests": 125104,
+      "non2xx": 0,
+      "socket_error_line": null,
+      "p99_ms": 12.19,
+      "services": {
+        "movie": {
+          "util_pct": 34.62481996077481,
+          "user_util_pct": 5.931757172,
+          "mpki": 1.4046599862086557,
+          "cpu_us_per_request": 276.7583334527614,
+          "user_cpu_us_per_request": 47.41290297621664,
+          "cgroup_user_cpu_us_per_request": 61.95160154878579,
+          "metric": "cgroup user+kernel CPU",
+          "account_elapsed_s": 25.1509870949958,
+          "cpu_account_delta": {
+            "usage_usec": 17416968,
+            "user_usec": 3898741,
+            "system_usec": 13518227,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "counters": {
+            "instructions:u": 6363462395.0,
+            "cycles:u": 5931757172.0,
+            "L2I": 8938501.0,
+            "slots:u": 35590549506.0,
+            "topdown-retiring:u": 6559826771.0,
+            "topdown-bad-spec:u": 1535278605.0,
+            "topdown-fe-bound:u": 14934073714.0,
+            "topdown-be-bound:u": 12561370413.0,
+            "topdown-fetch-lat:u": 11096049853.0
+          }
+        },
+        "compose": {
+          "util_pct": 82.52170364662075,
+          "user_util_pct": 12.933834723,
+          "mpki": 2.7768608707375915,
+          "cpu_us_per_request": 659.6010954221396,
+          "user_cpu_us_per_request": 103.38094312536718,
+          "cgroup_user_cpu_us_per_request": 122.59933816430946,
+          "metric": "cgroup user+kernel CPU",
+          "account_elapsed_s": 25.15093130999594,
+          "cpu_account_delta": {
+            "usage_usec": 41509954,
+            "user_usec": 7715410,
+            "system_usec": 33794544,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "counters": {
+            "instructions:u": 17861813144.0,
+            "cycles:u": 12933834723.0,
+            "L2I": 49599770.0,
+            "slots:u": 77603015640.0,
+            "topdown-retiring:u": 17955207539.0,
+            "topdown-bad-spec:u": 4717104009.0,
+            "topdown-fe-bound:u": 35910415079.0,
+            "topdown-be-bound:u": 19020289008.0,
+            "topdown-fetch-lat:u": 25563346327.0
+          }
+        },
+        "rating": {
+          "util_pct": 31.71367138182028,
+          "user_util_pct": 6.210936954,
+          "mpki": 0.7106389943883455,
+          "cpu_us_per_request": 253.4893423054411,
+          "user_cpu_us_per_request": 49.64440428907708,
+          "cgroup_user_cpu_us_per_request": 67.6092609787205,
+          "metric": "cgroup user+kernel CPU",
+          "account_elapsed_s": 25.15092750999611,
+          "cpu_account_delta": {
+            "usage_usec": 15952565,
+            "user_usec": 4254779,
+            "system_usec": 11697786,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "counters": {
+            "instructions:u": 7020412670.0,
+            "cycles:u": 6210936954.0,
+            "L2I": 4988979.0,
+            "slots:u": 37265620818.0,
+            "topdown-retiring:u": 7160844784.0,
+            "topdown-bad-spec:u": 2045955652.0,
+            "topdown-fe-bound:u": 14321689568.0,
+            "topdown-be-bound:u": 13663722862.0,
+            "topdown-fetch-lat:u": 10010230625.0
+          }
+        }
+      },
+      "trial_path": "media_production_qualification/base_2500"
+    },
+    "screen_baseline": {
+      "arm": "base",
+      "rep": 1,
+      "rate": 2500,
+      "rps": 2502.1,
+      "requests": 125106,
+      "non2xx": 0,
+      "socket_error_line": null,
+      "p99_ms": 12.57,
+      "services": {
+        "movie": {
+          "util_pct": 34.735337093961874,
+          "user_util_pct": 5.870214892,
+          "mpki": 1.2489612658314735,
+          "cpu_us_per_request": 277.6494711958905,
+          "user_cpu_us_per_request": 46.922304400303744,
+          "cgroup_user_cpu_us_per_request": 61.82790415111564,
+          "metric": "cgroup user+kernel CPU",
+          "account_elapsed_s": 25.144758135997108,
+          "cpu_account_delta": {
+            "usage_usec": 17468233,
+            "user_usec": 3889884,
+            "system_usec": 13578350,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "counters": {
+            "instructions:u": 6387022735.0,
+            "cycles:u": 5870214892.0,
+            "L2I": 7977144.0,
+            "slots:u": 35221298592.0,
+            "topdown-retiring:u": 6491768759.0,
+            "topdown-bad-spec:u": 1657472874.0,
+            "topdown-fe-bound:u": 14572003742.0,
+            "topdown-be-bound:u": 12500053213.0,
+            "topdown-fetch-lat:u": 10704567034.0
+          }
+        },
+        "compose": {
+          "util_pct": 82.85787677200103,
+          "user_util_pct": 13.087617919,
+          "mpki": 2.7008629849396106,
+          "cpu_us_per_request": 662.3066765676914,
+          "user_cpu_us_per_request": 104.61306837456536,
+          "cgroup_user_cpu_us_per_request": 120.10673067894237,
+          "metric": "cgroup user+kernel CPU",
+          "account_elapsed_s": 25.144698744006746,
+          "cpu_account_delta": {
+            "usage_usec": 41668727,
+            "user_usec": 7556461,
+            "system_usec": 34112266,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "counters": {
+            "instructions:u": 17857637825.0,
+            "cycles:u": 13087617919.0,
+            "L2I": 48231033.0,
+            "slots:u": 78525627360.0,
+            "topdown-retiring:u": 17860730928.0,
+            "topdown-bad-spec:u": 4773161396.0,
+            "topdown-fe-bound:u": 37261180040.0,
+            "topdown-be-bound:u": 18630554991.0,
+            "topdown-fetch-lat:u": 26791096392.0
+          }
+        },
+        "rating": {
+          "util_pct": 31.73956664147774,
+          "user_util_pct": 6.228054612,
+          "mpki": 0.7515164159518741,
+          "cpu_us_per_request": 253.70342225712594,
+          "user_cpu_us_per_request": 49.78261949562368,
+          "cgroup_user_cpu_us_per_request": 66.11951875060248,
+          "metric": "cgroup user+kernel CPU",
+          "account_elapsed_s": 25.14464545199735,
+          "cpu_account_delta": {
+            "usage_usec": 15961603,
+            "user_usec": 4159871,
+            "system_usec": 11801732,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "counters": {
+            "instructions:u": 7019458109.0,
+            "cycles:u": 6228054612.0,
+            "L2I": 5275238.0,
+            "slots:u": 37368336678.0,
+            "topdown-retiring:u": 7180582341.0,
+            "topdown-bad-spec:u": 1905052458.0,
+            "topdown-fe-bound:u": 14141025762.0,
+            "topdown-be-bound:u": 14068079690.0,
+            "topdown-fetch-lat:u": 9891293355.0
+          }
+        }
+      },
+      "trial_path": "media_compose_production_screen_2500/01_base"
+    },
+    "screen_group": "media_compose_production_screen_2500",
+    "excluded_rates": [],
+    "policy_selection": {
+      "arm": "handler_grandchildren",
+      "screen_cpu_speedup": 0.005643950348753313,
+      "requires_fresh_confirmation": true
+    }
+  },
+  "rating": {
+    "eligible": true,
+    "baseline": {
+      "arm": "base",
+      "rep": 1,
+      "rate": 2500,
+      "rps": 2502.17,
+      "requests": 125104,
+      "non2xx": 0,
+      "socket_error_line": null,
+      "p99_ms": 12.19,
+      "services": {
+        "movie": {
+          "util_pct": 34.62481996077481,
+          "user_util_pct": 5.931757172,
+          "mpki": 1.4046599862086557,
+          "cpu_us_per_request": 276.7583334527614,
+          "user_cpu_us_per_request": 47.41290297621664,
+          "cgroup_user_cpu_us_per_request": 61.95160154878579,
+          "metric": "cgroup user+kernel CPU",
+          "account_elapsed_s": 25.1509870949958,
+          "cpu_account_delta": {
+            "usage_usec": 17416968,
+            "user_usec": 3898741,
+            "system_usec": 13518227,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "counters": {
+            "instructions:u": 6363462395.0,
+            "cycles:u": 5931757172.0,
+            "L2I": 8938501.0,
+            "slots:u": 35590549506.0,
+            "topdown-retiring:u": 6559826771.0,
+            "topdown-bad-spec:u": 1535278605.0,
+            "topdown-fe-bound:u": 14934073714.0,
+            "topdown-be-bound:u": 12561370413.0,
+            "topdown-fetch-lat:u": 11096049853.0
+          }
+        },
+        "compose": {
+          "util_pct": 82.52170364662075,
+          "user_util_pct": 12.933834723,
+          "mpki": 2.7768608707375915,
+          "cpu_us_per_request": 659.6010954221396,
+          "user_cpu_us_per_request": 103.38094312536718,
+          "cgroup_user_cpu_us_per_request": 122.59933816430946,
+          "metric": "cgroup user+kernel CPU",
+          "account_elapsed_s": 25.15093130999594,
+          "cpu_account_delta": {
+            "usage_usec": 41509954,
+            "user_usec": 7715410,
+            "system_usec": 33794544,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "counters": {
+            "instructions:u": 17861813144.0,
+            "cycles:u": 12933834723.0,
+            "L2I": 49599770.0,
+            "slots:u": 77603015640.0,
+            "topdown-retiring:u": 17955207539.0,
+            "topdown-bad-spec:u": 4717104009.0,
+            "topdown-fe-bound:u": 35910415079.0,
+            "topdown-be-bound:u": 19020289008.0,
+            "topdown-fetch-lat:u": 25563346327.0
+          }
+        },
+        "rating": {
+          "util_pct": 31.71367138182028,
+          "user_util_pct": 6.210936954,
+          "mpki": 0.7106389943883455,
+          "cpu_us_per_request": 253.4893423054411,
+          "user_cpu_us_per_request": 49.64440428907708,
+          "cgroup_user_cpu_us_per_request": 67.6092609787205,
+          "metric": "cgroup user+kernel CPU",
+          "account_elapsed_s": 25.15092750999611,
+          "cpu_account_delta": {
+            "usage_usec": 15952565,
+            "user_usec": 4254779,
+            "system_usec": 11697786,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "counters": {
+            "instructions:u": 7020412670.0,
+            "cycles:u": 6210936954.0,
+            "L2I": 4988979.0,
+            "slots:u": 37265620818.0,
+            "topdown-retiring:u": 7160844784.0,
+            "topdown-bad-spec:u": 2045955652.0,
+            "topdown-fe-bound:u": 14321689568.0,
+            "topdown-be-bound:u": 13663722862.0,
+            "topdown-fetch-lat:u": 10010230625.0
+          }
+        }
+      },
+      "trial_path": "media_production_qualification/base_2500"
+    },
+    "screen_baseline": {
+      "arm": "base",
+      "rep": 1,
+      "rate": 2500,
+      "rps": 2502.0,
+      "requests": 125100,
+      "non2xx": 0,
+      "socket_error_line": null,
+      "p99_ms": 12.71,
+      "services": {
+        "movie": {
+          "util_pct": 34.76601340172364,
+          "user_util_pct": 5.906020438,
+          "mpki": 1.46813390250779,
+          "cpu_us_per_request": 277.90578258771893,
+          "user_cpu_us_per_request": 47.21039518784972,
+          "cgroup_user_cpu_us_per_request": 61.49836008883399,
+          "metric": "cgroup user+kernel CPU",
+          "account_elapsed_s": 25.138719239999773,
+          "cpu_account_delta": {
+            "usage_usec": 17479461,
+            "user_usec": 3868067,
+            "system_usec": 13611394,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "counters": {
+            "instructions:u": 6372764081.0,
+            "cycles:u": 5906020438.0,
+            "L2I": 9356071.0,
+            "slots:u": 35436127524.0,
+            "topdown-retiring:u": 6531364680.0,
+            "topdown-bad-spec:u": 1528617264.0,
+            "topdown-fe-bound:u": 14869277038.0,
+            "topdown-be-bound:u": 12506868537.0,
+            "topdown-fetch-lat:u": 10978251271.0
+          }
+        },
+        "compose": {
+          "util_pct": 82.51546257076926,
+          "user_util_pct": 13.161070285,
+          "mpki": 2.7708713279118053,
+          "cpu_us_per_request": 659.5960237471563,
+          "user_cpu_us_per_request": 105.20439876099121,
+          "cgroup_user_cpu_us_per_request": 124.49449425682437,
+          "metric": "cgroup user+kernel CPU",
+          "account_elapsed_s": 25.138720494003792,
+          "cpu_account_delta": {
+            "usage_usec": 41486663,
+            "user_usec": 7830340,
+            "system_usec": 33656323,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "counters": {
+            "instructions:u": 17859870468.0,
+            "cycles:u": 13161070285.0,
+            "L2I": 49487403.0,
+            "slots:u": 78966430452.0,
+            "topdown-retiring:u": 17960992023.0,
+            "topdown-bad-spec:u": 4799901491.0,
+            "topdown-fe-bound:u": 37160673152.0,
+            "topdown-be-bound:u": 19199681129.0,
+            "topdown-fetch-lat:u": 26631815759.0
+          }
+        },
+        "rating": {
+          "util_pct": 32.11398842007452,
+          "user_util_pct": 6.301144582,
+          "mpki": 0.7247252305091163,
+          "cpu_us_per_request": 256.70654212689465,
+          "user_cpu_us_per_request": 50.3688615667466,
+          "cgroup_user_cpu_us_per_request": 67.56104582977608,
+          "metric": "cgroup user+kernel CPU",
+          "account_elapsed_s": 25.138718039001105,
+          "cpu_account_delta": {
+            "usage_usec": 16146090,
+            "user_usec": 4249392,
+            "system_usec": 11896697,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "counters": {
+            "instructions:u": 7056194244.0,
+            "cycles:u": 6301144582.0,
+            "L2I": 5113802.0,
+            "slots:u": 37806872040.0,
+            "topdown-retiring:u": 7264849920.0,
+            "topdown-bad-spec:u": 2075671405.0,
+            "topdown-fe-bound:u": 14307258034.0,
+            "topdown-be-bound:u": 14233175355.0,
+            "topdown-fetch-lat:u": 9933570300.0
+          }
+        }
+      },
+      "trial_path": "media_rating_production_screen_2500/01_base"
+    },
+    "screen_group": "media_rating_production_screen_2500",
+    "excluded_rates": [],
+    "policy_selection": {
+      "arm": "handler_children",
+      "screen_cpu_speedup": 0.011835038336265313,
+      "requires_fresh_confirmation": true
+    }
+  }
+}

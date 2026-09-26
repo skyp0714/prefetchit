@@ -1,0 +1,370 @@
+{
+  "rails": {
+    "source": "rails/trace/01_base/800/samples.txt",
+    "total_samples": 27714,
+    "dsos": [
+      {
+        "dso": "/usr/lib/x86_64-linux-gnu/libruby-3.2.so.3.2.3",
+        "samples": 17065,
+        "share_pct": 61.57537706574295
+      },
+      {
+        "dso": "/usr/lib/x86_64-linux-gnu/libcrypto.so.3",
+        "samples": 3012,
+        "share_pct": 10.868153279930722
+      },
+      {
+        "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+        "samples": 1820,
+        "share_pct": 6.567078011113517
+      },
+      {
+        "dso": "/usr/lib/x86_64-linux-gnu/libmysqlclient.so.21.2.46",
+        "samples": 1386,
+        "share_pct": 5.001082485386447
+      },
+      {
+        "dso": "/usr/lib/x86_64-linux-gnu/libssl.so.3",
+        "samples": 1271,
+        "share_pct": 4.586129753914989
+      },
+      {
+        "dso": "/home/hnpark2/prefetchit/benchmarks/railsapp/vendor/bundle/ruby/3.2.0/gems/mysql2-0.5.7/lib/mysql2/mysql2.so",
+        "samples": 751,
+        "share_pct": 2.709821750739698
+      },
+      {
+        "dso": "/home/hnpark2/prefetchit/benchmarks/railsapp/vendor/bundle/ruby/3.2.0/gems/json-3.0.2/lib/json/ext/generator.so",
+        "samples": 566,
+        "share_pct": 2.042289095763874
+      },
+      {
+        "dso": "/home/hnpark2/prefetchit/benchmarks/railsapp/vendor/bundle/ruby/3.2.0/gems/nio4r-2.7.5/lib/nio4r_ext.so",
+        "samples": 427,
+        "share_pct": 1.5407375333766327
+      },
+      {
+        "dso": "/usr/lib/x86_64-linux-gnu/ruby/3.2.0/socket.so",
+        "samples": 400,
+        "share_pct": 1.4433138485963772
+      },
+      {
+        "dso": "/home/hnpark2/prefetchit/benchmarks/railsapp/vendor/bundle/ruby/3.2.0/gems/puma-8.0.2/lib/puma/puma_http11.so",
+        "samples": 338,
+        "share_pct": 1.2196002020639387
+      },
+      {
+        "dso": "/usr/lib/x86_64-linux-gnu/ruby/3.2.0/stringio.so",
+        "samples": 208,
+        "share_pct": 0.7505232012701162
+      },
+      {
+        "dso": "/usr/lib/x86_64-linux-gnu/ruby/3.2.0/digest.so",
+        "samples": 197,
+        "share_pct": 0.7108320704337158
+      },
+      {
+        "dso": "/usr/lib/x86_64-linux-gnu/libm.so.6",
+        "samples": 116,
+        "share_pct": 0.41856101609294943
+      },
+      {
+        "dso": "/usr/lib/x86_64-linux-gnu/ruby/3.2.0/digest/sha2.so",
+        "samples": 83,
+        "share_pct": 0.2994876235837483
+      },
+      {
+        "dso": "/usr/lib/x86_64-linux-gnu/ruby/3.2.0/monitor.so",
+        "samples": 47,
+        "share_pct": 0.16958937721007433
+      },
+      {
+        "dso": "[vdso]",
+        "samples": 22,
+        "share_pct": 0.07938226167280076
+      },
+      {
+        "dso": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+        "samples": 5,
+        "share_pct": 0.018041423107454716
+      }
+    ]
+  },
+  "mysql": {
+    "source": "mysql/trace/01_base_400/samples.txt",
+    "total_samples": 19797,
+    "dsos": [
+      {
+        "dso": "/usr/sbin/mysqld",
+        "samples": 17333,
+        "share_pct": 87.55366974794161
+      },
+      {
+        "dso": "/usr/lib64/libcrypto.so.3.5.8",
+        "samples": 1450,
+        "share_pct": 7.324342072031116
+      },
+      {
+        "dso": "/usr/lib64/libc.so.6",
+        "samples": 757,
+        "share_pct": 3.823811688639693
+      },
+      {
+        "dso": "/usr/lib64/libstdc++.so.6.0.29",
+        "samples": 144,
+        "share_pct": 0.7273829368086073
+      },
+      {
+        "dso": "/usr/lib64/libssl.so.3.5.8",
+        "samples": 75,
+        "share_pct": 0.37884527958781633
+      },
+      {
+        "dso": "/usr/lib64/libm.so.6",
+        "samples": 37,
+        "share_pct": 0.18689700459665606
+      },
+      {
+        "dso": "[vdso]",
+        "samples": 1,
+        "share_pct": 0.0050512703945042176
+      }
+    ]
+  },
+  "django": {
+    "source": "django/trace2/01_base/samples.txt",
+    "total_samples": 44899,
+    "dsos": [
+      {
+        "dso": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/django/install/base/lib/libpython3.14.so.1.0",
+        "samples": 16464,
+        "share_pct": 36.66896812846611
+      },
+      {
+        "dso": "/home/hnpark2/prefetchit/benchmarks/dcperf_v2/benchmarks/django_workload/proxygen_binding/proxygen_binding.cpython-314-x86_64-linux-gnu.so",
+        "samples": 4432,
+        "share_pct": 9.871043898527807
+      },
+      {
+        "dso": "/usr/bin/python3.12",
+        "samples": 3583,
+        "share_pct": 7.980133187821555
+      },
+      {
+        "dso": "/home/hnpark2/prefetchit/benchmarks/dcperf_v2/benchmarks/django_workload/django-workload/django-workload/venv_cpython/lib/python3.14/site-packages/cassandra/cluster.cpython-314-x86_64-linux-gnu.so",
+        "samples": 3475,
+        "share_pct": 7.739593309427827
+      },
+      {
+        "dso": "/home/hnpark2/prefetchit/benchmarks/dcperf_v2/benchmarks/django_workload/django-workload/django-workload/venv_cpython/lib/python3.14/site-packages/cassandra/protocol.cpython-314-x86_64-linux-gnu.so",
+        "samples": 2656,
+        "share_pct": 5.915499231608722
+      },
+      {
+        "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+        "samples": 2432,
+        "share_pct": 5.41660170605136
+      },
+      {
+        "dso": "/home/hnpark2/prefetchit/benchmarks/dcperf_v2/benchmarks/django_workload/django-workload/django-workload/venv_cpython/lib/python3.14/site-packages/cassandra/connection.cpython-314-x86_64-linux-gnu.so",
+        "samples": 2012,
+        "share_pct": 4.481168845631306
+      },
+      {
+        "dso": "/home/hnpark2/prefetchit/benchmarks/dcperf_v2/benchmarks/django_workload/django-workload/django-workload/venv_cpython/lib/python3.14/site-packages/cassandra/deserializers.cpython-314-x86_64-linux-gnu.so",
+        "samples": 1122,
+        "share_pct": 2.498942069979287
+      },
+      {
+        "dso": "/home/hnpark2/prefetchit/benchmarks/dcperf_v2/benchmarks/django_workload/django-workload/django-workload/venv_cpython/lib/python3.14/site-packages/cassandra/query.cpython-314-x86_64-linux-gnu.so",
+        "samples": 1074,
+        "share_pct": 2.392035457359852
+      },
+      {
+        "dso": "/home/hnpark2/prefetchit/benchmarks/dcperf_v2/benchmarks/django_workload/django-workload/django-workload/venv_cpython/lib/python3.14/site-packages/cassandra/pool.cpython-314-x86_64-linux-gnu.so",
+        "samples": 865,
+        "share_pct": 1.9265462482460634
+      },
+      {
+        "dso": "/usr/sbin/haproxy",
+        "samples": 837,
+        "share_pct": 1.864184057551393
+      },
+      {
+        "dso": "/home/hnpark2/prefetchit/benchmarks/dcperf_v2/benchmarks/django_workload/django-workload/django-workload/venv_cpython/lib/python3.14/site-packages/lz4/block/_block.cpython-314-x86_64-linux-gnu.so",
+        "samples": 534,
+        "share_pct": 1.1893360653912113
+      },
+      {
+        "dso": "/home/hnpark2/prefetchit/benchmarks/dcperf_v2/benchmarks/django_workload/django-workload/django-workload/venv_cpython/lib/python3.14/site-packages/scylla_driver.libs/libev-aeeccda2.so.4.0.0",
+        "samples": 486,
+        "share_pct": 1.0824294527717766
+      },
+      {
+        "dso": "/home/hnpark2/prefetchit/benchmarks/dcperf_v2/benchmarks/django_workload/django-workload/django-workload/venv_cpython/lib/python3.14/site-packages/cassandra/parsing.cpython-314-x86_64-linux-gnu.so",
+        "samples": 429,
+        "share_pct": 0.9554778502861979
+      },
+      {
+        "dso": "/home/hnpark2/prefetchit/benchmarks/dcperf_v2/benchmarks/django_workload/django-workload/django-workload/venv_cpython/lib/python3.14/site-packages/cassandra/util.cpython-314-x86_64-linux-gnu.so",
+        "samples": 416,
+        "share_pct": 0.926523976035101
+      },
+      {
+        "dso": "/home/hnpark2/prefetchit/benchmarks/dcperf_v2/benchmarks/django_workload/django-workload/django-workload/venv_cpython/lib/python3.14/site-packages/cassandra/row_parser.cpython-314-x86_64-linux-gnu.so",
+        "samples": 400,
+        "share_pct": 0.8908884384952894
+      },
+      {
+        "dso": "/home/hnpark2/prefetchit/benchmarks/dcperf_v2/benchmarks/django_workload/django-workload/django-workload/Python-3.14.2/python-build-base/lib/python3.14/lib-dynload/_struct.cpython-314-x86_64-linux-gnu.so",
+        "samples": 391,
+        "share_pct": 0.8708434486291454
+      },
+      {
+        "dso": "/home/hnpark2/prefetchit/benchmarks/dcperf_v2/benchmarks/django_workload/django-workload/django-workload/Python-3.14.2/python-build-base/lib/python3.14/lib-dynload/_asyncio.cpython-314-x86_64-linux-gnu.so",
+        "samples": 365,
+        "share_pct": 0.8129357001269516
+      },
+      {
+        "dso": "/home/hnpark2/prefetchit/benchmarks/dcperf_v2/benchmarks/django_workload/django-workload/django-workload/venv_cpython/lib/python3.14/site-packages/cassandra/metadata.cpython-314-x86_64-linux-gnu.so",
+        "samples": 349,
+        "share_pct": 0.7773001625871401
+      },
+      {
+        "dso": "/usr/local/lib/libevent-2.1.so.7.0.1",
+        "samples": 329,
+        "share_pct": 0.7327557406623756
+      },
+      {
+        "dso": "/home/hnpark2/prefetchit/benchmarks/dcperf_v2/benchmarks/django_workload/django-workload/django-workload/venv_cpython/lib/python3.14/site-packages/cassandra/obj_parser.cpython-314-x86_64-linux-gnu.so",
+        "samples": 288,
+        "share_pct": 0.6414396757166084
+      },
+      {
+        "dso": "/home/hnpark2/prefetchit/benchmarks/dcperf_v2/benchmarks/django_workload/django-workload/django-workload/venv_cpython/lib/python3.14/site-packages/cassandra/cqltypes.cpython-314-x86_64-linux-gnu.so",
+        "samples": 247,
+        "share_pct": 0.5501236107708413
+      },
+      {
+        "dso": "/home/hnpark2/prefetchit/benchmarks/dcperf_v2/benchmarks/django_workload/django-workload/django-workload/Python-3.14.2/python-build-base/lib/python3.14/lib-dynload/_socket.cpython-314-x86_64-linux-gnu.so",
+        "samples": 244,
+        "share_pct": 0.5434419474821266
+      },
+      {
+        "dso": "/usr/lib/x86_64-linux-gnu/libm.so.6",
+        "samples": 192,
+        "share_pct": 0.42762645047773895
+      },
+      {
+        "dso": "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.35",
+        "samples": 191,
+        "share_pct": 0.4253992293815007
+      },
+      {
+        "dso": "/usr/lib/x86_64-linux-gnu/libcrypto.so.3",
+        "samples": 131,
+        "share_pct": 0.2917659636072073
+      },
+      {
+        "dso": "/home/hnpark2/prefetchit/benchmarks/dcperf_v2/benchmarks/django_workload/django-workload/django-workload/Python-3.14.2/python-build-base/lib/python3.14/lib-dynload/_heapq.cpython-314-x86_64-linux-gnu.so",
+        "samples": 127,
+        "share_pct": 0.2828570792222544
+      },
+      {
+        "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+        "samples": 121,
+        "share_pct": 0.26949375264482506
+      },
+      {
+        "dso": "/home/hnpark2/prefetchit/benchmarks/dcperf_v2/benchmarks/django_workload/django-workload/django-workload/venv_cpython/lib/python3.14/site-packages/cassandra/bytesio.cpython-314-x86_64-linux-gnu.so",
+        "samples": 109,
+        "share_pct": 0.24276709948996636
+      },
+      {
+        "dso": "/home/hnpark2/prefetchit/benchmarks/dcperf_v2/benchmarks/django_workload/django-workload/django-workload/venv_cpython/lib/python3.14/site-packages/cassandra/io/libevwrapper.cpython-314-x86_64-linux-gnu.so",
+        "samples": 107,
+        "share_pct": 0.23831265729748993
+      },
+      {
+        "dso": "/home/hnpark2/prefetchit/benchmarks/dcperf_v2/benchmarks/django_workload/django-workload/django-workload/Python-3.14.2/python-build-base/lib/python3.14/lib-dynload/select.cpython-314-x86_64-linux-gnu.so",
+        "samples": 90,
+        "share_pct": 0.2004498986614401
+      },
+      {
+        "dso": "/home/hnpark2/prefetchit/benchmarks/dcperf_v2/benchmarks/django_workload/django-workload/django-workload/Python-3.14.2/python-build-base/lib/python3.14/lib-dynload/_queue.cpython-314-x86_64-linux-gnu.so",
+        "samples": 63,
+        "share_pct": 0.14031492906300808
+      },
+      {
+        "dso": "/home/hnpark2/prefetchit/benchmarks/dcperf_v2/benchmarks/django_workload/django-workload/django-workload/Python-3.14.2/python-build-base/lib/python3.14/lib-dynload/_json.cpython-314-x86_64-linux-gnu.so",
+        "samples": 59,
+        "share_pct": 0.1314060446780552
+      },
+      {
+        "dso": "/home/hnpark2/prefetchit/benchmarks/dcperf_v2/benchmarks/django_workload/django-workload/django-workload/Python-3.14.2/python-build-base/lib/python3.14/lib-dynload/_random.cpython-314-x86_64-linux-gnu.so",
+        "samples": 59,
+        "share_pct": 0.1314060446780552
+      },
+      {
+        "dso": "/home/hnpark2/prefetchit/benchmarks/dcperf_v2/benchmarks/django_workload/django-workload/django-workload/Python-3.14.2/python-build-base/lib/python3.14/lib-dynload/_pickle.cpython-314-x86_64-linux-gnu.so",
+        "samples": 56,
+        "share_pct": 0.12472438138934051
+      },
+      {
+        "dso": "[vdso]",
+        "samples": 47,
+        "share_pct": 0.10467939152319651
+      },
+      {
+        "dso": "/home/hnpark2/prefetchit/benchmarks/dcperf_v2/benchmarks/django_workload/django-workload/django-workload/pylibmc/src/_pylibmc.cpython-314-x86_64-linux-gnu.so",
+        "samples": 46,
+        "share_pct": 0.10245217042695828
+      },
+      {
+        "dso": "/home/hnpark2/prefetchit/benchmarks/dcperf_v2/benchmarks/django_workload/django-workload/django-workload/Python-3.14.2/python-build-base/lib/python3.14/lib-dynload/_hashlib.cpython-314-x86_64-linux-gnu.so",
+        "samples": 21,
+        "share_pct": 0.046771643021002694
+      },
+      {
+        "dso": "/home/hnpark2/prefetchit/benchmarks/dcperf_v2/benchmarks/django_workload/django-workload/django-workload/Python-3.14.2/python-build-base/lib/python3.14/lib-dynload/_bisect.cpython-314-x86_64-linux-gnu.so",
+        "samples": 15,
+        "share_pct": 0.03340831644357335
+      },
+      {
+        "dso": "/home/hnpark2/prefetchit/benchmarks/dcperf_v2/benchmarks/django_workload/django-workload/django-workload/venv_cpython/lib/python3.14/site-packages/cassandra/cmurmur3.cpython-314-x86_64-linux-gnu.so",
+        "samples": 11,
+        "share_pct": 0.02449943205862046
+      },
+      {
+        "dso": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+        "samples": 9,
+        "share_pct": 0.020044989866144013
+      },
+      {
+        "dso": "/usr/lib/x86_64-linux-gnu/libz.so.1.3",
+        "samples": 6,
+        "share_pct": 0.013363326577429342
+      },
+      {
+        "dso": "/home/hnpark2/prefetchit/benchmarks/dcperf_v2/benchmarks/django_workload/django-workload/django-workload/Python-3.14.2/python-build-base/lib/python3.14/lib-dynload/_ctypes.cpython-314-x86_64-linux-gnu.so",
+        "samples": 4,
+        "share_pct": 0.008908884384952895
+      },
+      {
+        "dso": "/usr/lib/x86_64-linux-gnu/libhashkit.so.2.0.0",
+        "samples": 2,
+        "share_pct": 0.004454442192476447
+      },
+      {
+        "dso": "/home/hnpark2/prefetchit/benchmarks/dcperf_v2/benchmarks/django_workload/django-workload/django-workload/Python-3.14.2/python-build-base/lib/python3.14/lib-dynload/_decimal.cpython-314-x86_64-linux-gnu.so",
+        "samples": 2,
+        "share_pct": 0.004454442192476447
+      },
+      {
+        "dso": "/home/hnpark2/prefetchit/benchmarks/dcperf_v2/benchmarks/django_workload/django-workload/django-workload/Python-3.14.2/python-build-base/lib/python3.14/lib-dynload/zlib.cpython-314-x86_64-linux-gnu.so",
+        "samples": 1,
+        "share_pct": 0.0022272210962382237
+      }
+    ]
+  }
+}

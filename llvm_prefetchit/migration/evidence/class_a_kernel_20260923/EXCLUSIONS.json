@@ -1,0 +1,48 @@
+{
+  "excluded": [
+    {
+      "paths": [
+        "media_continuation_screen/02_all2t0",
+        "media_continuation_screen/02_all2t0_retry1",
+        "media_continuation_screen/v2_03_all1"
+      ],
+      "reason": "Unversioned RTLD_NEXT pthread_cond_timedwait dispatch failed CLOCK_MONOTONIC condition-variable semantics in Jammy. Reproduced with both pref and NOP; corrected with GLIBC_2.3.2 dlvsym plus versioned export.",
+      "phase": "dataset initialization; no timing rows"
+    },
+    {
+      "paths": [
+        "media_stalls/01_base_2500"
+      ],
+      "reason": "CPU accounting ended after perf-record trace flushing, giving 31.47 s instead of the required 25-26 s; rerun as media_stalls_v2 and without recording as media_stalls_cgroup. Raw counters are not used as accepted timing or potential estimates.",
+      "phase": "diagnostic collection"
+    },
+    {
+      "paths": [
+        "rails_kernel"
+      ],
+      "reason": "NameError in adapted kernel diagnostic harness before server start (kser instead of user); corrected and rerun as rails_kernel_v2.",
+      "phase": "setup; no counter window"
+    },
+    {
+      "paths": [
+        "compiler_profiles/*/perf.csv (Top-down breakdown only)"
+      ],
+      "reason": "Some whole-run L1 Top-down totals exceed 100% by several percentage points. MPKI and reference-output validation remain valid. Recollect all standard inputs with perf stat -I 1000 and require aggregate L1 total within 1.5 percentage points of 100%.",
+      "phase": "diagnostic quality; superseded breakdown, not a timing rejection"
+    },
+    {
+      "paths": [
+        "compiler_profiles_interval/summary.json: user_s and kernel_s only"
+      ],
+      "reason": "With this perf interval mode, outer RUSAGE_CHILDREN reports profiler CPU time only (~0.1 s), not the 60-165 s compiler. Do not derive kernel fraction from those fields. Use original non-interval reference runs, whose child CPU totals agree with task-clock within 2%. Interval MPKI, Top-down and output validation remain valid.",
+      "phase": "resource-accounting scope"
+    },
+    {
+      "paths": [
+        "mysql_return_base_end/01_base_400/perf.csv (Top-down breakdown only)"
+      ],
+      "reason": "L1 Top-down total is 101.85%, outside the audit tolerance. Not used for final Top-down or kernel-potential estimates. Task-clock, MPKI and application validity remain usable for the transfer screen.",
+      "phase": "auxiliary counter quality"
+    }
+  ]
+}

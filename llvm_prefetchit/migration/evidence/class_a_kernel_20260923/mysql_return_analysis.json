@@ -1,0 +1,45 @@
+{
+  "exploratory_only": true,
+  "baseline_utilization_eligible": true,
+  "setting": "unchanged durable 400-TPS sysbench OLTP read/write, private data clone",
+  "nop_control": "original binary is exact same-layout NOP twin of each static candidate",
+  "baseline_end_vs_start_speedup_pct": -0.08218931917918226,
+  "rows": [
+    {
+      "arm": "base",
+      "valid": true,
+      "tps": 402.04,
+      "p95_ms": 34.33,
+      "cpu_us_per_transaction": 1575.3601514735026,
+      "user_mpki": 4.260313429411242,
+      "speedup_vs_geomean_screen_baselines_pct": 0.04112000851759223
+    },
+    {
+      "arm": "t0",
+      "valid": true,
+      "tps": 402.04,
+      "p95_ms": 28.67,
+      "cpu_us_per_transaction": 1570.044656147663,
+      "user_mpki": 4.193978793065848,
+      "speedup_vs_geomean_screen_baselines_pct": 0.37981617471569695
+    },
+    {
+      "arm": "t1",
+      "valid": true,
+      "tps": 402.02,
+      "p95_ms": 33.12,
+      "cpu_us_per_transaction": 1570.8342306810548,
+      "user_mpki": 4.177794623525841,
+      "speedup_vs_geomean_screen_baselines_pct": 0.3293605983282655
+    },
+    {
+      "arm": "base",
+      "valid": true,
+      "tps": 401.71,
+      "p95_ms": 24.83,
+      "cpu_us_per_transaction": 1576.6559943010163,
+      "user_mpki": 4.186569362962746,
+      "speedup_vs_geomean_screen_baselines_pct": -0.041103106916628995
+    }
+  ]
+}

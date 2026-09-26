@@ -1,0 +1,36 @@
+{
+  "binaries": [
+    {
+      "version_family": "17",
+      "release_file": "/home/hnpark2/prefetchit/jit_prefetch/openjdk/build/linux-x86_64-server-release/jdk/release",
+      "release_fields": {
+        "SOURCE": ".:git:5ef54a04aa15+",
+        "JAVA_VERSION_DATE": "2026-10-20",
+        "JAVA_RUNTIME_VERSION": "17.0.21-internal+0-adhoc.hnpark2.openjdk",
+        "OS_NAME": "Linux",
+        "OS_ARCH": "x86_64",
+        "LIBC": "gnu"
+      },
+      "java": "/home/hnpark2/prefetchit/jit_prefetch/openjdk/build/linux-x86_64-server-release/jdk/bin/java",
+      "libjvm_sha256": "4f631711b58cfad8f1879aad311edec24c74ad2b6462f9c1b73a05c48aacee15"
+    },
+    {
+      "version_family": "21",
+      "release_file": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a_jvm_fg_20260925/runtime/jdk21u-jdk-21.0.8-9/build/linux-x86_64-server-release/images/jdk/release",
+      "release_fields": {
+        "JAVA_RUNTIME_VERSION": "21.0.8-internal-adhoc.hnpark2.jdk21u-jdk-21.0.8-9",
+        "JAVA_VERSION": "21.0.8",
+        "JAVA_VERSION_DATE": "2025-07-15",
+        "LIBC": "gnu",
+        "OS_ARCH": "x86_64",
+        "OS_NAME": "Linux",
+        "SOURCE": ""
+      },
+      "java": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a_jvm_fg_20260925/runtime/jdk21u-jdk-21.0.8-9/build/linux-x86_64-server-release/images/jdk/bin/java",
+      "libjvm_sha256": "6c616bd52ab81df79d8394cae6931cfa09403fd1c3d99058fb12306e915eede6"
+    }
+  ],
+  "jdk17_source_commit": "5ef54a04aa15fe8ad86188174232388c3bd6a179",
+  "jdk21_source_tag": "jdk-21.0.8+9",
+  "note": "JDK17 is the existing experimental17u development tree (17.0.21-internal), not the stock vendor JDK used for some qualification. Every G2/F2 A/B row uses matching experimental binaries; no cross-JDK speedup calculation."
+}

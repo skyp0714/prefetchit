@@ -1,0 +1,7 @@
+{
+  "training": "seed0 baseline, 10s precise PEBS per event",
+  "selection": "functions covering80% samples; retain existing static prefetch targets in those functions",
+  "layout": "equal-length single NOP for every removed hint, same insertion address/overhead",
+  "limits": "function-granular, not sampled-page-only; no new PT-derived insertion sites; L3 precise target unavailable",
+  "evaluation": "independent seed1 paired runs, all variants retained until evaluation; no claim from training samples"
+}

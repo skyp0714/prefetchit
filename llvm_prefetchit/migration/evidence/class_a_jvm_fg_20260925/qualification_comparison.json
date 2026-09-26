@@ -1,0 +1,161 @@
+{
+  "platform": "Intel Xeon6787P;1socket86cores/1thread-per-core;2GHz/C6off;user-onlyCODE_RD_MISS/instructions*1000;rawtop-downslots",
+  "rows": [
+    {
+      "name": "Artemis",
+      "source": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a_jvm_fg_20260925/artemis_matrix/base/summary.json",
+      "mpki": 1.8913656725699102,
+      "util_pct": 15.053986245293046,
+      "note": "G2 binary baseline;2 brokercores; durable AMQP1000/s",
+      "fe_pct": 20.51310226813934,
+      "be_pct": 59.0630990227794,
+      "retiring_pct": 15.334718319535101,
+      "bad_spec_pct": 5.794955108325883,
+      "fetch_latency_pct": 14.731264707176
+    },
+    {
+      "name": "Pinot",
+      "source": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a_jvm_fg_20260925/pinot_qualification_v3/summary.json",
+      "mpki": 5.442887867696726,
+      "util_pct": 34.950320463127326,
+      "note": "150q/s;4 shared broker+servercores; startup drops excluded by offer timestamps, none measured",
+      "fe_pct": 31.58162724646556,
+      "be_pct": 22.065172760330714,
+      "retiring_pct": 37.47666214616698,
+      "bad_spec_pct": 10.270387298751126,
+      "fetch_latency_pct": 25.161031606294127
+    },
+    {
+      "name": "OpenSearch",
+      "source": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a_jvm_fg_20260925/opensearch_qualification_g2/summary.json",
+      "mpki": 2.3018441178685456,
+      "util_pct": 35.84681213147694,
+      "note": "300q/s;4cores; standard caches/TLS; matched compiler0.625%",
+      "fe_pct": 19.283749821273354,
+      "be_pct": 24.980207306535405,
+      "retiring_pct": 40.26559687302197,
+      "bad_spec_pct": 16.591767757807684,
+      "fetch_latency_pct": 10.971586383526292
+    },
+    {
+      "name": "Keycloak",
+      "source": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a_jvm_fg_20260925/keycloak_remaining_g2/audited.json",
+      "mpki": 1.6604696396777427,
+      "util_pct": 93.29165737436048,
+      "note": "750 client-credential flows/s;4servercores;TLS/durableMySQL",
+      "fe_pct": 13.910316739682896,
+      "be_pct": 15.128731948460494,
+      "retiring_pct": 67.41564086666789,
+      "bad_spec_pct": 3.9719087922695206,
+      "fetch_latency_pct": 10.305029852742447
+    },
+    {
+      "name": "Flink q3",
+      "source": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a_jvm_fg_20260925/flink_active_qualification/summary.json",
+      "mpki": 0.06860151409003032,
+      "util_pct": 44.789184583220425,
+      "note": "active500k events/s;4TMcores;RocksDB/checkpoints; no semantic oracle",
+      "fe_pct": 16.554016316252063,
+      "be_pct": 16.228949812220517,
+      "retiring_pct": 56.73772754568366,
+      "bad_spec_pct": 10.491930862580299,
+      "fetch_latency_pct": 7.489349231770342
+    },
+    {
+      "name": "DaCapo tomcat",
+      "source": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a_jvm_recheck_20260924/clean/dacapo_summary.json",
+      "mpki": 2.914407754811832,
+      "util_pct": 16.143044589116926,
+      "note": "PREVIOUS stock-JDK17 qualification, not this G2 A/B baseline; whole JVM incl internal clients/lifecycle",
+      "fe_pct": 34.18310316287934,
+      "be_pct": 29.34369791816607,
+      "retiring_pct": 22.74185488105245,
+      "bad_spec_pct": 14.350348890657527,
+      "fetch_latency_pct": 24.715382171672317
+    },
+    {
+      "name": "DaCapo spring",
+      "source": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a_jvm_recheck_20260924/clean/dacapo_summary.json",
+      "mpki": 2.056254033083736,
+      "util_pct": 70.31568876906508,
+      "note": "PREVIOUS stock-JDK17 qualification, not this G2 A/B baseline; whole JVM incl internal clients/lifecycle",
+      "fe_pct": 33.31075120035448,
+      "be_pct": 16.3237263209456,
+      "retiring_pct": 36.60973802396445,
+      "bad_spec_pct": 16.046294257323794,
+      "fetch_latency_pct": 18.162370474567695
+    },
+    {
+      "name": "DaCapo cassandra",
+      "source": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a_jvm_recheck_20260924/clean/dacapo_summary.json",
+      "mpki": 3.2837890380479644,
+      "util_pct": 46.11424851070773,
+      "note": "PREVIOUS stock-JDK17 qualification, not this G2 A/B baseline; whole JVM incl internal clients/lifecycle",
+      "fe_pct": 34.8946884027979,
+      "be_pct": 37.48329615866984,
+      "retiring_pct": 18.10815651236175,
+      "bad_spec_pct": 11.77271669545464,
+      "fetch_latency_pct": 25.95067274658165
+    },
+    {
+      "name": "Renaissance finagle-chirper",
+      "source": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a_jvm_fg_20260925/renaissance_stock_audited.json",
+      "mpki": 1.2738475306893322,
+      "util_pct": 83.87151869349779,
+      "note": "stock-JDK17 qualification, separate from G2 A/B; no semantic result validator",
+      "fe_pct": 28.734182692134887,
+      "be_pct": 26.984218570553043,
+      "retiring_pct": 31.690918485110647,
+      "bad_spec_pct": 11.460756452912056,
+      "fetch_latency_pct": 21.609549941533476
+    },
+    {
+      "name": "Renaissance finagle-http",
+      "source": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a_jvm_fg_20260925/renaissance_stock_audited.json",
+      "mpki": 0.5568379633533732,
+      "util_pct": 88.84997535138446,
+      "note": "stock-JDK17 qualification, separate from G2 A/B; suite-provided result validation",
+      "fe_pct": 46.300472324837145,
+      "be_pct": 24.228689126468915,
+      "retiring_pct": 15.744876419001908,
+      "bad_spec_pct": 14.83968012737804,
+      "fetch_latency_pct": 34.91547764731936
+    },
+    {
+      "name": "Renaissance dotty",
+      "source": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a_jvm_fg_20260925/renaissance_stock_audited.json",
+      "mpki": 1.6703626646546974,
+      "util_pct": 40.41631965196778,
+      "note": "stock-JDK17 qualification, separate from G2 A/B; suite-provided result validation",
+      "fe_pct": 36.68864498173869,
+      "be_pct": 19.68677317808766,
+      "retiring_pct": 29.325082611304918,
+      "bad_spec_pct": 16.14587497891276,
+      "fetch_latency_pct": 21.830225028436182
+    },
+    {
+      "name": "Renaissance future-genetic",
+      "source": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a_jvm_fg_20260925/renaissance_stock_audited.json",
+      "mpki": 0.030750606058261732,
+      "util_pct": 55.11980767939152,
+      "note": "stock-JDK17 qualification, separate from G2 A/B; suite-provided result validation",
+      "fe_pct": 11.953072435806753,
+      "be_pct": 32.21838028402506,
+      "retiring_pct": 42.03149564402081,
+      "bad_spec_pct": 14.82120885246736,
+      "fetch_latency_pct": 6.868285522108247
+    },
+    {
+      "name": "Renaissance db-shootout",
+      "source": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a_jvm_fg_20260925/renaissance_stock_audited.json",
+      "mpki": 0.034853580128581474,
+      "util_pct": 71.97781038110932,
+      "note": "stock-JDK17 qualification, separate from G2 A/B; no semantic result validator",
+      "fe_pct": 12.80959172854024,
+      "be_pct": 38.642722940597444,
+      "retiring_pct": 39.3443042986971,
+      "bad_spec_pct": 9.40756714261022,
+      "fetch_latency_pct": 5.909320546855192
+    }
+  ]
+}

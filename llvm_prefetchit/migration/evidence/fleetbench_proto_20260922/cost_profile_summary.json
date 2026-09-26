@@ -1,0 +1,92 @@
+{
+  "total_samples": 416581,
+  "mapped_samples": 397264,
+  "samples_on_t1": 9015,
+  "sites_before": 354,
+  "sites_after": 36,
+  "instruction_period": 20003,
+  "miss_period": 1009,
+  "max_ratio": 10,
+  "top_prefetch_sites": [
+    [
+      "_ZN6google8protobuf5Arena8AllocateEm",
+      2497
+    ],
+    [
+      "memcpy",
+      2215
+    ],
+    [
+      "_ZN6google8protobuf8internal15ThreadSafeArena23AllocateFromStringBlockEv",
+      1247
+    ],
+    [
+      "_ZN6google8protobuf8internal20RepeatedPtrFieldBase24MergeIntoClearedMessagesERKS2_",
+      590
+    ],
+    [
+      "_ZN6google8protobuf5Arena16AllocateForArrayEm",
+      394
+    ],
+    [
+      "_ZN6google8protobuf8internal20RepeatedPtrFieldBase24MergeFromConcreteMessageERKS2_PNS0_5ArenaEPFPvS6_PKvE",
+      385
+    ],
+    [
+      "_ZNK6google8protobuf7Message29MaybeComputeUnknownFieldsSizeEmPKNS0_8internal10CachedSizeE",
+      315
+    ],
+    [
+      "memset",
+      300
+    ],
+    [
+      "_ZN6google8protobuf8internal20RepeatedPtrFieldBase13ClearNonEmptyINS1_18GenericTypeHandlerINS0_11MessageLiteEEEEEvv",
+      245
+    ],
+    [
+      "_ZN6google8protobuf8internal14WireFormatLite20InternalWriteMessageEiRKNS0_11MessageLiteEiPhPNS0_2io19EpsCopyOutputStreamE",
+      106
+    ],
+    [
+      "_ZN6google8protobuf8internal32StringSpaceUsedExcludingSelfLongERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE",
+      105
+    ],
+    [
+      "_ZNK6google8protobuf7Message13SpaceUsedLongEv",
+      66
+    ],
+    [
+      "_ZN6google8protobuf8internal14ArenaStringPtr3SetIJEEEvRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEPNS0_5ArenaE",
+      54
+    ],
+    [
+      "_ZN6google8protobuf8internal20RepeatedPtrFieldBase9MergeFromINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvRKS2_PNS0_5ArenaE",
+      43
+    ],
+    [
+      "_ZNK6google8protobuf8internal15TaggedStringPtr9ForceCopyEPNS0_5ArenaE",
+      42
+    ],
+    [
+      "_ZN6google8protobuf8internal20RepeatedPtrFieldBase14InternalExtendEiPNS0_5ArenaE",
+      41
+    ],
+    [
+      "_ZN6google8protobuf8internal14WireFormatLite26Int32SizeWithPackedTagSizeERKNS0_13RepeatedFieldIiEEmRKNS1_10CachedSizeE",
+      29
+    ],
+    [
+      "_ZN6google8protobuf8internal15ThreadSafeArena10AddCleanupEPvPFvS3_E",
+      27
+    ],
+    [
+      "_ZN6google8protobuf13RepeatedFieldIiE4GrowEbii",
+      24
+    ],
+    [
+      "_ZN6google8protobuf8internal14ArenaStringPtr3SetEONSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEPNS0_5ArenaE",
+      21
+    ]
+  ]
+}

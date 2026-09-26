@@ -1,0 +1,60 @@
+{
+  "binary_sha256": "7139a5b0cf1faaf766e3ca9b6966f2893bbddf6a8261efebf4208dfb239b7a45",
+  "source": {
+    "source": {
+      "commit": "8c5ab559e3f8925872c8646aa6e82edd515ae5ba",
+      "commit_date": "2019-06-02T19:57:52Z",
+      "git_blob_sha": "adca9906f08d7b9c50eb8a1db03d20871275d174",
+      "content": "version https://git-lfs.github.com/spec/v1\noid sha256:6a40ec788df0526ab5e3639dc0c6f49f8ff9a7e36c8ef704478e82ea85ff1842\nsize 17273793\n",
+      "size": 133
+    },
+    "url": "https://media.githubusercontent.com/media/dgraph-io/dgraph-benchmarks/8c5ab559e3f8925872c8646aa6e82edd515ae5ba/data/1million.rdf.gz",
+    "sha256": "6a40ec788df0526ab5e3639dc0c6f49f8ff9a7e36c8ef704478e82ea85ff1842",
+    "bytes": 17273793,
+    "rdf_lines": 1048079,
+    "schema_sha256": "7a6b976f2858c881ede50f6c524c4652187000af3267499fe5918a4a5939c48e"
+  },
+  "processes": [
+    [
+      "zero",
+      "20-21",
+      [
+        "zero",
+        "--my",
+        "127.0.0.1:16780",
+        "-o",
+        "11700",
+        "--replicas",
+        "1",
+        "--survive",
+        "filesystem",
+        "--bindall=false"
+      ]
+    ],
+    [
+      "alpha",
+      "32-35",
+      [
+        "alpha",
+        "--my",
+        "127.0.0.1:18780",
+        "--zero",
+        "127.0.0.1:16780",
+        "-o",
+        "11700",
+        "--survive",
+        "filesystem",
+        "--bindall=false"
+      ]
+    ]
+  ],
+  "cache": "stock 1024MiB",
+  "replicas": 1,
+  "rates": [
+    50,
+    150,
+    300,
+    600
+  ],
+  "scope": "HP Dgraph family, official movie facts with three detail/recommendation query shapes, four Alpha cores; not exact HP paper configuration or HA cluster throughput"
+}

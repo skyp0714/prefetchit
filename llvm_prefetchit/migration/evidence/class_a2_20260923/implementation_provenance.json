@@ -1,0 +1,46 @@
+{
+  "kernel_release": "6.8.0-139-generic",
+  "machine": "x86_64",
+  "perf_version": "perf version 6.8.12",
+  "repo_head": "fdbd8529b65d994fcfa1c3fbe057455745cf5f1c",
+  "build_image_id": "sha256:12b003320b7c9e6c885d347770c149f77fa4027e1e8789dc650dddf20e1164ae",
+  "files": {
+    "llvm_prefetchit/build/PrefetchITPass.so": {
+      "bytes": 1621120,
+      "sha256": "a8f6be2289d6627f491f6f36a548f0c5e1a8918430a7db0f42e301fb8b9e1230"
+    },
+    "llvm_prefetchit/lib/PrefetchITPass.cpp": {
+      "bytes": 92383,
+      "sha256": "65857629557828f5170cfe0590fe4f7cb25cfe2792aeb2120d0cc1465ad2a7b7"
+    },
+    "llvm_prefetchit/tools/prefetch_in_padding.py": {
+      "bytes": 4997,
+      "sha256": "13621a998b1e510644fafc2f3133495ed7a647b8589e48a72e867ab59393a572"
+    },
+    "llvm_prefetchit/tools/lbr_padding_prefetch.py": {
+      "bytes": 8118,
+      "sha256": "c3140c59427337b6a3c34a5d4f82aaf5b330af1d87569a0dd1afff56443610b2"
+    },
+    "llvm_prefetchit/tools/index_executable_padding.py": {
+      "bytes": 2291,
+      "sha256": "34f5b57ede4a4f8f9b18880873ddf18b7e8364de6f9a48df85282f583eb4e28d"
+    },
+    "llvm_prefetchit/tools/thrift_handler_prefetch_plan.py": {
+      "bytes": 2983,
+      "sha256": "0de6da202c6d0b4070661dad9519c075f3c149b7428e0ba52f4b6744587a8550"
+    },
+    "llvm_prefetchit/tools/make_nop_control_binary.py": {
+      "bytes": 6069,
+      "sha256": "2e03cd57b845c54cd045bebd58be5b397a1bf7511b856d9a6fe98564112ef81e"
+    },
+    "llvm_prefetchit/scripts/static/measure_class_a.py": {
+      "bytes": 12459,
+      "sha256": "8678f983370234b7f007097813f4fcbc32e302dec83cb3f31616edc7f6df5b70"
+    },
+    "llvm_prefetchit/scripts/static/run_with_platform.py": {
+      "bytes": 1527,
+      "sha256": "11c9a8047c45e4e52e762878e3b1ed38f5215e5be24351ee5a5be5b38a1d6816"
+    }
+  },
+  "note": "Current source snapshots and hash of the prebuilt plugin used by the campaign. Per-run manifests record workload binary hashes."
+}

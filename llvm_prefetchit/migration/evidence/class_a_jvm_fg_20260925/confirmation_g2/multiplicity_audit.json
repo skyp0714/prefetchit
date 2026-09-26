@@ -1,0 +1,157 @@
+{
+  "rows": [
+    {
+      "name": "flink",
+      "mode": "g",
+      "reference": "base",
+      "gain_pct": 3.94757239226603,
+      "ci95_pct": [
+        -13.507508190466222,
+        18.718426680131316
+      ],
+      "paired_t": -0.6697067503205971,
+      "two_sided_p": 0.5397196610768535,
+      "improvement_direction": true,
+      "holm_p": 1.0,
+      "holm_positive": false
+    },
+    {
+      "name": "flink",
+      "mode": "g",
+      "reference": "nop",
+      "gain_pct": 0.3942012803003214,
+      "ci95_pct": [
+        -15.159240955685549,
+        13.846990860185072
+      ],
+      "paired_t": -0.07558064783003535,
+      "two_sided_p": 0.9433818739808766,
+      "improvement_direction": true,
+      "holm_p": 1.0,
+      "holm_positive": false
+    },
+    {
+      "name": "spring",
+      "mode": "gf",
+      "reference": "base",
+      "gain_pct": 0.4738471285467005,
+      "ci95_pct": [
+        -3.878669043604255,
+        5.023451676819168
+      ],
+      "paired_t": -0.2963684195251233,
+      "two_sided_p": 0.7816994511899056,
+      "improvement_direction": true,
+      "holm_p": 1.0,
+      "holm_positive": false
+    },
+    {
+      "name": "spring",
+      "mode": "gf",
+      "reference": "nop",
+      "gain_pct": 1.3801428911310198,
+      "ci95_pct": [
+        -2.6917384063545047,
+        5.622412776689889
+      ],
+      "paired_t": -0.9283674402732196,
+      "two_sided_p": 0.40576579261087514,
+      "improvement_direction": true,
+      "holm_p": 1.0,
+      "holm_positive": false
+    },
+    {
+      "name": "finagle-chirper",
+      "mode": "gf",
+      "reference": "base",
+      "gain_pct": -3.092299960943723,
+      "ci95_pct": [
+        -4.745734926575107,
+        -1.4101644727324225
+      ],
+      "paired_t": 5.0677281392972136,
+      "two_sided_p": 0.007141768080369151,
+      "improvement_direction": false,
+      "holm_p": 0.07141768080369151,
+      "holm_positive": false
+    },
+    {
+      "name": "finagle-chirper",
+      "mode": "gf",
+      "reference": "nop",
+      "gain_pct": -1.7449254593862817,
+      "ci95_pct": [
+        -2.722299515355553,
+        -0.7577314751033071
+      ],
+      "paired_t": 4.8888646395992685,
+      "two_sided_p": 0.008108668997083653,
+      "improvement_direction": false,
+      "holm_p": 0.07297802097375287,
+      "holm_positive": false
+    },
+    {
+      "name": "future-genetic",
+      "mode": "gf",
+      "reference": "base",
+      "gain_pct": -0.5170603866630596,
+      "ci95_pct": [
+        -1.4065250948160024,
+        0.3804286605022744
+      ],
+      "paired_t": 1.6026057508916938,
+      "two_sided_p": 0.18428265219556125,
+      "improvement_direction": false,
+      "holm_p": 1.0,
+      "holm_positive": false
+    },
+    {
+      "name": "future-genetic",
+      "mode": "gf",
+      "reference": "nop",
+      "gain_pct": -0.7236531859645567,
+      "ci95_pct": [
+        -1.2286844794613172,
+        -0.21603959814412432
+      ],
+      "paired_t": 3.95381382406837,
+      "two_sided_p": 0.016764309301770527,
+      "improvement_direction": false,
+      "holm_p": 0.13411447441416421,
+      "holm_positive": false
+    },
+    {
+      "name": "pinot",
+      "mode": "lead32_f16",
+      "reference": "base",
+      "gain_pct": 3.749886885660836,
+      "ci95_pct": [
+        -1.8194618931867579,
+        9.014601901535013
+      ],
+      "paired_t": -1.8864663565316762,
+      "two_sided_p": 0.13228924872045536,
+      "improvement_direction": true,
+      "holm_p": 0.9260247410431875,
+      "holm_positive": false
+    },
+    {
+      "name": "pinot",
+      "mode": "lead32_f16",
+      "reference": "nop",
+      "gain_pct": 2.2293490035869,
+      "ci95_pct": [
+        -3.502403656540598,
+        7.64368885593173
+      ],
+      "paired_t": -1.0987641019757557,
+      "two_sided_p": 0.33356270176565017,
+      "improvement_direction": true,
+      "holm_p": 1.0,
+      "holm_positive": false
+    }
+  ],
+  "family_size": 10,
+  "scope": "Secondary robustness audit; does not change selection, run count, or stopping.\n\nThe predeclared result remains a separate 95% interval per comparison. This\naudit additionally treats every candidate-versus-base and candidate-versus-NOP\ncomparison as one family, using two-sided paired-log-ratio t tests and Holm.\n",
+  "caution": "Secondary robustness calculation; it is not a prespecified additional stopping rule. No screening data included."
+}

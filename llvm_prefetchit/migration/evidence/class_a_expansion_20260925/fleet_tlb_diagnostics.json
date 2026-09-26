@@ -1,0 +1,110 @@
+[
+  {
+    "arm": "base",
+    "counters": {
+      "instructions:u": 8080733246.0,
+      "cycles:u": 8386043163.0,
+      "L2I": 132293830.0,
+      "ITLB_WALKS": 1499533.0,
+      "ITLB_STLB_HIT": 5668455.0,
+      "L3_CODE_MISS": 74761.0
+    },
+    "mpki": {
+      "L2I": 16.37151307593108,
+      "ITLB_WALKS": 0.18556892726811341,
+      "ITLB_STLB_HIT": 0.7014778025008945,
+      "L3_CODE_MISS": 0.009251759428763107
+    },
+    "scope": "separate 30-iteration diagnostic includes startup, not paired timing"
+  },
+  {
+    "arm": "static_all",
+    "counters": {
+      "instructions:u": 8163116170.0,
+      "cycles:u": 8084207557.0,
+      "L2I": 103640891.0,
+      "ITLB_WALKS": 1165252.0,
+      "ITLB_STLB_HIT": 6374586.0,
+      "L3_CODE_MISS": 66092.0
+    },
+    "mpki": {
+      "L2I": 12.69624109735045,
+      "ITLB_WALKS": 0.1427459778512499,
+      "ITLB_STLB_HIT": 0.7809010514179661,
+      "L3_CODE_MISS": 0.00809641791487576
+    },
+    "scope": "separate 30-iteration diagnostic includes startup, not paired timing"
+  },
+  {
+    "arm": "nop",
+    "counters": {
+      "instructions:u": 8162505277.0,
+      "cycles:u": 8440482103.0,
+      "L2I": 137381487.0,
+      "ITLB_WALKS": 1519778.0,
+      "ITLB_STLB_HIT": 6050719.0,
+      "L3_CODE_MISS": 80304.0
+    },
+    "mpki": {
+      "L2I": 16.830799164946132,
+      "ITLB_WALKS": 0.18619013996626418,
+      "ITLB_STLB_HIT": 0.7412820935074295,
+      "L3_CODE_MISS": 0.009838155967418188
+    },
+    "scope": "separate 30-iteration diagnostic includes startup, not paired timing"
+  },
+  {
+    "arm": "only_stlb",
+    "counters": {
+      "instructions:u": 8161828734.0,
+      "cycles:u": 8426617077.0,
+      "L2I": 135416292.0,
+      "ITLB_WALKS": 1457728.0,
+      "ITLB_STLB_HIT": 6161187.0,
+      "L3_CODE_MISS": 62974.0
+    },
+    "mpki": {
+      "L2I": 16.591415528715014,
+      "ITLB_WALKS": 0.178603110590583,
+      "ITLB_STLB_HIT": 0.7548782510387825,
+      "L3_CODE_MISS": 0.007715672804756013
+    },
+    "scope": "separate 30-iteration diagnostic includes startup, not paired timing"
+  },
+  {
+    "arm": "only_fe128",
+    "counters": {
+      "instructions:u": 8161088216.0,
+      "cycles:u": 8311860071.0,
+      "L2I": 125735820.0,
+      "ITLB_WALKS": 1321735.0,
+      "ITLB_STLB_HIT": 6205079.0,
+      "L3_CODE_MISS": 75233.0
+    },
+    "mpki": {
+      "L2I": 15.406746829851937,
+      "ITLB_WALKS": 0.1619557300469695,
+      "ITLB_STLB_HIT": 0.7603249512528,
+      "L3_CODE_MISS": 0.009218501014669096
+    },
+    "scope": "separate 30-iteration diagnostic includes startup, not paired timing"
+  },
+  {
+    "arm": "only_l2",
+    "counters": {
+      "instructions:u": 8162542582.0,
+      "cycles:u": 8210810109.0,
+      "L2I": 116381088.0,
+      "ITLB_WALKS": 1377883.0,
+      "ITLB_STLB_HIT": 6276713.0,
+      "L3_CODE_MISS": 78475.0
+    },
+    "mpki": {
+      "L2I": 14.25794558874866,
+      "ITLB_WALKS": 0.16880561248629822,
+      "ITLB_STLB_HIT": 0.7689654218578139,
+      "L3_CODE_MISS": 0.009614038666463156
+    },
+    "scope": "separate 30-iteration diagnostic includes startup, not paired timing"
+  }
+]
