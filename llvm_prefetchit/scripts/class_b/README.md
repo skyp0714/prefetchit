@@ -30,6 +30,13 @@ separately retained datasets and binaries.
   path precision is explicitly separate from cache-miss accuracy and speedup.
 - `prepare_streams.py`: service-only accuracy/balanced/coverage builds, each with
   a NOP twin. This does not rebuild or instrument dependency internals.
+- `padding_stream.py`: fill existing canonical 7/8-byte in-function NOPs with
+  trace-ranked, same-length RIP-relative hints. Static library functions in the
+  main image are eligible; shared libraries are unchanged. Exclude direct
+  backward-branch loops, cap sites per function and avoid repeated targets.
+  Reversing the recorded patches recovers the unchanged baseline exactly.
+- `prepare_padding_study.py`: after the first screen, test/prepare two NOP-space
+  coverage budgets and compare them against a fresh baseline.
 - `paired_study.py`: fresh seeded blocks from a JSON manifest, separate
   exploratory/confirmation results, individual paired-log-ratio t intervals.
 - `retain_artifacts.py`: hash/record explicitly selected generated files before
