@@ -11,8 +11,9 @@ Run `sudo python3 smoke.py --out NEW_DIRECTORY` to reproduce the
 smoke checks; this loads/unloads the module and deletes its generated helper.
 
 The module registers a `sched_switch` probe, matches one explicitly registered
-thread group and address-space identity, and issues at most 64 `prefetcht1`
-instructions. The callback executes before `context_switch()`/`switch_mm()`.
+thread group and address-space identity, and issues at most 64 prefetch
+instructions across both phases. The callback executes after the next task has
+been selected, before `context_switch()`/`switch_mm()`.
 It therefore uses the kernel direct mapping of pinned code pages, **never the
 next process's user VA**. No allocation, page walk, user copy, blocking operation,
 or executable code modification occurs inside the callback.
@@ -22,6 +23,36 @@ First match wins. A method or later user-space return frame inferred from PT is
 not a valid switch-in classifier without an independently available predictor.
 An unconditional fallback must come last. Begin with 8 or 16 lines; 32/64 are
 separate coverage/queue-pressure experiments, not presumed improvements.
+
+The v2 emission options preserve this selected-next-task timing:
+
+- `--spacing 4|16 --group 1|2|4|8|16` inserts a bounded number of NOP instructions
+  between groups. There is no timer, busy wait or `pause` loop.
+- `--split-after N` emits the first N lines at `sched_switch`, then the remainder
+  at a dynamically registered entry kprobe on `finish_task_switch.isra.0`.
+  The latter symbol is specific to this tested kernel build. Registration fails
+  on unsupported kernels. It never probes `__switch_to`, which Linux forbids.
+- `--hint t1|t0|nta` selects the cache hint. `--mode nop` preserves matching,
+  address loads, grouping, spacing and the optional completion probe.
+- `--diagnostic 1` samples a data load before emission; `--diagnostic 2` samples
+  after the architectural switch and records issue-to-completion delay. Each
+  samples one rotating first-phase line per 64 matches per CPU. Pre and post
+  experiments are separate so the diagnostic pre-load cannot warm the post
+  sample. All units are invariant TSC ticks. Histograms describe pinned-alias
+  data access, not instruction-fetch latency, cache-level identity or PMU cycles.
+  Diagnostics are disabled for performance comparisons.
+
+The unchanged v1 ABI remains accepted. v2 uses five option bytes in reserved[0];
+reserved[1] and unused high bytes must be zero. The optional detail ioctl returns
+second-phase counts, cancellations and diagnostic histograms. Scheduler counters
+are per-CPU and snapshot totals can span an in-flight callback. Deferred state
+contains only a registration generation, numeric TID and indices; no plan/page
+pointer crosses RCU critical sections. A new generation cannot consume an old
+pending operation. Close disables the plan and unregisters the completion probe.
+
+The expanded lifecycle test passed 17 checks on the running 6.8.0-142 kernel,
+including both emission phases, spacing, hint variants and exec/close teardown.
+Application results for these new methods require the separate full-set study.
 
 Registration requires `CAP_SYS_ADMIN` and `/dev/wake_prefetch` is mode 0600.
 Only one open controller is allowed. Closing its FD removes the RCU-published
@@ -116,4 +147,6 @@ diagnostic can demonstrate cache warmth; it cannot establish application speedup
 or restoration of L1I, ITLB or branch-predictor state.
 
 Sources: [Linux 6.8 scheduler](https://github.com/torvalds/linux/blob/v6.8/kernel/sched/core.c),
-[Linux 6.8 page pinning API](https://docs.kernel.org/6.8/core-api/pin_user_pages.html).
+[Linux 6.8 page pinning API](https://docs.kernel.org/6.8/core-api/pin_user_pages.html),
+[x86 switch restrictions](https://github.com/torvalds/linux/blob/v6.8/arch/x86/kernel/process_64.c),
+[kprobe restrictions](https://docs.kernel.org/6.8/trace/kprobes.html).

@@ -21,6 +21,10 @@ PROFILE_SIZE = 24 + 8 * MAX_LINES
 CONFIG_SIZE = 32 + MAX_PROFILES * PROFILE_SIZE
 CONFIG_IOCTL = (1 << 30) | (CONFIG_SIZE << 16) | (ord("W") << 8) | 1
 STATS_IOCTL = (2 << 30) | (16 << 16) | (ord("W") << 8) | 2
+DETAIL_SIZE = (6 + 3 * 16) * 8
+DETAIL_IOCTL = (2 << 30) | (DETAIL_SIZE << 16) | (ord("W") << 8) | 3
+HISTOGRAM_UPPER_TSC = [64, 96, 128, 192, 256, 384, 512, 768,
+                       1024, 1536, 2048, 4096, 8192, 16384, 32768, None]
 
 
 def executable_segments(data):
@@ -91,12 +95,19 @@ def resolve(plan, pid):
     return records, dict(mapped_binary_hashes={k: v[0] for k, v in binaries.items()}, maps=maps)
 
 
-def pack_config(pid, mode, profiles):
+def pack_config(pid, mode, profiles, spacing=0, group=1, split_after=0, hint='t1', diagnostic=0):
     if platform.machine() != "x86_64" or mode not in (0, 1) or not 0 < pid < 2**31:
         raise ValueError("requires x86-64, valid mode, and positive pid")
     if not 1 <= len(profiles) <= MAX_PROFILES:
         raise ValueError("requires 1..8 profiles")
-    data = bytearray(struct.pack("<IIiIQQ", 1, mode, pid, len(profiles), 0, 0))
+    if (spacing not in (0, 4, 16) or group not in (1, 2, 4, 8, 16)
+            or not isinstance(split_after, int) or not 0 <= split_after < MAX_LINES
+            or hint not in ('t1', 't0', 'nta') or diagnostic not in (0, 1, 2)):
+        raise ValueError('invalid bounded emission options')
+    version = 1 if (spacing, group, split_after, hint, diagnostic) == (0, 1, 0, 't1', 0) else 2
+    options = (spacing | group << 8 | split_after << 16 |
+               ('t1', 't0', 'nta').index(hint) << 24 | diagnostic << 32) if version == 2 else 0
+    data = bytearray(struct.pack("<IIiIQQ", version, mode, pid, len(profiles), options, 0))
     for profile in profiles:
         lines = profile["lines"]
         nr, lo, hi = profile["syscall_nr"], profile["ip_start"], profile["ip_end"]
@@ -117,6 +128,19 @@ def stats(fd):
     return dict(matched_switches=switches, attempted_lines_including_nop=lines)
 
 
+def detail(fd):
+    data = bytearray(DETAIL_SIZE)
+    fcntl.ioctl(fd, DETAIL_IOCTL, data, True)
+    values = struct.unpack('<54Q', data)
+    result = dict(zip(('second_switches', 'second_lines', 'cancelled',
+                       'pre_samples', 'post_samples', 'lead_samples'), values[:6]))
+    for i, name in enumerate(('pre', 'post', 'lead')):
+        result[name] = list(values[6+i*16:22+i*16])
+    result['histogram_upper_exclusive_tsc_ticks'] = HISTOGRAM_UPPER_TSC
+    result['semantics'] = 'Sampled pinned-alias data-load latency and switch completion delay; not instruction-fetch latency or core cycles'
+    return result
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("plan", type=Path)
@@ -125,6 +149,11 @@ def main():
     p.add_argument("--seconds", type=float, default=180.)
     p.add_argument("--out", type=Path, required=True)
     p.add_argument("--validate-only", action="store_true")
+    p.add_argument('--spacing', type=int, choices=(0, 4, 16), default=0)
+    p.add_argument('--group', type=int, choices=(1, 2, 4, 8, 16), default=1)
+    p.add_argument('--split-after', type=int, default=0)
+    p.add_argument('--hint', choices=('t1', 't0', 'nta'), default='t1')
+    p.add_argument('--diagnostic', type=int, choices=(0, 1, 2), default=0)
     a = p.parse_args()
     if a.seconds <= 0 or a.out.exists():
         p.error("positive duration and a new output file required")
@@ -137,7 +166,9 @@ def main():
     try:
         profiles, audit = resolve(plan, a.pid)
         result.update(profiles=profiles, audit=audit)
-        data = pack_config(a.pid, int(a.mode == "t1"), profiles)
+        options = {k: getattr(a, k) for k in ('spacing', 'group', 'split_after', 'hint', 'diagnostic')}
+        result['options'] = options
+        data = pack_config(a.pid, int(a.mode == "t1"), profiles, **options)
         if select.select([pidfd], [], [], 0)[0]:
             raise RuntimeError("target exited during address resolution")
         result["validated"] = True
@@ -163,7 +194,7 @@ def main():
             if select.select([pidfd], [], [], min(.25, max(0, deadline-time.monotonic())))[0]:
                 result["target_exited"] = True
                 break
-        result.update(end=time.time(), after=stats(fd))
+        result.update(end=time.time(), after=stats(fd), detail=detail(fd))
     except BaseException as error:
         result["error"] = repr(error)
         raise

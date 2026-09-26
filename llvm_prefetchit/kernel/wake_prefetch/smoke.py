@@ -24,6 +24,7 @@ SOURCE = r'''
 #include <unistd.h>
 static volatile sig_atomic_t change;
 static void handler(int n) { change = 1; }
+__asm__(".text\n.balign 64\n.fill 4096,1,0x90\n");
 int main(void) {
     signal(SIGUSR1, handler);
     puts("ready"); fflush(stdout);
@@ -101,8 +102,30 @@ def main():
             result['tests'].append(dict(test='close_disables_plan', mode=mode, passed=True))
             os.close(fd)
             fd = None
+        # Exercise actual second-phase callbacks and each bounded emission path.
+        extended = dict(profiles=[dict(targets=[dict(target, elf_va=hex(((va+63)&~63)+64*i))
+                                                  for i in range(16)])])
+        wide, _ = control.resolve(extended, proc.pid)
+        assert ((va+63)&~63)+16*64 < va+size
+        for mode in (0, 1):
+            for options in (dict(spacing=4, group=1), dict(spacing=16, group=4, hint='t0'),
+                            dict(split_after=4), dict(diagnostic=1), dict(diagnostic=2),
+                            dict(split_after=4, spacing=4, group=2, hint='nta', diagnostic=2)):
+                fd = os.open('/dev/wake_prefetch', os.O_RDWR | os.O_CLOEXEC)
+                fcntl.ioctl(fd, control.CONFIG_IOCTL, control.pack_config(proc.pid, mode, wide, **options), True)
+                time.sleep(.4)
+                counted = control.stats(fd); detail = control.detail(fd)
+                assert counted['matched_switches'] > 50, counted
+                if options.get('split_after'):
+                    assert detail['second_switches'] > 0 and detail['second_lines'] == detail['second_switches']*12, detail
+                if options.get('diagnostic') == 1:
+                    assert detail['pre_samples'] == sum(detail['pre']) > 0, detail
+                if options.get('diagnostic') == 2:
+                    assert detail['post_samples'] == detail['lead_samples'] == sum(detail['post']) > 0, detail
+                result['tests'].append(dict(test='emission', mode=mode, options=options, stats=counted, detail=detail))
+                os.close(fd); fd=None
         fd = os.open('/dev/wake_prefetch', os.O_RDWR | os.O_CLOEXEC)
-        packed = control.pack_config(proc.pid, 1, profiles)
+        packed = control.pack_config(proc.pid, 1, wide, split_after=4, diagnostic=2)
         fcntl.ioctl(fd, control.CONFIG_IOCTL, packed, True)
         os.kill(proc.pid, signal.SIGUSR1)
         for _ in range(100):

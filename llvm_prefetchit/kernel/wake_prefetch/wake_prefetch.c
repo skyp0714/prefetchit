@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: GPL-2.0
 /* Experimental x86-64 switch-in code prefetch. No user dereferences in hook. */
 #include <linux/capability.h>
+#include <linux/kprobes.h>
+#include <linux/percpu.h>
+#include <asm/msr.h>
 #include <linux/fs.h>
 #include <linux/highmem.h>
 #include <linux/miscdevice.h>
@@ -32,6 +35,8 @@ struct plan {
 	struct pid *tgid;
 	struct mm_struct *mm;
 	u32 mode, count, pinned;
+	u8 gap, group, split, hint, diagnostic;
+	u64 generation;
 	struct profile profiles[WPF_MAX_PROFILES];
 	struct page *pages[WPF_MAX_PROFILES * WPF_MAX_LINES];
 };
@@ -40,8 +45,20 @@ static struct plan __rcu *active;
 static DEFINE_MUTEX(config_lock);
 static DEFINE_MUTEX(registration_lock);
 static atomic_t opened = ATOMIC_INIT(0);
-static atomic64_t matched = ATOMIC64_INIT(0);
-static atomic64_t issued = ATOMIC64_INIT(0);
+/* No shared counter cache line on the scheduler path. */
+struct local_state {
+	u64 matched, issued;
+	struct wpf_detail detail;
+	/* No pointer escapes an RCU critical section. */
+	u64 pending_generation, last_issue;
+	pid_t pending_tid;
+	u32 pending_profile, sample_line;
+	bool sample_post;
+};
+static DEFINE_PER_CPU(struct local_state, local);
+static u64 generation;
+static bool finish_registered;
+static struct kprobe finish_probe;
 static struct tracepoint *switch_tp;
 
 static void free_plan(struct plan *p)
@@ -68,15 +85,114 @@ static void replace_plan(struct plan *new)
 	mutex_unlock(&config_lock);
 }
 
+static void histogram(u64 *bins, u64 ticks)
+{
+	static const u32 limits[WPF_HIST_BINS - 1] = {
+		64, 96, 128, 192, 256, 384, 512, 768,
+		1024, 1536, 2048, 4096, 8192, 16384, 32768
+	};
+	u32 i;
+	for (i = 0; i < WPF_HIST_BINS - 1 && ticks >= limits[i]; ++i)
+		;
+	bins[i]++;
+}
+
+/* Diagnostic data load, not an instruction fetch or cache-level oracle.
+ * No diagnostic is enabled in performance comparisons. */
+static u64 sample_latency(void *addr)
+{
+	u64 before, after;
+	asm volatile("lfence" ::: "memory");
+	before = rdtsc_ordered();
+	asm volatile("movb (%0), %%al\n\tlfence" : : "r" (addr) : "rax", "memory");
+	after = rdtsc_ordered();
+	return after - before;
+}
+
+static void emit(struct plan *p, struct profile *q, u32 start, u32 end)
+{
+	u32 j;
+	for (j = start; j < end; ++j) {
+		void *addr = READ_ONCE(q->aliases[j]);
+		/* Select the hint in both modes, preserving the same control path.
+		 * Distinct asm comments prevent merging NOP cases ahead of hint choice. */
+		if (p->hint == 1) {
+			if (p->mode == WPF_MODE_NOP)
+				asm volatile("nopl (%0) # nop_t0" : : "r" (addr));
+			else
+				asm volatile("prefetcht0 (%0)" : : "r" (addr));
+		} else if (p->hint == 2) {
+			if (p->mode == WPF_MODE_NOP)
+				asm volatile("nopl (%0) # nop_nta" : : "r" (addr));
+			else
+				asm volatile("prefetchnta (%0)" : : "r" (addr));
+		} else {
+			if (p->mode == WPF_MODE_NOP)
+				asm volatile("nopl (%0) # nop_t1" : : "r" (addr));
+			else
+				asm volatile("prefetcht1 (%0)" : : "r" (addr));
+		}
+		if (p->gap && ((j + 1) & (p->group - 1)) == 0 && j + 1 < end) {
+			if (p->gap == 4)
+				asm volatile(".rept 4; nop; .endr" ::: "memory");
+			else
+				asm volatile(".rept 16; nop; .endr" ::: "memory");
+		}
+	}
+}
+
+/* Entry here has a valid current and stack, after the architectural switch.
+ * __switch_to itself explicitly forbids kprobes and is never probed. */
+static int finish_switch(struct kprobe *probe, struct pt_regs *regs)
+{
+	struct local_state *s = this_cpu_ptr(&local);
+	struct plan *p;
+	struct profile *q;
+	u64 expected = s->pending_generation, arrived;
+	if (!expected)
+		return 0;
+	s->pending_generation = 0;
+	arrived = s->sample_post ? rdtsc_ordered() : 0;
+	rcu_read_lock();
+	p = rcu_dereference(active);
+	if (!p || p->generation != expected || task_pid_nr(current) != s->pending_tid ||
+	    task_tgid(current) != p->tgid || READ_ONCE(current->mm) != p->mm) {
+		s->detail.cancelled++;
+		goto out;
+	}
+	q = &p->profiles[s->pending_profile];
+	if (s->sample_post) {
+		histogram(s->detail.lead, arrived - s->last_issue);
+		s->detail.lead_samples++;
+		histogram(s->detail.post, sample_latency(q->aliases[s->sample_line]));
+		s->detail.post_samples++;
+	}
+	if (p->split && q->count > p->split) {
+		emit(p, q, p->split, q->count);
+		s->issued += q->count - p->split;
+		s->detail.second_switches++;
+		s->detail.second_lines += q->count - p->split;
+	}
+out:
+	rcu_read_unlock();
+	return 0;
+}
+NOKPROBE_SYMBOL(finish_switch);
+
 static void on_switch(void *unused, bool preempt, struct task_struct *prev,
 		      struct task_struct *next, unsigned int prev_state)
 {
 	struct plan *p;
 	struct pt_regs *regs;
-	u32 i, j;
-
+	struct local_state *s = this_cpu_ptr(&local);
+	u32 i;
 	rcu_read_lock();
 	p = rcu_dereference(active);
+	if (s->pending_generation) {
+		if (p && s->pending_generation == p->generation)
+			s->detail.cancelled++;
+		s->pending_generation = 0;
+	}
 	/* Holding pid/mm references prevents reuse, including across exec(). */
 	if (!p || task_tgid(next) != p->tgid || READ_ONCE(next->mm) != p->mm)
 		goto out;
@@ -85,21 +201,31 @@ static void on_switch(void *unused, bool preempt, struct task_struct *prev,
 		goto out;
 	for (i = 0; i < p->count; ++i) {
 		struct profile *q = &p->profiles[i];
+		u32 end;
+		bool sample;
 		if (q->syscall_nr != -1 && regs->orig_ax != q->syscall_nr)
 			continue;
 		if (q->ip_end && (regs->ip < q->ip_start || regs->ip >= q->ip_end))
 			continue;
-		atomic64_inc(&matched);
-		for (j = 0; j < q->count; ++j) {
-			void *addr = READ_ONCE(q->aliases[j]);
-			if (p->mode == WPF_MODE_T1)
-				asm volatile("prefetcht1 (%0)" : : "r" (addr));
-			else
-				/* Address load/loop retained; no memory access or fill. */
-				asm volatile("nopl (%0)" : : "r" (addr));
+		s->matched++;
+		end = p->split ? min_t(u32, p->split, q->count) : q->count;
+		sample = p->diagnostic && (s->matched & 63) == 0;
+		s->sample_line = (s->matched >> 6) % end;
+		if (sample && p->diagnostic == 1) {
+			histogram(s->detail.pre, sample_latency(q->aliases[s->sample_line]));
+			s->detail.pre_samples++;
 		}
-		atomic64_add(q->count, &issued);
-		break; /* first matching profile wins; total burst never exceeds 64 */
+		emit(p, q, 0, end);
+		s->issued += end;
+		s->sample_post = sample && p->diagnostic == 2;
+		if (s->sample_post)
+			s->last_issue = rdtsc_ordered();
+		if ((p->split && end < q->count) || s->sample_post) {
+			s->pending_tid = task_pid_nr(next);
+			s->pending_profile = i;
+			s->pending_generation = p->generation;
+		}
+		break; /* first matching profile; both phases combined <= 64 lines */
 	}
 out:
 	rcu_read_unlock();
@@ -114,9 +240,11 @@ static int make_plan(const struct wpf_config *c, struct plan **result)
 	int err = -EINVAL;
 	u32 i, j;
 
-	if (c->version != WPF_VERSION || c->mode > WPF_MODE_T1 || c->pid <= 0 ||
+	if ((c->version != WPF_VERSION && c->version != WPF_VERSION_EMISSION) ||
+	    c->mode > WPF_MODE_T1 || c->pid <= 0 ||
 	    !c->profile_count || c->profile_count > WPF_MAX_PROFILES ||
-	    c->reserved[0] || c->reserved[1])
+	    (c->version == WPF_VERSION && c->reserved[0]) || c->reserved[1] ||
+	    c->reserved[0] >> 40)
 		return -EINVAL;
 	pid = find_get_pid(c->pid);
 	task = get_pid_task(pid, PIDTYPE_PID);
@@ -140,6 +268,18 @@ static int make_plan(const struct wpf_config *c, struct plan **result)
 	put_task_struct(task);
 	p->mode = c->mode;
 	p->count = c->profile_count;
+	p->gap = c->reserved[0];
+	p->group = c->reserved[0] >> 8;
+	p->split = c->reserved[0] >> 16;
+	p->hint = c->reserved[0] >> 24;
+	p->diagnostic = c->reserved[0] >> 32;
+	if (c->version == WPF_VERSION)
+		p->group = 1;
+	if ((p->gap != 0 && p->gap != 4 && p->gap != 16) ||
+	    !p->group || p->group > 16 || !is_power_of_2(p->group) ||
+	    p->split >= WPF_MAX_LINES || p->hint > 2 || p->diagnostic > 2)
+		goto fail;
+	p->generation = ++generation;
 	for (i = 0; i < c->profile_count; ++i) {
 		const struct wpf_profile *in = &c->profiles[i];
 		struct profile *out = &p->profiles[i];
@@ -197,14 +337,36 @@ static long control(struct file *file, unsigned int cmd, unsigned long arg)
 {
 	struct wpf_config *c;
 	struct plan *p;
-	struct wpf_stats s;
-	int err;
+	struct wpf_stats s = {0};
+	struct wpf_detail detail = {0};
+	int err, cpu;
+	u32 i;
 	if (!capable(CAP_SYS_ADMIN))
 		return -EPERM;
 	if (cmd == WPF_STATS) {
-		s.matched_switches = atomic64_read(&matched);
-		s.issued_lines = atomic64_read(&issued);
+		for_each_possible_cpu(cpu) {
+			struct local_state *state = per_cpu_ptr(&local, cpu);
+			s.matched_switches += READ_ONCE(state->matched);
+			s.issued_lines += READ_ONCE(state->issued);
+		}
 		return copy_to_user((void __user *)arg, &s, sizeof(s)) ? -EFAULT : 0;
+	}
+	if (cmd == WPF_DETAIL) {
+		for_each_possible_cpu(cpu) {
+			struct wpf_detail *d = &per_cpu_ptr(&local, cpu)->detail;
+			detail.second_switches += READ_ONCE(d->second_switches);
+			detail.second_lines += READ_ONCE(d->second_lines);
+			detail.cancelled += READ_ONCE(d->cancelled);
+			detail.pre_samples += READ_ONCE(d->pre_samples);
+			detail.post_samples += READ_ONCE(d->post_samples);
+			detail.lead_samples += READ_ONCE(d->lead_samples);
+			for (i = 0; i < WPF_HIST_BINS; ++i) {
+				detail.pre[i] += READ_ONCE(d->pre[i]);
+				detail.post[i] += READ_ONCE(d->post[i]);
+				detail.lead[i] += READ_ONCE(d->lead[i]);
+			}
+		}
+		return copy_to_user((void __user *)arg, &detail, sizeof(detail)) ? -EFAULT : 0;
 	}
 	if (cmd != WPF_CONFIG)
 		return -ENOTTY;
@@ -223,8 +385,26 @@ static long control(struct file *file, unsigned int cmd, unsigned long arg)
 	kfree(c);
 	if (err)
 		goto unlock;
-	atomic64_set(&matched, 0);
-	atomic64_set(&issued, 0);
+	/* No active registration; clear only counters here. Pending state is
+	 * invalidated by generation, avoiding a cross-CPU write race. */
+	for_each_possible_cpu(cpu) {
+		struct local_state *state = per_cpu_ptr(&local, cpu);
+		WRITE_ONCE(state->matched, 0);
+		WRITE_ONCE(state->issued, 0);
+		/* Old completion probes have been unregistered on close. */
+		memset(&state->detail, 0, sizeof(state->detail));
+	}
+	if (p->split || p->diagnostic == 2) {
+		memset(&finish_probe, 0, sizeof(finish_probe));
+		finish_probe.symbol_name = "finish_task_switch.isra.0";
+		finish_probe.pre_handler = finish_switch;
+		err = register_kprobe(&finish_probe);
+		if (err) {
+			free_plan(p);
+			goto unlock;
+		}
+		finish_registered = true;
+	}
 	replace_plan(p);
 	file->private_data = p;
 unlock:
@@ -245,6 +425,10 @@ static int device_open(struct inode *inode, struct file *file)
 static int device_release(struct inode *inode, struct file *file)
 {
 	replace_plan(NULL);
+	if (finish_registered) {
+		unregister_kprobe(&finish_probe);
+		finish_registered = false;
+	}
 	atomic_set(&opened, 0);
 	return 0;
 }
