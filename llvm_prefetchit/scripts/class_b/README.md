@@ -39,8 +39,16 @@ separately retained datasets and binaries.
   coverage budgets and compare them against a fresh baseline.
 - `paired_study.py`: fresh seeded blocks from a JSON manifest, separate
   exploratory/confirmation results, individual paired-log-ratio t intervals.
+- `confirm_best.py`: freeze the exploratory winner, remove superseded generated
+  binaries, and compare seven new seed blocks against baseline and old wake16.
+  A distinct layout NOP is included in three blocks. Promotion requires positive
+  individual 95% lower bounds against both baseline and old wake16; screen
+  measurements are never pooled into confirmation.
 - `retain_artifacts.py`: hash/record explicitly selected generated files before
   deleting them. Reject symlinks, original inputs and reference executables.
+- `collect_evidence.py`: after completion, archive compact results and verify
+  every recorded platform/HWP restoration. Keep a file hash manifest; exclude
+  executables, raw/decoded traces and mapped ELF copies.
 
 Run measurements through the archived `run_platform.py`; it fixes the measured
 CPUs at 2 GHz with C6 disabled and restores the prior platform on exit. Do not

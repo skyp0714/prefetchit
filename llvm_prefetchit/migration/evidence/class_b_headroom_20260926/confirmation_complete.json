@@ -1,0 +1,163 @@
+{
+  "promoted": false,
+  "rows": 24,
+  "valid_rows": 24,
+  "selected": {
+    "arm": "stream_coverage",
+    "binary": "/storage/prefetchit/class_b_extension_20260926/social_build/usertimeline/headroom_coverage_v2/UserTimelineService",
+    "screen": "screen",
+    "saving_pct": 2.476208421113113,
+    "row": {
+      "block": 0,
+      "arm": "stream_coverage",
+      "valid": true,
+      "target_cpu": 160.39373626373626,
+      "pool_cpu": 3785.0313221233105,
+      "stack_cpu": 3846.352967032967,
+      "user_cycles": 196812.03012496897,
+      "code_misses": 5264.851775221386,
+      "mpki": 54.73961235096062,
+      "p99_ms": 12.211799621582031,
+      "kernel_switches": null,
+      "output": "/storage/prefetchit/class_b_headroom_20260926/screen/00_stream_coverage"
+    }
+  },
+  "summary": {
+    "old_wake16": {
+      "base": {
+        "target_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": 1.3967070988398333,
+          "ci95_pct": [
+            0.787578272724021,
+            2.002096091572436
+          ]
+        },
+        "pool_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": 0.16538490261714944,
+          "ci95_pct": [
+            -0.10645079930549084,
+            0.43648244382936685
+          ]
+        },
+        "stack_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": 0.07520522614478109,
+          "ci95_pct": [
+            -0.1489942703333913,
+            0.29890281629242343
+          ]
+        }
+      }
+    },
+    "candidate": {
+      "base": {
+        "target_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": 2.011311883459821,
+          "ci95_pct": [
+            1.60828946748659,
+            2.4126834787806195
+          ]
+        },
+        "pool_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": 0.09885540305696328,
+          "ci95_pct": [
+            -0.20531593569688145,
+            0.40210343547266714
+          ]
+        },
+        "stack_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": 0.12725423947045345,
+          "ci95_pct": [
+            -0.004395504296783592,
+            0.25873067430514096
+          ]
+        }
+      },
+      "old_wake16": {
+        "target_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": 0.6233106081315887,
+          "ci95_pct": [
+            -0.09029395414179575,
+            1.331827449596279
+          ]
+        },
+        "pool_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": -0.06663971158229476,
+          "ci95_pct": [
+            -0.3493131392406035,
+            0.21523745485405588
+          ]
+        },
+        "stack_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": 0.052088186364018796,
+          "ci95_pct": [
+            -0.21688232675254326,
+            0.32033681375387424
+          ]
+        }
+      },
+      "layout_nop": {
+        "target_cpu": {
+          "pairs": 3,
+          "cost_reduction_pct": 1.7358796525302034,
+          "ci95_pct": [
+            1.401863572362072,
+            2.068764202774409
+          ]
+        },
+        "pool_cpu": {
+          "pairs": 3,
+          "cost_reduction_pct": -0.0228326689741154,
+          "ci95_pct": [
+            -0.670356388505744,
+            0.6205261008901397
+          ]
+        },
+        "stack_cpu": {
+          "pairs": 3,
+          "cost_reduction_pct": 0.046077821287460186,
+          "ci95_pct": [
+            -0.23035528887906942,
+            0.32174853503051937
+          ]
+        }
+      }
+    },
+    "layout_nop": {
+      "base": {
+        "target_cpu": {
+          "pairs": 3,
+          "cost_reduction_pct": 0.39192242178023307,
+          "ci95_pct": [
+            -0.4212190757581391,
+            1.1984796625140848
+          ]
+        },
+        "pool_cpu": {
+          "pairs": 3,
+          "cost_reduction_pct": 0.10743559248782564,
+          "ci95_pct": [
+            -0.7790298737574863,
+            0.9861035930914364
+          ]
+        },
+        "stack_cpu": {
+          "pairs": 3,
+          "cost_reduction_pct": -0.01854429311825001,
+          "ci95_pct": [
+            -0.23988755926152017,
+            0.20231021707508567
+          ]
+        }
+      }
+    }
+  }
+}

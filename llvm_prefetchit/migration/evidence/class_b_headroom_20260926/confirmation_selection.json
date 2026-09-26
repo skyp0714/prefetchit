@@ -1,0 +1,164 @@
+{
+  "selected": {
+    "arm": "stream_coverage",
+    "binary": "/storage/prefetchit/class_b_extension_20260926/social_build/usertimeline/headroom_coverage_v2/UserTimelineService",
+    "screen": "screen",
+    "saving_pct": 2.476208421113113,
+    "row": {
+      "block": 0,
+      "arm": "stream_coverage",
+      "valid": true,
+      "target_cpu": 160.39373626373626,
+      "pool_cpu": 3785.0313221233105,
+      "stack_cpu": 3846.352967032967,
+      "user_cycles": 196812.03012496897,
+      "code_misses": 5264.851775221386,
+      "mpki": 54.73961235096062,
+      "p99_ms": 12.211799621582031,
+      "kernel_switches": null,
+      "output": "/storage/prefetchit/class_b_headroom_20260926/screen/00_stream_coverage"
+    }
+  },
+  "candidates": [
+    {
+      "arm": "stream_accuracy",
+      "binary": "/storage/prefetchit/class_b_extension_20260926/social_build/usertimeline/headroom_accuracy/UserTimelineService",
+      "screen": "screen",
+      "saving_pct": 1.006719705367276,
+      "row": {
+        "block": 0,
+        "arm": "stream_accuracy",
+        "valid": true,
+        "target_cpu": 162.81054945054944,
+        "pool_cpu": 3788.195207737964,
+        "stack_cpu": 3837.276923076923,
+        "user_cycles": 202212.95448150294,
+        "code_misses": 5343.5515186625835,
+        "mpki": 55.52814792140427,
+        "p99_ms": 10.643482208251953,
+        "kernel_switches": null,
+        "output": "/storage/prefetchit/class_b_headroom_20260926/screen/00_stream_accuracy"
+      }
+    },
+    {
+      "arm": "stream_balanced",
+      "binary": "/storage/prefetchit/class_b_extension_20260926/social_build/usertimeline/headroom_balanced/UserTimelineService",
+      "screen": "screen",
+      "saving_pct": 1.5762944135642165,
+      "row": {
+        "block": 0,
+        "arm": "stream_balanced",
+        "valid": true,
+        "target_cpu": 161.8737912087912,
+        "pool_cpu": 3807.561270469282,
+        "stack_cpu": 3837.523076923077,
+        "user_cycles": 200148.8603014243,
+        "code_misses": 5211.637545544882,
+        "mpki": 54.29953450920648,
+        "p99_ms": 11.208057403564453,
+        "kernel_switches": null,
+        "output": "/storage/prefetchit/class_b_headroom_20260926/screen/00_stream_balanced"
+      }
+    },
+    {
+      "arm": "stream_coverage",
+      "binary": "/storage/prefetchit/class_b_extension_20260926/social_build/usertimeline/headroom_coverage_v2/UserTimelineService",
+      "screen": "screen",
+      "saving_pct": 2.476208421113113,
+      "row": {
+        "block": 0,
+        "arm": "stream_coverage",
+        "valid": true,
+        "target_cpu": 160.39373626373626,
+        "pool_cpu": 3785.0313221233105,
+        "stack_cpu": 3846.352967032967,
+        "user_cycles": 196812.03012496897,
+        "code_misses": 5264.851775221386,
+        "mpki": 54.73961235096062,
+        "p99_ms": 12.211799621582031,
+        "kernel_switches": null,
+        "output": "/storage/prefetchit/class_b_headroom_20260926/screen/00_stream_coverage"
+      }
+    },
+    {
+      "arm": "padding64",
+      "binary": "/storage/prefetchit/class_b_headroom_20260926/padding64/UserTimelineService",
+      "screen": "padding_screen",
+      "saving_pct": -1.1441559131362578,
+      "row": {
+        "block": 0,
+        "arm": "padding64",
+        "valid": true,
+        "target_cpu": 165.31412087912088,
+        "pool_cpu": 3817.11271088641,
+        "stack_cpu": 3845.4315934065935,
+        "user_cycles": 205761.09017886716,
+        "code_misses": 5292.727724412057,
+        "mpki": 55.40038665503454,
+        "p99_ms": 12.047767639160156,
+        "kernel_switches": null,
+        "output": "/storage/prefetchit/class_b_headroom_20260926/padding_screen/00_padding64"
+      }
+    },
+    {
+      "arm": "padding_loop256",
+      "binary": "/storage/prefetchit/class_b_headroom_20260926/padding_loop256/UserTimelineService",
+      "screen": "padding_wide_screen",
+      "saving_pct": -0.12414718334547992,
+      "row": {
+        "block": 0,
+        "arm": "padding_loop256",
+        "valid": true,
+        "target_cpu": 163.20456043956045,
+        "pool_cpu": 3789.294350406683,
+        "stack_cpu": 3826.972637362637,
+        "user_cycles": 203108.77031948353,
+        "code_misses": 5317.970286376428,
+        "mpki": 55.36789710358898,
+        "p99_ms": 10.947942733764648,
+        "kernel_switches": null,
+        "output": "/storage/prefetchit/class_b_headroom_20260926/padding_wide_screen/00_padding_loop256"
+      }
+    }
+  ],
+  "arms": {
+    "base": {
+      "binary": "/storage/prefetchit/class_b_extension_20260926/social_build/usertimeline/base/UserTimelineService"
+    },
+    "old_wake16": {
+      "binary": "/storage/prefetchit/class_b_extension_20260926/social_build/usertimeline/wake16/UserTimelineService",
+      "controls": [
+        "base"
+      ]
+    },
+    "candidate": {
+      "binary": "/storage/prefetchit/class_b_extension_20260926/social_build/usertimeline/headroom_coverage_v2/UserTimelineService",
+      "controls": [
+        "base",
+        "old_wake16",
+        "layout_nop"
+      ]
+    },
+    "layout_nop": {
+      "binary": "/storage/prefetchit/class_b_extension_20260926/social_build/usertimeline/headroom_coverage_v2/UserTimelineService.nop",
+      "controls": [
+        "base"
+      ]
+    }
+  },
+  "blocks": 7,
+  "nop_blocks": 3,
+  "seeds": [
+    9301,
+    9302,
+    9303,
+    9304,
+    9305,
+    9306,
+    9307
+  ],
+  "pmu": false,
+  "primary": "target user+kernel CPU per completed request",
+  "inference": "Seven fresh-seed paired log ratios against base and old wake16; separate three-block layout NOP contrast if applicable.",
+  "promotion": "Require seven valid pairs and positive individual 95% lower bounds against both base and old wake16; 10% remains a target, not an assumption."
+}

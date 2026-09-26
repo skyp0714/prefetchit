@@ -53,7 +53,7 @@ export PATH=$PWD/benchmarks/tools/miniforge3/bin:$PATH; set +u; source benchmark
 
 ## 2. B 부류(interleaving) — `docs/prefetch_plan_by_miss_class.md` §3
 
-- **09-26 추가, 10% 목표**: [추가 분석·구현](class_b_headroom_20260926.md). 가중 타깃 병합과 kernel-alias switch-in 버스트 프로토타입 구현, 도구 테스트11개·커널 빌드 통과. 새 성능은 미측정이며 권한 확보 후 기본 kernel lifecycle 5개 확인을 통과했다. 높은 MPKI 운영점·의존성 coverage·문맥별 버스트를 비교하고, 커널 후보는 비용이 다른 태스크에 잡히는 효과를 풀 전체 CPU로 검증한다.
+- **09-26 추가, 10% 목표**: [최종 실험 결과](class_b_headroom_20260926.md). 가중 병합·trace 문맥 커널 버스트·NOP 공간 coverage 구현 완료. MPKI 57.38 운영점의 독립 7쌍에서 새 후보는 baseline 대비 전체 타깃 CPU 2.01% 절감(95% CI 1.61~2.41%)이나, 기존 wake16 대비 0.62%(−0.09~1.33%)로 추가 이득 미확정·승격 안 함. 10% 미달. 커널 T1의 캐시 warming은 확인했으나 실서비스 3정책은 풀 CPU 순이득 없이 기각. 관련 테스트16개·lifecycle5개 통과, platform/HWP 1,474개 복구 비교 통과. 탈락 산출물은 근거 보존 후 정리.
 
 ### 2-0. wake-stream (2026-09-21, `docs/prefetch_plan_classB_wakestream.md` §7) — 2-A/2-B보다 우선
 - **최종(18:05, 5회)**: p11a(dense drip + post-call run 시작부) **1.054x, MPKI 86.6→76.9, 명령 +2.8%**; static plan 1.006x, callee-burst static 1.015x(twin 1.011x). 14 라운드의 결론과 안 되는 것 목록은 §7-21. pass에 `after_call`/`@n` 사이트 종류 추가됨(PrefetchITPass.cpp, 백업 .bak_postcall). `media_stack.sh down`에 `-v` 추가(익명 볼륨 207개·14 GB가 디스크를 채웠음).
