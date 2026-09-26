@@ -1,0 +1,107 @@
+diff --git a/flat_codegen/dsb_build/media/ws/ws_plan_pass.py b/flat_codegen/dsb_build/media/ws/ws_plan_pass.py
+index b588282..1891c0e 100644
+--- a/flat_codegen/dsb_build/media/ws/ws_plan_pass.py
++++ b/flat_codegen/dsb_build/media/ws/ws_plan_pass.py
+@@ -49,6 +49,25 @@ def load_list(path):
+         if len(p) >= 7: rows.append(dict(p=float(p[1]), idx=float(p[2]), us=float(p[3]), dso=p[4], line=int(p[5], 16), sym=p[6], pseq=float(p[7]) if len(p) > 7 else 0.0))
+     return rows
+ 
++def merge_targets(targets, support, cap, policy='input-order'):
++    """Rank merged run-type candidates by training support, never by future data.
++
++    Support is sum(run_count * target marginal probability) over assigning types,
++    not P(miss|site) or a measured runtime prediction-accuracy estimate.
++    """
++    unique = {}; order = []
++    for target in targets:
++        key = (target[4], target[3])
++        if key not in unique:
++            unique[key] = target; order.append(key)
++    if policy != 'input-order':
++        def score(key):
++            target = unique[key]
++            cost = (15 if target[2] else 7) if policy == 'byte-efficiency' else 1
++            return support.get(key, 0) / cost
++        order.sort(key=lambda key: (-score(key), key))
++    return [unique[key] for key in order[:cap]]
++
+ def main():
+     ap = argparse.ArgumentParser(); ap.add_argument('runs'); ap.add_argument('trace'); ap.add_argument('out'); ap.add_argument('--symfs', required=True)
+     ap.add_argument('--exe', default='/custom/MovieIdService'); ap.add_argument('--d', type=int, default=8); ap.add_argument('--dmax', type=int, default=24)
+@@ -64,6 +83,8 @@ def main():
+     ap.add_argument('--post-call', type=int, default=0, help='add a burst right after the call the run resumes from (entry_<type>.tsv), issuing this many run-start lines')
+     ap.add_argument('--pic-sites', help='file of mangled names compiled as PIC (static archives): their bursts use the GOT form for every target, so k must be sized accordingly')
+     ap.add_argument('--instrumentable', help='file of mangled names the pass can instrument (nm of the service objects); other functions are never sites')
++    ap.add_argument('--merge-policy', choices=['input-order', 'support', 'byte-efficiency'], default='input-order',
++                    help='Choose capped targets across run types by original order, weighted occurrence support, or support/estimated bytes')
+     A = ap.parse_args()
+     instr = set(open(A.instrumentable).read().split()) if A.instrumentable else None
+     pic = set(open(A.pic_sites).read().split()) if A.pic_sites else set()
+@@ -131,6 +152,8 @@ def main():
+                 if fn: appear[fn[3]] += r['p'] * ntype.get(name, 0)
+     # ---- assignment per run type
+     plan = collections.defaultdict(list)          # site fn -> [(anchor, off, got, raw_line, dso)]
++    support = collections.defaultdict(collections.Counter)
++    candidates_by_type = collections.defaultdict(list)
+     site_entry = {}                                # site fn -> entry va
+     report = []; totals = []
+     for name, rows in types.items():
+@@ -172,10 +195,16 @@ def main():
+                 r = rows[j]
+                 if r['dso'] == exe_name:
+                     an = exe.anchor(r['line'])
+-                    if an: plan[fn[3]].append((an[0], an[1], 0, r['line'], exe_name, an[2])); issued += 1
++                    if an:
++                        plan[fn[3]].append((an[0], an[1], 0, r['line'], exe_name, an[2])); issued += 1
++                        support[fn[3]][(exe_name, r['line'])] += nruns * r['p']
++                        candidates_by_type[name].append((fn[3], exe_name, r['line']))
+                 elif not A.no_lib and r['dso'] in libs:
+                     an = libs[r['dso']].anchor(r['line'], maxoff=1 << 20)
+-                    if an: plan[fn[3]].append((an[0], an[1], 1, r['line'], r['dso'], an[2])); issued += 1
++                    if an:
++                        plan[fn[3]].append((an[0], an[1], 1, r['line'], r['dso'], an[2])); issued += 1
++                        support[fn[3]][(r['dso'], r['line'])] += nruns * r['p']
++                        candidates_by_type[name].append((fn[3], r['dso'], r['line']))
+         cov = sum(assigned) / n if n else 0
+         report.append(f"{name:24s} runs {nruns:3d} lines {n:4d} (raw {rawlen.get(name, n)}) sites {len(sites):3d} assigned {sum(assigned):4d} ({100*cov:.0f}%) prefetches {issued}")
+         totals.append((nruns, n, sum(assigned), issued))
+@@ -223,12 +252,7 @@ def main():
+         return ((b + 15) // 16) * 16 if b else 0
+     sites = {}
+     for fn, tl in plan.items():
+-        seen = set(); uniq = []
+-        for t in tl:
+-            key = (t[4], t[3])
+-            if key in seen: continue
+-            seen.add(key); uniq.append(t)
+-        sites[fn] = uniq[:A.kmerge]
++        sites[fn] = merge_targets(tl, support[fn], A.kmerge, A.merge_policy)
+     for key, pc in post.items():
+         tl = []
+         for r in pc['rows']:
+@@ -262,9 +286,24 @@ def main():
+         out["sites"][fn] = {"k": K[fn], "t": t}
+         if fn in post: out["sites"][fn]["after_call"] = post[fn]['callee']; out["sites"][fn]["nth"] = post[fn]['nth']
+     json.dump(out, open(A.out, 'w'), indent=0)
++    emitted = {fn: {(t[4], t[3]) for t in tl} for fn, tl in sites.items()}
++    retained = {name: len({(dso, line) for fn, dso, line in rows
++                           if (dso, line) in emitted.get(fn, set())})
++                for name, rows in candidates_by_type.items()}
++    metadata = dict(merge_policy=A.merge_policy,
++                    scoring='training run count * marginal target occurrence; byte-efficiency uses 7 direct / 15 GOT bytes (proxy, before GOT sharing)',
++                    entry_candidates_after_anchor_and_merge_cap=retained,
++                    entry_candidate_weighted_coverage_pct=100 * sum(ntype[name] * n for name, n in retained.items()) /
++                    max(1, sum(nr * n for nr, n, _, _ in totals)),
++                    limitations=['Candidate coverage uses consensus paths, not per-run joint occurrence or cache misses.',
++                                 'Earlier assigned percentages precede anchor resolution and merge caps.',
++                                 'Post-call burst coverage is separate and is not included in entry coverage.',
++                                 'Rebuilt target offsets still require final-binary validation.'])
++    with open(A.out + '.metadata.json', 'w') as f: json.dump(metadata, f, indent=2)
+     print("\n".join(report))
+     W = sum(nr * n for nr, n, a, i in totals) or 1
+-    print(f"run-weighted: assigned {100*sum(nr*a for nr,n,a,i in totals)/W:.0f}% of listed lines, prefetch executions per run-weight {sum(nr*i for nr,n,a,i in totals)/max(1,sum(nr for nr,n,a,i in totals)):.0f}")
++    print(f"run-weighted pre-merge candidates: assigned {100*sum(nr*a for nr,n,a,i in totals)/W:.0f}% of listed lines, candidate prefetch executions per run-weight {sum(nr*i for nr,n,a,i in totals)/max(1,sum(nr for nr,n,a,i in totals)):.0f}")
++    print(f"entry candidate coverage AFTER anchors and merge cap: {metadata['entry_candidate_weighted_coverage_pct']:.1f}% (consensus-path proxy, not measured accuracy)")
+     reqs = ntype.get(max(ntype, key=lambda k: ntype[k] if 'm1' in k else 0), 1)
+     per_req = sum(len(tl) * (ntype.get(nm, 0) / max(1, reqs)) for nm, rows in types.items() for tl in []) if False else 0
+     print(f"plan: {len(out['sites'])} sites, {nd} direct + {ng} GOT targets, burst bytes total {sum(K.values())}, median k {statistics.median(len(v) for v in sites.values()) if sites else 0}")

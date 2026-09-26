@@ -53,6 +53,8 @@ export PATH=$PWD/benchmarks/tools/miniforge3/bin:$PATH; set +u; source benchmark
 
 ## 2. B 부류(interleaving) — `docs/prefetch_plan_by_miss_class.md` §3
 
+- **09-26 추가, 10% 목표**: [추가 분석·구현](class_b_headroom_20260926.md). 가중 타깃 병합과 kernel-alias switch-in 버스트 프로토타입 구현, 도구 테스트11개·커널 빌드 통과. 새 성능은 미측정이며 권한 확보 후 기본 kernel lifecycle 5개 확인을 통과했다. 높은 MPKI 운영점·의존성 coverage·문맥별 버스트를 비교하고, 커널 후보는 비용이 다른 태스크에 잡히는 효과를 풀 전체 CPU로 검증한다.
+
 ### 2-0. wake-stream (2026-09-21, `docs/prefetch_plan_classB_wakestream.md` §7) — 2-A/2-B보다 우선
 - **최종(18:05, 5회)**: p11a(dense drip + post-call run 시작부) **1.054x, MPKI 86.6→76.9, 명령 +2.8%**; static plan 1.006x, callee-burst static 1.015x(twin 1.011x). 14 라운드의 결론과 안 되는 것 목록은 §7-21. pass에 `after_call`/`@n` 사이트 종류 추가됨(PrefetchITPass.cpp, 백업 .bak_postcall). `media_stack.sh down`에 `-v` 추가(익명 볼륨 207개·14 GB가 디스크를 채웠음).
 - **구현·측정 완료(movie-id interleaved, R=600, 3회, 8 라운드)**: LD_PRELOAD 1.014x → inline drip 1.031x → 아카이브 사이트 **1.046x**(wsp3; 재측정 1.050/1.037) → coverage·overhead·lead 스윕(라벨, 128 B 페어, gap filler, fall-through 제외, d 8–32)은 모두 ±1% 안 = **이 계열의 상한 ≈1.05x**(§7-14). prefetchit1은 같은 자리에서 0.982x. preload stage 0은 래퍼 비용에 지워짐. 남은 일: pass post-call 사이트(run 시작부 inline), glibc 정적 링크, compose-review/compose-post, 5회 확정. 도구 `flat_codegen/dsb_build/media/ws/`; DSB 소스에 mark 패치 적용 상태(`ws_patch_src.sh revert`).
@@ -69,10 +71,10 @@ export PATH=$PWD/benchmarks/tools/miniforge3/bin:$PATH; set +u; source benchmark
 ### 2-C. affinity sweep (B-5, 대조군)
 - pool 안에서 코어당 공유 서비스 수 1·2·3·전체로 cpuset 그룹을 만들어 MPKI 곡선. `dsb_shared_screen.sh`에 그룹 배치 모드 추가.
 
-### 2-D. 커널 switch-in prefetch 모듈 (B-3, 5%를 넘길 유일한 후보)
-- `sched_switch` tracepoint에서 next task의 등록된 라인 목록을 32라인씩 `prefetcht1`; 목록은 `wake_lines.py` 출력(PID·hook별). 등록 인터페이스는 debugfs.
-- twin = 등록만 하고 발행 안 함. user-timeline·compose-post·media 서비스에서 C6-off interleaved 세팅으로 측정.
-- 공유 서버라 모듈 로드는 조율. 결과가 보고서 §4-4(ISA switch-in warm-up 엔진)의 근거가 된다.
+### 2-D. 커널 switch-in prefetch 모듈 (B-3)
+- `llvm_prefetchit/kernel/wake_prefetch/`: opt-in TGID/mm, pinned executable page의 kernel alias, 8/16/32/64라인 T1/NOP, saved user IP/syscall profile. 등록은 root 전용 misc-device ioctl. 현재 헤더 빌드와 기본 runtime smoke를 통과했고 모듈은 언로드했다.
+- 기존 trace의 추정 hook 이름은 정확한 syscall 번호가 아니다. 새 context 수집과 held-out 검증 후 user-timeline·compose-post·media를 비교한다.
+- module-off/no-plan/NOP/PF 및 user-stream 조합을 비교하며, outgoing task에 잡히는 callback 비용까지 공유 풀 전체 CPU로 확인한다. 권한 확보·기본 runtime 검증 완료, 실서비스 성능 검증 대기.
 
 ---
 

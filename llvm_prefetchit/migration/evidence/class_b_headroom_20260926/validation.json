@@ -1,0 +1,15 @@
+{
+  "command": "profiling/.venv/bin/python -m pytest -q llvm_prefetchit/tests/test_wake_kernel.py llvm_prefetchit/tests/test_wake_headroom.py llvm_prefetchit/tests/test_wake_merge.py",
+  "passed": 11,
+  "failed": 0,
+  "checks": [
+    "C/Python ioctl ABI",
+    "real live PIE address resolution",
+    "binary hash mismatch rejection",
+    "alignment/duplicate/budget limits",
+    "rare-context coverage denominator",
+    "weighted merge and hint cost",
+    "planner CLI on actual ELF: weighted target changes and post-cap coverage"
+  ],
+  "runtime_kernel_checks": "Five successful root smoke outcomes; see kernel_runtime_smoke.json; no service performance tested"
+}
