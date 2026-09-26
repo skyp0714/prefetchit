@@ -1,0 +1,8 @@
+{
+  "utc": "2026-09-26T13:47:14.136051+00:00",
+  "primary_media_rate": 600,
+  "sampling10_rate": 300,
+  "selection": "Each campaign independently selects maximal shared MPKI with >=15% shared utilization and its predeclared validity gates",
+  "interpretation": "A gain at 10% establishes a separate normal-sampling operating-point result. Differences in gain versus the 100% campaign cannot be attributed solely to sampling because arrival rate differs. A failure at10% likewise does not prove dependence on 100% tracing.",
+  "warmup": "The original100% 300RPS point remains excluded under its then-current gate. New10% trials use the predeclared 50s warmup/zero steady-error gate; no old point is retrospectively reclassified."
+}

@@ -1,0 +1,23 @@
+{
+  "utc": "2026-09-26T06:05:22.948407+00:00",
+  "stage": "Before any prefetch trace, build, or performance result",
+  "change": "Zero errors and drops required after the fixed 50-second startup warmup; all startup errors retained and reported. Do not reclassify excluded qualification points.",
+  "reason": "The first request for username109 at 12.72s failed once per fresh Media stack in two attempts; later loads on the same stack had no errors. Root cause unconfirmed.",
+  "added_validation": "Read every registration body; verify 1000 expected usernames and nonzero IDs directly in MongoDB before any load.",
+  "hashes": {
+    "load.py": "69cbeec142e03f10ddeea2360786e91360d27095712d3ccf76dc7ec8e6ce91a2",
+    "pipeline.py": "6ab253666c9c87c4f585a47f7ecf15fa6b7b8f2cc24593c00518db08280865ab",
+    "campaign.py": "5a5d472a624a9801059a596f9a83a583bdaf58718d38eb4eed11b4ddeb722917",
+    "cleanup_initial.py": "f02142db819ad62c702cf283112675e38ef227f1a90e66dd38bd9e939a93fb86",
+    "common.py": "e76a92effad20e84b7e156a88e0ed117227c3877cd78c13737ef6a8fb364d8e3",
+    "run_paths.py": "89a46d2f81d24e34e647c176e008815dc723fe23081216eb08a83bfebf4af357",
+    "social_campaign.py": "1b37ec0273dbc31dd7bb6f5d1b0360350352b31efa006bb1816a6c52af5db93b",
+    "gate.py": "1d0c4865bfc7d27ac6731bdc2af1fa8ae2afcb69b83169286fe64faa5da88b60",
+    "audit_qualification.py": "7d0af7b3cf02ffb6b0f487f56c84cc986a475131a9f16f9eec0816570cce4b27",
+    "social.py": "ad6a0b5a0fbcd34d7f33ded45b22fc61ffbabd70abc4571e1c1098db9b140306",
+    "trace_media.py": "acc13dbc76c7361a115f05cde41c79a08fcc7f2cfac80e9666c850192b317b7e",
+    "build.py": "060b54049e6d0c8d5970ef0b63cd435aac0121fd5a14a907c936745296ad27ca",
+    "trace_social.py": "b672bf3bd33a38b47b62a6a9a376f55fd75ff331bb24bca52bdac17bfe0a9cec",
+    "media.py": "e3aa16539001ba362aa59b3672cc6462a2c96a611cf7f60c56aeaf7da176674e"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "utc": "2026-09-26T07:04:02.638696+00:00",
+  "primary_only": true,
+  "blocks": 7,
+  "stage": "Before any independent confirmation has started",
+  "unchanged": [
+    "fixed 50-second warmup",
+    "same 30-second clean cgroup CPU window",
+    "fresh processes and same request-seed prefix",
+    "7 independent paired blocks, no efficacy stopping",
+    "both original and exact-layout NOP controls"
+  ],
+  "change": "Independent confirmation omits all PMU collection AFTER the primary measurement window. Load ends at95s instead of155s. Mechanistic PMU outcomes come from the three exploratory blocks, reported separately. No confirmation counter values are imputed."
+}

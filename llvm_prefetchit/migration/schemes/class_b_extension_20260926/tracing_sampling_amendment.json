@@ -1,0 +1,20 @@
+{
+  "utc": "2026-09-26T08:03:27.129919+00:00",
+  "media_original": "native and nginx const1; running campaign keeps 100%",
+  "social_before_any_measurement": "both native and nginx probabilistic 0.1 using private copies; original nginx0.2/native0.1 files unchanged",
+  "additional_media": "fresh qualification, PT and lead8 plans at native/nginx0.1, isolated output roots",
+  "current_media_wrapper_audit": {
+    "compared": [
+      "/storage/prefetchit/class_b_extension_20260926/media_evaluation/compose/confirmation/00_base/compose.json",
+      "/storage/prefetchit/class_b_extension_20260926/media_evaluation/compose/confirmation/06_base/compose.json"
+    ],
+    "same_after_normalizing": [
+      "per-arm generated nginx.conf path",
+      "tracer config mount read-only flag"
+    ],
+    "only_other_difference": "nginx Jaeger config mount changed to read-only; source file and sampled contents unchanged; startup config read occurs before warmup"
+  },
+  "sampled_settings": [
+    "/storage/prefetchit/class_b_extension_20260926/media_evaluation/compose/confirmation/06_base/tracing_configuration.json"
+  ]
+}
