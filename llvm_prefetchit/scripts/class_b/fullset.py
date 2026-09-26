@@ -219,6 +219,8 @@ def qualify():
 
 def capture_family(spec):
     import capture_context
+    os.environ['CLASS_B_PT_EVENT']=spec.get('pt_event','intel_pt//u')
+    os.environ['CLASS_B_PT_AUX']=spec.get('pt_aux','16M')
     family=spec['family'];out=Path(spec['out']);out.mkdir(parents=True,exist_ok=False)
     root=Path(spec.get('trace_root',TRACE/family));root.mkdir(parents=True,exist_ok=False)
     stack=client=None;outputs=[]
@@ -252,6 +254,17 @@ def capture_family(spec):
 
 def decode_family(family,out,root):
     captured=json.loads((out/'captured.json').read_text())
+    # Check all captures before expensive path reconstruction. Never suppress
+    # overflow or lost-data events in the decoder.
+    for row in captured['outputs']:
+        dest=Path(row['trace']);meta=json.loads((dest/'capture_record.json').read_text())
+        command=['perf','script','-i',str(dest/'pt.data'),'--symfs='+str(dest/'symfs'),
+                 '--pid='+str(meta['pid']),'--itrace=e']
+        c.save(dest/'quality_preflight.command.json',command)
+        with (dest/'quality_preflight_errors.txt').open('w') as f,(dest/'quality_preflight.err').open('w') as err:
+            subprocess.run(command,stdout=f,stderr=err,check=True)
+        errors=(dest/'quality_preflight_errors.txt').read_text().strip()
+        assert not errors,errors[:1000]
     for row in captured['outputs']:
         dest=Path(row['trace']);trace_media.decode(dest)
         cmd=json.loads((dest/'decode_command.json').read_text())+['--ns']
@@ -279,11 +292,14 @@ def candidates():
         if selection.exists():
             trace_root=Path(json.loads(selection.read_text())['root'])
         else:
-            for attempt in range(4):
+            for attempt in range(8):
                 label=family if attempt==0 else f'{family}_retry{attempt}'
                 out=OUT/'capture'/label;trace_root=TRACE/label
                 if (out/'trace_rejection.json').exists():continue
                 spec=dict(out=str(out),family=family,pool=selected['pool'],trace_root=str(trace_root))
+                if attempt>=4:
+                    spec.update(pt_event='intel_pt/mtc_period=6/u',pt_aux='64M',
+                        reason='Repeated hardware overflow in default PT; reduce MTC packet density and enlarge AUX, retain branch tracing/TSC and identical zero-error gates')
                 manifest=out.with_suffix('.json')
                 if not (out/'captured.json').exists():
                     c.save(manifest,spec)
@@ -299,7 +315,7 @@ def candidates():
                     continue
                 c.save(selection,dict(root=str(trace_root),out=str(out),attempt=attempt,quality='All six/four captures passed zero-decoder-error gate'))
                 break
-            else:raise RuntimeError(f'{family}: four capture batches failed quality gates')
+            else:raise RuntimeError(f'{family}: eight capture batches failed quality gates')
         for key,(_,exe,_) in targets.items():
             if key in records:continue
             trace=trace_root/key;root=OUT/'plans'/key

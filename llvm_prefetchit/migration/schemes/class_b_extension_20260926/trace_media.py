@@ -27,7 +27,8 @@ def capture(stack,key,out):
  (symfs/'[vdso]').write_bytes(vdso);mapped.append(dict(path='[vdso]',bytes=len(vdso),sha256=sha(symfs/'[vdso]')))
  assert sha(symfs/'custom'/exe)==sha(build_root/key/'base'/exe)
  group=str(Path(cpu(pid)['path']).parent.relative_to('/sys/fs/cgroup'))
- command=['perf','record','--no-buildid-cache','-e','intel_pt//u','--switch-events','--delay','100','-m','8M,16M','-a','-C','32-39','-G',group,'-o',str(out/'pt.data'),'--','sleep','0.30']
+ event=os.environ.get('CLASS_B_PT_EVENT','intel_pt//u');aux=os.environ.get('CLASS_B_PT_AUX','16M')
+ command=['perf','record','--no-buildid-cache','-e',event,'--switch-events','--delay','100','-m','8M,'+aux,'-a','-C','32-39','-G',group,'-o',str(out/'pt.data'),'--','sleep','0.30']
  run(command,out/'record.log');record=(out/'record.log').read_text();assert not re.search(r'\b(lost|truncated)\b',record,re.I),record
  save(out/'capture_record.json',dict(pid=pid,exe=exe,build_root=build_root,key=key,mapped=mapped,record=record))
  return out
