@@ -230,9 +230,12 @@ def capture_family(spec):
         time.sleep(50)
         for phase in ('training','validation'):
             for key,(name,exe,_) in TARGETS[family].items():
-                dest=root/key/phase;dest.parent.mkdir(exist_ok=True)
-                old.SERVICE=key;old.NAME=name;old.EXE=exe
-                outputs.append((dest,capture_context.capture(stack,dest)))
+                repeats=spec.get('pt_repeats',1)
+                for repeat in range(repeats):
+                    label=phase if repeats==1 else f'{phase}_{repeat}'
+                    dest=root/key/label;dest.parent.mkdir(exist_ok=True)
+                    old.SERVICE=key;old.NAME=name;old.EXE=exe
+                    outputs.append((dest,capture_context.capture(stack,dest)))
             if phase=='training':
                 for key,(name,_,_) in TARGETS[family].items():
                     pid=stack.states[name]['State']['Pid']
@@ -253,19 +256,42 @@ def capture_family(spec):
 
 
 def decode_family(family,out,root):
+    from fullset_cleanup import cleanup
     captured=json.loads((out/'captured.json').read_text())
     # Check all captures before expensive path reconstruction. Never suppress
-    # overflow or lost-data events in the decoder.
+    # overflow or lost-data events. Within each fixed phase, use the first
+    # zero-error capture; this selection never sees plans or performance.
+    selected={}
     for row in captured['outputs']:
         dest=Path(row['trace']);meta=json.loads((dest/'capture_record.json').read_text())
+        group=(dest.parent.name,dest.name.split('_')[0])
         command=['perf','script','-i',str(dest/'pt.data'),'--symfs='+str(dest/'symfs'),
                  '--pid='+str(meta['pid']),'--itrace=e']
         c.save(dest/'quality_preflight.command.json',command)
         with (dest/'quality_preflight_errors.txt').open('w') as f,(dest/'quality_preflight.err').open('w') as err:
             subprocess.run(command,stdout=f,stderr=err,check=True)
         errors=(dest/'quality_preflight_errors.txt').read_text().strip()
-        assert not errors,errors[:1000]
-    for row in captured['outputs']:
+        c.save(dest/'capture_admission.json',dict(valid=not errors,errors=errors,
+            selected=not errors and group not in selected,rule='First chronological zero-error capture for this service and phase'))
+        if not errors and group not in selected:
+            selected[group]=row
+        else:
+            paths=[p for p in dest.rglob('*') if p.is_file() and not p.is_symlink() and
+                   ('symfs' in p.parts or p.name in ('pt.data','branches.txt','syscall_context.txt'))]
+            if Path(row['syscalls']).is_file():paths.append(Path(row['syscalls']))
+            cleanup(paths,out/'capture_cleanup'/f'{group[0]}_{dest.name}.json',
+                    'Decoder error: rejected' if errors else 'Superseded by the earlier zero-error capture in the same fixed phase')
+    required={(k,phase) for k in TARGETS[family] for phase in ('training','validation')}
+    assert set(selected)==required,dict(missing=sorted(required-set(selected)))
+    outputs=[]
+    for (key,phase),row in selected.items():
+        dest=Path(row['trace']);target=root/key/phase
+        if dest!=target:
+            assert not target.exists();dest.rename(target)
+        outputs.append(dict(**row,original_trace=row['trace'],selected_trace=str(target)))
+    c.save(out/'selected_captures.json',dict(outputs=outputs,rule='First zero-error capture in each temporal phase; same baseline process/maps for PEBS and both phases'))
+    for row in outputs:
+        row['trace']=row['selected_trace']
         dest=Path(row['trace']);trace_media.decode(dest)
         cmd=json.loads((dest/'decode_command.json').read_text())+['--ns']
         c.save(dest/'context_branch_decode_command.json',cmd)
@@ -292,14 +318,17 @@ def candidates():
         if selection.exists():
             trace_root=Path(json.loads(selection.read_text())['root'])
         else:
-            for attempt in range(8):
+            for attempt in range(12):
                 label=family if attempt==0 else f'{family}_retry{attempt}'
                 out=OUT/'capture'/label;trace_root=TRACE/label
                 if (out/'trace_rejection.json').exists():continue
                 spec=dict(out=str(out),family=family,pool=selected['pool'],trace_root=str(trace_root))
-                if attempt>=4:
+                if 4<=attempt<6:
                     spec.update(pt_event='intel_pt/mtc_period=6/u',pt_aux='64M',
                         reason='Repeated hardware overflow in default PT; reduce MTC packet density and enlarge AUX, retain branch tracing/TSC and identical zero-error gates')
+                if attempt>=6 or family=='social':
+                    spec.update(pt_event='intel_pt//u',pt_aux='64M',pt_repeats=3,
+                        reason='Keep original timestamp density; collect three chronological captures per phase and select the first zero-error one before training. No error masking.')
                 manifest=out.with_suffix('.json')
                 if not (out/'captured.json').exists():
                     c.save(manifest,spec)
@@ -315,7 +344,7 @@ def candidates():
                     continue
                 c.save(selection,dict(root=str(trace_root),out=str(out),attempt=attempt,quality='All six/four captures passed zero-decoder-error gate'))
                 break
-            else:raise RuntimeError(f'{family}: eight capture batches failed quality gates')
+            else:raise RuntimeError(f'{family}: twelve capture batches failed quality gates')
         for key,(_,exe,_) in targets.items():
             if key in records:continue
             trace=trace_root/key;root=OUT/'plans'/key
