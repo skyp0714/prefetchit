@@ -1,0 +1,595 @@
+{
+  "as_of": "2026-09-26",
+  "new_experiments": false,
+  "metrics": {
+    "primary": "Target user+kernel CPU cost reduction per completed request at fixed arrival rate",
+    "historical_movie": "User cycles/request: ratio of medians; 1.054x is about 5.1% cycle-cost reduction",
+    "static_rpc_return": "Historical reports retain CPU-efficiency speedup percentages, not cost-reduction percentages"
+  },
+  "extension": [
+    {
+      "campaign": "class_b_extension_20260926",
+      "application": "media",
+      "service": "compose",
+      "phase": "confirmation",
+      "tracing_pct": 100,
+      "shared_cores": 8,
+      "selection": {
+        "rate": 600,
+        "mpki": 43.35224913156341,
+        "alone_mpki": 2.4758399636423434,
+        "inflation": 17.510117684579882
+      },
+      "arm": {
+        "arm": "wake8",
+        "comparisons": {
+          "base": {
+            "pairs": 7,
+            "cpu_cost_reduction_pct": 1.3545063489735942,
+            "ci95_pct": [
+              1.0372019793369658,
+              1.6707933457690727
+            ]
+          },
+          "wake8_nop": {
+            "pairs": 7,
+            "cpu_cost_reduction_pct": 1.195141463464311,
+            "ci95_pct": [
+              0.9336706441950504,
+              1.4559221694551927
+            ]
+          }
+        }
+      },
+      "confirmed_under_original_promotion_rule": true
+    },
+    {
+      "campaign": "class_b_extension_20260926",
+      "application": "media",
+      "service": "rating",
+      "phase": "confirmation",
+      "tracing_pct": 100,
+      "shared_cores": 8,
+      "selection": {
+        "rate": 600,
+        "mpki": 55.8370932647311,
+        "alone_mpki": 0.6423617481952695,
+        "inflation": 86.9246860069217
+      },
+      "arm": {
+        "arm": "wake16",
+        "comparisons": {
+          "base": {
+            "pairs": 7,
+            "cpu_cost_reduction_pct": 0.7752921802619106,
+            "ci95_pct": [
+              -0.4316938610039234,
+              1.9677726879874458
+            ]
+          },
+          "wake16_nop": {
+            "pairs": 7,
+            "cpu_cost_reduction_pct": 1.7540848664390984,
+            "ci95_pct": [
+              0.8424848875409396,
+              2.6573040935547465
+            ]
+          }
+        }
+      },
+      "confirmed_under_original_promotion_rule": false
+    },
+    {
+      "campaign": "class_b_extension_20260926",
+      "application": "social",
+      "service": "composepost",
+      "phase": "confirmation",
+      "tracing_pct": 10,
+      "shared_cores": 8,
+      "selection": {
+        "rate": 600,
+        "mpki": 28.353244731033254,
+        "alone_mpki": 1.1951935935593425,
+        "inflation": 23.722721476941626
+      },
+      "arm": {
+        "arm": "wake16",
+        "comparisons": {
+          "base": {
+            "pairs": 7,
+            "cpu_cost_reduction_pct": 1.0695850696427978,
+            "ci95_pct": [
+              0.8140882967121899,
+              1.3244236986913016
+            ]
+          },
+          "wake16_nop": {
+            "pairs": 7,
+            "cpu_cost_reduction_pct": 1.2896953292547142,
+            "ci95_pct": [
+              0.8977905782742046,
+              1.6800502728723243
+            ]
+          }
+        }
+      },
+      "confirmed_under_original_promotion_rule": true
+    },
+    {
+      "campaign": "class_b_extension_20260926",
+      "application": "social",
+      "service": "usertimeline",
+      "phase": "confirmation",
+      "tracing_pct": 10,
+      "shared_cores": 8,
+      "selection": {
+        "rate": 600,
+        "mpki": 51.811316956191796,
+        "alone_mpki": 0.06641104945947061,
+        "inflation": 780.1610933405177
+      },
+      "arm": {
+        "arm": "wake16",
+        "comparisons": {
+          "base": {
+            "pairs": 7,
+            "cpu_cost_reduction_pct": 1.41360245430604,
+            "ci95_pct": [
+              1.0417967193133149,
+              1.7840112408903486
+            ]
+          },
+          "wake16_nop": {
+            "pairs": 7,
+            "cpu_cost_reduction_pct": 1.5357580967620965,
+            "ci95_pct": [
+              1.0035637562040511,
+              2.06509141699589
+            ]
+          }
+        }
+      },
+      "confirmed_under_original_promotion_rule": true
+    },
+    {
+      "campaign": "class_b_extension_20260926_sampling10",
+      "application": "media",
+      "service": "compose",
+      "phase": "screen",
+      "tracing_pct": 10,
+      "shared_cores": 8,
+      "selection": {
+        "rate": 300,
+        "mpki": 49.13501194139075,
+        "alone_mpki": 2.3540246488096743,
+        "inflation": 20.872768671405435
+      },
+      "arm": {
+        "arm": "wake8",
+        "comparisons": {
+          "base": {
+            "pairs": 3,
+            "cpu_cost_reduction_pct": 0.9733759669415587,
+            "ci95_pct": [
+              0.35456104208415606,
+              1.5883479471019202
+            ]
+          },
+          "wake8_nop": {
+            "pairs": 3,
+            "cpu_cost_reduction_pct": 1.1767259720005252,
+            "ci95_pct": [
+              0.5257761704566488,
+              1.8234160203357996
+            ]
+          }
+        }
+      },
+      "confirmed_under_original_promotion_rule": false
+    },
+    {
+      "campaign": "class_b_extension_20260926_sampling10",
+      "application": "media",
+      "service": "rating",
+      "phase": "confirmation",
+      "tracing_pct": 10,
+      "shared_cores": 8,
+      "selection": {
+        "rate": 300,
+        "mpki": 65.05212126684127,
+        "alone_mpki": 0.6018634904279119,
+        "inflation": 108.08451135753495
+      },
+      "arm": {
+        "arm": "wake16",
+        "comparisons": {
+          "base": {
+            "pairs": 7,
+            "cpu_cost_reduction_pct": 0.6734806720659514,
+            "ci95_pct": [
+              0.13851931494958114,
+              1.205576222951088
+            ]
+          },
+          "wake16_nop": {
+            "pairs": 7,
+            "cpu_cost_reduction_pct": 1.2881900377227251,
+            "ci95_pct": [
+              1.0412875161465163,
+              1.5344765361754442
+            ]
+          }
+        }
+      },
+      "confirmed_under_original_promotion_rule": false
+    }
+  ],
+  "headroom": {
+    "selection": {
+      "selected": {
+        "pool": 4,
+        "rate": 600,
+        "mpki": 57.378727429138806,
+        "path": "/storage/prefetchit/class_b_headroom_20260926/qualification/p4r600/result.json",
+        "pool_util_pct": 56.880646471718265
+      },
+      "candidates": [
+        {
+          "pool": 4,
+          "rate": 600,
+          "mpki": 57.378727429138806,
+          "path": "/storage/prefetchit/class_b_headroom_20260926/qualification/p4r600/result.json",
+          "pool_util_pct": 56.880646471718265
+        },
+        {
+          "pool": 6,
+          "rate": 1200,
+          "mpki": 56.85910351395302,
+          "path": "/storage/prefetchit/class_b_headroom_20260926/qualification/p6r1200/result.json",
+          "pool_util_pct": 77.00747696142307
+        },
+        {
+          "pool": 6,
+          "rate": 600,
+          "mpki": 54.64290849146346,
+          "path": "/storage/prefetchit/class_b_headroom_20260926/qualification/p6r600/result.json",
+          "pool_util_pct": 37.91481940486114
+        },
+        {
+          "pool": 8,
+          "rate": 1200,
+          "mpki": 55.89238846908207,
+          "path": "/storage/prefetchit/class_b_headroom_20260926/qualification/p8r1200/result.json",
+          "pool_util_pct": 57.98891207158556
+        },
+        {
+          "pool": 8,
+          "rate": 600,
+          "mpki": 52.4090852022478,
+          "path": "/storage/prefetchit/class_b_headroom_20260926/qualification/p8r600/result.json",
+          "pool_util_pct": 27.998675657052623
+        }
+      ],
+      "rule": "Highest measured baseline shared L2 code MPKI among predeclared valid operating points; chosen before PF results"
+    },
+    "confirmation": {
+      "old_wake16": {
+        "base": {
+          "target_cpu": {
+            "pairs": 7,
+            "cost_reduction_pct": 1.3967070988398333,
+            "ci95_pct": [
+              0.787578272724021,
+              2.002096091572436
+            ]
+          },
+          "pool_cpu": {
+            "pairs": 7,
+            "cost_reduction_pct": 0.16538490261714944,
+            "ci95_pct": [
+              -0.10645079930549084,
+              0.43648244382936685
+            ]
+          },
+          "stack_cpu": {
+            "pairs": 7,
+            "cost_reduction_pct": 0.07520522614478109,
+            "ci95_pct": [
+              -0.1489942703333913,
+              0.29890281629242343
+            ]
+          }
+        }
+      },
+      "candidate": {
+        "base": {
+          "target_cpu": {
+            "pairs": 7,
+            "cost_reduction_pct": 2.011311883459821,
+            "ci95_pct": [
+              1.60828946748659,
+              2.4126834787806195
+            ]
+          },
+          "pool_cpu": {
+            "pairs": 7,
+            "cost_reduction_pct": 0.09885540305696328,
+            "ci95_pct": [
+              -0.20531593569688145,
+              0.40210343547266714
+            ]
+          },
+          "stack_cpu": {
+            "pairs": 7,
+            "cost_reduction_pct": 0.12725423947045345,
+            "ci95_pct": [
+              -0.004395504296783592,
+              0.25873067430514096
+            ]
+          }
+        },
+        "old_wake16": {
+          "target_cpu": {
+            "pairs": 7,
+            "cost_reduction_pct": 0.6233106081315887,
+            "ci95_pct": [
+              -0.09029395414179575,
+              1.331827449596279
+            ]
+          },
+          "pool_cpu": {
+            "pairs": 7,
+            "cost_reduction_pct": -0.06663971158229476,
+            "ci95_pct": [
+              -0.3493131392406035,
+              0.21523745485405588
+            ]
+          },
+          "stack_cpu": {
+            "pairs": 7,
+            "cost_reduction_pct": 0.052088186364018796,
+            "ci95_pct": [
+              -0.21688232675254326,
+              0.32033681375387424
+            ]
+          }
+        },
+        "layout_nop": {
+          "target_cpu": {
+            "pairs": 3,
+            "cost_reduction_pct": 1.7358796525302034,
+            "ci95_pct": [
+              1.401863572362072,
+              2.068764202774409
+            ]
+          },
+          "pool_cpu": {
+            "pairs": 3,
+            "cost_reduction_pct": -0.0228326689741154,
+            "ci95_pct": [
+              -0.670356388505744,
+              0.6205261008901397
+            ]
+          },
+          "stack_cpu": {
+            "pairs": 3,
+            "cost_reduction_pct": 0.046077821287460186,
+            "ci95_pct": [
+              -0.23035528887906942,
+              0.32174853503051937
+            ]
+          }
+        }
+      },
+      "layout_nop": {
+        "base": {
+          "target_cpu": {
+            "pairs": 3,
+            "cost_reduction_pct": 0.39192242178023307,
+            "ci95_pct": [
+              -0.4212190757581391,
+              1.1984796625140848
+            ]
+          },
+          "pool_cpu": {
+            "pairs": 3,
+            "cost_reduction_pct": 0.10743559248782564,
+            "ci95_pct": [
+              -0.7790298737574863,
+              0.9861035930914364
+            ]
+          },
+          "stack_cpu": {
+            "pairs": 3,
+            "cost_reduction_pct": -0.01854429311825001,
+            "ci95_pct": [
+              -0.23988755926152017,
+              0.20231021707508567
+            ]
+          }
+        }
+      }
+    }
+  },
+  "movie_final": {
+    "base_cycles_k": 355.2,
+    "p11a_cycles_k": 337.1,
+    "reported_speedup": 1.054,
+    "approximate_cost_reduction_pct": 5.1,
+    "mpki_before": 86.6,
+    "mpki_after": 76.9,
+    "repetitions": 5,
+    "statistic": "Ratio of medians, no paired confidence interval supplied"
+  },
+  "kernel_screen": [
+    {
+      "block": 0,
+      "arm": "base",
+      "valid": true,
+      "target_cpu": 164.46626373626373,
+      "pool_cpu": 3793.2739861523246,
+      "stack_cpu": 3839.7404945054946,
+      "user_cycles": 204728.31496193312,
+      "code_misses": 5348.966319099636,
+      "mpki": 55.79211730288764,
+      "p99_ms": 10.782480239868164,
+      "kernel_switches": null,
+      "output": "/storage/prefetchit/class_b_headroom_20260926/screen/00_base"
+    },
+    {
+      "block": 0,
+      "arm": "module_empty",
+      "valid": true,
+      "target_cpu": 164.2228021978022,
+      "pool_cpu": 3804.132776434381,
+      "stack_cpu": 3837.4155494505494,
+      "user_cycles": 203851.31128404668,
+      "code_misses": 5273.793608742446,
+      "mpki": 54.86571608621113,
+      "p99_ms": 11.030912399291992,
+      "kernel_switches": null,
+      "output": "/storage/prefetchit/class_b_headroom_20260926/screen/00_module_empty"
+    },
+    {
+      "block": 0,
+      "arm": "kernel_nop64",
+      "valid": true,
+      "target_cpu": 165.73324175824175,
+      "pool_cpu": 3795.472029893395,
+      "stack_cpu": 3844.000824175824,
+      "user_cycles": 206422.78020523005,
+      "code_misses": 5797.3227408143,
+      "mpki": 60.42663093305733,
+      "p99_ms": 11.757373809814453,
+      "kernel_switches": 59203,
+      "output": "/storage/prefetchit/class_b_headroom_20260926/screen/00_kernel_nop64"
+    },
+    {
+      "block": 0,
+      "arm": "kernel16",
+      "valid": true,
+      "target_cpu": 163.9393989341245,
+      "pool_cpu": 3806.462248598747,
+      "stack_cpu": 3834.3417394648645,
+      "user_cycles": 203951.53104304636,
+      "code_misses": 5583.0186258278145,
+      "mpki": 58.186184812069854,
+      "p99_ms": 11.385917663574219,
+      "kernel_switches": 59014,
+      "output": "/storage/prefetchit/class_b_headroom_20260926/screen/00_kernel16"
+    },
+    {
+      "block": 0,
+      "arm": "kernel64",
+      "valid": true,
+      "target_cpu": 166.52917582417584,
+      "pool_cpu": 3798.219584569733,
+      "stack_cpu": 3844.2132417582416,
+      "user_cycles": 206669.02681897194,
+      "code_misses": 5654.034020362553,
+      "mpki": 59.28288918820121,
+      "p99_ms": 12.39919662475586,
+      "kernel_switches": 59215,
+      "output": "/storage/prefetchit/class_b_headroom_20260926/screen/00_kernel64"
+    },
+    {
+      "block": 0,
+      "arm": "kernel_wide64",
+      "valid": true,
+      "target_cpu": 164.2774572825669,
+      "pool_cpu": 3812.506868886691,
+      "stack_cpu": 3839.9993406955664,
+      "user_cycles": 202882.17423048205,
+      "code_misses": 5580.948892391935,
+      "mpki": 57.94740599176066,
+      "p99_ms": 11.561393737792969,
+      "kernel_switches": 58964,
+      "output": "/storage/prefetchit/class_b_headroom_20260926/screen/00_kernel_wide64"
+    }
+  ],
+  "kernel_cache_probe": {
+    "mean_of_medians": {
+      "kernel_nop": 299.6666666666667,
+      "kernel_t1": 80.0,
+      "user_t1_positive": 80.0
+    },
+    "unit": "Invariant TSC ticks, not PMU core cycles",
+    "functional_only": true,
+    "application_prefetch_to_first_use_distribution_measured": false,
+    "application_fill_timeliness_measured": false
+  },
+  "implementation": {
+    "kernel_source_patched": false,
+    "mechanism": "Synchronous kernel module sched_switch callback before context_switch",
+    "lead": "Nonzero intervening work exists; sufficiency under service load remains unmeasured",
+    "earlier_wakeup_or_enqueue_policy_tested": false
+  },
+  "sources": [
+    {
+      "path": "llvm_prefetchit/migration/evidence/class_b_extension_20260926/results.json",
+      "bytes": 45755,
+      "sha256": "27e7d47f55d78b063cc891b80bee100cfd7b9660eaa492829036a20f7f9b91ca"
+    },
+    {
+      "path": "llvm_prefetchit/migration/evidence/class_b_extension_20260926_sampling10/results.json",
+      "bytes": 14161,
+      "sha256": "12187361c47e5fcd2ece387ee8133ed6db486ccb8f973350f2be79e6f58ba36a"
+    },
+    {
+      "path": "llvm_prefetchit/migration/evidence/class_b_headroom_20260926/confirmation_summary.json",
+      "bytes": 3079,
+      "sha256": "cd2f3645037748120072ecbcc824af25642fe68859cc93b742b20df206906136"
+    },
+    {
+      "path": "llvm_prefetchit/migration/evidence/class_b_headroom_20260926/selection.json",
+      "bytes": 1471,
+      "sha256": "25abcc95d336721a55265556b42d8adc5e0c34e7ff04909279c12dcb4e6698d4"
+    },
+    {
+      "path": "llvm_prefetchit/migration/evidence/class_b_headroom_20260926/kernel_screen/rows.json",
+      "bytes": 2595,
+      "sha256": "cc55ba971c2efba76ec7b08c870d120c05dfbb3e42425a6cd3c1c32a51c00805"
+    },
+    {
+      "path": "llvm_prefetchit/migration/evidence/class_b_headroom_20260926/kernel_cache_probe.json",
+      "bytes": 85878,
+      "sha256": "b4402853802b4e0e773a4d3e4673254c379c613f3882c8effc1710e7b15579ed"
+    },
+    {
+      "path": "docs/prefetch_plan_classB_wakestream.md",
+      "bytes": 60876,
+      "sha256": "0037f4c413625da34bbf94282ad002a274759207d27369aecb6ccc88adacf0b6"
+    },
+    {
+      "path": "docs/class_b_coldmiss_summary_20260926.md",
+      "bytes": 4212,
+      "sha256": "eec813f0e587b1d45d76f69c11021133382a449d250ab0aa1fa784b474402f20"
+    },
+    {
+      "path": "docs/class_a2_campaign_20260923.md",
+      "bytes": 25413,
+      "sha256": "4e5df9128fe13acfc34fac892876afaf2c86f281a2520a9f0f0acc1da94ebbf6"
+    },
+    {
+      "path": "docs/class_a_kernel_20260923.md",
+      "bytes": 16986,
+      "sha256": "c11aa9ae253dc7063f85205ed16b839fb1906643fbd51a4bd8777c9bcfbee295"
+    },
+    {
+      "path": "docs/class_a3_dispatch_20260924.md",
+      "bytes": 19970,
+      "sha256": "5e8708fb7bec07540bcda0793cc625acd1f74e8e1dabe322e00418f19ae87433"
+    },
+    {
+      "path": "llvm_prefetchit/kernel/wake_prefetch/wake_prefetch.c",
+      "bytes": 7503,
+      "sha256": "9535056d778f2325a26bacc0957255609b12483263853b70d988f20aa406e320"
+    }
+  ],
+  "limitations": [
+    "No cross-service sum or maximum-throughput claim.",
+    "Individual CIs are not family-wise adjusted.",
+    "Temporal PT holdout and path precision do not establish cache-miss accuracy or prefetch timeliness.",
+    "Historical source documents are read from the retained workspace; their hashes identify the versions summarized."
+  ]
+}
