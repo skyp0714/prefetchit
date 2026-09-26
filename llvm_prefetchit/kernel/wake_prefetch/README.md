@@ -127,6 +127,16 @@ only if the kernel policy passes the initial screen. The NOP path
 retains target loads, matching logic, loop and counters; it is a control path
 in the same module, not a byte-identical whole-module binary.
 
+The follow-up emission study additionally creates `wake_prefetch_nop.ko` from
+the built module by replacing only the three 3-byte prefetch instructions in
+`emit` with equal-length NOPs. It verifies all six changed bytes and identical
+file size, then runs the expanded smoke test against that copy. Both performance
+arms use config mode 1, so hint selection, mode branches, spacing, counters and
+split probes follow the same path. Each module is unloaded before the next is
+loaded. The study records both hashes and the complete byte-difference list.
+The runtime NOP mode remains available for the original controller and functional
+checks; it is not the new study's primary timing control.
+
 **Account scheduler cost to the whole shared CPU pool.** The probe runs in the
 outgoing task's context, so target-cgroup CPU alone can hide prefetch overhead in
 another service or idle. Record pool non-idle CPU/request, whole-stack cgroup

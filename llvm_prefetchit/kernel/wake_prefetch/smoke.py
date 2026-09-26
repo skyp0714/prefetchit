@@ -39,6 +39,7 @@ int main(void) {
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--out', type=Path, required=True)
+    ap.add_argument('--module', type=Path, default=Path(__file__).resolve().parent/'wake_prefetch.ko')
     args = ap.parse_args()
     if os.geteuid() or args.out.exists():
         ap.error('root and fresh output directory required')
@@ -77,7 +78,7 @@ def main():
         assert proc.stdout.readline().strip() == 'ready'
         profiles, audit = control.resolve(plan, proc.pid)
         result['mapping_audit'] = audit
-        module = Path(__file__).resolve().parent / 'wake_prefetch.ko'
+        module = args.module.resolve()
         result['module_sha256'] = hashlib.sha256(module.read_bytes()).hexdigest()
         subprocess.run(['insmod', str(module)], check=True)
         loaded = True
