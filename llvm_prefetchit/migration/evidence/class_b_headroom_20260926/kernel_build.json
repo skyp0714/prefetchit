@@ -1,0 +1,30 @@
+{
+  "kernel": "6.8.0-142-generic",
+  "build_command": "make -C llvm_prefetchit/kernel/wake_prefetch -j4",
+  "compile_exit": 0,
+  "prefetcht1_instructions": 1,
+  "module_loaded": false,
+  "runtime_tested": false,
+  "files": {
+    "llvm_prefetchit/kernel/wake_prefetch/wake_prefetch.ko": {
+      "bytes": 391160,
+      "sha256": "e85fd7be2e282ea60f00a72fc1d0c290feab57f3825cd794be85b0e42f153d88"
+    },
+    "llvm_prefetchit/kernel/wake_prefetch/wake_prefetch.c": {
+      "bytes": 7503,
+      "sha256": "9535056d778f2325a26bacc0957255609b12483263853b70d988f20aa406e320"
+    },
+    "llvm_prefetchit/kernel/wake_prefetch/wake_prefetch.h": {
+      "bytes": 966,
+      "sha256": "2faccbfc89a6b39a801d5360b3ec764e3379a0d83fda3173761bc866e08fa09b"
+    },
+    "llvm_prefetchit/kernel/wake_prefetch/control.py": {
+      "bytes": 7448,
+      "sha256": "36c35ff14315905c39e86745a0b8d51e7b77c5db2694b7442a959d9166802a59"
+    },
+    "llvm_prefetchit/kernel/wake_prefetch/Makefile": {
+      "bytes": 178,
+      "sha256": "5edb7aa933e35bc8363b469902c9d578ce8903f1fa636db8661298af655ca0a8"
+    }
+  }
+}

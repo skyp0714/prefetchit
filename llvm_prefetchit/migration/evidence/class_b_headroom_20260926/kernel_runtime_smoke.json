@@ -1,0 +1,62 @@
+{
+  "tests": [
+    {
+      "test": "nop",
+      "before": {
+        "matched_switches": 11,
+        "attempted_lines_including_nop": 11
+      },
+      "after": {
+        "matched_switches": 242,
+        "attempted_lines_including_nop": 242
+      }
+    },
+    {
+      "test": "close_disables_plan",
+      "mode": 0,
+      "passed": true
+    },
+    {
+      "test": "t1",
+      "before": {
+        "matched_switches": 6,
+        "attempted_lines_including_nop": 6
+      },
+      "after": {
+        "matched_switches": 236,
+        "attempted_lines_including_nop": 236
+      }
+    },
+    {
+      "test": "close_disables_plan",
+      "mode": 1,
+      "passed": true
+    },
+    {
+      "test": "exec_mm_mismatch_disables_plan",
+      "passed": true
+    }
+  ],
+  "performance_measurement": false,
+  "module_loaded": true,
+  "mapping_audit": {
+    "mapped_binary_hashes": {
+      "/storage/prefetchit/class_b_headroom_20260926_kernel_smoke/helper": "d2677bdb499a99c8d2bf605d75029077dd15b466b6d222e2a8c2e3c254920091"
+    },
+    "maps": "56d79ff13000-56d79ff14000 r--p 00000000 103:05 48368013                  /storage/prefetchit/class_b_headroom_20260926_kernel_smoke/helper\n56d79ff14000-56d79ff15000 r-xp 00001000 103:05 48368013                  /storage/prefetchit/class_b_headroom_20260926_kernel_smoke/helper\n56d79ff15000-56d79ff16000 r--p 00002000 103:05 48368013                  /storage/prefetchit/class_b_headroom_20260926_kernel_smoke/helper\n56d79ff16000-56d79ff17000 r--p 00002000 103:05 48368013                  /storage/prefetchit/class_b_headroom_20260926_kernel_smoke/helper\n56d79ff17000-56d79ff18000 rw-p 00003000 103:05 48368013                  /storage/prefetchit/class_b_headroom_20260926_kernel_smoke/helper\n56d7d23a6000-56d7d23c7000 rw-p 00000000 00:00 0                          [heap]\n7ad11fc00000-7ad11fc28000 r--p 00000000 103:02 26755336                  /usr/lib/x86_64-linux-gnu/libc.so.6\n7ad11fc28000-7ad11fdb1000 r-xp 00028000 103:02 26755336                  /usr/lib/x86_64-linux-gnu/libc.so.6\n7ad11fdb1000-7ad11fe00000 r--p 001b1000 103:02 26755336                  /usr/lib/x86_64-linux-gnu/libc.so.6\n7ad11fe00000-7ad11fe04000 r--p 001ff000 103:02 26755336                  /usr/lib/x86_64-linux-gnu/libc.so.6\n7ad11fe04000-7ad11fe06000 rw-p 00203000 103:02 26755336                  /usr/lib/x86_64-linux-gnu/libc.so.6\n7ad11fe06000-7ad11fe13000 rw-p 00000000 00:00 0 \n7ad11feec000-7ad11feef000 rw-p 00000000 00:00 0 \n7ad11ff12000-7ad11ff14000 rw-p 00000000 00:00 0 \n7ad11ff14000-7ad11ff15000 r--p 00000000 103:02 26755333                  /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2\n7ad11ff15000-7ad11ff40000 r-xp 00001000 103:02 26755333                  /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2\n7ad11ff40000-7ad11ff4a000 r--p 0002c000 103:02 26755333                  /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2\n7ad11ff4a000-7ad11ff4c000 r--p 00036000 103:02 26755333                  /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2\n7ad11ff4c000-7ad11ff4e000 rw-p 00038000 103:02 26755333                  /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2\n7fffdb9d7000-7fffdb9f8000 rw-p 00000000 00:00 0                          [stack]\n7fffdb9f9000-7fffdb9fd000 r--p 00000000 00:00 0                          [vvar]\n7fffdb9fd000-7fffdb9ff000 r-xp 00000000 00:00 0                          [vdso]\nffffffffff600000-ffffffffff601000 --xp 00000000 00:00 0                  [vsyscall]\n"
+  },
+  "module_sha256": "e85fd7be2e282ea60f00a72fc1d0c290feab57f3825cd794be85b0e42f153d88",
+  "passed": true,
+  "module_unloaded": true,
+  "cleanup": {
+    "removed": [
+      {
+        "path": "/storage/prefetchit/class_b_headroom_20260926_kernel_smoke/helper",
+        "bytes": 16240,
+        "sha256": "d2677bdb499a99c8d2bf605d75029077dd15b466b6d222e2a8c2e3c254920091"
+      }
+    ],
+    "free_before": 917717331968,
+    "free_after": 917717348352
+  }
+}

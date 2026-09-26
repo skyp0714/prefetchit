@@ -1,0 +1,77 @@
+{
+  "reason": "Initial compile succeeded; superseded by serialized registration ioctl. No module loaded.",
+  "command": "make -C llvm_prefetchit/kernel/wake_prefetch -j4",
+  "source_record": "/home/hnpark2/prefetchit/llvm_prefetchit/migration/evidence/class_b_headroom_20260926/kernel_initial_source.c",
+  "removed": [
+    {
+      "path": "/home/hnpark2/prefetchit/llvm_prefetchit/kernel/wake_prefetch/Module.symvers",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/home/hnpark2/prefetchit/llvm_prefetchit/kernel/wake_prefetch/wake_prefetch.mod.o",
+      "bytes": 148280,
+      "sha256": "7ff2c159beb71fea4a4d2e2cd776c6a7a33cf934c0670a82872e9ffaeb4d0a20"
+    },
+    {
+      "path": "/home/hnpark2/prefetchit/llvm_prefetchit/kernel/wake_prefetch/.wake_prefetch.mod.cmd",
+      "bytes": 303,
+      "sha256": "a062882e63df9be0306ea719a93107286d1a812449c174697d4f73a0355ef1e1"
+    },
+    {
+      "path": "/home/hnpark2/prefetchit/llvm_prefetchit/kernel/wake_prefetch/modules.order",
+      "bytes": 78,
+      "sha256": "49178af81b2214d7167eef8a0a23c4c9b3685cef886bb234332548b21b2f1dee"
+    },
+    {
+      "path": "/home/hnpark2/prefetchit/llvm_prefetchit/kernel/wake_prefetch/wake_prefetch.mod",
+      "bytes": 78,
+      "sha256": "49178af81b2214d7167eef8a0a23c4c9b3685cef886bb234332548b21b2f1dee"
+    },
+    {
+      "path": "/home/hnpark2/prefetchit/llvm_prefetchit/kernel/wake_prefetch/.modules.order.cmd",
+      "bytes": 259,
+      "sha256": "69cc325879581c22ebab995f7b04d8a2ccb1adaa656b264006ce7873852154a1"
+    },
+    {
+      "path": "/home/hnpark2/prefetchit/llvm_prefetchit/kernel/wake_prefetch/wake_prefetch.o",
+      "bytes": 245576,
+      "sha256": "d9f92ecd25838c7a005ce1712c1361ab2ac94f9eb46e4f4f7e39108e0a353197"
+    },
+    {
+      "path": "/home/hnpark2/prefetchit/llvm_prefetchit/kernel/wake_prefetch/wake_prefetch.mod.c",
+      "bytes": 3575,
+      "sha256": "3bfd698e9b26f6e968759a4439ecd91cf3868e4c332c47bd4612fc632841c0c9"
+    },
+    {
+      "path": "/home/hnpark2/prefetchit/llvm_prefetchit/kernel/wake_prefetch/.wake_prefetch.ko.cmd",
+      "bytes": 430,
+      "sha256": "440c3441e471e1dceba36f35ce3fd3ca255a654dd7a4f307edfa3d859374c460"
+    },
+    {
+      "path": "/home/hnpark2/prefetchit/llvm_prefetchit/kernel/wake_prefetch/wake_prefetch.ko",
+      "bytes": 391416,
+      "sha256": "12c9259c201721c755bb27a9f59f5a32e23f8a8de734c6a7d0a13624a4032140"
+    },
+    {
+      "path": "/home/hnpark2/prefetchit/llvm_prefetchit/kernel/wake_prefetch/.wake_prefetch.mod.o.cmd",
+      "bytes": 46651,
+      "sha256": "b2281ccf03615a6c3f056c2a5f91cb97370ba4ad55a6077606a36fd9c5628d55"
+    },
+    {
+      "path": "/home/hnpark2/prefetchit/llvm_prefetchit/kernel/wake_prefetch/.wake_prefetch.o.cmd",
+      "bytes": 51772,
+      "sha256": "231c50451d067a1ce36cedb3af3b0cb538ecadff152fcf6e7366c823e067b3c4"
+    },
+    {
+      "path": "/home/hnpark2/prefetchit/llvm_prefetchit/kernel/wake_prefetch/.Module.symvers.cmd",
+      "bytes": 305,
+      "sha256": "4994654c12d70a30e3c5a7636c42b43d4132e657fc600b48af26ac546e94149f"
+    }
+  ],
+  "bytes_removed": 888723,
+  "free_before": 19438067712,
+  "free_after": 19438985216,
+  "source_record_reconstructed": true,
+  "source_record_note": "Initial implementation reconstructed by reversing the later registration-serialization change; equivalent source record, not an asserted original-file byte hash."
+}
