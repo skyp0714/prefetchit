@@ -1,7 +1,7 @@
 """Private source and generated build directories; no changes to benchmark sources."""
 from common import *
 import argparse,io,tarfile
-EXES={'compose':'ComposeReviewService','rating':'RatingService','composepost':'ComposePostService','usertimeline':'UserTimelineService'}
+EXES={'movie':'MovieIdService','compose':'ComposeReviewService','rating':'RatingService','composepost':'ComposePostService','usertimeline':'UserTimelineService'}
 def prepare(stack='media'):
  root=S/(stack+'_build');root.mkdir(parents=True,exist_ok=True)
  folder='mediaMicroservices' if stack=='media' else 'socialNetwork';source=root/folder
@@ -22,7 +22,7 @@ def prepare(stack='media'):
  helper.write_text((REPO/'flat_codegen/dsb_build/build_service.sh').read_text().replace('CC=clang-19 CXX="clang++-19 $EXTRA"','CC=clang-19 CXX=clang++-19').replace('make -j32','make -j16'))
  return root,source,helper
 def build(key,arm='base',plan=None):
- space();stack='media' if key in ['compose','rating'] else 'social';root,source,helper=prepare(stack);out=root/key/arm;out.mkdir(parents=True,exist_ok=False);exe=EXES[key]
+ space();stack='media' if key in ['movie','compose','rating'] else 'social';root,source,helper=prepare(stack);out=root/key/arm;out.mkdir(parents=True,exist_ok=False);exe=EXES[key]
  envs=['-e','MAKE_TARGET='+exe,'-e','BIN_GLOB='+exe,'-e','FATSTATIC=1'];extra=[]
  if plan:
   envs+=['-e','PREFETCHIT_COLD_PLAN='+str(plan),'-e','PREFETCHIT_COLD_DIRECT_IN_PIC=1'];extra=['-fpass-plugin=/pass/PrefetchITPass.so']

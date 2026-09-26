@@ -60,3 +60,45 @@ Kernel trials additionally need `kernel/wake_prefetch/wake_prefetch.ko` built
 for the running kernel. Module-off, loaded-empty and registered NOP controls
 distinguish hook overhead from useful cache fills. A target-cgroup saving alone
 is insufficient because the switch callback runs in the outgoing task.
+
+The five-service follow-up uses the readable canonical harness under
+`migration/schemes/class_b_extension_20260926` and adds MovieId to the two Media
+and two Social targets. Media retains 100% application tracing and Social 10%,
+matching each family's existing reference regime. These are not changes made
+between performance arms.
+
+- `fullset.py prepare` stages/hash-checks all references locally. `qualify`
+  compares baseline pools of 4/6/8 at 600 RPS, then selects by geometric-mean
+  code MPKI across each family's targets, before seeing candidate results.
+  Redirect qualification output to `OUT/qualification.log`. `campaign` builds
+  and tests the kernel extension and calls `candidates`; the latter captures
+  separate training/validation PT windows and retired-L2 samples, trains bounded
+  kernel profiles and builds the coverage policy plus exact-layout NOP twins.
+- `kernel_emission_study.py campaign` screens 13 emission patterns on MovieId
+  and UserTimeline with paired NOPs, module-off and loaded-empty controls. Each
+  screen uses one fresh baseline stack with serial steady-load phases: 8 s to
+  settle, 20 s clean CPU ROI, then 10 s separate PMU. Pre/post cache diagnostics
+  are separate. The frozen finalist gets seven fresh baseline stacks, each
+  rotating off/NOP/candidate with 10 s settling and 30 s clean CPU ROI. Only
+  this confirmation supplies confidence intervals for the selected kernel arm.
+- `fullset_study.py streams` tests each new service separately, then confirms
+  simultaneous Media3 and Social2 deployments over seven fresh seed blocks.
+  Every block includes baseline, retained artifact reference, all-new policy
+  and all-new layout NOPs. Separate one-block PMU comparisons follow. The old
+  MovieId reference uses its original build; it is an artifact comparison, not
+  a pure one-setting ablation. Rating's rejected old binary was removed, so
+  baseline is its retained reference. Primary metrics cover every target, the
+  whole stack and the shared pool; a bundle's effects are not assumed additive.
+- `fullset_finish.py --preparation-pid PID` serializes the two completed stages
+  after preparation exits. `fullset_cleanup.py` preserves hashes/settings and
+  unlinks explicit unused trace copies or rejected generated binaries without
+  following symlinks. Confirmed reference binaries and original inputs remain.
+
+Default follow-up roots are `/storage/prefetchit/class_b_fullset_20260926` and
+`/trace/prefetchit/class_b_fullset_20260926`; override `CLASS_B_FULLSET_OUT` and
+`CLASS_B_FULLSET_TRACE` for another campaign. The existing build root must also
+be isolated with `CLASS_B_STORAGE_ROOT` when rebuilding arms with the same name.
+Do not rerun into an existing experiment directory. Python runtime uses the
+system SciPy/PyYAML; the existing `profiling/.venv/bin/python` supplies pytest
+for the kernel ABI tests. A 10% gain is a target, not a qualification gate or
+an assumed result.
