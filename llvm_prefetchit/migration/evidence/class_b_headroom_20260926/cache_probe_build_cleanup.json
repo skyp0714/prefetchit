@@ -1,0 +1,108 @@
+{
+  "free_before_build": 19377975296,
+  "source_sha256": {
+    "/home/hnpark2/prefetchit/llvm_prefetchit/kernel/wake_prefetch/wake_prefetch.c": "9535056d778f2325a26bacc0957255609b12483263853b70d988f20aa406e320",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/kernel/wake_prefetch/wake_prefetch.h": "2faccbfc89a6b39a801d5360b3ec764e3379a0d83fda3173761bc866e08fa09b",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/kernel/wake_prefetch/Makefile": "5edb7aa933e35bc8363b469902c9d578ce8903f1fa636db8661298af655ca0a8",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/kernel/wake_prefetch/control.py": "36c35ff14315905c39e86745a0b8d51e7b77c5db2694b7442a959d9166802a59",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/kernel/wake_prefetch/cache_probe.py": "7182afab38d60101b4388fd8251decb0192fc78383fba46a858537f8273fffe4"
+  },
+  "commands": [
+    [
+      "make",
+      "-C",
+      "/home/hnpark2/prefetchit/llvm_prefetchit/kernel/wake_prefetch",
+      "-j4"
+    ],
+    [
+      "python3",
+      "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_b_extension_20260926/run_platform.py",
+      "--out",
+      "/storage/prefetchit/class_b_headroom_20260926/platform_cache_probe",
+      "--cpus",
+      "42",
+      "python3",
+      "/home/hnpark2/prefetchit/llvm_prefetchit/kernel/wake_prefetch/cache_probe.py",
+      "--out",
+      "/storage/prefetchit/class_b_headroom_20260926/kernel_cache_probe",
+      "--cpu",
+      "42"
+    ]
+  ],
+  "module_sha256": "e85fd7be2e282ea60f00a72fc1d0c290feab57f3825cd794be85b0e42f153d88",
+  "modinfo": "filename:       /home/hnpark2/prefetchit/llvm_prefetchit/kernel/wake_prefetch/wake_prefetch.ko\ndescription:    Experimental opt-in bounded switch-in code prefetch\nlicense:        GPL\nsrcversion:     574D2EF7E05E22E54F60EB6\ndepends:        \nretpoline:      Y\nname:           wake_prefetch\nvermagic:       6.8.0-142-generic SMP preempt mod_unload modversions \n",
+  "passed": true,
+  "module_unloaded": true,
+  "cleanup": {
+    "reason": "Functional diagnostic complete; application kernel policies were rejected",
+    "free_before": 19377049600,
+    "removed": [
+      {
+        "path": "/home/hnpark2/prefetchit/llvm_prefetchit/kernel/wake_prefetch/Module.symvers",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "/home/hnpark2/prefetchit/llvm_prefetchit/kernel/wake_prefetch/wake_prefetch.mod.o",
+        "bytes": 148280,
+        "sha256": "c94a3ce420c6b93d7d615bf02eff4f862fbadb42b1c8dcf5f6c0ee053a3094b8"
+      },
+      {
+        "path": "/home/hnpark2/prefetchit/llvm_prefetchit/kernel/wake_prefetch/.wake_prefetch.mod.cmd",
+        "bytes": 303,
+        "sha256": "a062882e63df9be0306ea719a93107286d1a812449c174697d4f73a0355ef1e1"
+      },
+      {
+        "path": "/home/hnpark2/prefetchit/llvm_prefetchit/kernel/wake_prefetch/modules.order",
+        "bytes": 78,
+        "sha256": "49178af81b2214d7167eef8a0a23c4c9b3685cef886bb234332548b21b2f1dee"
+      },
+      {
+        "path": "/home/hnpark2/prefetchit/llvm_prefetchit/kernel/wake_prefetch/wake_prefetch.mod",
+        "bytes": 78,
+        "sha256": "49178af81b2214d7167eef8a0a23c4c9b3685cef886bb234332548b21b2f1dee"
+      },
+      {
+        "path": "/home/hnpark2/prefetchit/llvm_prefetchit/kernel/wake_prefetch/.modules.order.cmd",
+        "bytes": 259,
+        "sha256": "69cc325879581c22ebab995f7b04d8a2ccb1adaa656b264006ce7873852154a1"
+      },
+      {
+        "path": "/home/hnpark2/prefetchit/llvm_prefetchit/kernel/wake_prefetch/wake_prefetch.o",
+        "bytes": 245288,
+        "sha256": "117578512003f8361ae839bd789fe91f68b52d7ef49273cd3db635699e2b16e8"
+      },
+      {
+        "path": "/home/hnpark2/prefetchit/llvm_prefetchit/kernel/wake_prefetch/wake_prefetch.mod.c",
+        "bytes": 3575,
+        "sha256": "0885d60da03322f100b077268e82b54e5a4ee8e096975ab34809a2e57029a626"
+      },
+      {
+        "path": "/home/hnpark2/prefetchit/llvm_prefetchit/kernel/wake_prefetch/.wake_prefetch.ko.cmd",
+        "bytes": 430,
+        "sha256": "440c3441e471e1dceba36f35ce3fd3ca255a654dd7a4f307edfa3d859374c460"
+      },
+      {
+        "path": "/home/hnpark2/prefetchit/llvm_prefetchit/kernel/wake_prefetch/wake_prefetch.ko",
+        "bytes": 391160,
+        "sha256": "e85fd7be2e282ea60f00a72fc1d0c290feab57f3825cd794be85b0e42f153d88"
+      },
+      {
+        "path": "/home/hnpark2/prefetchit/llvm_prefetchit/kernel/wake_prefetch/.wake_prefetch.mod.o.cmd",
+        "bytes": 46651,
+        "sha256": "b2281ccf03615a6c3f056c2a5f91cb97370ba4ad55a6077606a36fd9c5628d55"
+      },
+      {
+        "path": "/home/hnpark2/prefetchit/llvm_prefetchit/kernel/wake_prefetch/.wake_prefetch.o.cmd",
+        "bytes": 51772,
+        "sha256": "231c50451d067a1ce36cedb3af3b0cb538ecadff152fcf6e7366c823e067b3c4"
+      },
+      {
+        "path": "/home/hnpark2/prefetchit/llvm_prefetchit/kernel/wake_prefetch/.Module.symvers.cmd",
+        "bytes": 305,
+        "sha256": "4994654c12d70a30e3c5a7636c42b43d4132e657fc600b48af26ac546e94149f"
+      }
+    ],
+    "free_after": 19377971200
+  }
+}

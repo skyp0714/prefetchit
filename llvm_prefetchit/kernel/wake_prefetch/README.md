@@ -1,11 +1,13 @@
 # Bounded switch-in prefetch experiment
 
-This is an **compile- and lifecycle-tested research prototype**, not a demonstrated
-performance improvement. It was built against Ubuntu 6.8.0-142-generic x86-64.
+This is a **compile- and lifecycle-tested research prototype**. Three initial
+real-service T1 policies failed to improve shared-pool CPU cost and were rejected;
+see the [campaign report](../../../docs/class_b_headroom_20260926.md).
+It was built against Ubuntu 6.8.0-142-generic x86-64.
 The root-only smoke helper passed NOP/T1 callback, exclusive/repeated registration,
 FD-close disable and exec-mm disable checks; the module was unloaded afterwards.
-Scheduler overhead, cache fill and service performance still require separate
-measurements. Run `sudo python3 smoke.py --out NEW_DIRECTORY` to reproduce the
+Callback counts alone do not establish cache fill or performance benefit.
+Run `sudo python3 smoke.py --out NEW_DIRECTORY` to reproduce the
 smoke checks; this loads/unloads the module and deletes its generated helper.
 
 The module registers a `sched_switch` probe, matches one explicitly registered
@@ -85,11 +87,12 @@ sudo rmmod wake_prefetch
 These commands illustrate control, not an A/B protocol: timing must use fresh
 processes, balanced order, fixed workload/platform, independent traces and
 separate timing. Registration should finish before the measured window.
-Controller output must show nonzero matched switches. `issued_lines` counts
+Controller output must show nonzero matched switches. `attempted_lines_including_nop` counts
 attempts (also in NOP mode), never successful prefetch fills.
 
-Required arms: module unloaded; loaded without a plan; matching NOP plan; T1
-plan; best user-space stream; stream+matching NOP; stream+T1. The NOP path
+Initial arms: module unloaded; loaded without a plan; matching NOP plan; T1
+plan; best user-space stream. A combined stream+NOP/stream+T1 study is a follow-up
+only if the kernel policy passes the initial screen. The NOP path
 retains target loads, matching logic, loop and counters; it is a control path
 in the same module, not a byte-identical whole-module binary.
 
@@ -100,6 +103,17 @@ CPU/request, target user+kernel CPU/request, latency/errors and PMU separately.
 Per-service cost savings without pool/stack net savings are insufficient to
 promote the kernel arm. This prototype cannot train the BTB/BPU or populate the
 user ITLB by prefetching a kernel alias.
+
+`cache_probe.py` is a separate synthetic functional check. After all application
+timing has ended, it flushes one unused executable line, sleeps, and times a
+**data load** from that line. It rotates kernel NOP, kernel T1 and a user T1
+positive control over three blocks of 500 samples. Run it as root through the
+fixed-platform wrapper with `--out NEW_DIRECTORY --cpu 42`, after rebuilding the
+module. It retains the helper source, every cycle sample, mapping/hash audit and
+counters, then unloads the module and removes the helper executable. Remove
+unused module build artifacts separately after recording their hashes. This
+diagnostic can demonstrate cache warmth; it cannot establish application speedup
+or restoration of L1I, ITLB or branch-predictor state.
 
 Sources: [Linux 6.8 scheduler](https://github.com/torvalds/linux/blob/v6.8/kernel/sched/core.c),
 [Linux 6.8 page pinning API](https://docs.kernel.org/6.8/core-api/pin_user_pages.html).
