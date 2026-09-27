@@ -1,0 +1,63 @@
+{
+  "capture/media_retry3/trace_rejection.json": {
+    "error": "AssertionError('instruction trace error type 1 time 106046.249351272 cpu 34 pid 1312309 tid 1316577 ip 0x7ff7d11d8550 code 7: Overflow packet\\n instruction trace error type 1 time 106046.261951592 cpu 35 pid 1312309 tid 1316577 ip 0x65298fa0e1c5 code 7: Overflow packet')",
+    "attempt": 3,
+    "reason": "Decode/quality gate failed before training or candidate performance; reject the entire family capture batch"
+  },
+  "capture/media_retry2/trace_rejection.json": {
+    "error": "AssertionError('instruction trace error type 1 time 105714.210764392 cpu 34 pid 583720 tid 588039 ip 0x73a48d6c1550 code 7: Overflow packet\\n instruction trace error type 1 time 105714.231439592 cpu 34 pid 583720 tid 588039 ip 0x62f7da9a91e6 code 7: Overflow packet\\n instruction trace error type 1 time 105714.232596392 cpu 37 pid 583720 tid 588039 ip 0x73a48d6c1550 code 7: Overflow packet\\n instruction trace error type 1 time 105714.333577512 cpu 36 pid 583720 tid 588039 ip 0x62f7da9a91e6 code 7: Overflow packet\\n ')",
+    "attempt": 2,
+    "reason": "Decode/quality gate failed before training or candidate performance; reject the entire family capture batch"
+  },
+  "capture/media_retry8/trace_rejection.json": {
+    "error": "AssertionError({'missing': [('rating', 'validation')]})",
+    "attempt": 8,
+    "reason": "Decode/quality gate failed before training or candidate performance; reject the entire family capture batch"
+  },
+  "capture/media_retry6/trace_rejection.json": {
+    "error": "AssertionError({'missing': [('rating', 'training'), ('rating', 'validation')]})",
+    "attempt": 6,
+    "reason": "Decode/quality gate failed before training or candidate performance; reject the entire family capture batch"
+  },
+  "capture/media_retry1/trace_rejection.json": {
+    "error": "AssertionError('instruction trace error type 1 time 105486.550603432 cpu 35 pid 4047785 tid 4048309 ip 0x7ffe63ddae40 code 7: Overflow packet')",
+    "attempt": 1,
+    "reason": "Decode/quality gate failed before training or candidate performance; reject the entire family capture batch"
+  },
+  "capture/media_retry4/trace_rejection.json": {
+    "error": "AssertionError('instruction trace error type 1 time 106372.425022245 cpu 38 pid 0 tid 0 ip 0x72eb50e4d2f7 code 5: Failed to get instruction\\n instruction trace error type 1 time 106372.425022245 cpu 38 pid 0 tid 0 ip 0x60383cd8c227 code 5: Failed to get instruction\\n instruction trace error type 1 time 106372.594567679 cpu 32 pid 0 tid 0 ip 0x72eb50e4d2f7 code 5: Failed to get instruction\\n instruction trace error type 1 time 106372.594567679 cpu 32 pid 0 tid 0 ip 0x60383cd8c227 code 5: Failed to get instruction')",
+    "attempt": 4,
+    "reason": "Decode/quality gate failed before training or candidate performance; reject the entire family capture batch"
+  },
+  "capture/media_retry7/trace_rejection.json": {
+    "error": "CalledProcessError(255, ['perf', 'script', '-i', '/trace/prefetchit/class_b_fullset_20260926/media_retry7/movie/training_1/pt.data', '--symfs=/trace/prefetchit/class_b_fullset_20260926/media_retry7/movie/training_1/symfs', '--pid=32713', '--itrace=e'])",
+    "attempt": 7,
+    "reason": "Decode/quality gate failed before training or candidate performance; reject the entire family capture batch"
+  },
+  "capture/media/trace_rejection.json": {
+    "error": "AssertionError('instruction trace error type 1 time 105123.347830952 cpu 36 pid 3319159 tid 3319647 ip 0x7ffe163eae40 code 7: Overflow packet')",
+    "attempt": 0,
+    "reason": "Decode/quality gate failed before training or candidate performance; reject the entire family capture batch"
+  },
+  "capture/media_retry5/trace_rejection.json": {
+    "error": "AssertionError({'missing': [('compose', 'training'), ('compose', 'validation'), ('movie', 'training'), ('movie', 'validation'), ('rating', 'training'), ('rating', 'validation')]})",
+    "attempt": 5,
+    "reason": "Decode/quality gate failed before training or candidate performance; reject the entire family capture batch"
+  },
+  "kernel_emission/movie/screen/attempt_exclusion.json": {
+    "reason": "Fixed-duration load underestimated accumulated module/health-check overhead; final PMU had no completions. Entire block excluded before candidate selection; repeat same seed/order with larger duration margin.",
+    "measured_phases": 28,
+    "selected_candidate": false,
+    "summary": "/storage/prefetchit/class_b_fullset_20260926/kernel_emission/movie/screen/failed_block_summary.json"
+  },
+  "trace_admission_amendment.json": {
+    "before_candidate_performance": true,
+    "reason": "Rating overflow repeats in a single asynchronous Redis I/O thread, localized to tacopie::io_service::process_events and libc __fdelt_chk. Repeated whole-capture retries do not repair that thread.",
+    "policy": "Prefer first whole-capture zero-error sample. Rating-only fallback requires all errors to be overflow code 7 with the recorded service PID, one nonzero TID, and PCs resolved to the two diagnosed symbols. Exclude every branch, switch, syscall and PEBS sample of that TID, including records before/after each error. Other errors reject the capture.",
+    "limits": "Rating trace coverage/precision apply only to admitted threads. Benchmark workload, all service threads, and target/stack/pool CPU accounting remain unchanged.",
+    "source_sha256": {
+      "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/fullset.py": "f503ece4390a328dd3b3e412a0c708eee9039e6de41b9520b41a91fac044e473",
+      "/home/hnpark2/prefetchit/llvm_prefetchit/migration/schemes/class_b_extension_20260926/trace_media.py": "103bc4da3ddddf4a6e7914774547ab73a366dde5d9e601676f76f634300d6e52"
+    }
+  }
+}

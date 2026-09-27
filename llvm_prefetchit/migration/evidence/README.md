@@ -45,6 +45,7 @@ this publication smaller.
 | L3/sTLB/PT and HP/CloudSuite expansion | [status](class_a_expansion_20260925/STATUS.md), [FleetBench filters](class_a_expansion_20260925/fleet_filter_summary.json) | Individual settings and exclusions are retained; not all planned experiments completed |
 | AsmDB-style PT placement | [comparison](asmdb_trace_20260926/comparison.json) | Full-trace variants underperform baseline and the static schema reference |
 | Class B extension | [consolidated](class_b_extension_20260926/consolidated.json), [main](class_b_extension_20260926/results.json), [Media 10%](class_b_extension_20260926_sampling10/results.json) | Fixed-rate user+kernel CPU/request; two applications, four services; no maximum-throughput claim |
+| Class B five-service follow-up | [results](class_b_fullset_20260926/results.json), [CPU decomposition](class_b_fullset_20260926/user_cpu_breakdown.json), [diagnostics](class_b_fullset_20260926/diagnostics.json) | MovieId included; seven-block CPU comparisons, 13 kernel emission screens per service and independent kernel confirmation; detailed archive stays local |
 
 [Source map](../schemes/README.md) links the implementations. Dated source snapshots
 have independent `sources.json` hashes. This publication preserves experiment

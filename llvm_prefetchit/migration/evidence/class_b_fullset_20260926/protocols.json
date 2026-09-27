@@ -1,0 +1,91 @@
+{
+  "media": {
+    "out": "/storage/prefetchit/class_b_fullset_20260926/confirmation/media",
+    "family": "media",
+    "pool": 8,
+    "blocks": 7,
+    "seedbase": 15001,
+    "arms": {
+      "base": {},
+      "reference": {
+        "overrides": {
+          "movie": "/home/hnpark2/prefetchit/flat_codegen/dsb_build/out_mid_p11a/MovieIdService",
+          "compose": "/storage/prefetchit/class_b_extension_20260926/media_build/compose/wake8/ComposeReviewService",
+          "rating": "/storage/prefetchit/class_b_extension_20260926/media_build/rating/base/RatingService"
+        },
+        "controls": [
+          "base"
+        ]
+      },
+      "new_nop": {
+        "overrides": {
+          "movie": "/storage/prefetchit/class_b_extension_20260926/media_build/movie/fullset_coverage/MovieIdService.nop",
+          "compose": "/storage/prefetchit/class_b_extension_20260926/media_build/compose/fullset_coverage/ComposeReviewService.nop",
+          "rating": "/storage/prefetchit/class_b_extension_20260926/media_build/rating/fullset_coverage/RatingService.nop"
+        },
+        "controls": [
+          "base"
+        ]
+      },
+      "new": {
+        "overrides": {
+          "movie": "/storage/prefetchit/class_b_extension_20260926/media_build/movie/fullset_coverage/MovieIdService",
+          "compose": "/storage/prefetchit/class_b_extension_20260926/media_build/compose/fullset_coverage/ComposeReviewService",
+          "rating": "/storage/prefetchit/class_b_extension_20260926/media_build/rating/fullset_coverage/RatingService"
+        },
+        "controls": [
+          "base",
+          "reference",
+          "new_nop"
+        ]
+      }
+    },
+    "pmu": [],
+    "deployment": "All three Media or both Social target services changed simultaneously; attribution is to the deployed bundle.",
+    "analysis": "Paired log cost ratios, individual two-sided 95% t intervals; screen and confirmation separate. No multiplicity correction.",
+    "invalid": "Preserve every attempt; retry an invalid arm at most twice at the same seed. No retry based on performance."
+  },
+  "social": {
+    "out": "/storage/prefetchit/class_b_fullset_20260926/confirmation/social",
+    "family": "social",
+    "pool": 4,
+    "blocks": 7,
+    "seedbase": 15001,
+    "arms": {
+      "base": {},
+      "reference": {
+        "overrides": {
+          "composepost": "/storage/prefetchit/class_b_extension_20260926/social_build/composepost/wake16/ComposePostService",
+          "usertimeline": "/storage/prefetchit/class_b_extension_20260926/social_build/usertimeline/wake16/UserTimelineService"
+        },
+        "controls": [
+          "base"
+        ]
+      },
+      "new_nop": {
+        "overrides": {
+          "composepost": "/storage/prefetchit/class_b_extension_20260926/social_build/composepost/fullset_coverage/ComposePostService.nop",
+          "usertimeline": "/storage/prefetchit/class_b_extension_20260926/social_build/usertimeline/fullset_coverage/UserTimelineService.nop"
+        },
+        "controls": [
+          "base"
+        ]
+      },
+      "new": {
+        "overrides": {
+          "composepost": "/storage/prefetchit/class_b_extension_20260926/social_build/composepost/fullset_coverage/ComposePostService",
+          "usertimeline": "/storage/prefetchit/class_b_extension_20260926/social_build/usertimeline/fullset_coverage/UserTimelineService"
+        },
+        "controls": [
+          "base",
+          "reference",
+          "new_nop"
+        ]
+      }
+    },
+    "pmu": [],
+    "deployment": "All three Media or both Social target services changed simultaneously; attribution is to the deployed bundle.",
+    "analysis": "Paired log cost ratios, individual two-sided 95% t intervals; screen and confirmation separate. No multiplicity correction.",
+    "invalid": "Preserve every attempt; retry an invalid arm at most twice at the same seed. No retry based on performance."
+  }
+}

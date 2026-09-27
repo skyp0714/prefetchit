@@ -1,0 +1,82 @@
+{
+  "candidates": {
+    "movie": {
+      "family": "media",
+      "binary": "/storage/prefetchit/class_b_extension_20260926/media_build/movie/fullset_coverage/MovieIdService",
+      "nop": "/storage/prefetchit/class_b_extension_20260926/media_build/movie/fullset_coverage/MovieIdService.nop",
+      "sha256": "9ddf8e6f303e78eceeb439b41b6de5f5f17e9317dfb4729865094b152f51ae3a",
+      "nop_sha256": "3e9bccae597e9167d112f1e3e97664cf16b2e1c295f3142a870074993236927f",
+      "plan": "/storage/prefetchit/class_b_fullset_20260926/plans/movie/coverage.plan.json"
+    },
+    "compose": {
+      "family": "media",
+      "binary": "/storage/prefetchit/class_b_extension_20260926/media_build/compose/fullset_coverage/ComposeReviewService",
+      "nop": "/storage/prefetchit/class_b_extension_20260926/media_build/compose/fullset_coverage/ComposeReviewService.nop",
+      "sha256": "2a1f1d88aaae3a5831fd924e5b4bcdb8d8339b939f6b6af0aeaf9c950c709dbb",
+      "nop_sha256": "e36912150fb48e61b313432cd56d5dff40a2dd0301126576a32c7334c4347eaa",
+      "plan": "/storage/prefetchit/class_b_fullset_20260926/plans/compose/coverage.plan.json"
+    },
+    "rating": {
+      "family": "media",
+      "binary": "/storage/prefetchit/class_b_extension_20260926/media_build/rating/fullset_coverage/RatingService",
+      "nop": "/storage/prefetchit/class_b_extension_20260926/media_build/rating/fullset_coverage/RatingService.nop",
+      "sha256": "43f350bcb0f9558897f0b7a677f999085242801e63a2b4318861e82db62f911a",
+      "nop_sha256": "e01b8efc4a8b022b8f6176af726156572d9c474af98603253d10269116ee74d1",
+      "plan": "/storage/prefetchit/class_b_fullset_20260926/plans/rating/coverage.plan.json"
+    },
+    "composepost": {
+      "family": "social",
+      "binary": "/storage/prefetchit/class_b_extension_20260926/social_build/composepost/fullset_coverage/ComposePostService",
+      "nop": "/storage/prefetchit/class_b_extension_20260926/social_build/composepost/fullset_coverage/ComposePostService.nop",
+      "sha256": "9295967eef066b79e2a02b1a2cc3dac0474a80567cb59e9000f0f32b2b054043",
+      "nop_sha256": "cb8e1bc091d332c38d36ca40b172c885373d837e9e0d2091934445a4066280d3",
+      "plan": "/storage/prefetchit/class_b_fullset_20260926/plans/composepost/coverage.plan.json"
+    },
+    "usertimeline": {
+      "family": "social",
+      "binary": "/storage/prefetchit/class_b_extension_20260926/social_build/usertimeline/fullset_coverage/UserTimelineService",
+      "nop": "/storage/prefetchit/class_b_extension_20260926/social_build/usertimeline/fullset_coverage/UserTimelineService.nop",
+      "sha256": "7fb7914c4240fbc615b431fdb99d75a36fde810a6ff93e6b2fdebd4ff0d0b241",
+      "nop_sha256": "8291522d49ccc47dbbbb69ece582bb92e3c4449c016881e001ac08dfed29056c",
+      "plan": "/storage/prefetchit/class_b_fullset_20260926/plans/usertimeline/coverage.plan.json"
+    }
+  },
+  "module_nop_audit": {
+    "original_sha256": "f369551c495894b7ffc745fc9e9df7ea93f695417e3fa8911fa07c20872f3477",
+    "nop_sha256": "d458e12745e16d6e94e5546f8e54b87d482e318c033438b042a07c5641833abf",
+    "equal_size": true,
+    "differences": [
+      {
+        "offset": 458,
+        "before": 24,
+        "after": 31
+      },
+      {
+        "offset": 459,
+        "before": 18,
+        "after": 0
+      },
+      {
+        "offset": 463,
+        "before": 24,
+        "after": 31
+      },
+      {
+        "offset": 464,
+        "before": 10,
+        "after": 0
+      },
+      {
+        "offset": 493,
+        "before": 24,
+        "after": 31
+      },
+      {
+        "offset": 494,
+        "before": 2,
+        "after": 0
+      }
+    ],
+    "scope": "Three 3-byte prefetch instructions in emit changed to equal-length NOPs; all other bytes identical"
+  }
+}

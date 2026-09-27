@@ -13,6 +13,7 @@ prerequisites; they are not packaged benchmark distributions.
 | JVM C2 G/F/GF | [JDK patches and test programs](jvm_fg_20260925/README.md) | [latest incomplete confirmation](../../../docs/class_a_jvm_status_20260926.md) |
 | Trace-guided AsmDB-style placement | [instruction-window planner and rewriter](asmdb_trace_20260926/README.md) | [negative result and takeaway](../../../docs/class_a_asmdb_trace_20260926.md) |
 | B shared-core cold misses | [per-service PT/wake-stream drivers](class_b_extension_20260926/README.md) | [Media/SocialNetwork extension](../../../docs/class_b_coldmiss_summary_20260926.md) |
+| B five-service coverage and selected-next-task spacing/split | [full-set drivers](../../scripts/class_b/README.md), [kernel emission module](../../kernel/wake_prefetch/README.md) | [five-service confirmation and cold/timeliness diagnostics](../../../docs/class_b_fullset_20260926.md) |
 
 Exact-layout controls are implemented in [make_nop_control_binary.py](../../tools/make_nop_control_binary.py)
 and [make_tagged_prefetch_control.py](../../tools/make_tagged_prefetch_control.py).

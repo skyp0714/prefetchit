@@ -1,0 +1,482 @@
+{
+  "movie": {
+    "captures": [
+      {
+        "trace": "/trace/prefetchit/class_b_fullset_20260926/media_retry9/movie/training_0",
+        "syscalls": "/trace/prefetchit/class_b_fullset_20260926/media_retry9/movie/training_0.syscall.data",
+        "excluded_tids": [],
+        "original_trace": "/trace/prefetchit/class_b_fullset_20260926/media_retry9/movie/training_0",
+        "selected_trace": "/trace/prefetchit/class_b_fullset_20260926/media_retry9/movie/training"
+      },
+      {
+        "trace": "/trace/prefetchit/class_b_fullset_20260926/media_retry9/movie/validation_0",
+        "syscalls": "/trace/prefetchit/class_b_fullset_20260926/media_retry9/movie/validation_0.syscall.data",
+        "excluded_tids": [],
+        "original_trace": "/trace/prefetchit/class_b_fullset_20260926/media_retry9/movie/validation_0",
+        "selected_trace": "/trace/prefetchit/class_b_fullset_20260926/media_retry9/movie/validation"
+      }
+    ],
+    "policies": {
+      "strict": {
+        "8": {
+          "runs": 1037,
+          "matched_runs": 976,
+          "issued": 7808,
+          "touched": 7644,
+          "touch_precision": 0.9789959016393442,
+          "all_first_touch_coverage_pct": 2.319730760710243,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        },
+        "16": {
+          "runs": 1037,
+          "matched_runs": 976,
+          "issued": 14338,
+          "touched": 14054,
+          "touch_precision": 0.9801924954665923,
+          "all_first_touch_coverage_pct": 4.2649785597882985,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        },
+        "32": {
+          "runs": 1037,
+          "matched_runs": 976,
+          "issued": 19217,
+          "touched": 18798,
+          "touch_precision": 0.9781963886142478,
+          "all_first_touch_coverage_pct": 5.704644013583353,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        },
+        "64": {
+          "runs": 1037,
+          "matched_runs": 976,
+          "issued": 21268,
+          "touched": 20792,
+          "touch_precision": 0.9776189580590559,
+          "all_first_touch_coverage_pct": 6.309764779786417,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        }
+      },
+      "wide": {
+        "8": {
+          "runs": 1037,
+          "matched_runs": 976,
+          "issued": 7808,
+          "touched": 6012,
+          "touch_precision": 0.7699795081967213,
+          "all_first_touch_coverage_pct": 1.8244664224738332,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        },
+        "16": {
+          "runs": 1037,
+          "matched_runs": 976,
+          "issued": 15616,
+          "touched": 11471,
+          "touch_precision": 0.7345671106557377,
+          "all_first_touch_coverage_pct": 3.4811134950428047,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        },
+        "32": {
+          "runs": 1037,
+          "matched_runs": 976,
+          "issued": 31232,
+          "touched": 21536,
+          "touch_precision": 0.6895491803278688,
+          "all_first_touch_coverage_pct": 6.535547051629487,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        },
+        "64": {
+          "runs": 1037,
+          "matched_runs": 976,
+          "issued": 62464,
+          "touched": 41729,
+          "touch_precision": 0.6680487961065574,
+          "all_first_touch_coverage_pct": 12.663532824918594,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        }
+      }
+    }
+  },
+  "compose": {
+    "captures": [
+      {
+        "trace": "/trace/prefetchit/class_b_fullset_20260926/media_retry9/compose/training_0",
+        "syscalls": "/trace/prefetchit/class_b_fullset_20260926/media_retry9/compose/training_0.syscall.data",
+        "excluded_tids": [],
+        "original_trace": "/trace/prefetchit/class_b_fullset_20260926/media_retry9/compose/training_0",
+        "selected_trace": "/trace/prefetchit/class_b_fullset_20260926/media_retry9/compose/training"
+      },
+      {
+        "trace": "/trace/prefetchit/class_b_fullset_20260926/media_retry9/compose/validation_0",
+        "syscalls": "/trace/prefetchit/class_b_fullset_20260926/media_retry9/compose/validation_0.syscall.data",
+        "excluded_tids": [],
+        "original_trace": "/trace/prefetchit/class_b_fullset_20260926/media_retry9/compose/validation_0",
+        "selected_trace": "/trace/prefetchit/class_b_fullset_20260926/media_retry9/compose/validation"
+      }
+    ],
+    "policies": {
+      "strict": {
+        "8": {
+          "runs": 3660,
+          "matched_runs": 3606,
+          "issued": 27339,
+          "touched": 27209,
+          "touch_precision": 0.995244888254874,
+          "all_first_touch_coverage_pct": 2.3904553980504906,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        },
+        "16": {
+          "runs": 3660,
+          "matched_runs": 3606,
+          "issued": 36047,
+          "touched": 35847,
+          "touch_precision": 0.9944516880739035,
+          "all_first_touch_coverage_pct": 3.149349650994742,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        },
+        "32": {
+          "runs": 3660,
+          "matched_runs": 3606,
+          "issued": 42719,
+          "touched": 42441,
+          "touch_precision": 0.9934923570308294,
+          "all_first_touch_coverage_pct": 3.7286676301466746,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        },
+        "64": {
+          "runs": 3660,
+          "matched_runs": 3606,
+          "issued": 51767,
+          "touched": 51401,
+          "touch_precision": 0.9929298587903491,
+          "all_first_touch_coverage_pct": 4.515851296085606,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        }
+      },
+      "wide": {
+        "8": {
+          "runs": 3660,
+          "matched_runs": 3606,
+          "issued": 28848,
+          "touched": 21174,
+          "touch_precision": 0.7339850249584027,
+          "all_first_touch_coverage_pct": 1.8602485426998818,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        },
+        "16": {
+          "runs": 3660,
+          "matched_runs": 3606,
+          "issued": 57696,
+          "touched": 40644,
+          "touch_precision": 0.704450915141431,
+          "all_first_touch_coverage_pct": 3.570791620359592,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        },
+        "32": {
+          "runs": 3660,
+          "matched_runs": 3606,
+          "issued": 115392,
+          "touched": 78690,
+          "touch_precision": 0.6819363560732113,
+          "all_first_touch_coverage_pct": 6.913335119724837,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        },
+        "64": {
+          "runs": 3660,
+          "matched_runs": 3606,
+          "issued": 230784,
+          "touched": 150304,
+          "touch_precision": 0.651275651691625,
+          "all_first_touch_coverage_pct": 13.20500599612558,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        }
+      }
+    }
+  },
+  "rating": {
+    "captures": [
+      {
+        "trace": "/trace/prefetchit/class_b_fullset_20260926/media_retry9/rating/training_0",
+        "syscalls": "/trace/prefetchit/class_b_fullset_20260926/media_retry9/rating/training_0.syscall.data",
+        "excluded_tids": [],
+        "original_trace": "/trace/prefetchit/class_b_fullset_20260926/media_retry9/rating/training_0",
+        "selected_trace": "/trace/prefetchit/class_b_fullset_20260926/media_retry9/rating/training"
+      },
+      {
+        "trace": "/trace/prefetchit/class_b_fullset_20260926/media_retry9/rating/validation_0",
+        "syscalls": "/trace/prefetchit/class_b_fullset_20260926/media_retry9/rating/validation_0.syscall.data",
+        "excluded_tids": [],
+        "original_trace": "/trace/prefetchit/class_b_fullset_20260926/media_retry9/rating/validation_0",
+        "selected_trace": "/trace/prefetchit/class_b_fullset_20260926/media_retry9/rating/validation"
+      }
+    ],
+    "policies": {
+      "strict": {
+        "8": {
+          "runs": 1789,
+          "matched_runs": 1735,
+          "issued": 13716,
+          "touched": 13328,
+          "touch_precision": 0.9717118693496646,
+          "all_first_touch_coverage_pct": 3.0113989403165493,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        },
+        "16": {
+          "runs": 1789,
+          "matched_runs": 1735,
+          "issued": 26672,
+          "touched": 25738,
+          "touch_precision": 0.9649820035992801,
+          "all_first_touch_coverage_pct": 5.815380096478642,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        },
+        "32": {
+          "runs": 1789,
+          "matched_runs": 1735,
+          "issued": 49172,
+          "touched": 47395,
+          "touch_precision": 0.9638615472219962,
+          "all_first_touch_coverage_pct": 10.708677429194392,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        },
+        "64": {
+          "runs": 1789,
+          "matched_runs": 1735,
+          "issued": 59455,
+          "touched": 57133,
+          "touch_precision": 0.9609452527121353,
+          "all_first_touch_coverage_pct": 12.90893274738186,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        }
+      },
+      "wide": {
+        "8": {
+          "runs": 1789,
+          "matched_runs": 1735,
+          "issued": 13880,
+          "touched": 10934,
+          "touch_precision": 0.7877521613832853,
+          "all_first_touch_coverage_pct": 2.470485895364732,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        },
+        "16": {
+          "runs": 1789,
+          "matched_runs": 1735,
+          "issued": 27760,
+          "touched": 20159,
+          "touch_precision": 0.7261887608069164,
+          "all_first_touch_coverage_pct": 4.5548312753482385,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        },
+        "32": {
+          "runs": 1789,
+          "matched_runs": 1735,
+          "issued": 55520,
+          "touched": 37263,
+          "touch_precision": 0.6711635446685879,
+          "all_first_touch_coverage_pct": 8.419399663341505,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        },
+        "64": {
+          "runs": 1789,
+          "matched_runs": 1735,
+          "issued": 110466,
+          "touched": 71062,
+          "touch_precision": 0.6432929589194866,
+          "all_first_touch_coverage_pct": 16.056124812182972,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        }
+      }
+    }
+  },
+  "composepost": {
+    "captures": [
+      {
+        "trace": "/trace/prefetchit/class_b_fullset_20260926/social/composepost/training_1",
+        "syscalls": "/trace/prefetchit/class_b_fullset_20260926/social/composepost/training_1.syscall.data",
+        "excluded_tids": [],
+        "original_trace": "/trace/prefetchit/class_b_fullset_20260926/social/composepost/training_1",
+        "selected_trace": "/trace/prefetchit/class_b_fullset_20260926/social/composepost/training"
+      },
+      {
+        "trace": "/trace/prefetchit/class_b_fullset_20260926/social/composepost/validation_0",
+        "syscalls": "/trace/prefetchit/class_b_fullset_20260926/social/composepost/validation_0.syscall.data",
+        "excluded_tids": [],
+        "original_trace": "/trace/prefetchit/class_b_fullset_20260926/social/composepost/validation_0",
+        "selected_trace": "/trace/prefetchit/class_b_fullset_20260926/social/composepost/validation"
+      }
+    ],
+    "policies": {
+      "strict": {
+        "8": {
+          "runs": 1460,
+          "matched_runs": 1389,
+          "issued": 11112,
+          "touched": 10411,
+          "touch_precision": 0.9369150467962563,
+          "all_first_touch_coverage_pct": 1.3767594644774634,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        },
+        "16": {
+          "runs": 1460,
+          "matched_runs": 1389,
+          "issued": 22224,
+          "touched": 20827,
+          "touch_precision": 0.9371400287976962,
+          "all_first_touch_coverage_pct": 2.754180133192982,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        },
+        "32": {
+          "runs": 1460,
+          "matched_runs": 1389,
+          "issued": 44128,
+          "touched": 41845,
+          "touch_precision": 0.9482641406816533,
+          "all_first_touch_coverage_pct": 5.533618268279652,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        },
+        "64": {
+          "runs": 1460,
+          "matched_runs": 1389,
+          "issued": 76356,
+          "touched": 72885,
+          "touch_precision": 0.9545418827597045,
+          "all_first_touch_coverage_pct": 9.638374178123133,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        }
+      },
+      "wide": {
+        "8": {
+          "runs": 1460,
+          "matched_runs": 1399,
+          "issued": 11192,
+          "touched": 9934,
+          "touch_precision": 0.8875982844889206,
+          "all_first_touch_coverage_pct": 1.3136805801670466,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        },
+        "16": {
+          "runs": 1460,
+          "matched_runs": 1399,
+          "issued": 22384,
+          "touched": 18584,
+          "touch_precision": 0.8302358827734095,
+          "all_first_touch_coverage_pct": 2.4575639120016506,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        },
+        "32": {
+          "runs": 1460,
+          "matched_runs": 1399,
+          "issued": 44768,
+          "touched": 37374,
+          "touch_precision": 0.834837383845604,
+          "all_first_touch_coverage_pct": 4.942369438611154,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        },
+        "64": {
+          "runs": 1460,
+          "matched_runs": 1399,
+          "issued": 87056,
+          "touched": 71491,
+          "touch_precision": 0.8212070391472156,
+          "all_first_touch_coverage_pct": 9.454030436553486,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        }
+      }
+    }
+  },
+  "usertimeline": {
+    "captures": [
+      {
+        "trace": "/trace/prefetchit/class_b_fullset_20260926/social/usertimeline/training_0",
+        "syscalls": "/trace/prefetchit/class_b_fullset_20260926/social/usertimeline/training_0.syscall.data",
+        "excluded_tids": [],
+        "original_trace": "/trace/prefetchit/class_b_fullset_20260926/social/usertimeline/training_0",
+        "selected_trace": "/trace/prefetchit/class_b_fullset_20260926/social/usertimeline/training"
+      },
+      {
+        "trace": "/trace/prefetchit/class_b_fullset_20260926/social/usertimeline/validation_1",
+        "syscalls": "/trace/prefetchit/class_b_fullset_20260926/social/usertimeline/validation_1.syscall.data",
+        "excluded_tids": [],
+        "original_trace": "/trace/prefetchit/class_b_fullset_20260926/social/usertimeline/validation_1",
+        "selected_trace": "/trace/prefetchit/class_b_fullset_20260926/social/usertimeline/validation"
+      }
+    ],
+    "policies": {
+      "strict": {
+        "8": {
+          "runs": 392,
+          "matched_runs": 350,
+          "issued": 2800,
+          "touched": 2797,
+          "touch_precision": 0.9989285714285714,
+          "all_first_touch_coverage_pct": 0.9215420756277326,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        },
+        "16": {
+          "runs": 392,
+          "matched_runs": 350,
+          "issued": 4475,
+          "touched": 4467,
+          "touch_precision": 0.9982122905027933,
+          "all_first_touch_coverage_pct": 1.4717656245366755,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        },
+        "32": {
+          "runs": 392,
+          "matched_runs": 350,
+          "issued": 6475,
+          "touched": 6455,
+          "touch_precision": 0.9969111969111969,
+          "all_first_touch_coverage_pct": 2.1267622803636086,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        },
+        "64": {
+          "runs": 392,
+          "matched_runs": 350,
+          "issued": 10475,
+          "touched": 10443,
+          "touch_precision": 0.996945107398568,
+          "all_first_touch_coverage_pct": 3.440709294165324,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        }
+      },
+      "wide": {
+        "8": {
+          "runs": 392,
+          "matched_runs": 378,
+          "issued": 3024,
+          "touched": 2720,
+          "touch_precision": 0.8994708994708994,
+          "all_first_touch_coverage_pct": 0.8961724868457035,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        },
+        "16": {
+          "runs": 392,
+          "matched_runs": 378,
+          "issued": 6048,
+          "touched": 5320,
+          "touch_precision": 0.8796296296296297,
+          "all_first_touch_coverage_pct": 1.75280795221292,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        },
+        "32": {
+          "runs": 392,
+          "matched_runs": 378,
+          "issued": 12096,
+          "touched": 10406,
+          "touch_precision": 0.8602843915343915,
+          "all_first_touch_coverage_pct": 3.4285187125427905,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        },
+        "64": {
+          "runs": 392,
+          "matched_runs": 378,
+          "issued": 24192,
+          "touched": 19364,
+          "touch_precision": 0.8004298941798942,
+          "all_first_touch_coverage_pct": 6.379957365911839,
+          "semantics": "Execution-path touch accuracy; not misses, fills, timeliness, or speedup"
+        }
+      }
+    }
+  }
+}

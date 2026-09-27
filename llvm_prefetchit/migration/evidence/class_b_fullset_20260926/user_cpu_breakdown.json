@@ -1,0 +1,273 @@
+{
+  "media": {
+    "baseline_user_fraction_pct": {
+      "movie": 35.28857435795258,
+      "compose": 33.66291689908058,
+      "rating": 40.24538914235937
+    },
+    "summary": {
+      "base": {
+        "compose_system_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": -0.16873719844792134,
+          "ci95_pct": [
+            -0.9148616017734534,
+            0.5718706573998644
+          ]
+        },
+        "compose_user_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": 4.23545243446084,
+          "ci95_pct": [
+            2.669304820731977,
+            5.7763991766304095
+          ]
+        },
+        "movie_system_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": -0.720210770251839,
+          "ci95_pct": [
+            -1.2103784095574,
+            -0.23241704080014802
+          ]
+        },
+        "movie_user_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": 4.87971647758595,
+          "ci95_pct": [
+            3.305211702163313,
+            6.428583208482397
+          ]
+        },
+        "rating_system_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": 1.4295412082200643,
+          "ci95_pct": [
+            -2.2796611298422143,
+            5.004228220041473
+          ]
+        },
+        "rating_user_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": 3.033580438290806,
+          "ci95_pct": [
+            1.2022367705798231,
+            4.830977794672064
+          ]
+        }
+      },
+      "reference": {
+        "compose_system_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": -0.08677896513109573,
+          "ci95_pct": [
+            -0.4656590109304304,
+            0.2906722333335665
+          ]
+        },
+        "compose_user_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": 1.2998472964010466,
+          "ci95_pct": [
+            0.32699400056001027,
+            2.263205107223454
+          ]
+        },
+        "movie_system_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": 1.030509435193272,
+          "ci95_pct": [
+            -0.7604336053624428,
+            2.7896197725762573
+          ]
+        },
+        "movie_user_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": 11.344935067325235,
+          "ci95_pct": [
+            9.302375600396806,
+            13.341494992330084
+          ]
+        },
+        "rating_system_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": 0.21528853746488608,
+          "ci95_pct": [
+            -1.187780364768365,
+            1.5989024982287603
+          ]
+        },
+        "rating_user_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": 2.528303567286505,
+          "ci95_pct": [
+            1.4616747628292015,
+            3.5833866406411063
+          ]
+        }
+      },
+      "new_nop": {
+        "compose_system_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": -0.25232939796979714,
+          "ci95_pct": [
+            -0.6387220489574963,
+            0.13257973576235038
+          ]
+        },
+        "compose_user_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": 5.463153438071055,
+          "ci95_pct": [
+            4.611092349938739,
+            6.307603493476455
+          ]
+        },
+        "movie_system_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": -0.8481243896236501,
+          "ci95_pct": [
+            -1.8366638961657245,
+            0.13081925705218378
+          ]
+        },
+        "movie_user_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": 5.073075332659993,
+          "ci95_pct": [
+            3.33670357466338,
+            6.778256483741007
+          ]
+        },
+        "rating_system_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": -0.7827454151899893,
+          "ci95_pct": [
+            -2.780075652133651,
+            1.175770605573201
+          ]
+        },
+        "rating_user_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": 4.16599914207203,
+          "ci95_pct": [
+            3.259616714863167,
+            5.063889468294159
+          ]
+        }
+      }
+    },
+    "interpretation": "Post-hoc secondary decomposition of the same seven clean CPU windows after the MovieId metric question. User CPU time is not the old user-cycle PMU metric. No promotion rule changed."
+  },
+  "social": {
+    "baseline_user_fraction_pct": {
+      "composepost": 41.81329575144612,
+      "usertimeline": 65.37182146195774
+    },
+    "summary": {
+      "base": {
+        "composepost_system_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": 0.09571538284309788,
+          "ci95_pct": [
+            -1.037176484767799,
+            1.2159045599359875
+          ]
+        },
+        "composepost_user_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": 2.3986938224495047,
+          "ci95_pct": [
+            0.8378900302933756,
+            3.934930685983873
+          ]
+        },
+        "usertimeline_system_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": -1.933924482992011,
+          "ci95_pct": [
+            -7.052792355376325,
+            2.940178094453094
+          ]
+        },
+        "usertimeline_user_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": 3.2166136716122784,
+          "ci95_pct": [
+            1.245781094326992,
+            5.148114450309816
+          ]
+        }
+      },
+      "reference": {
+        "composepost_system_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": -0.4625399769220051,
+          "ci95_pct": [
+            -1.7998923920172993,
+            0.857243544531705
+          ]
+        },
+        "composepost_user_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": 1.2555053547227524,
+          "ci95_pct": [
+            -0.5496632400929791,
+            3.0282657489468234
+          ]
+        },
+        "usertimeline_system_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": -1.1384957861186429,
+          "ci95_pct": [
+            -4.171138468101243,
+            1.805860238236623
+          ]
+        },
+        "usertimeline_user_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": 0.7709563848593559,
+          "ci95_pct": [
+            -1.1602249681152976,
+            2.665270862347602
+          ]
+        }
+      },
+      "new_nop": {
+        "composepost_system_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": 0.0486817328596123,
+          "ci95_pct": [
+            -0.8663661541399525,
+            0.9554284123563406
+          ]
+        },
+        "composepost_user_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": 3.684888039865075,
+          "ci95_pct": [
+            2.5696538249936007,
+            4.787356751966132
+          ]
+        },
+        "usertimeline_system_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": -0.2626084334209189,
+          "ci95_pct": [
+            -4.672996363004001,
+            3.9619481703638937
+          ]
+        },
+        "usertimeline_user_cpu": {
+          "pairs": 7,
+          "cost_reduction_pct": 2.442001775045166,
+          "ci95_pct": [
+            -0.1553543523426848,
+            4.971999957407469
+          ]
+        }
+      }
+    },
+    "interpretation": "Post-hoc secondary decomposition of the same seven clean CPU windows after the MovieId metric question. User CPU time is not the old user-cycle PMU metric. No promotion rule changed."
+  }
+}

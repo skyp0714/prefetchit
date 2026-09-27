@@ -8,6 +8,7 @@
 [AsmDB trace 삽입](docs/class_a_asmdb_trace_20260926.md),
 [JVM 확인 현황](docs/class_a_jvm_status_20260926.md),
 [Class B 서비스 확장](docs/class_b_coldmiss_summary_20260926.md),
+[MovieId 포함 B 풀셋·커널 발행 비교](docs/class_b_fullset_20260926.md),
 [DSB 누적 결과](docs/dsb_results_summary_20260926.md).
 [스킴 소스 지도](llvm_prefetchit/migration/schemes/README.md)와
 [공개 결과 목록](llvm_prefetchit/migration/evidence/README.md)을 별도로 유지한다.
