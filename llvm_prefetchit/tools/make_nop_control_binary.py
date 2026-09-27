@@ -25,12 +25,12 @@ MULTI_NOP = {
 }
 
 
-def executable_sections(binary: str):
+def executable_sections(binary: str, section_name=None):
     out = subprocess.check_output(["readelf", "-SW", binary], text=True)
     sections = []
     for line in out.splitlines():
         m = re.search(r'\[\s*\d+\]\s+(\S+)\s+PROGBITS\s+([0-9a-fA-F]+)\s+([0-9a-fA-F]+)\s+([0-9a-fA-F]+)\s+\S+\s+(\S+)', line)
-        if m and 'X' in m[5]:
+        if m and 'X' in m[5] and (section_name is None or m[1] == section_name):
             sections.append(tuple(int(m[i],16) for i in (2,3,4)))
     if not sections: raise SystemExit("no executable sections found")
     return sections
@@ -51,11 +51,12 @@ def selected_prefetch(line, mnemonics, addressing='all'):
     return True
 
 
-def disassemble(binary, symbol=None):
+def disassemble(binary, symbol=None, section=None):
+    section_args = ['-j', section] if section else []
     llvm = shutil.which("llvm-objdump-19") if symbol else None
     if llvm:
         symbols = symbol if isinstance(symbol, list) else [symbol]
-        raw = subprocess.check_output([llvm, "-d", "--disassemble-symbols=" + ','.join(symbols), binary], text=True)
+        raw = subprocess.check_output([llvm, "-d", "--disassemble-symbols=" + ','.join(symbols)] + section_args + [binary], text=True)
         lines = []
         for line in raw.splitlines():
             match = re.match(r"^\s*([0-9a-fA-F]+):\s*((?:[0-9a-fA-F]{2}\s+)+)(.*)$", line)
@@ -64,8 +65,8 @@ def disassemble(binary, symbol=None):
             lines.append(line)
         return "\n".join(lines)
     if isinstance(symbol, list):
-        return '\n'.join(disassemble(binary, name) for name in symbol)
-    command = ["objdump", "-d"] + (["--disassemble=" + symbol] if symbol else [])
+        return '\n'.join(disassemble(binary, name, section) for name in symbol)
+    command = ["objdump", "-d"] + section_args + (["--disassemble=" + symbol] if symbol else [])
     return subprocess.check_output(command + [binary], text=True)
 
 
@@ -81,10 +82,11 @@ def main() -> None:
     scope.add_argument("--symbols-file", help="newline-delimited exact symbols, all must exist")
     ap.add_argument("--addressing", choices=['all', 'rip', 'register'], default='all',
                     help="select addressing form; useful for audited direct-graph/indirect-target factorial controls")
+    ap.add_argument('--section', help='explicit executable section for relocatable ELF files with overlapping section VAs')
     args = ap.parse_args()
 
     mnemonics = tuple(m.strip() for m in args.mnemonics.split(",") if m.strip())
-    sections = executable_sections(args.input)
+    sections = executable_sections(args.input, args.section)
     if os.path.exists(args.output):
         if os.path.samefile(args.input, args.output):
             ap.error("input and output must be different files")
@@ -99,7 +101,7 @@ def main() -> None:
             symbols = sorted(set(s.strip() for s in handle if s.strip()))
         if not symbols:
             ap.error('empty symbol list')
-    dis = disassemble(args.input, symbols)
+    dis = disassemble(args.input, symbols, args.section)
     required = symbols if isinstance(symbols, list) else ([symbols] if symbols else [])
     if any(f"<{name}>:" not in dis for name in required):
         ap.error("requested disassembly symbol not found")
@@ -158,7 +160,7 @@ def main() -> None:
             handle.seek(file_off)
             handle.write(MULTI_NOP[nbytes])
 
-    check = disassemble(args.output, symbols)
+    check = disassemble(args.output, symbols, args.section)
     remaining = sum(selected_prefetch(line, mnemonics, args.addressing) for line in check.splitlines())
     print(f"[ok] patched={len(patches)} remaining_prefetch_mnemonics={remaining}")
     if remaining:

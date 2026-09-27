@@ -78,3 +78,37 @@ int main(void) {
     patch(register,a,'register');patch(rip,b,'rip');patch(binary,c,'all')
     assert a.read_bytes()==b.read_bytes()==c.read_bytes()
     assert binary.read_bytes()==original and len(a.read_bytes())==len(original)
+
+
+def test_relocatable_overlapping_section_addresses_require_explicit_section(tmp_path):
+    source = tmp_path/'section.s'
+    source.write_text('.text\n.globl emit\n.type emit,@function\nemit:\n'
+                      'prefetcht1 (%rax)\nret\n.size emit,.-emit\n'
+                      '.section .init.text,"ax"\n.fill 256,1,0x90\n')
+    binary, twin = tmp_path/'module.o', tmp_path/'nop.o'
+    subprocess.run(['cc','-c',str(source),'-o',str(binary)],check=True)
+    original = binary.read_bytes()
+    script = Path(__file__).resolve().parents[1]/'tools/make_nop_control_binary.py'
+    command = [sys.executable,str(script),'--input',str(binary),'--output',str(twin),'--symbol','emit']
+    rejected = subprocess.run(command,capture_output=True,text=True)
+    assert rejected.returncode != 0 and 'cannot map executable address' in rejected.stderr
+    subprocess.run(command+['--section','.text'],check=True,capture_output=True)
+    assert binary.read_bytes() == original and len(twin.read_bytes()) == len(original)
+    dis = subprocess.check_output(['objdump','-d','--disassemble=emit',str(twin)],text=True)
+    assert 'prefetcht1' not in dis and 'nopl' in dis
+
+
+def test_explicit_section_limits_disassembly_and_preserves_other_sections(tmp_path):
+    source = tmp_path/'sections.s'
+    source.write_text('.text\nprefetcht1 (%rax)\nret\n'
+                      '.section .init.text,"ax"\nprefetcht1 (%rbx)\nret\n')
+    binary, twin = tmp_path/'module.o', tmp_path/'nop.o'
+    subprocess.run(['cc','-c',str(source),'-o',str(binary)],check=True)
+    script = Path(__file__).resolve().parents[1]/'tools/make_nop_control_binary.py'
+    subprocess.run([sys.executable,str(script),'--input',str(binary),'--output',str(twin),
+                    '--section','.text'],check=True,capture_output=True)
+    text = subprocess.check_output(['objdump','-d','-j','.text',str(twin)],text=True)
+    init = subprocess.check_output(['objdump','-d','-j','.init.text',str(twin)],text=True)
+    assert 'prefetcht1' not in text and 'nopl' in text
+    assert 'prefetcht1' in init and '(%rbx)' in init
+    assert sum(a != b for a,b in zip(binary.read_bytes(),twin.read_bytes())) == 2
