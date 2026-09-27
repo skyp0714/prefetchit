@@ -6,6 +6,7 @@
 #include <asm/msr.h>
 #include <linux/fs.h>
 #include <linux/highmem.h>
+#include <linux/hrtimer.h>
 #include <linux/miscdevice.h>
 #include <linux/mm.h>
 #include <linux/module.h>
@@ -36,6 +37,8 @@ struct plan {
 	struct mm_struct *mm;
 	u32 mode, count, pinned;
 	u8 gap, group, split, hint, diagnostic;
+	u32 interval_ns;
+	u8 batch, max_age_us;
 	u64 generation;
 	struct profile profiles[WPF_MAX_PROFILES];
 	struct page *pages[WPF_MAX_PROFILES * WPF_MAX_LINES];
@@ -54,6 +57,12 @@ struct local_state {
 	pid_t pending_tid;
 	u32 pending_profile, sample_line;
 	bool sample_post;
+	struct hrtimer timer;
+	struct wpf_waves waves;
+	u64 wave_generation, wave_start;
+	pid_t wave_tid;
+	u32 wave_profile, cursor;
+	int cpu;
 };
 static DEFINE_PER_CPU(struct local_state, local);
 static u64 generation;
@@ -141,6 +150,63 @@ static void emit(struct plan *p, struct profile *q, u32 start, u32 end)
 	}
 }
 
+/* Pinned hard timer: bounded work, no allocation or user address access.
+ * Every callback revalidates registration AND the currently running thread.
+ * on_switch invalidates it even when the next task is in the same process. */
+static enum hrtimer_restart wave_tick(struct hrtimer *timer)
+{
+	struct local_state *s = container_of(timer, struct local_state, timer);
+	struct plan *p;
+	struct profile *q;
+	u64 age;
+	u32 end;
+	enum hrtimer_restart restart = HRTIMER_NORESTART;
+	rcu_read_lock();
+	p = rcu_dereference(active);
+	if (!p || !s->wave_generation || p->generation != s->wave_generation)
+		goto stop;
+	s->waves.callbacks++;
+	if (s->cpu != raw_smp_processor_id() || task_pid_nr(current) != s->wave_tid ||
+	    task_tgid(current) != p->tgid || READ_ONCE(current->mm) != p->mm) {
+		s->waves.wrong_task++;
+		goto stop;
+	}
+	age = ktime_get_ns() - s->wave_start;
+	if (age >= (u64)p->max_age_us * 1000) {
+		s->waves.expired++;
+		goto stop;
+	}
+	q = &p->profiles[s->wave_profile];
+	end = min_t(u32, s->cursor + p->batch, q->count);
+	emit(p, q, s->cursor, end);
+	s->issued += end - s->cursor;
+	s->waves.lines += end - s->cursor;
+	s->waves.emitted++;
+	s->waves.age[min_t(u64, age / 2000, 15)]++;
+	s->cursor = end;
+	if (end < q->count) {
+		/* Schedule from now: a delayed interrupt must not cause a burst
+		 * of catch-up callbacks or unbounded IRQ work. */
+		hrtimer_set_expires(timer, ktime_add_ns(ktime_get(), p->interval_ns));
+		restart = HRTIMER_RESTART;
+		goto out;
+	}
+stop:
+	s->wave_generation = 0;
+out:
+	rcu_read_unlock();
+	return restart;
+}
+
+static void cancel_waves(void)
+{
+	int cpu;
+	/* Called only after active=NULL and its RCU grace period. No new
+	 * timer can be started; wait out callbacks before unload/reopen. */
+	for_each_possible_cpu(cpu)
+		hrtimer_cancel(&per_cpu_ptr(&local, cpu)->timer);
+}
+
 /* Entry here has a valid current and stack, after the architectural switch.
  * __switch_to itself explicitly forbids kprobes and is never probed. */
 static int finish_switch(struct kprobe *probe, struct pt_regs *regs)
@@ -188,6 +254,14 @@ static void on_switch(void *unused, bool preempt, struct task_struct *prev,
 	u32 i;
 	rcu_read_lock();
 	p = rcu_dereference(active);
+	if (s->wave_generation) {
+		if (p && s->wave_generation == p->generation)
+			s->waves.cancelled++;
+		s->wave_generation = 0;
+		/* Scheduler tracepoint and this CPU's hard timer cannot execute
+		 * concurrently. Cancellation here never waits for a callback. */
+		hrtimer_try_to_cancel(&s->timer);
+	}
 	if (s->pending_generation) {
 		if (p && s->pending_generation == p->generation)
 			s->detail.cancelled++;
@@ -208,7 +282,10 @@ static void on_switch(void *unused, bool preempt, struct task_struct *prev,
 		if (q->ip_end && (regs->ip < q->ip_start || regs->ip >= q->ip_end))
 			continue;
 		s->matched++;
-		end = p->split ? min_t(u32, p->split, q->count) : q->count;
+		end = p->batch ? min_t(u32, p->batch, q->count) :
+			(p->split ? min_t(u32, p->split, q->count) : q->count);
+		if (p->batch)
+			s->wave_start = ktime_get_ns();
 		sample = p->diagnostic && (s->matched & 63) == 0;
 		s->sample_line = (s->matched >> 6) % end;
 		if (sample && p->diagnostic == 1) {
@@ -225,6 +302,14 @@ static void on_switch(void *unused, bool preempt, struct task_struct *prev,
 			s->pending_profile = i;
 			s->pending_generation = p->generation;
 		}
+		if (p->batch && end < q->count) {
+			s->wave_tid = task_pid_nr(next);
+			s->wave_profile = i;
+			s->cursor = end;
+			s->wave_generation = p->generation;
+			hrtimer_start(&s->timer, ns_to_ktime(p->interval_ns),
+				      HRTIMER_MODE_REL_PINNED_HARD);
+		}
 		break; /* first matching profile; both phases combined <= 64 lines */
 	}
 out:
@@ -240,10 +325,13 @@ static int make_plan(const struct wpf_config *c, struct plan **result)
 	int err = -EINVAL;
 	u32 i, j;
 
-	if ((c->version != WPF_VERSION && c->version != WPF_VERSION_EMISSION) ||
+	if ((c->version != WPF_VERSION && c->version != WPF_VERSION_EMISSION &&
+	     c->version != WPF_VERSION_WAVES) ||
 	    c->mode > WPF_MODE_T1 || c->pid <= 0 ||
 	    !c->profile_count || c->profile_count > WPF_MAX_PROFILES ||
-	    (c->version == WPF_VERSION && c->reserved[0]) || c->reserved[1] ||
+	    (c->version == WPF_VERSION && c->reserved[0]) ||
+	    (c->version != WPF_VERSION_WAVES && c->reserved[1]) ||
+	    c->reserved[1] >> 48 ||
 	    c->reserved[0] >> 40)
 		return -EINVAL;
 	pid = find_get_pid(c->pid);
@@ -273,11 +361,19 @@ static int make_plan(const struct wpf_config *c, struct plan **result)
 	p->split = c->reserved[0] >> 16;
 	p->hint = c->reserved[0] >> 24;
 	p->diagnostic = c->reserved[0] >> 32;
+	p->interval_ns = c->reserved[1];
+	p->batch = c->reserved[1] >> 32;
+	p->max_age_us = c->reserved[1] >> 40;
 	if (c->version == WPF_VERSION)
 		p->group = 1;
 	if ((p->gap != 0 && p->gap != 4 && p->gap != 16) ||
 	    !p->group || p->group > 16 || !is_power_of_2(p->group) ||
 	    p->split >= WPF_MAX_LINES || p->hint > 2 || p->diagnostic > 2)
+		goto fail;
+	if (c->version == WPF_VERSION_WAVES &&
+	    (p->interval_ns < 1000 || p->interval_ns > 16000 ||
+	     !p->batch || p->batch > 16 || p->max_age_us < 4 || p->max_age_us > 64 ||
+	     p->split || p->gap || p->diagnostic))
 		goto fail;
 	p->generation = ++generation;
 	for (i = 0; i < c->profile_count; ++i) {
@@ -339,6 +435,7 @@ static long control(struct file *file, unsigned int cmd, unsigned long arg)
 	struct plan *p;
 	struct wpf_stats s = {0};
 	struct wpf_detail detail = {0};
+	struct wpf_waves waves = {0};
 	int err, cpu;
 	u32 i;
 	if (!capable(CAP_SYS_ADMIN))
@@ -368,6 +465,20 @@ static long control(struct file *file, unsigned int cmd, unsigned long arg)
 		}
 		return copy_to_user((void __user *)arg, &detail, sizeof(detail)) ? -EFAULT : 0;
 	}
+	if (cmd == WPF_WAVES) {
+		for_each_possible_cpu(cpu) {
+			struct wpf_waves *w = &per_cpu_ptr(&local, cpu)->waves;
+			waves.callbacks += READ_ONCE(w->callbacks);
+			waves.emitted += READ_ONCE(w->emitted);
+			waves.lines += READ_ONCE(w->lines);
+			waves.cancelled += READ_ONCE(w->cancelled);
+			waves.expired += READ_ONCE(w->expired);
+			waves.wrong_task += READ_ONCE(w->wrong_task);
+			for (i = 0; i < 16; ++i)
+				waves.age[i] += READ_ONCE(w->age[i]);
+		}
+		return copy_to_user((void __user *)arg, &waves, sizeof(waves)) ? -EFAULT : 0;
+	}
 	if (cmd != WPF_CONFIG)
 		return -ENOTTY;
 	/* One immutable registration per open, making counter deltas unambiguous. */
@@ -393,6 +504,7 @@ static long control(struct file *file, unsigned int cmd, unsigned long arg)
 		WRITE_ONCE(state->issued, 0);
 		/* Old completion probes have been unregistered on close. */
 		memset(&state->detail, 0, sizeof(state->detail));
+		memset(&state->waves, 0, sizeof(state->waves));
 	}
 	if (p->split || p->diagnostic == 2) {
 		memset(&finish_probe, 0, sizeof(finish_probe));
@@ -425,6 +537,7 @@ static int device_open(struct inode *inode, struct file *file)
 static int device_release(struct inode *inode, struct file *file)
 {
 	replace_plan(NULL);
+	cancel_waves();
 	if (finish_registered) {
 		unregister_kprobe(&finish_probe);
 		finish_registered = false;
@@ -456,7 +569,13 @@ static void find_switch(struct tracepoint *tp, void *unused)
 
 static int __init wpf_init(void)
 {
-	int err;
+	int err, cpu;
+	for_each_possible_cpu(cpu) {
+		struct local_state *s = per_cpu_ptr(&local, cpu);
+		s->cpu = cpu;
+		hrtimer_init(&s->timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL_PINNED_HARD);
+		s->timer.function = wave_tick;
+	}
 	for_each_kernel_tracepoint(find_switch, NULL);
 	if (!switch_tp)
 		return -ENOENT;
@@ -477,6 +596,7 @@ static void __exit wpf_exit(void)
 	tracepoint_probe_unregister(switch_tp, on_switch, NULL);
 	tracepoint_synchronize_unregister();
 	replace_plan(NULL);
+	cancel_waves();
 }
 
 module_init(wpf_init);

@@ -21,6 +21,7 @@ import control
 SOURCE = r'''
 #include <signal.h>
 #include <stdio.h>
+#include <time.h>
 #include <unistd.h>
 static volatile sig_atomic_t change;
 static void handler(int n) { change = 1; }
@@ -31,6 +32,10 @@ int main(void) {
     for (;;) {
         if (change) { execl("/bin/sleep", "sleep", "10", NULL); return 2; }
         usleep(1000);
+        struct timespec a, b;
+        clock_gettime(CLOCK_MONOTONIC, &a);
+        do { clock_gettime(CLOCK_MONOTONIC, &b); }
+        while ((b.tv_sec-a.tv_sec)*1000000000L+b.tv_nsec-a.tv_nsec < 100000);
     }
 }
 '''
@@ -111,10 +116,14 @@ def main():
         for mode in (0, 1):
             for options in (dict(spacing=4, group=1), dict(spacing=16, group=4, hint='t0'),
                             dict(split_after=4), dict(diagnostic=1), dict(diagnostic=2),
-                            dict(split_after=4, spacing=4, group=2, hint='nta', diagnostic=2)):
+                            dict(split_after=4, spacing=4, group=2, hint='nta', diagnostic=2),
+                            dict(interval_ns=2000, batch=4, max_age_us=32),
+                            dict(interval_ns=4000, batch=4, max_age_us=32)):
                 fd = os.open('/dev/wake_prefetch', os.O_RDWR | os.O_CLOEXEC)
                 fcntl.ioctl(fd, control.CONFIG_IOCTL, control.pack_config(proc.pid, mode, wide, **options), True)
                 time.sleep(.4)
+                os.kill(proc.pid, signal.SIGSTOP)
+                time.sleep(.01)  # take coherent counters after switch-out cancellation
                 counted = control.stats(fd); detail = control.detail(fd)
                 assert counted['matched_switches'] > 50, counted
                 if options.get('split_after'):
@@ -124,9 +133,22 @@ def main():
                 if options.get('diagnostic') == 2:
                     assert detail['post_samples'] == detail['lead_samples'] == sum(detail['post']) > 0, detail
                 result['tests'].append(dict(test='emission', mode=mode, options=options, stats=counted, detail=detail))
+                if options.get('interval_ns'):
+                    waves = control.waves(fd)
+                    assert waves['emitted'] == sum(waves['age_2us_bins']) > 0, waves
+                    assert waves['lines'] == waves['emitted'] * 4, waves
+                    assert counted['attempted_lines_including_nop'] == counted['matched_switches'] * 4 + waves['lines']
+                    result['tests'][-1]['waves'] = waves
                 os.close(fd); fd=None
+                os.kill(proc.pid, signal.SIGCONT)
+                if options.get('interval_ns'):
+                    fd = os.open('/dev/wake_prefetch', os.O_RDWR | os.O_CLOEXEC)
+                    frozen = control.waves(fd)
+                    time.sleep(.02)
+                    assert control.waves(fd) == frozen, 'waves still run after close'
+                    os.close(fd); fd=None
         fd = os.open('/dev/wake_prefetch', os.O_RDWR | os.O_CLOEXEC)
-        packed = control.pack_config(proc.pid, 1, wide, split_after=4, diagnostic=2)
+        packed = control.pack_config(proc.pid, 1, wide, interval_ns=2000, batch=4, max_age_us=32)
         fcntl.ioctl(fd, control.CONFIG_IOCTL, packed, True)
         os.kill(proc.pid, signal.SIGUSR1)
         for _ in range(100):
@@ -136,8 +158,10 @@ def main():
         else:
             raise AssertionError('helper did not exec')
         before = control.stats(fd)
+        wave_before = control.waves(fd)
         time.sleep(.05)
         assert control.stats(fd) == before
+        assert control.waves(fd) == wave_before
         result['tests'].append(dict(test='exec_mm_mismatch_disables_plan', passed=True))
         proc.terminate(); proc.wait(timeout=5); proc = None
         os.close(fd); fd = None
@@ -149,6 +173,7 @@ def main():
         if fd is not None:
             os.close(fd)
         if proc is not None:
+            os.kill(proc.pid, signal.SIGCONT)
             proc.terminate(); proc.wait(timeout=5)
         try:
             if loaded:

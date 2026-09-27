@@ -48,14 +48,16 @@ def parse(lines, target_pid=None):
                 raise ValueError('invalid switch: '+line)
             prev, state, next_tid = switch.groups()
             row.update(prev=int(prev), state=state, next=int(next_tid))
-        elif event != 'fe_l2':
+        elif event == 'fe_l2':
+            row['ip'] = int(tail.split()[0], 16)
+        else:
             raise ValueError('unexpected event: '+event)
         events.append(row)
     order = {'fork':0, 'sched:sched_switch':1, 'fe_l2':2, 'exit':3}
     return sorted(events, key=lambda r: (r['time'], order[r['event']]))
 
 
-def analyze(events, tids, target_pid=None):
+def analyze(events, tids, target_pid=None, sample_callback=None):
     active, last_out, runs = {}, {}, []
     live, known, births, scheduled = set(tids), set(tids), {}, set()
     last_switch, duplicate_examples = {}, []
@@ -108,7 +110,7 @@ def analyze(events, tids, target_pid=None):
                 quality['unmatched_samples'] += 1
             else:
                 quality['unknown_tid_resolved_by_cpu_interval'] += int(resolved)
-                run['samples'].append((timestamp, event['period'], resolved))
+                run['samples'].append((timestamp, event['period'], resolved, event.get('ip')))
         else:
             quality['foreign_samples'] += 1
     quality['right_censored_runs'] = len(active)
@@ -131,9 +133,11 @@ def analyze(events, tids, target_pid=None):
             b['exposure_us'] += exposure
             b['runs_reaching_bin'] += int(exposure > 0)
             thread['bins'][i]['exposure_us'] += exposure
-        for timestamp, period, resolved in run['samples']:
+        for timestamp, period, resolved, ip in run['samples']:
             age = (timestamp-run['start'])/1000
             assert 0 <= age < elapsed_us
+            if sample_callback is not None:
+                sample_callback(age, ip, period, run['origin'])
             index = bisect_right(EDGES_US, age)-1
             b = bins[index]
             b['samples'] += 1

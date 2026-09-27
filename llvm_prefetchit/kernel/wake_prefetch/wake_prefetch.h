@@ -6,6 +6,7 @@
 
 #define WPF_VERSION 1
 #define WPF_VERSION_EMISSION 2
+#define WPF_VERSION_WAVES 3
 #define WPF_HIST_BINS 16
 #define WPF_MAX_PROFILES 8
 #define WPF_MAX_LINES 64
@@ -26,7 +27,9 @@ struct wpf_config {
 	__s32 pid; /* PID in the caller's namespace, identifies a thread group */
 	__u32 profile_count;
 	/* v2 reserved[0]: gap, group, split, hint, diagnostic in successive bytes.
-	 * v1 and reserved[1] must be zero. Hints: T1/T0/NTA = 0/1/2. */
+	 * v1 options must be zero. Hints: T1/T0/NTA = 0/1/2.
+	 * v3 reserved[1]: interval_ns (32 bits), batch (8), max_age_us (8).
+	 * Waves cannot be combined with split, spacing, or diagnostic loads. */
 	__u64 reserved[2];
 	struct wpf_profile profiles[WPF_MAX_PROFILES];
 };
@@ -42,7 +45,15 @@ struct wpf_detail {
 	__u64 pre[WPF_HIST_BINS], post[WPF_HIST_BINS], lead[WPF_HIST_BINS];
 };
 
+struct wpf_waves {
+	__u64 callbacks, emitted, lines, cancelled, expired, wrong_task;
+	/* Delayed emissions by age since next-task selection; 2 us bins,
+	 * last bin includes >= 30 us. Not a user instruction-fetch clock. */
+	__u64 age[16];
+};
+
 #define WPF_CONFIG _IOW('W', 1, struct wpf_config)
 #define WPF_STATS _IOR('W', 2, struct wpf_stats)
 #define WPF_DETAIL _IOR('W', 3, struct wpf_detail)
+#define WPF_WAVES _IOR('W', 4, struct wpf_waves)
 #endif

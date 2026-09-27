@@ -12,7 +12,7 @@ smoke checks; this loads/unloads the module and deletes its generated helper.
 
 The module registers a `sched_switch` probe, matches one explicitly registered
 thread group and address-space identity, and issues at most 64 prefetch
-instructions across both phases. The callback executes after the next task has
+instructions across all phases of one matched scheduling interval. The first callback executes after the next task has
 been selected, before `context_switch()`/`switch_mm()`.
 It therefore uses the kernel direct mapping of pinned code pages, **never the
 next process's user VA**. No allocation, page walk, user copy, blocking operation,
@@ -50,9 +50,39 @@ contains only a registration generation, numeric TID and indices; no plan/page
 pointer crosses RCU critical sections. A new generation cannot consume an old
 pending operation. Close disables the plan and unregisters the completion probe.
 
-The expanded lifecycle test passed 17 checks on the running 6.8.0-142 kernel,
-including both emission phases, spacing, hint variants and exec/close teardown.
-Application results for these new methods require the separate full-set study.
+The v3 wave options add actual microsecond spacing, separately from the v2
+NOP gaps. For example, `--interval-ns 2000 --batch 4 --max-age-us 40` emits four
+lines at selection and at most four more per pinned hard hrtimer callback while
+the same thread continues running. The whole interval still has a 64-line cap.
+Intervals are bounded to 1–16 us, batches to 1–16 lines, and the expiration
+deadline to 4–64 us. Split emission, artificial NOP spacing, and diagnostic loads
+cannot be combined with waves. Existing v1/v2 byte layouts remain unchanged;
+v3 uses reserved[1] for these bounded settings.
+
+Every task switch cancels the previous CPU's pending wave, including switches
+between threads of the registered process. Each timer callback checks generation,
+CPU, numeric TID, TGID object, and mm identity before using pinned aliases. No
+plan pointer escapes RCU. Closing the controller first removes the plan and
+waits for readers, then synchronously cancels all timers before reopening or
+module unload. Callbacks at or beyond the deadline issue no hints; a callback
+inside the deadline can still be late for an individual target. Each further
+interval starts after the previous emission, with no catch-up loop.
+Consequently requested spacing is a minimum delay, not an exact phase clock.
+
+The wave ioctl reports callback/emission/line counts, switch cancellations,
+deadline expiration, identity rejections, and actual delayed-emission ages in
+2 us bins (last bin >=30 us). These are attempted hints, not cache fills.
+All timer/IRQ work is part of the measured end-to-end and shared-pool cost.
+The same-layout NOP module runs these same callbacks; module-off remains the
+deployment reference. The expanded smoke test pauses its private helper for
+coherent counter checks and exercises both 2/4 us wave intervals, NOP/T1,
+close, exec, and unload.
+
+The v2 lifecycle test passed 17 checks on the running 6.8.0-142 kernel.
+The v3 wave extension passed 21 checks each with the prefetch module and its
+exact-layout NOP twin, including both emission phases, spacing, hint variants,
+timed waves and exec/close teardown. Application results are reported separately
+in the E2E study; passing lifecycle checks does not imply a speedup.
 
 Registration requires `CAP_SYS_ADMIN` and `/dev/wake_prefetch` is mode 0600.
 Only one open controller is allowed. Closing its FD removes the RCU-published
@@ -157,6 +187,7 @@ diagnostic can demonstrate cache warmth; it cannot establish application speedup
 or restoration of L1I, ITLB or branch-predictor state.
 
 Sources: [Linux 6.8 scheduler](https://github.com/torvalds/linux/blob/v6.8/kernel/sched/core.c),
+[Linux 6.8 hrtimers](https://github.com/torvalds/linux/blob/v6.8/kernel/time/hrtimer.c),
 [Linux 6.8 page pinning API](https://docs.kernel.org/6.8/core-api/pin_user_pages.html),
 [x86 switch restrictions](https://github.com/torvalds/linux/blob/v6.8/arch/x86/kernel/process_64.c),
 [kprobe restrictions](https://docs.kernel.org/6.8/trace/kprobes.html).

@@ -32,7 +32,7 @@ def capture(out, pid, period):
     assert not re.search(r'\b(lost|truncated|throttled)\b', (out/'record.log').read_text(), re.I)
 
 
-def decode_capture(out):
+def decode_capture(out, sample_callback=None, before_cleanup=None):
     meta = json.loads((out/'protocol.json').read_text())
     pid, tids, period = meta['pid'], meta['tids'], meta['period']
     decode = ['perf', 'script', '--ns', '-i', str(out/'perf.data'), '--show-lost-events', '--show-task-events',
@@ -54,11 +54,13 @@ def decode_capture(out):
         assert process.wait() == 0
     h.c.save(out/'record_types.json', counts)
     assert not any(counts.get(name, 0) for name in ('LOST', 'LOST_SAMPLES', 'THROTTLE', 'UNTHROTTLE'))
-    result = analyze(parse((out/'events.txt').read_text().splitlines(), pid), set(tids), pid)
+    result = analyze(parse((out/'events.txt').read_text().splitlines(), pid), set(tids), pid, sample_callback)
     assert not result['quality'].get('foreign_samples', 0)
     assert result['quality']['complete_sample_pct'] > 99
     result['period'] = period
     h.c.save(out/'timeline.json', result)
+    if before_cleanup is not None:
+        before_cleanup()
     # Compact evidence and hashes precede immediate bulk removal.
     removed = []
     for p in (out/'perf.data', out/'events.txt'):

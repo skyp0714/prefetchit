@@ -103,3 +103,12 @@ def test_exact_duplicate_switch_is_audited_without_dropping_real_intervals():
     assert r['quality']['complete_runs'] == 1
     assert r['quality']['complete_samples'] == 1
     assert len(r['duplicate_scheduler_examples']) == 1
+
+
+def test_address_callback_only_sees_complete_matched_intervals():
+    seen = []
+    events = [dict(sample(0,0),ip=0x1000), switch(1000,0,0,7),
+              dict(sample(1500,0),ip=0x1234), switch(3000,0,7,0),
+              switch(4000,0,0,7), dict(sample(4500,0),ip=0x5678)]
+    m.analyze(events,{7},sample_callback=lambda *args:seen.append(args))
+    assert seen == [(.5,0x1234,257,'boundary_or_initial')]

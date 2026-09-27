@@ -56,7 +56,8 @@ def sequence(spec):
         # Docker health checks and module replacement cost about three seconds
         # per phase here; preserve an additional margin beyond that overhead.
         seconds=65+len(spec['order'])*(roi+settle+pmu_s+5)
-        client=h.load(out/'load',family,h.RATE[family],spec['seed'],seconds)
+        rate=spec.get('rate',h.RATE[family])
+        client=h.load(out/'load',family,rate,spec['seed'],seconds)
         load_started=json.loads((out/'load/started.json').read_text())
         load_deadline=load_started['epoch']+load_started['seconds']
         time.sleep(50)
@@ -78,15 +79,18 @@ def sequence(spec):
             time.sleep(settle);assert client.poll() is None
             kb=h.old.control.stats(fd) if fd is not None else None
             db=h.old.control.detail(fd) if fd is not None else None
+            wb=h.old.control.waves(fd) if fd is not None and setting.get('options',{}).get('interval_ns') else None
             before=stack.accounts();pb=h.old.pool_cpu(set(range(32,32+spec['pool'])))
             time.sleep(roi)
             pa=h.old.pool_cpu(set(range(32,32+spec['pool'])));after=stack.accounts()
             ka=h.old.control.stats(fd) if fd is not None else None
             da=h.old.control.detail(fd) if fd is not None else None
+            wa=h.old.control.waves(fd) if wb is not None else None
             window=dict(arm=arm,index=index,costs={n:h.c.diff_cpu(before[n],after[n]) for n in before},
                 pool=dict(start=pb['epoch'],end=pa['epoch'],wall_s=pa['monotonic']-pb['monotonic'],
                     cpu_us=sum(pa['ticks'][k]-v for k,v in pb['ticks'].items())*1e6/pb['clock_ticks']),
-                kernel_before=kb,kernel_after=ka,detail_before=db,detail_after=da,pmu=None)
+                kernel_before=kb,kernel_after=ka,detail_before=db,detail_after=da,
+                waves_before=wb,waves_after=wa,pmu=None)
             if pmu_s:
                 before=h.c.cpu(pid)
                 h.c.run(['perf','stat','-x,','-o',dest/'pmu.csv','-e',h.c.EVENTS,'-a','-C','32-45','-G',group,
@@ -106,7 +110,7 @@ def sequence(spec):
             h.old.attach(w['pool'],samples)
             valid=not info['steady_errors'] and not info['steady_drops']
             for cost in w['costs'].values():
-                valid &= abs(cost['achieved_rps']/h.RATE[family]-1)<.04 and cost['p99_ms']<100
+                valid &= abs(cost['achieved_rps']/rate-1)<.04 and cost['p99_ms']<100
             if w['kernel_after']:
                 valid &= w['kernel_after']['matched_switches']>w['kernel_before']['matched_switches']
                 options=spec['arms'][w['arm']].get('options',{})
@@ -116,11 +120,12 @@ def sequence(spec):
             if pmu:
                 h.old.attach(pmu['window'],samples);n=pmu['window']['completed']
                 pmu.update(user_cycles_per_request=pmu['counters']['cycles:u']/n,code_misses_per_request=pmu['counters']['L2I']/n)
-                valid &= pmu['fully_scheduled'] and abs(pmu['window']['achieved_rps']/h.RATE[family]-1)<.04
+                valid &= pmu['fully_scheduled'] and abs(pmu['window']['achieved_rps']/rate-1)<.04
             result=dict(whole_stack_cpu_us_per_request=sum(v['cpu_us'] for v in w['costs'].values())/w['pool']['completed'],
                 pool=w['pool'],services={k:dict(cpu=w['costs'][v[0]],pmu=pmu if k==key else None) for k,v in h.TARGETS[family].items()})
             row=dict(arm=w['arm'],block=spec.get('block',0),valid=bool(valid),metrics=metrics(result),
                 output=str(out/f"{w['index']:02d}_{w['arm']}"),diagnostic=bool(spec['arms'][w['arm']].get('options',{}).get('diagnostic')))
+            row['metrics'].update({k:w['pool'][k] for k in ('mean_ms','p50_ms','p95_ms','p99_ms')})
             h.c.save(Path(row['output'])/'result.json',dict(**row,windows=w));rows.append(row)
         h.c.save(out/'rows.json',rows);h.c.save(out/'complete.json',dict(all_valid=all(r['valid'] for r in rows),rows=rows,load=info))
         print(json.dumps(dict(out=str(out),rows=rows)),flush=True)
@@ -173,7 +178,8 @@ def campaign():
         assert not nop.exists()
         h.c.run(['objdump','-d','--disassemble=emit',original],h.OUT/'kernel_emit_disassembly.log')
         h.c.run(['python3',h.REPO/'llvm_prefetchit/tools/make_nop_control_binary.py',
-                 '--input',original,'--output',nop,'--symbol','emit','--mnemonics','prefetcht0,prefetcht1,prefetchnta'],
+                 '--input',original,'--output',nop,'--symbol','emit','--section','.text',
+                 '--mnemonics','prefetcht0,prefetcht1,prefetchnta'],
                 h.OUT/'kernel_nop_build.log')
         before=original.read_bytes();after=nop.read_bytes();assert len(before)==len(after)
         differences=[dict(offset=i,before=a,after=b) for i,(a,b) in enumerate(zip(before,after)) if a!=b]

@@ -31,15 +31,16 @@ def test_pie_and_nonzero_elf_segment():
 def test_c_uapi_matches_python_and_real_elf(tmp_path):
     source = tmp_path / "abi.c"
     source.write_text('#include <stdio.h>\n#include "wake_prefetch.h"\n'
-                      'int main(void) { printf("%zu %zu %lu %lu %zu %lu\\n", '
+                      'int main(void) { printf("%zu %zu %lu %lu %zu %lu %zu %lu\\n", '
                       'sizeof(struct wpf_config), sizeof(struct wpf_profile), '
                       '(unsigned long)WPF_CONFIG, (unsigned long)WPF_STATS, '
-                      'sizeof(struct wpf_detail), (unsigned long)WPF_DETAIL); }\n')
+                      'sizeof(struct wpf_detail), (unsigned long)WPF_DETAIL, '
+                      'sizeof(struct wpf_waves), (unsigned long)WPF_WAVES); }\n')
     binary = tmp_path / "abi"
     subprocess.run(["cc", "-I", str(ROOT / "kernel/wake_prefetch"), str(source), "-o", str(binary)], check=True)
     actual = list(map(int, subprocess.check_output([str(binary)], text=True).split()))
     assert actual == [ctl.CONFIG_SIZE, ctl.PROFILE_SIZE, ctl.CONFIG_IOCTL, ctl.STATS_IOCTL,
-                      ctl.DETAIL_SIZE, ctl.DETAIL_IOCTL]
+                      ctl.DETAIL_SIZE, ctl.DETAIL_IOCTL, ctl.WAVES_SIZE, ctl.WAVES_IOCTL]
     assert ctl.executable_segments(binary.read_bytes())
     profile = dict(syscall_nr=7, ip_start=0x402123, ip_end=0x402124, lines=[0x403000, 0x403080])
     data = ctl.pack_config(123, 0, [profile])
@@ -87,4 +88,18 @@ def test_emission_v2_encoding_and_v1_compatibility():
     for options in (dict(spacing=1), dict(group=3), dict(group=0), dict(split_after=64),
                     dict(split_after=-1), dict(hint='invalid'), dict(diagnostic=3)):
         with pytest.raises(ValueError, match='emission'):
+            ctl.pack_config(123, 1, profiles, **options)
+
+
+def test_bounded_periodic_waves_and_incompatible_options():
+    profiles = [dict(syscall_nr=-1, ip_start=0, ip_end=0, lines=[0x400000])]
+    data = ctl.pack_config(123, 1, profiles, interval_ns=2000, batch=4, max_age_us=32)
+    assert struct.unpack_from('<IIiIQQ', data) == (3, 1, 123, 1, 1<<8, 2000 | 4<<32 | 32<<40)
+    for options in (dict(interval_ns=999, batch=4, max_age_us=32),
+                    dict(interval_ns=2000, batch=17, max_age_us=32),
+                    dict(interval_ns=2000, batch=4, max_age_us=65),
+                    dict(interval_ns=2000, batch=4, max_age_us=32, split_after=4),
+                    dict(interval_ns=2000, batch=4, max_age_us=32, diagnostic=1),
+                    dict(batch=4)):
+        with pytest.raises(ValueError, match='wave emission'):
             ctl.pack_config(123, 1, profiles, **options)

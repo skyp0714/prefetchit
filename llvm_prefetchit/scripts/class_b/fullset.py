@@ -114,7 +114,7 @@ def trial(spec):
         kernel=spec.get('kernel')
         if kernel:
             assert not Path('/sys/module/wake_prefetch').exists()
-            module=REPO/'llvm_prefetchit/kernel/wake_prefetch/wake_prefetch.ko'
+            module=Path(kernel.get('module',REPO/'llvm_prefetchit/kernel/wake_prefetch/wake_prefetch.ko'))
             subprocess.run(['insmod',str(module)],check=True);loaded=True
             pid=stack.states[TARGETS[family][kernel['service']][0]]['State']['Pid']
             if kernel['mode']!='empty':
@@ -130,9 +130,11 @@ def trial(spec):
         before=stack.accounts();pb=old.pool_cpu(measured)
         kb=old.control.stats(fd) if fd is not None else None
         db=old.control.detail(fd) if fd is not None else None
+        wb=old.control.waves(fd) if fd is not None and kernel.get('options',{}).get('interval_ns') else None
         time.sleep(30)
         ka=old.control.stats(fd) if fd is not None else None
         da=old.control.detail(fd) if fd is not None else None
+        wa=old.control.waves(fd) if wb is not None else None
         pa=old.pool_cpu(measured);after=stack.accounts()
         costs={k:c.diff_cpu(before[k],after[k]) for k in before}
         pmu={}
@@ -164,6 +166,7 @@ def trial(spec):
             whole_stack_cpu_us_per_request=sum(x['cpu_us'] for x in costs.values())/pc['completed'],
             pool_util_pct=100*pc['cpu_us']/(pc['wall_s']*1e6*len(measured)),
             load=info,kernel_before=kb,kernel_after=ka,kernel_detail_before=db,kernel_detail_after=da)
+        if wa is not None:result.update(kernel_waves_before=wb,kernel_waves_after=wa)
         c.save(out/'result.json',result)
         print(json.dumps(dict(out=str(out),valid=result['valid'],pool_util=result['pool_util_pct'],
             cpu={k:v['cpu']['cpu_us_per_request'] for k,v in services.items()},

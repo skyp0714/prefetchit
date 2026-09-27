@@ -23,6 +23,8 @@ CONFIG_IOCTL = (1 << 30) | (CONFIG_SIZE << 16) | (ord("W") << 8) | 1
 STATS_IOCTL = (2 << 30) | (16 << 16) | (ord("W") << 8) | 2
 DETAIL_SIZE = (6 + 3 * 16) * 8
 DETAIL_IOCTL = (2 << 30) | (DETAIL_SIZE << 16) | (ord("W") << 8) | 3
+WAVES_SIZE = 22 * 8
+WAVES_IOCTL = (2 << 30) | (WAVES_SIZE << 16) | (ord("W") << 8) | 4
 HISTOGRAM_UPPER_TSC = [64, 96, 128, 192, 256, 384, 512, 768,
                        1024, 1536, 2048, 4096, 8192, 16384, 32768, None]
 
@@ -95,7 +97,8 @@ def resolve(plan, pid):
     return records, dict(mapped_binary_hashes={k: v[0] for k, v in binaries.items()}, maps=maps)
 
 
-def pack_config(pid, mode, profiles, spacing=0, group=1, split_after=0, hint='t1', diagnostic=0):
+def pack_config(pid, mode, profiles, spacing=0, group=1, split_after=0, hint='t1', diagnostic=0,
+                interval_ns=0, batch=0, max_age_us=0):
     if platform.machine() != "x86_64" or mode not in (0, 1) or not 0 < pid < 2**31:
         raise ValueError("requires x86-64, valid mode, and positive pid")
     if not 1 <= len(profiles) <= MAX_PROFILES:
@@ -105,9 +108,17 @@ def pack_config(pid, mode, profiles, spacing=0, group=1, split_after=0, hint='t1
             or hint not in ('t1', 't0', 'nta') or diagnostic not in (0, 1, 2)):
         raise ValueError('invalid bounded emission options')
     version = 1 if (spacing, group, split_after, hint, diagnostic) == (0, 1, 0, 't1', 0) else 2
+    wave_options = 0
+    if interval_ns or batch or max_age_us:
+        if (not all(isinstance(v, int) for v in (interval_ns, batch, max_age_us))
+                or not 1000 <= interval_ns <= 16000 or not 1 <= batch <= 16
+                or not 4 <= max_age_us <= 64 or spacing or split_after or diagnostic):
+            raise ValueError('invalid bounded wave emission options')
+        version = 3
+        wave_options = interval_ns | batch << 32 | max_age_us << 40
     options = (spacing | group << 8 | split_after << 16 |
-               ('t1', 't0', 'nta').index(hint) << 24 | diagnostic << 32) if version == 2 else 0
-    data = bytearray(struct.pack("<IIiIQQ", version, mode, pid, len(profiles), options, 0))
+               ('t1', 't0', 'nta').index(hint) << 24 | diagnostic << 32) if version >= 2 else 0
+    data = bytearray(struct.pack("<IIiIQQ", version, mode, pid, len(profiles), options, wave_options))
     for profile in profiles:
         lines = profile["lines"]
         nr, lo, hi = profile["syscall_nr"], profile["ip_start"], profile["ip_end"]
@@ -141,6 +152,16 @@ def detail(fd):
     return result
 
 
+def waves(fd):
+    data = bytearray(WAVES_SIZE)
+    fcntl.ioctl(fd, WAVES_IOCTL, data, True)
+    values = struct.unpack('<22Q', data)
+    result = dict(zip(('callbacks', 'emitted', 'lines', 'cancelled', 'expired', 'wrong_task'), values[:6]))
+    result['age_2us_bins'] = list(values[6:])
+    result['semantics'] = 'Delayed hint attempts, age since next-task selection; last bin >=30us'
+    return result
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("plan", type=Path)
@@ -154,6 +175,9 @@ def main():
     p.add_argument('--split-after', type=int, default=0)
     p.add_argument('--hint', choices=('t1', 't0', 'nta'), default='t1')
     p.add_argument('--diagnostic', type=int, choices=(0, 1, 2), default=0)
+    p.add_argument('--interval-ns', type=int, default=0)
+    p.add_argument('--batch', type=int, default=0)
+    p.add_argument('--max-age-us', type=int, default=0)
     a = p.parse_args()
     if a.seconds <= 0 or a.out.exists():
         p.error("positive duration and a new output file required")
@@ -166,7 +190,8 @@ def main():
     try:
         profiles, audit = resolve(plan, a.pid)
         result.update(profiles=profiles, audit=audit)
-        options = {k: getattr(a, k) for k in ('spacing', 'group', 'split_after', 'hint', 'diagnostic')}
+        options = {k: getattr(a, k) for k in ('spacing', 'group', 'split_after', 'hint', 'diagnostic',
+                                            'interval_ns', 'batch', 'max_age_us')}
         result['options'] = options
         data = pack_config(a.pid, int(a.mode == "t1"), profiles, **options)
         if select.select([pidfd], [], [], 0)[0]:
@@ -195,6 +220,7 @@ def main():
                 result["target_exited"] = True
                 break
         result.update(end=time.time(), after=stats(fd), detail=detail(fd))
+        if a.interval_ns: result['waves'] = waves(fd)
     except BaseException as error:
         result["error"] = repr(error)
         raise
