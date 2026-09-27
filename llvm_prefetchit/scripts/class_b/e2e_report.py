@@ -121,6 +121,11 @@ def report(root):
             '지연시간 CI가 0을 포함하는 endpoint는 개선이 확인된 것으로 표현하지 않는다.']
     gates={arm:sum(r['qualified_20ms'] for r in rows if r['arm']==arm) for arm in ('base',winner)}
     lines += ['',f'1,000 RPS의 20 ms p99 gate 통과: baseline {gates["base"]}/7, 후보 {gates[winner]}/7.']
+    cpu = {arm:statistics.mean(r['metrics']['stack_cpu'] for r in rows if r['arm']==arm)
+           for arm in ('base',winner)}
+    cpu_verdict = '개선 확인' if final['stack_cpu']['ci95_pct'][0] > 0 else '개선 미확인'
+    lines += ['',f'전체 Media stack의 user+kernel CPU/request는 {cpu["base"]:,.2f} → {cpu[winner]:,.2f} μs이며, '
+        f'paired 절감률은 **{estimate(final["stack_cpu"])}**로 {cpu_verdict}이다. 이전 정책의 개별 서비스 CPU 절감 1–2%와 범위가 다르다.']
     lines += ['',f'고정된 E2E 보존 기준 통과: **{decision["promoted"]}**. '
         '평균 또는 p99의 95% 하한이 양수이며, 두 점추정치 모두 2%를 넘게 악화되지 않아야 한다. '
         '이는 연구 artifact의 보존 기준이며 서비스 기본 배포 설정을 바꾸지 않았다.','',

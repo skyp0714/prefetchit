@@ -1,5 +1,7 @@
 # B 부류(interleaving) L2I miss를 위한 prefetcht1 삽입 계획 — "wake-stream" (2026-09-21)
 
+> 2026-09-27 재검토: 아래는 당시의 실험·해석 기록이다. §7-20의 고밀도 callee-burst 실험은 원본 `ab13/ab.csv`에서 baseline 3회 모두 요청 오류와 약 1초 p99가 확인되어 정상 부하 비교 근거로 사용할 수 없다. 또한 §7-16의 first-touch 라인 수를 전체 실행 경로 miss의 상한으로 놓고 차이를 모두 wrong-path로 계산한 분해는 입증되지 않았다. 같은 라인의 재미스와 서로 다른 이벤트 모집단을 구분해야 한다. 따라서 이 문서의 static 효과 상한·wrong-path 비중·성능 상한을 확정값으로 재사용하지 않는다. [CPU 범위와 고밀도 삽입 근거 재검토](class_b_cpu_scope_and_dense_audit_20260927.md)를 참조한다.
+
 `docs/prefetch_plan_by_miss_class.md` §3의 B-1/B-2를 대체·구체화하는 설계 문서다. 세팅은 그 문서 §0(코어 고정, C6 off,
 interleaved = 스택 전체가 8코어 pool 공유, `:u` 카운터, NOP twin, 같은 라운드 인터리브 ≥3회, MODE=2ghz)을 그대로 따른다.
 핵심 질문 두 가지 — **타깃을 무엇으로 잡는가**, **어디에 주입하는가** — 에 대한 답과 그 근거, 검증 순서를 적는다.
