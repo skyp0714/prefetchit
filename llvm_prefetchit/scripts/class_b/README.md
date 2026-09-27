@@ -93,6 +93,20 @@ between performance arms.
   after preparation exits. `fullset_cleanup.py` preserves hashes/settings and
   unlinks explicit unused trace copies or rejected generated binaries without
   following symlinks. Confirmed reference binaries and original inputs remain.
+- `fullset_report.py` collects final CPU intervals, trace validation, kernel
+  diagnostics, post-hoc user/system CPU decomposition and restoration checks.
+  Curated JSON evidence is published; detailed logs, generated plans and the
+  compressed reproduction archive remain under `OUT/evidence_archive` locally.
+
+The first MovieId kernel screen was excluded as a whole because its load ended
+before the last PMU window. The repeated block used the same seed/order with a
+larger duration margin and explicit load-deadline checks. Before independent
+confirmation, kernel finalist ranking was amended to use adjacent NOP pairs:
+the initial off phase of a long screen cannot control for later workload drift.
+The original ranking and diagnostics remain recorded. Seven fresh, rotated
+off/NOP/candidate blocks still determine promotion; screen data are not pooled.
+
+Completed results: [five-service report](../../../docs/class_b_fullset_20260926.md).
 
 Default follow-up roots are `/storage/prefetchit/class_b_fullset_20260926` and
 `/trace/prefetchit/class_b_fullset_20260926`; override `CLASS_B_FULLSET_OUT` and
