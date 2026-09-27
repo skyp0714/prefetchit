@@ -1,5 +1,7 @@
 # DSB prefetch 누적 결과와 커널 lead-time 해석
 
+09-27 후속: [외부 요청 p99·처리량 해석과 스케줄인 후 미스 분포](class_b_request_and_miss_timeline_20260927.md).
+
 2026-09-26까지의 누적 결과에 같은 날 시작한 다섯 서비스 후속 실험을 추가했다.
 MovieId의 과거 user-cycle 결과, 이후 전체 CPU/요청 결과, 탐색 결과를
 서로 합산하지 않는다. Media와 SocialNetwork는 두 애플리케이션이며 서비스

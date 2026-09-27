@@ -1,0 +1,18 @@
+{
+  "timeline_initial_exclusion.json": {
+    "reason": "Duplicate periods key while writing protocol; exited before stack or measurement started",
+    "comparisons": 36,
+    "platform_restored": true,
+    "bulk_artifacts_created": 0
+  },
+  "timeline_decode_exclusion.json": {
+    "reason": "Parser initially rejected signed -1 TID on exiting tasks; load terminated before completion validation. Recovered diagnostic retained but excluded. Raw PEBS can also carry TID=-1; final parser resolves only exact target CPU scheduling intervals and reports these separately.",
+    "platform_restored": true,
+    "comparisons": 36
+  },
+  "timeline_static_tids_exclusion.json": {
+    "reason": "MovieId creates and exits per-request threads during the capture; static scheduler filter misses their intervals. Whole capture excluded before timeline analysis.",
+    "platform_restored": true,
+    "comparisons": 36
+  }
+}

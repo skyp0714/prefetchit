@@ -1,0 +1,435 @@
+{
+  "timeline_v3/protocol.json": {
+    "out": "/storage/prefetchit/class_b_followup_20260927/timeline_v3",
+    "purpose": "Same diagnostic with signed TID support and exact CPU interval recovery; decoding after completed load and stack shutdown",
+    "admission": "No loss/throttle, dynamic thread lifetimes from task records, >99% complete-run sample joins, valid load",
+    "selection": "Baseline and retained MovieId candidate; both sample periods regardless of result; no best-bin selection"
+  },
+  "timeline_v3/complete.json": {
+    "complete": true,
+    "arms": [
+      "base",
+      "new"
+    ],
+    "analysis_amendment": "/storage/prefetchit/class_b_followup_20260927/timeline_v3/analysis_amendment.json"
+  },
+  "timeline_v3/analysis_amendment.json": {
+    "reason": "Exact duplicate scheduler record at identical CPU/time/prev/next/state caused strict parser failure after full valid load. Audit and suppress only exact duplicate scheduler records, retain all real intervals, no relaxed mismatch tolerance.",
+    "source_hashes": {
+      "capture_miss_timeline.py": "9a695c6cd93285e37c2b09a018061bbbbdba57b3d51a36a426a0636589c9de65",
+      "wake_miss_timeline.py": "18f8dce88dc4069f732535186528d4213f38f87cf4211e7c9b43e1d947433ada"
+    },
+    "applies_to": "Both baseline and new arm; same final analyzer and original fixed bins/periods"
+  },
+  "timeline_v3/source_hashes.json": {
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/capture_miss_timeline.py": "9a695c6cd93285e37c2b09a018061bbbbdba57b3d51a36a426a0636589c9de65",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/wake_miss_timeline.py": "6ba84f3858b16276cb4e9f2f89b05d468ecc4cd0b57461455f657d9037b34a42",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/fullset.py": "6df288f2ba90832ed4371795f713e85922fafd795c734e59f50b11eafda600b6",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/social_headroom.py": "45414ab7ecef0d6712289c52a8a56a946fab343d99679cb76ce74d3d199e1328",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/migration/schemes/class_b_extension_20260926/common.py": "bc4f06bc989ea20924416d5bcce26f0c5f452de94216333996d14f494a881d59",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/migration/schemes/class_b_extension_20260926/media.py": "943562999ea8612dfde4b3657ad11681cf061b7c2281d59e96a681b6e731c3b2",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/migration/schemes/class_b_extension_20260926/load.py": "69cbeec142e03f10ddeea2360786e91360d27095712d3ccf76dc7ec8e6ce91a2",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/migration/schemes/class_b_extension_20260926/run_platform.py": "7986732d10f37ac1cf6026d8b23f399aaae784a7e58ab7f35c01f8d3a6e4f0ed",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/migration/schemes/class_b_extension_20260926/platform_context.py": "c362613b4575561eefcb0ef921047ffcae705b7d861cb4d7bd978d700a9f7eaa",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/migration/schemes/class_b_extension_20260926/tracing_config.py": "0afbf3e6c59761ec488ac2ead7b4e798f2bd355341918369a6551a5f77feaaee"
+  },
+  "timeline_v3/new_platform/verified.json": {
+    "restored": true,
+    "comparisons": 36
+  },
+  "timeline_v3/base_platform/verified.json": {
+    "restored": true,
+    "comparisons": 36
+  },
+  "timeline_v3/new/protocol.json": {
+    "out": "/storage/prefetchit/class_b_followup_20260927/timeline_v3/new",
+    "arm": "new",
+    "seed": 17001,
+    "periods": [
+      1021,
+      257
+    ],
+    "binary": "/storage/prefetchit/class_b_extension_20260926/media_build/movie/fullset_coverage/MovieIdService",
+    "sha256": "9ddf8e6f303e78eceeb439b41b6de5f5f17e9317dfb4729865094b152f51ae3a",
+    "purpose": "Exploratory time distribution, not a performance confirmation",
+    "family": "media",
+    "pool": 8,
+    "rate": 600,
+    "tracing": 1.0,
+    "other_services": "baseline",
+    "warmup_s": 50,
+    "duration_each_s": 15
+  },
+  "timeline_v3/new/complete.json": {
+    "valid": true,
+    "load_validation": {
+      "valid": true,
+      "load": {
+        "rate": 600,
+        "seconds": 150,
+        "seed": 17001,
+        "offered": 90023,
+        "completed": 90023,
+        "errors": 0,
+        "error_examples": [],
+        "dropped": [],
+        "response_bodies": {
+          "": 90023
+        },
+        "warmup_s": 50,
+        "warmup_errors": 0,
+        "steady_errors": 0,
+        "steady_error_examples": [],
+        "steady_drops": [],
+        "validation": "Zero errors/drops after the fixed 50s startup warmup; startup errors retained separately"
+      },
+      "diag_p99_ms": 7.0056915283203125,
+      "note": "Diagnostic workload health only; includes profiling and cannot establish latency effect"
+    },
+    "periods": [
+      1021,
+      257
+    ]
+  },
+  "timeline_v3/base/protocol.json": {
+    "out": "/storage/prefetchit/class_b_followup_20260927/timeline_v3/base",
+    "arm": "base",
+    "seed": 17001,
+    "periods": [
+      257,
+      1021
+    ],
+    "binary": "/storage/prefetchit/class_b_extension_20260926/media_build/movie/base/MovieIdService",
+    "sha256": "f89f75a9a6c145ef7541d951a74600f200bb78097595b265fd290bd4937e406d",
+    "purpose": "Exploratory time distribution, not a performance confirmation",
+    "family": "media",
+    "pool": 8,
+    "rate": 600,
+    "tracing": 1.0,
+    "other_services": "baseline",
+    "warmup_s": 50,
+    "duration_each_s": 15
+  },
+  "timeline_v3/base/complete.json": {
+    "valid": true,
+    "load_validation": {
+      "valid": true,
+      "load": {
+        "rate": 600,
+        "seconds": 150,
+        "seed": 17001,
+        "offered": 90023,
+        "completed": 90023,
+        "errors": 0,
+        "error_examples": [],
+        "dropped": [],
+        "response_bodies": {
+          "": 90023
+        },
+        "warmup_s": 50,
+        "warmup_errors": 0,
+        "steady_errors": 0,
+        "steady_error_examples": [],
+        "steady_drops": [],
+        "validation": "Zero errors/drops after the fixed 50s startup warmup; startup errors retained separately"
+      },
+      "diag_p99_ms": 7.12132453918457,
+      "note": "Diagnostic workload health only; includes profiling and cannot establish latency effect"
+    },
+    "periods": [
+      257,
+      1021
+    ],
+    "analysis_recovered": true
+  },
+  "timeline_v3/new/p1021/protocol.json": {
+    "pid": 1259938,
+    "tids": [
+      1259938,
+      1260280,
+      1260283,
+      1264144,
+      1264148,
+      1264150,
+      1264167,
+      1264294,
+      1264331,
+      1264343,
+      1264358,
+      1264370,
+      1264402,
+      1264417,
+      1266695,
+      1287129,
+      1320557,
+      1393704,
+      1453116,
+      1467580,
+      1504186,
+      1504205,
+      1504260,
+      1504691,
+      1504692,
+      1504693
+    ],
+    "cgroup": "system.slice/docker-e10857c3dde586c20725447c5bc68f6612af0999d6a76cecce91a7279229e4c8.scope",
+    "period": 1021,
+    "clock": "Single perf recorder, default clock; no --clockid override",
+    "current_clocksource": "tsc",
+    "kernel": "6.8.0-142-generic",
+    "cpus": "32-39",
+    "seconds": 15,
+    "source_hashes": {
+      "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/capture_miss_timeline.py": "9a695c6cd93285e37c2b09a018061bbbbdba57b3d51a36a426a0636589c9de65",
+      "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/wake_miss_timeline.py": "18f8dce88dc4069f732535186528d4213f38f87cf4211e7c9b43e1d947433ada"
+    }
+  },
+  "timeline_v3/new/p1021/cleanup.json": {
+    "removed": [
+      {
+        "path": "/storage/prefetchit/class_b_followup_20260927/timeline_v3/new/p1021/perf.data",
+        "bytes": 282972251,
+        "sha256": "7d75b611c1d08da686bc1b9c4f352399125c7bbb6dda3e4793841e46e06decc0"
+      },
+      {
+        "path": "/storage/prefetchit/class_b_followup_20260927/timeline_v3/new/p1021/events.txt",
+        "bytes": 358416331,
+        "sha256": "d888d6e8227db9a98841ed03db1e7139b88b0149078c4f54d4cf2e27678fef13"
+      }
+    ],
+    "bytes_removed": 641388582
+  },
+  "timeline_v3/new/p1021/record_types.json": {
+    "TIME_CONV": 1,
+    "ID_INDEX": 1,
+    "MMAP": 152,
+    "EVENT_UPDATE": 1,
+    "THREAD_MAP": 1,
+    "CPU_MAP": 1,
+    "KSYMBOL": 88,
+    "BPF_EVENT": 87,
+    "FORK": 76084,
+    "COMM": 2844,
+    "MMAP2": 5808,
+    "FINISHED_INIT": 1,
+    "FINISHED_ROUND": 412,
+    "EXIT": 73256,
+    "SAMPLE": 2129237
+  },
+  "timeline_v3/new/p257/protocol.json": {
+    "pid": 1259938,
+    "tids": [
+      1259938,
+      1260280,
+      1260283,
+      1264144,
+      1264167,
+      1264331,
+      1264343,
+      1264358,
+      1264402,
+      1266695,
+      1287129,
+      1393704,
+      1453116,
+      1467580,
+      1504186,
+      1504205,
+      1504260,
+      1523068,
+      1576252
+    ],
+    "cgroup": "system.slice/docker-e10857c3dde586c20725447c5bc68f6612af0999d6a76cecce91a7279229e4c8.scope",
+    "period": 257,
+    "clock": "Single perf recorder, default clock; no --clockid override",
+    "current_clocksource": "tsc",
+    "kernel": "6.8.0-142-generic",
+    "cpus": "32-39",
+    "seconds": 15,
+    "source_hashes": {
+      "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/capture_miss_timeline.py": "9a695c6cd93285e37c2b09a018061bbbbdba57b3d51a36a426a0636589c9de65",
+      "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/wake_miss_timeline.py": "18f8dce88dc4069f732535186528d4213f38f87cf4211e7c9b43e1d947433ada"
+    }
+  },
+  "timeline_v3/new/p257/cleanup.json": {
+    "removed": [
+      {
+        "path": "/storage/prefetchit/class_b_followup_20260927/timeline_v3/new/p257/perf.data",
+        "bytes": 284823595,
+        "sha256": "0116b8e73ccab7174639f7c3a2cdf133062bc07db44acf6de5bb4700803caa1f"
+      },
+      {
+        "path": "/storage/prefetchit/class_b_followup_20260927/timeline_v3/new/p257/events.txt",
+        "bytes": 361217390,
+        "sha256": "3c8fa594d0028fab1b600e8522d3d13fa19a8e79bb508eef740a5ec2a525fd35"
+      }
+    ],
+    "bytes_removed": 646040985
+  },
+  "timeline_v3/new/p257/record_types.json": {
+    "TIME_CONV": 1,
+    "ID_INDEX": 1,
+    "MMAP": 152,
+    "EVENT_UPDATE": 1,
+    "THREAD_MAP": 1,
+    "CPU_MAP": 1,
+    "KSYMBOL": 88,
+    "BPF_EVENT": 87,
+    "FORK": 76124,
+    "COMM": 2836,
+    "MMAP2": 5808,
+    "FINISHED_INIT": 1,
+    "FINISHED_ROUND": 300,
+    "EXIT": 73286,
+    "SAMPLE": 2151992
+  },
+  "timeline_v3/base/p1021/protocol.json": {
+    "pid": 529520,
+    "tids": [
+      529520,
+      530032,
+      530033,
+      533664,
+      533731,
+      533753,
+      533806,
+      533807,
+      533835,
+      533837,
+      533982,
+      535685,
+      607438,
+      619014,
+      662280,
+      680596,
+      736275,
+      737109,
+      753688,
+      814370,
+      823600,
+      825746,
+      832304,
+      866963,
+      866970,
+      866972,
+      866975,
+      866976,
+      866977
+    ],
+    "cgroup": "system.slice/docker-bcd9f5ee43185855a369e27dc7b39d345facc0f3590cd74ca1d25505fc550d56.scope",
+    "period": 1021,
+    "clock": "Single perf recorder, default clock; no --clockid override",
+    "current_clocksource": "tsc",
+    "kernel": "6.8.0-142-generic",
+    "cpus": "32-39",
+    "seconds": 15,
+    "source_hashes": {
+      "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/capture_miss_timeline.py": "9a695c6cd93285e37c2b09a018061bbbbdba57b3d51a36a426a0636589c9de65",
+      "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/wake_miss_timeline.py": "6ba84f3858b16276cb4e9f2f89b05d468ecc4cd0b57461455f657d9037b34a42"
+    }
+  },
+  "timeline_v3/base/p1021/cleanup.json": {
+    "removed": [
+      {
+        "path": "/storage/prefetchit/class_b_followup_20260927/timeline_v3/base/p1021/perf.data",
+        "bytes": 284865755,
+        "sha256": "f387edd64e3506cc76f503b7f232830152e075b09697fe5b2ecb523aaa8ebddf"
+      },
+      {
+        "path": "/storage/prefetchit/class_b_followup_20260927/timeline_v3/base/p1021/events.txt",
+        "bytes": 357273951,
+        "sha256": "af35f3f2407f4b436273ed1e3390307ae847c826e3595aa2159cb4e8b1f276e8"
+      }
+    ],
+    "bytes_removed": 642139706
+  },
+  "timeline_v3/base/p1021/record_types.json": {
+    "TIME_CONV": 1,
+    "ID_INDEX": 1,
+    "MMAP": 152,
+    "EVENT_UPDATE": 1,
+    "THREAD_MAP": 1,
+    "CPU_MAP": 1,
+    "KSYMBOL": 88,
+    "BPF_EVENT": 87,
+    "FORK": 76196,
+    "COMM": 2876,
+    "MMAP2": 5808,
+    "FINISHED_INIT": 1,
+    "FINISHED_ROUND": 274,
+    "EXIT": 73318,
+    "SAMPLE": 2144465
+  },
+  "timeline_v3/base/p257/protocol.json": {
+    "pid": 529520,
+    "tids": [
+      529520,
+      530032,
+      530033,
+      533664,
+      533731,
+      533753,
+      533806,
+      533807,
+      533835,
+      533837,
+      533856,
+      533877,
+      533982,
+      535685,
+      607438,
+      619014,
+      661252,
+      662280,
+      680596,
+      691583,
+      736275,
+      737109,
+      753688,
+      774212
+    ],
+    "cgroup": "system.slice/docker-bcd9f5ee43185855a369e27dc7b39d345facc0f3590cd74ca1d25505fc550d56.scope",
+    "period": 257,
+    "clock": "Single perf recorder, default clock; no --clockid override",
+    "current_clocksource": "tsc",
+    "kernel": "6.8.0-142-generic",
+    "cpus": "32-39",
+    "seconds": 15,
+    "source_hashes": {
+      "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/capture_miss_timeline.py": "9a695c6cd93285e37c2b09a018061bbbbdba57b3d51a36a426a0636589c9de65",
+      "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/wake_miss_timeline.py": "6ba84f3858b16276cb4e9f2f89b05d468ecc4cd0b57461455f657d9037b34a42"
+    }
+  },
+  "timeline_v3/base/p257/cleanup.json": {
+    "removed": [
+      {
+        "path": "/storage/prefetchit/class_b_followup_20260927/timeline_v3/base/p257/perf.data",
+        "bytes": 285166427,
+        "sha256": "0c198f31accdcf51c6f1a8858d7e3d15a4b1b1ab3571062bddc85f049c483df6"
+      },
+      {
+        "path": "/storage/prefetchit/class_b_followup_20260927/timeline_v3/base/p257/events.txt",
+        "bytes": 358437926,
+        "sha256": "15e8de0c96ce74618a16014775bf704f0bd98c07db73e5afeddd9a48f4fca2ae"
+      }
+    ],
+    "bytes_removed": 643604353
+  },
+  "timeline_v3/base/p257/record_types.json": {
+    "TIME_CONV": 1,
+    "ID_INDEX": 1,
+    "MMAP": 152,
+    "EVENT_UPDATE": 1,
+    "THREAD_MAP": 1,
+    "CPU_MAP": 1,
+    "KSYMBOL": 88,
+    "BPF_EVENT": 87,
+    "FORK": 76155,
+    "COMM": 2880,
+    "MMAP2": 5847,
+    "FINISHED_INIT": 1,
+    "FINISHED_ROUND": 344,
+    "EXIT": 73313,
+    "SAMPLE": 2156634
+  }
+}

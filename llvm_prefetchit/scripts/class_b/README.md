@@ -116,3 +116,30 @@ Do not rerun into an existing experiment directory. Python runtime uses the
 system SciPy/PyYAML; the existing `profiling/.venv/bin/python` supplies pytest
 for the kernel ABI tests. A 10% gain is a target, not a qualification gate or
 an assumed result.
+
+The September 27 request/timeline follow-up adds:
+
+- `request_metrics.py --out FILE`: recover external-request p99 and delivered
+  RPS from the retained seven-block results. These are post-hoc comparisons;
+  fixed offered RPS does not measure maximum capacity. `social_headroom.attach`
+  now also retains mean/p50/p95 before raw request-list cleanup.
+- `capture_miss_timeline.py campaign MANIFEST`: a fresh Media stack for baseline
+  and the retained MovieId candidate, with two 15-second PEBS captures (periods
+  257 and 1021) after 50 seconds of warmup. The manifest supplies a fresh `out`
+  directory. Other Media services stay at baseline. Root, the canonical local
+  harness, original inputs and retained local binaries are required. Services
+  and load stop before decoding; fixed platform settings are restored.
+- `wake_miss_timeline.py`: join user `FRONTEND_RETIRED.L2_MISS` samples to complete
+  scheduling intervals. Dynamic FORK/EXIT records identify short-lived threads.
+  A missing TID is resolved only by its target TGID and exact CPU/time interval.
+  Audit exact duplicate scheduler records, reject actual discontinuities and
+  loss/throttling, and report boundary exclusions. Use one default-clock perf
+  recorder: a custom clock disables hardware PEBS timestamp conversion on the
+  Linux 6.8 path. Counts are period-weighted estimates at instruction retirement,
+  not exact fetch timestamps or per-bin MPKI. Exposure includes kernel time.
+- `followup_report.py --timeline DIR`: publish compact evidence and a static
+  cumulative/density plot. One fresh process per arm is a diagnostic, not an
+  independent performance confirmation. Archive source/commands/hashes and
+  extract results before removing generated raw/decoded data.
+
+Results: [request and miss-timeline report](../../../docs/class_b_request_and_miss_timeline_20260927.md).

@@ -27,6 +27,10 @@ figure listed in [curated_20260926.tsv](curated_20260926.tsv) are published from
 new campaigns. Each inventory row gives the relative path, bytes and SHA-256 of the
 committed file. It does **not** inventory a complete reproduction bundle.
 
+The September 27 request/timeline follow-up has a separate
+[publication manifest](class_b_followup_20260927/publication_manifest.json),
+covering its compact evidence, report and figure.
+
 Raw perf/PT, individual service logs, generated plans/indices, build outputs and
 compressed measurement/reproduction archives remain outside Git. Historical reports
 may describe these local records; an archive filename or absolute path inside a
@@ -46,6 +50,7 @@ this publication smaller.
 | AsmDB-style PT placement | [comparison](asmdb_trace_20260926/comparison.json) | Full-trace variants underperform baseline and the static schema reference |
 | Class B extension | [consolidated](class_b_extension_20260926/consolidated.json), [main](class_b_extension_20260926/results.json), [Media 10%](class_b_extension_20260926_sampling10/results.json) | Fixed-rate user+kernel CPU/request; two applications, four services; no maximum-throughput claim |
 | Class B five-service follow-up | [results](class_b_fullset_20260926/results.json), [CPU decomposition](class_b_fullset_20260926/user_cpu_breakdown.json), [diagnostics](class_b_fullset_20260926/diagnostics.json) | MovieId included; seven-block CPU comparisons, 13 kernel emission screens per service and independent kernel confirmation; detailed archive stays local |
+| Class B request and miss age | [request metrics](class_b_followup_20260927/request_metrics.json), [miss timelines](class_b_followup_20260927/miss_timelines.json) | Post-hoc p99/RPS; MovieId schedule-relative PEBS at two sample periods, including dynamic thread lifetimes; diagnostic only |
 
 [Source map](../schemes/README.md) links the implementations. Dated source snapshots
 have independent `sources.json` hashes. This publication preserves experiment

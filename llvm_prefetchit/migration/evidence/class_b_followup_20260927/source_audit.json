@@ -1,0 +1,19 @@
+{
+  "path": "/home/hnpark2/prefetchit/benchmarks/DeathStarBench/mediaMicroservices/src/MovieIdService/MovieIdHandler.h",
+  "sha256": "68023b377c1aee9971ec3dbe1a34b91df441d956c326d86d0fb2beaf75cc8f0f",
+  "async_launch_sites": [
+    {
+      "line": 190,
+      "text": "set_future = std::async(std::launch::async, [&]() {"
+    },
+    {
+      "line": 214,
+      "text": "movie_id_future = std::async(std::launch::async, [&]() {"
+    },
+    {
+      "line": 234,
+      "text": "rating_future = std::async(std::launch::async, [&]() {"
+    }
+  ],
+  "note": "Source corroborates observed approximately three new threads per request; does not prove how much cost a thread-pool replacement would save"
+}
