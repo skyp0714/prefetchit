@@ -1,0 +1,24 @@
+{
+  "primary": "external request mean and p99 latency at 1000 RPS",
+  "family": "media",
+  "service": "movie",
+  "pool": 8,
+  "training": "Two new baseline PEBS+sched_switch windows; choose frequent actual retired miss line per future time bin; process-wide next-task matcher with no future path label",
+  "waves": [
+    {
+      "interval_us": 2,
+      "batch": 4
+    },
+    {
+      "interval_us": 4,
+      "batch": 4
+    },
+    {
+      "interval_us": 4,
+      "batch": 8
+    }
+  ],
+  "deadline_us": 40,
+  "controls": "same address-list burst at selection; exact-layout whole-module NOP executes identical timer and hint-selection path; module-off",
+  "screen": "serial phases with local module-off controls, clean 30s windows, no PMU recorder; screening only; independent confirmation required for promotion"
+}

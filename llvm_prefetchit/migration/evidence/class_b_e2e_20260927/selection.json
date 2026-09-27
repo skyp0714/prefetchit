@@ -1,0 +1,139 @@
+{
+  "winner": "far",
+  "screen": {
+    "near": {
+      "base": {
+        "mean_ms": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.7095830063847064,
+          "ci95_pct": [
+            -30.15547146393891,
+            22.074577463076793
+          ]
+        },
+        "p50_ms": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.17390725479125013,
+          "ci95_pct": [
+            -14.463297288478172,
+            12.331621293408102
+          ]
+        },
+        "p95_ms": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.3009778593199286,
+          "ci95_pct": [
+            -39.526688090663,
+            27.897047531159647
+          ]
+        },
+        "p99_ms": {
+          "pairs": 2,
+          "cost_reduction_pct": -6.437186018431751,
+          "ci95_pct": [
+            -115.76187252609613,
+            47.49362139433588
+          ]
+        },
+        "stack_cpu": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.320359005993609,
+          "ci95_pct": [
+            -2.0832593490156537,
+            2.6673825654077943
+          ]
+        }
+      }
+    },
+    "far": {
+      "base": {
+        "mean_ms": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.6191859295869961,
+          "ci95_pct": [
+            -23.172319724156097,
+            19.815213130543587
+          ]
+        },
+        "p50_ms": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.06729578904094424,
+          "ci95_pct": [
+            -9.802556427799125,
+            9.04997391857898
+          ]
+        },
+        "p95_ms": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.9582688434992215,
+          "ci95_pct": [
+            -17.777574076688584,
+            16.713647845306568
+          ]
+        },
+        "p99_ms": {
+          "pairs": 2,
+          "cost_reduction_pct": 3.510136707947431,
+          "ci95_pct": [
+            -198.40778231999678,
+            68.8000974849405
+          ]
+        },
+        "stack_cpu": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.18761768393417144,
+          "ci95_pct": [
+            -1.1333568072053657,
+            1.4913379904868407
+          ]
+        }
+      }
+    },
+    "far_t0": {
+      "base": {
+        "mean_ms": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.3966633524216556,
+          "ci95_pct": [
+            -5.665644664155045,
+            6.11116126851906
+          ]
+        },
+        "p50_ms": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.6148724002675299,
+          "ci95_pct": [
+            -5.058459553485228,
+            5.9818349707809855
+          ]
+        },
+        "p95_ms": {
+          "pairs": 2,
+          "cost_reduction_pct": 1.6735965047883217,
+          "ci95_pct": [
+            -2.3134914626996794,
+            5.505310335070924
+          ]
+        },
+        "p99_ms": {
+          "pairs": 2,
+          "cost_reduction_pct": -1.670954213918674,
+          "ci95_pct": [
+            -159.2399423868195,
+            60.12580918049799
+          ]
+        },
+        "stack_cpu": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.2242473448642035,
+          "ci95_pct": [
+            -1.00279600182267,
+            1.4363838232835824
+          ]
+        }
+      }
+    }
+  },
+  "rule": "Largest paired mean-latency reduction among the three frozen placement variants, regardless of sign; seven new seed pairs required",
+  "promotion": "At least one of mean/p99 has a positive individual 95% lower bound; neither point estimate may regress more than 2%. Report both intervals and no multiplicity correction."
+}

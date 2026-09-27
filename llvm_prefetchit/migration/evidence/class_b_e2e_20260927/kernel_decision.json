@@ -1,0 +1,204 @@
+{
+  "promoted": false,
+  "reason": "All three timed-wave candidates increased both mean and p99 relative to local off brackets in the exploratory screen; no net deployment gain shown. No statistical zero-effect claim.",
+  "summary": {
+    "rows": [
+      {
+        "arm": "wave2us_b4",
+        "valid": true,
+        "metrics": {
+          "stack_cpu": 6086.911994157288,
+          "pool_cpu": 6006.373867144706,
+          "movie_cpu": 595.3612438603478,
+          "compose_cpu": 973.6731381919554,
+          "rating_cpu": 403.5641178813222,
+          "mean_ms": 5.252980008185617,
+          "p50_ms": 3.936290740966797,
+          "p95_ms": 12.080669403076172,
+          "p99_ms": 25.142431259155273
+        },
+        "interpolated_off": {
+          "mean_ms": 4.728567117902773,
+          "p99_ms": 19.103625041660067
+        },
+        "reduction_pct": {
+          "off_bracket": {
+            "mean_ms": -11.090312925819967,
+            "p99_ms": -31.610786980618233
+          },
+          "timer_nop": {
+            "mean_ms": -5.926814037305728,
+            "p99_ms": -32.75132807976031
+          },
+          "same_targets_burst": {
+            "mean_ms": -9.304745843387563,
+            "p99_ms": -36.92609327931857
+          }
+        },
+        "waves": {
+          "callbacks": 4526627,
+          "emitted": 4354044,
+          "lines": 17416176,
+          "cancelled": 225201,
+          "expired": 94342,
+          "wrong_task": 78241,
+          "age_2us_bins": [
+            0,
+            412645,
+            333583,
+            230503,
+            247444,
+            336227,
+            283891,
+            242065,
+            232636,
+            268557,
+            250474,
+            226142,
+            210674,
+            201556,
+            181622,
+            696025
+          ],
+          "delayed_emissions": 4354044,
+          "emission_age_10_to_20us_pct": 31.312866842870672,
+          "emission_age_20_to_30us_pct": 24.58560363652733,
+          "emission_age_at_least_30us_pct": 15.985713511393087
+        }
+      },
+      {
+        "arm": "wave4us_b4",
+        "valid": true,
+        "metrics": {
+          "stack_cpu": 6196.484143833344,
+          "pool_cpu": 6133.151993630996,
+          "movie_cpu": 525.8604118993135,
+          "compose_cpu": 973.9399416329509,
+          "rating_cpu": 401.10227498839294,
+          "mean_ms": 5.556793564990245,
+          "p50_ms": 4.222631454467773,
+          "p95_ms": 12.790679931640625,
+          "p99_ms": 23.005008697509766
+        },
+        "interpolated_off": {
+          "mean_ms": 5.090277559470337,
+          "p99_ms": 18.932816340061088
+        },
+        "reduction_pct": {
+          "off_bracket": {
+            "mean_ms": -9.164844157701491,
+            "p99_ms": -21.50864554066412
+          },
+          "timer_nop": {
+            "mean_ms": -2.4724202807017814,
+            "p99_ms": -5.134128004532679
+          },
+          "same_targets_burst": {
+            "mean_ms": -9.143116592271605,
+            "p99_ms": -17.159231647198816
+          }
+        },
+        "waves": {
+          "callbacks": 2115832,
+          "emitted": 2036890,
+          "lines": 8147560,
+          "cancelled": 219692,
+          "expired": 1182,
+          "wrong_task": 77760,
+          "age_2us_bins": [
+            0,
+            0,
+            387101,
+            23891,
+            289531,
+            60432,
+            143629,
+            186104,
+            31258,
+            259480,
+            36219,
+            173523,
+            75591,
+            83001,
+            101404,
+            185726
+          ],
+          "delayed_emissions": 2036890,
+          "emission_age_10_to_20us_pct": 33.42856020698221,
+          "emission_age_20_to_30us_pct": 23.06153007771652,
+          "emission_age_at_least_30us_pct": 9.118116344034288
+        }
+      },
+      {
+        "arm": "wave4us_b8",
+        "valid": true,
+        "metrics": {
+          "stack_cpu": 6349.439325731936,
+          "pool_cpu": 6293.168599875135,
+          "movie_cpu": 526.032783654162,
+          "compose_cpu": 970.1586607964252,
+          "rating_cpu": 402.1686980518414,
+          "mean_ms": 6.116169765706687,
+          "p50_ms": 4.694461822509766,
+          "p95_ms": 14.044761657714844,
+          "p99_ms": 25.041580200195312
+        },
+        "interpolated_off": {
+          "mean_ms": 5.550795755027204,
+          "p99_ms": 20.030258083937095
+        },
+        "reduction_pct": {
+          "off_bracket": {
+            "mean_ms": -10.185458727560604,
+            "p99_ms": -25.018759594899855
+          },
+          "timer_nop": {
+            "mean_ms": 1.6705108731104312,
+            "p99_ms": 14.31345195265017
+          },
+          "same_targets_burst": {
+            "mean_ms": -2.9304901169129316,
+            "p99_ms": 1.3571005944945869
+          }
+        },
+        "waves": {
+          "callbacks": 2133737,
+          "emitted": 2055040,
+          "lines": 16440320,
+          "cancelled": 220722,
+          "expired": 1356,
+          "wrong_task": 77341,
+          "age_2us_bins": [
+            0,
+            0,
+            390632,
+            23334,
+            280320,
+            72625,
+            132317,
+            199713,
+            28748,
+            259302,
+            40551,
+            159597,
+            91879,
+            76446,
+            109038,
+            190538
+          ],
+          "delayed_emissions": 2055040,
+          "emission_age_10_to_20us_pct": 33.70761639676113,
+          "emission_age_20_to_30us_pct": 23.23609272812208,
+          "emission_age_at_least_30us_pct": 9.271741669261912
+        }
+      }
+    ],
+    "interpretation": "Exploratory single temporal sequence; no CI. Off comparator interpolates log latencies between bracketing off phases by phase index. NOP/burst are direct phase ratios; none is independent confirmation."
+  },
+  "source_hashes": {
+    "wake_prefetch.c": "269c18f79d9ec303ecc80d04deac5f61fcfc8bd59fdfb0064c269e86f55428df",
+    "wake_prefetch.h": "fb441bfab4805e39dfff69ab5451e192f27716db03f4cc3a905189590446aef4",
+    "control.py": "bbf9519836b712a93ed4faddd9cfec21a65f0b4ed09a47df4cb3a72923359d23",
+    "Makefile": "5edb7aa933e35bc8363b469902c9d578ce8903f1fa636db8661298af655ca0a8"
+  }
+}

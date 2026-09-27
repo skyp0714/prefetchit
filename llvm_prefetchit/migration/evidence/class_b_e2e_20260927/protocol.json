@@ -1,0 +1,39 @@
+{
+  "primary": "External HTTP planned-arrival to completion mean and p99 latency, clean full-stack trials; max sustainable offered rate under p99<=20ms with zero errors/drops secondary",
+  "family": "media",
+  "pool": 8,
+  "rate": 1000,
+  "qualification": "Baseline-only bracket 1000/1100 RPS; frozen operating point 1000 before candidate performance",
+  "screen": "three distributed LBR placement variants, two paired blocks, fresh stacks",
+  "confirmation": "best screening mean latency candidate, seven independent paired blocks; both mean and p99 reported, no PMU in latency tests",
+  "spacing": "one hint per selected code site; >=64 code bytes between hints; no assertion of fixed wall-clock period",
+  "variants": [
+    {
+      "name": "near",
+      "lead": [
+        64,
+        512
+      ],
+      "budget": 128,
+      "hint": "t1"
+    },
+    {
+      "name": "far",
+      "lead": [
+        256,
+        2048
+      ],
+      "budget": 256,
+      "hint": "t1"
+    },
+    {
+      "name": "far_t0",
+      "lead": [
+        256,
+        2048
+      ],
+      "budget": 256,
+      "hint": "t0"
+    }
+  ]
+}

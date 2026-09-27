@@ -1,0 +1,48 @@
+{
+  "winner": "far",
+  "promoted": false,
+  "metrics": {
+    "mean_ms": {
+      "pairs": 7,
+      "cost_reduction_pct": 0.8549134497243371,
+      "ci95_pct": [
+        -2.444886349354447,
+        4.0484250864358255
+      ]
+    },
+    "p50_ms": {
+      "pairs": 7,
+      "cost_reduction_pct": 0.6389068083195615,
+      "ci95_pct": [
+        -1.009764398547519,
+        2.26066856970345
+      ]
+    },
+    "p95_ms": {
+      "pairs": 7,
+      "cost_reduction_pct": 0.539265169076697,
+      "ci95_pct": [
+        -3.2424613095341392,
+        4.182468650680038
+      ]
+    },
+    "p99_ms": {
+      "pairs": 7,
+      "cost_reduction_pct": 2.3895329822335776,
+      "ci95_pct": [
+        -16.58787006711764,
+        18.277919770371696
+      ]
+    },
+    "stack_cpu": {
+      "pairs": 7,
+      "cost_reduction_pct": 0.20904499116517483,
+      "ci95_pct": [
+        -0.3452787970748439,
+        0.7603066038261108
+      ]
+    }
+  },
+  "deployment": "Experimental retained artifact only; default service baselines are unchanged",
+  "interpretation": "Individual confidence intervals, two endpoints without multiplicity correction; fixed-load RPS is not maximum throughput"
+}
