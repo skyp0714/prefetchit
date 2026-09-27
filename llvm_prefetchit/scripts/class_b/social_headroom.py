@@ -52,7 +52,9 @@ def attach(cost, samples):
     lat = sorted((end-start)*1000 for start, end in samples if cost['start'] <= end < cost['end'])
     assert lat
     cost.update(completed=len(lat), achieved_rps=len(lat)/cost['wall_s'],
-                cpu_us_per_request=cost['cpu_us']/len(lat), p99_ms=lat[int(.99*(len(lat)-1))])
+                cpu_us_per_request=cost['cpu_us']/len(lat),
+                mean_ms=math.fsum(lat)/len(lat), p50_ms=lat[int(.50*(len(lat)-1))],
+                p95_ms=lat[int(.95*(len(lat)-1))], p99_ms=lat[int(.99*(len(lat)-1))])
     if 'user_us' in cost:
         cost['user_us_per_request'] = cost['user_us']/len(lat)
     return cost
