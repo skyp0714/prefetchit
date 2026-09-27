@@ -70,6 +70,55 @@ def candidate_sites(edges, slots, bias, dso_pattern, minimum, maximum):
     return found
 
 
+def sample_candidates(samples, slots, sections, pattern, minimum, maximum,
+                      maps=None, maps_dir=None, counts=None):
+    """Yield one target and its eligible predecessors per sampled miss."""
+    if counts is None:
+        counts = collections.Counter()
+    biases = {None: mapping_bias(maps.read_text(), pattern, sections)} if maps else {}
+    for line in samples.open():
+        match = HEADER.match(line)
+        if not match:
+            continue
+        counts['all_samples'] += 1
+        if not pattern.search(match[3]):
+            continue
+        counts['target_dso_samples'] += 1
+        pid = int(match[1]) if match[1] else None
+        if maps_dir and pid not in biases:
+            path = maps_dir / f'{pid}.maps'
+            biases[pid] = mapping_bias(path.read_text(), pattern, sections) if path.exists() else None
+        bias = biases.get(pid) if maps_dir else biases[None]
+        if bias is None:
+            counts['unmapped_samples'] += 1
+            continue
+        target = (int(match[2], 16) - bias) & ~63
+        if not any(va <= target < va + size for va, _, size in sections):
+            counts['outside_executable_sections'] += 1
+            continue
+        edges = [(int(fr, 16), fr_dso, int(to, 16), to_dso,
+                  int(cycles) if cycles.isdigit() else None)
+                 for fr, fr_dso, to, to_dso, cycles, _ in EDGE.findall(line)]
+        counts['parsed_branch_edges'] += len(edges)
+        candidates = candidate_sites(edges, slots, bias, pattern, minimum, maximum)
+        candidates = {site for site in candidates if site & ~63 != target}
+        if candidates:
+            counts['samples_with_candidate'] += 1
+        yield target, candidates
+
+
+def select_spaced(ranked, budget, distance):
+    """Bound static hint density without asserting dynamic queue occupancy."""
+    chosen = []
+    for row in ranked:
+        if any(abs(row[1] - other[1]) < distance for other in chosen):
+            continue
+        chosen.append(row)
+        if len(chosen) == budget:
+            break
+    return chosen
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('source', type=Path)
@@ -85,9 +134,16 @@ def main():
     ap.add_argument('--budget', type=int, default=32)
     ap.add_argument('--min-votes', type=int, default=3)
     ap.add_argument('--min-target-share', type=float, default=.2)
+    ap.add_argument('--min-site-distance', type=int, default=0,
+                    help='minimum code-byte distance between selected hint sites')
+    ap.add_argument('--hint', choices=('t1', 't0'), default='t1')
+    ap.add_argument('--heldout', type=Path)
+    ap.add_argument('--heldout-maps', type=Path)
     a = ap.parse_args()
-    if a.output.exists() or a.budget < 1 or not 0 <= a.min_lead <= a.max_lead:
+    if a.output.exists() or a.budget < 1 or a.min_site_distance < 0 or not 0 <= a.min_lead <= a.max_lead:
         ap.error('new output, positive budget and ordered lead bounds required')
+    if bool(a.heldout) != bool(a.heldout_maps):
+        ap.error('heldout samples require their own mapping snapshot')
     original = a.source.read_bytes()
     digest = hashlib.sha256(original).hexdigest()
     index = json.loads(a.index.read_text())
@@ -97,40 +153,12 @@ def main():
     pattern = re.compile(a.dso)
     slot_info = {row[0]: row for row in index['slots']}
     slots = sorted(slot_info)
-    biases = {}
-    if a.maps:
-        biases[None] = mapping_bias(a.maps.read_text(), pattern, sections)
     votes = collections.defaultdict(collections.Counter)
     counts = collections.Counter()
-    for line in a.samples.open():
-        match = HEADER.match(line)
-        if not match:
-            continue
-        counts['all_samples'] += 1
-        if not pattern.search(match[3]):
-            continue
-        counts['target_dso_samples'] += 1
-        pid = int(match[1]) if match[1] else None
-        if a.maps_dir and pid not in biases:
-            path = a.maps_dir / f'{pid}.maps'
-            biases[pid] = mapping_bias(path.read_text(), pattern, sections) if path.exists() else None
-        bias = biases.get(pid) if a.maps_dir else biases[None]
-        if bias is None:
-            counts['unmapped_samples'] += 1
-            continue
-        target = (int(match[2], 16) - bias) & ~63
-        if not any(va <= target < va + size for va, _, size in sections):
-            counts['outside_executable_sections'] += 1
-            continue
-        edges = [(int(fr, 16), fr_dso, int(to, 16), to_dso,
-                  int(cycles) if cycles.isdigit() else None)
-                 for fr, fr_dso, to, to_dso, cycles, _ in EDGE.findall(line)]
-        candidates = candidate_sites(edges, slots, bias, pattern, a.min_lead, a.max_lead)
-        if candidates:
-            counts['samples_with_candidate'] += 1
+    for target, candidates in sample_candidates(a.samples, slots, sections, pattern,
+            a.min_lead, a.max_lead, a.maps, a.maps_dir, counts):
         for site in candidates:
-            if (site & ~63) != target:
-                votes[site][target] += 1
+            votes[site][target] += 1
     ranked = []
     for site, distribution in votes.items():
         target, count = distribution.most_common(1)[0]
@@ -140,14 +168,15 @@ def main():
     ranked.sort(key=lambda row: (-row[0], row[1], row[2]))
     data = bytearray(original)
     patches = []
-    for count, site, target, share, total in ranked[:a.budget]:
+    for count, site, target, share, total in select_spaced(ranked, a.budget, a.min_site_distance):
         slot = slot_info[site]
         addr, offset, length, _ = slot[:4]
         before = bytes(data[offset:offset + length])
         expected = bytes.fromhex(slot[4]) if len(slot)>4 else MULTI_NOP[length]
         if before != expected or not is_padding_nop(before):
             raise ValueError('selected site is not the indexed canonical NOP')
-        after = b'\x66' * (length - 7) + bytes.fromhex('0f1815') + struct.pack('<i', target - addr - length)
+        opcode = '0f1815' if a.hint == 't1' else '0f180d'
+        after = b'\x66' * (length - 7) + bytes.fromhex(opcode) + struct.pack('<i', target - addr - length)
         data[offset:offset + length] = after
         patches.append({'address': addr, 'offset': offset, 'target': target,
                         'before': before.hex(), 'after': after.hex(),
@@ -167,6 +196,18 @@ def main():
                 'arguments': vars(a), 'counts': dict(counts), 'sites': len(patches),
                 'patches': patches, 'twin': str(a.source), 'reversed_patches_sha256': digest,
                 'warning': 'Profile-guided; LBR cycles are a lead proxy. Votes are not execution counts or additive coverage.'}
+    if a.heldout:
+        selected = {p['address']: p['target'] for p in patches}
+        quality = collections.Counter()
+        for target, candidates in sample_candidates(a.heldout, slots, sections, pattern,
+                a.min_lead, a.max_lead, a.heldout_maps, counts=quality):
+            seen = candidates & selected.keys()
+            if seen:
+                quality['samples_with_selected_predecessor'] += 1
+            if any(selected[site] == target for site in seen):
+                quality['samples_with_correct_selected_target'] += 1
+        metadata['heldout'] = dict(quality)
+        metadata['heldout_sha256'] = hashlib.sha256(a.heldout.read_bytes()).hexdigest()
     a.output.with_suffix('.json').write_text(json.dumps(metadata, default=str, indent=2))
     print(json.dumps({'sites': len(patches), 'counts': dict(counts)}))
 

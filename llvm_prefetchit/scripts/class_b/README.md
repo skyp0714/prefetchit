@@ -67,6 +67,28 @@ and two Social targets. Media retains 100% application tracing and Social 10%,
 matching each family's existing reference regime. These are not changes made
 between performance arms.
 
+The end-to-end follow-up uses `e2e_lbr.py`: `capture` records retired frontend
+L2-miss LBRs for every target cgroup, including new threads; `prepare` selects
+small hints at executed NOPs on the preceding path, with bounded static spacing
+and independently relocated heldout samples; `campaign` rotates fresh-stack
+pairs and retains external HTTP mean/p50/p95/p99 latency. Unchanged baseline
+binaries are exact NOP controls for these patches. LBR cycles estimate retirement
+lead, not an instruction-fetch deadline. Heldout coverage counts each miss once,
+even if several eligible predecessors exist. This is not a per-hint hit rate.
+The external load remains Poisson/open-loop; fixed achieved RPS alone does not
+establish maximum throughput. The study uses a 20 ms p99 qualification threshold
+and zero steady errors/drops, selected before candidate timing.
+
+`wave_plan.py` instead fits future time-bin targets from two new baseline
+PEBS+scheduler windows. It resolves IPs through executable ELF segments and
+retains hash-bound line/age counts before removing raw and decoded data. Each
+stage selects unused frequent lines from a future bin; sparse stages truncate
+the list. The runtime classifier is deliberately coarse (process identity and
+selected user task), and makes no claim to know a future branch. Compare each
+bounded periodic kernel plan against both its same-address burst and its
+same-layout timer NOP. Requested times are nominal; actual kernel wave ages
+must be reported. Profiling is always separate from clean latency measurements.
+
 - `fullset.py prepare` stages/hash-checks all references locally. `qualify`
   compares baseline pools of 4/6/8 at 600 RPS, then selects by geometric-mean
   code MPKI across each family's targets, before seeing candidate results.

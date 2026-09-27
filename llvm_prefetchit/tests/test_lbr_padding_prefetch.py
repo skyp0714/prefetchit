@@ -51,3 +51,24 @@ def test_perf_pid_and_parenthesized_dso_are_parsed():
 def test_unknown_branch_type_preserves_interval_edges():
     line = '0x200 (target)/0x300 (target)/P/-/-/84/-/-'
     assert module.EDGE.findall(line) == [('200', '(target)', '300', '(target)', '84', '-')]
+
+
+def test_density_bound_preserves_vote_order_and_budget():
+    ranked = [(10, 100, 500, 1., 10), (9, 130, 600, 1., 9),
+              (8, 180, 700, 1., 8), (7, 300, 800, 1., 7)]
+    assert [r[1] for r in module.select_spaced(ranked, 2, 64)] == [100, 180]
+    assert module.select_spaced(ranked, 2, 0) == ranked[:2]
+
+
+def test_heldout_mapping_and_each_miss_has_one_candidate_set(tmp_path):
+    maps = tmp_path / 'maps'
+    maps.write_text('00001000-00003000 r-xp 00001000 00:00 1 /target\n')
+    sample = tmp_path / 'samples'
+    sample.write_text('123 1800 (/target) '
+        '0x1400 (/target)/0x1700 (/target)/P/-/-/100/-/- '
+        '0x1100 (/target)/0x1200 (/target)/P/-/-/50/-/-\n')
+    counts = module.collections.Counter()
+    result = list(module.sample_candidates(sample, [0x1280, 0x1380],
+        [(0x1000, 0x1000, 0x2000)], re.compile('target'), 50, 100, maps, counts=counts))
+    assert result == [(0x1800, {0x1280})]
+    assert counts['all_samples'] == 1 and counts['parsed_branch_edges'] == 2
