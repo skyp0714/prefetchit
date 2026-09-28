@@ -19,7 +19,7 @@ if [[ "${FATSTATIC:-0}" == "1" ]]; then
   sed -i -e '1i find_package(libmongoc-static-1.0 1.13 REQUIRED)' -e 's#\${MONGOC_LIBRARIES}#${MONGOC_STATIC_LIBRARIES}#' -e 's#\${THRIFT_LIB}#/usr/local/lib/libthrift.a#' \
     -e "s#^\(\s*\)jaegertracing\s*\$#\1${STATICJ}#" \
     -e "s#/usr/local/lib/libjaegertracing\.so#${STATICJ}#" $CL
-  LDX=("-DCMAKE_EXE_LINKER_FLAGS=-static-libstdc++ -static-libgcc")
+  LDX=("-DCMAKE_EXE_LINKER_FLAGS=-static-libstdc++ -static-libgcc ${PREFETCHIT_RUNTIME_OBJECT:-}")
 fi
 cd /src
 rm -rf build && mkdir build && cd build

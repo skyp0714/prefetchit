@@ -42,7 +42,8 @@ def audit(root, variants=None, prefix=''):
                 assert instruction.split()[0]=='prefetcht1',instruction
                 va=int(match[1],16);raw=bytes.fromhex(match[2]);size=len(raw)
                 candidates=[(v,o,s) for v,o,s in sections if v<=va and va+size<=v+s]
-                assert len(candidates)==1 and raw.startswith(b'\x0f\x18'),line
+                opcode = raw[1:] if 0x40 <= raw[0] <= 0x4f else raw
+                assert len(candidates)==1 and opcode.startswith(b'\x0f\x18'),line
                 v,o,s=candidates[0];offset=o+va-v
                 assert source[offset:offset+size]==raw
                 replacement=nop.MULTI_NOP[size];patched[offset:offset+size]=replacement

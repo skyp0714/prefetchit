@@ -31,6 +31,9 @@ class Stack:
     binary=ensure_local(binary)
     assert binary.is_file() and not str(binary.resolve()).startswith('/fast-lab-share/'),binary
     c.update(image='dsb-deps-jammy',working_dir='/media-microservices',entrypoint=['/custom/'+exe],volumes=[str(binary)+':/custom/'+exe+':ro',str(config_dir)+':/media-microservices/config:ro'])
+    if os.environ.get('CLASS_B_SCHED_CLOCK') == '1' and name in {v[0] for v in TARGETS.values()}:
+     c['devices']=['/dev/prefetchit_sched_clock:/dev/prefetchit_sched_clock:r']
+     c.setdefault('environment',{})['PREFETCHIT_SCHED_REQUIRED']='1'
   config['services']['nginx-web-server']['ports']=['127.0.0.1:18081:8080']
   config['services']['nginx-web-server']['volumes']=[str(nginx_tracer)+':/usr/local/openresty/nginx/jaeger-config.json:ro' if v.split(':')[1]=='/usr/local/openresty/nginx/jaeger-config.json' else v for v in config['services']['nginx-web-server']['volumes']]
   config['services']['jaeger'].update(image='jaegertracing/all-in-one:1.57',command=['--memory.max-traces=10000'])

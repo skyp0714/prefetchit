@@ -46,7 +46,7 @@ def trial(spec):
         stack=h.start(out,'media',spec['overrides'],len(cpus))
         load=out/'load';load.mkdir()
         command=['python3',Path(__file__).with_name('closed_loop_load.py'),'--out',load,
-            '--concurrency',str(spec['concurrency']),'--seconds',str(65+roi),
+            '--concurrency',str(spec['concurrency']),'--seconds',str(65+roi+(24 if spec.get('pmu_events') else 0)),
             '--seed',str(spec['seed'])]
         h.c.save(load/'command.json',command)
         with (load/'client.log').open('w') as log:
@@ -59,9 +59,23 @@ def trial(spec):
         accounts_before=stack.accounts();pool_before=h.old.pool_cpu(cpus);schedule_before=snapshot(cpus)
         time.sleep(roi)
         schedule_after=snapshot(cpus);pool_after=h.old.pool_cpu(cpus);accounts_after=stack.accounts()
+        pmu={}
+        if spec.get('pmu_events'):
+            from dense_causes import counters
+            for key,(name,_,_) in h.TARGETS['media'].items():
+                pid=stack.states[name]['State']['Pid'];before=h.c.cpu(pid)
+                group=str(Path(before['path']).parent.relative_to('/sys/fs/cgroup'))
+                command=['perf','stat','-x,','-o',str(out/(key+'.pmu.csv')),'-e',spec['pmu_events'],
+                         '-a','-C','32-39','-G',group,'--','sleep','8']
+                h.c.run(command,out/(key+'.pmu.log'))
+                pmu[key]=dict(**counters(out/(key+'.pmu.csv')),window=h.c.diff_cpu(before,h.c.cpu(pid)))
+                assert pmu[key]['fully_scheduled']
         assert client.wait(timeout=90)==0;client=None;stack.check()
         info=json.loads((load/'load.json').read_text())
         with gzip.open(load/'requests.json.gz','rt') as f:samples=json.load(f)
+        for entry in pmu.values():
+            h.old.attach(entry['window'],samples)
+            entry['per_request']={k:v/entry['window']['completed'] for k,v in entry['counters'].items()}
         pool=h.old.attach(dict(start=pool_before['epoch'],end=pool_after['epoch'],
             wall_s=pool_after['monotonic']-pool_before['monotonic'],
             cpu_us=sum(pool_after['ticks'][k]-v for k,v in pool_before['ticks'].items())*1e6/pool_before['clock_ticks']),samples)
@@ -72,7 +86,7 @@ def trial(spec):
         assert all(v>=0 for v in delta.values())
         errors=sum(pool['start']<=t<pool['end'] for t in info['error_times'])
         # CPython's GIL can saturate a single core despite a four-core affinity.
-        result=dict(valid=not info['steady_errors'] and info['client_cpu_cores']<.8,
+        result=dict(valid=not info['steady_errors'] and info['client_cpu_cores']<.8,pmu=pmu,
             concurrency=spec['concurrency'],pool=pool,load=info,
             roi_errors=errors,error_fraction=errors/(pool['completed']+errors),
             whole_stack_cpu_us_per_request=sum(v['cpu_us'] for v in costs.values())/pool['completed'],

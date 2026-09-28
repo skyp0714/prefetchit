@@ -29,6 +29,8 @@ ARMS = {
     'seq256': {'PREFETCHIT_SEQ_DISTANCE': '256', 'PREFETCHIT_SEQ_STRIDE_INSNS': '20',
                'PREFETCHIT_CALLEE_BURST_LINES': '4'},
 }
+POLICIES = dict(ARMS, dom_decay={'PREFETCHIT_DOMINATOR': '1', 'PREFETCHIT_DOM_LEAD': '24',
+                                'PREFETCHIT_DOM_BATCH': '4', 'PREFETCHIT_DOM_CALLER_TARGETS': '4'})
 SERVICES = {'movie': 'MovieIdService', 'compose': 'ComposeReviewService', 'rating': 'RatingService'}
 
 
@@ -120,8 +122,8 @@ def prepare(root):
 def worker(arm, tag=None):
     tag=tag or arm;assert re.fullmatch('[a-z0-9_]+',tag)
     root = Path('/dense'); out = root/'builds'/tag; out.mkdir(parents=True,exist_ok=False)
-    env = {k:v for k,v in os.environ.items() if not k.startswith('PREFETCHIT_')}; env.update(ARMS[arm])
-    flags = '-fpass-plugin=/pass/PrefetchITPass.so' if ARMS[arm] else ''
+    env = {k:v for k,v in os.environ.items() if not k.startswith('PREFETCHIT_')}; env.update(POLICIES[arm])
+    flags = '-fpass-plugin=/pass/PrefetchITPass.so' if POLICIES[arm] else ''
     definitions = {
         PACKAGES[0][0]: ['-DENABLE_TESTS=OFF','-DENABLE_EXAMPLES=OFF','-DENABLE_SHM_COUNTERS=OFF',
                          '-DENABLE_STATIC=ON','-DCMAKE_EXE_LINKER_FLAGS=-Wl,--allow-shlib-undefined'],
@@ -153,6 +155,13 @@ def worker(arm, tag=None):
     for key, exe in SERVICES.items():
         space(root); dest=out/key;dest.mkdir()
         service_env=dict(env,MAKE_TARGET=exe,BIN_GLOB=exe,FATSTATIC='1')
+        if arm == 'dom_decay':
+            runtime = root/'sched_runtime.o'
+            if not runtime.exists():
+                run(['clang-19','-O2','-fPIC','-c',
+                     '/repo/llvm_prefetchit/kernel/sched_clock/runtime.c','-o',runtime],
+                    out/'runtime_build.log',env=env)
+            service_env['PREFETCHIT_RUNTIME_OBJECT'] = str(runtime)
         command=['bash',root/'build_service.sh',dest,'-O3','-g','-Wno-enum-constexpr-conversion','-Wno-error']
         if flags:command.append(flags)
         try:
@@ -163,21 +172,26 @@ def worker(arm, tag=None):
             for log in ('make.log','cmake.log'):
                 if (build/log).exists():shutil.copyfile(build/log,dest/log)
             remove_build(build,dest/'build_cleanup.json')
-    save(out/'complete.json',dict(arm=arm,tag=tag,settings=ARMS[arm],installed_hashes={str(p):sha(p) for p in Path('/usr/local/lib').glob('*.a')}))
+    save(out/'complete.json',dict(arm=arm,tag=tag,settings=POLICIES[arm],installed_hashes={str(p):sha(p) for p in Path('/usr/local/lib').glob('*.a')}))
 
 
-def build(root, arm, tag=None):
+def build(root, arm, tag=None, plugin_dir=None):
     space(root)
     tag=tag or arm;assert re.fullmatch('[a-z0-9_]+',tag)
     name='codex-dense-build-20260927-'+tag
     assert not subprocess.check_output(['docker','ps','-aq','--filter','name=^/'+name+'$'],text=True).strip()
     image_id=subprocess.check_output(['docker','image','inspect','--format','{{.Id}}','dsb-deps-jammy'],text=True).strip()
     save(root/(tag+'_image.json'),dict(tag='dsb-deps-jammy',id=image_id))
+    plugin_dir = plugin_dir or REPO/'llvm_prefetchit/build'
+    save(root/(tag+'_implementation.json'),dict(settings=POLICIES[arm],
+        plugin_sha256=sha(plugin_dir/'PrefetchITPass.so'),driver_sha256=sha(__file__),
+        source_hashes={str(p.relative_to(REPO)):sha(p) for p in
+                      (REPO/'llvm_prefetchit/lib').glob('*') if p.is_file()}))
     command=['docker','run','--rm','--name',name,'--label','prefetchit.dense=20260927',
         '--network=none','--cpuset-cpus','48-63',
         '-v',str(root)+':/dense','-v',str(root/'dependency_sources')+':/opt/src',
         '-v',str(root/'benchmark_source/mediaMicroservices')+':/src',
-        '-v',str(REPO)+':/repo:ro','-v',str(REPO/'llvm_prefetchit/build')+':/pass:ro',
+        '-v',str(REPO)+':/repo:ro','-v',str(plugin_dir)+':/pass:ro',
         '--entrypoint','python3',image_id,
         '/repo/llvm_prefetchit/scripts/class_b/dense_build.py','worker','/dense','--arm',arm,'--tag',tag]
     try:
@@ -203,12 +217,12 @@ def build(root, arm, tag=None):
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('action',choices=['prepare','worker','build']);p.add_argument('root',type=Path)
-    p.add_argument('--arm',choices=list(ARMS));p.add_argument('--tag');a=p.parse_args()
+    p.add_argument('--arm',choices=list(POLICIES));p.add_argument('--tag');p.add_argument('--plugin-dir',type=Path);a=p.parse_args()
     def interrupted(signum,frame):raise KeyboardInterrupt(signum)
     if a.action!='worker':signal.signal(signal.SIGTERM,interrupted)
     if a.action=='prepare':prepare(a.root)
     elif a.action=='worker':worker(a.arm,a.tag)
-    else:build(a.root,a.arm,a.tag)
+    else:build(a.root,a.arm,a.tag,a.plugin_dir)
 
 
 if __name__=='__main__':main()
