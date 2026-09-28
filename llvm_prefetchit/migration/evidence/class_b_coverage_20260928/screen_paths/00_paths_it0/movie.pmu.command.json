@@ -1,0 +1,17 @@
+[
+  "perf",
+  "stat",
+  "-x,",
+  "-o",
+  "/storage/prefetchit/class_b_coverage_20260928/screen_paths/00_paths_it0/movie.pmu.csv",
+  "-e",
+  "cycles:u,instructions:u,cpu/event=0x24,umask=0x24,name=L2I/u,cpu/event=0xc6,umask=0x3,name=FE_L2,config1=0x13/u,cpu/event=0x11,umask=0xe,name=ITLB_WALK/u,cpu/event=0x24,umask=0x28,name=SWPF_MISS/u,cpu/event=0x24,umask=0xc8,name=SWPF_HIT/u",
+  "-a",
+  "-C",
+  "32-39",
+  "-G",
+  "system.slice/docker-90b388d39c5e215fd6ee5527c8b4bbb77738f8c5e05a4991790e20bc03b0016f.scope",
+  "--",
+  "sleep",
+  "8"
+]

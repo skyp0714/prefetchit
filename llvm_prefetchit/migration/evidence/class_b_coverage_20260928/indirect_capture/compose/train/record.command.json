@@ -1,0 +1,22 @@
+[
+  "perf",
+  "record",
+  "--no-buildid",
+  "--no-buildid-cache",
+  "-a",
+  "-C",
+  "32-39",
+  "-m",
+  "8M",
+  "-e",
+  "cpu/event=0xc6,umask=0x3,config1=0x13,period=257,name=fe_l2/upp",
+  "-j",
+  "any,u",
+  "-G",
+  "system.slice/docker-832c930803ec08e4272e18c7a55e27fdb39be2e3b5cb54dd9f3a1580aba935e5.scope",
+  "-o",
+  "/storage/prefetchit/class_b_coverage_20260928/indirect_capture/compose/train/perf.data",
+  "--",
+  "sleep",
+  "12"
+]

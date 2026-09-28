@@ -1,0 +1,110 @@
+-- The C compiler identification is ;Clang 19.1.7
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/clang-19 - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+file VERSION_CURRENT contained BUILD_VERSION 1.15.0
+  -- Using bundled libbson
+libbson version (from VERSION_CURRENT file): 1.15.0
+-- Looking for snprintf
+-- Looking for snprintf - found
+-- Looking for reallocf
+-- Looking for reallocf - not found
+-- Performing Test BSON_HAVE_TIMESPEC
+-- Performing Test BSON_HAVE_TIMESPEC - Success
+--     struct timespec found
+-- Looking for gmtime_r
+-- Looking for gmtime_r - found
+-- Looking for rand_r
+-- Looking for rand_r - found
+-- Looking for strings.h
+CMake Warning (dev) at CMakeLists.txt:10 (_message):
+  Policy CMP0075 is not set: Include file check macros honor
+  CMAKE_REQUIRED_LIBRARIES.  ;Run "cmake --help-policy CMP0075" for policy
+  details.  ;Use the cmake_policy command to set the policy and suppress this
+  warning.;
+
+  ;CMAKE_REQUIRED_LIBRARIES is set to:
+
+  ; /usr/lib/x86_64-linux-gnu/librt.a
+
+  ;For compatibility with CMake 3.11 and below this check is ignoring it.
+Call Stack (most recent call first):
+  /usr/share/cmake-3.22/Modules/CheckIncludeFile.cmake:82 (message)
+  src/libbson/CMakeLists.txt:87 (CHECK_INCLUDE_FILE)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- Looking for strings.h - found
+-- Looking for clock_gettime
+-- Looking for clock_gettime - found
+-- Looking for strnlen
+-- Looking for strnlen - found
+-- Looking for stdbool.h
+-- Looking for stdbool.h - found
+-- Looking for SYS_gettid
+-- Looking for SYS_gettid - found
+-- Looking for syscall
+-- Looking for syscall - found
+-- Performing Test HAVE_ATOMIC_32_ADD_AND_FETCH
+-- Performing Test HAVE_ATOMIC_32_ADD_AND_FETCH - Success
+-- Performing Test HAVE_ATOMIC_64_ADD_AND_FETCH
+-- Performing Test HAVE_ATOMIC_64_ADD_AND_FETCH - Success
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE  
+libmongoc version (from VERSION_CURRENT file): 1.15.0
+-- Searching for zlib CMake packages
+-- Found ZLIB: /usr/lib/x86_64-linux-gnu/libz.so (found version "1.2.11") 
+--   zlib found version "1.2.11"
+--   zlib include path "/usr/include"
+--   zlib libraries "/usr/lib/x86_64-linux-gnu/libz.so"
+-- Looking for include file unistd.h
+-- Looking for include file unistd.h - found
+-- Looking for include file stdarg.h
+-- Looking for include file stdarg.h - found
+-- Searching for compression library zstd
+-- Found PkgConfig: /usr/bin/pkg-config (found version "0.29.2") 
+-- Checking for module 'libzstd'
+--   No package 'libzstd' found
+--   Not found
+-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  
+-- Looking for ASN1_STRING_get0_data in /usr/lib/x86_64-linux-gnu/libcrypto.so
+-- Looking for ASN1_STRING_get0_data in /usr/lib/x86_64-linux-gnu/libcrypto.so - found
+-- Searching for sasl/sasl.h
+--   Found in /usr/include
+-- Searching for libsasl2
+--   Found /usr/lib/x86_64-linux-gnu/libsasl2.so
+-- Looking for sys/types.h
+-- Looking for sys/types.h - found
+-- Looking for stdint.h
+-- Looking for stdint.h - found
+-- Looking for stddef.h
+-- Looking for stddef.h - found
+-- Check size of socklen_t
+-- Check size of socklen_t - done
+-- Looking for res_nsearch
+-- Looking for res_nsearch - found
+-- Looking for res_ndestroy
+-- Looking for res_ndestroy - not found
+-- Looking for res_nclose
+-- Looking for res_nclose - found
+-- Looking for sched_getcpu
+-- Looking for sched_getcpu - not found
+-- Detected parameters: accept (int, struct sockaddr *, socklen_t *)
+-- Searching for compression library header snappy-c.h
+--   Not found (specify -DCMAKE_INCLUDE_PATH=/path/to/snappy/include for Snappy compression)
+-- Compiling against OpenSSL
+-- Compiling against Cyrus SASL
+-- Configuring done
+-- Generating done
+CMake Warning:
+  Manually-specified variables were not used by the project:
+
+    CMAKE_CXX_COMPILER
+    CMAKE_CXX_FLAGS
+
+
+-- Build files have been written to: /opt/src/mongo-c-driver-1.15.0/dense_build

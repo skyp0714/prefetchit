@@ -1,0 +1,381 @@
+{
+  "selection": {
+    "selected": {
+      "movie": {
+        "score": 2.887672479116754,
+        "name": "indirect_it0",
+        "stage": "indirect",
+        "all_paired_reductions_pct": [
+          3.3179997330685773,
+          2.4554298578268408,
+          7.675832290762719,
+          7.257440493076473
+        ],
+        "binary": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect_it0/movie/MovieIdService",
+        "nop": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect/movie/MovieIdService.nop",
+        "source": "/storage/prefetchit/class_b_coverage_20260928/indirect_screen_miss.json"
+      },
+      "compose": {
+        "score": 2.4438239542062257,
+        "name": "lift_it0",
+        "stage": "indirect",
+        "all_paired_reductions_pct": [
+          1.1157456862595283,
+          3.7540652884769488,
+          4.7259002273868145,
+          3.5866878516253697
+        ],
+        "binary": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect_lift_it0/compose/ComposeReviewService",
+        "nop": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect_lift/compose/ComposeReviewService.nop",
+        "source": "/storage/prefetchit/class_b_coverage_20260928/indirect_screen_miss.json"
+      },
+      "rating": {
+        "score": 3.498532580274716,
+        "name": "coverage_full_it0",
+        "stage": "direct",
+        "all_paired_reductions_pct": [
+          2.700529151815856,
+          4.289991168702267,
+          6.178026371925505,
+          5.381575339530997
+        ],
+        "binary": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_callees_it0/rating/RatingService",
+        "nop": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_callees/rating/RatingService.nop",
+        "source": "/storage/prefetchit/class_b_coverage_20260928/screen_miss.json"
+      }
+    },
+    "candidates": {
+      "movie": [
+        {
+          "score": 2.887672479116754,
+          "name": "indirect_it0",
+          "stage": "indirect",
+          "all_paired_reductions_pct": [
+            3.3179997330685773,
+            2.4554298578268408,
+            7.675832290762719,
+            7.257440493076473
+          ],
+          "binary": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect_it0/movie/MovieIdService",
+          "nop": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect/movie/MovieIdService.nop",
+          "source": "/storage/prefetchit/class_b_coverage_20260928/indirect_screen_miss.json"
+        }
+      ],
+      "compose": [
+        {
+          "score": 1.9293601110429437,
+          "name": "coverage_full_it0",
+          "stage": "direct",
+          "all_paired_reductions_pct": [
+            3.2709246697056105,
+            0.5691889911274783,
+            5.091560635527537,
+            2.854732818045036
+          ],
+          "binary": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_callees_it0/compose/ComposeReviewService",
+          "nop": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_callees/compose/ComposeReviewService.nop",
+          "source": "/storage/prefetchit/class_b_coverage_20260928/screen_miss.json"
+        },
+        {
+          "score": 0.8889470539170219,
+          "name": "coverage_weighted_it0",
+          "stage": "direct",
+          "all_paired_reductions_pct": [
+            0.7864922184722345,
+            0.9912960873037835,
+            2.6538902055367464,
+            3.26713724501676
+          ],
+          "binary": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_weighted1_it0/compose/ComposeReviewService",
+          "nop": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_callees/compose/ComposeReviewService.nop",
+          "source": "/storage/prefetchit/class_b_coverage_20260928/screen_miss.json"
+        },
+        {
+          "score": 1.959991029457897,
+          "name": "indirect_it0",
+          "stage": "indirect",
+          "all_paired_reductions_pct": [
+            1.1659815969456533,
+            2.747621575539083,
+            6.369156489355287,
+            6.3317044824936275
+          ],
+          "binary": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect_it0/compose/ComposeReviewService",
+          "nop": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect/compose/ComposeReviewService.nop",
+          "source": "/storage/prefetchit/class_b_coverage_20260928/indirect_screen_miss.json"
+        },
+        {
+          "score": 2.4438239542062257,
+          "name": "lift_it0",
+          "stage": "indirect",
+          "all_paired_reductions_pct": [
+            1.1157456862595283,
+            3.7540652884769488,
+            4.7259002273868145,
+            3.5866878516253697
+          ],
+          "binary": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect_lift_it0/compose/ComposeReviewService",
+          "nop": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect_lift/compose/ComposeReviewService.nop",
+          "source": "/storage/prefetchit/class_b_coverage_20260928/indirect_screen_miss.json"
+        },
+        {
+          "score": 2.0669880790020967,
+          "name": "paths_it0",
+          "stage": "paths",
+          "all_paired_reductions_pct": [
+            0.6158181657070605,
+            3.4969685627683655,
+            7.636207771349046,
+            7.6169128619054005
+          ],
+          "binary": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_paths_it0/compose/ComposeReviewService",
+          "nop": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_paths/compose/ComposeReviewService.nop",
+          "source": "/storage/prefetchit/class_b_coverage_20260928/paths_screen_miss.json"
+        }
+      ],
+      "rating": [
+        {
+          "score": 3.498532580274716,
+          "name": "coverage_full_it0",
+          "stage": "direct",
+          "all_paired_reductions_pct": [
+            2.700529151815856,
+            4.289991168702267,
+            6.178026371925505,
+            5.381575339530997
+          ],
+          "binary": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_callees_it0/rating/RatingService",
+          "nop": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_callees/rating/RatingService.nop",
+          "source": "/storage/prefetchit/class_b_coverage_20260928/screen_miss.json"
+        },
+        {
+          "score": 3.497015450134089,
+          "name": "coverage_weighted_it0",
+          "stage": "direct",
+          "all_paired_reductions_pct": [
+            3.279174369075677,
+            3.7143658950106073,
+            6.735990725076723,
+            4.812515141370765
+          ],
+          "binary": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_weighted1_it0/rating/RatingService",
+          "nop": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_callees/rating/RatingService.nop",
+          "source": "/storage/prefetchit/class_b_coverage_20260928/screen_miss.json"
+        },
+        {
+          "score": 1.5293042356693376,
+          "name": "indirect_it0",
+          "stage": "indirect",
+          "all_paired_reductions_pct": [
+            1.7227675489343452,
+            1.3354600808539008,
+            4.656443886318429,
+            8.05019208766209
+          ],
+          "binary": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect_it0/rating/RatingService",
+          "nop": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect/rating/RatingService.nop",
+          "source": "/storage/prefetchit/class_b_coverage_20260928/indirect_screen_miss.json"
+        }
+      ]
+    },
+    "best_uniform_reference": {
+      "score": 2.0810885195705175,
+      "name": "indirect_it0",
+      "stage": "indirect",
+      "setting": {
+        "clock": false,
+        "controls": [
+          "base",
+          "indirect_nop"
+        ],
+        "overrides": {
+          "movie": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect_it0/movie/MovieIdService",
+          "compose": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect_it0/compose/ComposeReviewService",
+          "rating": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect_it0/rating/RatingService"
+        }
+      },
+      "nop": {
+        "clock": false,
+        "controls": [
+          "base"
+        ],
+        "overrides": {
+          "movie": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect/movie/MovieIdService.nop",
+          "compose": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect/compose/ComposeReviewService.nop",
+          "rating": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect/rating/RatingService.nop"
+        }
+      },
+      "source": "/storage/prefetchit/class_b_coverage_20260928/indirect_screen_miss.json"
+    },
+    "uniform_candidates": [
+      {
+        "score": 1.2870040582840248,
+        "name": "coverage_full_it0",
+        "stage": "direct",
+        "setting": {
+          "clock": false,
+          "controls": [
+            "base",
+            "coverage_nop"
+          ],
+          "overrides": {
+            "movie": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_callees_it0/movie/MovieIdService",
+            "compose": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_callees_it0/compose/ComposeReviewService",
+            "rating": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_callees_it0/rating/RatingService"
+          }
+        },
+        "nop": {
+          "clock": false,
+          "controls": [
+            "base"
+          ],
+          "overrides": {
+            "movie": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_callees/movie/MovieIdService.nop",
+            "compose": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_callees/compose/ComposeReviewService.nop",
+            "rating": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_callees/rating/RatingService.nop"
+          }
+        },
+        "source": "/storage/prefetchit/class_b_coverage_20260928/screen_miss.json"
+      },
+      {
+        "score": 0.22119791424619617,
+        "name": "coverage_weighted_it0",
+        "stage": "direct",
+        "setting": {
+          "clock": false,
+          "controls": [
+            "base",
+            "coverage_nop"
+          ],
+          "overrides": {
+            "movie": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_weighted1_it0/movie/MovieIdService",
+            "compose": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_weighted1_it0/compose/ComposeReviewService",
+            "rating": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_weighted1_it0/rating/RatingService"
+          }
+        },
+        "nop": {
+          "clock": false,
+          "controls": [
+            "base"
+          ],
+          "overrides": {
+            "movie": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_callees/movie/MovieIdService.nop",
+            "compose": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_callees/compose/ComposeReviewService.nop",
+            "rating": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_callees/rating/RatingService.nop"
+          }
+        },
+        "source": "/storage/prefetchit/class_b_coverage_20260928/screen_miss.json"
+      },
+      {
+        "score": 2.0810885195705175,
+        "name": "indirect_it0",
+        "stage": "indirect",
+        "setting": {
+          "clock": false,
+          "controls": [
+            "base",
+            "indirect_nop"
+          ],
+          "overrides": {
+            "movie": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect_it0/movie/MovieIdService",
+            "compose": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect_it0/compose/ComposeReviewService",
+            "rating": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect_it0/rating/RatingService"
+          }
+        },
+        "nop": {
+          "clock": false,
+          "controls": [
+            "base"
+          ],
+          "overrides": {
+            "movie": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect/movie/MovieIdService.nop",
+            "compose": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect/compose/ComposeReviewService.nop",
+            "rating": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect/rating/RatingService.nop"
+          }
+        },
+        "source": "/storage/prefetchit/class_b_coverage_20260928/indirect_screen_miss.json"
+      },
+      {
+        "score": 1.4494089257048537,
+        "name": "paths_it0",
+        "stage": "paths",
+        "setting": {
+          "clock": false,
+          "controls": [
+            "base",
+            "paths_nop"
+          ],
+          "overrides": {
+            "movie": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_paths_it0/movie/MovieIdService",
+            "compose": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_paths_it0/compose/ComposeReviewService",
+            "rating": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_paths_it0/rating/RatingService"
+          }
+        },
+        "nop": {
+          "clock": false,
+          "controls": [
+            "base"
+          ],
+          "overrides": {
+            "movie": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_paths/movie/MovieIdService.nop",
+            "compose": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_paths/compose/ComposeReviewService.nop",
+            "rating": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_paths/rating/RatingService.nop"
+          }
+        },
+        "source": "/storage/prefetchit/class_b_coverage_20260928/paths_screen_miss.json"
+      }
+    ],
+    "selection": "Per-service highest minimum paired-log FE_L2 reduction vs original and own NOP, requiring both blocks positive for that service. Unqualified services keep original. Mixed bundle has not previously been timed: fresh independent whole-stack confirmation tests interactions. Exploratory stages are not pooled."
+  },
+  "miss_checks": {
+    "base": {
+      "estimate": 3.5120982015172886,
+      "ci95": [
+        1.4761230985388174,
+        5.5060003090928955
+      ],
+      "confirmed": true
+    },
+    "selected_nop": {
+      "estimate": 6.44631675341768,
+      "ci95": [
+        5.66778783828743,
+        7.218420426758265
+      ],
+      "confirmed": true
+    }
+  },
+  "code_miss_confirmed": true,
+  "e2e_confirmed": false,
+  "e2e_decision": {
+    "matched_nop": "selected_nop",
+    "point_eligible": true,
+    "point_checks": {
+      "base": {
+        "stack_cpu": true,
+        "mean_ms": true,
+        "p99_ms": true
+      },
+      "selected_nop": {
+        "stack_cpu": true,
+        "mean_ms": true,
+        "p99_ms": true
+      }
+    },
+    "confirmation_checks": {
+      "base": {
+        "stack_cpu": false,
+        "mean_ms": false,
+        "p99_ms": true
+      },
+      "selected_nop": {
+        "stack_cpu": false,
+        "mean_ms": false,
+        "p99_ms": true
+      }
+    },
+    "confirmed": false,
+    "minimum_effect_pct": 0.12544092783126626
+  },
+  "interpretation": "Independent6seed paired-log t95 intervals vs original and matching NOP bundle. Code-miss and E2E conclusions are separate; no pooling with any exploratory stage."
+}

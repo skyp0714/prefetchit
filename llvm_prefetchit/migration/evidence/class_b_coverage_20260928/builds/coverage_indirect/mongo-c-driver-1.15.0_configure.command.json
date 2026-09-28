@@ -1,0 +1,17 @@
+[
+  "cmake",
+  "-S",
+  "/opt/src/mongo-c-driver-1.15.0",
+  "-B",
+  "/opt/src/mongo-c-driver-1.15.0/dense_build",
+  "-DCMAKE_C_COMPILER=clang-19",
+  "-DCMAKE_CXX_COMPILER=clang++-19",
+  "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+  "-DCMAKE_C_FLAGS=-fPIC -Wno-error -Wno-enum-constexpr-conversion -Wno-deprecated-declarations -O2 -g -fpass-plugin=/pass/PrefetchITPass.so",
+  "-DCMAKE_CXX_FLAGS=-fPIC -Wno-error -Wno-enum-constexpr-conversion -Wno-deprecated-declarations -O2 -g -fpass-plugin=/pass/PrefetchITPass.so",
+  "-DENABLE_TESTS=OFF",
+  "-DENABLE_EXAMPLES=OFF",
+  "-DENABLE_SHM_COUNTERS=OFF",
+  "-DENABLE_STATIC=ON",
+  "-DCMAKE_EXE_LINKER_FLAGS=-Wl,--allow-shlib-undefined"
+]

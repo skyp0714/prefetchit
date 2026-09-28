@@ -1,0 +1,79 @@
+{
+  "eligible": [
+    [
+      1.4494089257048537,
+      "paths_it0"
+    ]
+  ],
+  "selected": "paths_it0",
+  "miss_decisions": {
+    "paths_it0": {
+      "contrasts": {
+        "base": {
+          "paired_reductions_pct": [
+            0.09107826035431588,
+            2.789272149266364
+          ],
+          "every_block_reduces": true,
+          "summary": {
+            "pairs": 2,
+            "cost_reduction_pct": 1.4494089257048537,
+            "ci95_pct": [
+              -17.273020222061785,
+              17.182835551583707
+            ]
+          }
+        },
+        "paths_nop": {
+          "paired_reductions_pct": [
+            6.354908856790975,
+            6.438909613556543
+          ],
+          "every_block_reduces": true,
+          "summary": {
+            "pairs": 2,
+            "cost_reduction_pct": 6.396918658109785,
+            "ci95_pct": [
+              5.861729063222554,
+              6.929065623260722
+            ]
+          }
+        }
+      },
+      "miss_screen_eligible": true
+    }
+  },
+  "e2e_decisions": {
+    "paths_it0": {
+      "matched_nop": "paths_nop",
+      "point_eligible": false,
+      "point_checks": {
+        "base": {
+          "stack_cpu": true,
+          "mean_ms": false,
+          "p99_ms": true
+        },
+        "paths_nop": {
+          "stack_cpu": true,
+          "mean_ms": false,
+          "p99_ms": true
+        }
+      },
+      "confirmation_checks": {
+        "base": {
+          "stack_cpu": false,
+          "mean_ms": false,
+          "p99_ms": false
+        },
+        "paths_nop": {
+          "stack_cpu": false,
+          "mean_ms": false,
+          "p99_ms": false
+        }
+      },
+      "confirmed": false,
+      "minimum_effect_pct": -0.12855399039186644
+    }
+  },
+  "interpretation": "Exploratory selection on primary code-miss objective; E2E endpoints remain separate, not a production promotion."
+}

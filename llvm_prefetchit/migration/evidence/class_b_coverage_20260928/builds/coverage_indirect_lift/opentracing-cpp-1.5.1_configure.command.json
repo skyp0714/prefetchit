@@ -1,0 +1,14 @@
+[
+  "cmake",
+  "-S",
+  "/opt/src/opentracing-cpp-1.5.1",
+  "-B",
+  "/opt/src/opentracing-cpp-1.5.1/dense_build",
+  "-DCMAKE_C_COMPILER=clang-19",
+  "-DCMAKE_CXX_COMPILER=clang++-19",
+  "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+  "-DCMAKE_C_FLAGS=-fPIC -Wno-error -Wno-enum-constexpr-conversion -Wno-deprecated-declarations -O2 -g -fpass-plugin=/pass/PrefetchITPass.so",
+  "-DCMAKE_CXX_FLAGS=-fPIC -Wno-error -Wno-enum-constexpr-conversion -Wno-deprecated-declarations -O2 -g -fpass-plugin=/pass/PrefetchITPass.so",
+  "-DBUILD_TESTING=OFF",
+  "-DBUILD_SHARED_LIBS=OFF"
+]

@@ -1,0 +1,10 @@
+[
+  "bash",
+  "/dense/build_service.sh",
+  "/dense/builds/coverage_paths/rating",
+  "-O3",
+  "-g",
+  "-Wno-enum-constexpr-conversion",
+  "-Wno-error",
+  "-fpass-plugin=/pass/PrefetchITPass.so"
+]

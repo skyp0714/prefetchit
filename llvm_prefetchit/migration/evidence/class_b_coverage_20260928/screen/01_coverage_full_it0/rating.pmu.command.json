@@ -1,0 +1,17 @@
+[
+  "perf",
+  "stat",
+  "-x,",
+  "-o",
+  "/storage/prefetchit/class_b_coverage_20260928/screen/01_coverage_full_it0/rating.pmu.csv",
+  "-e",
+  "cycles:u,instructions:u,cpu/event=0x24,umask=0x24,name=L2I/u,cpu/event=0xc6,umask=0x3,name=FE_L2,config1=0x13/u,cpu/event=0x11,umask=0xe,name=ITLB_WALK/u,cpu/event=0x24,umask=0x28,name=SWPF_MISS/u,cpu/event=0x24,umask=0xc8,name=SWPF_HIT/u",
+  "-a",
+  "-C",
+  "32-39",
+  "-G",
+  "system.slice/docker-858210bb68e90713c6afb46cdf4c5b72c9b5e44aa590f670da1b8f8296d13e1e.scope",
+  "--",
+  "sleep",
+  "8"
+]

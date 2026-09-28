@@ -1,0 +1,72 @@
+{
+  "out": "/storage/prefetchit/class_b_coverage_20260928/screen_indirect",
+  "arms": {
+    "base": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+      },
+      "clock": false
+    },
+    "indirect_nop": {
+      "clock": false,
+      "controls": [
+        "base"
+      ],
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect/movie/MovieIdService.nop",
+        "compose": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect/compose/ComposeReviewService.nop",
+        "rating": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect/rating/RatingService.nop"
+      }
+    },
+    "indirect_it0": {
+      "clock": false,
+      "controls": [
+        "base",
+        "indirect_nop"
+      ],
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect_it0/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect_it0/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect_it0/rating/RatingService"
+      }
+    },
+    "lift_nop": {
+      "clock": false,
+      "controls": [
+        "base"
+      ],
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect_lift/movie/MovieIdService.nop",
+        "compose": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect_lift/compose/ComposeReviewService.nop",
+        "rating": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect_lift/rating/RatingService.nop"
+      }
+    },
+    "lift_it0": {
+      "clock": false,
+      "controls": [
+        "base",
+        "lift_nop"
+      ],
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect_lift_it0/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect_lift_it0/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect_lift_it0/rating/RatingService"
+      }
+    }
+  },
+  "module": "/storage/prefetchit/class_b_lean_20260928/kernel_v1/prefetchit_sched_clock.ko",
+  "clock_options": {},
+  "blocks": 2,
+  "concurrency": 4,
+  "roi_s": 60,
+  "seedbase": 63001,
+  "pmu_blocks": [
+    0,
+    1
+  ],
+  "pmu_event_sets": {},
+  "phase": "Frozen trained-indirect versus one-call-edge lift exploration; fresh seeds, both own NOP controls",
+  "primary_miss": "sum of all3 FE_L2/request; reduction in both blocks against base and own NOP; strongest minimum paired-log point reduction retained for independent confirmation; no E2E promotion from this screen"
+}

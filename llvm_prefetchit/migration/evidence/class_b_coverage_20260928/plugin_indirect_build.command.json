@@ -1,0 +1,19 @@
+[
+  "docker",
+  "run",
+  "--rm",
+  "--network=none",
+  "--cpuset-cpus",
+  "48-51",
+  "-v",
+  "/home/hnpark2/prefetchit/llvm_prefetchit:/source:ro",
+  "-v",
+  "/opt/llvm-19.1.7/include:/llvm-include:ro",
+  "-v",
+  "/storage/prefetchit/class_b_coverage_20260928:/out",
+  "--entrypoint",
+  "bash",
+  "sha256:12b003320b7c9e6c885d347770c149f77fa4027e1e8789dc650dddf20e1164ae",
+  "-c",
+  "clang++-19 -shared -fPIC -O2 -std=c++17 -fno-exceptions -fno-rtti -I/llvm-include /source/lib/PrefetchITPass.cpp -o /out/plugin_indirect/PrefetchITPass.so"
+]

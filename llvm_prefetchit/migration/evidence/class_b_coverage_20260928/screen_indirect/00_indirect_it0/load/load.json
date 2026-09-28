@@ -1,0 +1,32 @@
+{
+  "epoch": 1790610702.5111742,
+  "seconds": 149.0,
+  "concurrency": 4,
+  "seed": 63001,
+  "warmup_s": 50,
+  "port": 18081,
+  "pid": 3486918,
+  "mode": "closed-loop; next request after completion; no intentional think time",
+  "latency": "HTTP dispatch to response completion; excludes external arrival queue",
+  "payload": "Upstream Media field distributions; deterministic per-dispatch-index seed",
+  "client_cpus": [
+    16,
+    17,
+    18,
+    19
+  ],
+  "completed": 174442,
+  "errors": 1,
+  "error_times": [
+    1790610702.9566185
+  ],
+  "error_examples": [
+    "(500, b'<html>\\r\\n<head><title>500 Internal Server Error</title></head>\\r\\n<body>\\r\\n<center><h1>500 Internal Server Error</h1></cente')"
+  ],
+  "steady_errors": 0,
+  "response_bodies": {
+    "": 174442
+  },
+  "client_cpu_cores": 0.2730622789852665,
+  "elapsed_s": 149.00201520399423
+}

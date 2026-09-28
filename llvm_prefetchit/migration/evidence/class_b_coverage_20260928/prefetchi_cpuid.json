@@ -1,0 +1,20 @@
+{
+  "leaf": 7,
+  "subleaf": 1,
+  "registers": {
+    "eax": "0x40201d30",
+    "ebx": "0x1",
+    "ecx": "0x0",
+    "edx": "0xe4000"
+  },
+  "prefetchi_enumerated": true,
+  "cpu_affinity": [
+    84
+  ],
+  "kernel": "6.8.0-142-generic",
+  "probe_machine_code": "f30f1efa53b807000000b9010000000fa28907895f04894f0889570c5bc3",
+  "source_sha256": "158ab9102dd711a08f3597b8a195616d830ae8de1d4befeb89a72cab25c69690",
+  "previous_probe_sha256": "0c2524989bd6974e1fb584fc30efdb5745cf169e139ec8e332f1a13566ceae97",
+  "specification": "https://cdrdv2-public.intel.com/819680/architecture-instruction-set-extensions-programming-reference.pdf",
+  "semantics": "Read-only CPUID only, no prefetch and no benchmark timing. Feature enumeration does not establish successful cache fills."
+}

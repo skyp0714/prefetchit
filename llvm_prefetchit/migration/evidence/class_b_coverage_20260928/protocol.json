@@ -1,0 +1,17 @@
+{
+  "start_utc": "2026-09-28T14:57:45Z",
+  "objective": "Reduce code-miss events/request by expanding entry coverage; retain paired E2E results",
+  "source_reuse": "/storage/prefetchit/class_b_lean_20260928",
+  "baseline": {
+    "overrides": {
+      "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+      "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+      "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+    },
+    "clock": false
+  },
+  "controls": "Original and own exact-layout opcode NOP",
+  "screen": "Two fresh seed blocks, C4, 60s clean ROI, PMU in both blocks after ROI; performance and miss endpoints separate",
+  "selection": "Candidate must reduce sum of all3 FE_L2/request vs original and own NOP in both blocks; then new independent blocks. Report all endpoints; never call screening a confirmed win.",
+  "retention": "Delete rejected generated executables promptly after recording evidence; preserve shared source symlinks"
+}

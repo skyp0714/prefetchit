@@ -1,0 +1,550 @@
+{
+  "services": {
+    "unique-id-service": {
+      "image": "dsb-deps-jammy",
+      "hostname": "unique-id-service",
+      "restart": "on-failure:5",
+      "entrypoint": [
+        "/custom/UniqueIdService"
+      ],
+      "cpuset": "32-39",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "2m",
+          "max-file": "2"
+        }
+      },
+      "volumes": [
+        "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/UniqueIdService:/custom/UniqueIdService:ro",
+        "/storage/prefetchit/class_b_coverage_20260928/screen/00_coverage_full_it0/runtime_config:/media-microservices/config:ro"
+      ],
+      "working_dir": "/media-microservices"
+    },
+    "movie-id-service": {
+      "image": "dsb-deps-jammy",
+      "hostname": "movie-id-service",
+      "restart": "on-failure:5",
+      "entrypoint": [
+        "/custom/MovieIdService"
+      ],
+      "cpuset": "32-39",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "2m",
+          "max-file": "2"
+        }
+      },
+      "volumes": [
+        "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_callees_it0/movie/MovieIdService:/custom/MovieIdService:ro",
+        "/storage/prefetchit/class_b_coverage_20260928/screen/00_coverage_full_it0/runtime_config:/media-microservices/config:ro"
+      ],
+      "working_dir": "/media-microservices"
+    },
+    "movie-id-mongodb": {
+      "image": "mongo:4.4.6",
+      "hostname": "movie-id-mongodb",
+      "restart": "on-failure:5",
+      "cpuset": "32-39",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "2m",
+          "max-file": "2"
+        }
+      },
+      "volumes": []
+    },
+    "movie-id-memcached": {
+      "image": "memcached",
+      "hostname": "movie-id-memcached",
+      "restart": "on-failure:5",
+      "cpuset": "32-39",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "2m",
+          "max-file": "2"
+        }
+      },
+      "volumes": []
+    },
+    "text-service": {
+      "image": "dsb-deps-jammy",
+      "hostname": "text-service",
+      "restart": "on-failure:5",
+      "entrypoint": [
+        "/custom/TextService"
+      ],
+      "cpuset": "32-39",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "2m",
+          "max-file": "2"
+        }
+      },
+      "volumes": [
+        "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/TextService:/custom/TextService:ro",
+        "/storage/prefetchit/class_b_coverage_20260928/screen/00_coverage_full_it0/runtime_config:/media-microservices/config:ro"
+      ],
+      "working_dir": "/media-microservices"
+    },
+    "rating-service": {
+      "image": "dsb-deps-jammy",
+      "hostname": "rating-service",
+      "restart": "on-failure:5",
+      "entrypoint": [
+        "/custom/RatingService"
+      ],
+      "cpuset": "32-39",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "2m",
+          "max-file": "2"
+        }
+      },
+      "volumes": [
+        "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_callees_it0/rating/RatingService:/custom/RatingService:ro",
+        "/storage/prefetchit/class_b_coverage_20260928/screen/00_coverage_full_it0/runtime_config:/media-microservices/config:ro"
+      ],
+      "working_dir": "/media-microservices"
+    },
+    "rating-redis": {
+      "image": "redis",
+      "hostname": "rating-redis",
+      "restart": "on-failure:5",
+      "cpuset": "32-39",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "2m",
+          "max-file": "2"
+        }
+      },
+      "volumes": []
+    },
+    "user-service": {
+      "image": "dsb-deps-jammy",
+      "hostname": "user-service",
+      "restart": "on-failure:5",
+      "entrypoint": [
+        "/custom/UserService"
+      ],
+      "cpuset": "32-39",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "2m",
+          "max-file": "2"
+        }
+      },
+      "volumes": [
+        "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/UserService:/custom/UserService:ro",
+        "/storage/prefetchit/class_b_coverage_20260928/screen/00_coverage_full_it0/runtime_config:/media-microservices/config:ro"
+      ],
+      "working_dir": "/media-microservices"
+    },
+    "user-mongodb": {
+      "image": "mongo:4.4.6",
+      "hostname": "user-mongodb",
+      "restart": "on-failure:5",
+      "cpuset": "32-39",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "2m",
+          "max-file": "2"
+        }
+      },
+      "volumes": []
+    },
+    "user-memcached": {
+      "image": "memcached",
+      "hostname": "user-memcached",
+      "restart": "on-failure:5",
+      "cpuset": "32-39",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "2m",
+          "max-file": "2"
+        }
+      },
+      "volumes": []
+    },
+    "compose-review-service": {
+      "image": "dsb-deps-jammy",
+      "hostname": "compose-review-service",
+      "restart": "on-failure:5",
+      "entrypoint": [
+        "/custom/ComposeReviewService"
+      ],
+      "cpuset": "32-39",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "2m",
+          "max-file": "2"
+        }
+      },
+      "volumes": [
+        "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_callees_it0/compose/ComposeReviewService:/custom/ComposeReviewService:ro",
+        "/storage/prefetchit/class_b_coverage_20260928/screen/00_coverage_full_it0/runtime_config:/media-microservices/config:ro"
+      ],
+      "working_dir": "/media-microservices"
+    },
+    "compose-review-memcached": {
+      "image": "memcached",
+      "hostname": "compose-review-memcached",
+      "restart": "on-failure:5",
+      "cpuset": "32-39",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "2m",
+          "max-file": "2"
+        }
+      },
+      "volumes": []
+    },
+    "review-storage-service": {
+      "image": "dsb-deps-jammy",
+      "hostname": "review-storage-service",
+      "restart": "on-failure:5",
+      "entrypoint": [
+        "/custom/ReviewStorageService"
+      ],
+      "cpuset": "32-39",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "2m",
+          "max-file": "2"
+        }
+      },
+      "volumes": [
+        "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/ReviewStorageService:/custom/ReviewStorageService:ro",
+        "/storage/prefetchit/class_b_coverage_20260928/screen/00_coverage_full_it0/runtime_config:/media-microservices/config:ro"
+      ],
+      "working_dir": "/media-microservices"
+    },
+    "review-storage-mongodb": {
+      "image": "mongo:4.4.6",
+      "hostname": "review-storage-mongodb",
+      "restart": "on-failure:5",
+      "cpuset": "32-39",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "2m",
+          "max-file": "2"
+        }
+      },
+      "volumes": []
+    },
+    "review-storage-memcached": {
+      "image": "memcached",
+      "hostname": "review-storage-memcached",
+      "restart": "on-failure:5",
+      "cpuset": "32-39",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "2m",
+          "max-file": "2"
+        }
+      },
+      "volumes": []
+    },
+    "user-review-service": {
+      "image": "dsb-deps-jammy",
+      "hostname": "user-review-service",
+      "restart": "on-failure:5",
+      "entrypoint": [
+        "/custom/UserReviewService"
+      ],
+      "cpuset": "32-39",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "2m",
+          "max-file": "2"
+        }
+      },
+      "volumes": [
+        "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/UserReviewService:/custom/UserReviewService:ro",
+        "/storage/prefetchit/class_b_coverage_20260928/screen/00_coverage_full_it0/runtime_config:/media-microservices/config:ro"
+      ],
+      "working_dir": "/media-microservices"
+    },
+    "user-review-mongodb": {
+      "image": "mongo:4.4.6",
+      "hostname": "user-review-mongodb",
+      "restart": "on-failure:5",
+      "cpuset": "32-39",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "2m",
+          "max-file": "2"
+        }
+      },
+      "volumes": []
+    },
+    "user-review-redis": {
+      "image": "redis",
+      "hostname": "user-review-redis",
+      "restart": "on-failure:5",
+      "cpuset": "32-39",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "2m",
+          "max-file": "2"
+        }
+      },
+      "volumes": []
+    },
+    "movie-review-service": {
+      "image": "dsb-deps-jammy",
+      "hostname": "movie-review-service",
+      "restart": "on-failure:5",
+      "entrypoint": [
+        "/custom/MovieReviewService"
+      ],
+      "cpuset": "32-39",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "2m",
+          "max-file": "2"
+        }
+      },
+      "volumes": [
+        "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/MovieReviewService:/custom/MovieReviewService:ro",
+        "/storage/prefetchit/class_b_coverage_20260928/screen/00_coverage_full_it0/runtime_config:/media-microservices/config:ro"
+      ],
+      "working_dir": "/media-microservices"
+    },
+    "movie-review-mongodb": {
+      "image": "mongo:4.4.6",
+      "hostname": "movie-review-mongodb",
+      "restart": "on-failure:5",
+      "cpuset": "32-39",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "2m",
+          "max-file": "2"
+        }
+      },
+      "volumes": []
+    },
+    "movie-review-redis": {
+      "image": "redis",
+      "hostname": "movie-review-redis",
+      "restart": "on-failure:5",
+      "cpuset": "32-39",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "2m",
+          "max-file": "2"
+        }
+      },
+      "volumes": []
+    },
+    "nginx-web-server": {
+      "image": "yg397/openresty-thrift:xenial",
+      "hostname": "nginx-thrift",
+      "restart": "on-failure:5",
+      "volumes": [
+        "/home/hnpark2/prefetchit/benchmarks/DeathStarBench/mediaMicroservices/nginx-web-server/lua-scripts:/usr/local/openresty/nginx/lua-scripts",
+        "/storage/prefetchit/class_b_coverage_20260928/screen/00_coverage_full_it0/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf:ro",
+        "/storage/prefetchit/class_b_coverage_20260928/screen/00_coverage_full_it0/nginx_jaeger.json:/usr/local/openresty/nginx/jaeger-config.json:ro",
+        "/home/hnpark2/prefetchit/benchmarks/DeathStarBench/mediaMicroservices/gen-lua:/gen-lua"
+      ],
+      "cpuset": "32-39",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "2m",
+          "max-file": "2"
+        }
+      },
+      "ports": [
+        "127.0.0.1:18081:8080"
+      ]
+    },
+    "cast-info-service": {
+      "image": "dsb-deps-jammy",
+      "hostname": "cast-info-service",
+      "restart": "on-failure:5",
+      "entrypoint": [
+        "/custom/CastInfoService"
+      ],
+      "cpuset": "32-39",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "2m",
+          "max-file": "2"
+        }
+      },
+      "volumes": [
+        "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/CastInfoService:/custom/CastInfoService:ro",
+        "/storage/prefetchit/class_b_coverage_20260928/screen/00_coverage_full_it0/runtime_config:/media-microservices/config:ro"
+      ],
+      "working_dir": "/media-microservices"
+    },
+    "cast-info-mongodb": {
+      "image": "mongo:4.4.6",
+      "hostname": "cast-info-mongodb",
+      "restart": "on-failure:5",
+      "cpuset": "32-39",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "2m",
+          "max-file": "2"
+        }
+      },
+      "volumes": []
+    },
+    "cast-info-memcached": {
+      "image": "memcached",
+      "hostname": "cast-info-memcached",
+      "restart": "on-failure:5",
+      "cpuset": "32-39",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "2m",
+          "max-file": "2"
+        }
+      },
+      "volumes": []
+    },
+    "plot-service": {
+      "image": "dsb-deps-jammy",
+      "hostname": "plot-service",
+      "restart": "on-failure:5",
+      "entrypoint": [
+        "/custom/PlotService"
+      ],
+      "cpuset": "32-39",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "2m",
+          "max-file": "2"
+        }
+      },
+      "volumes": [
+        "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/PlotService:/custom/PlotService:ro",
+        "/storage/prefetchit/class_b_coverage_20260928/screen/00_coverage_full_it0/runtime_config:/media-microservices/config:ro"
+      ],
+      "working_dir": "/media-microservices"
+    },
+    "plot-mongodb": {
+      "image": "mongo:4.4.6",
+      "hostname": "plot-mongodb",
+      "restart": "on-failure:5",
+      "cpuset": "32-39",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "2m",
+          "max-file": "2"
+        }
+      },
+      "volumes": []
+    },
+    "plot-memcached": {
+      "image": "memcached",
+      "hostname": "plot-memcached",
+      "restart": "on-failure:5",
+      "cpuset": "32-39",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "2m",
+          "max-file": "2"
+        }
+      },
+      "volumes": []
+    },
+    "movie-info-service": {
+      "image": "dsb-deps-jammy",
+      "hostname": "movie-info-service",
+      "restart": "on-failure:5",
+      "entrypoint": [
+        "/custom/MovieInfoService"
+      ],
+      "cpuset": "32-39",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "2m",
+          "max-file": "2"
+        }
+      },
+      "volumes": [
+        "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/MovieInfoService:/custom/MovieInfoService:ro",
+        "/storage/prefetchit/class_b_coverage_20260928/screen/00_coverage_full_it0/runtime_config:/media-microservices/config:ro"
+      ],
+      "working_dir": "/media-microservices"
+    },
+    "movie-info-mongodb": {
+      "image": "mongo:4.4.6",
+      "hostname": "movie-info-mongodb",
+      "restart": "on-failure:5",
+      "cpuset": "32-39",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "2m",
+          "max-file": "2"
+        }
+      },
+      "volumes": []
+    },
+    "movie-info-memcached": {
+      "image": "memcached",
+      "hostname": "movie-info-memcached",
+      "restart": "on-failure:5",
+      "cpuset": "32-39",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "2m",
+          "max-file": "2"
+        }
+      },
+      "volumes": []
+    },
+    "jaeger": {
+      "image": "jaegertracing/all-in-one:1.57",
+      "hostname": "jaeger",
+      "environment": [
+        "COLLECTOR_ZIPKIN_HTTP_PORT=9411"
+      ],
+      "restart": "on-failure:5",
+      "cpuset": "32-39",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "2m",
+          "max-file": "2"
+        }
+      },
+      "volumes": [],
+      "command": [
+        "--memory.max-traces=10000"
+      ]
+    }
+  }
+}

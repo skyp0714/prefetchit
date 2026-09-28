@@ -1,0 +1,17 @@
+[
+  "perf",
+  "stat",
+  "-x,",
+  "-o",
+  "/storage/prefetchit/class_b_coverage_20260928/confirmation/05_base/compose.frontend.pmu.csv",
+  "-e",
+  "cycles:u,instructions:u,cpu/event=0xc6,umask=0x3,name=FE_L1,config1=0x12/u,cpu/event=0x80,umask=0x4,name=ICACHE_DATA_STALL/u,cpu/event=0x83,umask=0x4,name=ICACHE_TAG_STALL/u,cpu/event=0x60,umask=0x1,name=BACLEARS/u,cpu/event=0x11,umask=0x10,name=ITLB_WALK_ACTIVE,cmask=1/u",
+  "-a",
+  "-C",
+  "32-39",
+  "-G",
+  "system.slice/docker-0110ffe58c8278092a0ec92b5259f1ffa08a325f39bbf7e3c7f6d0c26f972273.scope",
+  "--",
+  "sleep",
+  "8"
+]

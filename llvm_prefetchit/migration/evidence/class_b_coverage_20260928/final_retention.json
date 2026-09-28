@@ -1,0 +1,55 @@
+{
+  "code_miss_confirmed": true,
+  "e2e_confirmed": false,
+  "candidates": [
+    {
+      "path": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_callees/rating/RatingService.nop",
+      "bytes": 19601536,
+      "sha256": "e660e17b9fca45738080a2903bf43020942a2a49f5c1657fb8b63bf532c9fba0"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_callees_it0/rating/RatingService",
+      "bytes": 19601536,
+      "sha256": "f80892fe68ded39c829b31fa8f92f636a1f2b7a556a6ce710203a261bae34989"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect/movie/MovieIdService.nop",
+      "bytes": 21682344,
+      "sha256": "6a34ca8a707ae8014984aa741a324cc7b12ce20562364d871b5167883dd4a525"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect_it0/movie/MovieIdService",
+      "bytes": 21682344,
+      "sha256": "fef18254c56fd23328f0f04ac69ee07670a95a6583b61aeab9f0ee5e06d58281"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect_lift/compose/ComposeReviewService.nop",
+      "bytes": 20301800,
+      "sha256": "9828c5b1ffbc5f455d9cf2879b350eaf9625cb3449ee23412ed916240260ebaf"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect_lift_it0/compose/ComposeReviewService",
+      "bytes": 20301800,
+      "sha256": "0d878b2814cb4de4112fe7468cb38e0f107f80119f3aa7766711296f59823504"
+    }
+  ],
+  "purpose": "Confirmed code-miss research reference plus exact-layout controls. E2E promotion remains subject to the separate recorded decision.",
+  "latest_plugin": {
+    "path": "/storage/prefetchit/class_b_coverage_20260928/plugin_paths/PrefetchITPass.so",
+    "sha256": "4fb893f2311e6ef57fb3c396b3b00644964be6f872a376c27d19752e6cfcb5ff"
+  },
+  "original_binaries_untouched": [
+    "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+    "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+    "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+  ],
+  "removed_empty_directories": [
+    "/storage/prefetchit/class_b_coverage_20260928/plugin_indirect",
+    "/storage/prefetchit/class_b_coverage_20260928/plugin_lift"
+  ],
+  "free_bytes": {
+    "/": 18940342272,
+    "/storage": 916566355968
+  },
+  "nas_transfer": false
+}

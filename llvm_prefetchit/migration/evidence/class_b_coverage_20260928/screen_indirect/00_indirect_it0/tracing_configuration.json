@@ -1,0 +1,26 @@
+{
+  "original": {
+    "native": {
+      "type": "const",
+      "param": 1
+    },
+    "nginx": {
+      "type": "const",
+      "param": "1"
+    }
+  },
+  "effective": {
+    "native": {
+      "type": "probabilistic",
+      "param": 1.0
+    },
+    "nginx": {
+      "type": "probabilistic",
+      "param": 1.0
+    }
+  },
+  "native_config_sha256": "5389df3b598623168c6e110a16289f3550b19ab350b5e0e1790f97f452948a8e",
+  "nginx_config_sha256": "7a5e9cf5e35b5f5310714fca50c2e1924ae34546d9d027af78299f284b7fb55f",
+  "source_config_modified": false,
+  "tracing_enabled": true
+}

@@ -1,0 +1,2560 @@
+{
+  "campaign": "/storage/prefetchit/class_b_coverage_20260928/confirmation",
+  "driver_sha256": "702b330e8b28dc1b1cbffcf3114bff60d957d812a8f62967ad8d0402ba41c7c1",
+  "rows": [
+    {
+      "arm": "base",
+      "block": 0,
+      "valid": true,
+      "metrics": {
+        "movie:cycles:u": 272501.17567119654,
+        "sum:cycles:u": 1107467.0545369778,
+        "movie:instructions:u": 98383.51618605679,
+        "sum:instructions:u": 480282.7459188659,
+        "movie:L2I": 6025.0167937244505,
+        "sum:L2I": 23019.494409424686,
+        "movie:FE_L2": 488.5351894818252,
+        "sum:FE_L2": 1984.3321968819241,
+        "movie:ITLB_WALK": 533.4033808418959,
+        "sum:ITLB_WALK": 2057.1046300265957,
+        "movie:SWPF_MISS": 0.050270688321732405,
+        "sum:SWPF_MISS": 0.18726396114703547,
+        "movie:SWPF_HIT": 0.7321842890288366,
+        "sum:SWPF_HIT": 3.2679541633933162,
+        "compose:cycles:u": 564278.0258014074,
+        "compose:instructions:u": 277445.42131129233,
+        "compose:L2I": 11286.402770021223,
+        "compose:FE_L2": 1002.2558918798168,
+        "compose:ITLB_WALK": 1073.2162403663576,
+        "compose:SWPF_MISS": 0.09918463084999442,
+        "compose:SWPF_HIT": 1.827767228861834,
+        "rating:cycles:u": 270687.8530643739,
+        "rating:instructions:u": 104453.80842151676,
+        "rating:L2I": 5708.0748456790125,
+        "rating:FE_L2": 493.5411155202822,
+        "rating:ITLB_WALK": 450.4850088183421,
+        "rating:SWPF_MISS": 0.03780864197530864,
+        "rating:SWPF_HIT": 0.7080026455026455,
+        "extra:frontend:movie:cycles:u": 272694.9735070096,
+        "extra:frontend:sum:cycles:u": 1108929.339320089,
+        "extra:frontend:movie:instructions:u": 98401.35809692019,
+        "extra:frontend:sum:instructions:u": 480514.60102688684,
+        "extra:frontend:movie:FE_L1": 1755.3769731758473,
+        "extra:frontend:sum:FE_L1": 8576.945879735757,
+        "extra:frontend:movie:ICACHE_DATA_STALL": 62156.677779004305,
+        "extra:frontend:sum:ICACHE_DATA_STALL": 252136.84496016335,
+        "extra:frontend:movie:ICACHE_TAG_STALL": 45647.32630533171,
+        "extra:frontend:sum:ICACHE_TAG_STALL": 168729.50316391027,
+        "extra:frontend:movie:BACLEARS": 3555.6629870846673,
+        "extra:frontend:sum:BACLEARS": 14465.108130998287,
+        "extra:frontend:movie:ITLB_WALK_ACTIVE": 30246.533833756486,
+        "extra:frontend:sum:ITLB_WALK_ACTIVE": 108302.59708784398,
+        "extra:frontend:compose:cycles:u": 566040.6232861318,
+        "extra:frontend:compose:instructions:u": 277634.6844234659,
+        "extra:frontend:compose:FE_L1": 5241.906832996179,
+        "extra:frontend:compose:ICACHE_DATA_STALL": 131412.12339851653,
+        "extra:frontend:compose:ICACHE_TAG_STALL": 84058.8569341425,
+        "extra:frontend:compose:BACLEARS": 7291.919307709598,
+        "extra:frontend:compose:ITLB_WALK_ACTIVE": 51630.932906271075,
+        "extra:frontend:rating:cycles:u": 270193.74252694746,
+        "extra:frontend:rating:instructions:u": 104478.55850650072,
+        "extra:frontend:rating:FE_L1": 1579.6620735637293,
+        "extra:frontend:rating:ICACHE_DATA_STALL": 58568.04378264252,
+        "extra:frontend:rating:ICACHE_TAG_STALL": 39023.31992443605,
+        "extra:frontend:rating:BACLEARS": 3617.5258362040227,
+        "extra:frontend:rating:ITLB_WALK_ACTIVE": 26425.130347816423
+      },
+      "result_sha256": "aa48b74fe385db39ce20d84b671d1f64844c0419a28dda15a462eea5a18bd4f3"
+    },
+    {
+      "arm": "selected_nop",
+      "block": 0,
+      "valid": true,
+      "metrics": {
+        "movie:cycles:u": 275294.79835616436,
+        "sum:cycles:u": 1113778.9749885811,
+        "movie:instructions:u": 100256.51923287672,
+        "sum:instructions:u": 487238.345620832,
+        "movie:L2I": 6090.303890410959,
+        "sum:L2I": 23395.251880898755,
+        "movie:FE_L2": 512.0248767123288,
+        "sum:FE_L2": 2073.008449482399,
+        "movie:ITLB_WALK": 557.0657534246575,
+        "sum:ITLB_WALK": 2125.003452958983,
+        "movie:SWPF_MISS": 0.05490410958904109,
+        "sum:SWPF_MISS": 0.2119403235402222,
+        "movie:SWPF_HIT": 0.7556164383561644,
+        "sum:SWPF_HIT": 3.299249207498694,
+        "compose:cycles:u": 568053.3598099868,
+        "compose:instructions:u": 281415.6511268228,
+        "compose:L2I": 11625.16217410517,
+        "compose:FE_L2": 1045.781263809103,
+        "compose:ITLB_WALK": 1086.1715642951833,
+        "compose:SWPF_MISS": 0.12196199734865223,
+        "compose:SWPF_HIT": 1.8451171011931065,
+        "rating:cycles:u": 270430.8168224299,
+        "rating:instructions:u": 105566.17526113249,
+        "rating:L2I": 5679.785816382628,
+        "rating:FE_L2": 515.2023089609676,
+        "rating:ITLB_WALK": 481.7661352391424,
+        "rating:SWPF_MISS": 0.035074216602528865,
+        "rating:SWPF_HIT": 0.6985156679494228,
+        "extra:frontend:movie:cycles:u": 275823.67260922195,
+        "extra:frontend:sum:cycles:u": 1114033.1970839077,
+        "extra:frontend:movie:instructions:u": 99975.79057994937,
+        "extra:frontend:sum:instructions:u": 486770.40678890375,
+        "extra:frontend:movie:FE_L1": 1836.8507758336084,
+        "extra:frontend:sum:FE_L1": 8934.566542847791,
+        "extra:frontend:movie:ICACHE_DATA_STALL": 63278.583580939805,
+        "extra:frontend:sum:ICACHE_DATA_STALL": 257300.70425699052,
+        "extra:frontend:movie:ICACHE_TAG_STALL": 49116.380983823045,
+        "extra:frontend:sum:ICACHE_TAG_STALL": 177933.4576148066,
+        "extra:frontend:movie:BACLEARS": 3594.549026081215,
+        "extra:frontend:sum:BACLEARS": 14575.966002839828,
+        "extra:frontend:movie:ITLB_WALK_ACTIVE": 33366.62892043579,
+        "extra:frontend:sum:ITLB_WALK_ACTIVE": 115649.627076774,
+        "extra:frontend:compose:cycles:u": 568465.6068433411,
+        "extra:frontend:compose:instructions:u": 281598.0736889187,
+        "extra:frontend:compose:FE_L1": 5479.742703790675,
+        "extra:frontend:compose:ICACHE_DATA_STALL": 134176.1013082858,
+        "extra:frontend:compose:ICACHE_TAG_STALL": 86825.0598233255,
+        "extra:frontend:compose:BACLEARS": 7408.0029073018,
+        "extra:frontend:compose:ITLB_WALK_ACTIVE": 53863.76674494018,
+        "extra:frontend:rating:cycles:u": 269743.91763134464,
+        "extra:frontend:rating:instructions:u": 105196.54252003563,
+        "extra:frontend:rating:FE_L1": 1617.9730632235085,
+        "extra:frontend:rating:ICACHE_DATA_STALL": 59846.019367764915,
+        "extra:frontend:rating:ICACHE_TAG_STALL": 41992.01680765806,
+        "extra:frontend:rating:BACLEARS": 3573.4140694568123,
+        "extra:frontend:rating:ITLB_WALK_ACTIVE": 28419.23141139804
+      },
+      "result_sha256": "9411614a2bb257fb73322d461ea73aceb80cf3930f586cdf4e73e1773cd8bd45"
+    },
+    {
+      "arm": "selected_it0",
+      "block": 0,
+      "valid": true,
+      "metrics": {
+        "movie:cycles:u": 274126.5695175439,
+        "sum:cycles:u": 1113323.8848895612,
+        "movie:instructions:u": 99902.66063596492,
+        "sum:instructions:u": 486424.5361219545,
+        "movie:L2I": 6022.118092105263,
+        "sum:L2I": 22756.298120175205,
+        "movie:FE_L2": 460.46184210526314,
+        "sum:FE_L2": 1928.6199993134117,
+        "movie:ITLB_WALK": 516.4196271929825,
+        "sum:ITLB_WALK": 2091.4794829111784,
+        "movie:SWPF_MISS": 0.053289473684210525,
+        "sum:SWPF_MISS": 0.21072200460980461,
+        "movie:SWPF_HIT": 0.7615131578947368,
+        "sum:SWPF_HIT": 3.2957075765589323,
+        "compose:cycles:u": 569302.5557408024,
+        "compose:instructions:u": 281221.40835834167,
+        "compose:L2I": 11086.958208291653,
+        "compose:FE_L2": 978.5172835389575,
+        "compose:ITLB_WALK": 1115.1433811270424,
+        "compose:SWPF_MISS": 0.11726130932533066,
+        "compose:SWPF_HIT": 1.8425030565744136,
+        "rating:cycles:u": 269894.759631215,
+        "rating:instructions:u": 105300.46712764789,
+        "rating:L2I": 5647.22181977829,
+        "rating:FE_L2": 489.6408736691911,
+        "rating:ITLB_WALK": 459.91647459115353,
+        "rating:SWPF_MISS": 0.040171221600263415,
+        "rating:SWPF_HIT": 0.6916913620897815,
+        "extra:frontend:movie:cycles:u": 274206.74351933214,
+        "extra:frontend:sum:cycles:u": 1111076.8282596103,
+        "extra:frontend:movie:instructions:u": 99740.31096221441,
+        "extra:frontend:sum:instructions:u": 486713.76798708254,
+        "extra:frontend:movie:FE_L1": 1847.1286247803164,
+        "extra:frontend:sum:FE_L1": 8989.652277598412,
+        "extra:frontend:movie:ICACHE_DATA_STALL": 61421.03460017575,
+        "extra:frontend:sum:ICACHE_DATA_STALL": 252135.37054038438,
+        "extra:frontend:movie:ICACHE_TAG_STALL": 44653.21924428822,
+        "extra:frontend:sum:ICACHE_TAG_STALL": 176899.92318944714,
+        "extra:frontend:movie:BACLEARS": 3539.9083919156415,
+        "extra:frontend:sum:BACLEARS": 14305.666153111459,
+        "extra:frontend:movie:ITLB_WALK_ACTIVE": 30394.93903778559,
+        "extra:frontend:sum:ITLB_WALK_ACTIVE": 114148.29637227644,
+        "extra:frontend:compose:cycles:u": 567232.2913317402,
+        "extra:frontend:compose:instructions:u": 281314.3389094069,
+        "extra:frontend:compose:FE_L1": 5507.256897675429,
+        "extra:frontend:compose:ICACHE_DATA_STALL": 131456.54529654572,
+        "extra:frontend:compose:ICACHE_TAG_STALL": 91639.36541386052,
+        "extra:frontend:compose:BACLEARS": 7216.404410167283,
+        "extra:frontend:compose:ITLB_WALK_ACTIVE": 56994.77427764502,
+        "extra:frontend:rating:cycles:u": 269637.7934085379,
+        "extra:frontend:rating:instructions:u": 105659.11811546118,
+        "extra:frontend:rating:FE_L1": 1635.2667551426675,
+        "extra:frontend:rating:ICACHE_DATA_STALL": 59257.790643662905,
+        "extra:frontend:rating:ICACHE_TAG_STALL": 40607.33853129839,
+        "extra:frontend:rating:BACLEARS": 3549.3533510285333,
+        "extra:frontend:rating:ITLB_WALK_ACTIVE": 26758.58305684583
+      },
+      "result_sha256": "af7b50c85b974b8cdbab58042ff1c0847e635a96bf0b8ff693e22d941b6a7cbe"
+    },
+    {
+      "arm": "selected_it0",
+      "block": 1,
+      "valid": true,
+      "metrics": {
+        "movie:cycles:u": 274436.55182625866,
+        "sum:cycles:u": 1117921.012440503,
+        "movie:instructions:u": 99640.67204124163,
+        "sum:instructions:u": 487431.73414554604,
+        "movie:L2I": 5798.834704398377,
+        "sum:L2I": 22546.708793692,
+        "movie:FE_L2": 478.8517056049139,
+        "sum:FE_L2": 1941.7447211749802,
+        "movie:ITLB_WALK": 590.6113853241197,
+        "sum:ITLB_WALK": 2204.5041686612876,
+        "movie:SWPF_MISS": 0.04815180432159702,
+        "sum:SWPF_MISS": 0.19232489657031976,
+        "movie:SWPF_HIT": 0.7310518811012394,
+        "sum:SWPF_HIT": 3.258367820094901,
+        "compose:cycles:u": 571899.9966685175,
+        "compose:instructions:u": 282123.0639644642,
+        "compose:L2I": 11126.509716823986,
+        "compose:FE_L2": 970.516935036091,
+        "compose:ITLB_WALK": 1129.63542476402,
+        "compose:SWPF_MISS": 0.10893947806774014,
+        "compose:SWPF_HIT": 1.8368684064408662,
+        "rating:cycles:u": 271584.4639457271,
+        "rating:instructions:u": 105667.99813984025,
+        "rating:L2I": 5621.364372469636,
+        "rating:FE_L2": 492.37608053397526,
+        "rating:ITLB_WALK": 484.25735857314805,
+        "rating:SWPF_MISS": 0.0352336141809826,
+        "rating:SWPF_HIT": 0.6904475325527957,
+        "extra:frontend:movie:cycles:u": 274950.67481554893,
+        "extra:frontend:sum:cycles:u": 1118048.3828081782,
+        "extra:frontend:movie:instructions:u": 99837.31494328819,
+        "extra:frontend:sum:instructions:u": 486881.6325255849,
+        "extra:frontend:movie:FE_L1": 1880.1824688910913,
+        "extra:frontend:sum:FE_L1": 9070.95410399933,
+        "extra:frontend:movie:ICACHE_DATA_STALL": 64014.09976874793,
+        "extra:frontend:sum:ICACHE_DATA_STALL": 255061.07579832425,
+        "extra:frontend:movie:ICACHE_TAG_STALL": 50171.87809712587,
+        "extra:frontend:sum:ICACHE_TAG_STALL": 185677.35900736554,
+        "extra:frontend:movie:BACLEARS": 3598.234225305583,
+        "extra:frontend:sum:BACLEARS": 14583.02217994499,
+        "extra:frontend:movie:ITLB_WALK_ACTIVE": 32277.67800902984,
+        "extra:frontend:sum:ITLB_WALK_ACTIVE": 119891.93841185475,
+        "extra:frontend:compose:cycles:u": 571079.2232412482,
+        "extra:frontend:compose:instructions:u": 281418.72586958954,
+        "extra:frontend:compose:FE_L1": 5539.195392014316,
+        "extra:frontend:compose:ICACHE_DATA_STALL": 130837.8171345487,
+        "extra:frontend:compose:ICACHE_TAG_STALL": 92254.83704283637,
+        "extra:frontend:compose:BACLEARS": 7382.954031987473,
+        "extra:frontend:compose:ITLB_WALK_ACTIVE": 57958.35454647131,
+        "extra:frontend:rating:cycles:u": 272018.4847513812,
+        "extra:frontend:rating:instructions:u": 105625.59171270719,
+        "extra:frontend:rating:FE_L1": 1651.5762430939226,
+        "extra:frontend:rating:ICACHE_DATA_STALL": 60209.15889502763,
+        "extra:frontend:rating:ICACHE_TAG_STALL": 43250.64386740331,
+        "extra:frontend:rating:BACLEARS": 3601.833922651934,
+        "extra:frontend:rating:ITLB_WALK_ACTIVE": 29655.90585635359
+      },
+      "result_sha256": "be488d35f550a2fa9f55d14221255de9ba43f7107d801f00551aefc9d00ccaa8"
+    },
+    {
+      "arm": "selected_nop",
+      "block": 1,
+      "valid": true,
+      "metrics": {
+        "movie:cycles:u": 272335.8392230026,
+        "sum:cycles:u": 1115515.3842051416,
+        "movie:instructions:u": 99955.8774143986,
+        "sum:instructions:u": 487595.21700184647,
+        "movie:L2I": 6153.104367866549,
+        "sum:L2I": 23049.59802201779,
+        "movie:FE_L2": 505.7362818261633,
+        "sum:FE_L2": 2077.786710458748,
+        "movie:ITLB_WALK": 530.0003292361721,
+        "sum:ITLB_WALK": 2199.3211291584676,
+        "movie:SWPF_MISS": 0.05695785776997366,
+        "sum:SWPF_MISS": 0.21420108292888967,
+        "movie:SWPF_HIT": 0.7441834942932397,
+        "sum:SWPF_HIT": 3.279569515438874,
+        "compose:cycles:u": 568778.2990966878,
+        "compose:instructions:u": 282328.6258503401,
+        "compose:L2I": 11452.021523363444,
+        "compose:FE_L2": 1034.643582022973,
+        "compose:ITLB_WALK": 1104.7671462027433,
+        "compose:SWPF_MISS": 0.11642689862830378,
+        "compose:SWPF_HIT": 1.799375487900078,
+        "rating:cycles:u": 274401.245885451,
+        "rating:instructions:u": 105310.71373710774,
+        "rating:L2I": 5444.472130787799,
+        "rating:FE_L2": 537.4068466096115,
+        "rating:ITLB_WALK": 564.5536537195524,
+        "rating:SWPF_MISS": 0.04081632653061224,
+        "rating:SWPF_HIT": 0.7360105332455563,
+        "extra:frontend:movie:cycles:u": 272186.898044847,
+        "extra:frontend:sum:cycles:u": 1114836.2620463178,
+        "extra:frontend:movie:instructions:u": 99690.81486799956,
+        "extra:frontend:sum:instructions:u": 486900.2112250597,
+        "extra:frontend:movie:FE_L1": 1814.1429360433006,
+        "extra:frontend:sum:FE_L1": 8879.610837108849,
+        "extra:frontend:movie:ICACHE_DATA_STALL": 62066.0525792555,
+        "extra:frontend:sum:ICACHE_DATA_STALL": 258996.8534170098,
+        "extra:frontend:movie:ICACHE_TAG_STALL": 45206.18005081188,
+        "extra:frontend:sum:ICACHE_TAG_STALL": 182470.46011590317,
+        "extra:frontend:movie:BACLEARS": 3553.512316359218,
+        "extra:frontend:sum:BACLEARS": 14550.649435590045,
+        "extra:frontend:movie:ITLB_WALK_ACTIVE": 30501.457306970064,
+        "extra:frontend:sum:ITLB_WALK_ACTIVE": 116342.93756029551,
+        "extra:frontend:compose:cycles:u": 568412.4695613249,
+        "extra:frontend:compose:instructions:u": 281875.38596687553,
+        "extra:frontend:compose:FE_L1": 5439.7486571172785,
+        "extra:frontend:compose:ICACHE_DATA_STALL": 133761.15476723367,
+        "extra:frontend:compose:ICACHE_TAG_STALL": 86320.43017009848,
+        "extra:frontend:compose:BACLEARS": 7326.653312444047,
+        "extra:frontend:compose:ITLB_WALK_ACTIVE": 53168.8545210385,
+        "extra:frontend:rating:cycles:u": 274236.89444014593,
+        "extra:frontend:rating:instructions:u": 105334.01039018459,
+        "extra:frontend:rating:FE_L1": 1625.71924394827,
+        "extra:frontend:rating:ICACHE_DATA_STALL": 63169.64607052061,
+        "extra:frontend:rating:ICACHE_TAG_STALL": 50943.84989499282,
+        "extra:frontend:rating:BACLEARS": 3670.48380678678,
+        "extra:frontend:rating:ITLB_WALK_ACTIVE": 32672.625732286946
+      },
+      "result_sha256": "a4f99fe050474f838b838eba4e317ff08db3003a58c4ab771be18b968c4a8b20"
+    },
+    {
+      "arm": "base",
+      "block": 1,
+      "valid": true,
+      "metrics": {
+        "movie:cycles:u": 272734.320524311,
+        "sum:cycles:u": 1108169.9831977766,
+        "movie:instructions:u": 98401.71812682053,
+        "sum:instructions:u": 480242.69027229765,
+        "movie:L2I": 6078.549854358055,
+        "sum:L2I": 22671.386289096234,
+        "movie:FE_L2": 475.7592426618866,
+        "sum:FE_L2": 1978.3193318619687,
+        "movie:ITLB_WALK": 517.0550078422585,
+        "sum:ITLB_WALK": 2122.2358986543713,
+        "movie:SWPF_MISS": 0.04145193815818956,
+        "sum:SWPF_MISS": 0.1678059415603401,
+        "movie:SWPF_HIT": 0.7142056912390768,
+        "sum:SWPF_HIT": 3.218866602576239,
+        "compose:cycles:u": 564986.7146564368,
+        "compose:instructions:u": 277280.21223062166,
+        "compose:L2I": 11086.016134491707,
+        "compose:FE_L2": 998.561209522735,
+        "compose:ITLB_WALK": 1113.8512918876227,
+        "compose:SWPF_MISS": 0.09263229154913687,
+        "compose:SWPF_HIT": 1.8032268983414195,
+        "rating:cycles:u": 270448.9480170289,
+        "rating:instructions:u": 104560.75991485547,
+        "rating:L2I": 5506.820300246471,
+        "rating:FE_L2": 503.9988796773471,
+        "rating:ITLB_WALK": 491.32959892449026,
+        "rating:SWPF_MISS": 0.03372171185301367,
+        "rating:SWPF_HIT": 0.7014340129957428,
+        "extra:frontend:movie:cycles:u": 272824.0486298293,
+        "extra:frontend:sum:cycles:u": 1108378.4216094925,
+        "extra:frontend:movie:instructions:u": 98333.5834456424,
+        "extra:frontend:sum:instructions:u": 480179.7402110573,
+        "extra:frontend:movie:FE_L1": 1723.901055705301,
+        "extra:frontend:sum:FE_L1": 8599.337619163813,
+        "extra:frontend:movie:ICACHE_DATA_STALL": 61492.642744833785,
+        "extra:frontend:sum:ICACHE_DATA_STALL": 252949.51086423884,
+        "extra:frontend:movie:ICACHE_TAG_STALL": 43006.536500449234,
+        "extra:frontend:sum:ICACHE_TAG_STALL": 174206.78067111503,
+        "extra:frontend:movie:BACLEARS": 3524.2895327942497,
+        "extra:frontend:sum:BACLEARS": 14823.002950965994,
+        "extra:frontend:movie:ITLB_WALK_ACTIVE": 29362.753256963162,
+        "extra:frontend:sum:ITLB_WALK_ACTIVE": 111692.84882654832,
+        "extra:frontend:compose:cycles:u": 565417.6618362957,
+        "extra:frontend:compose:instructions:u": 277315.27635005093,
+        "extra:frontend:compose:FE_L1": 5268.177742556323,
+        "extra:frontend:compose:ICACHE_DATA_STALL": 132024.87705196423,
+        "extra:frontend:compose:ICACHE_TAG_STALL": 88228.43733725802,
+        "extra:frontend:compose:BACLEARS": 7607.255066228914,
+        "extra:frontend:compose:ITLB_WALK_ACTIVE": 53879.535944752635,
+        "extra:frontend:rating:cycles:u": 270136.7111433676,
+        "extra:frontend:rating:instructions:u": 104530.88041536401,
+        "extra:frontend:rating:FE_L1": 1607.2588209021885,
+        "extra:frontend:rating:ICACHE_DATA_STALL": 59431.991067440824,
+        "extra:frontend:rating:ICACHE_TAG_STALL": 42971.80683340777,
+        "extra:frontend:rating:BACLEARS": 3691.4583519428315,
+        "extra:frontend:rating:ITLB_WALK_ACTIVE": 28450.559624832513
+      },
+      "result_sha256": "a372c3c11c11bd83ea1c64adc6778bd55ef4d351ec715bb4ff6b9cdb4b151644"
+    },
+    {
+      "arm": "selected_nop",
+      "block": 2,
+      "valid": true,
+      "metrics": {
+        "movie:cycles:u": 272894.2462800875,
+        "sum:cycles:u": 1104367.355725766,
+        "movie:instructions:u": 99927.71258205689,
+        "sum:instructions:u": 486621.3639051952,
+        "movie:L2I": 6117.447702407002,
+        "sum:L2I": 23132.57353655823,
+        "movie:FE_L2": 504.57045951859953,
+        "sum:FE_L2": 2028.7410559236757,
+        "movie:ITLB_WALK": 533.6494529540481,
+        "sum:ITLB_WALK": 2065.8064447487295,
+        "movie:SWPF_MISS": 0.049781181619256015,
+        "sum:SWPF_MISS": 0.21642110415653384,
+        "movie:SWPF_HIT": 0.7756017505470459,
+        "sum:SWPF_HIT": 3.3356258807125556,
+        "compose:cycles:u": 562340.3426085088,
+        "compose:instructions:u": 281448.5002148689,
+        "compose:L2I": 11372.695100988398,
+        "compose:FE_L2": 1013.445745595187,
+        "compose:ITLB_WALK": 1082.1738289643317,
+        "compose:SWPF_MISS": 0.12827675118177911,
+        "compose:SWPF_HIT": 1.8192952299097551,
+        "rating:cycles:u": 269132.76683716965,
+        "rating:instructions:u": 105245.15110826939,
+        "rating:L2I": 5642.430733162831,
+        "rating:FE_L2": 510.7248508098892,
+        "rating:ITLB_WALK": 449.98316283034956,
+        "rating:SWPF_MISS": 0.03836317135549872,
+        "rating:SWPF_HIT": 0.7407289002557544,
+        "extra:frontend:movie:cycles:u": 271852.05030569556,
+        "extra:frontend:sum:cycles:u": 1106608.2613676153,
+        "extra:frontend:movie:instructions:u": 100122.31062962566,
+        "extra:frontend:sum:instructions:u": 487521.52521098754,
+        "extra:frontend:movie:FE_L1": 1813.5312667596268,
+        "extra:frontend:sum:FE_L1": 8892.638062732696,
+        "extra:frontend:movie:ICACHE_DATA_STALL": 62120.91719403626,
+        "extra:frontend:sum:ICACHE_DATA_STALL": 254512.2076589007,
+        "extra:frontend:movie:ICACHE_TAG_STALL": 45276.15510028961,
+        "extra:frontend:sum:ICACHE_TAG_STALL": 171141.71818241244,
+        "extra:frontend:movie:BACLEARS": 3540.465622653652,
+        "extra:frontend:sum:BACLEARS": 14170.224044677712,
+        "extra:frontend:movie:ITLB_WALK_ACTIVE": 29987.84050198434,
+        "extra:frontend:sum:ITLB_WALK_ACTIVE": 108397.9791973171,
+        "extra:frontend:compose:cycles:u": 564996.4948645105,
+        "extra:frontend:compose:instructions:u": 282228.7322989511,
+        "extra:frontend:compose:FE_L1": 5468.288789335665,
+        "extra:frontend:compose:ICACHE_DATA_STALL": 132709.53562062938,
+        "extra:frontend:compose:ICACHE_TAG_STALL": 84440.61243444055,
+        "extra:frontend:compose:BACLEARS": 7135.0604239510485,
+        "extra:frontend:compose:ITLB_WALK_ACTIVE": 51332.64313811189,
+        "extra:frontend:rating:cycles:u": 269759.71619740926,
+        "extra:frontend:rating:instructions:u": 105170.48228241087,
+        "extra:frontend:rating:FE_L1": 1610.818006637405,
+        "extra:frontend:rating:ICACHE_DATA_STALL": 59681.75484423509,
+        "extra:frontend:rating:ICACHE_TAG_STALL": 41424.950647682264,
+        "extra:frontend:rating:BACLEARS": 3494.6979980730116,
+        "extra:frontend:rating:ITLB_WALK_ACTIVE": 27077.495557220853
+      },
+      "result_sha256": "93d52e7d07323189d35b19304e68b7bdc07d99ee6c3df895e4f9f5491c842fff"
+    },
+    {
+      "arm": "selected_it0",
+      "block": 2,
+      "valid": true,
+      "metrics": {
+        "movie:cycles:u": 275248.32631116966,
+        "sum:cycles:u": 1111720.8925851928,
+        "movie:instructions:u": 100074.22778143515,
+        "sum:instructions:u": 486934.1103749906,
+        "movie:L2I": 5943.628593372833,
+        "sum:L2I": 22624.024695973403,
+        "movie:FE_L2": 468.84068466096113,
+        "sum:FE_L2": 1911.1234035314578,
+        "movie:ITLB_WALK": 525.4827737546632,
+        "sum:ITLB_WALK": 2087.4083692936947,
+        "movie:SWPF_MISS": 0.06912442396313365,
+        "sum:SWPF_MISS": 0.25588412684819484,
+        "movie:SWPF_HIT": 0.7455562870309415,
+        "sum:SWPF_HIT": 3.218053698401262,
+        "compose:cycles:u": 566314.9338677354,
+        "compose:instructions:u": 281532.05177020706,
+        "compose:L2I": 11033.255177020708,
+        "compose:FE_L2": 956.0251614339791,
+        "compose:ITLB_WALK": 1098.3229792919171,
+        "compose:SWPF_MISS": 0.1387218882208862,
+        "compose:SWPF_HIT": 1.7418169672678692,
+        "rating:cycles:u": 270157.63240628777,
+        "rating:instructions:u": 105327.83082334835,
+        "rating:L2I": 5647.140925579862,
+        "rating:FE_L2": 486.2575574365175,
+        "rating:ITLB_WALK": 463.60261624711444,
+        "rating:SWPF_MISS": 0.048037814664175005,
+        "rating:SWPF_HIT": 0.7306804441024514,
+        "extra:frontend:movie:cycles:u": 275522.2884126809,
+        "extra:frontend:sum:cycles:u": 1113859.9400297028,
+        "extra:frontend:movie:instructions:u": 100324.239147244,
+        "extra:frontend:sum:instructions:u": 487598.77409400174,
+        "extra:frontend:movie:FE_L1": 1850.9766928090137,
+        "extra:frontend:sum:FE_L1": 8991.067971885912,
+        "extra:frontend:movie:ICACHE_DATA_STALL": 62706.17220810781,
+        "extra:frontend:sum:ICACHE_DATA_STALL": 251641.50149944992,
+        "extra:frontend:movie:ICACHE_TAG_STALL": 46017.343974373136,
+        "extra:frontend:sum:ICACHE_TAG_STALL": 175966.05405583975,
+        "extra:frontend:movie:BACLEARS": 3530.6757980779853,
+        "extra:frontend:sum:BACLEARS": 14387.654529582847,
+        "extra:frontend:movie:ITLB_WALK_ACTIVE": 31331.344084833756,
+        "extra:frontend:sum:ITLB_WALK_ACTIVE": 115489.06819153542,
+        "extra:frontend:compose:cycles:u": 567786.7708729183,
+        "extra:frontend:compose:instructions:u": 281709.90600201185,
+        "extra:frontend:compose:FE_L1": 5515.64692075556,
+        "extra:frontend:compose:ICACHE_DATA_STALL": 129304.09321560299,
+        "extra:frontend:compose:ICACHE_TAG_STALL": 88751.58030624791,
+        "extra:frontend:compose:BACLEARS": 7272.070526433441,
+        "extra:frontend:compose:ITLB_WALK_ACTIVE": 56206.08818598413,
+        "extra:frontend:rating:cycles:u": 270550.88074410363,
+        "extra:frontend:rating:instructions:u": 105564.62894474587,
+        "extra:frontend:rating:FE_L1": 1624.4443583213376,
+        "extra:frontend:rating:ICACHE_DATA_STALL": 59631.23607573912,
+        "extra:frontend:rating:ICACHE_TAG_STALL": 41197.129775218695,
+        "extra:frontend:rating:BACLEARS": 3584.9082050714205,
+        "extra:frontend:rating:ITLB_WALK_ACTIVE": 27951.63592071753
+      },
+      "result_sha256": "8edb2c62f2411d1046226a6a3907c35a440f94f2507f155599b40bf350fb276e"
+    },
+    {
+      "arm": "base",
+      "block": 2,
+      "valid": true,
+      "metrics": {
+        "movie:cycles:u": 275292.7347185576,
+        "sum:cycles:u": 1105258.5929516722,
+        "movie:instructions:u": 98210.01110378189,
+        "sum:instructions:u": 479808.5856923549,
+        "movie:L2I": 5922.161719437116,
+        "sum:L2I": 22896.286832779006,
+        "movie:FE_L2": 491.50758575197887,
+        "sum:FE_L2": 1984.2950569768,
+        "movie:ITLB_WALK": 561.4322779243623,
+        "sum:ITLB_WALK": 2098.0884306687494,
+        "movie:SWPF_MISS": 0.04540457343887423,
+        "sum:SWPF_MISS": 0.17643211704589096,
+        "movie:SWPF_HIT": 0.7563764291996482,
+        "sum:SWPF_HIT": 3.2457408004749047,
+        "compose:cycles:u": 559372.8405037896,
+        "compose:instructions:u": 277165.7416406598,
+        "compose:L2I": 11326.157378510923,
+        "compose:FE_L2": 990.4956531431119,
+        "compose:ITLB_WALK": 1056.8855327686135,
+        "compose:SWPF_MISS": 0.09964333481943825,
+        "compose:SWPF_HIT": 1.8157601426660723,
+        "rating:cycles:u": 270593.017729325,
+        "rating:instructions:u": 104432.83294791322,
+        "rating:L2I": 5647.967734830966,
+        "rating:FE_L2": 502.29181808170904,
+        "rating:ITLB_WALK": 479.77061997577357,
+        "rating:SWPF_MISS": 0.03138420878757846,
+        "rating:SWPF_HIT": 0.673604228609184,
+        "extra:frontend:movie:cycles:u": 275421.58038956753,
+        "extra:frontend:sum:cycles:u": 1106471.8549927454,
+        "extra:frontend:movie:instructions:u": 98191.20248706944,
+        "extra:frontend:sum:instructions:u": 480476.52734992804,
+        "extra:frontend:movie:FE_L1": 1739.7236711786068,
+        "extra:frontend:sum:FE_L1": 8627.836651953934,
+        "extra:frontend:movie:ICACHE_DATA_STALL": 63204.552547595464,
+        "extra:frontend:sum:ICACHE_DATA_STALL": 252658.12040650667,
+        "extra:frontend:movie:ICACHE_TAG_STALL": 50042.47441399802,
+        "extra:frontend:sum:ICACHE_TAG_STALL": 176541.02913451806,
+        "extra:frontend:movie:BACLEARS": 3575.114229118521,
+        "extra:frontend:sum:BACLEARS": 14329.598809402072,
+        "extra:frontend:movie:ITLB_WALK_ACTIVE": 33147.3666776714,
+        "extra:frontend:sum:ITLB_WALK_ACTIVE": 114509.07922317304,
+        "extra:frontend:compose:cycles:u": 561612.5219337511,
+        "extra:frontend:compose:instructions:u": 277656.771038496,
+        "extra:frontend:compose:FE_L1": 5287.871642793196,
+        "extra:frontend:compose:ICACHE_DATA_STALL": 130149.82978961505,
+        "extra:frontend:compose:ICACHE_TAG_STALL": 84931.12902864817,
+        "extra:frontend:compose:BACLEARS": 7153.20445389436,
+        "extra:frontend:compose:ITLB_WALK_ACTIVE": 53344.69315129812,
+        "extra:frontend:rating:cycles:u": 269437.7526694269,
+        "extra:frontend:rating:instructions:u": 104628.5538243626,
+        "extra:frontend:rating:FE_L1": 1600.2413379821312,
+        "extra:frontend:rating:ICACHE_DATA_STALL": 59303.738069296145,
+        "extra:frontend:rating:ICACHE_TAG_STALL": 41567.42569187187,
+        "extra:frontend:rating:BACLEARS": 3601.2801263891915,
+        "extra:frontend:rating:ITLB_WALK_ACTIVE": 28017.01939420353
+      },
+      "result_sha256": "1b772d749ad5997164f2f012a8d3df962b584f9b141281e3790acc712fc26be3"
+    },
+    {
+      "arm": "base",
+      "block": 3,
+      "valid": true,
+      "metrics": {
+        "movie:cycles:u": 276618.94788809656,
+        "sum:cycles:u": 1114002.8548543362,
+        "movie:instructions:u": 98096.49917718048,
+        "sum:instructions:u": 479817.2441755375,
+        "movie:L2I": 5962.214591332968,
+        "sum:L2I": 22669.873609196304,
+        "movie:FE_L2": 491.00383982446516,
+        "sum:FE_L2": 2024.9305251043904,
+        "movie:ITLB_WALK": 576.6794295117937,
+        "sum:ITLB_WALK": 2187.0796229985467,
+        "movie:SWPF_MISS": 0.05847504114097641,
+        "sum:SWPF_MISS": 0.20264750743085566,
+        "movie:SWPF_HIT": 0.7896873285792649,
+        "sum:SWPF_HIT": 3.333760066333298,
+        "compose:cycles:u": 568708.7884550844,
+        "compose:instructions:u": 277320.7670880412,
+        "compose:L2I": 11121.171719431704,
+        "compose:FE_L2": 1025.4279002125518,
+        "compose:ITLB_WALK": 1118.0465376440318,
+        "compose:SWPF_MISS": 0.10728269381362568,
+        "compose:SWPF_HIT": 1.8611701532609912,
+        "rating:cycles:u": 268675.1185111553,
+        "rating:instructions:u": 104399.97791031588,
+        "rating:L2I": 5586.487298431633,
+        "rating:FE_L2": 508.49878506737355,
+        "rating:ITLB_WALK": 492.3536558427214,
+        "rating:SWPF_MISS": 0.036889772476253586,
+        "rating:SWPF_HIT": 0.6829025844930418,
+        "extra:frontend:movie:cycles:u": 277056.12782289466,
+        "extra:frontend:sum:cycles:u": 1115846.818613724,
+        "extra:frontend:movie:instructions:u": 98220.00255868284,
+        "extra:frontend:sum:instructions:u": 480097.41423472425,
+        "extra:frontend:movie:FE_L1": 1764.6036266548003,
+        "extra:frontend:sum:FE_L1": 8668.679262772488,
+        "extra:frontend:movie:ICACHE_DATA_STALL": 64036.48548225609,
+        "extra:frontend:sum:ICACHE_DATA_STALL": 257997.2748839286,
+        "extra:frontend:movie:ICACHE_TAG_STALL": 50205.2341751029,
+        "extra:frontend:sum:ICACHE_TAG_STALL": 185505.40945036348,
+        "extra:frontend:movie:BACLEARS": 3582.4770274780285,
+        "extra:frontend:sum:BACLEARS": 14410.576823766025,
+        "extra:frontend:movie:ITLB_WALK_ACTIVE": 32765.12170430526,
+        "extra:frontend:sum:ITLB_WALK_ACTIVE": 117666.07219645212,
+        "extra:frontend:compose:cycles:u": 570295.0421571925,
+        "extra:frontend:compose:instructions:u": 277586.0229846395,
+        "extra:frontend:compose:FE_L1": 5296.058750981052,
+        "extra:frontend:compose:ICACHE_DATA_STALL": 133545.95414284113,
+        "extra:frontend:compose:ICACHE_TAG_STALL": 93464.14250476511,
+        "extra:frontend:compose:BACLEARS": 7208.389954030721,
+        "extra:frontend:compose:ITLB_WALK_ACTIVE": 57644.85940127817,
+        "extra:frontend:rating:cycles:u": 268495.64863363694,
+        "extra:frontend:rating:instructions:u": 104291.38869140191,
+        "extra:frontend:rating:FE_L1": 1608.0168851366363,
+        "extra:frontend:rating:ICACHE_DATA_STALL": 60414.83525883137,
+        "extra:frontend:rating:ICACHE_TAG_STALL": 41836.03277049545,
+        "extra:frontend:rating:BACLEARS": 3619.7098422572763,
+        "extra:frontend:rating:ITLB_WALK_ACTIVE": 27256.091090868696
+      },
+      "result_sha256": "0384d132427838f987490edd37f88c670363d1947a3d3efdf45f8c0941d9f35e"
+    },
+    {
+      "arm": "selected_it0",
+      "block": 3,
+      "valid": true,
+      "metrics": {
+        "movie:cycles:u": 274731.6981293426,
+        "sum:cycles:u": 1106092.9291288275,
+        "movie:instructions:u": 100138.43580972742,
+        "sum:instructions:u": 486927.8240986279,
+        "movie:L2I": 5952.617958311063,
+        "sum:L2I": 22426.567718539874,
+        "movie:FE_L2": 461.4562266167825,
+        "sum:FE_L2": 1897.092651096525,
+        "movie:ITLB_WALK": 516.9847140566542,
+        "sum:ITLB_WALK": 2054.436868123564,
+        "movie:SWPF_MISS": 0.05440940673436665,
+        "sum:SWPF_MISS": 0.20809103643597218,
+        "movie:SWPF_HIT": 0.7640833778727953,
+        "sum:SWPF_HIT": 3.2625788156832027,
+        "compose:cycles:u": 562906.1787606791,
+        "compose:instructions:u": 281307.02368335676,
+        "compose:L2I": 10908.231210122201,
+        "compose:FE_L2": 957.4335460149238,
+        "compose:ITLB_WALK": 1095.640640207635,
+        "compose:SWPF_MISS": 0.11679463609819402,
+        "compose:SWPF_HIT": 1.8111820049745864,
+        "rating:cycles:u": 268455.052238806,
+        "rating:instructions:u": 105482.36460554371,
+        "rating:L2I": 5565.71855010661,
+        "rating:FE_L2": 478.20287846481875,
+        "rating:ITLB_WALK": 441.81151385927507,
+        "rating:SWPF_MISS": 0.036886993603411515,
+        "rating:SWPF_HIT": 0.6873134328358209,
+        "extra:frontend:movie:cycles:u": 274043.84123755485,
+        "extra:frontend:sum:cycles:u": 1106851.7973816989,
+        "extra:frontend:movie:instructions:u": 99983.00749384434,
+        "extra:frontend:sum:instructions:u": 486580.6260824886,
+        "extra:frontend:movie:FE_L1": 1863.198051600471,
+        "extra:frontend:sum:FE_L1": 9055.39453671737,
+        "extra:frontend:movie:ICACHE_DATA_STALL": 60772.04035970453,
+        "extra:frontend:sum:ICACHE_DATA_STALL": 248710.39487614768,
+        "extra:frontend:movie:ICACHE_TAG_STALL": 46071.925275666414,
+        "extra:frontend:sum:ICACHE_TAG_STALL": 172775.70260134968,
+        "extra:frontend:movie:BACLEARS": 3504.425757413553,
+        "extra:frontend:sum:BACLEARS": 14416.047205658608,
+        "extra:frontend:movie:ITLB_WALK_ACTIVE": 32128.63087463869,
+        "extra:frontend:sum:ITLB_WALK_ACTIVE": 112810.1496279411,
+        "extra:frontend:compose:cycles:u": 563697.5814129611,
+        "extra:frontend:compose:instructions:u": 281384.9276209023,
+        "extra:frontend:compose:FE_L1": 5568.058098020123,
+        "extra:frontend:compose:ICACHE_DATA_STALL": 129630.94741966894,
+        "extra:frontend:compose:ICACHE_TAG_STALL": 86221.7917342854,
+        "extra:frontend:compose:BACLEARS": 7355.008222438602,
+        "extra:frontend:compose:ITLB_WALK_ACTIVE": 53519.9193984637,
+        "extra:frontend:rating:cycles:u": 269110.3747311828,
+        "extra:frontend:rating:instructions:u": 105212.69096774193,
+        "extra:frontend:rating:FE_L1": 1624.1383870967743,
+        "extra:frontend:rating:ICACHE_DATA_STALL": 58307.40709677419,
+        "extra:frontend:rating:ICACHE_TAG_STALL": 40481.985591397846,
+        "extra:frontend:rating:BACLEARS": 3556.6132258064517,
+        "extra:frontend:rating:ITLB_WALK_ACTIVE": 27161.59935483871
+      },
+      "result_sha256": "ced84c7d7b5a259b47b0629c7aa596cb1fc1f43be0a4bf12b7521940eb9ec4d8"
+    },
+    {
+      "arm": "selected_nop",
+      "block": 3,
+      "valid": true,
+      "metrics": {
+        "movie:cycles:u": 273101.34652278177,
+        "sum:cycles:u": 1105336.962313313,
+        "movie:instructions:u": 99756.41127098321,
+        "sum:instructions:u": 486641.3823909898,
+        "movie:L2I": 6104.806736429038,
+        "sum:L2I": 23148.979903753057,
+        "movie:FE_L2": 514.1528231959886,
+        "sum:FE_L2": 2034.3109425161792,
+        "movie:ITLB_WALK": 545.6672116851973,
+        "sum:ITLB_WALK": 2098.415613281601,
+        "movie:SWPF_MISS": 0.05755395683453238,
+        "sum:SWPF_MISS": 0.20838362794980364,
+        "movie:SWPF_HIT": 0.7539786352735993,
+        "sum:SWPF_HIT": 3.276593971580842,
+        "compose:cycles:u": 561387.1784419295,
+        "compose:instructions:u": 281347.54147895833,
+        "compose:L2I": 11344.068124381936,
+        "compose:FE_L2": 1007.8400175804857,
+        "compose:ITLB_WALK": 1084.842984287441,
+        "compose:SWPF_MISS": 0.11394352268981431,
+        "compose:SWPF_HIT": 1.821448192506318,
+        "rating:cycles:u": 270848.43734860164,
+        "rating:instructions:u": 105537.42964104822,
+        "rating:L2I": 5700.105042942083,
+        "rating:FE_L2": 512.318101739705,
+        "rating:ITLB_WALK": 467.9054173089628,
+        "rating:SWPF_MISS": 0.03688614842545695,
+        "rating:SWPF_HIT": 0.7011671438009249,
+        "extra:frontend:movie:cycles:u": 273867.65826702036,
+        "extra:frontend:sum:cycles:u": 1107428.176724324,
+        "extra:frontend:movie:instructions:u": 99847.09825375774,
+        "extra:frontend:sum:instructions:u": 486485.1211102667,
+        "extra:frontend:movie:FE_L1": 1824.1270999115827,
+        "extra:frontend:sum:FE_L1": 8856.396866668736,
+        "extra:frontend:movie:ICACHE_DATA_STALL": 63757.194739168874,
+        "extra:frontend:sum:ICACHE_DATA_STALL": 254718.89020752208,
+        "extra:frontend:movie:ICACHE_TAG_STALL": 45819.905282935455,
+        "extra:frontend:sum:ICACHE_TAG_STALL": 172342.66181006556,
+        "extra:frontend:movie:BACLEARS": 3606.2020335985853,
+        "extra:frontend:sum:BACLEARS": 14452.890475370283,
+        "extra:frontend:movie:ITLB_WALK_ACTIVE": 29522.54719274978,
+        "extra:frontend:sum:ITLB_WALK_ACTIVE": 109361.7930613152,
+        "extra:frontend:compose:cycles:u": 563079.3472751738,
+        "extra:frontend:compose:instructions:u": 281348.50953128503,
+        "extra:frontend:compose:FE_L1": 5419.708006279435,
+        "extra:frontend:compose:ICACHE_DATA_STALL": 131367.31296254764,
+        "extra:frontend:compose:ICACHE_TAG_STALL": 84400.54619869926,
+        "extra:frontend:compose:BACLEARS": 7234.276631531734,
+        "extra:frontend:compose:ITLB_WALK_ACTIVE": 51370.91511549675,
+        "extra:frontend:rating:cycles:u": 270481.1711821298,
+        "extra:frontend:rating:instructions:u": 105289.51332522393,
+        "extra:frontend:rating:FE_L1": 1612.5617604777176,
+        "extra:frontend:rating:ICACHE_DATA_STALL": 59594.382505805595,
+        "extra:frontend:rating:ICACHE_TAG_STALL": 42122.21032843083,
+        "extra:frontend:rating:BACLEARS": 3612.411810239965,
+        "extra:frontend:rating:ITLB_WALK_ACTIVE": 28468.330753068672
+      },
+      "result_sha256": "a86a18535079ff757c04a4126eddde3480e7d7eae39375b9e275c3b3f83495d0"
+    },
+    {
+      "arm": "selected_it0",
+      "block": 4,
+      "valid": true,
+      "metrics": {
+        "movie:cycles:u": 271673.18441530754,
+        "sum:cycles:u": 1104098.6541608218,
+        "movie:instructions:u": 100063.25967380876,
+        "sum:instructions:u": 486727.27658853924,
+        "movie:L2I": 5957.688625946062,
+        "sum:L2I": 22745.392583493194,
+        "movie:FE_L2": 461.73414348150516,
+        "sum:FE_L2": 1885.6341583176484,
+        "movie:ITLB_WALK": 527.9573606225349,
+        "sum:ITLB_WALK": 2001.7980000934572,
+        "movie:SWPF_MISS": 0.05905553778914828,
+        "sum:SWPF_MISS": 0.20078102813007553,
+        "movie:SWPF_HIT": 0.8457520520200406,
+        "sum:SWPF_HIT": 3.3724555116590067,
+        "compose:cycles:u": 565922.2418430335,
+        "compose:instructions:u": 281113.1736111111,
+        "compose:L2I": 11171.885141093475,
+        "compose:FE_L2": 941.7449294532628,
+        "compose:ITLB_WALK": 1023.8376322751323,
+        "compose:SWPF_MISS": 0.10295414462081129,
+        "compose:SWPF_HIT": 1.816468253968254,
+        "rating:cycles:u": 266503.2279024809,
+        "rating:instructions:u": 105550.84330361937,
+        "rating:L2I": 5615.818816453657,
+        "rating:FE_L2": 482.1550853828805,
+        "rating:ITLB_WALK": 450.0030071957899,
+        "rating:SWPF_MISS": 0.03877134572011599,
+        "rating:SWPF_HIT": 0.7102352056707121,
+        "extra:frontend:movie:cycles:u": 273570.71307131817,
+        "extra:frontend:sum:cycles:u": 1110335.351388202,
+        "extra:frontend:movie:instructions:u": 99923.19573857363,
+        "extra:frontend:sum:instructions:u": 486635.92841518926,
+        "extra:frontend:movie:FE_L1": 1844.0292559063812,
+        "extra:frontend:sum:FE_L1": 8911.542461624427,
+        "extra:frontend:movie:ICACHE_DATA_STALL": 61788.81872378008,
+        "extra:frontend:sum:ICACHE_DATA_STALL": 248895.02861939324,
+        "extra:frontend:movie:ICACHE_TAG_STALL": 45555.16924265843,
+        "extra:frontend:sum:ICACHE_TAG_STALL": 166484.1168697282,
+        "extra:frontend:movie:BACLEARS": 3542.331198940163,
+        "extra:frontend:sum:BACLEARS": 14201.563973069256,
+        "extra:frontend:movie:ITLB_WALK_ACTIVE": 31429.91521307132,
+        "extra:frontend:sum:ITLB_WALK_ACTIVE": 109755.01136625226,
+        "extra:frontend:compose:cycles:u": 568280.5823991031,
+        "extra:frontend:compose:instructions:u": 281279.87589686096,
+        "extra:frontend:compose:FE_L1": 5440.42634529148,
+        "extra:frontend:compose:ICACHE_DATA_STALL": 127811.95616591928,
+        "extra:frontend:compose:ICACHE_TAG_STALL": 81218.14013452915,
+        "extra:frontend:compose:BACLEARS": 7106.855605381166,
+        "extra:frontend:compose:ITLB_WALK_ACTIVE": 51362.09372197309,
+        "extra:frontend:rating:cycles:u": 268484.05591778096,
+        "extra:frontend:rating:instructions:u": 105432.85677975467,
+        "extra:frontend:rating:FE_L1": 1627.0868604265665,
+        "extra:frontend:rating:ICACHE_DATA_STALL": 59294.25372969389,
+        "extra:frontend:rating:ICACHE_TAG_STALL": 39710.80749254061,
+        "extra:frontend:rating:BACLEARS": 3552.377168747928,
+        "extra:frontend:rating:ITLB_WALK_ACTIVE": 26963.002431207868
+      },
+      "result_sha256": "2889914bcf7c2c204ff03ee18413dac309ee9d727e3b5a2221eec5e9ad697e52"
+    },
+    {
+      "arm": "base",
+      "block": 4,
+      "valid": true,
+      "metrics": {
+        "movie:cycles:u": 273852.8191842415,
+        "sum:cycles:u": 1105986.004487047,
+        "movie:instructions:u": 98508.96863290868,
+        "sum:instructions:u": 480502.79303382675,
+        "movie:L2I": 5882.789315919066,
+        "sum:L2I": 22756.920559325095,
+        "movie:FE_L2": 493.15051921635796,
+        "sum:FE_L2": 1985.3349247786355,
+        "movie:ITLB_WALK": 558.8696071084466,
+        "sum:ITLB_WALK": 2092.8141510640608,
+        "movie:SWPF_MISS": 0.05299218499090033,
+        "sum:SWPF_MISS": 0.19890198072242682,
+        "movie:SWPF_HIT": 0.8011990150947436,
+        "sum:SWPF_HIT": 3.38549040995884,
+        "compose:cycles:u": 561781.4169296051,
+        "compose:instructions:u": 277442.075835056,
+        "compose:L2I": 11215.324121423131,
+        "compose:FE_L2": 999.952562289196,
+        "compose:ITLB_WALK": 1087.3675334566424,
+        "compose:SWPF_MISS": 0.10542922424110543,
+        "compose:SWPF_HIT": 1.8597541072788597,
+        "rating:cycles:u": 270351.76837320055,
+        "rating:instructions:u": 104551.7485658621,
+        "rating:L2I": 5658.807121982899,
+        "rating:FE_L2": 492.2318432730815,
+        "rating:ITLB_WALK": 446.57701049897173,
+        "rating:SWPF_MISS": 0.040480571490421044,
+        "rating:SWPF_HIT": 0.7245372875852365,
+        "extra:frontend:movie:cycles:u": 273456.38208055135,
+        "extra:frontend:sum:cycles:u": 1106495.292354315,
+        "extra:frontend:movie:instructions:u": 98427.34718931725,
+        "extra:frontend:sum:instructions:u": 480209.98056355957,
+        "extra:frontend:movie:FE_L1": 1769.3902649149256,
+        "extra:frontend:sum:FE_L1": 8583.39357604178,
+        "extra:frontend:movie:ICACHE_DATA_STALL": 63364.42860219686,
+        "extra:frontend:sum:ICACHE_DATA_STALL": 252991.24135626512,
+        "extra:frontend:movie:ICACHE_TAG_STALL": 48208.062782683606,
+        "extra:frontend:sum:ICACHE_TAG_STALL": 174092.3434913688,
+        "extra:frontend:movie:BACLEARS": 3573.6296575489987,
+        "extra:frontend:sum:BACLEARS": 14585.117359077823,
+        "extra:frontend:movie:ITLB_WALK_ACTIVE": 32029.12534998923,
+        "extra:frontend:sum:ITLB_WALK_ACTIVE": 111349.82589323007,
+        "extra:frontend:compose:cycles:u": 563966.5376802097,
+        "extra:frontend:compose:instructions:u": 277550.75753604196,
+        "extra:frontend:compose:FE_L1": 5222.362385321101,
+        "extra:frontend:compose:ICACHE_DATA_STALL": 131769.95249017037,
+        "extra:frontend:compose:ICACHE_TAG_STALL": 86014.83813892529,
+        "extra:frontend:compose:BACLEARS": 7420.725425950197,
+        "extra:frontend:compose:ITLB_WALK_ACTIVE": 51062.28025338576,
+        "extra:frontend:rating:cycles:u": 269072.37259355397,
+        "extra:frontend:rating:instructions:u": 104231.8758382003,
+        "extra:frontend:rating:FE_L1": 1591.6409258057538,
+        "extra:frontend:rating:ICACHE_DATA_STALL": 57856.8602638979,
+        "extra:frontend:rating:ICACHE_TAG_STALL": 39869.44256975989,
+        "extra:frontend:rating:BACLEARS": 3590.7622755786288,
+        "extra:frontend:rating:ITLB_WALK_ACTIVE": 28258.420289855072
+      },
+      "result_sha256": "10e4f73048d2602322725befcd663e532388a2498700c320f170ac88e4e6d147"
+    },
+    {
+      "arm": "selected_nop",
+      "block": 4,
+      "valid": true,
+      "metrics": {
+        "movie:cycles:u": 273621.98748902546,
+        "sum:cycles:u": 1111655.7647346365,
+        "movie:instructions:u": 99892.86940298507,
+        "sum:instructions:u": 486973.68195417646,
+        "movie:L2I": 6135.0897717295875,
+        "sum:L2I": 23351.255356538495,
+        "movie:FE_L2": 499.0097673397717,
+        "sum:FE_L2": 2033.7045461287796,
+        "movie:ITLB_WALK": 529.1255487269534,
+        "sum:ITLB_WALK": 2092.1779410132112,
+        "movie:SWPF_MISS": 0.05059262510974539,
+        "sum:SWPF_MISS": 0.19925905569176738,
+        "movie:SWPF_HIT": 0.75428007023705,
+        "sum:SWPF_HIT": 3.272806255368309,
+        "compose:cycles:u": 567064.9212993971,
+        "compose:instructions:u": 282069.5502344273,
+        "compose:L2I": 11439.281312793035,
+        "compose:FE_L2": 1026.815025675374,
+        "compose:ITLB_WALK": 1105.1422192453672,
+        "compose:SWPF_MISS": 0.11174369278856888,
+        "compose:SWPF_HIT": 1.8225050234427327,
+        "rating:cycles:u": 270968.85594621405,
+        "rating:instructions:u": 105011.26231676403,
+        "rating:L2I": 5776.884272015871,
+        "rating:FE_L2": 507.87975311363385,
+        "rating:ITLB_WALK": 457.9101730408905,
+        "rating:SWPF_MISS": 0.036922737793453106,
+        "rating:SWPF_HIT": 0.6960211616885263,
+        "extra:frontend:movie:cycles:u": 273919.2236827571,
+        "extra:frontend:sum:cycles:u": 1112081.9125175923,
+        "extra:frontend:movie:instructions:u": 99952.91494532199,
+        "extra:frontend:sum:instructions:u": 486802.259957577,
+        "extra:frontend:movie:FE_L1": 1823.7366618800397,
+        "extra:frontend:sum:FE_L1": 8851.35732507058,
+        "extra:frontend:movie:ICACHE_DATA_STALL": 62251.909643212195,
+        "extra:frontend:sum:ICACHE_DATA_STALL": 256163.31676834755,
+        "extra:frontend:movie:ICACHE_TAG_STALL": 47064.80569976803,
+        "extra:frontend:sum:ICACHE_TAG_STALL": 175586.30150047122,
+        "extra:frontend:movie:BACLEARS": 3537.9878493317133,
+        "extra:frontend:sum:BACLEARS": 14395.241692224758,
+        "extra:frontend:movie:ITLB_WALK_ACTIVE": 32292.942781398433,
+        "extra:frontend:sum:ITLB_WALK_ACTIVE": 114369.3328441827,
+        "extra:frontend:compose:cycles:u": 566579.6669653859,
+        "extra:frontend:compose:instructions:u": 281414.6033381875,
+        "extra:frontend:compose:FE_L1": 5420.838691609723,
+        "extra:frontend:compose:ICACHE_DATA_STALL": 134329.46152122773,
+        "extra:frontend:compose:ICACHE_TAG_STALL": 87312.70583622718,
+        "extra:frontend:compose:BACLEARS": 7286.538478772264,
+        "extra:frontend:compose:ITLB_WALK_ACTIVE": 53798.56401926739,
+        "extra:frontend:rating:cycles:u": 271583.02186944935,
+        "extra:frontend:rating:instructions:u": 105434.7416740675,
+        "extra:frontend:rating:FE_L1": 1606.781971580817,
+        "extra:frontend:rating:ICACHE_DATA_STALL": 59581.94560390764,
+        "extra:frontend:rating:ICACHE_TAG_STALL": 41208.78996447602,
+        "extra:frontend:rating:BACLEARS": 3570.7153641207815,
+        "extra:frontend:rating:ITLB_WALK_ACTIVE": 28277.826043516874
+      },
+      "result_sha256": "494da68d2f7e28aa6f577e5fe8c1138734a1de420410ed12ead92e478a0688eb"
+    },
+    {
+      "arm": "selected_nop",
+      "block": 5,
+      "valid": true,
+      "metrics": {
+        "movie:cycles:u": 273565.2897083104,
+        "sum:cycles:u": 1115109.7618875501,
+        "movie:instructions:u": 99944.65580627408,
+        "sum:instructions:u": 486935.5407915428,
+        "movie:L2I": 6034.904457897634,
+        "sum:L2I": 23304.39076043464,
+        "movie:FE_L2": 513.1627958172812,
+        "sum:FE_L2": 2050.8095772463757,
+        "movie:ITLB_WALK": 564.9250412768299,
+        "sum:ITLB_WALK": 2147.414623732656,
+        "movie:SWPF_MISS": 0.0558062740781508,
+        "sum:SWPF_MISS": 0.22148449196675582,
+        "movie:SWPF_HIT": 0.7605943863511282,
+        "sum:SWPF_HIT": 3.37416813375851,
+        "compose:cycles:u": 571699.2659526997,
+        "compose:instructions:u": 281587.5978357876,
+        "compose:L2I": 11484.935408299865,
+        "compose:FE_L2": 1036.4738955823293,
+        "compose:ITLB_WALK": 1134.0706157965194,
+        "compose:SWPF_MISS": 0.12460954930834449,
+        "compose:SWPF_HIT": 1.9016064257028114,
+        "rating:cycles:u": 269845.2062265401,
+        "rating:instructions:u": 105403.28714948113,
+        "rating:L2I": 5784.550894237139,
+        "rating:FE_L2": 501.17288584676527,
+        "rating:ITLB_WALK": 448.4189666593067,
+        "rating:SWPF_MISS": 0.041068668580260544,
+        "rating:SWPF_HIT": 0.7119673217045706,
+        "extra:frontend:movie:cycles:u": 273693.9011390025,
+        "extra:frontend:sum:cycles:u": 1116948.0503672236,
+        "extra:frontend:movie:instructions:u": 99864.98938405396,
+        "extra:frontend:sum:instructions:u": 486558.3244082226,
+        "extra:frontend:movie:FE_L1": 1819.351432046887,
+        "extra:frontend:sum:FE_L1": 8836.545473697877,
+        "extra:frontend:movie:ICACHE_DATA_STALL": 63431.44940838218,
+        "extra:frontend:sum:ICACHE_DATA_STALL": 256861.21099587568,
+        "extra:frontend:movie:ICACHE_TAG_STALL": 49059.017361495076,
+        "extra:frontend:sum:ICACHE_TAG_STALL": 176783.0530874478,
+        "extra:frontend:movie:BACLEARS": 3600.48391020679,
+        "extra:frontend:sum:BACLEARS": 14516.98947609801,
+        "extra:frontend:movie:ITLB_WALK_ACTIVE": 32601.607541744997,
+        "extra:frontend:sum:ITLB_WALK_ACTIVE": 114035.04974568028,
+        "extra:frontend:compose:cycles:u": 573634.8153415454,
+        "extra:frontend:compose:instructions:u": 281205.9082866741,
+        "extra:frontend:compose:FE_L1": 5415.2203807390815,
+        "extra:frontend:compose:ICACHE_DATA_STALL": 135130.22362821948,
+        "extra:frontend:compose:ICACHE_TAG_STALL": 89516.12094064949,
+        "extra:frontend:compose:BACLEARS": 7337.4367301231805,
+        "extra:frontend:compose:ITLB_WALK_ACTIVE": 55586.17693169093,
+        "extra:frontend:rating:cycles:u": 269619.33388667554,
+        "extra:frontend:rating:instructions:u": 105487.42673749446,
+        "extra:frontend:rating:FE_L1": 1601.973660911908,
+        "extra:frontend:rating:ICACHE_DATA_STALL": 58299.537959274014,
+        "extra:frontend:rating:ICACHE_TAG_STALL": 38207.914785303234,
+        "extra:frontend:rating:BACLEARS": 3579.0688357680388,
+        "extra:frontend:rating:ITLB_WALK_ACTIVE": 25847.265272244356
+      },
+      "result_sha256": "9d2343c1434c84dbeff42cb1ebd142d2a3359b670ffbb09e19ab42449822dda3"
+    },
+    {
+      "arm": "base",
+      "block": 5,
+      "valid": true,
+      "metrics": {
+        "movie:cycles:u": 274177.61631353607,
+        "sum:cycles:u": 1102959.1373222335,
+        "movie:instructions:u": 98094.44988472939,
+        "sum:instructions:u": 479931.33056650363,
+        "movie:L2I": 5973.027006257547,
+        "sum:L2I": 22731.379158914337,
+        "movie:FE_L2": 488.3152925677901,
+        "sum:FE_L2": 1967.0999182965288,
+        "movie:ITLB_WALK": 548.0010978153474,
+        "sum:ITLB_WALK": 2090.808588799551,
+        "movie:SWPF_MISS": 0.06147765945767922,
+        "sum:SWPF_MISS": 0.2371124571813568,
+        "movie:SWPF_HIT": 0.7349873751235042,
+        "sum:SWPF_HIT": 3.2790625816074,
+        "compose:cycles:u": 561769.6492220651,
+        "compose:instructions:u": 277475.62789685564,
+        "compose:L2I": 11128.501360026112,
+        "compose:FE_L2": 988.3259710586443,
+        "compose:ITLB_WALK": 1074.2257643346752,
+        "compose:SWPF_MISS": 0.12914807964312916,
+        "compose:SWPF_HIT": 1.8102491567838102,
+        "rating:cycles:u": 267011.8717866324,
+        "rating:instructions:u": 104361.2527849186,
+        "rating:L2I": 5629.850792630677,
+        "rating:FE_L2": 490.45865467009423,
+        "rating:ITLB_WALK": 468.5817266495287,
+        "rating:SWPF_MISS": 0.04648671808054841,
+        "rating:SWPF_HIT": 0.7338260497000857,
+        "extra:frontend:movie:cycles:u": 272785.82746024925,
+        "extra:frontend:sum:cycles:u": 1100570.2134711999,
+        "extra:frontend:movie:instructions:u": 98328.49914052428,
+        "extra:frontend:sum:instructions:u": 480371.07776430505,
+        "extra:frontend:movie:FE_L1": 1749.5203051138806,
+        "extra:frontend:sum:FE_L1": 8592.902660320415,
+        "extra:frontend:movie:ICACHE_DATA_STALL": 62444.66845724108,
+        "extra:frontend:sum:ICACHE_DATA_STALL": 249739.32094700244,
+        "extra:frontend:movie:ICACHE_TAG_STALL": 48439.19864632574,
+        "extra:frontend:sum:ICACHE_TAG_STALL": 174632.68321052732,
+        "extra:frontend:movie:BACLEARS": 3552.5887408680705,
+        "extra:frontend:sum:BACLEARS": 14360.122094837505,
+        "extra:frontend:movie:ITLB_WALK_ACTIVE": 32154.648796733993,
+        "extra:frontend:sum:ITLB_WALK_ACTIVE": 113230.89522629949,
+        "extra:frontend:compose:cycles:u": 561064.7567126862,
+        "extra:frontend:compose:instructions:u": 277554.8704206979,
+        "extra:frontend:compose:FE_L1": 5248.578323730841,
+        "extra:frontend:compose:ICACHE_DATA_STALL": 129115.68137841069,
+        "extra:frontend:compose:ICACHE_TAG_STALL": 85538.52951407761,
+        "extra:frontend:compose:BACLEARS": 7213.0246765952825,
+        "extra:frontend:compose:ITLB_WALK_ACTIVE": 52980.39906511577,
+        "extra:frontend:rating:cycles:u": 266719.6292982645,
+        "extra:frontend:rating:instructions:u": 104487.70820308289,
+        "extra:frontend:rating:FE_L1": 1594.8040314756927,
+        "extra:frontend:rating:ICACHE_DATA_STALL": 58178.97111135065,
+        "extra:frontend:rating:ICACHE_TAG_STALL": 40654.955050123965,
+        "extra:frontend:rating:BACLEARS": 3594.508677374151,
+        "extra:frontend:rating:ITLB_WALK_ACTIVE": 28095.847364449713
+      },
+      "result_sha256": "bc6e79677a6aa90367b9ca0e2e984a4667473302ab1e54860f6809e7c4d05ffd"
+    },
+    {
+      "arm": "selected_it0",
+      "block": 5,
+      "valid": true,
+      "metrics": {
+        "movie:cycles:u": 273540.3874958577,
+        "sum:cycles:u": 1114626.8398540586,
+        "movie:instructions:u": 100048.74947531206,
+        "sum:instructions:u": 486765.3857983357,
+        "movie:L2I": 5972.796089694024,
+        "sum:L2I": 22714.783403873495,
+        "movie:FE_L2": 465.42748260245224,
+        "sum:FE_L2": 1941.5609150236378,
+        "movie:ITLB_WALK": 519.779962443389,
+        "sum:ITLB_WALK": 2168.855404355369,
+        "movie:SWPF_MISS": 0.07400861592842152,
+        "sum:SWPF_MISS": 0.2851669357898242,
+        "movie:SWPF_HIT": 0.7287087153429802,
+        "sum:SWPF_HIT": 3.144045804427531,
+        "compose:cycles:u": 572776.7782244557,
+        "compose:instructions:u": 281273.8538246789,
+        "compose:L2I": 11013.710664433278,
+        "compose:FE_L2": 992.0856504745952,
+        "compose:ITLB_WALK": 1193.2117252931323,
+        "compose:SWPF_MISS": 0.1637074260189838,
+        "compose:SWPF_HIT": 1.7549972082635399,
+        "rating:cycles:u": 268309.6741337453,
+        "rating:instructions:u": 105442.78249834474,
+        "rating:L2I": 5728.276649746193,
+        "rating:FE_L2": 484.04778194659013,
+        "rating:ITLB_WALK": 455.86371661884795,
+        "rating:SWPF_MISS": 0.04745089384241889,
+        "rating:SWPF_HIT": 0.6603398808210108,
+        "extra:frontend:movie:cycles:u": 274041.07033673016,
+        "extra:frontend:sum:cycles:u": 1117131.9669720898,
+        "extra:frontend:movie:instructions:u": 100376.69937970757,
+        "extra:frontend:sum:instructions:u": 486987.2659191301,
+        "extra:frontend:movie:FE_L1": 1849.0927115640231,
+        "extra:frontend:sum:FE_L1": 9028.73885685833,
+        "extra:frontend:movie:ICACHE_DATA_STALL": 61673.55427558706,
+        "extra:frontend:sum:ICACHE_DATA_STALL": 255184.8644585644,
+        "extra:frontend:movie:ICACHE_TAG_STALL": 45141.58905626938,
+        "extra:frontend:sum:ICACHE_TAG_STALL": 180638.51866567996,
+        "extra:frontend:movie:BACLEARS": 3518.764842711564,
+        "extra:frontend:sum:BACLEARS": 14513.974434904012,
+        "extra:frontend:movie:ITLB_WALK_ACTIVE": 30983.68232166593,
+        "extra:frontend:sum:ITLB_WALK_ACTIVE": 116948.67650704767,
+        "extra:frontend:compose:cycles:u": 574201.2709829443,
+        "extra:frontend:compose:instructions:u": 281220.4375,
+        "extra:frontend:compose:FE_L1": 5541.855251346499,
+        "extra:frontend:compose:ICACHE_DATA_STALL": 134696.56126570917,
+        "extra:frontend:compose:ICACHE_TAG_STALL": 96677.10895421903,
+        "extra:frontend:compose:BACLEARS": 7426.391157989228,
+        "extra:frontend:compose:ITLB_WALK_ACTIVE": 59514.211175942546,
+        "extra:frontend:rating:cycles:u": 268889.6256524153,
+        "extra:frontend:rating:instructions:u": 105390.12903942254,
+        "extra:frontend:rating:FE_L1": 1637.7908939478068,
+        "extra:frontend:rating:ICACHE_DATA_STALL": 58814.74891726818,
+        "extra:frontend:rating:ICACHE_TAG_STALL": 38819.82065519156,
+        "extra:frontend:rating:BACLEARS": 3568.8184342032205,
+        "extra:frontend:rating:ITLB_WALK_ACTIVE": 26450.7830094392
+      },
+      "result_sha256": "f3486a1be7647bffc09ea7eaaa436425f7d26a69fc91bc5f489a54c70bc659fc"
+    }
+  ],
+  "comparisons": {
+    "selected_nop": {
+      "base": {
+        "compose:FE_L2": {
+          "pairs": 6,
+          "cost_reduction_pct": -2.662999480491024,
+          "ci95_pct": [
+            -5.203192726022365,
+            -0.1841407016944352
+          ]
+        },
+        "compose:ITLB_WALK": {
+          "pairs": 6,
+          "cost_reduction_pct": -1.1353212663403278,
+          "ci95_pct": [
+            -4.226926929409025,
+            1.8645804018251
+          ]
+        },
+        "compose:L2I": {
+          "pairs": 6,
+          "cost_reduction_pct": -2.3146914385594908,
+          "ci95_pct": [
+            -3.4810173546581114,
+            -1.1615110845875298
+          ]
+        },
+        "compose:SWPF_HIT": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.27843967241691914,
+          "ci95_pct": [
+            -3.039745049120257,
+            2.408867002331405
+          ]
+        },
+        "compose:SWPF_MISS": {
+          "pairs": 6,
+          "cost_reduction_pct": -13.704072478289309,
+          "ci95_pct": [
+            -28.52275451235,
+            -0.5939854557484692
+          ]
+        },
+        "compose:cycles:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.5443478134333546,
+          "ci95_pct": [
+            -1.6081323870734021,
+            0.5082994861270729
+          ]
+        },
+        "compose:instructions:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -1.566362906598684,
+          "ci95_pct": [
+            -1.7248380086652748,
+            -1.4081346897419023
+          ]
+        },
+        "extra:frontend:compose:BACLEARS": {
+          "pairs": 6,
+          "cost_reduction_pct": 0.3641928114195725,
+          "ci95_pct": [
+            -1.8670672616141637,
+            2.546580156030398
+          ]
+        },
+        "extra:frontend:compose:FE_L1": {
+          "pairs": 6,
+          "cost_reduction_pct": -3.417207853405424,
+          "ci95_pct": [
+            -4.184915824574276,
+            -2.65515689625182
+          ]
+        },
+        "extra:frontend:compose:ICACHE_DATA_STALL": {
+          "pairs": 6,
+          "cost_reduction_pct": -1.709045365102635,
+          "ci95_pct": [
+            -3.8520873083381035,
+            0.38977379080618046
+          ]
+        },
+        "extra:frontend:compose:ICACHE_TAG_STALL": {
+          "pairs": 6,
+          "cost_reduction_pct": 0.612336956752213,
+          "ci95_pct": [
+            -5.068800231316506,
+            5.98629142570164
+          ]
+        },
+        "extra:frontend:compose:ITLB_WALK_ACTIVE": {
+          "pairs": 6,
+          "cost_reduction_pct": 0.4059106975353499,
+          "ci95_pct": [
+            -6.7155988826873125,
+            7.052176740428894
+          ]
+        },
+        "extra:frontend:compose:cycles:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.49473880703347906,
+          "ci95_pct": [
+            -1.6669291917840168,
+            0.6639365605032643
+          ]
+        },
+        "extra:frontend:compose:instructions:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -1.4635025356634745,
+          "ci95_pct": [
+            -1.6165414335080008,
+            -1.3106941210052847
+          ]
+        },
+        "extra:frontend:movie:BACLEARS": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.3232631039002509,
+          "ci95_pct": [
+            -1.4256594015930935,
+            0.7671512396762892
+          ]
+        },
+        "extra:frontend:movie:FE_L1": {
+          "pairs": 6,
+          "cost_reduction_pct": -4.089896217425437,
+          "ci95_pct": [
+            -4.932382743384589,
+            -3.2541738907331696
+          ]
+        },
+        "extra:frontend:movie:ICACHE_DATA_STALL": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.05787146053792824,
+          "ci95_pct": [
+            -1.7534005648596196,
+            1.6094048391831928
+          ]
+        },
+        "extra:frontend:movie:ICACHE_TAG_STALL": {
+          "pairs": 6,
+          "cost_reduction_pct": 1.3187142887034264,
+          "ci95_pct": [
+            -6.424363329159322,
+            8.498431702936749
+          ]
+        },
+        "extra:frontend:movie:ITLB_WALK_ACTIVE": {
+          "pairs": 6,
+          "cost_reduction_pct": 0.7662461847760094,
+          "ci95_pct": [
+            -7.908020149432571,
+            8.743225178038239
+          ]
+        },
+        "extra:frontend:movie:cycles:u": {
+          "pairs": 6,
+          "cost_reduction_pct": 0.17544215883351644,
+          "ci95_pct": [
+            -0.806675643959931,
+            1.1479915935362461
+          ]
+        },
+        "extra:frontend:movie:instructions:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -1.6191895062769968,
+          "ci95_pct": [
+            -1.8225290654401594,
+            -1.4162560161508075
+          ]
+        },
+        "extra:frontend:rating:BACLEARS": {
+          "pairs": 6,
+          "cost_reduction_pct": 0.9938750826960496,
+          "ci95_pct": [
+            -0.09267941579638173,
+            2.0686345060133116
+          ]
+        },
+        "extra:frontend:rating:FE_L1": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.9839244725630358,
+          "ci95_pct": [
+            -1.7950632975181513,
+            -0.17924908671818063
+          ]
+        },
+        "extra:frontend:rating:ICACHE_DATA_STALL": {
+          "pairs": 6,
+          "cost_reduction_pct": -1.7943817019028252,
+          "ci95_pct": [
+            -4.611352747331243,
+            0.9467340404214486
+          ]
+        },
+        "extra:frontend:rating:ICACHE_TAG_STALL": {
+          "pairs": 6,
+          "cost_reduction_pct": -3.6975010769151773,
+          "ci95_pct": [
+            -12.694800174190423,
+            4.581473919153045
+          ]
+        },
+        "extra:frontend:rating:ITLB_WALK_ACTIVE": {
+          "pairs": 6,
+          "cost_reduction_pct": -2.3231736990136698,
+          "ci95_pct": [
+            -11.180450529563156,
+            5.82848130252438
+          ]
+        },
+        "extra:frontend:rating:cycles:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.7034711704894114,
+          "ci95_pct": [
+            -1.363483964267953,
+            -0.04775594888295487
+          ]
+        },
+        "extra:frontend:rating:instructions:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.840010578993744,
+          "ci95_pct": [
+            -1.0787637339936262,
+            -0.6018213710279996
+          ]
+        },
+        "extra:frontend:sum:BACLEARS": {
+          "pairs": 6,
+          "cost_reduction_pct": 0.35606038882467494,
+          "ci95_pct": [
+            -0.9323052099446283,
+            1.6279804510272666
+          ]
+        },
+        "extra:frontend:sum:FE_L1": {
+          "pairs": 6,
+          "cost_reduction_pct": -3.1017435864323373,
+          "ci95_pct": [
+            -3.785817241942069,
+            -2.422178801003283
+          ]
+        },
+        "extra:frontend:sum:ICACHE_DATA_STALL": {
+          "pairs": 6,
+          "cost_reduction_pct": -1.3253917064248721,
+          "ci95_pct": [
+            -2.909020971671228,
+            0.23386766757127475
+          ]
+        },
+        "extra:frontend:sum:ICACHE_TAG_STALL": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.2600159738378238,
+          "ci95_pct": [
+            -5.442732436739761,
+            4.667959841566649
+          ]
+        },
+        "extra:frontend:sum:ITLB_WALK_ACTIVE": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.20395242389479318,
+          "ci95_pct": [
+            -6.148168451378133,
+            5.407392064711503
+          ]
+        },
+        "extra:frontend:sum:cycles:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.38004190437448404,
+          "ci95_pct": [
+            -1.1563268231470802,
+            0.3902857174692853
+          ]
+        },
+        "extra:frontend:sum:instructions:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -1.3598199881852402,
+          "ci95_pct": [
+            -1.4301494305506646,
+            -1.2895393107136055
+          ]
+        },
+        "movie:FE_L2": {
+          "pairs": 6,
+          "cost_reduction_pct": -4.1124263927868165,
+          "ci95_pct": [
+            -6.089786093297644,
+            -2.1719218083920966
+          ]
+        },
+        "movie:ITLB_WALK": {
+          "pairs": 6,
+          "cost_reduction_pct": 1.0308206967225009,
+          "ci95_pct": [
+            -4.0546007321135,
+            5.867704233654569
+          ]
+        },
+        "movie:L2I": {
+          "pairs": 6,
+          "cost_reduction_pct": -2.213237535211876,
+          "ci95_pct": [
+            -3.638281049783365,
+            -0.8077886047829663
+          ]
+        },
+        "movie:SWPF_HIT": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.4233352274503943,
+          "ci95_pct": [
+            -5.288506940116711,
+            4.217026612974218
+          ]
+        },
+        "movie:SWPF_MISS": {
+          "pairs": 6,
+          "cost_reduction_pct": -5.812025521714537,
+          "ci95_pct": [
+            -23.619535550683636,
+            9.430295987339598
+          ]
+        },
+        "movie:cycles:u": {
+          "pairs": 6,
+          "cost_reduction_pct": 0.2644872167466006,
+          "ci95_pct": [
+            -0.5632801454865222,
+            1.0854409706229973
+          ]
+        },
+        "movie:instructions:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -1.7024030511361588,
+          "ci95_pct": [
+            -1.9019337413870074,
+            -1.5032630551036652
+          ]
+        },
+        "rating:FE_L2": {
+          "pairs": 6,
+          "cost_reduction_pct": -3.1171383372188055,
+          "ci95_pct": [
+            -5.353811541414566,
+            -0.9279499553486392
+          ]
+        },
+        "rating:ITLB_WALK": {
+          "pairs": 6,
+          "cost_reduction_pct": -1.208980329835585,
+          "ci95_pct": [
+            -10.102307207545813,
+            6.966003172883273
+          ]
+        },
+        "rating:L2I": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.8461827961715684,
+          "ci95_pct": [
+            -2.56449838966073,
+            0.843344975749849
+          ]
+        },
+        "rating:SWPF_HIT": {
+          "pairs": 6,
+          "cost_reduction_pct": -1.437234568116752,
+          "ci95_pct": [
+            -7.127059429575322,
+            3.9503874033674835
+          ]
+        },
+        "rating:SWPF_MISS": {
+          "pairs": 6,
+          "cost_reduction_pct": -1.6916143973783715,
+          "ci95_pct": [
+            -18.355299997106766,
+            12.625928547366405
+          ]
+        },
+        "rating:cycles:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.4851522509693007,
+          "ci95_pct": [
+            -1.2797295671675313,
+            0.30319130933210703
+          ]
+        },
+        "rating:instructions:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.847658923157879,
+          "ci95_pct": [
+            -1.1123925628843567,
+            -0.5836184121194687
+          ]
+        },
+        "sum:FE_L2": {
+          "pairs": 6,
+          "cost_reduction_pct": -3.136400887783952,
+          "ci95_pct": [
+            -4.9790711642363705,
+            -1.3260745224565218
+          ]
+        },
+        "sum:ITLB_WALK": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.6298359623540861,
+          "ci95_pct": [
+            -3.940768023968544,
+            2.5756295790004824
+          ]
+        },
+        "sum:L2I": {
+          "pairs": 6,
+          "cost_reduction_pct": -1.9282569242197178,
+          "ci95_pct": [
+            -2.562194803831619,
+            -1.2982374205354752
+          ]
+        },
+        "sum:SWPF_HIT": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.5510838380455407,
+          "ci95_pct": [
+            -3.2850676294966075,
+            2.110530659920351
+          ]
+        },
+        "sum:SWPF_MISS": {
+          "pairs": 6,
+          "cost_reduction_pct": -9.302724266536643,
+          "ci95_pct": [
+            -24.251726813023122,
+            3.8477304217687913
+          ]
+        },
+        "sum:cycles:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.32959364052911333,
+          "ci95_pct": [
+            -1.028524736095271,
+            0.3645021406777804
+          ]
+        },
+        "sum:instructions:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -1.4378976024012946,
+          "ci95_pct": [
+            -1.5011032597563423,
+            -1.3747313037822062
+          ]
+        }
+      }
+    },
+    "selected_it0": {
+      "base": {
+        "compose:FE_L2": {
+          "pairs": 6,
+          "cost_reduction_pct": 3.482313460066788,
+          "ci95_pct": [
+            0.7959725039291321,
+            6.095911122259967
+          ]
+        },
+        "compose:ITLB_WALK": {
+          "pairs": 6,
+          "cost_reduction_pct": -1.9428884774155941,
+          "ci95_pct": [
+            -8.17661934602234,
+            3.9316205854336372
+          ]
+        },
+        "compose:L2I": {
+          "pairs": 6,
+          "cost_reduction_pct": 1.225206491467823,
+          "ci95_pct": [
+            0.08107685921274754,
+            2.3562351757317024
+          ]
+        },
+        "compose:SWPF_HIT": {
+          "pairs": 6,
+          "cost_reduction_pct": 1.6009507563844116,
+          "ci95_pct": [
+            -0.886036561670922,
+            4.0266302251975254
+          ]
+        },
+        "compose:SWPF_MISS": {
+          "pairs": 6,
+          "cost_reduction_pct": -17.32693968303529,
+          "ci95_pct": [
+            -33.37352603200918,
+            -3.210968360264399
+          ]
+        },
+        "compose:cycles:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.8343528447245063,
+          "ci95_pct": [
+            -1.89815114324845,
+            0.21833959164939687
+          ]
+        },
+        "compose:instructions:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -1.4686153335972119,
+          "ci95_pct": [
+            -1.6393553346331302,
+            -1.2981621520502307
+          ]
+        },
+        "extra:frontend:compose:BACLEARS": {
+          "pairs": 6,
+          "cost_reduction_pct": 0.2960165078071175,
+          "ci95_pct": [
+            -2.836987323274509,
+            3.333571091871068
+          ]
+        },
+        "extra:frontend:compose:FE_L1": {
+          "pairs": 6,
+          "cost_reduction_pct": -4.901019192676048,
+          "ci95_pct": [
+            -5.475999387113029,
+            -4.329173381661966
+          ]
+        },
+        "extra:frontend:compose:ICACHE_DATA_STALL": {
+          "pairs": 6,
+          "cost_reduction_pct": 0.550961261069105,
+          "ci95_pct": [
+            -2.2680096549990703,
+            3.292228533031516
+          ]
+        },
+        "extra:frontend:compose:ICACHE_TAG_STALL": {
+          "pairs": 6,
+          "cost_reduction_pct": -2.691299792646329,
+          "ci95_pct": [
+            -11.675155031768437,
+            5.5698373545730595
+          ]
+        },
+        "extra:frontend:compose:ITLB_WALK_ACTIVE": {
+          "pairs": 6,
+          "cost_reduction_pct": -4.637022661468082,
+          "ci95_pct": [
+            -12.624566842437979,
+            2.784029999652471
+          ]
+        },
+        "extra:frontend:compose:cycles:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.7046071890916661,
+          "ci95_pct": [
+            -1.922930399054934,
+            0.4991529442594733
+          ]
+        },
+        "extra:frontend:compose:instructions:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -1.3829173363010039,
+          "ci95_pct": [
+            -1.455963896059198,
+            -1.309923368817234
+          ]
+        },
+        "extra:frontend:movie:BACLEARS": {
+          "pairs": 6,
+          "cost_reduction_pct": 0.6077329524570074,
+          "ci95_pct": [
+            -0.9069203531981485,
+            2.0996507051064595
+          ]
+        },
+        "extra:frontend:movie:FE_L1": {
+          "pairs": 6,
+          "cost_reduction_pct": -6.020163151115376,
+          "ci95_pct": [
+            -7.75137370147172,
+            -4.316767466284244
+          ]
+        },
+        "extra:frontend:movie:ICACHE_DATA_STALL": {
+          "pairs": 6,
+          "cost_reduction_pct": 1.152730592051232,
+          "ci95_pct": [
+            -2.0226487137633864,
+            4.229278571068162
+          ]
+        },
+        "extra:frontend:movie:ICACHE_TAG_STALL": {
+          "pairs": 6,
+          "cost_reduction_pct": 2.7091743487910547,
+          "ci95_pct": [
+            -7.149297619054784,
+            11.660599124537363
+          ]
+        },
+        "extra:frontend:movie:ITLB_WALK_ACTIVE": {
+          "pairs": 6,
+          "cost_reduction_pct": 0.538539569407015,
+          "ci95_pct": [
+            -5.1616386042163676,
+            5.929745463382508
+          ]
+        },
+        "extra:frontend:movie:cycles:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.12901206128101972,
+          "ci95_pct": [
+            -0.8312846760684556,
+            0.5683693451174365
+          ]
+        },
+        "extra:frontend:movie:instructions:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -1.742883031025122,
+          "ci95_pct": [
+            -2.089602959394421,
+            -1.3973406438083424
+          ]
+        },
+        "extra:frontend:rating:BACLEARS": {
+          "pairs": 6,
+          "cost_reduction_pct": 1.3847433541596454,
+          "ci95_pct": [
+            0.5847646527152084,
+            2.178284753308024
+          ]
+        },
+        "extra:frontend:rating:FE_L1": {
+          "pairs": 6,
+          "cost_reduction_pct": -2.2824123683792275,
+          "ci95_pct": [
+            -3.2449398361949378,
+            -1.3288583100862228
+          ]
+        },
+        "extra:frontend:rating:ICACHE_DATA_STALL": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.5031039866082443,
+          "ci95_pct": [
+            -2.7225278308891765,
+            1.6683669664755985
+          ]
+        },
+        "extra:frontend:rating:ICACHE_TAG_STALL": {
+          "pairs": 6,
+          "cost_reduction_pct": 0.7599056899946777,
+          "ci95_pct": [
+            -2.4454997697597403,
+            3.865017586981434
+          ]
+        },
+        "extra:frontend:rating:ITLB_WALK_ACTIVE": {
+          "pairs": 6,
+          "cost_reduction_pct": 0.9791389494893332,
+          "ci95_pct": [
+            -3.0317914895360953,
+            4.833927650570368
+          ]
+        },
+        "extra:frontend:rating:cycles:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.2871770392436801,
+          "ci95_pct": [
+            -0.7488374658687791,
+            0.1723679252592425
+          ]
+        },
+        "extra:frontend:rating:instructions:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.9951220566039476,
+          "ci95_pct": [
+            -1.1323803224444484,
+            -0.8580500795809298
+          ]
+        },
+        "extra:frontend:sum:BACLEARS": {
+          "pairs": 6,
+          "cost_reduction_pct": 0.6474918939415097,
+          "ci95_pct": [
+            -0.82021062525377,
+            2.0938281546108994
+          ]
+        },
+        "extra:frontend:sum:FE_L1": {
+          "pairs": 6,
+          "cost_reduction_pct": -4.642275730744405,
+          "ci95_pct": [
+            -5.2761147630790095,
+            -4.012252871905697
+          ]
+        },
+        "extra:frontend:sum:ICACHE_DATA_STALL": {
+          "pairs": 6,
+          "cost_reduction_pct": 0.4512697250699138,
+          "ci95_pct": [
+            -1.6805575804441641,
+            2.538401291608139
+          ]
+        },
+        "extra:frontend:sum:ICACHE_TAG_STALL": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.4314274999397849,
+          "ci95_pct": [
+            -6.249011472730248,
+            5.067619078371899
+          ]
+        },
+        "extra:frontend:sum:ITLB_WALK_ACTIVE": {
+          "pairs": 6,
+          "cost_reduction_pct": -1.8106100115668156,
+          "ci95_pct": [
+            -6.4328993506414855,
+            2.610937274397629
+          ]
+        },
+        "extra:frontend:sum:cycles:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.46077643096069654,
+          "ci95_pct": [
+            -1.277009137500662,
+            0.34887792342511714
+          ]
+        },
+        "extra:frontend:sum:instructions:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -1.3723162296888525,
+          "ci95_pct": [
+            -1.4404686648447296,
+            -1.3042095825156252
+          ]
+        },
+        "movie:FE_L2": {
+          "pairs": 6,
+          "cost_reduction_pct": 4.492807175278324,
+          "ci95_pct": [
+            1.7711651645304194,
+            7.139040216276404
+          ]
+        },
+        "movie:ITLB_WALK": {
+          "pairs": 6,
+          "cost_reduction_pct": 3.029312357856595,
+          "ci95_pct": [
+            -5.924654423216147,
+            11.22638716176767
+          ]
+        },
+        "movie:L2I": {
+          "pairs": 6,
+          "cost_reduction_pct": 0.5479943301041179,
+          "ci95_pct": [
+            -1.6726843279598391,
+            2.7201701505084164
+          ]
+        },
+        "movie:SWPF_HIT": {
+          "pairs": 6,
+          "cost_reduction_pct": -1.0177702579994286,
+          "ci95_pct": [
+            -4.683047815859864,
+            2.519174586432682
+          ]
+        },
+        "movie:SWPF_MISS": {
+          "pairs": 6,
+          "cost_reduction_pct": -15.223371031706122,
+          "ci95_pct": [
+            -36.76478968619969,
+            2.9251223039764684
+          ]
+        },
+        "movie:cycles:u": {
+          "pairs": 6,
+          "cost_reduction_pct": 0.08589888668406598,
+          "ci95_pct": [
+            -0.5553462357322569,
+            0.7230547654906272
+          ]
+        },
+        "movie:instructions:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -1.7250927186550635,
+          "ci95_pct": [
+            -2.0576406518956647,
+            -1.3936283704081953
+          ]
+        },
+        "rating:FE_L2": {
+          "pairs": 6,
+          "cost_reduction_pct": 2.6148245422580207,
+          "ci95_pct": [
+            0.6443181982142554,
+            4.546250129353602
+          ]
+        },
+        "rating:ITLB_WALK": {
+          "pairs": 6,
+          "cost_reduction_pct": 2.5705035283667854,
+          "ci95_pct": [
+            -2.180868747994058,
+            7.100938766462206
+          ]
+        },
+        "rating:L2I": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.26207611449098334,
+          "ci95_pct": [
+            -1.6596858053922414,
+            1.1163193438201713
+          ]
+        },
+        "rating:SWPF_HIT": {
+          "pairs": 6,
+          "cost_reduction_pct": 1.2714730126501927,
+          "ci95_pct": [
+            -5.144602838995271,
+            7.29603062919324
+          ]
+        },
+        "rating:SWPF_MISS": {
+          "pairs": 6,
+          "cost_reduction_pct": -8.825775948567305,
+          "ci95_pct": [
+            -30.213807618669406,
+            9.049203556890905
+          ]
+        },
+        "rating:cycles:u": {
+          "pairs": 6,
+          "cost_reduction_pct": 0.1775588330403033,
+          "ci95_pct": [
+            -0.5501882979861872,
+            0.900038784604662
+          ]
+        },
+        "rating:instructions:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.9591564573293798,
+          "ci95_pct": [
+            -1.0687698210378294,
+            -0.849661973958793
+          ]
+        },
+        "sum:FE_L2": {
+          "pairs": 6,
+          "cost_reduction_pct": 3.5120982015172886,
+          "ci95_pct": [
+            1.4761230985388174,
+            5.5060003090928955
+          ]
+        },
+        "sum:ITLB_WALK": {
+          "pairs": 6,
+          "cost_reduction_pct": 0.3473832466414306,
+          "ci95_pct": [
+            -4.16629554091501,
+            4.665477693875109
+          ]
+        },
+        "sum:L2I": {
+          "pairs": 6,
+          "cost_reduction_pct": 0.6810699990366209,
+          "ci95_pct": [
+            0.12258451013673621,
+            1.236432599345716
+          ]
+        },
+        "sum:SWPF_HIT": {
+          "pairs": 6,
+          "cost_reduction_pct": 0.9190958053881149,
+          "ci95_pct": [
+            -1.1987539859341645,
+            2.9926240259208314
+          ]
+        },
+        "sum:SWPF_MISS": {
+          "pairs": 6,
+          "cost_reduction_pct": -15.154700850379154,
+          "ci95_pct": [
+            -32.16041525156869,
+            -0.33719327151486844
+          ]
+        },
+        "sum:cycles:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.35988578021943773,
+          "ci95_pct": [
+            -1.0697694696301774,
+            0.3450118994760665
+          ]
+        },
+        "sum:instructions:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -1.4103154976617738,
+          "ci95_pct": [
+            -1.5141923897180387,
+            -1.306544900188089
+          ]
+        }
+      },
+      "selected_nop": {
+        "compose:FE_L2": {
+          "pairs": 6,
+          "cost_reduction_pct": 5.985908235347825,
+          "ci95_pct": [
+            4.522543185167461,
+            7.42684456422027
+          ]
+        },
+        "compose:ITLB_WALK": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.7985016520079435,
+          "ci95_pct": [
+            -5.529201872312961,
+            3.7201290730546788
+          ]
+        },
+        "compose:L2I": {
+          "pairs": 6,
+          "cost_reduction_pct": 3.4598139135796013,
+          "ci95_pct": [
+            2.5409766887273033,
+            4.369988401857183
+          ]
+        },
+        "compose:SWPF_HIT": {
+          "pairs": 6,
+          "cost_reduction_pct": 1.8741719904506016,
+          "ci95_pct": [
+            -1.9551827371977915,
+            5.559699231977355
+          ]
+        },
+        "compose:SWPF_MISS": {
+          "pairs": 6,
+          "cost_reduction_pct": -3.186224667052029,
+          "ci95_pct": [
+            -18.59866273323445,
+            10.22329665732683
+          ]
+        },
+        "compose:cycles:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.28843494199124464,
+          "ci95_pct": [
+            -0.6202372980985027,
+            0.04227327235613032
+          ]
+        },
+        "compose:instructions:u": {
+          "pairs": 6,
+          "cost_reduction_pct": 0.09624010371559466,
+          "ci95_pct": [
+            -0.03918660168642507,
+            0.23148347703386696
+          ]
+        },
+        "extra:frontend:compose:BACLEARS": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.06842550438057593,
+          "ci95_pct": [
+            -2.2682845487099534,
+            2.0841131039380123
+          ]
+        },
+        "extra:frontend:compose:FE_L1": {
+          "pairs": 6,
+          "cost_reduction_pct": -1.434781860842671,
+          "ci95_pct": [
+            -2.49033255915867,
+            -0.3901023076277932
+          ]
+        },
+        "extra:frontend:compose:ICACHE_DATA_STALL": {
+          "pairs": 6,
+          "cost_reduction_pct": 2.2220311065343723,
+          "ci95_pct": [
+            0.6095150746545763,
+            3.808385600365305
+          ]
+        },
+        "extra:frontend:compose:ICACHE_TAG_STALL": {
+          "pairs": 6,
+          "cost_reduction_pct": -3.3239907733427554,
+          "ci95_pct": [
+            -9.439299982221506,
+            2.4496038345994786
+          ]
+        },
+        "extra:frontend:compose:ITLB_WALK_ACTIVE": {
+          "pairs": 6,
+          "cost_reduction_pct": -5.063486592751687,
+          "ci95_pct": [
+            -10.771874603189868,
+            0.3507320376480716
+          ]
+        },
+        "extra:frontend:compose:cycles:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.20883519331411637,
+          "ci95_pct": [
+            -0.4912016510187911,
+            0.07273785347371442
+          ]
+        },
+        "extra:frontend:compose:instructions:u": {
+          "pairs": 6,
+          "cost_reduction_pct": 0.07942284402624455,
+          "ci95_pct": [
+            -0.008244344681740401,
+            0.16701318371016294
+          ]
+        },
+        "extra:frontend:movie:BACLEARS": {
+          "pairs": 6,
+          "cost_reduction_pct": 0.9279961870788278,
+          "ci95_pct": [
+            -0.7130625423072523,
+            2.54231485231321
+          ]
+        },
+        "extra:frontend:movie:FE_L1": {
+          "pairs": 6,
+          "cost_reduction_pct": -1.854422959225488,
+          "ci95_pct": [
+            -2.9672644504389334,
+            -0.753608748635437
+          ]
+        },
+        "extra:frontend:movie:ICACHE_DATA_STALL": {
+          "pairs": 6,
+          "cost_reduction_pct": 1.2099018647089843,
+          "ci95_pct": [
+            -1.836101222083908,
+            4.164796447804164
+          ]
+        },
+        "extra:frontend:movie:ICACHE_TAG_STALL": {
+          "pairs": 6,
+          "cost_reduction_pct": 1.4090412888980608,
+          "ci95_pct": [
+            -6.496651636048556,
+            8.727861484388876
+          ]
+        },
+        "extra:frontend:movie:ITLB_WALK_ACTIVE": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.22946488126709408,
+          "ci95_pct": [
+            -7.8330797407867525,
+            6.837997629911142
+          ]
+        },
+        "extra:frontend:movie:cycles:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.3049892999265502,
+          "ci95_pct": [
+            -1.073491392665682,
+            0.45766956469802667
+          ]
+        },
+        "extra:frontend:movie:instructions:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.12172260509959454,
+          "ci95_pct": [
+            -0.38351216027698865,
+            0.13938423067773043
+          ]
+        },
+        "extra:frontend:rating:BACLEARS": {
+          "pairs": 6,
+          "cost_reduction_pct": 0.39479201088828964,
+          "ci95_pct": [
+            -1.2615157711525216,
+            2.024008005412814
+          ]
+        },
+        "extra:frontend:rating:FE_L1": {
+          "pairs": 6,
+          "cost_reduction_pct": -1.2858362383895816,
+          "ci95_pct": [
+            -1.8723978963662402,
+            -0.7026518895340894
+          ]
+        },
+        "extra:frontend:rating:ICACHE_DATA_STALL": {
+          "pairs": 6,
+          "cost_reduction_pct": 1.268515701658257,
+          "ci95_pct": [
+            -0.8266062947182018,
+            3.3201022033769956
+          ]
+        },
+        "extra:frontend:rating:ICACHE_TAG_STALL": {
+          "pairs": 6,
+          "cost_reduction_pct": 4.29847076411578,
+          "ci95_pct": [
+            -2.196530811898545,
+            10.380688802985649
+          ]
+        },
+        "extra:frontend:rating:ITLB_WALK_ACTIVE": {
+          "pairs": 6,
+          "cost_reduction_pct": 3.227336026750738,
+          "ci95_pct": [
+            -2.001077615500213,
+            8.18774946887123
+          ]
+        },
+        "extra:frontend:rating:cycles:u": {
+          "pairs": 6,
+          "cost_reduction_pct": 0.41338607935466065,
+          "ci95_pct": [
+            -0.13439453916053168,
+            0.9581700890882061
+          ]
+        },
+        "extra:frontend:rating:instructions:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.1538193785577846,
+          "ci95_pct": [
+            -0.40327756265345904,
+            0.09501901117338063
+          ]
+        },
+        "extra:frontend:sum:BACLEARS": {
+          "pairs": 6,
+          "cost_reduction_pct": 0.2924728852091163,
+          "ci95_pct": [
+            -0.9761848092055603,
+            1.545191253448619
+          ]
+        },
+        "extra:frontend:sum:FE_L1": {
+          "pairs": 6,
+          "cost_reduction_pct": -1.494186316083601,
+          "ci95_pct": [
+            -2.3174663451172917,
+            -0.6775306692831329
+          ]
+        },
+        "extra:frontend:sum:ICACHE_DATA_STALL": {
+          "pairs": 6,
+          "cost_reduction_pct": 1.7534217253681095,
+          "ci95_pct": [
+            0.9019533996274642,
+            2.5975740813736214
+          ]
+        },
+        "extra:frontend:sum:ICACHE_TAG_STALL": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.17096698463192617,
+          "ci95_pct": [
+            -3.3377464488566044,
+            2.8987666999075956
+          ]
+        },
+        "extra:frontend:sum:ITLB_WALK_ACTIVE": {
+          "pairs": 6,
+          "cost_reduction_pct": -1.6033874401234494,
+          "ci95_pct": [
+            -5.63276794098817,
+            2.2722916332654775
+          ]
+        },
+        "extra:frontend:sum:cycles:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.08042886320283049,
+          "ci95_pct": [
+            -0.4353366445124518,
+            0.27322478248639204
+          ]
+        },
+        "extra:frontend:sum:instructions:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.01232859480715387,
+          "ci95_pct": [
+            -0.05638845610429488,
+            0.03171186471656595
+          ]
+        },
+        "movie:FE_L2": {
+          "pairs": 6,
+          "cost_reduction_pct": 8.265328036443996,
+          "ci95_pct": [
+            6.203660707905179,
+            10.281679394171551
+          ]
+        },
+        "movie:ITLB_WALK": {
+          "pairs": 6,
+          "cost_reduction_pct": 2.0193070966164073,
+          "ci95_pct": [
+            -5.537908075445297,
+            9.035375469406581
+          ]
+        },
+        "movie:L2I": {
+          "pairs": 6,
+          "cost_reduction_pct": 2.7014425253527152,
+          "ci95_pct": [
+            0.8696062107377833,
+            4.499428230126668
+          ]
+        },
+        "movie:SWPF_HIT": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.591929185784057,
+          "ci95_pct": [
+            -6.909171600533326,
+            5.352028588094349
+          ]
+        },
+        "movie:SWPF_MISS": {
+          "pairs": 6,
+          "cost_reduction_pct": -8.894400672880254,
+          "ci95_pct": [
+            -34.33035375470133,
+            11.725159902731397
+          ]
+        },
+        "movie:cycles:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.1790619259667725,
+          "ci95_pct": [
+            -0.8760242985925926,
+            0.513085065083152
+          ]
+        },
+        "movie:instructions:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.022309863718272815,
+          "ci95_pct": [
+            -0.33033205278896194,
+            0.28476667245744824
+          ]
+        },
+        "rating:FE_L2": {
+          "pairs": 6,
+          "cost_reduction_pct": 5.55869079757807,
+          "ci95_pct": [
+            3.717756716469933,
+            7.364425882740444
+          ]
+        },
+        "rating:ITLB_WALK": {
+          "pairs": 6,
+          "cost_reduction_pct": 3.734336464891963,
+          "ci95_pct": [
+            -3.1659045090728366,
+            10.173055526890229
+          ]
+        },
+        "rating:L2I": {
+          "pairs": 6,
+          "cost_reduction_pct": 0.5792055440126731,
+          "ci95_pct": [
+            -1.6928586457475525,
+            2.8005063296249744
+          ]
+        },
+        "rating:SWPF_HIT": {
+          "pairs": 6,
+          "cost_reduction_pct": 2.6703286936987536,
+          "ci95_pct": [
+            -1.066718927116428,
+            6.269195070792044
+          ]
+        },
+        "rating:SWPF_MISS": {
+          "pairs": 6,
+          "cost_reduction_pct": -7.0154865703192515,
+          "ci95_pct": [
+            -22.83424128404161,
+            6.7661081619751595
+          ]
+        },
+        "rating:cycles:u": {
+          "pairs": 6,
+          "cost_reduction_pct": 0.6595114493676002,
+          "ci95_pct": [
+            -0.0798565394975359,
+            1.3934171499975112
+          ]
+        },
+        "rating:instructions:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.11056035941940934,
+          "ci95_pct": [
+            -0.39981700876299264,
+            0.17786292775598955
+          ]
+        },
+        "sum:FE_L2": {
+          "pairs": 6,
+          "cost_reduction_pct": 6.44631675341768,
+          "ci95_pct": [
+            5.66778783828743,
+            7.218420426758265
+          ]
+        },
+        "sum:ITLB_WALK": {
+          "pairs": 6,
+          "cost_reduction_pct": 0.9711028539896471,
+          "ci95_pct": [
+            -1.2794670095462202,
+            3.171661941795645
+          ]
+        },
+        "sum:L2I": {
+          "pairs": 6,
+          "cost_reduction_pct": 2.559964235625345,
+          "ci95_pct": [
+            2.189595518391707,
+            2.9289305152815803
+          ]
+        },
+        "sum:SWPF_HIT": {
+          "pairs": 6,
+          "cost_reduction_pct": 1.4621221247118732,
+          "ci95_pct": [
+            -2.166406307879276,
+            4.961780226419055
+          ]
+        },
+        "sum:SWPF_MISS": {
+          "pairs": 6,
+          "cost_reduction_pct": -5.35391649486463,
+          "ci95_pct": [
+            -21.02479632781811,
+            8.28782152426023
+          ]
+        },
+        "sum:cycles:u": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.030192626712777226,
+          "ci95_pct": [
+            -0.48999928211144184,
+            0.4275101162382833
+          ]
+        },
+        "sum:instructions:u": {
+          "pairs": 6,
+          "cost_reduction_pct": 0.0271911242163414,
+          "ci95_pct": [
+            -0.06187768523999715,
+            0.11618065020327917
+          ]
+        }
+      }
+    }
+  },
+  "decisions": {
+    "selected_it0": {
+      "contrasts": {
+        "base": {
+          "paired_reductions_pct": [
+            2.807604374713857,
+            1.8487718386983043,
+            3.687538966953019,
+            6.313198029412637,
+            5.021861309980413,
+            1.2983073729679884
+          ],
+          "every_block_reduces": true,
+          "summary": {
+            "pairs": 6,
+            "cost_reduction_pct": 3.5120982015172886,
+            "ci95_pct": [
+              1.4761230985388174,
+              5.5060003090928955
+            ]
+          }
+        },
+        "selected_nop": {
+          "paired_reductions_pct": [
+            6.965164575428484,
+            6.547447271608142,
+            5.79756849937989,
+            6.745197528649816,
+            7.2808210068167405,
+            5.327099279954906
+          ],
+          "every_block_reduces": true,
+          "summary": {
+            "pairs": 6,
+            "cost_reduction_pct": 6.44631675341768,
+            "ci95_pct": [
+              5.66778783828743,
+              7.218420426758265
+            ]
+          }
+        }
+      },
+      "miss_screen_eligible": true
+    }
+  },
+  "interpretation": "Positive values mean fewer events/request. FE_L2 retired-event population differs from speculative L2I. PMU windows follow clean E2E timing; service sums combine sequential request-normalized windows. Individual paired-log t95 intervals, no multiplicity correction; screen and confirmation never pooled."
+}

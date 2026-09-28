@@ -1,0 +1,154 @@
+-- The C compiler identification is Clang 19.1.7
+-- The CXX compiler identification is Clang 19.1.7
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/clang-19 - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/clang++-19 - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Parsed Thrift package version: 0.12.0
+-- Parsed Thrift version: 0.12.0 (0.2.0)
+-- Setting C++11 as the default language level.
+-- To specify a different C++ language level, set CMAKE_CXX_STANDARD
+-- Found PkgConfig: /usr/bin/pkg-config (found version "0.29.2") 
+CMake Warning (dev) at /usr/share/cmake-3.22/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
+  The package name passed to `find_package_handle_standard_args`
+  (RUN_HASKELL) does not match the name of the calling package (GHC).  This
+  can lead to problems in calling code that expects `find_package` result
+  variables (e.g., `_FOUND`) to follow a certain pattern.
+Call Stack (most recent call first):
+  build/cmake/FindGHC.cmake:35 (find_package_handle_standard_args)
+  build/cmake/DefineOptions.cmake:145 (find_package)
+  CMakeLists.txt:52 (include)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- Could NOT find RUN_HASKELL (missing: RUN_HASKELL) 
+CMake Warning (dev) at /usr/share/cmake-3.22/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
+  The package name passed to `find_package_handle_standard_args` (CABAL) does
+  not match the name of the calling package (Cabal).  This can lead to
+  problems in calling code that expects `find_package` result variables
+  (e.g., `_FOUND`) to follow a certain pattern.
+Call Stack (most recent call first):
+  build/cmake/FindCabal.cmake:29 (find_package_handle_standard_args)
+  build/cmake/DefineOptions.cmake:146 (find_package)
+  CMakeLists.txt:52 (include)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- Could NOT find CABAL (missing: CABAL) 
+-- Looking for arpa/inet.h
+-- Looking for arpa/inet.h - found
+-- Looking for fcntl.h
+-- Looking for fcntl.h - found
+-- Looking for getopt.h
+-- Looking for getopt.h - found
+-- Looking for inttypes.h
+-- Looking for inttypes.h - found
+-- Looking for netdb.h
+-- Looking for netdb.h - found
+-- Looking for netinet/in.h
+-- Looking for netinet/in.h - found
+-- Looking for signal.h
+-- Looking for signal.h - found
+-- Looking for stdint.h
+-- Looking for stdint.h - found
+-- Looking for unistd.h
+-- Looking for unistd.h - found
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Looking for sys/ioctl.h
+-- Looking for sys/ioctl.h - found
+-- Looking for sys/param.h
+-- Looking for sys/param.h - found
+-- Looking for sys/resource.h
+-- Looking for sys/resource.h - found
+-- Looking for sys/socket.h
+-- Looking for sys/socket.h - found
+-- Looking for sys/stat.h
+-- Looking for sys/stat.h - found
+-- Looking for sys/time.h
+-- Looking for sys/time.h - found
+-- Looking for sys/un.h
+-- Looking for sys/un.h - found
+-- Looking for poll.h
+-- Looking for poll.h - found
+-- Looking for sys/poll.h
+-- Looking for sys/poll.h - found
+-- Looking for sys/select.h
+-- Looking for sys/select.h - found
+-- Looking for sched.h
+-- Looking for sched.h - found
+-- Looking for string.h
+-- Looking for string.h - found
+-- Looking for strings.h
+-- Looking for strings.h - found
+-- Looking for gethostbyname
+-- Looking for gethostbyname - found
+-- Looking for gethostbyname_r
+-- Looking for gethostbyname_r - found
+-- Looking for strerror_r
+-- Looking for strerror_r - found
+-- Looking for sched_get_priority_max
+-- Looking for sched_get_priority_max - found
+-- Looking for sched_get_priority_min
+-- Looking for sched_get_priority_min - found
+-- Performing Test STRERROR_R_CHAR_P
+-- Performing Test STRERROR_R_CHAR_P - Success
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE  
+-- Building without tests
+-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  
+-- Found libevent: /usr/lib/x86_64-linux-gnu/libevent.so
+-- Found ZLIB: /usr/lib/x86_64-linux-gnu/libz.so (found version "1.2.11") 
+-- ----------------------------------------------------------
+-- Thrift version:                               0.12.0 (0.2.0)
+-- Thrift package version:                       0.12.0
+-- Build configuration Summary
+--   Build Thrift compiler:                      OFF
+--   Build compiler plugin support:              OFF
+--   Build with unit tests:                      OFF
+--    - Disabled because BUILD_THRIFT=OFF and no valid THRIFT_COMPILER is given
+--   Build examples:                             OFF
+--    - Disabled because BUILD_THRIFT=OFF and no valid THRIFT_COMPILER is given
+--   Build Thrift libraries:                     ON
+--  Language libraries:
+--   Build C++ library:                          ON
+--     C++ Language Level:                       C++11 [fallback to earlier if compiler does not support it]
+--   Build C (GLib) library:                     OFF
+--    - GLib missing
+--   Build Java library:                         OFF
+--    - Java Runtime missing
+--   Build Python library:                       OFF
+--   Build Haskell library:                      OFF
+--    - GHC missing
+--    - Cabal missing
+--  Library features:
+--   Build shared libraries:                     OFF
+--   Build static libraries:                     ON
+--   Build with Boost static link library:       OFF
+--   Build with Boost thread support:            OFF
+--   Build with boost/tr1/functional (forced)    OFF
+--   Build with boost/smart_ptr (forced)         OFF
+--   Build with C++ std::thread support:         OFF
+--   Build with libevent support:                ON
+--   Build with OpenSSL support:                 ON
+--   Build with Qt4 support:                     OFF
+--   Build with Qt5 support:                     OFF
+--   Build with ZLIB support:                    ON
+-- ----------------------------------------------------------
+-- Configuring done
+-- Generating done
+CMake Warning:
+  Manually-specified variables were not used by the project:
+
+    BUILD_JAVASCRIPT
+    BUILD_NODEJS
+
+
+-- Build files have been written to: /opt/src/thrift-0.12.0/dense_build

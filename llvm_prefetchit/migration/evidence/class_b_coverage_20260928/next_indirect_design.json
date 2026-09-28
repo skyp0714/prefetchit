@@ -1,0 +1,14 @@
+{
+  "design": "Frozen before capture and before screen completion",
+  "profile_scope": "Main-image entry misses immediately associated with main indirect calls/jumps, unique owning symbol, global target",
+  "minimum_samples_per_service": 3,
+  "max_targets_per_caller": 3,
+  "train_seed": 62001,
+  "heldout_used_for_selection": false,
+  "caller_match": "Function name; all indirect call sites in that caller share the small target set",
+  "placement": "Actual call dominator, IR lead24, minimum caller size0, keep short lead,4sites/function,8hints/site; no schedule gate",
+  "source_binding": "Only global function names defined in all three original main ELFs; shared dependency instrumentation must bind in every service",
+  "interpretation": "LBR associations do not establish a BTB/FDIP cause; static coverage and prefetch fill success differ",
+  "screen": "Fresh seeds63001\u201363002, original / own NOP / indirect IT0, C4,60s clean ROI and PMU all3 in each block. Additional density variant only if frozen before measuring it.",
+  "confirmation": "If selected on miss reduction against both controls, independent seeds64001+; report confidence separately from exploration. E2E success requires original/NOP confidence evidence, not miss counts alone."
+}

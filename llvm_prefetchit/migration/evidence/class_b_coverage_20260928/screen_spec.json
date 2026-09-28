@@ -1,0 +1,61 @@
+{
+  "out": "/storage/prefetchit/class_b_coverage_20260928/screen",
+  "arms": {
+    "base": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+      },
+      "clock": false
+    },
+    "coverage_nop": {
+      "clock": false,
+      "controls": [
+        "base"
+      ],
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_callees/movie/MovieIdService.nop",
+        "compose": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_callees/compose/ComposeReviewService.nop",
+        "rating": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_callees/rating/RatingService.nop"
+      }
+    },
+    "coverage_full_it0": {
+      "clock": false,
+      "controls": [
+        "base",
+        "coverage_nop"
+      ],
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_callees_it0/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_callees_it0/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_callees_it0/rating/RatingService"
+      }
+    },
+    "coverage_weighted_it0": {
+      "clock": false,
+      "controls": [
+        "base",
+        "coverage_nop"
+      ],
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_weighted1_it0/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_weighted1_it0/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_weighted1_it0/rating/RatingService"
+      }
+    }
+  },
+  "module": "/storage/prefetchit/class_b_lean_20260928/kernel_v1/prefetchit_sched_clock.ko",
+  "clock_options": {},
+  "blocks": 2,
+  "concurrency": 4,
+  "roi_s": 60,
+  "seedbase": 61001,
+  "pmu_blocks": [
+    0,
+    1
+  ],
+  "pmu_event_sets": {},
+  "phase": "Coverage exploration; PMU and E2E are distinct endpoints, screening only",
+  "primary_miss": "sum of all3 FE_L2/request; reductions versus original and exact-layout NOP required in both paired blocks"
+}

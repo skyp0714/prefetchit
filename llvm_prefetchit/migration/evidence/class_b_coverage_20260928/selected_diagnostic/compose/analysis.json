@@ -1,0 +1,7210 @@
+{
+  "main_dso": "/custom/ComposeReviewService",
+  "static_prefetch": {
+    "resolved": 4524,
+    "unresolved": 0,
+    "target_lines": 273,
+    "target_other_function": 4522,
+    "target_same_function": 2
+  },
+  "events": {
+    "l2": {
+      "counts": {
+        "samples": 51883,
+        "main_samples": 41581,
+        "statically_targeted_samples": 20330,
+        "with_lbr": 51797,
+        "nearest_branch_target_associated": 51793,
+        "within_64B_of_target": 48126,
+        "same_line_as_target": 45816,
+        "preceding_observed_pf_sites_total": 247401,
+        "nearest_branch_mispredicted": 18570,
+        "preceding_observed_pf_samples": 33365,
+        "sample_is_newest_branch": 4131,
+        "preceding_matching_pf_samples": 12051,
+        "without_lbr": 76,
+        "unmapped": 10
+      },
+      "dso_counts": {
+        "/custom/ComposeReviewService": 41581,
+        "/usr/lib/x86_64-linux-gnu/libc.so.6": 3914,
+        "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": 583,
+        "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": 5705,
+        "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2": 90,
+        "([vdso])": 10
+      },
+      "instruction_classes": {
+        "other": 45121,
+        "conditional_branch": 1655,
+        "indirect_call": 243,
+        "direct_jump": 285,
+        "prefetch": 1875,
+        "direct_call": 633,
+        "indirect_jump": 1470,
+        "return": 591
+      },
+      "preceding_branch_classes": {
+        "direct_call": 24663,
+        "indirect_call": 9282,
+        "direct_jump": 3418,
+        "indirect_jump": 3140,
+        "conditional_branch": 6167,
+        "return": 5123
+      },
+      "distance_bytes": {
+        "0": 38069,
+        "16-63": 5876,
+        "1-15": 4181,
+        "64-255": 3365,
+        "256+": 302
+      },
+      "lead_retired_proxy": {
+        "prior_block_minage_0-31": 6945,
+        "prior_block_minage_128-511": 2377,
+        "prior_block_minage_512+": 1653,
+        "prior_block_minage_32-127": 1076
+      },
+      "top_functions": [
+        {
+          "name": "/custom/ComposeReviewService::_ZNK13jaegertracing11propagation10PropagatorIRKN11opentracing2v213TextMapReaderERKNS3_13TextMapWriterEE7extractES6_",
+          "samples": 1099,
+          "share_pct": 2.118227550450051
+        },
+        {
+          "name": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0::memcached_stat_execute@@Base",
+          "samples": 1014,
+          "share_pct": 1.9543973941368078
+        },
+        {
+          "name": "/custom/ComposeReviewService::_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l",
+          "samples": 803,
+          "share_pct": 1.5477131237592274
+        },
+        {
+          "name": "/custom/ComposeReviewService::_ZN13media_service29ComposeReviewServiceProcessor12dispatchCallEPN6apache6thrift8protocol9TProtocolES5_RKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiPv",
+          "samples": 562,
+          "share_pct": 1.0832064452710908
+        },
+        {
+          "name": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0::memcached_server_response_count@@Base",
+          "samples": 538,
+          "share_pct": 1.0369485187826455
+        },
+        {
+          "name": "/custom/ComposeReviewService::_ZNK13jaegertracing6Tracer17analyzeReferencesERKSt6vectorISt4pairIN11opentracing2v217SpanReferenceTypeEPKNS4_11SpanContextEESaIS9_EE",
+          "samples": 523,
+          "share_pct": 1.0080373147273674
+        },
+        {
+          "name": "/custom/ComposeReviewService::_ZNSt6vectorIN13jaegertracing3TagESaIS1_EE15_M_range_insertIN9__gnu_cxx17__normal_iteratorIPKS1_S3_EEEEvNS6_IPS1_S3_EET_SC_St20forward_iterator_tag",
+          "samples": 497,
+          "share_pct": 0.9579245610315518
+        },
+        {
+          "name": "/custom/ComposeReviewService::_ZN5boost3log12v2s_mt_posix7trivial6logger3getEv",
+          "samples": 477,
+          "share_pct": 0.9193762889578475
+        },
+        {
+          "name": "/custom/ComposeReviewService::_ZN13jaegertracing4SpanD2Ev",
+          "samples": 476,
+          "share_pct": 0.9174488753541622
+        },
+        {
+          "name": "/custom/ComposeReviewService::_ZN13jaegertracing12UDPTransport6appendERKNS_4SpanE",
+          "samples": 439,
+          "share_pct": 0.8461345720178093
+        },
+        {
+          "name": "/custom/ComposeReviewService::_ZN6apache6thrift18TDispatchProcessor7processESt10shared_ptrINS0_8protocol9TProtocolEES5_Pv",
+          "samples": 423,
+          "share_pct": 0.8152959543588458
+        },
+        {
+          "name": "/custom/ComposeReviewService::_ZNSt15basic_streambufIcSt11char_traitsIcEE6xsputnEPKcl",
+          "samples": 414,
+          "share_pct": 0.7979492319256789
+        },
+        {
+          "name": "/custom/ComposeReviewService::_ZNSt8ios_baseC1Ev",
+          "samples": 412,
+          "share_pct": 0.7940944047183085
+        },
+        {
+          "name": "/custom/ComposeReviewService::_ZNSt7__cxx1119basic_istringstreamIcSt11char_traitsIcESaIcEEC1ERKNS_12basic_stringIcS2_S3_EESt13_Ios_Openmode",
+          "samples": 409,
+          "share_pct": 0.7883121639072529
+        },
+        {
+          "name": "/custom/ComposeReviewService::_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE9_M_mutateEmmPKcm",
+          "samples": 390,
+          "share_pct": 0.7516913054372337
+        },
+        {
+          "name": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0::memcached_flush_buffers@@Base",
+          "samples": 389,
+          "share_pct": 0.7497638918335485
+        },
+        {
+          "name": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0::memcached_reset@@Base",
+          "samples": 384,
+          "share_pct": 0.7401268238151225
+        },
+        {
+          "name": "/custom/ComposeReviewService::_ZN5boost3log12v2s_mt_posix4core14implementation15get_thread_dataEv",
+          "samples": 382,
+          "share_pct": 0.7362719966077521
+        },
+        {
+          "name": "/custom/ComposeReviewService::_ZNSt5dequeIN13jaegertracing4SpanESaIS1_EE16_M_push_back_auxIJRKS1_EEEvDpOT_",
+          "samples": 376,
+          "share_pct": 0.7247075149856408
+        },
+        {
+          "name": "/custom/ComposeReviewService::_ZNSt7__cxx1119basic_ostringstreamIcSt11char_traitsIcESaIcEEC1Ev",
+          "samples": 374,
+          "share_pct": 0.7208526877782704
+        },
+        {
+          "name": "/custom/ComposeReviewService::_ZN13jaegertracing11SpanContext10fromStreamERSi",
+          "samples": 372,
+          "share_pct": 0.7169978605708999
+        },
+        {
+          "name": "/custom/ComposeReviewService::_ZNKSt7num_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE13_M_insert_intImEES3_S3_RSt8ios_basecT_",
+          "samples": 372,
+          "share_pct": 0.7169978605708999
+        },
+        {
+          "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__nss_database_lookup@GLIBC_2.2.5",
+          "samples": 362,
+          "share_pct": 0.6977237245340477
+        },
+        {
+          "name": "/custom/ComposeReviewService::_ZSt29_Rb_tree_insert_and_rebalancebPSt18_Rb_tree_node_baseS0_RS_",
+          "samples": 361,
+          "share_pct": 0.6957963109303625
+        },
+        {
+          "name": "/custom/ComposeReviewService::_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE10_M_replaceEmmPKcm",
+          "samples": 358,
+          "share_pct": 0.6900140701193069
+        }
+      ],
+      "top_ips": [
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc01a0",
+          "asm": "push   %rbp",
+          "function": "_ZNK13jaegertracing11propagation10PropagatorIRKN11opentracing2v213TextMapReaderERKNS3_13TextMapWriterEE7extractES6_",
+          "samples": 372
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc0200",
+          "asm": "movb   $0x0,0xb8(%rsp)",
+          "function": "_ZNK13jaegertracing11propagation10PropagatorIRKN11opentracing2v213TextMapReaderERKNS3_13TextMapWriterEE7extractES6_",
+          "samples": 273
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x172bbe",
+          "asm": "movq   $0x0,0x20(%rsp)",
+          "function": "_ZN13jaegertracing4SpanD2Ev",
+          "samples": 266
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x260da0",
+          "asm": "endbr64",
+          "function": "_ZNSt7__cxx1119basic_ostringstreamIcSt11char_traitsIcESaIcEEC1Ev",
+          "samples": 264
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcad50",
+          "asm": "push   %rbx",
+          "function": "_ZN5boost3log12v2s_mt_posix3aux14light_functionIFbRKNS1_19attribute_value_setEEE4implINS_7phoenix5actorINS_5proto7exprns_10basic_exprINSC_6tagns_3tag13greater_equalENSC_7argsns_5list2INS1_11expressions15attribute_actorINS1_7trivial14severity_levelENS1_16fallback_to_noneENSM_3tag8severityESB_EENSB_INSE_INSG_8terminalENSI_4termISN_EELl0EEEEEEELl2EEEEEE11invoke_implEPvS6_",
+          "samples": 261
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x23a3c0",
+          "asm": "endbr64",
+          "function": "_ZNSt8ios_base17_M_call_callbacksENS_5eventE",
+          "samples": 252
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x198140",
+          "asm": "push   %r14",
+          "function": "_ZNSt5dequeIN13jaegertracing4SpanESaIS1_EE16_M_push_back_auxIJRKS1_EEEvDpOT_",
+          "samples": 246
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1769ba",
+          "asm": "movq   $0x0,0x10(%rsp)",
+          "function": "_ZNK13jaegertracing6Tracer17analyzeReferencesERKSt6vectorISt4pairIN11opentracing2v217SpanReferenceTypeEPKNS4_11SpanContextEESaIS9_EE",
+          "samples": 241
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x23ca40",
+          "asm": "endbr64",
+          "function": "_ZNSi3getERc",
+          "samples": 241
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1ba500",
+          "asm": "push   %r14",
+          "function": "_ZN11opentracing2v26Tracer6GlobalEv",
+          "samples": 240
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x13d650",
+          "asm": "endbr64",
+          "function": "_ZN5boost3log12v2s_mt_posix4core14implementation15get_thread_dataEv",
+          "samples": 232
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x260470",
+          "asm": "endbr64",
+          "function": "_ZNSt7__cxx1119basic_istringstreamIcSt11char_traitsIcESaIcEEC1ERKNS_12basic_stringIcS2_S3_EESt13_Ios_Openmode",
+          "samples": 228
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x119ca0",
+          "asm": "prefetchit0 -0x1687(%rip)        # 118620 <_ZN6apache6thrift9transport7TSocket4readEPhj>",
+          "function": "_ZN6apache6thrift9transport17TVirtualTransportINS1_7TSocketENS1_18TTransportDefaultsEE9read_virtEPhj",
+          "samples": 226
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x176960",
+          "asm": "push   %rbp",
+          "function": "_ZNK13jaegertracing6Tracer17analyzeReferencesERKSt6vectorISt4pairIN11opentracing2v217SpanReferenceTypeEPKNS4_11SpanContextEESaIS9_EE",
+          "samples": 215
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc02bc",
+          "asm": "movb   $0x0,0x20(%rsp)",
+          "function": "_ZNK13jaegertracing11propagation10PropagatorIRKN11opentracing2v213TextMapReaderERKNS3_13TextMapWriterEE7extractES6_",
+          "samples": 214
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1f7ad0",
+          "asm": "endbr64",
+          "function": "_ZNSt18condition_variable10notify_oneEv",
+          "samples": 209
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x266f60",
+          "asm": "endbr64",
+          "function": "_ZNSt15basic_streambufIcSt11char_traitsIcEE6xsputnEPKcl",
+          "samples": 207
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xb7c90",
+          "asm": "ret",
+          "function": "_ZN13jaegertracing7metrics11NullCounter3incEl",
+          "samples": 205
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1798da",
+          "asm": "add    $0x18,%rsp",
+          "function": "_ZNSt6vectorIN13jaegertracing3TagESaIS1_EE15_M_range_insertIN9__gnu_cxx17__normal_iteratorIPKS1_S3_EEEEvNS6_IPS1_S3_EET_SC_St20forward_iterator_tag",
+          "samples": 205
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xbce30",
+          "asm": "push   %r15",
+          "function": "_ZNSt10_HashtableINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4pairIKS5_S5_ESaIS8_ENSt8__detail10_Select1stESt8equal_toIS5_ESt4hashIS5_ENSA_18_Mod_range_hashingENSA_20_Default_ranged_hashENSA_20_Prime_rehash_policyENSA_17_Hashtable_traitsILb1ELb0ELb1EEEED2Ev",
+          "samples": 201
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1d3820",
+          "asm": "endbr64",
+          "function": "_ZN5boost6detail12get_tss_dataEPKv",
+          "samples": 197
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x156ffe",
+          "asm": "sub    $0x48,%rsp",
+          "function": "_ZN5boost3log12v2s_mt_posix7trivial6logger3getEv",
+          "samples": 197
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x18b30",
+          "asm": "push   %r15",
+          "function": "memcached_stat_execute@@Base",
+          "samples": 193
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xbe700",
+          "asm": "push   %rbp",
+          "function": "_ZNSt20__uninitialized_copyILb0EE13__uninit_copyIN9__gnu_cxx17__normal_iteratorIPKN13jaegertracing3TagESt6vectorIS5_SaIS5_EEEEPS5_EET0_T_SE_SD_",
+          "samples": 193
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x178530",
+          "asm": "push   %rbp",
+          "function": "_ZNK13jaegertracing6Tracer7ExtractERKN11opentracing2v213TextMapReaderE",
+          "samples": 192
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x196730",
+          "asm": "push   %r15",
+          "function": "_ZN13jaegertracing9reporters14RemoteReporter6reportERKNS_4SpanE",
+          "samples": 189
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xeab5f",
+          "asm": "mov    $0x1,%al",
+          "function": "_ZN13media_service29ComposeReviewServiceProcessor12dispatchCallEPN6apache6thrift8protocol9TProtocolES5_RKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiPv",
+          "samples": 189
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x25d440",
+          "asm": "endbr64",
+          "function": "_ZNSt7__cxx1115basic_stringbufIcSt11char_traitsIcESaIcEE9underflowEv",
+          "samples": 188
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xf0fa0",
+          "asm": "push   %r15",
+          "function": "_ZN6apache6thrift18TDispatchProcessor7processESt10shared_ptrINS0_8protocol9TProtocolEES5_Pv",
+          "samples": 188
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcd800",
+          "asm": "push   %rax",
+          "function": "_ZN6apache6thrift8protocol16TVirtualProtocolINS1_16TBinaryProtocolTINS0_9transport10TTransportENS1_17TNetworkBigEndianEEENS1_17TProtocolDefaultsEE20readStructBegin_virtERNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE",
+          "samples": 187
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x258035",
+          "asm": "movq   $0x0,0x10(%rbp)",
+          "function": "_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l",
+          "samples": 185
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x16850",
+          "asm": "endbr64",
+          "function": "memcached_server_response_count@@Base",
+          "samples": 183
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x9a600",
+          "asm": "endbr64",
+          "function": "__pthread_rwlock_rdlock@GLIBC_2.2.5",
+          "samples": 182
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x25e860",
+          "asm": "endbr64",
+          "function": "_ZNSt7__cxx1115basic_stringbufIcSt11char_traitsIcESaIcEE8_M_pbumpEPcS5_l",
+          "samples": 181
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xac83f",
+          "asm": "mov    %rdx,%r15",
+          "function": "_ZN5boost3log12v2s_mt_posix7sources22basic_composite_loggerIcNS2_18severity_logger_mtINS1_7trivial14severity_levelEEENS2_18multi_thread_modelINS1_3aux14light_rw_mutexEEENS2_8featuresIJNS2_8severityIS6_EEEEEE11open_recordINS_9parameter3aux25tagged_argument_list_of_1INSJ_15tagged_argumentINS1_8keywords3tag8severityEKS6_EEEEEENS1_6recordERKT_",
+          "samples": 181
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1739a0",
+          "asm": "push   %r15",
+          "function": "_ZNSt12_Destroy_auxILb0EE9__destroyIPN13jaegertracing9ReferenceEEEvT_S5_",
+          "samples": 180
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x171b90",
+          "asm": "push   %r15",
+          "function": "_ZN13jaegertracing4Span17FinishWithOptionsERKN11opentracing2v217FinishSpanOptionsE",
+          "samples": 179
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc0860",
+          "asm": "push   %r15",
+          "function": "_ZNK13jaegertracing11propagation10PropagatorIRKN11opentracing2v213TextMapReaderERKNS3_13TextMapWriterEE11decodeValueERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE",
+          "samples": 176
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x963e0",
+          "asm": "endbr64",
+          "function": "__pthread_getspecific@GLIBC_2.2.5",
+          "samples": 176
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1f4258",
+          "asm": "mov    %rsi,%rax",
+          "function": "_ZSt29_Rb_tree_insert_and_rebalancebPSt18_Rb_tree_node_baseS0_RS_",
+          "samples": 176
+        }
+      ],
+      "footprint": {
+        "unique_sampled_lines": 1281,
+        "unique_sampled_4k_pages": 195,
+        "samples_on_repeated_lines": 51676
+      },
+      "line_counts": [
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc0180",
+          "samples": 392
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x260440",
+          "samples": 391
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x260d80",
+          "samples": 355
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x156fc0",
+          "samples": 334
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc0200",
+          "samples": 323
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xac800",
+          "samples": 316
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x23a140",
+          "samples": 312
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x257f00",
+          "samples": 305
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x16840",
+          "samples": 303
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x198140",
+          "samples": 296
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x258080",
+          "samples": 281
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x2696c0",
+          "samples": 269
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0",
+          "va": "0x3200",
+          "samples": 268
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x133880",
+          "samples": 266
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x172b80",
+          "samples": 266
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcad40",
+          "samples": 261
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x139dc0",
+          "samples": 260
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1ba500",
+          "samples": 252
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x23a3c0",
+          "samples": 252
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x18b00",
+          "samples": 249
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x23c240",
+          "samples": 244
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x26b8c0",
+          "samples": 244
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x9af00",
+          "samples": 242
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x268780",
+          "samples": 242
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x176980",
+          "samples": 241
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x23ca40",
+          "samples": 241
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x25eac0",
+          "samples": 238
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x144480",
+          "samples": 237
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x13d640",
+          "samples": 232
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x176940",
+          "samples": 230
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1ea400",
+          "samples": 227
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xbce00",
+          "samples": 226
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x119c80",
+          "samples": 226
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x119cc0",
+          "samples": 222
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc0840",
+          "samples": 221
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x258000",
+          "samples": 217
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x2853c0",
+          "samples": 217
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc5ec0",
+          "samples": 215
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc0280",
+          "samples": 214
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1f7ac0",
+          "samples": 209
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x266f40",
+          "samples": 207
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x178500",
+          "samples": 207
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xb7c80",
+          "samples": 205
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1798c0",
+          "samples": 205
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x239580",
+          "samples": 203
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xf1000",
+          "samples": 201
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x963c0",
+          "samples": 200
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x196700",
+          "samples": 200
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x9a600",
+          "samples": 199
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcde80",
+          "samples": 198
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1d3800",
+          "samples": 197
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xaca80",
+          "samples": 197
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xbe700",
+          "samples": 193
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc1d80",
+          "samples": 189
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xeab40",
+          "samples": 189
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x25d440",
+          "samples": 188
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xf0f80",
+          "samples": 188
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x173980",
+          "samples": 187
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcd800",
+          "samples": 187
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x178100",
+          "samples": 185
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1f3f80",
+          "samples": 185
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x171b80",
+          "samples": 185
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x172b40",
+          "samples": 184
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x25e840",
+          "samples": 181
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x179c40",
+          "samples": 179
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1334c0",
+          "samples": 177
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xf7e40",
+          "samples": 177
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1f4240",
+          "samples": 176
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x179540",
+          "samples": 176
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1750c0",
+          "samples": 175
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x172dc0",
+          "samples": 175
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x18b40",
+          "samples": 175
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x249ec0",
+          "samples": 174
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xe440",
+          "samples": 172
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcd7c0",
+          "samples": 172
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17c9c0",
+          "samples": 171
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc2300",
+          "samples": 169
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a1040",
+          "samples": 167
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x239100",
+          "samples": 166
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17a4c0",
+          "samples": 165
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1eee80",
+          "samples": 164
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1d3300",
+          "samples": 164
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1eee40",
+          "samples": 163
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x118c40",
+          "samples": 163
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x168880",
+          "samples": 162
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcf3c0",
+          "samples": 161
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x177180",
+          "samples": 160
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x243cc0",
+          "samples": 156
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x11c880",
+          "samples": 156
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x8f280",
+          "samples": 154
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x257780",
+          "samples": 151
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x10680",
+          "samples": 150
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc0240",
+          "samples": 150
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x13d680",
+          "samples": 150
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xde40",
+          "samples": 147
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc7180",
+          "samples": 147
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x256c40",
+          "samples": 147
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1f47c0",
+          "samples": 146
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xab00",
+          "samples": 146
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x248400",
+          "samples": 145
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x24a340",
+          "samples": 145
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x23d6c0",
+          "samples": 145
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x6f40",
+          "samples": 144
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x8f740",
+          "samples": 144
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x258840",
+          "samples": 143
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1ddcc0",
+          "samples": 143
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x157000",
+          "samples": 143
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x12c840",
+          "samples": 141
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x267000",
+          "samples": 141
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcd340",
+          "samples": 141
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x1e840",
+          "samples": 140
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x156e80",
+          "samples": 140
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x173500",
+          "samples": 139
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x18ec0",
+          "samples": 139
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x258800",
+          "samples": 139
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xea680",
+          "samples": 138
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x24a640",
+          "samples": 136
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x12c700",
+          "samples": 136
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x116e40",
+          "samples": 135
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc5cc0",
+          "samples": 135
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a3a80",
+          "samples": 134
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x26ac80",
+          "samples": 133
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x178cc0",
+          "samples": 133
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x2384c0",
+          "samples": 133
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x193c0",
+          "samples": 132
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc0fc0",
+          "samples": 131
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x18d00",
+          "samples": 130
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x26a380",
+          "samples": 130
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a4100",
+          "samples": 130
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x175640",
+          "samples": 129
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcb3c0",
+          "samples": 129
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x8f640",
+          "samples": 128
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a40c0",
+          "samples": 128
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcdc00",
+          "samples": 128
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x15780",
+          "samples": 127
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1e9e00",
+          "samples": 126
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcb600",
+          "samples": 126
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcb180",
+          "samples": 125
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc6c40",
+          "samples": 125
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a0640",
+          "samples": 124
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1ed280",
+          "samples": 124
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x11d700",
+          "samples": 123
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x266f80",
+          "samples": 122
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x177900",
+          "samples": 120
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xbe600",
+          "samples": 120
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x25edc0",
+          "samples": 119
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x9740",
+          "samples": 119
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x175880",
+          "samples": 118
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1759c0",
+          "samples": 117
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xc5c0",
+          "samples": 117
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x179580",
+          "samples": 116
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x24a380",
+          "samples": 116
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x8f7c0",
+          "samples": 116
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x8f980",
+          "samples": 116
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xe3100",
+          "samples": 115
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x197e40",
+          "samples": 114
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x11c900",
+          "samples": 114
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcb440",
+          "samples": 112
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x10740",
+          "samples": 111
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xea600",
+          "samples": 110
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1ea000",
+          "samples": 109
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x26b940",
+          "samples": 109
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x11c4c0",
+          "samples": 108
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17a500",
+          "samples": 107
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xce0c0",
+          "samples": 107
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x11d300",
+          "samples": 106
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a0480",
+          "samples": 103
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc5f40",
+          "samples": 103
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xea740",
+          "samples": 102
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc6580",
+          "samples": 102
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x2687c0",
+          "samples": 101
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x246300",
+          "samples": 100
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x23a180",
+          "samples": 100
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17af00",
+          "samples": 99
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1756c0",
+          "samples": 99
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa4d40",
+          "samples": 98
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x25efc0",
+          "samples": 98
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x118600",
+          "samples": 97
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x11c540",
+          "samples": 97
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa18c0",
+          "samples": 97
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x119ec0",
+          "samples": 96
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcb200",
+          "samples": 96
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a0280",
+          "samples": 95
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0",
+          "va": "0x2380",
+          "samples": 95
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa1040",
+          "samples": 95
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x115ec0",
+          "samples": 94
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x118700",
+          "samples": 94
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x13e80",
+          "samples": 94
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xd0bc0",
+          "samples": 94
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xce100",
+          "samples": 93
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa4cc0",
+          "samples": 93
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x175940",
+          "samples": 91
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x8f380",
+          "samples": 91
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xe5fc0",
+          "samples": 90
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x173f40",
+          "samples": 90
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x11d3c0",
+          "samples": 90
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1758c0",
+          "samples": 89
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x19fc80",
+          "samples": 88
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17a040",
+          "samples": 88
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xd29c0",
+          "samples": 87
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xe5080",
+          "samples": 87
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x19ffc0",
+          "samples": 87
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x13280",
+          "samples": 85
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x96440",
+          "samples": 85
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x8f580",
+          "samples": 85
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x8f700",
+          "samples": 85
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc0b40",
+          "samples": 85
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x266fc0",
+          "samples": 85
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x908c0",
+          "samples": 85
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x965c0",
+          "samples": 83
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x6f80",
+          "samples": 83
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x179cc0",
+          "samples": 83
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x174bc0",
+          "samples": 82
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xe6e80",
+          "samples": 82
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc0b80",
+          "samples": 80
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x238d80",
+          "samples": 80
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x133500",
+          "samples": 80
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xe4180",
+          "samples": 79
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x196ac0",
+          "samples": 79
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xfd140",
+          "samples": 78
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1981c0",
+          "samples": 78
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x2686c0",
+          "samples": 78
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17db80",
+          "samples": 78
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa8140",
+          "samples": 77
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x151dc0",
+          "samples": 77
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x177340",
+          "samples": 76
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x96500",
+          "samples": 76
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x19fc40",
+          "samples": 76
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xe3280",
+          "samples": 76
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xbac0",
+          "samples": 76
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x249dc0",
+          "samples": 75
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x18d40",
+          "samples": 75
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x149b80",
+          "samples": 75
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcd600",
+          "samples": 74
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1ea940",
+          "samples": 74
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x249d40",
+          "samples": 74
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x47a80",
+          "samples": 74
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xab40",
+          "samples": 72
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcd040",
+          "samples": 72
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0",
+          "va": "0x2540",
+          "samples": 71
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1e8940",
+          "samples": 70
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x8fac0",
+          "samples": 69
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xccfc0",
+          "samples": 69
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x8f400",
+          "samples": 68
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x139440",
+          "samples": 68
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1f4840",
+          "samples": 68
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x1ef80",
+          "samples": 68
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x139c0",
+          "samples": 68
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xbf00",
+          "samples": 67
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x26a440",
+          "samples": 67
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x126880",
+          "samples": 66
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x10940",
+          "samples": 66
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x133680",
+          "samples": 66
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa3300",
+          "samples": 66
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x1b3880",
+          "samples": 66
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x115080",
+          "samples": 66
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xb700",
+          "samples": 65
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x13000",
+          "samples": 65
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xf3300",
+          "samples": 64
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x8f6c0",
+          "samples": 64
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x10c880",
+          "samples": 63
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x177240",
+          "samples": 63
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa72c0",
+          "samples": 63
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x11d80",
+          "samples": 63
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x176ec0",
+          "samples": 62
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x11e00",
+          "samples": 62
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x105340",
+          "samples": 62
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1970c0",
+          "samples": 61
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x10ce80",
+          "samples": 61
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xc600",
+          "samples": 61
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x24a3c0",
+          "samples": 61
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xe5f80",
+          "samples": 60
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x104d40",
+          "samples": 60
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xc880",
+          "samples": 60
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x269800",
+          "samples": 59
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xfd6c0",
+          "samples": 59
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x178d40",
+          "samples": 59
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x1ae8c0",
+          "samples": 59
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xc7c0",
+          "samples": 59
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa0080",
+          "samples": 59
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x196fc0",
+          "samples": 58
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xaa140",
+          "samples": 58
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xd1200",
+          "samples": 58
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x18280",
+          "samples": 58
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1186c0",
+          "samples": 58
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xaaec0",
+          "samples": 58
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xd0b40",
+          "samples": 57
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x45d40",
+          "samples": 57
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x25ee80",
+          "samples": 57
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xebe00",
+          "samples": 57
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xd2940",
+          "samples": 57
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xc640",
+          "samples": 57
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xaa6c0",
+          "samples": 56
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x10e4c0",
+          "samples": 56
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x23d700",
+          "samples": 56
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x151c0",
+          "samples": 56
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x125a40",
+          "samples": 55
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0",
+          "va": "0x3340",
+          "samples": 55
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x474c0",
+          "samples": 55
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xaa800",
+          "samples": 55
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcdd40",
+          "samples": 55
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x125a80",
+          "samples": 55
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa6540",
+          "samples": 55
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x15000",
+          "samples": 54
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x268680",
+          "samples": 54
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xb940",
+          "samples": 54
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x96480",
+          "samples": 54
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x106cc0",
+          "samples": 53
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x9ee40",
+          "samples": 53
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x132c0",
+          "samples": 53
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xf340",
+          "samples": 52
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xab440",
+          "samples": 52
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x8fb00",
+          "samples": 52
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xaaf00",
+          "samples": 51
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xbf40",
+          "samples": 51
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94a00",
+          "samples": 51
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xf980",
+          "samples": 51
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1ed540",
+          "samples": 51
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x47500",
+          "samples": 50
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x25ef80",
+          "samples": 50
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xaa0c0",
+          "samples": 50
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x11d740",
+          "samples": 49
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xaa840",
+          "samples": 49
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xaaa80",
+          "samples": 49
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x127540",
+          "samples": 49
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x8fd00",
+          "samples": 49
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x11ecc0",
+          "samples": 49
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xec6c0",
+          "samples": 49
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x11d780",
+          "samples": 48
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x3a3c0",
+          "samples": 48
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x11d400",
+          "samples": 48
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x175e00",
+          "samples": 48
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc0d80",
+          "samples": 47
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x18d80",
+          "samples": 47
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x47a40",
+          "samples": 47
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x8f8c0",
+          "samples": 47
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94a80",
+          "samples": 47
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xaa3c0",
+          "samples": 46
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xaa740",
+          "samples": 46
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xec0c0",
+          "samples": 46
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x1fa00",
+          "samples": 45
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa3380",
+          "samples": 45
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xf1800",
+          "samples": 45
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x95d00",
+          "samples": 45
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xeb540",
+          "samples": 44
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0",
+          "va": "0x22c0",
+          "samples": 44
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x9e000",
+          "samples": 44
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0",
+          "va": "0x3280",
+          "samples": 44
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x268340",
+          "samples": 44
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x258940",
+          "samples": 44
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xecf80",
+          "samples": 44
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x14080",
+          "samples": 44
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x139f40",
+          "samples": 44
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x1b3340",
+          "samples": 44
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x8fb40",
+          "samples": 43
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xfed40",
+          "samples": 43
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xf500",
+          "samples": 42
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xeac40",
+          "samples": 42
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc1f00",
+          "samples": 42
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x106940",
+          "samples": 42
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xab4c0",
+          "samples": 42
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x19000",
+          "samples": 42
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x28340",
+          "samples": 42
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x9dc80",
+          "samples": 42
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x948c0",
+          "samples": 42
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x3a040",
+          "samples": 42
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa3340",
+          "samples": 41
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xf4c0",
+          "samples": 41
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xadc0",
+          "samples": 41
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x24a5c0",
+          "samples": 41
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x18f40",
+          "samples": 41
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x1ef40",
+          "samples": 40
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xaaa00",
+          "samples": 40
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xec980",
+          "samples": 40
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1e8240",
+          "samples": 40
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc2600",
+          "samples": 40
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xf440",
+          "samples": 39
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x9ea80",
+          "samples": 39
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcd400",
+          "samples": 39
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x13ec0",
+          "samples": 39
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x5440",
+          "samples": 39
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x96400",
+          "samples": 39
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x106c0",
+          "samples": 39
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x2577c0",
+          "samples": 39
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x175c80",
+          "samples": 39
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xe7280",
+          "samples": 39
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x6ac0",
+          "samples": 39
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xed240",
+          "samples": 38
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94280",
+          "samples": 38
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x11c5c0",
+          "samples": 38
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x173540",
+          "samples": 38
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x23a440",
+          "samples": 38
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcdcc0",
+          "samples": 37
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc2540",
+          "samples": 37
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x26a0c0",
+          "samples": 37
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x26b980",
+          "samples": 37
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x5600",
+          "samples": 37
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x1b3a40",
+          "samples": 37
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1f3dc0",
+          "samples": 37
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x16880",
+          "samples": 36
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x13a40",
+          "samples": 36
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcb640",
+          "samples": 36
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xac840",
+          "samples": 36
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xeb800",
+          "samples": 36
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x126900",
+          "samples": 36
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xaa780",
+          "samples": 35
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa2300",
+          "samples": 35
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcc200",
+          "samples": 35
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x12c7c0",
+          "samples": 35
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcf400",
+          "samples": 35
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xff080",
+          "samples": 35
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xab000",
+          "samples": 35
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x9d140",
+          "samples": 35
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x91f80",
+          "samples": 35
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcff80",
+          "samples": 34
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+          "va": "0x14a40",
+          "samples": 34
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa1940",
+          "samples": 34
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x95880",
+          "samples": 34
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xfb80",
+          "samples": 34
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x19280",
+          "samples": 34
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcd680",
+          "samples": 34
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xaa180",
+          "samples": 33
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1765c0",
+          "samples": 33
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x171bc0",
+          "samples": 33
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xab140",
+          "samples": 33
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcd840",
+          "samples": 33
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x175b40",
+          "samples": 33
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x2688c0",
+          "samples": 33
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x176080",
+          "samples": 32
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x26a3c0",
+          "samples": 32
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x91fc0",
+          "samples": 32
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x176f00",
+          "samples": 32
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x268d80",
+          "samples": 32
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x1b3680",
+          "samples": 32
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1336c0",
+          "samples": 32
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xeaf40",
+          "samples": 31
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa7140",
+          "samples": 31
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xd1d80",
+          "samples": 31
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x243c00",
+          "samples": 31
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x9ea00",
+          "samples": 31
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x8fa00",
+          "samples": 31
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xaae00",
+          "samples": 31
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x175140",
+          "samples": 30
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x175c00",
+          "samples": 30
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xaad80",
+          "samples": 30
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x174080",
+          "samples": 30
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xf0fc0",
+          "samples": 30
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x915c0",
+          "samples": 29
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x144540",
+          "samples": 29
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc1400",
+          "samples": 29
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x11d640",
+          "samples": 29
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa0980",
+          "samples": 29
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x176bc0",
+          "samples": 29
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x175280",
+          "samples": 29
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcdc80",
+          "samples": 29
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x99e80",
+          "samples": 29
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x177380",
+          "samples": 29
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x95680",
+          "samples": 28
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcdf80",
+          "samples": 28
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x197240",
+          "samples": 28
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x2a240",
+          "samples": 28
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x99f80",
+          "samples": 28
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x7040",
+          "samples": 28
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x1b3840",
+          "samples": 28
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xabc0",
+          "samples": 28
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc71c0",
+          "samples": 28
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x268d00",
+          "samples": 27
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x174d00",
+          "samples": 27
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa0540",
+          "samples": 27
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcb480",
+          "samples": 27
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x8f340",
+          "samples": 27
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1ed2c0",
+          "samples": 27
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x10900",
+          "samples": 27
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x96600",
+          "samples": 27
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xfbc0",
+          "samples": 27
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x2683c0",
+          "samples": 26
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+          "va": "0x144c0",
+          "samples": 26
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x10980",
+          "samples": 26
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1e8280",
+          "samples": 26
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x10e880",
+          "samples": 26
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x177a00",
+          "samples": 26
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xe3640",
+          "samples": 26
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xce4c0",
+          "samples": 26
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa6580",
+          "samples": 25
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x175f80",
+          "samples": 25
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xbcec0",
+          "samples": 25
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa2000",
+          "samples": 25
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xaae40",
+          "samples": 25
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17d500",
+          "samples": 25
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x8f300",
+          "samples": 25
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x197200",
+          "samples": 25
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa4040",
+          "samples": 25
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xe6380",
+          "samples": 25
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x118d40",
+          "samples": 25
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xd1940",
+          "samples": 25
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa51c0",
+          "samples": 25
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xce400",
+          "samples": 25
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94780",
+          "samples": 25
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x964c0",
+          "samples": 24
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa5600",
+          "samples": 24
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x175600",
+          "samples": 24
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x249d80",
+          "samples": 24
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x91580",
+          "samples": 24
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xce380",
+          "samples": 23
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x19400",
+          "samples": 23
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc6100",
+          "samples": 23
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x12d00",
+          "samples": 23
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x10e840",
+          "samples": 23
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x15380",
+          "samples": 23
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcdbc0",
+          "samples": 23
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa24c0",
+          "samples": 23
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1f3e00",
+          "samples": 23
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1754c0",
+          "samples": 23
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xe5480",
+          "samples": 22
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xaa940",
+          "samples": 22
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x1b1880",
+          "samples": 22
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xf2e00",
+          "samples": 22
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x18fc0",
+          "samples": 22
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xce180",
+          "samples": 22
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17d100",
+          "samples": 22
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1ed340",
+          "samples": 21
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17b500",
+          "samples": 21
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94c00",
+          "samples": 21
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x107000",
+          "samples": 21
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa1dc0",
+          "samples": 21
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa64c0",
+          "samples": 21
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a1880",
+          "samples": 21
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x175340",
+          "samples": 20
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x8f140",
+          "samples": 20
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x175200",
+          "samples": 20
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x197040",
+          "samples": 20
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x26a400",
+          "samples": 20
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x2697c0",
+          "samples": 19
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x10840",
+          "samples": 19
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94080",
+          "samples": 19
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x243c40",
+          "samples": 19
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa37c0",
+          "samples": 19
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa0740",
+          "samples": 19
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x57c0",
+          "samples": 19
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa3ac0",
+          "samples": 19
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa3b00",
+          "samples": 19
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa53c0",
+          "samples": 19
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x15340",
+          "samples": 19
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcd8c0",
+          "samples": 19
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a3b40",
+          "samples": 18
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x171c40",
+          "samples": 18
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17df40",
+          "samples": 18
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1d3840",
+          "samples": 18
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17a540",
+          "samples": 18
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x118840",
+          "samples": 18
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xec000",
+          "samples": 18
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc6cc0",
+          "samples": 18
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x178140",
+          "samples": 18
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xf9c0",
+          "samples": 18
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x11d480",
+          "samples": 18
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x177940",
+          "samples": 18
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa6a40",
+          "samples": 18
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17b100",
+          "samples": 18
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94b80",
+          "samples": 17
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x11eb40",
+          "samples": 17
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa3d00",
+          "samples": 17
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xc080",
+          "samples": 17
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x127900",
+          "samples": 17
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x175d40",
+          "samples": 17
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x178dc0",
+          "samples": 17
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1ed580",
+          "samples": 17
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x1b3800",
+          "samples": 17
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x268700",
+          "samples": 17
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x239140",
+          "samples": 17
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x99900",
+          "samples": 17
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcd380",
+          "samples": 17
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xaa340",
+          "samples": 16
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa57c0",
+          "samples": 16
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc2380",
+          "samples": 16
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a4300",
+          "samples": 16
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x178540",
+          "samples": 16
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x931c0",
+          "samples": 16
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17a840",
+          "samples": 16
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x18bc0",
+          "samples": 16
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17af40",
+          "samples": 16
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17cec0",
+          "samples": 16
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x19200",
+          "samples": 16
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x99dc0",
+          "samples": 16
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x133c80",
+          "samples": 16
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x10800",
+          "samples": 16
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x5480",
+          "samples": 16
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x197000",
+          "samples": 16
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x175ac0",
+          "samples": 16
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa3f00",
+          "samples": 15
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x940c0",
+          "samples": 15
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xea6c0",
+          "samples": 15
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x8f500",
+          "samples": 15
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17cb40",
+          "samples": 15
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xbe680",
+          "samples": 15
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcbdc0",
+          "samples": 15
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xab0c0",
+          "samples": 15
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xe62c0",
+          "samples": 15
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x8f800",
+          "samples": 15
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x13380",
+          "samples": 15
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x15200",
+          "samples": 15
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc14c0",
+          "samples": 15
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa3d40",
+          "samples": 15
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xe50c0",
+          "samples": 15
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x1f040",
+          "samples": 15
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcb1c0",
+          "samples": 15
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x176480",
+          "samples": 15
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x90fc0",
+          "samples": 15
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa10c0",
+          "samples": 14
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc0f00",
+          "samples": 14
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc6240",
+          "samples": 14
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x133600",
+          "samples": 14
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa4d00",
+          "samples": 14
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x268cc0",
+          "samples": 14
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1ea4c0",
+          "samples": 14
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x1b2140",
+          "samples": 14
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xec100",
+          "samples": 14
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc0cc0",
+          "samples": 14
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x118c80",
+          "samples": 14
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17e040",
+          "samples": 14
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xed040",
+          "samples": 14
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x11d440",
+          "samples": 14
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xeac80",
+          "samples": 14
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa3940",
+          "samples": 14
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x268380",
+          "samples": 14
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcfb40",
+          "samples": 14
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x133540",
+          "samples": 14
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17a880",
+          "samples": 14
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x9af80",
+          "samples": 13
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcd6c0",
+          "samples": 13
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa1900",
+          "samples": 13
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a1800",
+          "samples": 13
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x97c0",
+          "samples": 13
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x133640",
+          "samples": 13
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x15640",
+          "samples": 13
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xec780",
+          "samples": 13
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17cac0",
+          "samples": 13
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x23a480",
+          "samples": 13
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xe6c0",
+          "samples": 12
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa0d00",
+          "samples": 12
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x7000",
+          "samples": 12
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa1c80",
+          "samples": 12
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc0340",
+          "samples": 12
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x15400",
+          "samples": 12
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x118cc0",
+          "samples": 12
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xdf40",
+          "samples": 12
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcae00",
+          "samples": 12
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x13440",
+          "samples": 12
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xe4540",
+          "samples": 12
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x268800",
+          "samples": 12
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x25ef40",
+          "samples": 12
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x8fa40",
+          "samples": 12
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x26b900",
+          "samples": 12
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa6d40",
+          "samples": 12
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x25e880",
+          "samples": 12
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a3d40",
+          "samples": 12
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xe3140",
+          "samples": 12
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x197800",
+          "samples": 12
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa40c0",
+          "samples": 12
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1444c0",
+          "samples": 11
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x176c40",
+          "samples": 11
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1eeec0",
+          "samples": 11
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xff000",
+          "samples": 11
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17d540",
+          "samples": 11
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x175180",
+          "samples": 11
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa6f80",
+          "samples": 11
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x176580",
+          "samples": 11
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xc740",
+          "samples": 11
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x91000",
+          "samples": 11
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a00c0",
+          "samples": 11
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94940",
+          "samples": 11
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17dc80",
+          "samples": 11
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x171c00",
+          "samples": 11
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa3a00",
+          "samples": 11
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc6b80",
+          "samples": 11
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x54c0",
+          "samples": 11
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc1240",
+          "samples": 11
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x260dc0",
+          "samples": 11
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa2100",
+          "samples": 11
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xaa280",
+          "samples": 11
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+          "va": "0x14a80",
+          "samples": 11
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x910c0",
+          "samples": 10
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x175380",
+          "samples": 10
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x172c00",
+          "samples": 10
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x108c0",
+          "samples": 10
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17d280",
+          "samples": 10
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa1bc0",
+          "samples": 10
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x173a40",
+          "samples": 10
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xfa00",
+          "samples": 10
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17cd40",
+          "samples": 10
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc2000",
+          "samples": 10
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+          "va": "0x14780",
+          "samples": 10
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xc8c0",
+          "samples": 10
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x133ac0",
+          "samples": 10
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17d340",
+          "samples": 10
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1339c0",
+          "samples": 10
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17b440",
+          "samples": 10
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa6a80",
+          "samples": 10
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x176640",
+          "samples": 9
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x24a400",
+          "samples": 9
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x18e00",
+          "samples": 9
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17afc0",
+          "samples": 9
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x25d480",
+          "samples": 9
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xe6f80",
+          "samples": 9
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17af80",
+          "samples": 9
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x13a80",
+          "samples": 9
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17d200",
+          "samples": 9
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x133900",
+          "samples": 9
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a1200",
+          "samples": 9
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x1b33c0",
+          "samples": 9
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x176b80",
+          "samples": 9
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc0e00",
+          "samples": 9
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xf1a00",
+          "samples": 9
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94140",
+          "samples": 9
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x13480",
+          "samples": 9
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1d3880",
+          "samples": 9
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x175300",
+          "samples": 8
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc2040",
+          "samples": 8
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xea780",
+          "samples": 8
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x175100",
+          "samples": 8
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17e180",
+          "samples": 8
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x90900",
+          "samples": 8
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc1140",
+          "samples": 8
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x133940",
+          "samples": 8
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc1440",
+          "samples": 8
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x10880",
+          "samples": 8
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa5700",
+          "samples": 8
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x23ca80",
+          "samples": 8
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x118d00",
+          "samples": 8
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xacb40",
+          "samples": 8
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x133580",
+          "samples": 8
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcdc40",
+          "samples": 8
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a3d80",
+          "samples": 8
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa1d80",
+          "samples": 8
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x268400",
+          "samples": 8
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xe4480",
+          "samples": 8
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x175fc0",
+          "samples": 8
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94900",
+          "samples": 8
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xeb840",
+          "samples": 8
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x18f80",
+          "samples": 8
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x1b18c0",
+          "samples": 8
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a1300",
+          "samples": 8
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x13040",
+          "samples": 8
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x11ebc0",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xec080",
+          "samples": 7
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xe4c0",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x2605c0",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc0580",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc26c0",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x9eb00",
+          "samples": 7
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94800",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17dbc0",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x12c880",
+          "samples": 7
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x13580",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x172cc0",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcde00",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xeb7c0",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x11d4c0",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x197880",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xf1980",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1751c0",
+          "samples": 7
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x47580",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x260e00",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa1e00",
+          "samples": 7
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x1b3380",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x25f000",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x176cc0",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x23a400",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17a740",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1760c0",
+          "samples": 7
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa2e80",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17d580",
+          "samples": 7
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xc900",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a1340",
+          "samples": 7
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x12d80",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc6140",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcdec0",
+          "samples": 7
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa5040",
+          "samples": 7
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x97140",
+          "samples": 6
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x127700",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x269780",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa3840",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a4340",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc6800",
+          "samples": 6
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x933c0",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc11c0",
+          "samples": 6
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x5780",
+          "samples": 6
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x97f00",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xff040",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x139e00",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc5f80",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa5980",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x177ac0",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x172c40",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x197a00",
+          "samples": 6
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x96580",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x197680",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17b480",
+          "samples": 6
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x13b00",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa1e80",
+          "samples": 6
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xe5c0",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x23c2c0",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17a640",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a1100",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x176700",
+          "samples": 6
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x1a7180",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17b0c0",
+          "samples": 6
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xbb40",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a11c0",
+          "samples": 6
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x18c80",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x177080",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17df80",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x196a40",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc0d40",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa4080",
+          "samples": 5
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x15800",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a1400",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc10c0",
+          "samples": 5
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa3e80",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa38c0",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa0100",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x175b80",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc2580",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x177000",
+          "samples": 5
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x1e8c0",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a0040",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a4500",
+          "samples": 5
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x47540",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x260640",
+          "samples": 5
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x98e00",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc6400",
+          "samples": 5
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xe540",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x176680",
+          "samples": 5
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xc000",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x139f80",
+          "samples": 5
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa6540",
+          "samples": 5
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa3dc0",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa1f80",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xebec0",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x26a140",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x175a80",
+          "samples": 5
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa39c0",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xce440",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc2340",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x260540",
+          "samples": 5
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x1275c0",
+          "samples": 5
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa4800",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x196f00",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a1180",
+          "samples": 5
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa5140",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x268880",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x176040",
+          "samples": 5
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x127940",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x175980",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17a780",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a0180",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x23cac0",
+          "samples": 5
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x91040",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa0b40",
+          "samples": 5
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x5500",
+          "samples": 5
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x97e80",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x11c500",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xd0c80",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17a080",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc0a80",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x269740",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17b4c0",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x175e40",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xeb180",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1971c0",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa3700",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x176000",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa5080",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a0100",
+          "samples": 4
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x11b300",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x268740",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc0d00",
+          "samples": 4
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x1a7100",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x176380",
+          "samples": 4
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x91500",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x285400",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xfef00",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17b180",
+          "samples": 4
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94240",
+          "samples": 4
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa4940",
+          "samples": 4
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0",
+          "va": "0x2580",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x238500",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17cd00",
+          "samples": 4
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa2e40",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc6640",
+          "samples": 4
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa3a80",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a4440",
+          "samples": 4
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xc780",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc0700",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x119d00",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x19fcc0",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc02c0",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x8f540",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc0e80",
+          "samples": 4
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x107c0",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x175500",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1785c0",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1ea080",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x9d1c0",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x106980",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17ca40",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a3c80",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xf1040",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1ea040",
+          "samples": 4
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x19240",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a10c0",
+          "samples": 4
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x13980",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1967c0",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17d140",
+          "samples": 4
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x1edc0",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17cd80",
+          "samples": 4
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa5080",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17d040",
+          "samples": 4
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x151e00",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa0580",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x196b00",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x178580",
+          "samples": 4
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xc680",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x42100",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x1a7200",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x11d840",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xf7e80",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x10e700",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa29c0",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a0080",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xbcc0",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa2680",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x26a480",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+          "va": "0x2b200",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94ec0",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a14c0",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa3c80",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc6600",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc6980",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x176a00",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1e82c0",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17e1c0",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1ea480",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcd440",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x177a80",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa5480",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc0f80",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x1b3d40",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc1180",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xe5280",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa3b40",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xe5200",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x197a40",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x198240",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xb980",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc1100",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa1cc0",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x115f80",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17b300",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17a6c0",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17ce00",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x47780",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a1480",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc6380",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xeb80",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x950c0",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcdd80",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x5740",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xe700",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa03c0",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17a800",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x126980",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa46c0",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x13340",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x90980",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a12c0",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17dc00",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+          "va": "0x2b180",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x18300",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x135c0",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x197140",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x177980",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc0400",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x93200",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xe3400",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa5600",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17cbc0",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc09c0",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x97f40",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x168940",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa3540",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa5640",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a0580",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc6840",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x95440",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x118680",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xfd200",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa3bc0",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x11c980",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1ddd40",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa4680",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xdec0",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xab80",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x11c8c0",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x10cf00",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa2640",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa33c0",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1739c0",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa1f40",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x99e40",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x267040",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xebf40",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa3fc0",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x932c0",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x179d40",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xed280",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17b7c0",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa6500",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xed000",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc1480",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcb680",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xacb00",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x126940",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x284c0",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17b140",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x11d500",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17cb00",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x10c8c0",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x176f80",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa4080",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xe53c0",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa2ec0",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x177b00",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcfc00",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x45d80",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x175540",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa40c0",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xec040",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xe33c0",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa4fc0",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x196740",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x13400",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa3d00",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x133b00",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1977c0",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17d4c0",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+          "va": "0x147c0",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x1ec00",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x178700",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x5800",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc0ac0",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x171cc0",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x93380",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x176740",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa7300",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x175740",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x198180",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x1276c0",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x12d40",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x172d80",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa2680",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17d080",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x9d9c0",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xeb000",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc2440",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a4940",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x118d80",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x95900",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x127b80",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcd880",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a43c0",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x9da80",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc6a40",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x197180",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x9d300",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc6480",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a1140",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa2740",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa2c40",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x11c940",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa3d80",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x11c480",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xec280",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc1ec0",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17d1c0",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x196a00",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17a600",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1770c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1ab900",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x1a6880",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x9e040",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xeadc0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x8fcc0",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xc040",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+          "va": "0x2af80",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa4580",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94f80",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xe6180",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x97f80",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa26c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xf33c0",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa3c40",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa6780",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x260e40",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0",
+          "va": "0x3300",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94c80",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xbbc0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xe5100",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa3c00",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1753c0",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94d80",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a2b00",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94e40",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xd2a80",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x118e00",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x106f40",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x96540",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xba00",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x9e180",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1f4880",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xed200",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x127580",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x175840",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa3f00",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcaec0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa0d80",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xec00",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc69c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xe6000",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x949c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xe3340",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x196f40",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x95400",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xbf80",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa05c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1053c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x9d940",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xbe7c0",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x477c0",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x91280",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa5380",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xe7080",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc1e00",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a4400",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17ce40",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa1b80",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa1840",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x91080",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xecb40",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x18c40",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x97ec0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a2f40",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0",
+          "va": "0x25c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc1dc0",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x475c0",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa3cc0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x115f00",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x197840",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a0500",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xf400",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x1a68c0",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x13780",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa59c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc67c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x9e840",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x179d80",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a1280",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xec7c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x133b40",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xe32c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xeb8c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa0d40",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x47b00",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x10cfc0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x196c80",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x176d40",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x99e00",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa6b80",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xfd180",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17b900",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xe3380",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x11d7c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa0640",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x28640",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x912c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcbe40",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xb7c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x10e940",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa4340",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x260500",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x9eac0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa4100",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa1d40",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa7340",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x91240",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a1900",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa6f40",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xd0fc0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc1840",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc0380",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xec40",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17b940",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x99a00",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa51c0",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94fc0",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xe5600",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc63c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa5200",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc6500",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x196f80",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x93280",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x127b40",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xeb100",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xec9c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xe71c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xd1e00",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xed140",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x47bc0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x9e280",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94f40",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x93300",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xeb9c0",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x13680",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x19e240",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x106ec0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x118dc0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x175b00",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94680",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa2cc0",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa1780",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x198280",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x9ecc0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x175d80",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x9ec80",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x920c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x1a1080",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa4280",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x1a6900",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x9d840",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17cf00",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc16c0",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa26c0",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa4400",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa3a80",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcf000",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xec900",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17a580",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x157600",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17b080",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xbd00",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x90a80",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc1880",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x127bc0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x25eec0",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xba40",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x9eb40",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa41c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa5300",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xe4340",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xfee00",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xa00c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x9d400",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xc6c80",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xfedc0",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94640",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa2900",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0x15280",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa3e40",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0",
+          "va": "0xfac0",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x98000",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x178b40",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x172d40",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xfed80",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xe5140",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x127740",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa5680",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x8f2c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xebe80",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x9dbc0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0x17b040",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa16c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/ComposeReviewService",
+          "va": "0xcf080",
+          "samples": 1
+        }
+      ],
+      "examples": [
+        {
+          "ip": "0x246320",
+          "dso": "/custom/ComposeReviewService",
+          "asm": "endbr64",
+          "nearest": {
+            "source": "0x5f68f436d13f",
+            "target": "0x5f68f437a320",
+            "type": "direct_call",
+            "mispredicted": false,
+            "distance": 0
+          },
+          "pf_sites_seen": 0,
+          "matching_sites": []
+        },
+        {
+          "ip": "0x178130",
+          "dso": "/custom/ComposeReviewService",
+          "asm": "push   %r15",
+          "nearest": {
+            "source": "0x5f68f41d8f56",
+            "target": "0x5f68f42ac130",
+            "type": "indirect_call",
+            "mispredicted": true,
+            "distance": 0
+          },
+          "pf_sites_seen": 1,
+          "matching_sites": []
+        },
+        {
+          "ip": "0x915c0",
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "asm": "je     916f2 <__pthread_get_minstack@@GLIBC_PRIVATE+0x182>",
+          "nearest": {
+            "source": "0x7bf4a237c905",
+            "target": "0x7bf4a23795b0",
+            "type": "direct_call",
+            "mispredicted": false,
+            "distance": 16
+          },
+          "pf_sites_seen": 1,
+          "matching_sites": []
+        },
+        {
+          "ip": "0x25eaf0",
+          "dso": "/custom/ComposeReviewService",
+          "asm": "endbr64",
+          "nearest": {
+            "source": "0x5f68f43945fa",
+            "target": "0x5f68f4392af0",
+            "type": "direct_call",
+            "mispredicted": false,
+            "distance": 0
+          },
+          "pf_sites_seen": 0,
+          "matching_sites": []
+        },
+        {
+          "ip": "0x23c27e",
+          "dso": "/custom/ComposeReviewService",
+          "asm": "add    %rsi,%rdi",
+          "nearest": {
+            "source": "0x5f68f4370a76",
+            "target": "0x5f68f4370260",
+            "type": "direct_call",
+            "mispredicted": false,
+            "distance": 30
+          },
+          "pf_sites_seen": 12,
+          "matching_sites": []
+        },
+        {
+          "ip": "0x260470",
+          "dso": "/custom/ComposeReviewService",
+          "asm": "endbr64",
+          "nearest": {
+            "source": "0x5f68f41f50ff",
+            "target": "0x5f68f4394470",
+            "type": "direct_call",
+            "mispredicted": false,
+            "distance": 0
+          },
+          "pf_sites_seen": 2,
+          "matching_sites": []
+        },
+        {
+          "ip": "0x1d3820",
+          "dso": "/custom/ComposeReviewService",
+          "asm": "endbr64",
+          "nearest": {
+            "source": "0x5f68f4271682",
+            "target": "0x5f68f4307820",
+            "type": "direct_call",
+            "mispredicted": false,
+            "distance": 0
+          },
+          "pf_sites_seen": 6,
+          "matching_sites": []
+        },
+        {
+          "ip": "0x119eff",
+          "dso": "/custom/ComposeReviewService",
+          "asm": "call   *0x80(%rax)",
+          "nearest": {
+            "source": "0x5f68f424dcce",
+            "target": "0x5f68f424dec0",
+            "type": "direct_jump",
+            "mispredicted": false,
+            "distance": 63
+          },
+          "pf_sites_seen": 4,
+          "matching_sites": [
+            "0x119cc7"
+          ]
+        },
+        {
+          "ip": "0x11863f",
+          "dso": "/custom/ComposeReviewService",
+          "asm": "mov    %edx,%ecx",
+          "nearest": {
+            "source": "0x5f68f424dcb1",
+            "target": "0x5f68f424c620",
+            "type": "indirect_jump",
+            "mispredicted": true,
+            "distance": 31
+          },
+          "pf_sites_seen": 26,
+          "matching_sites": [
+            "0x119ca0"
+          ]
+        },
+        {
+          "ip": "0x1444b0",
+          "dso": "/custom/ComposeReviewService",
+          "asm": "endbr64",
+          "nearest": {
+            "source": "0x5f68f41e085b",
+            "target": "0x5f68f42784b0",
+            "type": "direct_call",
+            "mispredicted": false,
+            "distance": 0
+          },
+          "pf_sites_seen": 6,
+          "matching_sites": [
+            "0xac821"
+          ]
+        },
+        {
+          "ip": "0xaa6f0",
+          "dso": "/custom/ComposeReviewService",
+          "asm": "cmp    $0x2,%edx",
+          "nearest": {
+            "source": "0x5f68f41de1c9",
+            "target": "0x5f68f41de6f0",
+            "type": "indirect_call",
+            "mispredicted": true,
+            "distance": 0
+          },
+          "pf_sites_seen": 1,
+          "matching_sites": []
+        },
+        {
+          "ip": "0x26047d",
+          "dso": "/custom/ComposeReviewService",
+          "asm": "lea    0x78(%rdi),%r13",
+          "nearest": {
+            "source": "0x5f68f41f50ff",
+            "target": "0x5f68f4394470",
+            "type": "direct_call",
+            "mispredicted": false,
+            "distance": 13
+          },
+          "pf_sites_seen": 2,
+          "matching_sites": []
+        },
+        {
+          "ip": "0x258035",
+          "dso": "/custom/ComposeReviewService",
+          "asm": "movq   $0x0,0x10(%rbp)",
+          "nearest": {
+            "source": "0x5f68f438c0d2",
+            "target": "0x5f68f438c035",
+            "type": "conditional_branch",
+            "mispredicted": true,
+            "distance": 0
+          },
+          "pf_sites_seen": 0,
+          "matching_sites": []
+        },
+        {
+          "ip": "0x3220",
+          "dso": "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0",
+          "asm": "endbr64",
+          "nearest": {
+            "source": "0x5f68f41c3d10",
+            "target": "0x7bf4a25fb220",
+            "type": "indirect_jump",
+            "mispredicted": true,
+            "distance": 0
+          },
+          "pf_sites_seen": 0,
+          "matching_sites": []
+        },
+        {
+          "ip": "0x198140",
+          "dso": "/custom/ComposeReviewService",
+          "asm": "push   %r14",
+          "nearest": {
+            "source": "0x5f68f42ca7f7",
+            "target": "0x5f68f42cc140",
+            "type": "direct_call",
+            "mispredicted": false,
+            "distance": 0
+          },
+          "pf_sites_seen": 7,
+          "matching_sites": [
+            "0x196759"
+          ]
+        },
+        {
+          "ip": "0xcdcc0",
+          "dso": "/custom/ComposeReviewService",
+          "asm": "call   *0x38(%rax)",
+          "nearest": {
+            "source": "0x5f68f42191e7",
+            "target": "0x5f68f4201c90",
+            "type": "indirect_call",
+            "mispredicted": true,
+            "distance": 48
+          },
+          "pf_sites_seen": 9,
+          "matching_sites": []
+        },
+        {
+          "ip": "0xcad50",
+          "dso": "/custom/ComposeReviewService",
+          "asm": "push   %rbx",
+          "nearest": {
+            "source": "0x5f68f426de68",
+            "target": "0x5f68f41fed50",
+            "type": "indirect_call",
+            "mispredicted": true,
+            "distance": 0
+          },
+          "pf_sites_seen": 0,
+          "matching_sites": []
+        },
+        {
+          "ip": "0x176960",
+          "dso": "/custom/ComposeReviewService",
+          "asm": "push   %rbp",
+          "nearest": {
+            "source": "0x5f68f42a9cee",
+            "target": "0x5f68f42aa960",
+            "type": "direct_call",
+            "mispredicted": false,
+            "distance": 0
+          },
+          "pf_sites_seen": 9,
+          "matching_sites": [
+            "0x175cc9"
+          ]
+        },
+        {
+          "ip": "0x179581",
+          "dso": "/custom/ComposeReviewService",
+          "asm": "je     1798da <_ZNSt6vectorIN13jaegertracing3TagESaIS1_EE15_M_range_insertIN9__gnu_cxx17__normal_iteratorIPKS1_S3_EEEEvNS6_IPS1_S3_EET_SC_St20forward_iterator_tag+0x36a>",
+          "nearest": {
+            "source": "0x5f68f42aaf1c",
+            "target": "0x5f68f42ad570",
+            "type": "direct_call",
+            "mispredicted": false,
+            "distance": 17
+          },
+          "pf_sites_seen": 8,
+          "matching_sites": []
+        },
+        {
+          "ip": "0x139de0",
+          "dso": "/custom/ComposeReviewService",
+          "asm": "endbr64",
+          "nearest": {
+            "source": "0x5f68f41e0872",
+            "target": "0x5f68f426dde0",
+            "type": "direct_call",
+            "mispredicted": false,
+            "distance": 0
+          },
+          "pf_sites_seen": 6,
+          "matching_sites": [
+            "0xac82f"
+          ]
+        }
+      ],
+      "sha256": "98f169c418fa91b9cf44ac7dce6b27d9420cb3bcec38a35cfc4071446da85924",
+      "bytes": 190134455,
+      "main_ip_source_locations": {
+        "command": [
+          "addr2line",
+          "-a",
+          "-f",
+          "-C",
+          "-i",
+          "-e",
+          "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect_lift_it0/compose/ComposeReviewService",
+          "0xc01a0",
+          "0xc0200",
+          "0x172bbe",
+          "0x260da0",
+          "0xcad50",
+          "0x23a3c0",
+          "0x198140",
+          "0x1769ba",
+          "0x23ca40",
+          "0x1ba500",
+          "0x13d650",
+          "0x260470"
+        ],
+        "output": "0x00000000000c01a0\njaegertracing::propagation::Propagator<opentracing::v2::TextMapReader const&, opentracing::v2::TextMapWriter const&>::extract(opentracing::v2::TextMapReader const&) const\n/usr/local/include/jaegertracing/propagation/Propagator.h:61\n0x00000000000c0200\njaegertracing::TraceID::TraceID(unsigned long, unsigned long)\n/usr/local/include/jaegertracing/TraceID.h:37\njaegertracing::SpanContext::SpanContext()\n/usr/local/include/jaegertracing/SpanContext.h:41\njaegertracing::propagation::Propagator<opentracing::v2::TextMapReader const&, opentracing::v2::TextMapWriter const&>::extract(opentracing::v2::TextMapReader const&) const\n/usr/local/include/jaegertracing/propagation/Propagator.h:62\n0x0000000000172bbe\nstd::_Vector_base<opentracing::v2::LogRecord, std::allocator<opentracing::v2::LogRecord> >::_Vector_impl_data::_Vector_impl_data()\n/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/stl_vector.h:98\nstd::_Vector_base<opentracing::v2::LogRecord, std::allocator<opentracing::v2::LogRecord> >::_Vector_impl::_Vector_impl()\n/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/stl_vector.h:131\nstd::_Vector_base<opentracing::v2::LogRecord, std::allocator<opentracing::v2::LogRecord> >::_Vector_base()\n/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/stl_vector.h:288\nstd::vector<opentracing::v2::LogRecord, std::allocator<opentracing::v2::LogRecord> >::vector()\n/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/stl_vector.h:487\nopentracing::v2::FinishSpanOptions::FinishSpanOptions()\n/usr/local/include/opentracing/span.h:48\nopentracing::v2::Span::Finish(std::initializer_list<opentracing::v2::option_wrapper<opentracing::v2::FinishSpanOption> >)\n/usr/local/include/opentracing/span.h:89\njaegertracing::Span::~Span()\n/opt/src/jaeger-client-cpp-0.4.2/src/jaegertracing/Span.h:84\n0x0000000000260da0\nstd::__cxx11::basic_ostringstream<char, std::char_traits<char>, std::allocator<char> >::basic_ostringstream()\n??:?\n0x00000000000cad50\nboost::log::v2s_mt_posix::aux::light_function<bool (boost::log::v2s_mt_posix::attribute_value_set const&)>::impl<boost::phoenix::actor<boost::proto::exprns_::basic_expr<boost::proto::tagns_::tag::greater_equal, boost::proto::argsns_::list2<boost::log::v2s_mt_posix::expressions::attribute_actor<boost::log::v2s_mt_posix::trivial::severity_level, boost::log::v2s_mt_posix::fallback_to_none, boost::log::v2s_mt_posix::trivial::tag::severity, boost::phoenix::actor>, boost::phoenix::actor<boost::proto::exprns_::basic_expr<boost::proto::tagns_::tag::terminal, boost::proto::argsns_::term<boost::log::v2s_mt_posix::trivial::severity_level>, 0l> > >, 2l> > >::invoke_impl(void*, boost::log::v2s_mt_posix::attribute_value_set const&)\n/usr/include/boost/log/detail/light_function.hpp:154\n0x000000000023a3c0\nstd::ios_base::_M_call_callbacks(std::ios_base::event)\n??:?\n0x0000000000198140\nvoid std::deque<jaegertracing::Span, std::allocator<jaegertracing::Span> >::_M_push_back_aux<jaegertracing::Span const&>(jaegertracing::Span const&)\n/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/deque.tcc:491\n0x00000000001769ba\njaegertracing::Tracer::analyzeReferences(std::vector<std::pair<opentracing::v2::SpanReferenceType, opentracing::v2::SpanContext const*>, std::allocator<std::pair<opentracing::v2::SpanReferenceType, opentracing::v2::SpanContext const*> > > const&) const\n/opt/src/jaeger-client-cpp-0.4.2/src/jaegertracing/Tracer.cpp:?\n0x000000000023ca40\nstd::istream::get(char&)\n??:?\n0x00000000001ba500\nopentracing::v2::Tracer::Global()\n/opt/src/opentracing-cpp-1.5.1/src/tracer.cpp:11\n0x000000000013d650\nboost::log::v2s_mt_posix::core::implementation::get_thread_data()\n:?\n0x0000000000260470\nstd::__cxx11::basic_istringstream<char, std::char_traits<char>, std::allocator<char> >::basic_istringstream(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::_Ios_Openmode)\n??:?\n"
+      }
+    }
+  }
+}

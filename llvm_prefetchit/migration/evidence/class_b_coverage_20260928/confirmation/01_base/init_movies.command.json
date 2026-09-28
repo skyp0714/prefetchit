@@ -1,0 +1,17 @@
+[
+  "taskset",
+  "-c",
+  "16-19",
+  "runuser",
+  "-u",
+  "hnpark2",
+  "--",
+  "python3",
+  "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_production_qualification/base_2500/initialize_movies.py",
+  "-c",
+  "/home/hnpark2/prefetchit/benchmarks/DeathStarBench/mediaMicroservices/datasets/tmdb/casts.json",
+  "-m",
+  "/home/hnpark2/prefetchit/benchmarks/DeathStarBench/mediaMicroservices/datasets/tmdb/movies.json",
+  "--server_address",
+  "http://127.0.0.1:18081"
+]

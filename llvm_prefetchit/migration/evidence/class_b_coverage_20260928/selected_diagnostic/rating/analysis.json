@@ -1,0 +1,5766 @@
+{
+  "main_dso": "/custom/RatingService",
+  "static_prefetch": {
+    "resolved": 3922,
+    "unresolved": 0,
+    "target_lines": 201,
+    "target_other_function": 3920,
+    "target_same_function": 2
+  },
+  "events": {
+    "l2": {
+      "counts": {
+        "samples": 25606,
+        "main_samples": 23436,
+        "statically_targeted_samples": 7210,
+        "with_lbr": 25502,
+        "nearest_branch_target_associated": 25501,
+        "within_64B_of_target": 24319,
+        "same_line_as_target": 23123,
+        "preceding_observed_pf_samples": 14631,
+        "preceding_observed_pf_sites_total": 85956,
+        "preceding_matching_pf_samples": 4492,
+        "nearest_branch_mispredicted": 11158,
+        "sample_is_newest_branch": 2352,
+        "without_lbr": 103,
+        "unmapped": 1
+      },
+      "dso_counts": {
+        "/custom/RatingService": 23436,
+        "/usr/lib/x86_64-linux-gnu/libc.so.6": 2125,
+        "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2": 44,
+        "([vdso])": 1
+      },
+      "instruction_classes": {
+        "other": 22665,
+        "conditional_branch": 1144,
+        "direct_call": 286,
+        "return": 320,
+        "indirect_call": 120,
+        "prefetch": 415,
+        "indirect_jump": 464,
+        "direct_jump": 191
+      },
+      "preceding_branch_classes": {
+        "direct_call": 11245,
+        "indirect_call": 6238,
+        "conditional_branch": 2155,
+        "direct_jump": 1733,
+        "indirect_jump": 1738,
+        "return": 2392
+      },
+      "distance_bytes": {
+        "0": 19018,
+        "64-255": 1147,
+        "1-15": 2424,
+        "16-63": 2877,
+        "256+": 35
+      },
+      "lead_retired_proxy": {
+        "prior_block_minage_0-31": 2386,
+        "prior_block_minage_512+": 924,
+        "prior_block_minage_32-127": 411,
+        "prior_block_minage_128-511": 771
+      },
+      "top_functions": [
+        {
+          "name": "/custom/RatingService::_ZN13media_service13RatingHandler12UploadRatingElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiRKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE",
+          "samples": 296,
+          "share_pct": 1.1559790674060768
+        },
+        {
+          "name": "/custom/RatingService::_ZN13jaegertracing11SpanContext4swapERS0_",
+          "samples": 279,
+          "share_pct": 1.089588377723971
+        },
+        {
+          "name": "/custom/RatingService::_ZN9cpp_redis7network16redis_connection13build_commandERKSt6vectorINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESaIS8_EE",
+          "samples": 271,
+          "share_pct": 1.0583457002265093
+        },
+        {
+          "name": "/custom/RatingService::_ZN6apache6thrift9transport7TSocket4readEPhj",
+          "samples": 263,
+          "share_pct": 1.0271030227290479
+        },
+        {
+          "name": "/custom/RatingService::_ZNSt6vectorIN13jaegertracing3TagESaIS1_EE15_M_range_insertIN9__gnu_cxx17__normal_iteratorIPKS1_S3_EEEEvNS6_IPS1_S3_EET_SC_St20forward_iterator_tag",
+          "samples": 242,
+          "share_pct": 0.9450909942982113
+        },
+        {
+          "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__select@@GLIBC_2.2.5",
+          "samples": 236,
+          "share_pct": 0.9216589861751152
+        },
+        {
+          "name": "/custom/RatingService::execute_native_thread_routine",
+          "samples": 223,
+          "share_pct": 0.8708896352417402
+        },
+        {
+          "name": "/custom/RatingService::_ZN13jaegertracing11SpanContextC2ERKS0_",
+          "samples": 218,
+          "share_pct": 0.8513629618058267
+        },
+        {
+          "name": "/custom/RatingService::_ZN13media_service31RatingService_UploadRating_args4readEPN6apache6thrift8protocol9TProtocolE",
+          "samples": 214,
+          "share_pct": 0.835741623057096
+        },
+        {
+          "name": "/custom/RatingService::_ZNK13jaegertracing6Tracer17analyzeReferencesERKSt6vectorISt4pairIN11opentracing2v217SpanReferenceTypeEPKNS4_11SpanContextEESaIS9_EE",
+          "samples": 214,
+          "share_pct": 0.835741623057096
+        },
+        {
+          "name": "/custom/RatingService::_ZN7tacopie10io_service14process_eventsEv",
+          "samples": 214,
+          "share_pct": 0.835741623057096
+        },
+        {
+          "name": "/custom/RatingService::_ZN11opentracing2v26Tracer6GlobalEv",
+          "samples": 208,
+          "share_pct": 0.8123096149339999
+        },
+        {
+          "name": "/custom/RatingService::_ZNK13jaegertracing6thrift4Span5writeEPN6apache6thrift8protocol9TProtocolE",
+          "samples": 207,
+          "share_pct": 0.8084042802468171
+        },
+        {
+          "name": "/custom/RatingService::_ZNSt10_HashtableINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4pairIKS5_S5_ESaIS8_ENSt8__detail10_Select1stESt8equal_toIS5_ESt4hashIS5_ENSA_18_Mod_range_hashingENSA_20_Default_ranged_hashENSA_20_Prime_rehash_policyENSA_17_Hashtable_traitsILb1ELb0ELb1EEEE9_M_assignIRKSL_NSA_10_AllocNodeISaINSA_10_Hash_nodeIS8_Lb1EEEEEEEEvOT_RKT0_",
+          "samples": 201,
+          "share_pct": 0.784972272123721
+        },
+        {
+          "name": "/custom/RatingService::_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE10_M_replaceEmmPKcm",
+          "samples": 196,
+          "share_pct": 0.7654455986878076
+        },
+        {
+          "name": "/custom/RatingService::_ZN13jaegertracing12UDPTransport6appendERKNS_4SpanE",
+          "samples": 189,
+          "share_pct": 0.7381082558775287
+        },
+        {
+          "name": "/custom/RatingService::_ZNK13jaegertracing6Tracer20StartSpanWithOptionsEN11opentracing2v211string_viewERKNS2_16StartSpanOptionsE",
+          "samples": 188,
+          "share_pct": 0.734202921190346
+        },
+        {
+          "name": "/custom/RatingService::_ZNSt12_Destroy_auxILb0EE9__destroyIPN13jaegertracing9ReferenceEEEvT_S5_",
+          "samples": 188,
+          "share_pct": 0.734202921190346
+        },
+        {
+          "name": "/custom/RatingService::_ZNK13jaegertracing4Span7contextEv",
+          "samples": 182,
+          "share_pct": 0.7107709130672498
+        },
+        {
+          "name": "/custom/RatingService::_ZN13jaegertracing4Span17FinishWithOptionsERKN11opentracing2v217FinishSpanOptionsE",
+          "samples": 177,
+          "share_pct": 0.6912442396313364
+        },
+        {
+          "name": "/custom/RatingService::_ZSt29_Rb_tree_insert_and_rebalancebPSt18_Rb_tree_node_baseS0_RS_",
+          "samples": 176,
+          "share_pct": 0.6873389049441537
+        },
+        {
+          "name": "/custom/RatingService::_ZN13media_service22RatingServiceProcessor12dispatchCallEPN6apache6thrift8protocol9TProtocolES5_RKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiPv",
+          "samples": 175,
+          "share_pct": 0.683433570256971
+        },
+        {
+          "name": "/custom/RatingService::_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE9_M_mutateEmmPKcm",
+          "samples": 173,
+          "share_pct": 0.6756229008826057
+        },
+        {
+          "name": "/custom/RatingService::_ZN13media_service22RatingServiceProcessor20process_UploadRatingEiPN6apache6thrift8protocol9TProtocolES5_Pv",
+          "samples": 169,
+          "share_pct": 0.6600015621338748
+        },
+        {
+          "name": "/custom/RatingService::_ZN6apache6thrift6server16TConnectedClient3runEv",
+          "samples": 167,
+          "share_pct": 0.6521908927595095
+        }
+      ],
+      "top_ips": [
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6d4a0",
+          "asm": "movups 0x8(%rdi),%xmm0",
+          "function": "_ZN13jaegertracing11SpanContext4swapERS0_",
+          "samples": 173
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6da10",
+          "asm": "push   %r15",
+          "function": "_ZNSt10_HashtableINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4pairIKS5_S5_ESaIS8_ENSt8__detail10_Select1stESt8equal_toIS5_ESt4hashIS5_ENSA_18_Mod_range_hashingENSA_20_Default_ranged_hashENSA_20_Prime_rehash_policyENSA_17_Hashtable_traitsILb1ELb0ELb1EEEE9_M_assignIRKSL_NSA_10_AllocNodeISaINSA_10_Hash_nodeIS8_Lb1EEEEEEEEvOT_RKT0_",
+          "samples": 171
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10ade0",
+          "asm": "push   %r15",
+          "function": "_ZNSt12_Destroy_auxILb0EE9__destroyIPN13jaegertracing9ReferenceEEEvT_S5_",
+          "samples": 170
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x633b0",
+          "asm": "ret",
+          "function": "_ZN13jaegertracing7metrics11NullCounter3incEl",
+          "samples": 164
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x140aa0",
+          "asm": "push   %r14",
+          "function": "_ZNK13jaegertracing4Span7contextEv",
+          "samples": 151
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xae380",
+          "asm": "push   %rbp",
+          "function": "_ZN6apache6thrift9transport7TSocket4readEPhj",
+          "samples": 146
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x108920",
+          "asm": "push   %rbp",
+          "function": "_ZNK13jaegertracing6Tracer17analyzeReferencesERKSt6vectorISt4pairIN11opentracing2v217SpanReferenceTypeEPKNS4_11SpanContextEESaIS9_EE",
+          "samples": 139
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x69d30",
+          "asm": "push   %r15",
+          "function": "_ZNSt6vectorIN13jaegertracing3TagESaIS1_EED2Ev",
+          "samples": 134
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10c1da",
+          "asm": "add    $0x18,%rsp",
+          "function": "_ZNSt6vectorIN13jaegertracing3TagESaIS1_EE15_M_range_insertIN9__gnu_cxx17__normal_iteratorIPKS1_S3_EEEEvNS6_IPS1_S3_EET_SC_St20forward_iterator_tag",
+          "samples": 134
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x25d900",
+          "asm": "endbr64",
+          "function": "__once_proxy",
+          "samples": 127
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x13f460",
+          "asm": "push   %r15",
+          "function": "_ZN13jaegertracing4Span17FinishWithOptionsERKN11opentracing2v217FinishSpanOptionsE",
+          "samples": 122
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x150060",
+          "asm": "push   %r14",
+          "function": "_ZN11opentracing2v26Tracer6GlobalEv",
+          "samples": 113
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x133c20",
+          "asm": "push   %rbp",
+          "function": "_ZNK13jaegertracing6thrift4Span5writeEPN6apache6thrift8protocol9TProtocolE",
+          "samples": 112
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x271050",
+          "asm": "endbr64",
+          "function": "_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE4swapERS4_",
+          "samples": 108
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x272570",
+          "asm": "endbr64",
+          "function": "execute_native_thread_routine",
+          "samples": 107
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xc250b",
+          "asm": "mov    %eax,%ebp",
+          "function": "_ZN6apache6thrift6server16TConnectedClient3runEv",
+          "samples": 106
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x68550",
+          "asm": "push   %r15",
+          "function": "_ZNSt10_HashtableINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4pairIKS5_S5_ESaIS8_ENSt8__detail10_Select1stESt8equal_toIS5_ESt4hashIS5_ENSA_18_Mod_range_hashingENSA_20_Default_ranged_hashENSA_20_Prime_rehash_policyENSA_17_Hashtable_traitsILb1ELb0ELb1EEEED2Ev",
+          "samples": 106
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x86b20",
+          "asm": "push   %rax",
+          "function": "_ZN6apache6thrift8protocol16TVirtualProtocolINS1_16TBinaryProtocolTINS0_9transport10TTransportENS1_17TNetworkBigEndianEEENS1_17TProtocolDefaultsEE20readStructBegin_virtERNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE",
+          "samples": 105
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10c540",
+          "asm": "push   %rbp",
+          "function": "_ZNSt6vectorIN13jaegertracing9ReferenceESaIS1_EE17_M_realloc_insertIJS1_EEEvN9__gnu_cxx17__normal_iteratorIPS1_S3_EEDpOT_",
+          "samples": 100
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d2dbf",
+          "asm": "push   %r13",
+          "function": "_ZN7tacopie10io_service14process_eventsEv",
+          "samples": 99
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x129020",
+          "asm": "push   %r15",
+          "function": "_ZN13jaegertracing9reporters14RemoteReporter6reportERKNS_4SpanE",
+          "samples": 96
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x15007c",
+          "asm": "mov    0x228c65(%rip),%rcx        # 378ce8 <_ZZN11opentracing2v2L17get_global_tracerEvE13global_tracer+0x8>",
+          "function": "_ZN11opentracing2v26Tracer6GlobalEv",
+          "samples": 95
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x36b90",
+          "asm": "jmp    *0x340a32(%rip)        # 3775c8 <pthread_mutex_lock@GLIBC_2.2.5>",
+          "function": "pthread_mutex_lock@plt",
+          "samples": 95
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x8d7b0",
+          "asm": "push   %rbp",
+          "function": "_ZN13media_service22RatingServiceProcessor20process_UploadRatingEiPN6apache6thrift8protocol9TProtocolES5_Pv",
+          "samples": 94
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1cccb8",
+          "asm": "movdqu 0x10(%rax),%xmm4",
+          "function": "_ZN9cpp_redis7network16redis_connection13build_commandERKSt6vectorINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESaIS8_EE",
+          "samples": 94
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x846f0",
+          "asm": "push   %rbp",
+          "function": "_ZNSt13__future_base13_State_baseV213_M_set_resultESt8functionIFSt10unique_ptrINS_12_Result_baseENS3_8_DeleterEEvEEb",
+          "samples": 94
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1079b0",
+          "asm": "push   %rbp",
+          "function": "_ZN13jaegertracing7TraceID10fromStreamERSi",
+          "samples": 93
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x58d30",
+          "asm": "push   %rbp",
+          "function": "_ZNK11opentracing2v26Tracer9StartSpanENS0_11string_viewESt16initializer_listINS0_14option_wrapperINS0_15StartSpanOptionEEEE",
+          "samples": 93
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x140370",
+          "asm": "push   %rbx",
+          "function": "_ZN13jaegertracing4SpanD0Ev",
+          "samples": 93
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10a200",
+          "asm": "push   %r15",
+          "function": "_ZNK13jaegertracing6Tracer6InjectERKN11opentracing2v211SpanContextERKNS2_13TextMapWriterE",
+          "samples": 92
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xafa20",
+          "asm": "mov    (%rdi),%rax",
+          "function": "_ZN6apache6thrift9transport17TVirtualTransportINS1_7TSocketENS1_18TTransportDefaultsEE10write_virtEPKhj",
+          "samples": 92
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xb3090",
+          "asm": "push   %r15",
+          "function": "_ZN6apache6thrift9transport17TVirtualTransportINS1_16TFramedTransportENS1_11TBufferBaseEE12readAll_virtEPhj",
+          "samples": 92
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x87060",
+          "asm": "push   %r15",
+          "function": "_ZN6apache6thrift8protocol17TProtocolDefaultsC2ESt10shared_ptrINS0_9transport10TTransportEE",
+          "samples": 91
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xae9d0",
+          "asm": "push   %rbp",
+          "function": "_ZN6apache6thrift9transport7TSocket5writeEPKhj",
+          "samples": 91
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xb2190",
+          "asm": "push   %rbp",
+          "function": "_ZN6apache6thrift9transport16TFramedTransport8readSlowEPhj",
+          "samples": 91
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10be70",
+          "asm": "push   %rbp",
+          "function": "_ZNSt6vectorIN13jaegertracing3TagESaIS1_EE15_M_range_insertIN9__gnu_cxx17__normal_iteratorIPKS1_S3_EEEEvNS6_IPS1_S3_EET_SC_St20forward_iterator_tag",
+          "samples": 91
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x71ee0",
+          "asm": "push   %rax",
+          "function": "_ZNK11opentracing2v213SpanReference5ApplyERNS0_16StartSpanOptionsE",
+          "samples": 90
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x270380",
+          "asm": "endbr64",
+          "function": "_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE10_M_replaceEmmPKcm",
+          "samples": 89
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xaf9f0",
+          "asm": "mov    (%rdi),%rax",
+          "function": "_ZN6apache6thrift9transport17TVirtualTransportINS1_7TSocketENS1_18TTransportDefaultsEE9read_virtEPhj",
+          "samples": 88
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x26f460",
+          "asm": "endbr64",
+          "function": "_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE9_M_mutateEmmPKcm",
+          "samples": 88
+        }
+      ],
+      "footprint": {
+        "unique_sampled_lines": 993,
+        "unique_sampled_4k_pages": 155,
+        "samples_on_repeated_lines": 25391
+      },
+      "line_counts": [
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6d480",
+          "samples": 219
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x150040",
+          "samples": 208
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d2d80",
+          "samples": 184
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x140a80",
+          "samples": 182
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10adc0",
+          "samples": 173
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6da00",
+          "samples": 171
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xafa00",
+          "samples": 167
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x26f440",
+          "samples": 165
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x63380",
+          "samples": 164
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1fe800",
+          "samples": 148
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x69d00",
+          "samples": 147
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xae380",
+          "samples": 146
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x88680",
+          "samples": 139
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x108900",
+          "samples": 139
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x272540",
+          "samples": 139
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10c1c0",
+          "samples": 134
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x86b00",
+          "samples": 132
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x133c00",
+          "samples": 128
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x68540",
+          "samples": 128
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x25d900",
+          "samples": 127
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x58d00",
+          "samples": 127
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1f0b40",
+          "samples": 122
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x13f440",
+          "samples": 122
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1ccc80",
+          "samples": 120
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x84900",
+          "samples": 118
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x133040",
+          "samples": 118
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xabc00",
+          "samples": 118
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x69e00",
+          "samples": 114
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xb2240",
+          "samples": 113
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x107740",
+          "samples": 111
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x8ba40",
+          "samples": 109
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d7fc0",
+          "samples": 109
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x271040",
+          "samples": 108
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x251000",
+          "samples": 108
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x54480",
+          "samples": 107
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6c0c0",
+          "samples": 107
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xc2500",
+          "samples": 106
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1eefc0",
+          "samples": 105
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x107980",
+          "samples": 105
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x270380",
+          "samples": 105
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x25f4c0",
+          "samples": 103
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x2640c0",
+          "samples": 103
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d6080",
+          "samples": 103
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x240e00",
+          "samples": 103
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x87040",
+          "samples": 101
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x16a880",
+          "samples": 101
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10c540",
+          "samples": 101
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x16a940",
+          "samples": 100
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1fad00",
+          "samples": 100
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x129000",
+          "samples": 99
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x136640",
+          "samples": 97
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1f1140",
+          "samples": 97
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1c2600",
+          "samples": 96
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x26dc80",
+          "samples": 96
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x846c0",
+          "samples": 96
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x242f00",
+          "samples": 95
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x36b80",
+          "samples": 95
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xae9c0",
+          "samples": 94
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x8d780",
+          "samples": 94
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x140340",
+          "samples": 94
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x176700",
+          "samples": 93
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d4180",
+          "samples": 93
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10a200",
+          "samples": 92
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x2725c0",
+          "samples": 92
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xb3080",
+          "samples": 92
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xb2180",
+          "samples": 91
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10be40",
+          "samples": 91
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d35c0",
+          "samples": 90
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x2436c0",
+          "samples": 90
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x71ec0",
+          "samples": 90
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10e0c0",
+          "samples": 89
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xaf9c0",
+          "samples": 88
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x28c080",
+          "samples": 88
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1cdfc0",
+          "samples": 87
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x8be00",
+          "samples": 87
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x136c80",
+          "samples": 86
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x241040",
+          "samples": 85
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d22c0",
+          "samples": 85
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x267100",
+          "samples": 84
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1098c0",
+          "samples": 84
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x174740",
+          "samples": 84
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x272580",
+          "samples": 84
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x132880",
+          "samples": 82
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x12ad00",
+          "samples": 82
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x569c0",
+          "samples": 82
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d78c0",
+          "samples": 82
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1ccc00",
+          "samples": 81
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1ce680",
+          "samples": 81
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x91940",
+          "samples": 80
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x11b6c0",
+          "samples": 79
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1cdf00",
+          "samples": 79
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d86c0",
+          "samples": 79
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1c3c80",
+          "samples": 78
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10ce00",
+          "samples": 77
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x93800",
+          "samples": 77
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x8f480",
+          "samples": 77
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1c26c0",
+          "samples": 77
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10d840",
+          "samples": 77
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1faf80",
+          "samples": 76
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x175080",
+          "samples": 76
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x53f40",
+          "samples": 76
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x12ad40",
+          "samples": 76
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x844c0",
+          "samples": 75
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x180040",
+          "samples": 75
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1c1680",
+          "samples": 75
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xa4e00",
+          "samples": 75
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x109100",
+          "samples": 74
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1b0240",
+          "samples": 74
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x56780",
+          "samples": 74
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x713c0",
+          "samples": 74
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x107500",
+          "samples": 73
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d8c40",
+          "samples": 73
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x168880",
+          "samples": 73
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x8da80",
+          "samples": 73
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x24f0c0",
+          "samples": 73
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x96440",
+          "samples": 73
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xb2540",
+          "samples": 73
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x137000",
+          "samples": 72
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xb3440",
+          "samples": 72
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x107780",
+          "samples": 72
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d2800",
+          "samples": 72
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1ce840",
+          "samples": 71
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10c940",
+          "samples": 71
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x54c00",
+          "samples": 71
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x241100",
+          "samples": 71
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x169000",
+          "samples": 70
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x250b40",
+          "samples": 70
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x87180",
+          "samples": 69
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x2512c0",
+          "samples": 69
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x26f340",
+          "samples": 69
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x86680",
+          "samples": 69
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d0100",
+          "samples": 69
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x8b8c0",
+          "samples": 69
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x126880",
+          "samples": 68
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x84500",
+          "samples": 68
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d2200",
+          "samples": 68
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x133200",
+          "samples": 67
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x95d00",
+          "samples": 67
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xa4e40",
+          "samples": 67
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d3900",
+          "samples": 67
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x36300",
+          "samples": 67
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x86380",
+          "samples": 66
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x36c80",
+          "samples": 65
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d5b80",
+          "samples": 65
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x107000",
+          "samples": 65
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x106f80",
+          "samples": 64
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x110480",
+          "samples": 64
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d7300",
+          "samples": 64
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x19f980",
+          "samples": 64
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x26f380",
+          "samples": 63
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x133140",
+          "samples": 62
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x265780",
+          "samples": 62
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x88e00",
+          "samples": 61
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d4640",
+          "samples": 61
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1cfc80",
+          "samples": 61
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x132e40",
+          "samples": 60
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xb21c0",
+          "samples": 60
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10a5c0",
+          "samples": 60
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x132bc0",
+          "samples": 60
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1cce40",
+          "samples": 59
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1fab40",
+          "samples": 59
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d3300",
+          "samples": 59
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x56d40",
+          "samples": 59
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x108940",
+          "samples": 59
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x363c0",
+          "samples": 59
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x11b600",
+          "samples": 58
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x87400",
+          "samples": 58
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x36940",
+          "samples": 58
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x176340",
+          "samples": 57
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1fb5c0",
+          "samples": 57
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x240240",
+          "samples": 57
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xc23c0",
+          "samples": 57
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x92d80",
+          "samples": 56
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x8d140",
+          "samples": 56
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x71a80",
+          "samples": 56
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x11b780",
+          "samples": 56
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1ccd00",
+          "samples": 56
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x125a40",
+          "samples": 56
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1bf3c0",
+          "samples": 55
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d49c0",
+          "samples": 55
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6c3c0",
+          "samples": 55
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d5e00",
+          "samples": 55
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x25ebc0",
+          "samples": 55
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x141680",
+          "samples": 55
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa1040",
+          "samples": 55
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x91fc0",
+          "samples": 54
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6bf80",
+          "samples": 54
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1cc580",
+          "samples": 54
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6d4c0",
+          "samples": 54
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x86f00",
+          "samples": 54
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1f11c0",
+          "samples": 54
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x862c0",
+          "samples": 54
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xae440",
+          "samples": 54
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x174140",
+          "samples": 54
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10f2c0",
+          "samples": 54
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x267a40",
+          "samples": 53
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1c1fc0",
+          "samples": 53
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1293c0",
+          "samples": 53
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x56e40",
+          "samples": 53
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6c240",
+          "samples": 52
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d8040",
+          "samples": 52
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1f5b80",
+          "samples": 52
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x13f480",
+          "samples": 52
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x72080",
+          "samples": 51
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6b8c0",
+          "samples": 51
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x168280",
+          "samples": 51
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x8d280",
+          "samples": 51
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xb3400",
+          "samples": 51
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x175740",
+          "samples": 50
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xb3300",
+          "samples": 50
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x136540",
+          "samples": 50
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x132800",
+          "samples": 50
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x26f580",
+          "samples": 50
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x265500",
+          "samples": 50
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa8140",
+          "samples": 49
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x89300",
+          "samples": 49
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x26efc0",
+          "samples": 49
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x114900",
+          "samples": 49
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x54400",
+          "samples": 49
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x57700",
+          "samples": 49
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1fb580",
+          "samples": 49
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6b940",
+          "samples": 49
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x23f240",
+          "samples": 49
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xb30c0",
+          "samples": 49
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x56d80",
+          "samples": 48
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10fe00",
+          "samples": 48
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1cd640",
+          "samples": 48
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xafbc0",
+          "samples": 48
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6c000",
+          "samples": 48
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x95540",
+          "samples": 48
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x8d680",
+          "samples": 48
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x107c40",
+          "samples": 47
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x26dc00",
+          "samples": 47
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x91e80",
+          "samples": 47
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x25e440",
+          "samples": 46
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x2704c0",
+          "samples": 46
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x24a980",
+          "samples": 46
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xb2fc0",
+          "samples": 46
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d0fc0",
+          "samples": 46
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6b900",
+          "samples": 46
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1bf440",
+          "samples": 46
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10c5c0",
+          "samples": 45
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x180180",
+          "samples": 45
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x850c0",
+          "samples": 45
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d5ac0",
+          "samples": 45
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1f3fc0",
+          "samples": 45
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1c1640",
+          "samples": 45
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x45d40",
+          "samples": 45
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d8200",
+          "samples": 45
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x95800",
+          "samples": 44
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xacb80",
+          "samples": 44
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x134000",
+          "samples": 43
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x11b640",
+          "samples": 43
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1ce200",
+          "samples": 43
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x23fdc0",
+          "samples": 43
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x8f440",
+          "samples": 43
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1973c0",
+          "samples": 42
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x56d00",
+          "samples": 42
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x175bc0",
+          "samples": 42
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1ef680",
+          "samples": 42
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xae480",
+          "samples": 42
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x72340",
+          "samples": 41
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x56700",
+          "samples": 41
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d8c80",
+          "samples": 41
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1801c0",
+          "samples": 41
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x270480",
+          "samples": 41
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x265c40",
+          "samples": 41
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1ce180",
+          "samples": 41
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x125a80",
+          "samples": 40
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d3580",
+          "samples": 40
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d5a80",
+          "samples": 40
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x89200",
+          "samples": 39
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d2fc0",
+          "samples": 39
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x87100",
+          "samples": 39
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d10c0",
+          "samples": 38
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x271940",
+          "samples": 38
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d0f80",
+          "samples": 38
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x84780",
+          "samples": 38
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x270d80",
+          "samples": 38
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x180500",
+          "samples": 38
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xb3180",
+          "samples": 38
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1cdc80",
+          "samples": 37
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x110880",
+          "samples": 37
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x1149c0",
+          "samples": 37
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d6040",
+          "samples": 37
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x1b1c00",
+          "samples": 37
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x1ae5c0",
+          "samples": 36
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x886c0",
+          "samples": 36
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1c2000",
+          "samples": 36
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1cf900",
+          "samples": 35
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1ce9c0",
+          "samples": 35
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x56980",
+          "samples": 35
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x126900",
+          "samples": 35
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x265a80",
+          "samples": 35
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x272640",
+          "samples": 34
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x149b80",
+          "samples": 34
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x937c0",
+          "samples": 34
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x244380",
+          "samples": 33
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x265ac0",
+          "samples": 33
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x54040",
+          "samples": 33
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x95880",
+          "samples": 32
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x270dc0",
+          "samples": 32
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x92dc0",
+          "samples": 32
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x568c0",
+          "samples": 32
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x91f80",
+          "samples": 31
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x151dc0",
+          "samples": 31
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x271180",
+          "samples": 31
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d2600",
+          "samples": 31
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x908c0",
+          "samples": 30
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1ccfc0",
+          "samples": 30
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10fe40",
+          "samples": 30
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x107c80",
+          "samples": 30
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d7340",
+          "samples": 29
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x71f00",
+          "samples": 29
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x56dc0",
+          "samples": 29
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1f4000",
+          "samples": 29
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1f0d40",
+          "samples": 29
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x96500",
+          "samples": 29
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x36640",
+          "samples": 29
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x12a1c0",
+          "samples": 29
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x12a940",
+          "samples": 28
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x567c0",
+          "samples": 28
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1cdc00",
+          "samples": 28
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d3100",
+          "samples": 27
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1ef000",
+          "samples": 27
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d37c0",
+          "samples": 27
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1c3900",
+          "samples": 26
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x36200",
+          "samples": 26
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10d940",
+          "samples": 26
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x965c0",
+          "samples": 26
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94a80",
+          "samples": 25
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1c28c0",
+          "samples": 25
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x129380",
+          "samples": 25
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d8e00",
+          "samples": 24
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1ce3c0",
+          "samples": 24
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x57400",
+          "samples": 24
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x99900",
+          "samples": 24
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10fa40",
+          "samples": 23
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1ef040",
+          "samples": 23
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xb2600",
+          "samples": 23
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x57040",
+          "samples": 23
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6c100",
+          "samples": 23
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94c00",
+          "samples": 23
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d43c0",
+          "samples": 22
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x107840",
+          "samples": 22
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1fb540",
+          "samples": 22
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x19f880",
+          "samples": 22
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x93a00",
+          "samples": 22
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x56e80",
+          "samples": 22
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1ce2c0",
+          "samples": 22
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94280",
+          "samples": 21
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x91000",
+          "samples": 21
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d7380",
+          "samples": 21
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x24cfc0",
+          "samples": 21
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x11ecc0",
+          "samples": 21
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94080",
+          "samples": 21
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x86940",
+          "samples": 21
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x720c0",
+          "samples": 20
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x24a880",
+          "samples": 20
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xafc00",
+          "samples": 19
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x2710c0",
+          "samples": 19
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x99dc0",
+          "samples": 19
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1c2b80",
+          "samples": 19
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d3500",
+          "samples": 19
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x19f840",
+          "samples": 19
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10ac00",
+          "samples": 19
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x71400",
+          "samples": 19
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x2443c0",
+          "samples": 18
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x28340",
+          "samples": 18
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1bf4c0",
+          "samples": 18
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x129a40",
+          "samples": 18
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x56f80",
+          "samples": 18
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10fdc0",
+          "samples": 18
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x84940",
+          "samples": 18
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x72100",
+          "samples": 18
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10be80",
+          "samples": 17
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x108340",
+          "samples": 17
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x948c0",
+          "samples": 17
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10fb80",
+          "samples": 17
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x8d180",
+          "samples": 17
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6da80",
+          "samples": 17
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10f680",
+          "samples": 16
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x54f00",
+          "samples": 16
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d3380",
+          "samples": 16
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x107cc0",
+          "samples": 16
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1298c0",
+          "samples": 15
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x129900",
+          "samples": 15
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x58d40",
+          "samples": 15
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d8600",
+          "samples": 15
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x1ae8c0",
+          "samples": 15
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xb3480",
+          "samples": 14
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x71500",
+          "samples": 14
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x54f40",
+          "samples": 14
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1b02c0",
+          "samples": 14
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x26f400",
+          "samples": 14
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d7940",
+          "samples": 14
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x86900",
+          "samples": 14
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10fc40",
+          "samples": 13
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1fe840",
+          "samples": 13
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x107800",
+          "samples": 13
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x134400",
+          "samples": 13
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94a00",
+          "samples": 13
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x129b00",
+          "samples": 13
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x129880",
+          "samples": 13
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa3ac0",
+          "samples": 13
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x86700",
+          "samples": 13
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+          "va": "0x144c0",
+          "samples": 13
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x36480",
+          "samples": 13
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1ef080",
+          "samples": 13
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+          "va": "0x14a40",
+          "samples": 12
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10aec0",
+          "samples": 12
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10c980",
+          "samples": 12
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xb3100",
+          "samples": 12
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d34c0",
+          "samples": 12
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x54c80",
+          "samples": 12
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x109000",
+          "samples": 12
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x915c0",
+          "samples": 12
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x866c0",
+          "samples": 12
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x95680",
+          "samples": 12
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x96600",
+          "samples": 11
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x107f40",
+          "samples": 11
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa3a00",
+          "samples": 11
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6d600",
+          "samples": 11
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x364c0",
+          "samples": 11
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1ce340",
+          "samples": 11
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x12ae80",
+          "samples": 11
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x107d80",
+          "samples": 11
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x36d00",
+          "samples": 11
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x108c80",
+          "samples": 11
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10ae80",
+          "samples": 10
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d6100",
+          "samples": 10
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x685c0",
+          "samples": 10
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1343c0",
+          "samples": 10
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x72300",
+          "samples": 10
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10d140",
+          "samples": 10
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6da40",
+          "samples": 10
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x57340",
+          "samples": 10
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x93880",
+          "samples": 10
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x8bdc0",
+          "samples": 10
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xae400",
+          "samples": 10
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d3480",
+          "samples": 9
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x940c0",
+          "samples": 9
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x8fcc0",
+          "samples": 9
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1368c0",
+          "samples": 9
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x133dc0",
+          "samples": 9
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x98e00",
+          "samples": 9
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x3a040",
+          "samples": 9
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1089c0",
+          "samples": 9
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x71d00",
+          "samples": 9
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1c1a00",
+          "samples": 9
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6dc40",
+          "samples": 9
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x85540",
+          "samples": 9
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d6cc0",
+          "samples": 9
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d2f40",
+          "samples": 9
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1ce280",
+          "samples": 9
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x90fc0",
+          "samples": 9
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x99e80",
+          "samples": 9
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x91f00",
+          "samples": 8
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x26f3c0",
+          "samples": 8
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x136700",
+          "samples": 8
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94900",
+          "samples": 8
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x71780",
+          "samples": 8
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d6c80",
+          "samples": 8
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10fc00",
+          "samples": 8
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa64c0",
+          "samples": 8
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x23f200",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xae3c0",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x110840",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x133e40",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x71e80",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d6140",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10f9c0",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1f1680",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x108040",
+          "samples": 7
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+          "va": "0x147c0",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x134040",
+          "samples": 7
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x931c0",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x71640",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x108640",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x86780",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1c3540",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x108ec0",
+          "samples": 7
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x92e80",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x84740",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1c3b00",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x107d40",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x2509c0",
+          "samples": 7
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d2dc0",
+          "samples": 7
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x11eb40",
+          "samples": 7
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x933c0",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1cf9c0",
+          "samples": 6
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa4940",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x36800",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d69c0",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x175240",
+          "samples": 6
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94780",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1297c0",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x110500",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x84680",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d2f00",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x36100",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x109200",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1c2900",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x271140",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x180480",
+          "samples": 6
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94b80",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x87680",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x265b40",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x108f40",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x107f80",
+          "samples": 6
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x95400",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x129840",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x87740",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x86b40",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d2e80",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x107dc0",
+          "samples": 6
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x938c0",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1cfa00",
+          "samples": 6
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x871c0",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10e140",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1752c0",
+          "samples": 5
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94140",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1c2680",
+          "samples": 5
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x99f80",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10e200",
+          "samples": 5
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x3a3c0",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10f640",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xb33c0",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10ce40",
+          "samples": 5
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+          "va": "0x14780",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10da00",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10ae00",
+          "samples": 5
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x916c0",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x69d80",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x547c0",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10dc00",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1803c0",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1cd800",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x136d00",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1ce400",
+          "samples": 5
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x1b2140",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1f5bc0",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1ce240",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10ce80",
+          "samples": 5
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x270e00",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x71f80",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x369c0",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x129ac0",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x54cc0",
+          "samples": 4
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+          "va": "0x14a80",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x133ec0",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1cfa40",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x72240",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d5c80",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10d180",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x132cc0",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1c3c00",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x12a200",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1c3980",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x108c00",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x108440",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x133e80",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1ce440",
+          "samples": 4
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94680",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x24a900",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x110a80",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x86f80",
+          "samples": 4
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x97e80",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10d880",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x361c0",
+          "samples": 4
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x96580",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d8280",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x168340",
+          "samples": 4
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x99a00",
+          "samples": 4
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x92000",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x180400",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xae580",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1c2100",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x107140",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x174940",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d8940",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d1180",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10e280",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d5f40",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x133280",
+          "samples": 4
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa2e80",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10f3c0",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1086c0",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d3400",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d5e40",
+          "samples": 4
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa16c0",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d1240",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x87080",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x12a3c0",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1092c0",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10fb00",
+          "samples": 4
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa5040",
+          "samples": 4
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa3bc0",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x176380",
+          "samples": 4
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6db40",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x108700",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xabc80",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x25ed00",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x136ec0",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10f440",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x93200",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x95080",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x129a80",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x284c0",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d5d40",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10af40",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x168300",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x99e40",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6d700",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x126940",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1c1840",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x108d40",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6bc80",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10f340",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x107d00",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1c2c00",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x12ae40",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xb2640",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d4400",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x54800",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d45c0",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x869c0",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x133cc0",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x36a00",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x54540",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x1a7180",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa39c0",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94e80",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6d580",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x129980",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x88700",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x110300",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d3180",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1cfcc0",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x127900",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d8140",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa2c40",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10dd80",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x129800",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x97140",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1ce540",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa2640",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x91580",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x118cc0",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x91040",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x107fc0",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1cd6c0",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x19f900",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x36c40",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x265cc0",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d42c0",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x107240",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x26f9c0",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1ccf00",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x26fa40",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x54580",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x910c0",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x86400",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1ccc40",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10ad80",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d39c0",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d2340",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x26f980",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x23fa00",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x25e480",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x8d200",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa3940",
+          "samples": 3
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x1a7100",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x270400",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x25ed80",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x129040",
+          "samples": 3
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x2711c0",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1bf500",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa3d00",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x8bb40",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x107a40",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa2e40",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1c35c0",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x1b1880",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+          "va": "0x14580",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x90a80",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x176480",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x114940",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10db80",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa10c0",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x919c0",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1cfbc0",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10d040",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x265540",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x86980",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d4540",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x108600",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x576c0",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa29c0",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1c2bc0",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x99ac0",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x126980",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x87480",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xaeb40",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x88f00",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x93980",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1ce480",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6cb40",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa2cc0",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x108080",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x36c00",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1f40c0",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x570c0",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xc2540",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1c1a40",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d4840",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1070c0",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x107180",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6dd00",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x108580",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10a800",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6c140",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x8f4c0",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10fa00",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6c440",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x8fe40",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x12a380",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa3ec0",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d3140",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x26fa00",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1290c0",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1cd680",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x92fc0",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x54600",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10f4c0",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10cfc0",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x250a40",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa5140",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d2f80",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x69ec0",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x92f40",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6d500",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1ce300",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xaea80",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x11b300",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d0140",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x99940",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1c3840",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d5c40",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1cca00",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d5f00",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x13f500",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d5fc0",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1ccb40",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x109340",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1417c0",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x108bc0",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa2900",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1cdbc0",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10f700",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x8bd40",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d8640",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d1140",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xafa40",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1c3bc0",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x96480",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10f800",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x36440",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x8bb00",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d8240",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d3980",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x25ed40",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1cec80",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x271100",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x251040",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa6500",
+          "samples": 2
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x90900",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1ce1c0",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6c040",
+          "samples": 2
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d31c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1cc840",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x95440",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x107480",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10a680",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1c3800",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x12ad80",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x71900",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x133f80",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x265c80",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa6580",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1cc700",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x95900",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1cd880",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10f980",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x136800",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x2510c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x197580",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1cd000",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x132c40",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d4480",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x243740",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa3e80",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x180300",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x88300",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1cec00",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x129c40",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x54bc0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x132d00",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x110540",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x12a340",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1cea00",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6ba40",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d4740",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d2840",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94d40",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d3000",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d3940",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa1800",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x197600",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x1a7200",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10a700",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x91b00",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d2900",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1cc800",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6c540",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xc24c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x84980",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1ce4c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x847c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6cd80",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d2380",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10d900",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x91980",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x54a80",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1468c0",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x91280",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d13c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x53f80",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xabcc0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d3800",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x91500",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d1380",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d1200",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x54780",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa2ac0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1c29c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d47c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d6d80",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x84a00",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x8d8c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1cc9c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10f780",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x19fa00",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x71580",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x267300",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6ddc0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x134440",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x108f00",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x135540",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xb2580",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa26c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6c1c0",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa4080",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d3440",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d3a00",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x873c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d3340",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa6540",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x54a40",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10dcc0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x12a540",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x133d40",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x93840",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x95ac0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x25ec00",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1f0e00",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1cdb80",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x91ac0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10f300",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1c2980",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa3b40",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1690c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d8000",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6dc80",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x87240",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6c4c0",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa2ec0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x107200",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6c6c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x107040",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x118d00",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x91440",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1cce80",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d5d80",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x97180",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1ccac0",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa51c0",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+          "va": "0x145c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x108cc0",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x911c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d8100",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x108b00",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1ce780",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1748c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6d5c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d8980",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x91a00",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1800c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1cff80",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1370c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x2672c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1cfec0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x129340",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x71b40",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10da40",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa1840",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6c500",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x265bc0",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa4740",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6cb00",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x8bb80",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x90980",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x25f5c0",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x949c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x54740",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x180140",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x265c00",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x894c0",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa5080",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa3d80",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x92f00",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x1a6880",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94d80",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d1040",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94640",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x867c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d5d00",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x270440",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x25f500",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x13f540",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x1ae600",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x54c40",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10cf00",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x26f4c0",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x127700",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d8080",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa40c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10d9c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x109040",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x950c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x24a9c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x71b00",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa3a80",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94fc0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d2940",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x2410c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x957c0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x54d40",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1ccb80",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x127940",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x174240",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa3d40",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x129400",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1cdac0",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x114a00",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94dc0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x109b00",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x8da00",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x72380",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x11ebc0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d4280",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x129500",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0xc2480",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x110580",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x920c0",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x97f00",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x95700",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x137080",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x86740",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x267a80",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x107c00",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x19fac0",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94ec0",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6c480",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10d8c0",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x94e40",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x1d8e40",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x10f400",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x6c880",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x45d80",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0x91080",
+          "samples": 1
+        },
+        {
+          "dso": "/custom/RatingService",
+          "va": "0x8be80",
+          "samples": 1
+        },
+        {
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "va": "0xa4680",
+          "samples": 1
+        }
+      ],
+      "examples": [
+        {
+          "ip": "0x132880",
+          "dso": "/custom/RatingService",
+          "asm": "mov    %esi,0x8(%rdi)",
+          "nearest": {
+            "source": "0x63c93e70b299",
+            "target": "0x63c93e72f880",
+            "type": "direct_call",
+            "mispredicted": false,
+            "distance": 0
+          },
+          "pf_sites_seen": 12,
+          "matching_sites": [
+            "0x10e223",
+            "0x10e24d",
+            "0x10e254"
+          ]
+        },
+        {
+          "ip": "0x241070",
+          "dso": "/custom/RatingService",
+          "asm": "endbr64",
+          "nearest": {
+            "source": "0x63c93e83e138",
+            "target": "0x63c93e83e070",
+            "type": "direct_call",
+            "mispredicted": false,
+            "distance": 0
+          },
+          "pf_sites_seen": 1,
+          "matching_sites": []
+        },
+        {
+          "ip": "0x1cdff0",
+          "dso": "/custom/RatingService",
+          "asm": "endbr64",
+          "nearest": {
+            "source": "0x63c93e7cb474",
+            "target": "0x63c93e7caff0",
+            "type": "indirect_call",
+            "mispredicted": true,
+            "distance": 0
+          },
+          "pf_sites_seen": 0,
+          "matching_sites": []
+        },
+        {
+          "ip": "0x91fb0",
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "asm": "endbr64",
+          "nearest": {
+            "source": "0x764f59678d57",
+            "target": "0x764f59674fb0",
+            "type": "direct_call",
+            "mispredicted": false,
+            "distance": 0
+          },
+          "pf_sites_seen": 3,
+          "matching_sites": []
+        },
+        {
+          "ip": "0x10ce0b",
+          "dso": "/custom/RatingService",
+          "asm": "lea    0x50(%rsp),%rdi",
+          "nearest": {
+            "source": "0x63c93e70999d",
+            "target": "0x63c93e709e0b",
+            "type": "conditional_branch",
+            "mispredicted": true,
+            "distance": 0
+          },
+          "pf_sites_seen": 8,
+          "matching_sites": []
+        },
+        {
+          "ip": "0x91ff8",
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "asm": "movq   $0x0,0x28(%rsp)",
+          "nearest": {
+            "source": "0x764f59678d57",
+            "target": "0x764f59674fb0",
+            "type": "direct_call",
+            "mispredicted": false,
+            "distance": 72
+          },
+          "pf_sites_seen": 3,
+          "matching_sites": []
+        },
+        {
+          "ip": "0x1d31c0",
+          "dso": "/custom/RatingService",
+          "asm": "xor    %eax,%eax",
+          "nearest": {
+            "source": "0x63c93e7d0183",
+            "target": "0x63c93e7d01c0",
+            "type": "conditional_branch",
+            "mispredicted": true,
+            "distance": 0
+          },
+          "pf_sites_seen": 0,
+          "matching_sites": []
+        },
+        {
+          "ip": "0x933ff",
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "asm": "add    %edx,0x18(%r15)",
+          "nearest": {
+            "source": "0x764f59676366",
+            "target": "0x764f5967639f",
+            "type": "conditional_branch",
+            "mispredicted": false,
+            "distance": 96
+          },
+          "pf_sites_seen": 0,
+          "matching_sites": []
+        },
+        {
+          "ip": "0x132e40",
+          "dso": "/custom/RatingService",
+          "asm": "lea    0x239971(%rip),%rax        # 36c7b8 <_ZTVN13jaegertracing6thrift7SpanRefE>",
+          "nearest": {
+            "source": "0x63c93e70aa5c",
+            "target": "0x63c93e72fe40",
+            "type": "direct_call",
+            "mispredicted": false,
+            "distance": 0
+          },
+          "pf_sites_seen": 11,
+          "matching_sites": [
+            "0x10e105"
+          ]
+        },
+        {
+          "ip": "0x133220",
+          "dso": "/custom/RatingService",
+          "asm": "mov    %rsi,0x10(%rdi)",
+          "nearest": {
+            "source": "0x63c93e70a8ef",
+            "target": "0x63c93e730220",
+            "type": "direct_call",
+            "mispredicted": false,
+            "distance": 0
+          },
+          "pf_sites_seen": 13,
+          "matching_sites": [
+            "0x10d888",
+            "0x10d857",
+            "0x10d85e"
+          ]
+        },
+        {
+          "ip": "0x175740",
+          "dso": "/custom/RatingService",
+          "asm": "endbr64",
+          "nearest": {
+            "source": "0x63c93e651054",
+            "target": "0x63c93e772740",
+            "type": "direct_jump",
+            "mispredicted": false,
+            "distance": 0
+          },
+          "pf_sites_seen": 12,
+          "matching_sites": []
+        },
+        {
+          "ip": "0x1cdfff",
+          "dso": "/custom/RatingService",
+          "asm": "je     1ce030 <_ZNSt17_Function_handlerIFvRN9cpp_redis7network16tcp_client_iface11read_resultEESt5_BindIFMNS1_16redis_connectionEFvRKS3_EPS7_St12_PlaceholderILi1EEEEE10_M_managerERSt9_Any_dataRKSI_St18_Manager_operation+0x40>",
+          "nearest": {
+            "source": "0x63c93e7cb474",
+            "target": "0x63c93e7caff0",
+            "type": "indirect_call",
+            "mispredicted": true,
+            "distance": 15
+          },
+          "pf_sites_seen": 0,
+          "matching_sites": []
+        },
+        {
+          "ip": "0x6db6e",
+          "dso": "/custom/RatingService",
+          "asm": "lea    0x30(%rbx),%r15",
+          "nearest": {
+            "source": "0x63c93e66aa4f",
+            "target": "0x63c93e66ab6e",
+            "type": "conditional_branch",
+            "mispredicted": false,
+            "distance": 0
+          },
+          "pf_sites_seen": 13,
+          "matching_sites": []
+        },
+        {
+          "ip": "0x11b630",
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "asm": "endbr64",
+          "nearest": {
+            "source": "0x63c93e633220",
+            "target": "0x764f596fe630",
+            "type": "indirect_jump",
+            "mispredicted": true,
+            "distance": 0
+          },
+          "pf_sites_seen": 0,
+          "matching_sites": []
+        },
+        {
+          "ip": "0x95d3f",
+          "dso": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "asm": "sub    $0x10,%rsp",
+          "nearest": {
+            "source": "0x764f59677c66",
+            "target": "0x764f59678d30",
+            "type": "direct_call",
+            "mispredicted": false,
+            "distance": 15
+          },
+          "pf_sites_seen": 3,
+          "matching_sites": []
+        },
+        {
+          "ip": "0x1cc845",
+          "dso": "/custom/RatingService",
+          "asm": "mov    0x8(%rbx),%rax",
+          "nearest": {
+            "source": "0x63c93e7c983e",
+            "target": "0x63c93e7c9845",
+            "type": "conditional_branch",
+            "mispredicted": false,
+            "distance": 0
+          },
+          "pf_sites_seen": 0,
+          "matching_sites": []
+        },
+        {
+          "ip": "0x720b5",
+          "dso": "/custom/RatingService",
+          "asm": "mov    0x10(%rbx),%edx",
+          "nearest": {
+            "source": "0x63c93e681546",
+            "target": "0x63c93e66f0b5",
+            "type": "return",
+            "mispredicted": true,
+            "distance": 0
+          },
+          "pf_sites_seen": 0,
+          "matching_sites": []
+        },
+        {
+          "ip": "0x25e440",
+          "dso": "/custom/RatingService",
+          "asm": "endbr64",
+          "nearest": {
+            "source": "0x63c93e85c511",
+            "target": "0x63c93e85b440",
+            "type": "direct_call",
+            "mispredicted": false,
+            "distance": 0
+          },
+          "pf_sites_seen": 4,
+          "matching_sites": []
+        },
+        {
+          "ip": "0x140aa0",
+          "dso": "/custom/RatingService",
+          "asm": "push   %r14",
+          "nearest": {
+            "source": "0x63c93e6540bc",
+            "target": "0x63c93e73daa0",
+            "type": "indirect_call",
+            "mispredicted": true,
+            "distance": 0
+          },
+          "pf_sites_seen": 10,
+          "matching_sites": []
+        },
+        {
+          "ip": "0x1eefd0",
+          "dso": "/custom/RatingService",
+          "asm": "endbr64",
+          "nearest": {
+            "source": "0x63c93e7d30d8",
+            "target": "0x63c93e7ebfd0",
+            "type": "direct_call",
+            "mispredicted": false,
+            "distance": 0
+          },
+          "pf_sites_seen": 0,
+          "matching_sites": []
+        }
+      ],
+      "sha256": "81ec1dc863eaa1fa115a7be2edf3090f00c66e377ab661328af62812025dfcc7",
+      "bytes": 80202254,
+      "main_ip_source_locations": {
+        "command": [
+          "addr2line",
+          "-a",
+          "-f",
+          "-C",
+          "-i",
+          "-e",
+          "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_callees_it0/rating/RatingService",
+          "0x6d4a0",
+          "0x6da10",
+          "0x10ade0",
+          "0x633b0",
+          "0x140aa0",
+          "0xae380",
+          "0x108920",
+          "0x69d30",
+          "0x10c1da",
+          "0x25d900",
+          "0x13f460",
+          "0x150060"
+        ],
+        "output": "0x000000000006d4a0\nstd::enable_if<__and_<std::__not_<std::__is_tuple_like<jaegertracing::TraceID> >, std::is_move_constructible<jaegertracing::TraceID>, std::is_move_assignable<jaegertracing::TraceID> >::value, void>::type std::swap<jaegertracing::TraceID>(jaegertracing::TraceID&, jaegertracing::TraceID&)\n/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/move.h:204\njaegertracing::SpanContext::swap(jaegertracing::SpanContext&)\n/usr/local/include/jaegertracing/SpanContext.h:84\n0x000000000006da10\nvoid std::_Hashtable<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >, std::__detail::_Select1st, std::equal_to<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::hash<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true> >::_M_assign<std::_Hashtable<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >, std::__detail::_Select1st, std::equal_to<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::hash<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true> > const&, std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, true> > > >(std::_Hashtable<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >, std::__detail::_Select1st, std::equal_to<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::hash<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true> > const&, std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, true> > > const&)\n/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/hashtable.h:1292\n0x000000000010ade0\nvoid std::_Destroy_aux<false>::__destroy<jaegertracing::Reference*>(jaegertracing::Reference*, jaegertracing::Reference*)\n/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/stl_construct.h:161\n0x00000000000633b0\njaegertracing::metrics::NullCounter::inc(long)\n/usr/local/include/jaegertracing/metrics/NullCounter.h:28\n0x0000000000140aa0\njaegertracing::Span::context() const\n/opt/src/jaeger-client-cpp-0.4.2/src/jaegertracing/Span.h:255\n0x00000000000ae380\napache::thrift::transport::TSocket::read(unsigned char*, unsigned int)\n/opt/src/thrift-0.12.0/lib/cpp/src/thrift/transport/TSocket.cpp:520\n0x0000000000108920\njaegertracing::Tracer::analyzeReferences(std::vector<std::pair<opentracing::v2::SpanReferenceType, opentracing::v2::SpanContext const*>, std::allocator<std::pair<opentracing::v2::SpanReferenceType, opentracing::v2::SpanContext const*> > > const&) const\n/opt/src/jaeger-client-cpp-0.4.2/src/jaegertracing/Tracer.cpp:178\n0x0000000000069d30\nstd::vector<jaegertracing::Tag, std::allocator<jaegertracing::Tag> >::~vector()\n/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/stl_vector.h:679\n0x000000000010c1da\nvoid std::vector<jaegertracing::Tag, std::allocator<jaegertracing::Tag> >::_M_range_insert<__gnu_cxx::__normal_iterator<jaegertracing::Tag const*, std::vector<jaegertracing::Tag, std::allocator<jaegertracing::Tag> > > >(__gnu_cxx::__normal_iterator<jaegertracing::Tag*, std::vector<jaegertracing::Tag, std::allocator<jaegertracing::Tag> > >, __gnu_cxx::__normal_iterator<jaegertracing::Tag const*, std::vector<jaegertracing::Tag, std::allocator<jaegertracing::Tag> > >, __gnu_cxx::__normal_iterator<jaegertracing::Tag const*, std::vector<jaegertracing::Tag, std::allocator<jaegertracing::Tag> > >, std::forward_iterator_tag)\n/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/vector.tcc:804\n0x000000000025d900\n__once_proxy\n??:?\n0x000000000013f460\njaegertracing::Span::FinishWithOptions(opentracing::v2::FinishSpanOptions const&)\n/opt/src/jaeger-client-cpp-0.4.2/src/jaegertracing/Span.cpp:85\n0x0000000000150060\nopentracing::v2::Tracer::Global()\n/opt/src/opentracing-cpp-1.5.1/src/tracer.cpp:11\n"
+      }
+    }
+  }
+}

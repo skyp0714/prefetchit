@@ -1,0 +1,15 @@
+[
+  "/home/hnpark2/prefetchit/profiling/.venv/bin/python",
+  "-m",
+  "pytest",
+  "-q",
+  "llvm_prefetchit/tests/test_dominator_prefetch.py",
+  "llvm_prefetchit/tests/test_lean_it0.py",
+  "llvm_prefetchit/tests/test_lean_plan.py",
+  "llvm_prefetchit/tests/test_lean_profile.py",
+  "llvm_prefetchit/tests/test_coverage_plan.py",
+  "llvm_prefetchit/tests/test_indirect_profile.py",
+  "--basetemp=/storage/prefetchit/class_b_coverage_20260928/tests_indirect",
+  "-o",
+  "cache_dir=/storage/prefetchit/class_b_coverage_20260928/test_cache_indirect"
+]

@@ -1,0 +1,15 @@
+[
+  "cmake",
+  "-S",
+  "/opt/src/yaml-cpp-yaml-cpp-0.6.2",
+  "-B",
+  "/opt/src/yaml-cpp-yaml-cpp-0.6.2/dense_build",
+  "-DCMAKE_C_COMPILER=clang-19",
+  "-DCMAKE_CXX_COMPILER=clang++-19",
+  "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+  "-DCMAKE_C_FLAGS=-fPIC -Wno-error -Wno-enum-constexpr-conversion -Wno-deprecated-declarations -O2 -g -fpass-plugin=/pass/PrefetchITPass.so",
+  "-DCMAKE_CXX_FLAGS=-fPIC -Wno-error -Wno-enum-constexpr-conversion -Wno-deprecated-declarations -O2 -g -fpass-plugin=/pass/PrefetchITPass.so",
+  "-DYAML_CPP_BUILD_TESTS=OFF",
+  "-DYAML_CPP_BUILD_TOOLS=OFF",
+  "-DYAML_CPP_BUILD_CONTRIB=OFF"
+]

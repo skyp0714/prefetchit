@@ -1,0 +1,20 @@
+[
+  "cmake",
+  "-S",
+  "/opt/src/thrift-0.12.0",
+  "-B",
+  "/opt/src/thrift-0.12.0/dense_build",
+  "-DCMAKE_C_COMPILER=clang-19",
+  "-DCMAKE_CXX_COMPILER=clang++-19",
+  "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+  "-DCMAKE_C_FLAGS=-fPIC -Wno-error -Wno-enum-constexpr-conversion -Wno-deprecated-declarations -O2 -g -fpass-plugin=/pass/PrefetchITPass.so",
+  "-DCMAKE_CXX_FLAGS=-fPIC -Wno-error -Wno-enum-constexpr-conversion -Wno-deprecated-declarations -O2 -g -fpass-plugin=/pass/PrefetchITPass.so",
+  "-DBUILD_COMPILER=OFF",
+  "-DWITH_SHARED_LIB=OFF",
+  "-DBUILD_TESTING=OFF",
+  "-DBUILD_TUTORIALS=OFF",
+  "-DBUILD_PYTHON=OFF",
+  "-DBUILD_JAVA=OFF",
+  "-DBUILD_JAVASCRIPT=OFF",
+  "-DBUILD_NODEJS=OFF"
+]

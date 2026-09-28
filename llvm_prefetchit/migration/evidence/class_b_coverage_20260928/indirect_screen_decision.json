@@ -1,0 +1,144 @@
+{
+  "eligible": [
+    [
+      2.0810885195705175,
+      "indirect_it0"
+    ]
+  ],
+  "selected": "indirect_it0",
+  "miss_decisions": {
+    "indirect_it0": {
+      "contrasts": {
+        "base": {
+          "paired_reductions_pct": [
+            1.8362573865966847,
+            2.3253090168648627
+          ],
+          "every_block_reduces": true,
+          "summary": {
+            "pairs": 2,
+            "cost_reduction_pct": 2.0810885195705175,
+            "ci95_pct": [
+              -1.0757216602519382,
+              5.139304790314336
+            ]
+          }
+        },
+        "indirect_nop": {
+          "paired_reductions_pct": [
+            6.266999760769321,
+            6.993716200674271
+          ],
+          "every_block_reduces": true,
+          "summary": {
+            "pairs": 2,
+            "cost_reduction_pct": 6.631065007615334,
+            "ci95_pct": [
+              1.8981201049507512,
+              11.135668032676517
+            ]
+          }
+        }
+      },
+      "miss_screen_eligible": true
+    },
+    "lift_it0": {
+      "contrasts": {
+        "base": {
+          "paired_reductions_pct": [
+            -0.43982335697598796,
+            -0.5525769679778136
+          ],
+          "every_block_reduces": false,
+          "summary": {
+            "pairs": 2,
+            "cost_reduction_pct": -0.4961843492200746,
+            "ci95_pct": [
+              -1.2150786344095499,
+              0.2176038885281395
+            ]
+          }
+        },
+        "lift_nop": {
+          "paired_reductions_pct": [
+            4.601661970497705,
+            3.264492934102581
+          ],
+          "every_block_reduces": true,
+          "summary": {
+            "pairs": 2,
+            "cost_reduction_pct": 3.935404011010435,
+            "ci95_pct": [
+              -4.946636296493279,
+              12.065722845505345
+            ]
+          }
+        }
+      },
+      "miss_screen_eligible": false
+    }
+  },
+  "e2e_decisions": {
+    "indirect_it0": {
+      "matched_nop": "indirect_nop",
+      "point_eligible": false,
+      "point_checks": {
+        "base": {
+          "stack_cpu": false,
+          "mean_ms": false,
+          "p99_ms": true
+        },
+        "indirect_nop": {
+          "stack_cpu": false,
+          "mean_ms": false,
+          "p99_ms": true
+        }
+      },
+      "confirmation_checks": {
+        "base": {
+          "stack_cpu": false,
+          "mean_ms": false,
+          "p99_ms": false
+        },
+        "indirect_nop": {
+          "stack_cpu": false,
+          "mean_ms": false,
+          "p99_ms": false
+        }
+      },
+      "confirmed": false,
+      "minimum_effect_pct": -0.30267325548183344
+    },
+    "lift_it0": {
+      "matched_nop": "lift_nop",
+      "point_eligible": false,
+      "point_checks": {
+        "base": {
+          "stack_cpu": false,
+          "mean_ms": false,
+          "p99_ms": true
+        },
+        "lift_nop": {
+          "stack_cpu": false,
+          "mean_ms": false,
+          "p99_ms": true
+        }
+      },
+      "confirmation_checks": {
+        "base": {
+          "stack_cpu": false,
+          "mean_ms": false,
+          "p99_ms": false
+        },
+        "lift_nop": {
+          "stack_cpu": false,
+          "mean_ms": false,
+          "p99_ms": false
+        }
+      },
+      "confirmed": false,
+      "minimum_effect_pct": -1.695301783228964
+    }
+  },
+  "interpretation": "Exploratory selection on primary code-miss objective; E2E endpoints remain separate, not a production promotion."
+}

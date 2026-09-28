@@ -1,0 +1,20 @@
+{
+  "out": "/storage/prefetchit/class_b_coverage_20260928/confirmation/05_base",
+  "overrides": {
+    "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+    "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+    "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+  },
+  "flat": false,
+  "clock": false,
+  "clock_options": {},
+  "concurrency": 4,
+  "pool": 8,
+  "roi_s": 60,
+  "seed": 64006,
+  "module": "/storage/prefetchit/class_b_lean_20260928/kernel_v1/prefetchit_sched_clock.ko",
+  "pmu_events": "cycles:u,instructions:u,cpu/event=0x24,umask=0x24,name=L2I/u,cpu/event=0xc6,umask=0x3,name=FE_L2,config1=0x13/u,cpu/event=0x11,umask=0xe,name=ITLB_WALK/u,cpu/event=0x24,umask=0x28,name=SWPF_MISS/u,cpu/event=0x24,umask=0xc8,name=SWPF_HIT/u",
+  "pmu_event_sets": {
+    "frontend": "cycles:u,instructions:u,cpu/event=0xc6,umask=0x3,name=FE_L1,config1=0x12/u,cpu/event=0x80,umask=0x4,name=ICACHE_DATA_STALL/u,cpu/event=0x83,umask=0x4,name=ICACHE_TAG_STALL/u,cpu/event=0x60,umask=0x1,name=BACLEARS/u,cpu/event=0x11,umask=0x10,name=ITLB_WALK_ACTIVE,cmask=1/u"
+  }
+}

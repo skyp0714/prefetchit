@@ -1,0 +1,17 @@
+[
+  "perf",
+  "stat",
+  "-x,",
+  "-o",
+  "/storage/prefetchit/class_b_coverage_20260928/screen/00_coverage_full_it0/compose.pmu.csv",
+  "-e",
+  "cycles:u,instructions:u,cpu/event=0x24,umask=0x24,name=L2I/u,cpu/event=0xc6,umask=0x3,name=FE_L2,config1=0x13/u,cpu/event=0x11,umask=0xe,name=ITLB_WALK/u,cpu/event=0x24,umask=0x28,name=SWPF_MISS/u,cpu/event=0x24,umask=0xc8,name=SWPF_HIT/u",
+  "-a",
+  "-C",
+  "32-39",
+  "-G",
+  "system.slice/docker-281326c6246f3267b2e9f14a7bc6dbca02f808436fcb7cc688e34e397b9d59ea.scope",
+  "--",
+  "sleep",
+  "8"
+]

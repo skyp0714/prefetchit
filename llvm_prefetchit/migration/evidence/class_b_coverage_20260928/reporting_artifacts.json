@@ -1,0 +1,72 @@
+{
+  "time": "2026-09-28T17:58:59.169422+00:00",
+  "commands": [
+    [
+      "taskset",
+      "-c",
+      "84,85",
+      "python3",
+      "/storage/prefetchit/class_b_coverage_20260928/post_confirmation.py"
+    ],
+    [
+      "taskset",
+      "-c",
+      "84,85",
+      "python3",
+      "/storage/prefetchit/class_b_coverage_20260928/verify_coverage_progression.py"
+    ],
+    [
+      "taskset",
+      "-c",
+      "84,85",
+      "python3",
+      "/storage/prefetchit/class_b_coverage_20260928/check_prefetchi.py"
+    ],
+    [
+      "taskset",
+      "-c",
+      "84,85",
+      "python3",
+      "/storage/prefetchit/class_b_coverage_20260928/render_final_report.py"
+    ],
+    [
+      "taskset",
+      "-c",
+      "84,85",
+      "/home/hnpark2/prefetchit/profiling/.venv/bin/python",
+      "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/coverage_figures.py",
+      "/storage/prefetchit/class_b_coverage_20260928",
+      "docs/figures/class_b_coverage_effects_20260928",
+      "--effects"
+    ]
+  ],
+  "code_head": "fde4243a47885beca637590f4d7f67b94ce6d0ee",
+  "artifacts": [
+    {
+      "path": "docs/class_b_coverage_20260928.md",
+      "bytes": 18113,
+      "sha256": "80ae8970ef1195bc108580673ae4ba79ca0063e779c3969b4d91be0e4b724d80"
+    },
+    {
+      "path": "docs/figures/class_b_coverage_effects_20260928.png",
+      "bytes": 99440,
+      "sha256": "d0186591cb5fc72a254748c55150fc24f72fc5742a5e26fb545d17ea2b0320ea"
+    },
+    {
+      "path": "docs/figures/class_b_coverage_effects_20260928.svg",
+      "bytes": 76683,
+      "sha256": "b29c72860b984c11a6b1969b8dee9e4d00083d0e78bf00568c05ab868e5d9445"
+    },
+    {
+      "path": "docs/figures/class_b_coverage_targets_20260928.png",
+      "bytes": 121485,
+      "sha256": "87f1a5719b0b62fa3d9d11a1bf6f685062130e5bad8a1707c6965b5a603dc5f3"
+    },
+    {
+      "path": "docs/figures/class_b_coverage_targets_20260928.svg",
+      "bytes": 53553,
+      "sha256": "54c87a16f605c29ad32435e822a4a495c2579f23fe230d51dad300491649b53b"
+    }
+  ],
+  "visual_review": "Static coverage and independent-effect PNG figures inspected; labels and intervals visible. SVG exports retained alongside PNG."
+}

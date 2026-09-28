@@ -1,0 +1,1805 @@
+{
+  "campaign": "/storage/prefetchit/class_b_coverage_20260928/screen_indirect",
+  "driver_sha256": "702b330e8b28dc1b1cbffcf3114bff60d957d812a8f62967ad8d0402ba41c7c1",
+  "rows": [
+    {
+      "arm": "base",
+      "block": 0,
+      "valid": true,
+      "metrics": {
+        "movie:cycles:u": 275819.3409590849,
+        "sum:cycles:u": 1108896.1315036588,
+        "movie:instructions:u": 98575.92113946326,
+        "sum:instructions:u": 480693.35829843685,
+        "movie:L2I": 5864.383743950726,
+        "sum:L2I": 22672.666300060213,
+        "movie:FE_L2": 486.9798724153102,
+        "sum:FE_L2": 1976.563796796144,
+        "movie:ITLB_WALK": 566.8566871975363,
+        "sum:ITLB_WALK": 2118.5236245449078,
+        "movie:SWPF_MISS": 0.0708315002199736,
+        "sum:SWPF_MISS": 0.27014154883413005,
+        "movie:SWPF_HIT": 0.7781566212054554,
+        "sum:SWPF_HIT": 3.256963572462481,
+        "compose:cycles:u": 563781.8252622182,
+        "compose:instructions:u": 277701.8287212676,
+        "compose:L2I": 11156.577326489623,
+        "compose:FE_L2": 992.349140816782,
+        "compose:ITLB_WALK": 1086.6604552555234,
+        "compose:SWPF_MISS": 0.15800044632894444,
+        "compose:SWPF_HIT": 1.7721490738674404,
+        "rating:cycles:u": 269294.96528235555,
+        "rating:instructions:u": 104415.608437706,
+        "rating:L2I": 5651.7052296198635,
+        "rating:FE_L2": 497.23478356405184,
+        "rating:ITLB_WALK": 465.00648209184794,
+        "rating:SWPF_MISS": 0.04130960228521204,
+        "rating:SWPF_HIT": 0.7066578773895847
+      },
+      "result_sha256": "6fc4a500dc0abef8aac1d42839ef8bc56e627c88337eaf2c03b6422153107770"
+    },
+    {
+      "arm": "indirect_nop",
+      "block": 0,
+      "valid": true,
+      "metrics": {
+        "movie:cycles:u": 277152.35785769275,
+        "sum:cycles:u": 1121326.4189143667,
+        "movie:instructions:u": 100156.81183327835,
+        "sum:instructions:u": 486813.0914352995,
+        "movie:L2I": 6195.827339711866,
+        "sum:L2I": 23491.599327485153,
+        "movie:FE_L2": 509.9660178159023,
+        "sum:FE_L2": 2069.995618538417,
+        "movie:ITLB_WALK": 531.1402177499175,
+        "sum:ITLB_WALK": 2183.59832967445,
+        "movie:SWPF_MISS": 0.039041020565269986,
+        "sum:SWPF_MISS": 0.16116164343750702,
+        "movie:SWPF_HIT": 0.7494776201473661,
+        "sum:SWPF_HIT": 3.324486830682914,
+        "compose:cycles:u": 572278.3103409726,
+        "compose:instructions:u": 281091.513471213,
+        "compose:L2I": 11475.636444941309,
+        "compose:FE_L2": 1047.4951369480157,
+        "compose:ITLB_WALK": 1182.8946897708217,
+        "compose:SWPF_MISS": 0.08831749580771381,
+        "compose:SWPF_HIT": 1.8703186137506986,
+        "rating:cycles:u": 271895.7507157014,
+        "rating:instructions:u": 105564.76613080819,
+        "rating:L2I": 5820.135542831976,
+        "rating:FE_L2": 512.534463774499,
+        "rating:ITLB_WALK": 469.56342215371063,
+        "rating:SWPF_MISS": 0.033803127064523236,
+        "rating:SWPF_HIT": 0.7046905967848491
+      },
+      "result_sha256": "3ce0a9d2ad1b26a96b731e04d01e07ffec72bfe86249e7e2c90097046cdf193e"
+    },
+    {
+      "arm": "indirect_it0",
+      "block": 0,
+      "valid": true,
+      "metrics": {
+        "movie:cycles:u": 271762.2642549906,
+        "sum:cycles:u": 1110694.5029757586,
+        "movie:instructions:u": 99982.43674864895,
+        "sum:instructions:u": 486623.8203825102,
+        "movie:L2I": 5954.794088452631,
+        "sum:L2I": 22774.993041330537,
+        "movie:FE_L2": 470.8218815484725,
+        "sum:FE_L2": 1940.268998076679,
+        "movie:ITLB_WALK": 540.7593470828278,
+        "sum:ITLB_WALK": 2157.6453586037082,
+        "movie:SWPF_MISS": 0.04698356678063306,
+        "sum:SWPF_MISS": 0.19584572957662422,
+        "movie:SWPF_HIT": 0.73894342119775,
+        "sum:SWPF_HIT": 3.1876036951487556,
+        "compose:cycles:u": 568942.9667074936,
+        "compose:instructions:u": 280965.6449170471,
+        "compose:L2I": 11186.602271461976,
+        "compose:FE_L2": 980.77853245741,
+        "compose:ITLB_WALK": 1134.4837991314998,
+        "compose:SWPF_MISS": 0.11379579111457522,
+        "compose:SWPF_HIT": 1.760828415543926,
+        "rating:cycles:u": 269989.2720132743,
+        "rating:instructions:u": 105675.73871681416,
+        "rating:L2I": 5633.596681415929,
+        "rating:FE_L2": 488.66858407079644,
+        "rating:ITLB_WALK": 482.4022123893805,
+        "rating:SWPF_MISS": 0.03506637168141593,
+        "rating:SWPF_HIT": 0.6878318584070796
+      },
+      "result_sha256": "0b1b3a5ddb6ebbb20a6f1f791643e71ac93d1f5f0c35496552596e2585fb871d"
+    },
+    {
+      "arm": "lift_nop",
+      "block": 0,
+      "valid": true,
+      "metrics": {
+        "movie:cycles:u": 273373.9243540407,
+        "sum:cycles:u": 1108008.221152468,
+        "movie:instructions:u": 100228.19131390874,
+        "sum:instructions:u": 487005.92133716936,
+        "movie:L2I": 6110.596371632765,
+        "sum:L2I": 22976.493305669857,
+        "movie:FE_L2": 526.5532710280373,
+        "sum:FE_L2": 2081.018628884328,
+        "movie:ITLB_WALK": 556.6971962616823,
+        "sum:ITLB_WALK": 2189.6147878593315,
+        "movie:SWPF_MISS": 0.06245189664650907,
+        "sum:SWPF_MISS": 0.23505497065982076,
+        "movie:SWPF_HIT": 0.7162177020340846,
+        "sum:SWPF_HIT": 3.2698089992130415,
+        "compose:cycles:u": 563773.9329970392,
+        "compose:instructions:u": 281270.07588551374,
+        "compose:L2I": 11336.69832218445,
+        "compose:FE_L2": 1029.9515297730015,
+        "compose:ITLB_WALK": 1128.289615089374,
+        "compose:SWPF_MISS": 0.1277552363197719,
+        "compose:SWPF_HIT": 1.8145630003289834,
+        "rating:cycles:u": 270860.3638013881,
+        "rating:instructions:u": 105507.65413774693,
+        "rating:L2I": 5529.198611852643,
+        "rating:FE_L2": 524.5138280832888,
+        "rating:ITLB_WALK": 504.6279765082755,
+        "rating:SWPF_MISS": 0.044847837693539776,
+        "rating:SWPF_HIT": 0.7390282968499733
+      },
+      "result_sha256": "312655d97a764c860f6214027ef1663283f11e8b3ceb567344c66352f3d751dc"
+    },
+    {
+      "arm": "lift_it0",
+      "block": 0,
+      "valid": true,
+      "metrics": {
+        "movie:cycles:u": 278449.7720247295,
+        "sum:cycles:u": 1119099.7952464868,
+        "movie:instructions:u": 100497.324685361,
+        "sum:instructions:u": 487565.6499639499,
+        "movie:L2I": 6196.915323470965,
+        "sum:L2I": 23079.70807018739,
+        "movie:FE_L2": 500.0925149039523,
+        "sum:FE_L2": 1985.257186039985,
+        "movie:ITLB_WALK": 542.2734599249283,
+        "sum:ITLB_WALK": 2133.8249223042367,
+        "movie:SWPF_MISS": 0.051225436078604546,
+        "sum:SWPF_MISS": 0.1856896676395267,
+        "movie:SWPF_HIT": 0.7531463899315523,
+        "sum:SWPF_HIT": 3.222182532593412,
+        "compose:cycles:u": 570725.2622439893,
+        "compose:instructions:u": 281273.78673196794,
+        "compose:L2I": 11178.056544968833,
+        "compose:FE_L2": 981.2770480854853,
+        "compose:ITLB_WALK": 1117.5398486197685,
+        "compose:SWPF_MISS": 0.09984416740872662,
+        "compose:SWPF_HIT": 1.7641362422083704,
+        "rating:cycles:u": 269924.76097776793,
+        "rating:instructions:u": 105794.53854662096,
+        "rating:L2I": 5704.736201747594,
+        "rating:FE_L2": 503.8876230505475,
+        "rating:ITLB_WALK": 474.0116137595399,
+        "rating:SWPF_MISS": 0.034620064152195554,
+        "rating:SWPF_HIT": 0.7048999004534896
+      },
+      "result_sha256": "753c8fd05d2eb82c0fa75d10662e77ad5504040bd64acc5f2801dfb59a47a09d"
+    },
+    {
+      "arm": "lift_it0",
+      "block": 1,
+      "valid": true,
+      "metrics": {
+        "movie:cycles:u": 278335.29971497477,
+        "sum:cycles:u": 1115604.8548002872,
+        "movie:instructions:u": 100085.59076956808,
+        "sum:instructions:u": 487491.2897625944,
+        "movie:L2I": 5956.829971497478,
+        "sum:L2I": 22607.52430121136,
+        "movie:FE_L2": 510.4598772199079,
+        "sum:FE_L2": 1989.409350980346,
+        "movie:ITLB_WALK": 594.0883578162684,
+        "sum:ITLB_WALK": 2228.3504745622904,
+        "movie:SWPF_MISS": 0.06500767375575532,
+        "sum:SWPF_MISS": 0.24033801166520383,
+        "movie:SWPF_HIT": 0.7353650515237886,
+        "sum:SWPF_HIT": 3.224493817523809,
+        "compose:cycles:u": 564370.0967062216,
+        "compose:instructions:u": 281681.85427525785,
+        "compose:L2I": 10996.635577242985,
+        "compose:FE_L2": 968.0102029499834,
+        "compose:ITLB_WALK": 1111.7734279693912,
+        "compose:SWPF_MISS": 0.1298658090273927,
+        "compose:SWPF_HIT": 1.7978263280470224,
+        "rating:cycles:u": 272899.4583790907,
+        "rating:instructions:u": 105723.8447177685,
+        "rating:L2I": 5654.058752470898,
+        "rating:FE_L2": 510.9392708104547,
+        "rating:ITLB_WALK": 522.4886887766307,
+        "rating:SWPF_MISS": 0.04546452888205579,
+        "rating:SWPF_HIT": 0.6913024379529981
+      },
+      "result_sha256": "aca0a5e110e611a38189e82b1ef2989f3b6fb00276d51ddc09e817be15ad5a29"
+    },
+    {
+      "arm": "lift_nop",
+      "block": 1,
+      "valid": true,
+      "metrics": {
+        "movie:cycles:u": 277094.2200982486,
+        "sum:cycles:u": 1109440.9497246325,
+        "movie:instructions:u": 100138.69500213584,
+        "sum:instructions:u": 487009.1113849437,
+        "movie:L2I": 6004.672041862452,
+        "sum:L2I": 22972.532731786472,
+        "movie:FE_L2": 540.8528406663819,
+        "sum:FE_L2": 2056.5451211468153,
+        "movie:ITLB_WALK": 612.0664246048697,
+        "sum:ITLB_WALK": 2212.3774056849807,
+        "movie:SWPF_MISS": 0.049231097821443824,
+        "sum:SWPF_MISS": 0.1952590460887067,
+        "movie:SWPF_HIT": 0.7899401964972234,
+        "sum:SWPF_HIT": 3.3643529232473153,
+        "compose:cycles:u": 563575.6556312885,
+        "compose:instructions:u": 281400.25922319596,
+        "compose:L2I": 11333.186844098236,
+        "compose:FE_L2": 1004.0213134263768,
+        "compose:ITLB_WALK": 1121.0050849291356,
+        "compose:SWPF_MISS": 0.1073244617548415,
+        "compose:SWPF_HIT": 1.8707129719787947,
+        "rating:cycles:u": 268771.07399509544,
+        "rating:instructions:u": 105470.1571596119,
+        "rating:L2I": 5634.673845825781,
+        "rating:FE_L2": 511.6709670540569,
+        "rating:ITLB_WALK": 479.30589615097557,
+        "rating:SWPF_MISS": 0.038703486512421365,
+        "rating:SWPF_HIT": 0.7036997547712975
+      },
+      "result_sha256": "f9efe541590ec62ad605fb0fd84ce88711860ece72dd5a8c5709914c45efa2ad"
+    },
+    {
+      "arm": "indirect_it0",
+      "block": 1,
+      "valid": true,
+      "metrics": {
+        "movie:cycles:u": 273028.4349897153,
+        "sum:cycles:u": 1105416.189660091,
+        "movie:instructions:u": 100341.28299231353,
+        "sum:instructions:u": 486565.7988877677,
+        "movie:L2I": 6023.195518025333,
+        "sum:L2I": 22897.05468671785,
+        "movie:FE_L2": 468.65086066904837,
+        "sum:FE_L2": 1932.4710460463552,
+        "movie:ITLB_WALK": 525.9713110317202,
+        "sum:ITLB_WALK": 2161.0194000085544,
+        "movie:SWPF_MISS": 0.06095052506224965,
+        "sum:SWPF_MISS": 0.2339400412793513,
+        "movie:SWPF_HIT": 0.787268593699253,
+        "sum:SWPF_HIT": 3.3703012107040626,
+        "compose:cycles:u": 562111.5341268975,
+        "compose:instructions:u": 280919.86600414984,
+        "compose:L2I": 11283.984929562084,
+        "compose:FE_L2": 978.132685377307,
+        "compose:ITLB_WALK": 1127.0795020203122,
+        "compose:SWPF_MISS": 0.12798951621710167,
+        "compose:SWPF_HIT": 1.8581413126569837,
+        "rating:cycles:u": 270276.22054347827,
+        "rating:instructions:u": 105304.64989130435,
+        "rating:L2I": 5589.874239130435,
+        "rating:FE_L2": 485.6875,
+        "rating:ITLB_WALK": 507.96858695652173,
+        "rating:SWPF_MISS": 0.045,
+        "rating:SWPF_HIT": 0.7248913043478261
+      },
+      "result_sha256": "61ddd59ffac3a9290cbdbe2972d29a240c057a86fe9eb26fb8e79aa6a355bef7"
+    },
+    {
+      "arm": "indirect_nop",
+      "block": 1,
+      "valid": true,
+      "metrics": {
+        "movie:cycles:u": 272004.7299254059,
+        "sum:cycles:u": 1116928.0672250763,
+        "movie:instructions:u": 99769.96522597631,
+        "sum:instructions:u": 486321.9338067811,
+        "movie:L2I": 6149.810333479596,
+        "sum:L2I": 23471.061751200505,
+        "movie:FE_L2": 505.32448442299255,
+        "sum:FE_L2": 2077.7854647068107,
+        "movie:ITLB_WALK": 535.6350372970601,
+        "sum:ITLB_WALK": 2195.565573604202,
+        "movie:SWPF_MISS": 0.050680122860903905,
+        "sum:SWPF_MISS": 0.185799194601451,
+        "movie:SWPF_HIT": 0.7406757349714788,
+        "sum:SWPF_HIT": 3.3471629767420397,
+        "compose:cycles:u": 571645.6500333408,
+        "compose:instructions:u": 280920.33618581906,
+        "compose:L2I": 11600.535341186931,
+        "compose:FE_L2": 1044.2516114692153,
+        "compose:ITLB_WALK": 1149.3051789286508,
+        "compose:SWPF_MISS": 0.10180040008890864,
+        "compose:SWPF_HIT": 1.88953100689042,
+        "rating:cycles:u": 273277.6872663294,
+        "rating:instructions:u": 105631.6323949857,
+        "rating:L2I": 5720.716076533979,
+        "rating:FE_L2": 528.2093688146031,
+        "rating:ITLB_WALK": 510.6253573784913,
+        "rating:SWPF_MISS": 0.033318671651638446,
+        "rating:SWPF_HIT": 0.7169562348801407
+      },
+      "result_sha256": "347c8df16ba5947bddf543ed30bd7ec75ccdb71023389b77a148231b868ba2c4"
+    },
+    {
+      "arm": "base",
+      "block": 1,
+      "valid": true,
+      "metrics": {
+        "movie:cycles:u": 273869.1282927367,
+        "sum:cycles:u": 1108993.119822642,
+        "movie:instructions:u": 98461.30563209523,
+        "sum:instructions:u": 480027.4083239071,
+        "movie:L2I": 6006.614680921415,
+        "sum:L2I": 22995.847837857225,
+        "movie:FE_L2": 480.4479224071421,
+        "sum:FE_L2": 1978.4767441752363,
+        "movie:ITLB_WALK": 549.0613909401521,
+        "sum:ITLB_WALK": 2065.7238447799527,
+        "movie:SWPF_MISS": 0.05323487269921746,
+        "sum:SWPF_MISS": 0.19597800482775715,
+        "movie:SWPF_HIT": 0.7685440317425328,
+        "sum:SWPF_HIT": 3.343679261579801,
+        "compose:cycles:u": 564553.7018092473,
+        "compose:instructions:u": 277084.9910654456,
+        "compose:L2I": 11220.44371230735,
+        "compose:FE_L2": 1005.7673665400938,
+        "compose:ITLB_WALK": 1075.0664507482688,
+        "compose:SWPF_MISS": 0.10509269600178692,
+        "compose:SWPF_HIT": 1.8543667634576726,
+        "rating:cycles:u": 270570.28972065804,
+        "rating:instructions:u": 104481.11162636634,
+        "rating:L2I": 5768.7894446284645,
+        "rating:FE_L2": 492.26145522800044,
+        "rating:ITLB_WALK": 441.59600309153143,
+        "rating:SWPF_MISS": 0.03765043612675279,
+        "rating:SWPF_HIT": 0.7207684663795959
+      },
+      "result_sha256": "f7cb03e1ec3e1aa216e2a8a5108feded93db1e241d31412ca2d9be50f45da869"
+    }
+  ],
+  "comparisons": {
+    "indirect_nop": {
+      "base": {
+        "compose:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": -4.688159741928399,
+          "ci95_pct": [
+            -16.28192899498464,
+            5.749664759825102
+          ]
+        },
+        "compose:ITLB_WALK": {
+          "pairs": 2,
+          "cost_reduction_pct": -7.876323478925351,
+          "ci95_pct": [
+            -21.007348092273226,
+            3.8297975222479463
+          ]
+        },
+        "compose:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": -3.1233233678387817,
+          "ci95_pct": [
+            -6.530694320303776,
+            0.1750632502822036
+          ]
+        },
+        "compose:SWPF_HIT": {
+          "pairs": 2,
+          "cost_reduction_pct": -3.70193645164949,
+          "ci95_pct": [
+            -29.63308811261056,
+            17.04207791084934
+          ]
+        },
+        "compose:SWPF_MISS": {
+          "pairs": 2,
+          "cost_reduction_pct": 26.416118636434582,
+          "ci95_pct": [
+            -2320.0848705731155,
+            97.76264557397732
+          ]
+        },
+        "compose:cycles:u": {
+          "pairs": 2,
+          "cost_reduction_pct": -1.3815505796466176,
+          "ci95_pct": [
+            -2.9878022859654463,
+            0.1996491837548353
+          ]
+        },
+        "compose:instructions:u": {
+          "pairs": 2,
+          "cost_reduction_pct": -1.3023653274564673,
+          "ci95_pct": [
+            -2.346801736774351,
+            -0.2685872620691754
+          ]
+        },
+        "movie:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": -4.948714612652361,
+          "ci95_pct": [
+            -7.896809831797635,
+            -2.081171037570484
+          ]
+        },
+        "movie:ITLB_WALK": {
+          "pairs": 2,
+          "cost_reduction_pct": 4.392493364737049,
+          "ci95_pct": [
+            -23.52319873729467,
+            25.999363532900322
+          ]
+        },
+        "movie:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": -4.005052381173768,
+          "ci95_pct": [
+            -26.982060973013944,
+            14.814338041737052
+          ]
+        },
+        "movie:SWPF_HIT": {
+          "pairs": 2,
+          "cost_reduction_pct": 3.655814981557337,
+          "ci95_pct": [
+            3.2777698206170047,
+            4.032382528267253
+          ]
+        },
+        "movie:SWPF_MISS": {
+          "pairs": 2,
+          "cost_reduction_pct": 27.56172822405285,
+          "ci95_pct": [
+            -2232.6848755608553,
+            97.75053061265965
+          ]
+        },
+        "movie:cycles:u": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.10042998786764512,
+          "ci95_pct": [
+            -7.575505546034744,
+            7.2286573234998315
+          ]
+        },
+        "movie:instructions:u": {
+          "pairs": 2,
+          "cost_reduction_pct": -1.466326894844161,
+          "ci95_pct": [
+            -3.226091838828693,
+            0.2634381469556524
+          ]
+        },
+        "rating:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": -5.1685582612976955,
+          "ci95_pct": [
+            -35.74982494287744,
+            18.52346291117415
+          ]
+        },
+        "rating:ITLB_WALK": {
+          "pairs": 2,
+          "cost_reduction_pct": -8.057831538684468,
+          "ci95_pct": [
+            -155.55562532791822,
+            54.30938003473833
+          ]
+        },
+        "rating:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": -1.0554292388726294,
+          "ci95_pct": [
+            -28.432103266530117,
+            20.48561443037482
+          ]
+        },
+        "rating:SWPF_HIT": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.40373092273984224,
+          "ci95_pct": [
+            -1.2006318915647185,
+            1.9826593104819157
+          ]
+        },
+        "rating:SWPF_MISS": {
+          "pairs": 2,
+          "cost_reduction_pct": 14.903486724513403,
+          "ci95_pct": [
+            -39.95622936407961,
+            48.25941935883843
+          ]
+        },
+        "rating:cycles:u": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.9831995269809157,
+          "ci95_pct": [
+            -1.204851783921157,
+            -0.7620327183382791
+          ]
+        },
+        "rating:instructions:u": {
+          "pairs": 2,
+          "cost_reduction_pct": -1.1008685338569135,
+          "ci95_pct": [
+            -1.1047734200348547,
+            -1.0969637984941771
+          ]
+        },
+        "sum:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": -4.873115976331865,
+          "ci95_pct": [
+            -6.747772823597287,
+            -3.031381017758261
+          ]
+        },
+        "sum:ITLB_WALK": {
+          "pairs": 2,
+          "cost_reduction_pct": -4.666281683077589,
+          "ci95_pct": [
+            -27.210675658302197,
+            13.882773873574816
+          ]
+        },
+        "sum:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": -2.836348959587509,
+          "ci95_pct": [
+            -13.13873267448178,
+            6.527902360680271
+          ]
+        },
+        "sum:SWPF_HIT": {
+          "pairs": 2,
+          "cost_reduction_pct": -1.0838981772868905,
+          "ci95_pct": [
+            -14.399953754672158,
+            10.68218005902124
+          ]
+        },
+        "sum:SWPF_MISS": {
+          "pairs": 2,
+          "cost_reduction_pct": 24.79384273798727,
+          "ci95_pct": [
+            -1326.536266029646,
+            96.03517539314976
+          ]
+        },
+        "sum:cycles:u": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.9180312036737082,
+          "ci95_pct": [
+            -3.527058472403244,
+            1.6252449137199587
+          ]
+        },
+        "sum:instructions:u": {
+          "pairs": 2,
+          "cost_reduction_pct": -1.292193204995007,
+          "ci95_pct": [
+            -1.5350401727150853,
+            -1.0499270677904793
+          ]
+        }
+      }
+    },
+    "indirect_it0": {
+      "base": {
+        "compose:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 1.959991029457897,
+          "ci95_pct": [
+            -8.621197857309038,
+            11.510427535786915
+          ]
+        },
+        "compose:ITLB_WALK": {
+          "pairs": 2,
+          "cost_reduction_pct": -4.619306982420546,
+          "ci95_pct": [
+            -7.4339372430993755,
+            -1.878416395699678
+          ]
+        },
+        "compose:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.4176010064183444,
+          "ci95_pct": [
+            -2.3234458135307667,
+            1.4527461256507834
+          ]
+        },
+        "compose:SWPF_HIT": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.21851908336066872,
+          "ci95_pct": [
+            -5.279167673029406,
+            5.429116187168614
+          ]
+        },
+        "compose:SWPF_MISS": {
+          "pairs": 2,
+          "cost_reduction_pct": 6.344157526856298,
+          "ci95_pct": [
+            -2535.6843256444813,
+            96.67205334720444
+          ]
+        },
+        "compose:cycles:u": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.23916713086882257,
+          "ci95_pct": [
+            -9.179792164803713,
+            7.969318975042084
+          ]
+        },
+        "compose:instructions:u": {
+          "pairs": 2,
+          "cost_reduction_pct": -1.2795971927876737,
+          "ci95_pct": [
+            -2.6142807225636,
+            0.03772637390990763
+          ]
+        },
+        "movie:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 2.887672479116754,
+          "ci95_pct": [
+            -2.749869512278069,
+            8.215901379841995
+          ]
+        },
+        "movie:ITLB_WALK": {
+          "pairs": 2,
+          "cost_reduction_pct": 4.404828755561619,
+          "ci95_pct": [
+            1.8393225680326086,
+            6.9032834294861845
+          ]
+        },
+        "movie:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.9068798531336464,
+          "ci95_pct": [
+            -9.276623439798204,
+            6.821806154138333
+          ]
+        },
+        "movie:SWPF_HIT": {
+          "pairs": 2,
+          "cost_reduction_pct": 1.372239691649657,
+          "ci95_pct": [
+            -59.61723576095086,
+            39.05773986708051
+          ]
+        },
+        "movie:SWPF_MISS": {
+          "pairs": 2,
+          "cost_reduction_pct": 12.853412178169943,
+          "ci95_pct": [
+            -2694.6508725453514,
+            97.28247709093233
+          ]
+        },
+        "movie:cycles:u": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.8906522390132787,
+          "ci95_pct": [
+            -6.786844848111295,
+            8.016171583873376
+          ]
+        },
+        "movie:instructions:u": {
+          "pairs": 2,
+          "cost_reduction_pct": -1.6678094328898663,
+          "ci95_pct": [
+            -4.7799999352438505,
+            1.351942343286161
+          ]
+        },
+        "rating:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 1.5293042356693376,
+          "ci95_pct": [
+            -0.9622988234884389,
+            3.9594181461374833
+          ]
+        },
+        "rating:ITLB_WALK": {
+          "pairs": 2,
+          "cost_reduction_pct": -9.239826850560817,
+          "ci95_pct": [
+            -110.56700133350206,
+            43.327588393396255
+          ]
+        },
+        "rating:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": 1.7207577652995298,
+          "ci95_pct": [
+            -17.634426099437906,
+            17.89130295869157
+          ]
+        },
+        "rating:SWPF_HIT": {
+          "pairs": 2,
+          "cost_reduction_pct": 1.059272953880086,
+          "ci95_pct": [
+            -21.790874884893462,
+            19.62232410542415
+          ]
+        },
+        "rating:SWPF_MISS": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.7259008571395942,
+          "ci95_pct": [
+            -785.5829108290593,
+            88.54347009250193
+          ]
+        },
+        "rating:cycles:u": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.07440168086976229,
+          "ci95_pct": [
+            -2.4301684410593882,
+            2.2271853672986897
+          ]
+        },
+        "rating:instructions:u": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.9973122437574977,
+          "ci95_pct": [
+            -3.6921949473587734,
+            1.6275324710649963
+          ]
+        },
+        "sum:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 2.0810885195705175,
+          "ci95_pct": [
+            -1.0757216602519382,
+            5.139304790314336
+          ]
+        },
+        "sum:ITLB_WALK": {
+          "pairs": 2,
+          "cost_reduction_pct": -3.22064713806669,
+          "ci95_pct": [
+            -22.38113366060903,
+            12.939995921686286
+          ]
+        },
+        "sum:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.009884566420326202,
+          "ci95_pct": [
+            -5.766096529104892,
+            5.433051429326818
+          ]
+        },
+        "sum:SWPF_HIT": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.677472522484257,
+          "ci95_pct": [
+            -19.762539472706877,
+            17.628963881731718
+          ]
+        },
+        "sum:SWPF_MISS": {
+          "pairs": 2,
+          "cost_reduction_pct": 6.972794431762397,
+          "ci95_pct": [
+            -2110.700986763482,
+            96.0853769787723
+          ]
+        },
+        "sum:cycles:u": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.08047482532766992,
+          "ci95_pct": [
+            -3.0469121374089525,
+            3.112948228678314
+          ]
+        },
+        "sum:instructions:u": {
+          "pairs": 2,
+          "cost_reduction_pct": -1.2978885393100992,
+          "ci95_pct": [
+            -2.1166390889515885,
+            -0.48570256590727556
+          ]
+        }
+      },
+      "indirect_nop": {
+        "compose:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 6.350432358133851,
+          "ci95_pct": [
+            6.112193406295874,
+            6.588066782075908
+          ]
+        },
+        "compose:ITLB_WALK": {
+          "pairs": 2,
+          "cost_reduction_pct": 3.019213476570781,
+          "ci95_pct": [
+            -11.712291827557708,
+            15.808074466673737
+          ]
+        },
+        "compose:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": 2.6237734326784445,
+          "ci95_pct": [
+            1.2799235511382734,
+            3.9493298467793925
+          ]
+        },
+        "compose:SWPF_HIT": {
+          "pairs": 2,
+          "cost_reduction_pct": 3.780503690823611,
+          "ci95_pct": [
+            -26.90670766788399,
+            27.047264560511806
+          ]
+        },
+        "compose:SWPF_MISS": {
+          "pairs": 2,
+          "cost_reduction_pct": -27.27766018539597,
+          "ci95_pct": [
+            -48.7447234147715,
+            -8.908755956988701
+          ]
+        },
+        "compose:cycles:u": {
+          "pairs": 2,
+          "cost_reduction_pct": 1.1268159169457115,
+          "ci95_pct": [
+            -6.012352668372278,
+            7.785212905306238
+          ]
+        },
+        "compose:instructions:u": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.02247542255819912,
+          "ci95_pct": [
+            -0.26134571989580024,
+            0.30549312037133625
+          ]
+        },
+        "movie:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 7.466872863276008,
+          "ci95_pct": [
+            4.770243279243614,
+            10.087141744898954
+          ]
+        },
+        "movie:ITLB_WALK": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.012902115386848045,
+          "ci95_pct": [
+            -25.805291704354595,
+            20.53259757243452
+          ]
+        },
+        "movie:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": 2.9788673310652825,
+          "ci95_pct": [
+            -9.382484920425526,
+            13.943258911964273
+          ]
+        },
+        "movie:SWPF_HIT": {
+          "pairs": 2,
+          "cost_reduction_pct": -2.3702263810426505,
+          "ci95_pct": [
+            -65.02642201789794,
+            36.497058342758294
+          ]
+        },
+        "movie:SWPF_MISS": {
+          "pairs": 2,
+          "cost_reduction_pct": -20.304620313659584,
+          "ci95_pct": [
+            -20.807285680856282,
+            -19.804046479849767
+          ]
+        },
+        "movie:cycles:u": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.7910166690904386,
+          "ci95_pct": [
+            -15.107577153953834,
+            14.493705654244893
+          ]
+        },
+        "movie:instructions:u": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.19857084040748596,
+          "ci95_pct": [
+            -5.056759515763876,
+            4.43495835264478
+          ]
+        },
+        "rating:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 6.368692894244877,
+          "ci95_pct": [
+            -17.875139623520077,
+            25.626203300098126
+          ]
+        },
+        "rating:ITLB_WALK": {
+          "pairs": 2,
+          "cost_reduction_pct": -1.0938543695032221,
+          "ci95_pct": [
+            -24.03511191069738,
+            17.604239365378373
+          ]
+        },
+        "rating:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": 2.7471923330411707,
+          "ci95_pct": [
+            -3.262694483643469,
+            8.407303853526471
+          ]
+        },
+        "rating:SWPF_HIT": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.6581993855931723,
+          "ci95_pct": [
+            -24.254416645194432,
+            20.57591499952338
+          ]
+        },
+        "rating:SWPF_MISS": {
+          "pairs": 2,
+          "cost_reduction_pct": -18.366660371918297,
+          "ci95_pct": [
+            -532.7570518674946,
+            77.85774769913584
+          ]
+        },
+        "rating:cycles:u": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.899949546427603,
+          "ci95_pct": [
+            -1.6555201177651302,
+            3.391178476845691
+          ]
+        },
+        "rating:instructions:u": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.10242868493730573,
+          "ci95_pct": [
+            -2.5670713059566586,
+            2.702449942445906
+          ]
+        },
+        "sum:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 6.631065007615334,
+          "ci95_pct": [
+            1.8981201049507512,
+            11.135668032676517
+          ]
+        },
+        "sum:ITLB_WALK": {
+          "pairs": 2,
+          "cost_reduction_pct": 1.3811845818581414,
+          "ci95_pct": [
+            -1.0947611695067971,
+            3.7964911142093105
+          ]
+        },
+        "sum:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": 2.748507139511458,
+          "ci95_pct": [
+            -1.171313107338423,
+            6.516456363877799
+          ]
+        },
+        "sum:SWPF_HIT": {
+          "pairs": 2,
+          "cost_reduction_pct": 1.742483948019058,
+          "ci95_pct": [
+            -34.08582917926797,
+            27.997316943929118
+          ]
+        },
+        "sum:SWPF_MISS": {
+          "pairs": 2,
+          "cost_reduction_pct": -23.696262320833196,
+          "ci95_pct": [
+            -54.96984124464852,
+            1.266174184244706
+          ]
+        },
+        "sum:cycles:u": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.9894228187886323,
+          "ci95_pct": [
+            0.4637882521525971,
+            1.5122815946567614
+          ]
+        },
+        "sum:instructions:u": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.0056226784462598545,
+          "ci95_pct": [
+            -0.5728061123009054,
+            0.5583621069856659
+          ]
+        }
+      }
+    },
+    "lift_nop": {
+      "base": {
+        "compose:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": -1.788529525026572,
+          "ci95_pct": [
+            -30.3497157258658,
+            20.514558200825828
+          ]
+        },
+        "compose:ITLB_WALK": {
+          "pairs": 2,
+          "cost_reduction_pct": -4.0517768009719735,
+          "ci95_pct": [
+            -6.8991962252526795,
+            -1.2802026371241393
+          ]
+        },
+        "compose:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": -1.309183153195126,
+          "ci95_pct": [
+            -5.257544715480078,
+            2.491069700410853
+          ]
+        },
+        "compose:SWPF_HIT": {
+          "pairs": 2,
+          "cost_reduction_pct": -1.6346184462294078,
+          "ci95_pct": [
+            -11.708046145629902,
+            7.530423965662236
+          ]
+        },
+        "compose:SWPF_MISS": {
+          "pairs": 2,
+          "cost_reduction_pct": 9.129421930661973,
+          "ci95_pct": [
+            -300.55730325762767,
+            79.38506702661547
+          ]
+        },
+        "compose:cycles:u": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.08735806612846231,
+          "ci95_pct": [
+            -1.0103610914530714,
+            1.173147879671399
+          ]
+        },
+        "compose:instructions:u": {
+          "pairs": 2,
+          "cost_reduction_pct": -1.421059002881453,
+          "ci95_pct": [
+            -3.1668830145832993,
+            0.2952215992419016
+          ]
+        },
+        "movie:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": -10.327061056525743,
+          "ci95_pct": [
+            -42.518360920827746,
+            14.593036835918848
+          ]
+        },
+        "movie:ITLB_WALK": {
+          "pairs": 2,
+          "cost_reduction_pct": -4.631320208409551,
+          "ci95_pct": [
+            -134.0372260804582,
+            53.222342650775204
+          ]
+        },
+        "movie:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": -2.061128939353063,
+          "ci95_pct": [
+            -32.80884334293375,
+            21.56791838418287
+          ]
+        },
+        "movie:SWPF_HIT": {
+          "pairs": 2,
+          "cost_reduction_pct": 2.736084997314825,
+          "ci95_pct": [
+            -96.14021637011871,
+            51.767825402017834
+          ]
+        },
+        "movie:SWPF_MISS": {
+          "pairs": 2,
+          "cost_reduction_pct": 9.701352337563328,
+          "ci95_pct": [
+            -22.276677325191805,
+            33.31642674604309
+          ]
+        },
+        "movie:cycles:u": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.14018263597774805,
+          "ci95_pct": [
+            -14.151456577018706,
+            12.151307753125451
+          ]
+        },
+        "movie:instructions:u": {
+          "pairs": 2,
+          "cost_reduction_pct": -1.689870239588509,
+          "ci95_pct": [
+            -1.8644944993133628,
+            -1.5155453347294845
+          ]
+        },
+        "rating:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": -4.711695617850564,
+          "ci95_pct": [
+            -14.989504509044238,
+            4.647478515719694
+          ]
+        },
+        "rating:ITLB_WALK": {
+          "pairs": 2,
+          "cost_reduction_pct": -8.530043570742363,
+          "ci95_pct": [
+            -8.649690982950053,
+            -8.41052791687762
+          ]
+        },
+        "rating:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": 2.246257985716482,
+          "ci95_pct": [
+            1.2421507823504374,
+            3.240156063591859
+          ]
+        },
+        "rating:SWPF_HIT": {
+          "pairs": 2,
+          "cost_reduction_pct": -1.0466086771847571,
+          "ci95_pct": [
+            -56.39645756499494,
+            34.71452433047032
+          ]
+        },
+        "rating:SWPF_MISS": {
+          "pairs": 2,
+          "cost_reduction_pct": -5.641676918984007,
+          "ci95_pct": [
+            -49.4410783914707,
+            25.320641269596432
+          ]
+        },
+        "rating:cycles:u": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.04378056854570378,
+          "ci95_pct": [
+            -8.195854782758726,
+            7.6559280104585685
+          ]
+        },
+        "rating:instructions:u": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.9962331015205939,
+          "ci95_pct": [
+            -1.628675889927389,
+            -0.36772605149772986
+          ]
+        },
+        "sum:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": -4.613133813354553,
+          "ci95_pct": [
+            -13.473834482269954,
+            3.5556715238984404
+          ]
+        },
+        "sum:ITLB_WALK": {
+          "pairs": 2,
+          "cost_reduction_pct": -5.210886267821291,
+          "ci95_pct": [
+            -31.896200179327792,
+            16.075439821538275
+          ]
+        },
+        "sum:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.616753857114527,
+          "ci95_pct": [
+            -10.20400744374843,
+            8.136451735562888
+          ]
+        },
+        "sum:SWPF_HIT": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.5062824853897085,
+          "ci95_pct": [
+            -1.9388036906074824,
+            0.9061078478823203
+          ]
+        },
+        "sum:SWPF_MISS": {
+          "pairs": 2,
+          "cost_reduction_pct": 6.891154283094814,
+          "ci95_pct": [
+            -120.14920812268662,
+            60.62099325879393
+          ]
+        },
+        "sum:cycles:u": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.01986308301552553,
+          "ci95_pct": [
+            -0.7483246206254623,
+            0.7821934947338294
+          ]
+        },
+        "sum:instructions:u": {
+          "pairs": 2,
+          "cost_reduction_pct": -1.3838048016842075,
+          "ci95_pct": [
+            -2.284958944083182,
+            -0.4905900356778625
+          ]
+        }
+      }
+    },
+    "lift_it0": {
+      "base": {
+        "compose:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 2.4438239542062257,
+          "ci95_pct": [
+            -15.843149590364103,
+            17.844019967240655
+          ]
+        },
+        "compose:ITLB_WALK": {
+          "pairs": 2,
+          "cost_reduction_pct": -3.127637275549544,
+          "ci95_pct": [
+            -6.831086111958262,
+            0.44742633345895566
+          ]
+        },
+        "compose:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.9070946355827614,
+          "ci95_pct": [
+            -14.009320277976478,
+            13.871919684989177
+          ]
+        },
+        "compose:SWPF_HIT": {
+          "pairs": 2,
+          "cost_reduction_pct": 1.7591784275652889,
+          "ci95_pct": [
+            -16.204816918512254,
+            16.946136320710124
+          ]
+        },
+        "compose:SWPF_MISS": {
+          "pairs": 2,
+          "cost_reduction_pct": 11.63234323368848,
+          "ci95_pct": [
+            -6161.590060281674,
+            98.7528977963758
+          ]
+        },
+        "compose:cycles:u": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.5975444836110677,
+          "ci95_pct": [
+            -8.957743812269037,
+            7.121186599014595
+          ]
+        },
+        "compose:instructions:u": {
+          "pairs": 2,
+          "cost_reduction_pct": -1.4724613122840013,
+          "ci95_pct": [
+            -3.8684398873984005,
+            0.8682481807239184
+          ]
+        },
+        "movie:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": -4.4545391614963625,
+          "ci95_pct": [
+            -29.65833348243403,
+            15.849984660501947
+          ]
+        },
+        "movie:ITLB_WALK": {
+          "pairs": 2,
+          "cost_reduction_pct": -1.7390330092091233,
+          "ci95_pct": [
+            -122.47625750962476,
+            53.474447325233584
+          ]
+        },
+        "movie:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": -2.3691991418030467,
+          "ci95_pct": [
+            -53.218089464061855,
+            31.604336213889805
+          ]
+        },
+        "movie:SWPF_HIT": {
+          "pairs": 2,
+          "cost_reduction_pct": 3.7671591434295437,
+          "ci95_pct": [
+            -3.5023004185466,
+            10.526049934378278
+          ]
+        },
+        "movie:SWPF_MISS": {
+          "pairs": 2,
+          "cost_reduction_pct": 6.02467967171072,
+          "ci95_pct": [
+            -2520.613269175601,
+            96.63004040516716
+          ]
+        },
+        "movie:cycles:u": {
+          "pairs": 2,
+          "cost_reduction_pct": -1.291657974594962,
+          "ci95_pct": [
+            -5.685915225677807,
+            2.919892841600513
+          ]
+        },
+        "movie:instructions:u": {
+          "pairs": 2,
+          "cost_reduction_pct": -1.7993046776197952,
+          "ci95_pct": [
+            -3.7199042408647243,
+            0.08573080841801639
+          ]
+        },
+        "rating:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": -2.5587740837834216,
+          "ci95_pct": [
+            -19.41341313946858,
+            11.916912304619409
+          ]
+        },
+        "rating:ITLB_WALK": {
+          "pairs": 2,
+          "cost_reduction_pct": -9.82238406311977,
+          "ci95_pct": [
+            -183.05770637935748,
+            57.39046925949742
+          ]
+        },
+        "rating:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.5360169807503534,
+          "ci95_pct": [
+            -19.91161630296048,
+            17.496867917630322
+          ]
+        },
+        "rating:SWPF_HIT": {
+          "pairs": 2,
+          "cost_reduction_pct": 2.18729316954388,
+          "ci95_pct": [
+            -25.513327246239427,
+            23.774424378607893
+          ]
+        },
+        "rating:SWPF_MISS": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.5980979061992242,
+          "ci95_pct": [
+            -924.1319175629728,
+            90.1184826595125
+          ]
+        },
+        "rating:cycles:u": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.5468638938866954,
+          "ci95_pct": [
+            -4.61000199247954,
+            3.358458595359115
+          ]
+        },
+        "rating:instructions:u": {
+          "pairs": 2,
+          "cost_reduction_pct": -1.2550038050182621,
+          "ci95_pct": [
+            -2.0918658164574166,
+            -0.42500167434031955
+          ]
+        },
+        "sum:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.4961843492200746,
+          "ci95_pct": [
+            -1.2150786344095499,
+            0.2176038885281395
+          ]
+        },
+        "sum:ITLB_WALK": {
+          "pairs": 2,
+          "cost_reduction_pct": -4.236147900901344,
+          "ci95_pct": [
+            -61.157438442569976,
+            32.58037212417909
+          ]
+        },
+        "sum:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.03814904835426347,
+          "ci95_pct": [
+            -24.810414706809468,
+            19.817338252344253
+          ]
+        },
+        "sum:SWPF_HIT": {
+          "pairs": 2,
+          "cost_reduction_pct": 2.3241751580669434,
+          "ci95_pct": [
+            -14.896932657078743,
+            16.96413004316877
+          ]
+        },
+        "sum:SWPF_MISS": {
+          "pairs": 2,
+          "cost_reduction_pct": 8.186669274013457,
+          "ci95_pct": [
+            -3532.41098252121,
+            97.67931334324167
+          ]
+        },
+        "sum:cycles:u": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.7580481265989425,
+          "ci95_pct": [
+            -2.8374370260393578,
+            1.2792952073338304
+          ]
+        },
+        "sum:instructions:u": {
+          "pairs": 2,
+          "cost_reduction_pct": -1.4922550882527696,
+          "ci95_pct": [
+            -2.290943597723394,
+            -0.6998027450811906
+          ]
+        }
+      },
+      "lift_nop": {
+        "compose:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 4.157986660169,
+          "ci95_pct": [
+            -3.3597828396457308,
+            11.128958781935571
+          ]
+        },
+        "compose:ITLB_WALK": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.888153526863944,
+          "ci95_pct": [
+            0.06371433621537026,
+            1.7057913842974282
+          ]
+        },
+        "compose:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": 2.187637605789927,
+          "ci95_pct": [
+            -8.314630163712632,
+            11.671597616353335
+          ]
+        },
+        "compose:SWPF_HIT": {
+          "pairs": 2,
+          "cost_reduction_pct": 3.33921347438344,
+          "ci95_pct": [
+            -4.025467213901557,
+            10.182497594183237
+          ]
+        },
+        "compose:SWPF_MISS": {
+          "pairs": 2,
+          "cost_reduction_pct": 2.75438030240841,
+          "ci95_pct": [
+            -1463.219546706004,
+            93.95049110645036
+          ]
+        },
+        "compose:cycles:u": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.6855013904975449,
+          "ci95_pct": [
+            -7.867888635325837,
+            6.018646341280887
+          ]
+        },
+        "compose:instructions:u": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.05068208704177568,
+          "ci95_pct": [
+            -0.6800213908913832,
+            0.574723288766299
+          ]
+        },
+        "movie:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 5.3228299918372635,
+          "ci95_pct": [
+            1.471715862520795,
+            9.023418004040739
+          ]
+        },
+        "movie:ITLB_WALK": {
+          "pairs": 2,
+          "cost_reduction_pct": 2.764265225211171,
+          "ci95_pct": [
+            0.5389424967913725,
+            4.939799007384726
+          ]
+        },
+        "movie:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.3018487113081392,
+          "ci95_pct": [
+            -15.3673848874867,
+            12.796317046470962
+          ]
+        },
+        "movie:SWPF_HIT": {
+          "pairs": 2,
+          "cost_reduction_pct": 1.0600788032090303,
+          "ci95_pct": [
+            -114.59181818204121,
+            54.38265964957261
+          ]
+        },
+        "movie:SWPF_MISS": {
+          "pairs": 2,
+          "cost_reduction_pct": -4.071680762703234,
+          "ci95_pct": [
+            -2043.183251705591,
+            94.94634220934933
+          ]
+        },
+        "movie:cycles:u": {
+          "pairs": 2,
+          "cost_reduction_pct": -1.14986342975123,
+          "ci95_pct": [
+            -10.50831227581912,
+            7.41606073649097
+          ]
+        },
+        "movie:instructions:u": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.10761586947989343,
+          "ci95_pct": [
+            -2.1714496029812125,
+            1.9145290194754305
+          ]
+        },
+        "rating:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 2.0560468640717255,
+          "ci95_pct": [
+            -25.233618661206524,
+            23.399019700573966
+          ]
+        },
+        "rating:ITLB_WALK": {
+          "pairs": 2,
+          "cost_reduction_pct": -1.190767505345236,
+          "ci95_pct": [
+            -160.5232502904924,
+            60.696132046167264
+          ]
+        },
+        "rating:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": -1.749540191224841,
+          "ci95_pct": [
+            -21.41983371740981,
+            14.734120347908085
+          ]
+        },
+        "rating:SWPF_HIT": {
+          "pairs": 2,
+          "cost_reduction_pct": 3.200406118586352,
+          "ci95_pct": [
+            -16.75732594373742,
+            19.74669426634631
+          ]
+        },
+        "rating:SWPF_MISS": {
+          "pairs": 2,
+          "cost_reduction_pct": 4.774232253670762,
+          "ci95_pct": [
+            -1271.3721367910284,
+            93.38768332854087
+          ]
+        },
+        "rating:cycles:u": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.5909031631967876,
+          "ci95_pct": [
+            -13.282855887411248,
+            10.679072133879064
+          ]
+        },
+        "rating:instructions:u": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.2562181732437052,
+          "ci95_pct": [
+            -0.4557669599392966,
+            -0.05706577711361849
+          ]
+        },
+        "sum:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 3.935404011010435,
+          "ci95_pct": [
+            -4.946636296493279,
+            12.065722845505345
+          ]
+        },
+        "sum:ITLB_WALK": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.9264615112533958,
+          "ci95_pct": [
+            -22.185050231514005,
+            19.666391182204368
+          ]
+        },
+        "sum:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.575058115651339,
+          "ci95_pct": [
+            -13.253971068626136,
+            12.71547500337884
+          ]
+        },
+        "sum:SWPF_HIT": {
+          "pairs": 2,
+          "cost_reduction_pct": 2.8161997175331854,
+          "ci95_pct": [
+            -15.947542438540907,
+            18.543413351355465
+          ]
+        },
+        "sum:SWPF_MISS": {
+          "pairs": 2,
+          "cost_reduction_pct": 1.391398401455457,
+          "ci95_pct": [
+            -1549.9768559226034,
+            94.10679230177239
+          ]
+        },
+        "sum:cycles:u": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.7780657574617766,
+          "ci95_pct": [
+            -3.648166239777839,
+            2.012559350832377
+          ]
+        },
+        "sum:instructions:u": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.10697003015491813,
+          "ci95_pct": [
+            -0.20819134341731882,
+            -0.0058509615705526485
+          ]
+        }
+      }
+    }
+  },
+  "decisions": {
+    "indirect_it0": {
+      "contrasts": {
+        "base": {
+          "paired_reductions_pct": [
+            1.8362573865966847,
+            2.3253090168648627
+          ],
+          "every_block_reduces": true,
+          "summary": {
+            "pairs": 2,
+            "cost_reduction_pct": 2.0810885195705175,
+            "ci95_pct": [
+              -1.0757216602519382,
+              5.139304790314336
+            ]
+          }
+        },
+        "indirect_nop": {
+          "paired_reductions_pct": [
+            6.266999760769321,
+            6.993716200674271
+          ],
+          "every_block_reduces": true,
+          "summary": {
+            "pairs": 2,
+            "cost_reduction_pct": 6.631065007615334,
+            "ci95_pct": [
+              1.8981201049507512,
+              11.135668032676517
+            ]
+          }
+        }
+      },
+      "miss_screen_eligible": true
+    },
+    "lift_it0": {
+      "contrasts": {
+        "base": {
+          "paired_reductions_pct": [
+            -0.43982335697598796,
+            -0.5525769679778136
+          ],
+          "every_block_reduces": false,
+          "summary": {
+            "pairs": 2,
+            "cost_reduction_pct": -0.4961843492200746,
+            "ci95_pct": [
+              -1.2150786344095499,
+              0.2176038885281395
+            ]
+          }
+        },
+        "lift_nop": {
+          "paired_reductions_pct": [
+            4.601661970497705,
+            3.264492934102581
+          ],
+          "every_block_reduces": true,
+          "summary": {
+            "pairs": 2,
+            "cost_reduction_pct": 3.935404011010435,
+            "ci95_pct": [
+              -4.946636296493279,
+              12.065722845505345
+            ]
+          }
+        }
+      },
+      "miss_screen_eligible": false
+    }
+  },
+  "interpretation": "Positive values mean fewer events/request. FE_L2 retired-event population differs from speculative L2I. PMU windows follow clean E2E timing; service sums combine sequential request-normalized windows. Individual paired-log t95 intervals, no multiplicity correction; screen and confirmation never pooled."
+}

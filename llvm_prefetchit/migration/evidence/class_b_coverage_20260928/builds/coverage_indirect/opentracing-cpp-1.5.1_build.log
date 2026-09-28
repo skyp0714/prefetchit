@@ -1,0 +1,426 @@
+[  5%] Building CXX object CMakeFiles/opentracing-static.dir/src/propagation.cpp.o
+[ 15%] Building CXX object CMakeFiles/opentracing-static.dir/src/dynamic_load_unix.cpp.o
+[ 15%] Building CXX object CMakeFiles/opentracing-static.dir/src/tracer.cpp.o
+[ 21%] Building CXX object CMakeFiles/opentracing-static.dir/src/ext/tags.cpp.o
+[ 26%] Building CXX object CMakeFiles/opentracing-static.dir/src/dynamic_load.cpp.o
+[ 31%] Building CXX object CMakeFiles/opentracing-static.dir/src/noop.cpp.o
+[ 36%] Building CXX object CMakeFiles/opentracing-static.dir/src/tracer_factory.cpp.o
+In file included from /opt/src/opentracing-cpp-1.5.1/src/ext/tags.cpp:1:
+In file included from /opt/src/opentracing-cpp-1.5.1/include/opentracing/ext/tags.h:4:
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:86:45: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   86 |   const char* end() const noexcept { return data() + length(); }
+      |                                             ^~~~~~
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:89:52: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   89 |   const char& operator[](std::size_t i) { return *(data() + i); }
+      |                                                    ^~~~~~
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:98:37: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   98 |          std::equal(lhs.data(), lhs.data() + lhs.length(), rhs.data());
+      |                                 ~~~~^~~~~~
+prefetchit-dominator: functions=0 edges=0 calls=0 indirect=0 continuations=0 caller_targets=0 short_lead=0 skipped_eh=0 groups=0 hints=0 gate=0
+prefetchit-dominator-lean: budget_skipped=0 duplicate_targets=0 window=0
+prefetchit-dominator-profile: placement=24,600,8,0,0,1,0,0,4,0,0,callee=1,profile=1459600085F2673,indirect=0,direct_pic=1,indirect_targets=A5EA74985B421A73 module=43F41E17B2AED10B removed=0 metadata=1
+prefetchit-dominator-callees: only=1 profiled=724 skipped=0
+prefetchit-dominator-indirect-targets: candidates=0 callers=107
+3 warnings generated.
+In file included from /opt/src/opentracing-cpp-1.5.1/src/propagation.cpp:1:
+In file included from /opt/src/opentracing-cpp-1.5.1/include/opentracing/propagation.h:4:
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:86:45: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   86 |   const char* end() const noexcept { return data() + length(); }
+      |                                             ^~~~~~
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:89:52: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   89 |   const char& operator[](std::size_t i) { return *(data() + i); }
+      |                                                    ^~~~~~
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:98:37: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   98 |          std::equal(lhs.data(), lhs.data() + lhs.length(), rhs.data());
+      |                                 ~~~~^~~~~~
+prefetchit-dominator: functions=6 edges=0 calls=8 indirect=0 continuations=0 caller_targets=0 short_lead=6 skipped_eh=0 groups=3 hints=3 gate=0
+prefetchit-dominator-lean: budget_skipped=0 duplicate_targets=0 window=0
+prefetchit-dominator-profile: placement=24,600,8,0,0,1,0,0,4,0,0,callee=1,profile=1459600085F2673,indirect=0,direct_pic=1,indirect_targets=A5EA74985B421A73 module=CC9F8A54C7BE1206 removed=0 metadata=1
+prefetchit-dominator-callees: only=1 profiled=724 skipped=19
+prefetchit-dominator-indirect-targets: candidates=0 callers=107
+3 warnings generated.
+In file included from /opt/src/opentracing-cpp-1.5.1/src/tracer.cpp:1:
+In file included from /opt/src/opentracing-cpp-1.5.1/include/opentracing/noop.h:5:
+In file included from /opt/src/opentracing-cpp-1.5.1/include/opentracing/tracer.h:4:
+In file included from /opt/src/opentracing-cpp-1.5.1/include/opentracing/propagation.h:4:
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:86:45: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   86 |   const char* end() const noexcept { return data() + length(); }
+      |                                             ^~~~~~
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:89:52: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   89 |   const char& operator[](std::size_t i) { return *(data() + i); }
+      |                                                    ^~~~~~
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:98:37: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   98 |          std::equal(lhs.data(), lhs.data() + lhs.length(), rhs.data());
+      |                                 ~~~~^~~~~~
+In file included from /opt/src/opentracing-cpp-1.5.1/src/tracer_factory.cpp:1:
+In file included from /opt/src/opentracing-cpp-1.5.1/include/opentracing/tracer_factory.h:5:
+In file included from /opt/src/opentracing-cpp-1.5.1/include/opentracing/tracer.h:4:
+In file included from /opt/src/opentracing-cpp-1.5.1/include/opentracing/propagation.h:4:
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:86:45: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   86 |   const char* end() const noexcept { return data() + length(); }
+      |                                             ^~~~~~
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:89:52: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   89 |   const char& operator[](std::size_t i) { return *(data() + i); }
+      |                                                    ^~~~~~
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:98:37: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   98 |          std::equal(lhs.data(), lhs.data() + lhs.length(), rhs.data());
+      |                                 ~~~~^~~~~~
+In file included from /opt/src/opentracing-cpp-1.5.1/src/noop.cpp:1:
+In file included from /opt/src/opentracing-cpp-1.5.1/include/opentracing/noop.h:5:
+In file included from /opt/src/opentracing-cpp-1.5.1/include/opentracing/tracer.h:4:
+In file included from /opt/src/opentracing-cpp-1.5.1/include/opentracing/propagation.h:4:
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:86:45: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   86 |   const char* end() const noexcept { return data() + length(); }
+      |                                             ^~~~~~
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:89:52: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   89 |   const char& operator[](std::size_t i) { return *(data() + i); }
+      |                                                    ^~~~~~
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:98:37: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   98 |          std::equal(lhs.data(), lhs.data() + lhs.length(), rhs.data());
+      |                                 ~~~~^~~~~~
+In file included from /opt/src/opentracing-cpp-1.5.1/src/dynamic_load_unix.cpp:2:
+In file included from /opt/src/opentracing-cpp-1.5.1/include/opentracing/dynamic_load.h:6:
+In file included from /opt/src/opentracing-cpp-1.5.1/include/opentracing/tracer.h:4:
+In file included from /opt/src/opentracing-cpp-1.5.1/include/opentracing/propagation.h:4:
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:86:45: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   86 |   const char* end() const noexcept { return data() + length(); }
+      |                                             ^~~~~~
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:89:52: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   89 |   const char& operator[](std::size_t i) { return *(data() + i); }
+      |                                                    ^~~~~~
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:98:37: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   98 |          std::equal(lhs.data(), lhs.data() + lhs.length(), rhs.data());
+      |                                 ~~~~^~~~~~
+prefetchit-dominator: functions=4 edges=0 calls=0 indirect=0 continuations=0 caller_targets=0 short_lead=0 skipped_eh=0 groups=0 hints=0 gate=0
+prefetchit-dominator-lean: budget_skipped=0 duplicate_targets=0 window=0
+prefetchit-dominator-profile: placement=24,600,8,0,0,1,0,0,4,0,0,callee=1,profile=1459600085F2673,indirect=0,direct_pic=1,indirect_targets=A5EA74985B421A73 module=8CCFD2ACCECB3A1B removed=0 metadata=1
+prefetchit-dominator-callees: only=1 profiled=724 skipped=15
+prefetchit-dominator-indirect-targets: candidates=0 callers=107
+In file included from /opt/src/opentracing-cpp-1.5.1/src/dynamic_load.cpp:1:
+In file included from /opt/src/opentracing-cpp-1.5.1/include/opentracing/dynamic_load.h:6:
+In file included from /opt/src/opentracing-cpp-1.5.1/include/opentracing/tracer.h:4:
+In file included from /opt/src/opentracing-cpp-1.5.1/include/opentracing/propagation.h:4:
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:86:45: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   86 |   const char* end() const noexcept { return data() + length(); }
+      |                                             ^~~~~~
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:89:52: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   89 |   const char& operator[](std::size_t i) { return *(data() + i); }
+      |                                                    ^~~~~~
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:98:37: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   98 |          std::equal(lhs.data(), lhs.data() + lhs.length(), rhs.data());
+      |                                 ~~~~^~~~~~
+prefetchit-dominator: functions=6 edges=0 calls=5 indirect=0 continuations=0 caller_targets=0 short_lead=5 skipped_eh=0 groups=3 hints=3 gate=0
+prefetchit-dominator-lean: budget_skipped=0 duplicate_targets=0 window=0
+prefetchit-dominator-profile: placement=24,600,8,0,0,1,0,0,4,0,0,callee=1,profile=1459600085F2673,indirect=0,direct_pic=1,indirect_targets=A5EA74985B421A73 module=FA20DAA243E5956E removed=0 metadata=1
+prefetchit-dominator-callees: only=1 profiled=724 skipped=15
+prefetchit-dominator-indirect-targets: candidates=0 callers=107
+3 warnings generated.
+3 warnings generated.
+prefetchit-dominator: functions=5 edges=0 calls=8 indirect=0 continuations=0 caller_targets=0 short_lead=5 skipped_eh=0 groups=3 hints=5 gate=0
+prefetchit-dominator-lean: budget_skipped=0 duplicate_targets=1 window=0
+prefetchit-dominator-profile: placement=24,600,8,0,0,1,0,0,4,0,0,callee=1,profile=1459600085F2673,indirect=0,direct_pic=1,indirect_targets=A5EA74985B421A73 module=2CE2D0D5FC7CC39D removed=0 metadata=1
+prefetchit-dominator-callees: only=1 profiled=724 skipped=31
+prefetchit-dominator-indirect-targets: candidates=0 callers=107
+prefetchit-dominator: functions=7 edges=0 calls=6 indirect=0 continuations=0 caller_targets=0 short_lead=6 skipped_eh=0 groups=3 hints=3 gate=0
+prefetchit-dominator-lean: budget_skipped=0 duplicate_targets=0 window=0
+prefetchit-dominator-profile: placement=24,600,8,0,0,1,0,0,4,0,0,callee=1,profile=1459600085F2673,indirect=0,direct_pic=1,indirect_targets=A5EA74985B421A73 module=3144877D47F93350 removed=0 metadata=1
+prefetchit-dominator-callees: only=1 profiled=724 skipped=20
+prefetchit-dominator-indirect-targets: candidates=0 callers=107
+3 warnings generated.
+3 warnings generated.
+prefetchit-dominator: functions=33 edges=0 calls=6 indirect=0 continuations=0 caller_targets=0 short_lead=6 skipped_eh=0 groups=6 hints=6 gate=0
+prefetchit-dominator-lean: budget_skipped=0 duplicate_targets=0 window=0
+prefetchit-dominator-profile: placement=24,600,8,0,0,1,0,0,4,0,0,callee=1,profile=1459600085F2673,indirect=0,direct_pic=1,indirect_targets=A5EA74985B421A73 module=4D43FA8DAE647E2 removed=0 metadata=1
+prefetchit-dominator-callees: only=1 profiled=724 skipped=28
+prefetchit-dominator-indirect-targets: candidates=0 callers=107
+3 warnings generated.
+[ 42%] Linking CXX static library output/libopentracing.a
+[ 42%] Built target opentracing-static
+[ 47%] Building CXX object mocktracer/CMakeFiles/opentracing_mocktracer-static.dir/src/mock_span_context.cpp.o
+[ 52%] Building CXX object mocktracer/CMakeFiles/opentracing_mocktracer-static.dir/src/utility.cpp.o
+[ 57%] Building CXX object mocktracer/CMakeFiles/opentracing_mocktracer-static.dir/src/propagation.cpp.o
+[ 63%] Building CXX object mocktracer/CMakeFiles/opentracing_mocktracer-static.dir/src/json.cpp.o
+[ 68%] Building CXX object mocktracer/CMakeFiles/opentracing_mocktracer-static.dir/src/mock_span.cpp.o
+[ 78%] Building CXX object mocktracer/CMakeFiles/opentracing_mocktracer-static.dir/src/json_recorder.cpp.o
+[ 84%] Building CXX object mocktracer/CMakeFiles/opentracing_mocktracer-static.dir/src/in_memory_recorder.cpp.o
+[ 84%] Building CXX object mocktracer/CMakeFiles/opentracing_mocktracer-static.dir/src/base64.cpp.o
+[ 89%] Building CXX object mocktracer/CMakeFiles/opentracing_mocktracer-static.dir/src/tracer.cpp.o
+[ 94%] Building CXX object mocktracer/CMakeFiles/opentracing_mocktracer-static.dir/src/tracer_factory.cpp.o
+/opt/src/opentracing-cpp-1.5.1/mocktracer/src/base64.cpp:123:3: warning: 'switch' missing 'default' label [-Wswitch-default]
+  123 |   switch (pos % 3) {
+      |   ^
+/opt/src/opentracing-cpp-1.5.1/mocktracer/src/base64.cpp:46:7: warning: unsafe buffer access [-Wunsafe-buffer-usage]
+   46 |   if (input[length - 1] == '=') {
+      |       ^~~~~
+/opt/src/opentracing-cpp-1.5.1/mocktracer/src/base64.cpp:49:9: warning: unsafe buffer access [-Wunsafe-buffer-usage]
+   49 |     if (input[length - 2] == '=') {
+      |         ^~~~~
+/opt/src/opentracing-cpp-1.5.1/mocktracer/src/base64.cpp:68:9: warning: unsafe buffer access [-Wunsafe-buffer-usage]
+   68 |         REVERSE_LOOKUP_TABLE[static_cast<uint32_t>(input[cur_read])];
+      |         ^~~~~~~~~~~~~~~~~~~~
+/opt/src/opentracing-cpp-1.5.1/mocktracer/src/base64.cpp:68:52: warning: unsafe buffer access [-Wunsafe-buffer-usage]
+   68 |         REVERSE_LOOKUP_TABLE[static_cast<uint32_t>(input[cur_read])];
+      |                                                    ^~~~~
+/opt/src/opentracing-cpp-1.5.1/mocktracer/src/base64.cpp:70:9: warning: unsafe buffer access [-Wunsafe-buffer-usage]
+   70 |         REVERSE_LOOKUP_TABLE[static_cast<uint32_t>(input[cur_read + 1])];
+      |         ^~~~~~~~~~~~~~~~~~~~
+/opt/src/opentracing-cpp-1.5.1/mocktracer/src/base64.cpp:70:52: warning: unsafe buffer access [-Wunsafe-buffer-usage]
+   70 |         REVERSE_LOOKUP_TABLE[static_cast<uint32_t>(input[cur_read + 1])];
+      |                                                    ^~~~~
+/opt/src/opentracing-cpp-1.5.1/mocktracer/src/base64.cpp:77:9: warning: unsafe buffer access [-Wunsafe-buffer-usage]
+   77 |         REVERSE_LOOKUP_TABLE[static_cast<uint32_t>(input[cur_read + 2])];
+      |         ^~~~~~~~~~~~~~~~~~~~
+/opt/src/opentracing-cpp-1.5.1/mocktracer/src/base64.cpp:77:52: warning: unsafe buffer access [-Wunsafe-buffer-usage]
+   77 |         REVERSE_LOOKUP_TABLE[static_cast<uint32_t>(input[cur_read + 2])];
+      |                                                    ^~~~~
+/opt/src/opentracing-cpp-1.5.1/mocktracer/src/base64.cpp:98:9: warning: unsafe buffer access [-Wunsafe-buffer-usage]
+   98 |         REVERSE_LOOKUP_TABLE[static_cast<uint32_t>(input[cur_read + 3])];
+      |         ^~~~~~~~~~~~~~~~~~~~
+/opt/src/opentracing-cpp-1.5.1/mocktracer/src/base64.cpp:98:52: warning: unsafe buffer access [-Wunsafe-buffer-usage]
+   98 |         REVERSE_LOOKUP_TABLE[static_cast<uint32_t>(input[cur_read + 3])];
+      |                                                    ^~~~~
+/opt/src/opentracing-cpp-1.5.1/mocktracer/src/base64.cpp:125:21: warning: unsafe buffer access [-Wunsafe-buffer-usage]
+  125 |       ret.push_back(CHAR_TABLE[cur_char >> 2]);
+      |                     ^~~~~~~~~~
+/opt/src/opentracing-cpp-1.5.1/mocktracer/src/base64.cpp:129:21: warning: unsafe buffer access [-Wunsafe-buffer-usage]
+  129 |       ret.push_back(CHAR_TABLE[next_c | (cur_char >> 4)]);
+      |                     ^~~~~~~~~~
+/opt/src/opentracing-cpp-1.5.1/mocktracer/src/base64.cpp:133:21: warning: unsafe buffer access [-Wunsafe-buffer-usage]
+  133 |       ret.push_back(CHAR_TABLE[next_c | (cur_char >> 6)]);
+      |                     ^~~~~~~~~~
+/opt/src/opentracing-cpp-1.5.1/mocktracer/src/base64.cpp:134:21: warning: unsafe buffer access [-Wunsafe-buffer-usage]
+  134 |       ret.push_back(CHAR_TABLE[cur_char & 0x3f]);
+      |                     ^~~~~~~~~~
+/opt/src/opentracing-cpp-1.5.1/mocktracer/src/base64.cpp:143:21: warning: unsafe buffer access [-Wunsafe-buffer-usage]
+  143 |       ret.push_back(CHAR_TABLE[last_char]);
+      |                     ^~~~~~~~~~
+/opt/src/opentracing-cpp-1.5.1/mocktracer/src/base64.cpp:148:21: warning: unsafe buffer access [-Wunsafe-buffer-usage]
+  148 |       ret.push_back(CHAR_TABLE[last_char]);
+      |                     ^~~~~~~~~~
+/opt/src/opentracing-cpp-1.5.1/mocktracer/src/base64.cpp:165:37: warning: unsafe buffer access [-Wunsafe-buffer-usage]
+  165 |     encodeBase(static_cast<uint8_t>(input[i]), pos++, next_c, ret);
+      |                                     ^~~~~
+prefetchit-dominator: functions=4 edges=0 calls=17 indirect=0 continuations=0 caller_targets=0 short_lead=8 skipped_eh=0 groups=5 hints=7 gate=0
+prefetchit-dominator-lean: budget_skipped=0 duplicate_targets=7 window=0
+prefetchit-dominator-profile: placement=24,600,8,0,0,1,0,0,4,0,0,callee=1,profile=1459600085F2673,indirect=0,direct_pic=1,indirect_targets=A5EA74985B421A73 module=62043595B4085BE5 removed=0 metadata=1
+prefetchit-dominator-callees: only=1 profiled=724 skipped=2
+prefetchit-dominator-indirect-targets: candidates=0 callers=107
+18 warnings generated.
+In file included from /opt/src/opentracing-cpp-1.5.1/mocktracer/src/utility.cpp:1:
+In file included from /opt/src/opentracing-cpp-1.5.1/mocktracer/src/utility.h:4:
+In file included from /opt/src/opentracing-cpp-1.5.1/mocktracer/include/opentracing/mocktracer/tracer.h:4:
+In file included from /opt/src/opentracing-cpp-1.5.1/mocktracer/include/opentracing/mocktracer/recorder.h:5:
+In file included from /opt/src/opentracing-cpp-1.5.1/include/opentracing/tracer.h:4:
+In file included from /opt/src/opentracing-cpp-1.5.1/include/opentracing/propagation.h:4:
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:86:45: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   86 |   const char* end() const noexcept { return data() + length(); }
+      |                                             ^~~~~~
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:89:52: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   89 |   const char& operator[](std::size_t i) { return *(data() + i); }
+      |                                                    ^~~~~~
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:98:37: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   98 |          std::equal(lhs.data(), lhs.data() + lhs.length(), rhs.data());
+      |                                 ~~~~^~~~~~
+/opt/src/opentracing-cpp-1.5.1/mocktracer/src/utility.cpp:23:5: warning: unsafe buffer access [-Wunsafe-buffer-usage]
+   23 |     dest.u8[k] = source.u8[sizeof(T) - k - 1];
+      |     ^~~~~~~
+/opt/src/opentracing-cpp-1.5.1/mocktracer/src/utility.cpp:23:18: warning: unsafe buffer access [-Wunsafe-buffer-usage]
+   23 |     dest.u8[k] = source.u8[sizeof(T) - k - 1];
+      |                  ^~~~~~~~~
+/opt/src/opentracing-cpp-1.5.1/mocktracer/src/utility.cpp:23:5: warning: unsafe buffer access [-Wunsafe-buffer-usage]
+   23 |     dest.u8[k] = source.u8[sizeof(T) - k - 1];
+      |     ^~~~~~~
+/opt/src/opentracing-cpp-1.5.1/mocktracer/src/utility.cpp:23:18: warning: unsafe buffer access [-Wunsafe-buffer-usage]
+   23 |     dest.u8[k] = source.u8[sizeof(T) - k - 1];
+      |                  ^~~~~~~~~
+prefetchit-dominator: functions=3 edges=0 calls=0 indirect=0 continuations=0 caller_targets=0 short_lead=0 skipped_eh=0 groups=0 hints=0 gate=0
+prefetchit-dominator-lean: budget_skipped=0 duplicate_targets=0 window=0
+prefetchit-dominator-profile: placement=24,600,8,0,0,1,0,0,4,0,0,callee=1,profile=1459600085F2673,indirect=0,direct_pic=1,indirect_targets=A5EA74985B421A73 module=CD45A9903E909950 removed=0 metadata=1
+prefetchit-dominator-callees: only=1 profiled=724 skipped=5
+prefetchit-dominator-indirect-targets: candidates=0 callers=107
+In file included from /opt/src/opentracing-cpp-1.5.1/mocktracer/src/mock_span_context.cpp:1:
+In file included from /opt/src/opentracing-cpp-1.5.1/mocktracer/src/mock_span_context.h:4:
+In file included from /opt/src/opentracing-cpp-1.5.1/mocktracer/include/opentracing/mocktracer/tracer.h:4:
+In file included from /opt/src/opentracing-cpp-1.5.1/mocktracer/include/opentracing/mocktracer/recorder.h:5:
+In file included from /opt/src/opentracing-cpp-1.5.1/include/opentracing/tracer.h:4:
+In file included from /opt/src/opentracing-cpp-1.5.1/include/opentracing/propagation.h:4:
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:86:45: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   86 |   const char* end() const noexcept { return data() + length(); }
+      |                                             ^~~~~~
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:89:52: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   89 |   const char& operator[](std::size_t i) { return *(data() + i); }
+      |                                                    ^~~~~~
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:98:37: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   98 |          std::equal(lhs.data(), lhs.data() + lhs.length(), rhs.data());
+      |                                 ~~~~^~~~~~
+7 warnings generated.
+In file included from /opt/src/opentracing-cpp-1.5.1/mocktracer/src/json_recorder.cpp:1:
+In file included from /opt/src/opentracing-cpp-1.5.1/mocktracer/include/opentracing/mocktracer/json.h:4:
+In file included from /opt/src/opentracing-cpp-1.5.1/mocktracer/include/opentracing/mocktracer/recorder.h:5:
+In file included from /opt/src/opentracing-cpp-1.5.1/include/opentracing/tracer.h:4:
+In file included from /opt/src/opentracing-cpp-1.5.1/include/opentracing/propagation.h:4:
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:86:45: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   86 |   const char* end() const noexcept { return data() + length(); }
+      |                                             ^~~~~~
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:89:52: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   89 |   const char& operator[](std::size_t i) { return *(data() + i); }
+      |                                                    ^~~~~~
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:98:37: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   98 |          std::equal(lhs.data(), lhs.data() + lhs.length(), rhs.data());
+      |                                 ~~~~^~~~~~
+In file included from /opt/src/opentracing-cpp-1.5.1/mocktracer/src/in_memory_recorder.cpp:1:
+In file included from /opt/src/opentracing-cpp-1.5.1/mocktracer/include/opentracing/mocktracer/in_memory_recorder.h:4:
+In file included from /opt/src/opentracing-cpp-1.5.1/mocktracer/include/opentracing/mocktracer/recorder.h:5:
+In file included from /opt/src/opentracing-cpp-1.5.1/include/opentracing/tracer.h:4:
+In file included from /opt/src/opentracing-cpp-1.5.1/include/opentracing/propagation.h:4:
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:86:45: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   86 |   const char* end() const noexcept { return data() + length(); }
+      |                                             ^~~~~~
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:89:52: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   89 |   const char& operator[](std::size_t i) { return *(data() + i); }
+      |                                                    ^~~~~~
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:98:37: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   98 |          std::equal(lhs.data(), lhs.data() + lhs.length(), rhs.data());
+      |                                 ~~~~^~~~~~
+In file included from /opt/src/opentracing-cpp-1.5.1/mocktracer/src/propagation.cpp:1:
+In file included from /opt/src/opentracing-cpp-1.5.1/mocktracer/src/propagation.h:4:
+In file included from /opt/src/opentracing-cpp-1.5.1/mocktracer/include/opentracing/mocktracer/recorder.h:5:
+In file included from /opt/src/opentracing-cpp-1.5.1/include/opentracing/tracer.h:4:
+In file included from /opt/src/opentracing-cpp-1.5.1/include/opentracing/propagation.h:4:
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:86:45: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   86 |   const char* end() const noexcept { return data() + length(); }
+      |                                             ^~~~~~
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:89:52: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   89 |   const char& operator[](std::size_t i) { return *(data() + i); }
+      |                                                    ^~~~~~
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:98:37: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   98 |          std::equal(lhs.data(), lhs.data() + lhs.length(), rhs.data());
+      |                                 ~~~~^~~~~~
+In file included from /opt/src/opentracing-cpp-1.5.1/mocktracer/src/tracer.cpp:1:
+In file included from /opt/src/opentracing-cpp-1.5.1/mocktracer/include/opentracing/mocktracer/tracer.h:4:
+In file included from /opt/src/opentracing-cpp-1.5.1/mocktracer/include/opentracing/mocktracer/recorder.h:5:
+In file included from /opt/src/opentracing-cpp-1.5.1/include/opentracing/tracer.h:4:
+In file included from /opt/src/opentracing-cpp-1.5.1/include/opentracing/propagation.h:4:
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:86:45: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   86 |   const char* end() const noexcept { return data() + length(); }
+      |                                             ^~~~~~
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:89:52: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   89 |   const char& operator[](std::size_t i) { return *(data() + i); }
+      |                                                    ^~~~~~
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:98:37: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   98 |          std::equal(lhs.data(), lhs.data() + lhs.length(), rhs.data());
+      |                                 ~~~~^~~~~~
+prefetchit-dominator: functions=13 edges=0 calls=20 indirect=0 continuations=0 caller_targets=0 short_lead=15 skipped_eh=2 groups=10 hints=14 gate=0
+prefetchit-dominator-lean: budget_skipped=0 duplicate_targets=0 window=0
+prefetchit-dominator-profile: placement=24,600,8,0,0,1,0,0,4,0,0,callee=1,profile=1459600085F2673,indirect=0,direct_pic=1,indirect_targets=A5EA74985B421A73 module=46F4F77060554CAB removed=0 metadata=1
+prefetchit-dominator-callees: only=1 profiled=724 skipped=43
+prefetchit-dominator-indirect-targets: candidates=0 callers=107
+In file included from /opt/src/opentracing-cpp-1.5.1/mocktracer/src/tracer_factory.cpp:1:
+In file included from /opt/src/opentracing-cpp-1.5.1/mocktracer/include/opentracing/mocktracer/json_recorder.h:4:
+In file included from /opt/src/opentracing-cpp-1.5.1/mocktracer/include/opentracing/mocktracer/recorder.h:5:
+In file included from /opt/src/opentracing-cpp-1.5.1/include/opentracing/tracer.h:4:
+In file included from /opt/src/opentracing-cpp-1.5.1/include/opentracing/propagation.h:4:
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:86:45: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   86 |   const char* end() const noexcept { return data() + length(); }
+      |                                             ^~~~~~
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:89:52: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   89 |   const char& operator[](std::size_t i) { return *(data() + i); }
+      |                                                    ^~~~~~
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:98:37: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   98 |          std::equal(lhs.data(), lhs.data() + lhs.length(), rhs.data());
+      |                                 ~~~~^~~~~~
+In file included from /opt/src/opentracing-cpp-1.5.1/mocktracer/src/json.cpp:1:
+In file included from /opt/src/opentracing-cpp-1.5.1/mocktracer/include/opentracing/mocktracer/json.h:4:
+In file included from /opt/src/opentracing-cpp-1.5.1/mocktracer/include/opentracing/mocktracer/recorder.h:5:
+In file included from /opt/src/opentracing-cpp-1.5.1/include/opentracing/tracer.h:4:
+In file included from /opt/src/opentracing-cpp-1.5.1/include/opentracing/propagation.h:4:
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:86:45: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   86 |   const char* end() const noexcept { return data() + length(); }
+      |                                             ^~~~~~
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:89:52: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   89 |   const char& operator[](std::size_t i) { return *(data() + i); }
+      |                                                    ^~~~~~
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:98:37: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   98 |          std::equal(lhs.data(), lhs.data() + lhs.length(), rhs.data());
+      |                                 ~~~~^~~~~~
+/opt/src/opentracing-cpp-1.5.1/mocktracer/src/tracer_factory.cpp:38:10: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   38 |     if (*i++ != s[index]) {
+      |          ^
+/opt/src/opentracing-cpp-1.5.1/mocktracer/src/tracer_factory.cpp:41:32: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   41 |                  std::string{s.data() + index, s.data() + s.size()}};
+      |                              ~~^~~~~~
+/opt/src/opentracing-cpp-1.5.1/mocktracer/src/tracer_factory.cpp:41:50: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   41 |                  std::string{s.data() + index, s.data() + s.size()}};
+      |                                                ~~^~~~~~
+/opt/src/opentracing-cpp-1.5.1/mocktracer/src/tracer_factory.cpp:47:23: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   47 |   for (; i != last; ++i) {
+      |                       ^
+/opt/src/opentracing-cpp-1.5.1/mocktracer/src/tracer_factory.cpp:64:9: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   64 |       ++i;
+      |         ^
+/opt/src/opentracing-cpp-1.5.1/mocktracer/src/tracer_factory.cpp:76:7: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   76 |     ++i;
+      |       ^
+/opt/src/opentracing-cpp-1.5.1/mocktracer/src/tracer_factory.cpp:109:24: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+  109 |         configuration, configuration + std::strlen(configuration));
+      |                        ^~~~~~~~~~~~~
+3 warnings generated.
+prefetchit-dominator: functions=15 edges=0 calls=28 indirect=0 continuations=0 caller_targets=0 short_lead=26 skipped_eh=0 groups=9 hints=13 gate=0
+prefetchit-dominator-lean: budget_skipped=0 duplicate_targets=0 window=0
+prefetchit-dominator-profile: placement=24,600,8,0,0,1,0,0,4,0,0,callee=1,profile=1459600085F2673,indirect=0,direct_pic=1,indirect_targets=A5EA74985B421A73 module=446F7AA21FA0AAE5 removed=0 metadata=1
+prefetchit-dominator-callees: only=1 profiled=724 skipped=50
+prefetchit-dominator-indirect-targets: candidates=0 callers=107
+3 warnings generated.
+In file included from /opt/src/opentracing-cpp-1.5.1/mocktracer/src/mock_span.cpp:1:
+In file included from /opt/src/opentracing-cpp-1.5.1/mocktracer/src/mock_span.h:4:
+In file included from /opt/src/opentracing-cpp-1.5.1/mocktracer/include/opentracing/mocktracer/tracer.h:4:
+In file included from /opt/src/opentracing-cpp-1.5.1/mocktracer/include/opentracing/mocktracer/recorder.h:5:
+In file included from /opt/src/opentracing-cpp-1.5.1/include/opentracing/tracer.h:4:
+In file included from /opt/src/opentracing-cpp-1.5.1/include/opentracing/propagation.h:4:
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:86:45: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   86 |   const char* end() const noexcept { return data() + length(); }
+      |                                             ^~~~~~
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:89:52: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   89 |   const char& operator[](std::size_t i) { return *(data() + i); }
+      |                                                    ^~~~~~
+/opt/src/opentracing-cpp-1.5.1/include/opentracing/string_view.h:98:37: warning: unsafe pointer arithmetic [-Wunsafe-buffer-usage]
+   98 |          std::equal(lhs.data(), lhs.data() + lhs.length(), rhs.data());
+      |                                 ~~~~^~~~~~
+prefetchit-dominator: functions=10 edges=0 calls=100 indirect=0 continuations=0 caller_targets=0 short_lead=24 skipped_eh=0 groups=11 hints=17 gate=0
+prefetchit-dominator-lean: budget_skipped=0 duplicate_targets=18 window=0
+prefetchit-dominator-profile: placement=24,600,8,0,0,1,0,0,4,0,0,callee=1,profile=1459600085F2673,indirect=0,direct_pic=1,indirect_targets=A5EA74985B421A73 module=CF4511E4F4C3D08C removed=0 metadata=1
+prefetchit-dominator-callees: only=1 profiled=724 skipped=45
+prefetchit-dominator-indirect-targets: candidates=0 callers=107
+prefetchit-dominator: functions=20 edges=0 calls=65 indirect=0 continuations=0 caller_targets=0 short_lead=13 skipped_eh=3 groups=16 hints=21 gate=0
+prefetchit-dominator-lean: budget_skipped=19 duplicate_targets=10 window=0
+prefetchit-dominator-profile: placement=24,600,8,0,0,1,0,0,4,0,0,callee=1,profile=1459600085F2673,indirect=0,direct_pic=1,indirect_targets=A5EA74985B421A73 module=4CF5D58480810312 removed=0 metadata=1
+prefetchit-dominator-callees: only=1 profiled=724 skipped=82
+prefetchit-dominator-indirect-targets: candidates=0 callers=107
+prefetchit-dominator: functions=26 edges=0 calls=39 indirect=0 continuations=0 caller_targets=0 short_lead=38 skipped_eh=0 groups=15 hints=22 gate=0
+prefetchit-dominator-lean: budget_skipped=0 duplicate_targets=0 window=0
+prefetchit-dominator-profile: placement=24,600,8,0,0,1,0,0,4,0,0,callee=1,profile=1459600085F2673,indirect=0,direct_pic=1,indirect_targets=A5EA74985B421A73 module=F472FF1E3C521DFF removed=0 metadata=1
+prefetchit-dominator-callees: only=1 profiled=724 skipped=103
+prefetchit-dominator-indirect-targets: candidates=0 callers=107
+3 warnings generated.
+prefetchit-dominator: functions=19 edges=0 calls=61 indirect=0 continuations=0 caller_targets=0 short_lead=21 skipped_eh=1 groups=24 hints=37 gate=0
+prefetchit-dominator-lean: budget_skipped=0 duplicate_targets=11 window=0
+prefetchit-dominator-profile: placement=24,600,8,0,0,1,0,0,4,0,0,callee=1,profile=1459600085F2673,indirect=0,direct_pic=1,indirect_targets=A5EA74985B421A73 module=D6CD59B89FAEBD1A removed=0 metadata=1
+prefetchit-dominator-callees: only=1 profiled=724 skipped=95
+prefetchit-dominator-indirect-targets: candidates=0 callers=107
+prefetchit-dominator: functions=37 edges=0 calls=76 indirect=0 continuations=0 caller_targets=0 short_lead=48 skipped_eh=7 groups=29 hints=44 gate=0
+prefetchit-dominator-lean: budget_skipped=0 duplicate_targets=4 window=0
+prefetchit-dominator-profile: placement=24,600,8,0,0,1,0,0,4,0,0,callee=1,profile=1459600085F2673,indirect=0,direct_pic=1,indirect_targets=A5EA74985B421A73 module=5BAE5D1303DCDBE0 removed=0 metadata=1
+prefetchit-dominator-callees: only=1 profiled=724 skipped=141
+prefetchit-dominator-indirect-targets: candidates=0 callers=107
+10 warnings generated.
+3 warnings generated.
+3 warnings generated.
+3 warnings generated.
+prefetchit-dominator: functions=64 edges=0 calls=162 indirect=0 continuations=0 caller_targets=0 short_lead=102 skipped_eh=7 groups=62 hints=99 gate=0
+prefetchit-dominator-lean: budget_skipped=2 duplicate_targets=6 window=0
+prefetchit-dominator-profile: placement=24,600,8,0,0,1,0,0,4,0,0,callee=1,profile=1459600085F2673,indirect=0,direct_pic=1,indirect_targets=A5EA74985B421A73 module=B5B1657B9197BF8F removed=0 metadata=1
+prefetchit-dominator-callees: only=1 profiled=724 skipped=269
+prefetchit-dominator-indirect-targets: candidates=0 callers=107
+3 warnings generated.
+[100%] Linking CXX static library ../output/libopentracing_mocktracer.a
+[100%] Built target opentracing_mocktracer-static

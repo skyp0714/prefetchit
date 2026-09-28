@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/storage/prefetchit/class_b_coverage_20260928/build_coverage.py", line 9, in <module>
+    d.audit(r,{tag:tag},tag+'_')
+  File "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/dense_study.py", line 60, in audit
+    control.write_bytes(patched);control.chmod(binary.stat().st_mode)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1038, in write_bytes
+    with self.open(mode='wb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1015, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: '/storage/prefetchit/class_b_coverage_20260928/builds/coverage_callees/movie/MovieIdService.nop'

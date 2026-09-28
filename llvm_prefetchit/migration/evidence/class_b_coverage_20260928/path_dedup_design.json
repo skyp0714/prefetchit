@@ -1,0 +1,9 @@
+{
+  "frozen_before": "No path-aware build/measurement yet; second indirect/lift screen still active",
+  "source_issue": "Global per-function Seen set removed same-target hints at mutually exclusive non-dominating sites. A selected hint could be bypassed on another branch.",
+  "change": "Duplicate target removed only if a previously retained emission instruction dominates this site. Ungated lean mode required. All placement/source budgets and indirect target profile remain identical to V7; direct-edge lifting stays off.",
+  "tests": "CFG with two disjoint branch-local calls must keep2hints; a single dominating entry hint must still permit branch duplicates to be removed.",
+  "screen": "New seeds66001\u201366002, base/ownNOP/path-awareIT0, C4,60s clean ROI, all3 primary PMU both blocks. Complete current10runs unchanged first.",
+  "next": "Then per-service selection across all completed exploratory policies; confirmation remains6NEW seeds64001\u201364006 and separate frontend diagnostics.",
+  "caution": "This repairs a path-coverage heuristic, not program functional correctness. Runtime miss/E2E benefit still requires measurement."
+}

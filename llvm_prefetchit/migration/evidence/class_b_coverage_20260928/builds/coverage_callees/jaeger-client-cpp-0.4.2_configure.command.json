@@ -1,0 +1,17 @@
+[
+  "cmake",
+  "-S",
+  "/opt/src/jaeger-client-cpp-0.4.2",
+  "-B",
+  "/opt/src/jaeger-client-cpp-0.4.2/dense_build",
+  "-DCMAKE_C_COMPILER=clang-19",
+  "-DCMAKE_CXX_COMPILER=clang++-19",
+  "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+  "-DCMAKE_C_FLAGS=-fPIC -Wno-error -Wno-enum-constexpr-conversion -Wno-deprecated-declarations -O2 -g -fpass-plugin=/pass/PrefetchITPass.so",
+  "-DCMAKE_CXX_FLAGS=-fPIC -Wno-error -Wno-enum-constexpr-conversion -Wno-deprecated-declarations -O2 -g -fpass-plugin=/pass/PrefetchITPass.so",
+  "-DHUNTER_ENABLED=OFF",
+  "-DBUILD_SHARED_LIBS=OFF",
+  "-DBUILD_TESTING=OFF",
+  "-DJAEGERTRACING_WITH_YAML_CPP=ON",
+  "-DJAEGERTRACING_BUILD_EXAMPLES=OFF"
+]

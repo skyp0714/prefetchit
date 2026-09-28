@@ -1,0 +1,49 @@
+{
+  "out": "/storage/prefetchit/class_b_coverage_20260928/screen_paths",
+  "arms": {
+    "base": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+      },
+      "clock": false
+    },
+    "paths_nop": {
+      "clock": false,
+      "controls": [
+        "base"
+      ],
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_paths/movie/MovieIdService.nop",
+        "compose": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_paths/compose/ComposeReviewService.nop",
+        "rating": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_paths/rating/RatingService.nop"
+      }
+    },
+    "paths_it0": {
+      "clock": false,
+      "controls": [
+        "base",
+        "paths_nop"
+      ],
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_paths_it0/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_paths_it0/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_paths_it0/rating/RatingService"
+      }
+    }
+  },
+  "module": "/storage/prefetchit/class_b_lean_20260928/kernel_v1/prefetchit_sched_clock.ko",
+  "clock_options": {},
+  "blocks": 2,
+  "concurrency": 4,
+  "roi_s": 60,
+  "seedbase": 66001,
+  "pmu_blocks": [
+    0,
+    1
+  ],
+  "pmu_event_sets": {},
+  "phase": "Frozen dominance-aware duplicate removal exploration; fresh seeds and own NOP control",
+  "primary_miss": "sum of all3 FE_L2/request; reduction in both blocks against base and own NOP; strongest minimum paired-log point reduction retained for independent confirmation; no E2E promotion from this screen"
+}

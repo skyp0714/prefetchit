@@ -1,0 +1,7 @@
+{
+  "frozen_before": "First V7/V8 measurement; V6 screening already complete",
+  "motivation": "An indirect-call wrapper may have little work before its call. Also prefetch learned descendants before direct calls to that wrapper, from the outer caller dominator.",
+  "change": "One statically named direct-call edge of lifting; same target profile, size/site/group budgets and lead24IR. No added real calls or pointer dereferences.",
+  "controls": "Each linked binary has its own exact-layout NOP; compare both against original on same fresh seeds. V7 and V8 measurements run in one frozen screen.",
+  "caveat": "Static callgraph step improves potential lead, not measured microsecond lead. Source/runtime paths may differ; report linked hints and original-symbol target coverage."
+}

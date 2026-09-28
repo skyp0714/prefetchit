@@ -1,0 +1,137 @@
+{
+  "miss_decisions": {
+    "coverage_full_it0": {
+      "contrasts": {
+        "base": {
+          "paired_reductions_pct": [
+            1.9923778701334993,
+            0.5765535778690878
+          ],
+          "every_block_reduces": true,
+          "summary": {
+            "pairs": 2,
+            "cost_reduction_pct": 1.2870040582840248,
+            "ci95_pct": [
+              -8.130337908938557,
+              9.884166125557547
+            ]
+          }
+        },
+        "coverage_nop": {
+          "paired_reductions_pct": [
+            4.7132981432637,
+            3.1657377800247466
+          ],
+          "every_block_reduces": true,
+          "summary": {
+            "pairs": 2,
+            "cost_reduction_pct": 3.9426344642337963,
+            "ci95_pct": [
+              -6.409832458775511,
+              13.287924053010169
+            ]
+          }
+        }
+      },
+      "miss_screen_eligible": true
+    },
+    "coverage_weighted_it0": {
+      "contrasts": {
+        "base": {
+          "paired_reductions_pct": [
+            0.12610335409518614,
+            0.3162019304645769
+          ],
+          "every_block_reduces": true,
+          "summary": {
+            "pairs": 2,
+            "cost_reduction_pct": 0.22119791424619617,
+            "ci95_pct": [
+              -0.9938562492024072,
+              1.421633796197841
+            ]
+          }
+        },
+        "coverage_nop": {
+          "paired_reductions_pct": [
+            2.8988357623997985,
+            2.9121662071069143
+          ],
+          "every_block_reduces": true,
+          "summary": {
+            "pairs": 2,
+            "cost_reduction_pct": 2.905501213526296,
+            "ci95_pct": [
+              2.8207745881617674,
+              2.9901539691824075
+            ]
+          }
+        }
+      },
+      "miss_screen_eligible": true
+    }
+  },
+  "e2e_decisions": {
+    "coverage_full_it0": {
+      "matched_nop": "coverage_nop",
+      "point_eligible": true,
+      "point_checks": {
+        "base": {
+          "stack_cpu": true,
+          "mean_ms": true,
+          "p99_ms": true
+        },
+        "coverage_nop": {
+          "stack_cpu": true,
+          "mean_ms": true,
+          "p99_ms": true
+        }
+      },
+      "confirmation_checks": {
+        "base": {
+          "stack_cpu": false,
+          "mean_ms": false,
+          "p99_ms": false
+        },
+        "coverage_nop": {
+          "stack_cpu": false,
+          "mean_ms": false,
+          "p99_ms": false
+        }
+      },
+      "confirmed": false,
+      "minimum_effect_pct": 0.16903515083972476
+    },
+    "coverage_weighted_it0": {
+      "matched_nop": "coverage_nop",
+      "point_eligible": true,
+      "point_checks": {
+        "base": {
+          "stack_cpu": true,
+          "mean_ms": true,
+          "p99_ms": true
+        },
+        "coverage_nop": {
+          "stack_cpu": true,
+          "mean_ms": true,
+          "p99_ms": true
+        }
+      },
+      "confirmation_checks": {
+        "base": {
+          "stack_cpu": true,
+          "mean_ms": false,
+          "p99_ms": false
+        },
+        "coverage_nop": {
+          "stack_cpu": false,
+          "mean_ms": false,
+          "p99_ms": true
+        }
+      },
+      "confirmed": false,
+      "minimum_effect_pct": 0.4378778821525042
+    }
+  },
+  "next": "Proceed with independently trained indirect target profile. Keep V6 as a mechanistic reference only if miss eligibility holds; no E2E promotion from screening."
+}
