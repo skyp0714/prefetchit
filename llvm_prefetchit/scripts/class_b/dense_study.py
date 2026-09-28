@@ -38,8 +38,9 @@ def audit(root, variants=None, prefix=''):
                 match=re.match(r'^\s*([0-9a-f]+):\s*((?:[0-9a-f]{2}\s+)+)\s*(.*)$',line)
                 if not match:continue
                 instructions+=1;instruction=match[3]
-                if 'prefetch' not in instruction.split('#')[0]:continue
-                assert instruction.split()[0]=='prefetcht1',instruction
+                mnemonic=instruction.split()[0]
+                if not mnemonic.startswith('prefetch'):continue
+                assert mnemonic=='prefetcht1',instruction
                 va=int(match[1],16);raw=bytes.fromhex(match[2]);size=len(raw)
                 candidates=[(v,o,s) for v,o,s in sections if v<=va and va+size<=v+s]
                 opcode = raw[1:] if 0x40 <= raw[0] <= 0x4f else raw
