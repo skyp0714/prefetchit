@@ -64,7 +64,7 @@ v2의 14회 복구를 검증했다. v3 초기 단위 검사 15개는 통과했�
 v3 종료 후 후속 비교를 위한 profile PF/NOP 쌍만 fallback reference로 유지하고, 다른 PF/NOP ELF 24개 503,957,744 bytes를 정리했다. profile도 승격된 구현이 아니다. 다음 반복은 함수당 한 지점·더 긴 IR lead·게이트 생략·callee 프로파일과 앞당긴 발행 구간을 검증한다. 이 문서는 아직 캠페인 진행 중 체크포인트다.
 
 
-## v4 정적 축소와 검증 (성능 비교 진행 중)
+## v4 정적 축소와 검증
 
 ![정적 삽입 수와 코드 크기](figures/class_b_lean_static_20260928.png)
 
@@ -72,4 +72,23 @@ v4 one-site는 함수당 최대 한 지점과 최소 64 IR lead를 사용하며,
 
 Gated 정책은 가장 많은 그룹이 [5,15)µs, 일부는 [3,17), 더 적은 그룹은 [1,20)에 eligible하도록 앞당겼다. 이는 10–20µs의 과거 retirement miss peak보다 앞서 발행하려는 설정이다. 실제 fetch lead를 µs 단위로 측정한 값은 아니며, IR instruction 거리와 실제 시간도 동일하지 않다. ungated 정책은 이 시간 제한 자체를 제거한다.
 
-PIC 선언을 직접 주소로 바꾸는 과정에서 inline-asm 제약 오류를 먼저 검출했다. 명시적 allowlist의 main-executable binding만 적용하도록 수정하고, 모든 최종 target이 원본 main image에도 정의되는지 확인했다. 이어 compiler-generated 함수 복제를 검사 fixture가 허용하도록 고쳤으며, 최종 37개 검사와 Media ELF 대상/동일 배치 NOP 검증을 통과했다. 실패 소스·로그·해시·정리 기록을 보존했다. 현재 8개 arm × 2 block을 비교 중이며 이 정적 개선을 성능 개선으로 승격하지 않는다.
+PIC 선언을 직접 주소로 바꾸는 과정에서 inline-asm 제약 오류를 먼저 검출했다. 명시적 allowlist의 main-executable binding만 적용하도록 수정하고, 모든 최종 target이 원본 main image에도 정의되는지 확인했다. 이어 compiler-generated 함수 복제를 검사 fixture가 허용하도록 고쳤으며, 최종 37개 검사와 Media ELF 대상/동일 배치 NOP 검증을 통과했다. 실패 소스·로그·해시·정리 기록을 보존했다. 8개 arm × 2 block의 16회 비교를 완료했고 모두 유효했다. 이 정적 개선을 성능 개선으로 승격하지 않는다.
+
+
+## v4 완료와 다음 반복
+
+원본 CPU/request 평균은 5911.30µs, 평균 지연 3.35245ms, p99 5.87165ms, 1168.84 RPS, util 85.09%였다. 두 원본 실행의 CPU CV는 0.242%, 평균 지연 CV는 1.878%다. 변동은 지표별로 다르다.
+
+| 후보 | CPU 절감 vs 원본 | 평균 절감 vs 원본 | p99 절감 vs 원본 | CPU 절감 vs own NOP | 평균 절감 vs own NOP |
+|---|---:|---:|---:|---:|---:|
+| one_far_it0 | -0.786% | -0.836% | +0.672% | -0.150% | -0.471% |
+| ungated_it0 | -0.227% | +0.462% | +1.027% | -0.068% | +0.618% |
+| callees_it0 | -0.668% | +0.129% | -0.175% | +0.217% | +1.483% |
+
+원본·NOP 양쪽의 CPU/평균 점추정 기준을 모두 통과한 후보는 없었다. ungated를 가장 나은 절충안인 **진단적 검증 대상**으로 선택했으며 승자로 승격하지 않았다. C4와 C16에서 각각 새 시드 6개 block, 3개 arm의 독립 검증을 시작했다. 탐색 결과와 합치지 않는다.
+
+별도 post-ROI PMU에서는 callee IT0의 retired L2-miss instructions/request가 원본보다 약 6–8% 적었지만 retired instructions/request는 약 3–5% 많았다. L2 instruction-fetch miss/request 자체는 같은 방향으로 일관되게 감소하지 않았다. 서로 다른 이벤트 모집단이며 한 번의 PMU 창으로 인과나 작은 이득을 확정하지 않는다.
+
+이 관측을 근거로 **v5: 같은 callee allowlist·예산에서 gate/outline/window/runtime을 제거하는 정책**을 준비했다. 기존 C4/C16 독립 검증을 모두 마친 뒤에만 빌드하고 2개 block의 새 C4 탐색을 수행한다. outlining 제거로 최종 위치·코드 생성도 달라질 수 있어 완전히 동일한 기계어의 gate-only ablation으로 부르지 않는다. 이 후속 탐색에 시간을 배정하며 진단 범위는 MovieId PEBS 한 주기와 세 서비스의 별도 gate 카운터로 줄인다. 실행하지 않은 원래 진단 계획은 보존한다. 현재 v5는 아직 빌드·측정 전이다.
+
+v4 종료 후 대체된 one-far/profile PF/NOP 244,020,112 bytes를 정리했다. 별도 gate 진단 빌더에서 IT0 패치 목록 생성 순서 누락을 발견해, 성공한 T1 빌드를 재사용하여 정상 감사 후 변환했다. 성능 측정에는 진입하지 않았다. 진단의 중간 T1/NOP/object 122,078,448 bytes 및 더 이상 필요 없는 기존 gated-callee PF/NOP 122,064,944 bytes도 기록 후 정리했다.

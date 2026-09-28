@@ -1,0 +1,361 @@
+{
+  "rows": [
+    {
+      "arm": "base",
+      "service": "movie",
+      "cycles:u": 271127.53116412007,
+      "instructions:u": 98317.80081345499,
+      "L2I": 6018.628778718259,
+      "FE_L2": 488.6842915246785,
+      "ITLB_WALK": 531.0540837638782,
+      "SWPF_MISS": 0.049576783555018135,
+      "SWPF_HIT": 0.7927888314829065,
+      "mpki": 61.21606391641947,
+      "walk_active_cycle_pct": 11.14988788778231,
+      "late_it0_misses_per_request": 0.0
+    },
+    {
+      "arm": "base",
+      "service": "compose",
+      "cycles:u": 559501.5858378379,
+      "instructions:u": 277476.15437837836,
+      "L2I": 10991.443891891891,
+      "FE_L2": 987.1332972972973,
+      "ITLB_WALK": 1114.7144864864865,
+      "SWPF_MISS": 0.10540540540540541,
+      "SWPF_HIT": 1.8756756756756756,
+      "mpki": 39.61221070154911,
+      "walk_active_cycle_pct": 9.508704835693285,
+      "late_it0_misses_per_request": 0.0
+    },
+    {
+      "arm": "base",
+      "service": "rating",
+      "cycles:u": 270254.3240217507,
+      "instructions:u": 104678.12687919821,
+      "L2I": 5620.9198208764265,
+      "FE_L2": 503.2130291075808,
+      "ITLB_WALK": 473.20332658065894,
+      "SWPF_MISS": 0.036997547712975795,
+      "SWPF_HIT": 0.7219319756903722,
+      "mpki": 53.697176176672905,
+      "walk_active_cycle_pct": 10.276294920223183,
+      "late_it0_misses_per_request": 0.0
+    },
+    {
+      "arm": "ungated_nop",
+      "service": "movie",
+      "cycles:u": 273835.40201112535,
+      "instructions:u": 98921.31204535729,
+      "L2I": 5993.700470688917,
+      "FE_L2": 491.1370346598203,
+      "ITLB_WALK": 530.7367351305091,
+      "SWPF_MISS": 0.07948224219084296,
+      "SWPF_HIT": 0.7851946940522037,
+      "mpki": 60.59058808217882,
+      "walk_active_cycle_pct": 11.579954351276843,
+      "late_it0_misses_per_request": 0.0
+    },
+    {
+      "arm": "ungated_nop",
+      "service": "compose",
+      "cycles:u": 568795.0636971047,
+      "instructions:u": 278527.3071269488,
+      "L2I": 11209.402004454343,
+      "FE_L2": 1013.993986636971,
+      "ITLB_WALK": 1125.3119153674834,
+      "SWPF_MISS": 0.13452115812917595,
+      "SWPF_HIT": 1.7415367483296214,
+      "mpki": 40.24525322159977,
+      "walk_active_cycle_pct": 9.778212391970989,
+      "late_it0_misses_per_request": 0.0
+    },
+    {
+      "arm": "ungated_nop",
+      "service": "rating",
+      "cycles:u": 270378.87290194345,
+      "instructions:u": 104872.09518551237,
+      "L2I": 5651.3977473498235,
+      "FE_L2": 491.44898409893995,
+      "ITLB_WALK": 467.4294390459364,
+      "SWPF_MISS": 0.044942579505300354,
+      "SWPF_HIT": 0.7233878091872792,
+      "mpki": 53.888479460173315,
+      "walk_active_cycle_pct": 10.364790975401215,
+      "late_it0_misses_per_request": 0.0
+    },
+    {
+      "arm": "ungated_it0",
+      "service": "movie",
+      "cycles:u": 276093.8383649185,
+      "instructions:u": 99049.506170119,
+      "L2I": 5982.0095857205815,
+      "FE_L2": 491.4939400617012,
+      "ITLB_WALK": 528.304759806082,
+      "SWPF_MISS": 18.178162185985016,
+      "SWPF_HIT": 54.2678492728074,
+      "mpki": 60.3941384164641,
+      "walk_active_cycle_pct": 11.228536394038741,
+      "late_it0_misses_per_request": 0.44632580787959275
+    },
+    {
+      "arm": "ungated_it0",
+      "service": "compose",
+      "cycles:u": 566808.3366447148,
+      "instructions:u": 279178.51367340103,
+      "L2I": 11341.816050898538,
+      "FE_L2": 1012.6200468802322,
+      "ITLB_WALK": 1073.13059493247,
+      "SWPF_MISS": 20.395468244223686,
+      "SWPF_HIT": 132.13427837928342,
+      "mpki": 40.62567674590761,
+      "walk_active_cycle_pct": 8.809571274424703,
+      "late_it0_misses_per_request": 1.6764475305185351
+    },
+    {
+      "arm": "ungated_it0",
+      "service": "rating",
+      "cycles:u": 269866.1776112825,
+      "instructions:u": 104903.13717496695,
+      "L2I": 5701.371859850155,
+      "FE_L2": 500.49460114587924,
+      "ITLB_WALK": 457.9824812692816,
+      "SWPF_MISS": 15.197553988541207,
+      "SWPF_HIT": 32.235456148082854,
+      "mpki": 54.34891666148068,
+      "walk_active_cycle_pct": 10.36258921163712,
+      "late_it0_misses_per_request": 0.25873192436040043
+    },
+    {
+      "arm": "callees_nop",
+      "service": "movie",
+      "cycles:u": 285244.62364055804,
+      "instructions:u": 103493.39975832144,
+      "L2I": 5943.713391189718,
+      "FE_L2": 464.7091068878392,
+      "ITLB_WALK": 605.4714929144238,
+      "SWPF_MISS": 0.04427111941118313,
+      "SWPF_HIT": 0.7967702955069758,
+      "mpki": 57.430844914453694,
+      "walk_active_cycle_pct": 11.674142914115338,
+      "late_it0_misses_per_request": 0.0
+    },
+    {
+      "arm": "callees_nop",
+      "service": "compose",
+      "cycles:u": 594812.2684310019,
+      "instructions:u": 287649.08084065386,
+      "L2I": 11637.490826198155,
+      "FE_L2": 934.154231068609,
+      "ITLB_WALK": 1131.6175914600244,
+      "SWPF_MISS": 0.1148671188702324,
+      "SWPF_HIT": 1.9968864672523075,
+      "mpki": 40.45725017506613,
+      "walk_active_cycle_pct": 9.37258137456018,
+      "late_it0_misses_per_request": 0.0
+    },
+    {
+      "arm": "callees_nop",
+      "service": "rating",
+      "cycles:u": 280329.7751733245,
+      "instructions:u": 107676.02718168813,
+      "L2I": 5613.711455926048,
+      "FE_L2": 474.41058655221747,
+      "ITLB_WALK": 509.72422141520855,
+      "SWPF_MISS": 0.032904148783977114,
+      "SWPF_HIT": 0.7104655001650709,
+      "mpki": 52.135202262372665,
+      "walk_active_cycle_pct": 10.032267015686262,
+      "late_it0_misses_per_request": 0.0
+    },
+    {
+      "arm": "callees_it0",
+      "service": "movie",
+      "cycles:u": 282664.4720437018,
+      "instructions:u": 103244.75449871465,
+      "L2I": 6046.6544558697515,
+      "FE_L2": 448.0968294772922,
+      "ITLB_WALK": 567.6935518423307,
+      "SWPF_MISS": 0.05077120822622108,
+      "SWPF_HIT": 0.8432947729220223,
+      "mpki": 58.56621467335688,
+      "walk_active_cycle_pct": 11.130581046235193,
+      "late_it0_misses_per_request": 1.812062466343565
+    },
+    {
+      "arm": "callees_it0",
+      "service": "compose",
+      "cycles:u": 588427.4539188438,
+      "instructions:u": 287553.7240689272,
+      "L2I": 11476.109282934964,
+      "FE_L2": 928.9345191773207,
+      "ITLB_WALK": 1177.6327959977766,
+      "SWPF_MISS": 0.11817676486937187,
+      "SWPF_HIT": 1.9147304057809895,
+      "mpki": 39.9094441224629,
+      "walk_active_cycle_pct": 9.449240538096388,
+      "late_it0_misses_per_request": 4.507319757842597
+    },
+    {
+      "arm": "callees_it0",
+      "service": "rating",
+      "cycles:u": 275548.6221045665,
+      "instructions:u": 107965.1589455107,
+      "L2I": 5701.255349658063,
+      "FE_L2": 463.59772777410103,
+      "ITLB_WALK": 479.4403264945952,
+      "SWPF_MISS": 0.032208250606662256,
+      "SWPF_HIT": 0.6926979924994485,
+      "mpki": 52.80643686668815,
+      "walk_active_cycle_pct": 9.915723224362571,
+      "late_it0_misses_per_request": 1.143433682373473
+    }
+  ],
+  "comparisons": {
+    "one_far_it0": {
+      "base": {
+        "movie": {
+          "instructions:u": -1.7126983238901383,
+          "cycles:u": -2.7381703845325234,
+          "L2I": 0.28684376144253454,
+          "FE_L2": 2.053951092271633,
+          "ITLB_WALK": -4.401695622166835
+        },
+        "compose": {
+          "instructions:u": -1.2236671891400652,
+          "cycles:u": -1.6847268392313541,
+          "L2I": -4.6621367798284075,
+          "FE_L2": 5.983628807877817,
+          "ITLB_WALK": 5.907399855603779
+        },
+        "rating": {
+          "instructions:u": -0.6309721555751935,
+          "cycles:u": -1.4226581555227602,
+          "L2I": -1.5403332783091361,
+          "FE_L2": 5.762762683601174,
+          "ITLB_WALK": -2.52977839074795
+        }
+      },
+      "one_far_nop": {
+        "movie": {
+          "instructions:u": 0.22751153896304332,
+          "cycles:u": -0.7141054148244841,
+          "L2I": 1.3096173437999292,
+          "FE_L2": -0.20659360885681988,
+          "ITLB_WALK": 0.04197570988567767
+        },
+        "compose": {
+          "instructions:u": 0.025850894749956943,
+          "cycles:u": 1.567786245795344,
+          "L2I": -1.2059593713483086,
+          "FE_L2": 5.241527704915516,
+          "ITLB_WALK": 5.523756407971858
+        },
+        "rating": {
+          "instructions:u": 0.18297458154944435,
+          "cycles:u": -0.7565577454237804,
+          "L2I": 1.4873776974136277,
+          "FE_L2": -3.120722944836518,
+          "ITLB_WALK": -1.4873620958637757
+        }
+      }
+    },
+    "ungated_it0": {
+      "base": {
+        "movie": {
+          "instructions:u": -0.7442246984880496,
+          "cycles:u": -1.831723683491293,
+          "L2I": 0.6084308294135421,
+          "FE_L2": -0.5749414470141323,
+          "ITLB_WALK": 0.5177107269960679
+        },
+        "compose": {
+          "instructions:u": -0.6135155285096117,
+          "cycles:u": -1.305939248757504,
+          "L2I": -3.1876809130155115,
+          "FE_L2": -2.5818954393206806,
+          "ITLB_WALK": 3.7304522420881336
+        },
+        "rating": {
+          "instructions:u": -0.21495445369250632,
+          "cycles:u": 0.14362264577012507,
+          "L2I": -1.431296683416905,
+          "FE_L2": 0.5402141447971909,
+          "ITLB_WALK": 3.2165550105833662
+        }
+      },
+      "ungated_nop": {
+        "movie": {
+          "instructions:u": -0.12959201825277766,
+          "cycles:u": -0.8247422857696751,
+          "L2I": 0.19505287302072905,
+          "FE_L2": -0.0726692097508197,
+          "ITLB_WALK": 0.4582263038244716
+        },
+        "compose": {
+          "instructions:u": -0.2338034834607594,
+          "cycles:u": 0.3492869715634228,
+          "L2I": -1.1812766318094248,
+          "FE_L2": 0.1354978209777813,
+          "ITLB_WALK": 4.637053933439683
+        },
+        "rating": {
+          "instructions:u": -0.029599856281747883,
+          "cycles:u": 0.18962106216298125,
+          "L2I": -0.8842788056063755,
+          "FE_L2": -1.8406014336410204,
+          "ITLB_WALK": 2.021044672739669
+        }
+      }
+    },
+    "callees_it0": {
+      "base": {
+        "movie": {
+          "instructions:u": -5.011252941476907,
+          "cycles:u": -4.255171295237492,
+          "L2I": -0.4656488742184939,
+          "FE_L2": 8.30545666216419,
+          "ITLB_WALK": -6.899385429590921
+        },
+        "compose": {
+          "instructions:u": -3.6318687323331655,
+          "cycles:u": -5.169934958752664,
+          "L2I": -4.409478825621793,
+          "FE_L2": 5.8957365007665015,
+          "ITLB_WALK": -5.644343037974231
+        },
+        "rating": {
+          "instructions:u": -3.140132675573981,
+          "cycles:u": -1.959005874181563,
+          "L2I": -1.429223887579134,
+          "FE_L2": 7.8724713077749975,
+          "ITLB_WALK": -1.3180380533257097
+        }
+      },
+      "callees_nop": {
+        "movie": {
+          "instructions:u": 0.2402522868003354,
+          "cycles:u": 0.904539957292072,
+          "L2I": -1.7319318396580297,
+          "FE_L2": 3.5747690682886635,
+          "ITLB_WALK": 6.239425227148154
+        },
+        "compose": {
+          "instructions:u": 0.03315038290684358,
+          "cycles:u": 1.0734167486154966,
+          "L2I": 1.3867383070231165,
+          "FE_L2": 0.5587633944897141,
+          "ITLB_WALK": -4.06632106862026
+        },
+        "rating": {
+          "instructions:u": -0.26852008881670386,
+          "cycles:u": 1.7055459291835495,
+          "L2I": -1.5594655054741002,
+          "FE_L2": 2.2792195378056324,
+          "ITLB_WALK": 5.941231287093352
+        }
+      }
+    }
+  },
+  "interpretation": "One post-ROI window per service/selector/arm, separate from clean E2E timings. Positive comparison means fewer events per bracketing request. Speculative instruction L2 misses and retired L2-miss instructions are different event populations; ITLB walk-active cycles are not an exclusive stall-cause percentage. FE_LATE_SWPF is not all IT0 issuance."
+}

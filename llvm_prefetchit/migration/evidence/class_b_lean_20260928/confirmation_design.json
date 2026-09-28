@@ -1,0 +1,22 @@
+{
+  "phase": "independent confirmation, frozen before confirmation data",
+  "blocks": 6,
+  "roi_s": 60,
+  "warmup_s": 50,
+  "arms": [
+    "base",
+    "matched_nop",
+    "selected_candidate"
+  ],
+  "orders": "lean_study exact reversed block pairs with rotated starting position",
+  "selection": "Choose candidate after exploratory screens; use disjoint request seeds and fresh full stacks; do not pool screen data",
+  "endpoints": {
+    "CPU_request": "paired log cost-reduction t95 lower bound >0 vs both original and own NOP",
+    "mean_latency": "paired log cost-reduction t95 lower bound >0 vs both original and own NOP",
+    "p99": "noninferiority: cost-reduction t95 lower bound >-2% vs both controls"
+  },
+  "throughput": "Report RPS and interval, but C4 closed-loop RPS and mean are related, not independent evidence",
+  "multiplicity": "Individual intervals reported; promotion requires every named criterion, no cherry-picking an endpoint",
+  "saturation": "Repeat selected/reference comparison at C16 near prior measured plateau, same8CPUs; separately interpret it fromC4",
+  "time_budget": "Aim to begin final confirmations by10:30UTC and finish measurement by12:30UTC for final report before12:52:38"
+}

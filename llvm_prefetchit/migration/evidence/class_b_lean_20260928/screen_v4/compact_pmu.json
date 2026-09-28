@@ -1,0 +1,2818 @@
+[
+  {
+    "arm": "base",
+    "block": 0,
+    "services": {
+      "movie": {
+        "counters": {
+          "cycles:u": 2466447151.0,
+          "instructions:u": 894397034.0,
+          "L2I": 54751466.0,
+          "FE_L2": 4445561.0,
+          "ITLB_WALK": 4830999.0,
+          "SWPF_MISS": 451.0,
+          "SWPF_HIT": 7212.0
+        },
+        "scheduled_pct": {
+          "cycles:u": 100.0,
+          "instructions:u": 100.0,
+          "L2I": 100.0,
+          "FE_L2": 100.0,
+          "ITLB_WALK": 100.0,
+          "SWPF_MISS": 100.0,
+          "SWPF_HIT": 100.0
+        },
+        "fully_scheduled": true,
+        "window": {
+          "start": 1790588107.299948,
+          "end": 1790588115.4406607,
+          "wall_s": 8.140712905005785,
+          "cpu_us": 4635281,
+          "user_us": 1381747,
+          "system_us": 3253533,
+          "delta": {
+            "usage_usec": 4635281,
+            "user_usec": 1381747,
+            "system_usec": 3253533,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "completed": 9097,
+          "achieved_rps": 1117.469699048862,
+          "cpu_us_per_request": 509.53951852258984,
+          "mean_ms": 3.5098647893071373,
+          "p50_ms": 3.3812522888183594,
+          "p95_ms": 4.503011703491211,
+          "p99_ms": 6.021738052368164,
+          "user_us_per_request": 151.8904034297021
+        },
+        "per_request": {
+          "cycles:u": 271127.53116412007,
+          "instructions:u": 98317.80081345499,
+          "L2I": 6018.628778718259,
+          "FE_L2": 488.6842915246785,
+          "ITLB_WALK": 531.0540837638782,
+          "SWPF_MISS": 0.049576783555018135,
+          "SWPF_HIT": 0.7927888314829065
+        }
+      },
+      "compose": {
+        "counters": {
+          "cycles:u": 5175389669.0,
+          "instructions:u": 2566654428.0,
+          "L2I": 101670856.0,
+          "FE_L2": 9130983.0,
+          "ITLB_WALK": 10311109.0,
+          "SWPF_MISS": 975.0,
+          "SWPF_HIT": 17350.0
+        },
+        "scheduled_pct": {
+          "cycles:u": 100.0,
+          "instructions:u": 100.0,
+          "L2I": 100.0,
+          "FE_L2": 100.0,
+          "ITLB_WALK": 100.0,
+          "SWPF_MISS": 100.0,
+          "SWPF_HIT": 100.0
+        },
+        "fully_scheduled": true,
+        "window": {
+          "start": 1790588115.4408212,
+          "end": 1790588123.5813959,
+          "wall_s": 8.140575599012664,
+          "cpu_us": 10459610,
+          "user_us": 2821890,
+          "system_us": 7637720,
+          "delta": {
+            "usage_usec": 10459610,
+            "user_usec": 2821890,
+            "system_usec": 7637720,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "completed": 9250,
+          "achieved_rps": 1136.2832870346285,
+          "cpu_us_per_request": 1130.7686486486487,
+          "mean_ms": 3.4496018435503983,
+          "p50_ms": 3.317117691040039,
+          "p95_ms": 4.542350769042969,
+          "p99_ms": 6.097078323364258,
+          "user_us_per_request": 305.0691891891892
+        },
+        "per_request": {
+          "cycles:u": 559501.5858378379,
+          "instructions:u": 277476.15437837836,
+          "L2I": 10991.443891891891,
+          "FE_L2": 987.1332972972973,
+          "ITLB_WALK": 1114.7144864864865,
+          "SWPF_MISS": 0.10540540540540541,
+          "SWPF_HIT": 1.8756756756756756
+        }
+      },
+      "rating": {
+        "counters": {
+          "cycles:u": 2534715305.0,
+          "instructions:u": 981776152.0,
+          "L2I": 52718607.0,
+          "FE_L2": 4719635.0,
+          "ITLB_WALK": 4438174.0,
+          "SWPF_MISS": 347.0,
+          "SWPF_HIT": 6771.0
+        },
+        "scheduled_pct": {
+          "cycles:u": 100.0,
+          "instructions:u": 100.0,
+          "L2I": 100.0,
+          "FE_L2": 100.0,
+          "ITLB_WALK": 100.0,
+          "SWPF_MISS": 100.0,
+          "SWPF_HIT": 100.0
+        },
+        "fully_scheduled": true,
+        "window": {
+          "start": 1790588123.581755,
+          "end": 1790588131.7222416,
+          "wall_s": 8.140487291006139,
+          "cpu_us": 4108246,
+          "user_us": 1428619,
+          "system_us": 2679628,
+          "delta": {
+            "usage_usec": 4108246,
+            "user_usec": 1428619,
+            "system_usec": 2679628,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "completed": 9379,
+          "achieved_rps": 1152.142330639372,
+          "cpu_us_per_request": 438.02601556669157,
+          "mean_ms": 3.400936730699329,
+          "p50_ms": 3.2749176025390625,
+          "p95_ms": 4.455089569091797,
+          "p99_ms": 5.841255187988281,
+          "user_us_per_request": 152.32103635782067
+        },
+        "per_request": {
+          "cycles:u": 270254.3240217507,
+          "instructions:u": 104678.12687919821,
+          "L2I": 5620.9198208764265,
+          "FE_L2": 503.2130291075808,
+          "ITLB_WALK": 473.20332658065894,
+          "SWPF_MISS": 0.036997547712975795,
+          "SWPF_HIT": 0.7219319756903722
+        }
+      }
+    },
+    "extra": {
+      "late": {
+        "movie": {
+          "counters": {
+            "cycles:u": 2516018823.0,
+            "instructions:u": 919055501.0,
+            "FE_LATE_SWPF": 0.0,
+            "T1_T2_ISSUED": 0.0,
+            "ITLB_WALK_ACTIVE": 280533278.0,
+            "branches:u": 191742922.0,
+            "branch-misses:u": 20630304.0
+          },
+          "scheduled_pct": {
+            "cycles:u": 100.0,
+            "instructions:u": 100.0,
+            "FE_LATE_SWPF": 100.0,
+            "T1_T2_ISSUED": 100.0,
+            "ITLB_WALK_ACTIVE": 100.0,
+            "branches:u": 100.0,
+            "branch-misses:u": 100.0
+          },
+          "fully_scheduled": true,
+          "window": {
+            "start": 1790588131.7226002,
+            "end": 1790588139.863368,
+            "wall_s": 8.140768009994645,
+            "cpu_us": 4738891,
+            "user_us": 1386603,
+            "system_us": 3352288,
+            "delta": {
+              "usage_usec": 4738891,
+              "user_usec": 1386603,
+              "system_usec": 3352288,
+              "core_sched.force_idle_usec": 0,
+              "nr_periods": 0,
+              "nr_throttled": 0,
+              "throttled_usec": 0,
+              "nr_bursts": 0,
+              "burst_usec": 0
+            },
+            "completed": 9329,
+            "achieved_rps": 1145.9606745391259,
+            "cpu_us_per_request": 507.9741665773395,
+            "mean_ms": 3.4203667364162396,
+            "p50_ms": 3.289461135864258,
+            "p95_ms": 4.491567611694336,
+            "p99_ms": 5.930423736572266,
+            "user_us_per_request": 148.6336156072462
+          },
+          "per_request": {
+            "cycles:u": 269698.662557616,
+            "instructions:u": 98515.97180833959,
+            "FE_LATE_SWPF": 0.0,
+            "T1_T2_ISSUED": 0.0,
+            "ITLB_WALK_ACTIVE": 30071.09851002251,
+            "branches:u": 20553.427162611213,
+            "branch-misses:u": 2211.4164433486976
+          }
+        },
+        "compose": {
+          "counters": {
+            "cycles:u": 5157451109.0,
+            "instructions:u": 2549785088.0,
+            "FE_LATE_SWPF": 0.0,
+            "T1_T2_ISSUED": 0.0,
+            "ITLB_WALK_ACTIVE": 490406803.0,
+            "branches:u": 515980460.0,
+            "branch-misses:u": 42629032.0
+          },
+          "scheduled_pct": {
+            "cycles:u": 100.0,
+            "instructions:u": 100.0,
+            "FE_LATE_SWPF": 100.0,
+            "T1_T2_ISSUED": 100.0,
+            "ITLB_WALK_ACTIVE": 100.0,
+            "branches:u": 100.0,
+            "branch-misses:u": 100.0
+          },
+          "fully_scheduled": true,
+          "window": {
+            "start": 1790588139.863634,
+            "end": 1790588148.003793,
+            "wall_s": 8.140159411996137,
+            "cpu_us": 10412852,
+            "user_us": 2790011,
+            "system_us": 7622841,
+            "delta": {
+              "usage_usec": 10412852,
+              "user_usec": 2790011,
+              "system_usec": 7622841,
+              "core_sched.force_idle_usec": 0,
+              "nr_periods": 0,
+              "nr_throttled": 0,
+              "throttled_usec": 0,
+              "nr_bursts": 0,
+              "burst_usec": 0
+            },
+            "completed": 9198,
+            "achieved_rps": 1129.9533012148295,
+            "cpu_us_per_request": 1132.0778430093499,
+            "mean_ms": 3.4686814289710965,
+            "p50_ms": 3.330230712890625,
+            "p95_ms": 4.578590393066406,
+            "p99_ms": 6.02269172668457,
+            "user_us_per_request": 303.32800608828006
+          },
+          "per_request": {
+            "cycles:u": 560714.4062839748,
+            "instructions:u": 277210.8162644053,
+            "FE_LATE_SWPF": 0.0,
+            "T1_T2_ISSUED": 0.0,
+            "ITLB_WALK_ACTIVE": 53316.677864753205,
+            "branches:u": 56097.02761469885,
+            "branch-misses:u": 4634.5979560774085
+          }
+        },
+        "rating": {
+          "counters": {
+            "cycles:u": 2509317035.0,
+            "instructions:u": 973341428.0,
+            "FE_LATE_SWPF": 0.0,
+            "T1_T2_ISSUED": 0.0,
+            "ITLB_WALK_ACTIVE": 257864819.0,
+            "branches:u": 206534588.0,
+            "branch-misses:u": 22643653.0
+          },
+          "scheduled_pct": {
+            "cycles:u": 100.0,
+            "instructions:u": 100.0,
+            "FE_LATE_SWPF": 100.0,
+            "T1_T2_ISSUED": 100.0,
+            "ITLB_WALK_ACTIVE": 100.0,
+            "branches:u": 100.0,
+            "branch-misses:u": 100.0
+          },
+          "fully_scheduled": true,
+          "window": {
+            "start": 1790588148.0041308,
+            "end": 1790588156.145009,
+            "wall_s": 8.140878678997979,
+            "cpu_us": 4072571,
+            "user_us": 1417696,
+            "system_us": 2654875,
+            "delta": {
+              "usage_usec": 4072571,
+              "user_usec": 1417696,
+              "system_usec": 2654875,
+              "core_sched.force_idle_usec": 0,
+              "nr_periods": 0,
+              "nr_throttled": 0,
+              "throttled_usec": 0,
+              "nr_bursts": 0,
+              "burst_usec": 0
+            },
+            "completed": 9285,
+            "achieved_rps": 1140.5402741050118,
+            "cpu_us_per_request": 438.61830910070006,
+            "mean_ms": 3.4367258342030103,
+            "p50_ms": 3.2901763916015625,
+            "p95_ms": 4.561901092529297,
+            "p99_ms": 6.024837493896484,
+            "user_us_per_request": 152.68669897684438
+          },
+          "per_request": {
+            "cycles:u": 270254.9310716209,
+            "instructions:u": 104829.44835756597,
+            "FE_LATE_SWPF": 0.0,
+            "T1_T2_ISSUED": 0.0,
+            "ITLB_WALK_ACTIVE": 27772.193753365642,
+            "branches:u": 22243.89746903608,
+            "branch-misses:u": 2438.7348411416265
+          }
+        }
+      }
+    }
+  },
+  {
+    "arm": "base_clock",
+    "block": 0,
+    "services": {
+      "movie": {
+        "counters": {
+          "cycles:u": 2458876870.0,
+          "instructions:u": 892516848.0,
+          "L2I": 54497094.0,
+          "FE_L2": 4375972.0,
+          "ITLB_WALK": 4973686.0,
+          "SWPF_MISS": 464.0,
+          "SWPF_HIT": 6551.0
+        },
+        "scheduled_pct": {
+          "cycles:u": 100.0,
+          "instructions:u": 100.0,
+          "L2I": 100.0,
+          "FE_L2": 100.0,
+          "ITLB_WALK": 100.0,
+          "SWPF_MISS": 100.0,
+          "SWPF_HIT": 100.0
+        },
+        "fully_scheduled": true,
+        "window": {
+          "start": 1790588330.0580444,
+          "end": 1790588338.2000098,
+          "wall_s": 8.141965998976957,
+          "cpu_us": 4621384,
+          "user_us": 1330457,
+          "system_us": 3290927,
+          "delta": {
+            "usage_usec": 4621384,
+            "user_usec": 1330457,
+            "system_usec": 3290927,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "completed": 9060,
+          "achieved_rps": 1112.7533572528298,
+          "cpu_us_per_request": 510.08653421633556,
+          "mean_ms": 3.5245791176297017,
+          "p50_ms": 3.391265869140625,
+          "p95_ms": 4.576206207275391,
+          "p99_ms": 6.087541580200195,
+          "user_us_per_request": 146.84955849889624
+        },
+        "per_request": {
+          "cycles:u": 271399.21302428254,
+          "instructions:u": 98511.79337748344,
+          "L2I": 6015.13178807947,
+          "FE_L2": 482.9991169977925,
+          "ITLB_WALK": 548.9719646799117,
+          "SWPF_MISS": 0.05121412803532009,
+          "SWPF_HIT": 0.7230684326710817
+        }
+      },
+      "compose": {
+        "counters": {
+          "cycles:u": 5050656078.0,
+          "instructions:u": 2474332755.0,
+          "L2I": 98467192.0,
+          "FE_L2": 9085391.0,
+          "ITLB_WALK": 10202246.0,
+          "SWPF_MISS": 1026.0,
+          "SWPF_HIT": 16552.0
+        },
+        "scheduled_pct": {
+          "cycles:u": 100.0,
+          "instructions:u": 100.0,
+          "L2I": 100.0,
+          "FE_L2": 100.0,
+          "ITLB_WALK": 100.0,
+          "SWPF_MISS": 100.0,
+          "SWPF_HIT": 100.0
+        },
+        "fully_scheduled": true,
+        "window": {
+          "start": 1790588338.2003515,
+          "end": 1790588346.343767,
+          "wall_s": 8.143416287988657,
+          "cpu_us": 10164479,
+          "user_us": 2778553,
+          "system_us": 7385926,
+          "delta": {
+            "usage_usec": 10164479,
+            "user_usec": 2778553,
+            "system_usec": 7385926,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "completed": 8912,
+          "achieved_rps": 1094.3809925503851,
+          "cpu_us_per_request": 1140.538487432675,
+          "mean_ms": 3.585744321453293,
+          "p50_ms": 3.456592559814453,
+          "p95_ms": 4.601001739501953,
+          "p99_ms": 6.206750869750977,
+          "user_us_per_request": 311.7765933572711
+        },
+        "per_request": {
+          "cycles:u": 566725.322935368,
+          "instructions:u": 277640.56945691205,
+          "L2I": 11048.832136445242,
+          "FE_L2": 1019.4559021543986,
+          "ITLB_WALK": 1144.7762567324955,
+          "SWPF_MISS": 0.11512567324955117,
+          "SWPF_HIT": 1.8572710951526032
+        }
+      },
+      "rating": {
+        "counters": {
+          "cycles:u": 2481578876.0,
+          "instructions:u": 943123109.0,
+          "L2I": 50119937.0,
+          "FE_L2": 4676114.0,
+          "ITLB_WALK": 4707946.0,
+          "SWPF_MISS": 336.0,
+          "SWPF_HIT": 6526.0
+        },
+        "scheduled_pct": {
+          "cycles:u": 100.0,
+          "instructions:u": 100.0,
+          "L2I": 100.0,
+          "FE_L2": 100.0,
+          "ITLB_WALK": 100.0,
+          "SWPF_MISS": 100.0,
+          "SWPF_HIT": 100.0
+        },
+        "fully_scheduled": true,
+        "window": {
+          "start": 1790588346.3441093,
+          "end": 1790588354.4864306,
+          "wall_s": 8.142321800987702,
+          "cpu_us": 4016447,
+          "user_us": 1377617,
+          "system_us": 2638831,
+          "delta": {
+            "usage_usec": 4016447,
+            "user_usec": 1377617,
+            "system_usec": 2638831,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "completed": 9042,
+          "achieved_rps": 1110.494060662545,
+          "cpu_us_per_request": 444.1989604069896,
+          "mean_ms": 3.5317422436075225,
+          "p50_ms": 3.4027099609375,
+          "p95_ms": 4.5795440673828125,
+          "p99_ms": 6.062030792236328,
+          "user_us_per_request": 152.35755363857552
+        },
+        "per_request": {
+          "cycles:u": 274450.2185357222,
+          "instructions:u": 104304.70128290201,
+          "L2I": 5543.0144879451445,
+          "FE_L2": 517.1548330015484,
+          "ITLB_WALK": 520.675293076753,
+          "SWPF_MISS": 0.0371599203715992,
+          "SWPF_HIT": 0.7217429772174297
+        }
+      }
+    },
+    "extra": {
+      "late": {
+        "movie": {
+          "counters": {
+            "cycles:u": 2458880605.0,
+            "instructions:u": 887806085.0,
+            "FE_LATE_SWPF": 0.0,
+            "T1_T2_ISSUED": 0.0,
+            "ITLB_WALK_ACTIVE": 275868537.0,
+            "branches:u": 185189779.0,
+            "branch-misses:u": 20109069.0
+          },
+          "scheduled_pct": {
+            "cycles:u": 100.0,
+            "instructions:u": 100.0,
+            "FE_LATE_SWPF": 100.0,
+            "T1_T2_ISSUED": 100.0,
+            "ITLB_WALK_ACTIVE": 100.0,
+            "branches:u": 100.0,
+            "branch-misses:u": 100.0
+          },
+          "fully_scheduled": true,
+          "window": {
+            "start": 1790588354.4867857,
+            "end": 1790588362.6297338,
+            "wall_s": 8.142948954016902,
+            "cpu_us": 4604317,
+            "user_us": 1326817,
+            "system_us": 3277501,
+            "delta": {
+              "usage_usec": 4604317,
+              "user_usec": 1326817,
+              "system_usec": 3277501,
+              "core_sched.force_idle_usec": 0,
+              "nr_periods": 0,
+              "nr_throttled": 0,
+              "throttled_usec": 0,
+              "nr_bursts": 0,
+              "burst_usec": 0
+            },
+            "completed": 9023,
+            "achieved_rps": 1108.0752256894564,
+            "cpu_us_per_request": 510.28671173667294,
+            "mean_ms": 3.5402413602548046,
+            "p50_ms": 3.4034252166748047,
+            "p95_ms": 4.574298858642578,
+            "p99_ms": 5.889415740966797,
+            "user_us_per_request": 147.04832095755293
+          },
+          "per_request": {
+            "cycles:u": 272512.53518785327,
+            "instructions:u": 98393.67006538845,
+            "FE_LATE_SWPF": 0.0,
+            "T1_T2_ISSUED": 0.0,
+            "ITLB_WALK_ACTIVE": 30573.926299456944,
+            "branches:u": 20524.19139975618,
+            "branch-misses:u": 2228.645572426022
+          }
+        },
+        "compose": {
+          "counters": {
+            "cycles:u": 5041385563.0,
+            "instructions:u": 2464174466.0,
+            "FE_LATE_SWPF": 0.0,
+            "T1_T2_ISSUED": 0.0,
+            "ITLB_WALK_ACTIVE": 514638302.0,
+            "branches:u": 498799327.0,
+            "branch-misses:u": 41487443.0
+          },
+          "scheduled_pct": {
+            "cycles:u": 100.0,
+            "instructions:u": 100.0,
+            "FE_LATE_SWPF": 100.0,
+            "T1_T2_ISSUED": 100.0,
+            "ITLB_WALK_ACTIVE": 100.0,
+            "branches:u": 100.0,
+            "branch-misses:u": 100.0
+          },
+          "fully_scheduled": true,
+          "window": {
+            "start": 1790588362.630064,
+            "end": 1790588370.7724187,
+            "wall_s": 8.142355393007165,
+            "cpu_us": 10129779,
+            "user_us": 2780841,
+            "system_us": 7348938,
+            "delta": {
+              "usage_usec": 10129779,
+              "user_usec": 2780841,
+              "system_usec": 7348938,
+              "core_sched.force_idle_usec": 0,
+              "nr_periods": 0,
+              "nr_throttled": 0,
+              "throttled_usec": 0,
+              "nr_bursts": 0,
+              "burst_usec": 0
+            },
+            "completed": 8882,
+            "achieved_rps": 1090.8391455902376,
+            "cpu_us_per_request": 1140.4840126097727,
+            "mean_ms": 3.597411801218584,
+            "p50_ms": 3.4630298614501953,
+            "p95_ms": 4.669189453125,
+            "p99_ms": 6.34765625,
+            "user_us_per_request": 313.0872551227201
+          },
+          "per_request": {
+            "cycles:u": 567595.7625534789,
+            "instructions:u": 277434.63927043456,
+            "FE_LATE_SWPF": 0.0,
+            "T1_T2_ISSUED": 0.0,
+            "ITLB_WALK_ACTIVE": 57941.713803197475,
+            "branches:u": 56158.44708399009,
+            "branch-misses:u": 4670.957329430308
+          }
+        },
+        "rating": {
+          "counters": {
+            "cycles:u": 2472060906.0,
+            "instructions:u": 937884773.0,
+            "FE_LATE_SWPF": 0.0,
+            "T1_T2_ISSUED": 0.0,
+            "ITLB_WALK_ACTIVE": 270404677.0,
+            "branches:u": 199106371.0,
+            "branch-misses:u": 22155587.0
+          },
+          "scheduled_pct": {
+            "cycles:u": 100.0,
+            "instructions:u": 100.0,
+            "FE_LATE_SWPF": 100.0,
+            "T1_T2_ISSUED": 100.0,
+            "ITLB_WALK_ACTIVE": 100.0,
+            "branches:u": 100.0,
+            "branch-misses:u": 100.0
+          },
+          "fully_scheduled": true,
+          "window": {
+            "start": 1790588370.772762,
+            "end": 1790588378.914879,
+            "wall_s": 8.142117504990892,
+            "cpu_us": 4006635,
+            "user_us": 1436905,
+            "system_us": 2569731,
+            "delta": {
+              "usage_usec": 4006635,
+              "user_usec": 1436905,
+              "system_usec": 2569731,
+              "core_sched.force_idle_usec": 0,
+              "nr_periods": 0,
+              "nr_throttled": 0,
+              "throttled_usec": 0,
+              "nr_bursts": 0,
+              "burst_usec": 0
+            },
+            "completed": 9001,
+            "achieved_rps": 1105.4863792474914,
+            "cpu_us_per_request": 445.1322075324964,
+            "mean_ms": 3.5477708067023586,
+            "p50_ms": 3.421306610107422,
+            "p95_ms": 4.619121551513672,
+            "p99_ms": 6.079673767089844,
+            "user_us_per_request": 159.638373514054
+          },
+          "per_request": {
+            "cycles:u": 274642.91812020884,
+            "instructions:u": 104197.8416842573,
+            "FE_LATE_SWPF": 0.0,
+            "T1_T2_ISSUED": 0.0,
+            "ITLB_WALK_ACTIVE": 30041.626152649707,
+            "branches:u": 22120.47228085768,
+            "branch-misses:u": 2461.458393511832
+          }
+        }
+      }
+    }
+  },
+  {
+    "arm": "one_far_nop",
+    "block": 0,
+    "services": {
+      "movie": {
+        "counters": {
+          "cycles:u": 2570777803.0,
+          "instructions:u": 931635269.0,
+          "L2I": 56522919.0,
+          "FE_L2": 4439851.0,
+          "ITLB_WALK": 5155586.0,
+          "SWPF_MISS": 578.0,
+          "SWPF_HIT": 7262.0
+        },
+        "scheduled_pct": {
+          "cycles:u": 100.0,
+          "instructions:u": 100.0,
+          "L2I": 100.0,
+          "FE_L2": 100.0,
+          "ITLB_WALK": 100.0,
+          "SWPF_MISS": 100.0,
+          "SWPF_HIT": 100.0
+        },
+        "fully_scheduled": true,
+        "window": {
+          "start": 1790588551.7444856,
+          "end": 1790588559.8868027,
+          "wall_s": 8.14231702798861,
+          "cpu_us": 4736669,
+          "user_us": 1444847,
+          "system_us": 3291822,
+          "delta": {
+            "usage_usec": 4736669,
+            "user_usec": 1444847,
+            "system_usec": 3291822,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "completed": 9295,
+          "achieved_rps": 1141.5669480872739,
+          "cpu_us_per_request": 509.59322216245295,
+          "mean_ms": 3.433540497113454,
+          "p50_ms": 3.2935142517089844,
+          "p95_ms": 4.513263702392578,
+          "p99_ms": 5.9833526611328125,
+          "user_us_per_request": 155.44346422807962
+        },
+        "per_request": {
+          "cycles:u": 276576.4177514793,
+          "instructions:u": 100229.72232383002,
+          "L2I": 6081.002582033351,
+          "FE_L2": 477.66013986013985,
+          "ITLB_WALK": 554.6622915545993,
+          "SWPF_MISS": 0.06218396987627757,
+          "SWPF_HIT": 0.7812802582033351
+        }
+      },
+      "compose": {
+        "counters": {
+          "cycles:u": 5234849053.0,
+          "instructions:u": 2544511308.0,
+          "L2I": 102949117.0,
+          "FE_L2": 8870449.0,
+          "ITLB_WALK": 10054972.0,
+          "SWPF_MISS": 1158.0,
+          "SWPF_HIT": 16955.0
+        },
+        "scheduled_pct": {
+          "cycles:u": 100.0,
+          "instructions:u": 100.0,
+          "L2I": 100.0,
+          "FE_L2": 100.0,
+          "ITLB_WALK": 100.0,
+          "SWPF_MISS": 100.0,
+          "SWPF_HIT": 100.0
+        },
+        "fully_scheduled": true,
+        "window": {
+          "start": 1790588559.8869565,
+          "end": 1790588568.030425,
+          "wall_s": 8.143469328002539,
+          "cpu_us": 10383224,
+          "user_us": 2848244,
+          "system_us": 7534980,
+          "delta": {
+            "usage_usec": 10383224,
+            "user_usec": 2848244,
+            "system_usec": 7534980,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "completed": 9057,
+          "achieved_rps": 1112.1795435338781,
+          "cpu_us_per_request": 1146.4308269846529,
+          "mean_ms": 3.5256474199997374,
+          "p50_ms": 3.3943653106689453,
+          "p95_ms": 4.580259323120117,
+          "p99_ms": 6.236076354980469,
+          "user_us_per_request": 314.47984983990284
+        },
+        "per_request": {
+          "cycles:u": 577989.2959037209,
+          "instructions:u": 280944.1656177542,
+          "L2I": 11366.80103787126,
+          "FE_L2": 979.4025615545986,
+          "ITLB_WALK": 1110.1879209451254,
+          "SWPF_MISS": 0.12785690626035112,
+          "SWPF_HIT": 1.8720326819035
+        }
+      },
+      "rating": {
+        "counters": {
+          "cycles:u": 2452449364.0,
+          "instructions:u": 951368392.0,
+          "L2I": 52229976.0,
+          "FE_L2": 4145665.0,
+          "ITLB_WALK": 4309745.0,
+          "SWPF_MISS": 390.0,
+          "SWPF_HIT": 6358.0
+        },
+        "scheduled_pct": {
+          "cycles:u": 100.0,
+          "instructions:u": 100.0,
+          "L2I": 100.0,
+          "FE_L2": 100.0,
+          "ITLB_WALK": 100.0,
+          "SWPF_MISS": 100.0,
+          "SWPF_HIT": 100.0
+        },
+        "fully_scheduled": true,
+        "window": {
+          "start": 1790588568.0308158,
+          "end": 1790588576.177898,
+          "wall_s": 8.147082775976742,
+          "cpu_us": 4017617,
+          "user_us": 1414770,
+          "system_us": 2602847,
+          "delta": {
+            "usage_usec": 4017617,
+            "user_usec": 1414770,
+            "system_usec": 2602847,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "completed": 9015,
+          "achieved_rps": 1106.5310428147952,
+          "cpu_us_per_request": 445.659123682751,
+          "mean_ms": 3.544525378159001,
+          "p50_ms": 3.404378890991211,
+          "p95_ms": 4.604339599609375,
+          "p99_ms": 6.06989860534668,
+          "user_us_per_request": 156.9351081530782
+        },
+        "per_request": {
+          "cycles:u": 272040.97215751524,
+          "instructions:u": 105531.71292290627,
+          "L2I": 5793.674542429285,
+          "FE_L2": 459.86300610094287,
+          "ITLB_WALK": 478.06378258458125,
+          "SWPF_MISS": 0.04326123128119801,
+          "SWPF_HIT": 0.7052689961175818
+        }
+      }
+    },
+    "extra": {
+      "late": {
+        "movie": {
+          "counters": {
+            "cycles:u": 2511241224.0,
+            "instructions:u": 902064418.0,
+            "FE_LATE_SWPF": 0.0,
+            "T1_T2_ISSUED": 0.0,
+            "ITLB_WALK_ACTIVE": 294243612.0,
+            "branches:u": 187364702.0,
+            "branch-misses:u": 20338528.0
+          },
+          "scheduled_pct": {
+            "cycles:u": 100.0,
+            "instructions:u": 100.0,
+            "FE_LATE_SWPF": 100.0,
+            "T1_T2_ISSUED": 100.0,
+            "ITLB_WALK_ACTIVE": 100.0,
+            "branches:u": 100.0,
+            "branch-misses:u": 100.0
+          },
+          "fully_scheduled": true,
+          "window": {
+            "start": 1790588576.178266,
+            "end": 1790588584.3235297,
+            "wall_s": 8.145263814978534,
+            "cpu_us": 4608600,
+            "user_us": 1371965,
+            "system_us": 3236635,
+            "delta": {
+              "usage_usec": 4608600,
+              "user_usec": 1371965,
+              "system_usec": 3236635,
+              "core_sched.force_idle_usec": 0,
+              "nr_periods": 0,
+              "nr_throttled": 0,
+              "throttled_usec": 0,
+              "nr_bursts": 0,
+              "burst_usec": 0
+            },
+            "completed": 9013,
+            "achieved_rps": 1106.5326065223037,
+            "cpu_us_per_request": 511.3280816598247,
+            "mean_ms": 3.5451790686784808,
+            "p50_ms": 3.426790237426758,
+            "p95_ms": 4.558801651000977,
+            "p99_ms": 5.801677703857422,
+            "user_us_per_request": 152.22068123821148
+          },
+          "per_request": {
+            "cycles:u": 278624.3452790414,
+            "instructions:u": 100084.81282591812,
+            "FE_LATE_SWPF": 0.0,
+            "T1_T2_ISSUED": 0.0,
+            "ITLB_WALK_ACTIVE": 32646.578497725506,
+            "branches:u": 20788.272717186286,
+            "branch-misses:u": 2256.576944413625
+          }
+        },
+        "compose": {
+          "counters": {
+            "cycles:u": 5153267670.0,
+            "instructions:u": 2494339196.0,
+            "FE_LATE_SWPF": 0.0,
+            "T1_T2_ISSUED": 0.0,
+            "ITLB_WALK_ACTIVE": 494681233.0,
+            "branches:u": 503037211.0,
+            "branch-misses:u": 42136646.0
+          },
+          "scheduled_pct": {
+            "cycles:u": 100.0,
+            "instructions:u": 100.0,
+            "FE_LATE_SWPF": 100.0,
+            "T1_T2_ISSUED": 100.0,
+            "ITLB_WALK_ACTIVE": 100.0,
+            "branches:u": 100.0,
+            "branch-misses:u": 100.0
+          },
+          "fully_scheduled": true,
+          "window": {
+            "start": 1790588584.3238893,
+            "end": 1790588592.4695485,
+            "wall_s": 8.145660094014602,
+            "cpu_us": 10208599,
+            "user_us": 2803077,
+            "system_us": 7405521,
+            "delta": {
+              "usage_usec": 10208599,
+              "user_usec": 2803077,
+              "system_usec": 7405521,
+              "core_sched.force_idle_usec": 0,
+              "nr_periods": 0,
+              "nr_throttled": 0,
+              "throttled_usec": 0,
+              "nr_bursts": 0,
+              "burst_usec": 0
+            },
+            "completed": 8886,
+            "achieved_rps": 1090.8876502874698,
+            "cpu_us_per_request": 1148.840760747243,
+            "mean_ms": 3.595998285591079,
+            "p50_ms": 3.4613609313964844,
+            "p95_ms": 4.653215408325195,
+            "p99_ms": 6.342649459838867,
+            "user_us_per_request": 315.44868332207966
+          },
+          "per_request": {
+            "cycles:u": 579931.0904794058,
+            "instructions:u": 280704.38847625477,
+            "FE_LATE_SWPF": 0.0,
+            "T1_T2_ISSUED": 0.0,
+            "ITLB_WALK_ACTIVE": 55669.73137519694,
+            "branches:u": 56610.08451496736,
+            "branch-misses:u": 4741.913796984019
+          }
+        },
+        "rating": {
+          "counters": {
+            "cycles:u": 2444160597.0,
+            "instructions:u": 951208508.0,
+            "FE_LATE_SWPF": 0.0,
+            "T1_T2_ISSUED": 0.0,
+            "ITLB_WALK_ACTIVE": 242837289.0,
+            "branches:u": 201262573.0,
+            "branch-misses:u": 22148293.0
+          },
+          "scheduled_pct": {
+            "cycles:u": 100.0,
+            "instructions:u": 100.0,
+            "FE_LATE_SWPF": 100.0,
+            "T1_T2_ISSUED": 100.0,
+            "ITLB_WALK_ACTIVE": 100.0,
+            "branches:u": 100.0,
+            "branch-misses:u": 100.0
+          },
+          "fully_scheduled": true,
+          "window": {
+            "start": 1790588592.4699147,
+            "end": 1790588600.6154625,
+            "wall_s": 8.145548209024128,
+            "cpu_us": 4002189,
+            "user_us": 1378447,
+            "system_us": 2623743,
+            "delta": {
+              "usage_usec": 4002189,
+              "user_usec": 1378447,
+              "system_usec": 2623743,
+              "core_sched.force_idle_usec": 0,
+              "nr_periods": 0,
+              "nr_throttled": 0,
+              "throttled_usec": 0,
+              "nr_bursts": 0,
+              "burst_usec": 0
+            },
+            "completed": 9030,
+            "achieved_rps": 1108.581002564815,
+            "cpu_us_per_request": 443.21029900332223,
+            "mean_ms": 3.538155740545702,
+            "p50_ms": 3.398895263671875,
+            "p95_ms": 4.6176910400390625,
+            "p99_ms": 6.167411804199219,
+            "user_us_per_request": 152.65193798449613
+          },
+          "per_request": {
+            "cycles:u": 270671.1624584718,
+            "instructions:u": 105338.70520487265,
+            "FE_LATE_SWPF": 0.0,
+            "T1_T2_ISSUED": 0.0,
+            "ITLB_WALK_ACTIVE": 26892.280066445182,
+            "branches:u": 22288.214064230342,
+            "branch-misses:u": 2452.7456256921373
+          }
+        }
+      }
+    }
+  },
+  {
+    "arm": "one_far_it0",
+    "block": 0,
+    "services": {
+      "movie": {
+        "counters": {
+          "cycles:u": 2529525853.0,
+          "instructions:u": 908115330.0,
+          "L2I": 54498393.0,
+          "FE_L2": 4346593.0,
+          "ITLB_WALK": 5034774.0,
+          "SWPF_MISS": 69717.0,
+          "SWPF_HIT": 286595.0
+        },
+        "scheduled_pct": {
+          "cycles:u": 100.0,
+          "instructions:u": 100.0,
+          "L2I": 100.0,
+          "FE_L2": 100.0,
+          "ITLB_WALK": 100.0,
+          "SWPF_MISS": 100.0,
+          "SWPF_HIT": 100.0
+        },
+        "fully_scheduled": true,
+        "window": {
+          "start": 1790588773.224694,
+          "end": 1790588781.3679748,
+          "wall_s": 8.143280791002326,
+          "cpu_us": 4650097,
+          "user_us": 1382986,
+          "system_us": 3267110,
+          "delta": {
+            "usage_usec": 4650097,
+            "user_usec": 1382986,
+            "system_usec": 3267110,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "completed": 9081,
+          "achieved_rps": 1115.152508315049,
+          "cpu_us_per_request": 512.068825019271,
+          "mean_ms": 3.517900423231189,
+          "p50_ms": 3.387451171875,
+          "p95_ms": 4.556179046630859,
+          "p99_ms": 6.049394607543945,
+          "user_us_per_request": 152.29446096244908
+        },
+        "per_request": {
+          "cycles:u": 278551.4649267702,
+          "instructions:u": 100001.68814007269,
+          "L2I": 6001.364717542121,
+          "FE_L2": 478.64695518114746,
+          "ITLB_WALK": 554.429468120251,
+          "SWPF_MISS": 7.677238189626693,
+          "SWPF_HIT": 31.559850236758066
+        }
+      },
+      "compose": {
+        "counters": {
+          "cycles:u": 5093609333.0,
+          "instructions:u": 2514642889.0,
+          "L2I": 102994238.0,
+          "FE_L2": 8308983.0,
+          "ITLB_WALK": 9390478.0,
+          "SWPF_MISS": 108620.0,
+          "SWPF_HIT": 628985.0
+        },
+        "scheduled_pct": {
+          "cycles:u": 100.0,
+          "instructions:u": 100.0,
+          "L2I": 100.0,
+          "FE_L2": 100.0,
+          "ITLB_WALK": 100.0,
+          "SWPF_MISS": 100.0,
+          "SWPF_HIT": 100.0
+        },
+        "fully_scheduled": true,
+        "window": {
+          "start": 1790588781.3682902,
+          "end": 1790588789.5133972,
+          "wall_s": 8.145107048010686,
+          "cpu_us": 10211452,
+          "user_us": 2768598,
+          "system_us": 7442854,
+          "delta": {
+            "usage_usec": 10211452,
+            "user_usec": 2768598,
+            "system_usec": 7442854,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "completed": 8953,
+          "achieved_rps": 1099.1875180064858,
+          "cpu_us_per_request": 1140.5620462414834,
+          "mean_ms": 3.569159523196877,
+          "p50_ms": 3.439664840698242,
+          "p95_ms": 4.639148712158203,
+          "p99_ms": 6.098747253417969,
+          "user_us_per_request": 309.23690383111807
+        },
+        "per_request": {
+          "cycles:u": 568927.659220373,
+          "instructions:u": 280871.5390371942,
+          "L2I": 11503.880040209986,
+          "FE_L2": 928.0669049480621,
+          "ITLB_WALK": 1048.8638445213894,
+          "SWPF_MISS": 12.13224617446666,
+          "SWPF_HIT": 70.25410476935106
+        }
+      },
+      "rating": {
+        "counters": {
+          "cycles:u": 2476485542.0,
+          "instructions:u": 951734402.0,
+          "L2I": 51567269.0,
+          "FE_L2": 4284524.0,
+          "ITLB_WALK": 4383550.0,
+          "SWPF_MISS": 54968.0,
+          "SWPF_HIT": 191592.0
+        },
+        "scheduled_pct": {
+          "cycles:u": 100.0,
+          "instructions:u": 100.0,
+          "L2I": 100.0,
+          "FE_L2": 100.0,
+          "ITLB_WALK": 100.0,
+          "SWPF_MISS": 100.0,
+          "SWPF_HIT": 100.0
+        },
+        "fully_scheduled": true,
+        "window": {
+          "start": 1790588789.5135803,
+          "end": 1790588797.65719,
+          "wall_s": 8.14361089700833,
+          "cpu_us": 4029925,
+          "user_us": 1360988,
+          "system_us": 2668937,
+          "delta": {
+            "usage_usec": 4029925,
+            "user_usec": 1360988,
+            "system_usec": 2668937,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "completed": 9035,
+          "achieved_rps": 1109.4587050222567,
+          "cpu_us_per_request": 446.0348644161594,
+          "mean_ms": 3.5353857176569066,
+          "p50_ms": 3.3926963806152344,
+          "p95_ms": 4.5986175537109375,
+          "p99_ms": 6.310701370239258,
+          "user_us_per_request": 150.63508577753183
+        },
+        "per_request": {
+          "cycles:u": 274099.11920309905,
+          "instructions:u": 105338.61671278362,
+          "L2I": 5707.500719424461,
+          "FE_L2": 474.21405644714997,
+          "ITLB_WALK": 485.1743220807969,
+          "SWPF_MISS": 6.083895960154953,
+          "SWPF_HIT": 21.20553403431101
+        }
+      }
+    },
+    "extra": {
+      "late": {
+        "movie": {
+          "counters": {
+            "cycles:u": 2521502948.0,
+            "instructions:u": 901142970.0,
+            "FE_LATE_SWPF": 308.0,
+            "T1_T2_ISSUED": 345903.0,
+            "ITLB_WALK_ACTIVE": 283645162.0,
+            "branches:u": 187040922.0,
+            "branch-misses:u": 20463561.0
+          },
+          "scheduled_pct": {
+            "cycles:u": 100.0,
+            "instructions:u": 100.0,
+            "FE_LATE_SWPF": 100.0,
+            "T1_T2_ISSUED": 100.0,
+            "ITLB_WALK_ACTIVE": 100.0,
+            "branches:u": 100.0,
+            "branch-misses:u": 100.0
+          },
+          "fully_scheduled": true,
+          "window": {
+            "start": 1790588797.657543,
+            "end": 1790588805.8030205,
+            "wall_s": 8.145478052989347,
+            "cpu_us": 4634247,
+            "user_us": 1375980,
+            "system_us": 3258267,
+            "delta": {
+              "usage_usec": 4634247,
+              "user_usec": 1375980,
+              "system_usec": 3258267,
+              "core_sched.force_idle_usec": 0,
+              "nr_periods": 0,
+              "nr_throttled": 0,
+              "throttled_usec": 0,
+              "nr_bursts": 0,
+              "burst_usec": 0
+            },
+            "completed": 9023,
+            "achieved_rps": 1107.7311781214128,
+            "cpu_us_per_request": 513.6037903136429,
+            "mean_ms": 3.5400814456764245,
+            "p50_ms": 3.414154052734375,
+            "p95_ms": 4.5833587646484375,
+            "p99_ms": 6.015300750732422,
+            "user_us_per_request": 152.49695223318187
+          },
+          "per_request": {
+            "cycles:u": 279452.8369721822,
+            "instructions:u": 99871.76881303336,
+            "FE_LATE_SWPF": 0.03413498836307215,
+            "T1_T2_ISSUED": 38.33569766153164,
+            "ITLB_WALK_ACTIVE": 31435.793195167906,
+            "branches:u": 20729.349661974953,
+            "branch-misses:u": 2267.9331707857696
+          }
+        },
+        "compose": {
+          "counters": {
+            "cycles:u": 5080021355.0,
+            "instructions:u": 2509183275.0,
+            "FE_LATE_SWPF": 8716.0,
+            "T1_T2_ISSUED": 719532.0,
+            "ITLB_WALK_ACTIVE": 461040192.0,
+            "branches:u": 506042145.0,
+            "branch-misses:u": 42208708.0
+          },
+          "scheduled_pct": {
+            "cycles:u": 100.0,
+            "instructions:u": 100.0,
+            "FE_LATE_SWPF": 100.0,
+            "T1_T2_ISSUED": 100.0,
+            "ITLB_WALK_ACTIVE": 100.0,
+            "branches:u": 100.0,
+            "branch-misses:u": 100.0
+          },
+          "fully_scheduled": true,
+          "window": {
+            "start": 1790588805.8033524,
+            "end": 1790588813.9481251,
+            "wall_s": 8.144773436011747,
+            "cpu_us": 10174522,
+            "user_us": 2764064,
+            "system_us": 7410457,
+            "delta": {
+              "usage_usec": 10174522,
+              "user_usec": 2764064,
+              "system_usec": 7410457,
+              "core_sched.force_idle_usec": 0,
+              "nr_periods": 0,
+              "nr_throttled": 0,
+              "throttled_usec": 0,
+              "nr_bursts": 0,
+              "burst_usec": 0
+            },
+            "completed": 8923,
+            "achieved_rps": 1095.5491972984,
+            "cpu_us_per_request": 1140.257984982629,
+            "mean_ms": 3.581845625411712,
+            "p50_ms": 3.468751907348633,
+            "p95_ms": 4.60052490234375,
+            "p99_ms": 5.909442901611328,
+            "user_us_per_request": 309.76846352123727
+          },
+          "per_request": {
+            "cycles:u": 569317.645971086,
+            "instructions:u": 281203.99809481116,
+            "FE_LATE_SWPF": 0.9768015241510702,
+            "T1_T2_ISSUED": 80.63790205087975,
+            "ITLB_WALK_ACTIVE": 51668.742799506894,
+            "branches:u": 56712.108595763755,
+            "branch-misses:u": 4730.3270200605175
+          }
+        },
+        "rating": {
+          "counters": {
+            "cycles:u": 2456873866.0,
+            "instructions:u": 945397023.0,
+            "FE_LATE_SWPF": 371.0,
+            "T1_T2_ISSUED": 237808.0,
+            "ITLB_WALK_ACTIVE": 255017041.0,
+            "branches:u": 200139163.0,
+            "branch-misses:u": 22056137.0
+          },
+          "scheduled_pct": {
+            "cycles:u": 100.0,
+            "instructions:u": 100.0,
+            "FE_LATE_SWPF": 100.0,
+            "T1_T2_ISSUED": 100.0,
+            "ITLB_WALK_ACTIVE": 100.0,
+            "branches:u": 100.0,
+            "branch-misses:u": 100.0
+          },
+          "fully_scheduled": true,
+          "window": {
+            "start": 1790588813.9484656,
+            "end": 1790588822.0930252,
+            "wall_s": 8.144559729989851,
+            "cpu_us": 3993894,
+            "user_us": 1369314,
+            "system_us": 2624580,
+            "delta": {
+              "usage_usec": 3993894,
+              "user_usec": 1369314,
+              "system_usec": 2624580,
+              "core_sched.force_idle_usec": 0,
+              "nr_periods": 0,
+              "nr_throttled": 0,
+              "throttled_usec": 0,
+              "nr_bursts": 0,
+              "burst_usec": 0
+            },
+            "completed": 8962,
+            "achieved_rps": 1100.3664160016133,
+            "cpu_us_per_request": 445.6476232983709,
+            "mean_ms": 3.5650998294100753,
+            "p50_ms": 3.430604934692383,
+            "p95_ms": 4.607915878295898,
+            "p99_ms": 6.050348281860352,
+            "user_us_per_request": 152.7911180540058
+          },
+          "per_request": {
+            "cycles:u": 274143.47980361525,
+            "instructions:u": 105489.51383619728,
+            "FE_LATE_SWPF": 0.04139700959607231,
+            "T1_T2_ISSUED": 26.535148404374024,
+            "ITLB_WALK_ACTIVE": 28455.371680428474,
+            "branches:u": 22331.975340325822,
+            "branch-misses:u": 2461.073086364651
+          }
+        }
+      }
+    }
+  },
+  {
+    "arm": "ungated_nop",
+    "block": 0,
+    "services": {
+      "movie": {
+        "counters": {
+          "cycles:u": 2559813338.0,
+          "instructions:u": 924716425.0,
+          "L2I": 56029112.0,
+          "FE_L2": 4591149.0,
+          "ITLB_WALK": 4961327.0,
+          "SWPF_MISS": 743.0,
+          "SWPF_HIT": 7340.0
+        },
+        "scheduled_pct": {
+          "cycles:u": 100.0,
+          "instructions:u": 100.0,
+          "L2I": 100.0,
+          "FE_L2": 100.0,
+          "ITLB_WALK": 100.0,
+          "SWPF_MISS": 100.0,
+          "SWPF_HIT": 100.0
+        },
+        "fully_scheduled": true,
+        "window": {
+          "start": 1790588994.694567,
+          "end": 1790589002.8351068,
+          "wall_s": 8.14053976899595,
+          "cpu_us": 4720946,
+          "user_us": 1404415,
+          "system_us": 3316531,
+          "delta": {
+            "usage_usec": 4720946,
+            "user_usec": 1404415,
+            "system_usec": 3316531,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "completed": 9348,
+          "achieved_rps": 1148.3268020632713,
+          "cpu_us_per_request": 505.02203679931534,
+          "mean_ms": 3.412614380849137,
+          "p50_ms": 3.2792091369628906,
+          "p95_ms": 4.492044448852539,
+          "p99_ms": 6.023168563842773,
+          "user_us_per_request": 150.23694908001713
+        },
+        "per_request": {
+          "cycles:u": 273835.40201112535,
+          "instructions:u": 98921.31204535729,
+          "L2I": 5993.700470688917,
+          "FE_L2": 491.1370346598203,
+          "ITLB_WALK": 530.7367351305091,
+          "SWPF_MISS": 0.07948224219084296,
+          "SWPF_HIT": 0.7851946940522037
+        }
+      },
+      "compose": {
+        "counters": {
+          "cycles:u": 5107779672.0,
+          "instructions:u": 2501175218.0,
+          "L2I": 100660430.0,
+          "FE_L2": 9105666.0,
+          "ITLB_WALK": 10105301.0,
+          "SWPF_MISS": 1208.0,
+          "SWPF_HIT": 15639.0
+        },
+        "scheduled_pct": {
+          "cycles:u": 100.0,
+          "instructions:u": 100.0,
+          "L2I": 100.0,
+          "FE_L2": 100.0,
+          "ITLB_WALK": 100.0,
+          "SWPF_MISS": 100.0,
+          "SWPF_HIT": 100.0
+        },
+        "fully_scheduled": true,
+        "window": {
+          "start": 1790589002.8352554,
+          "end": 1790589010.977635,
+          "wall_s": 8.142380684003001,
+          "cpu_us": 10209023,
+          "user_us": 2832341,
+          "system_us": 7376681,
+          "delta": {
+            "usage_usec": 10209023,
+            "user_usec": 2832341,
+            "system_usec": 7376681,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "completed": 8980,
+          "achieved_rps": 1102.8715493053076,
+          "cpu_us_per_request": 1136.862249443207,
+          "mean_ms": 3.556741000814799,
+          "p50_ms": 3.4224987030029297,
+          "p95_ms": 4.622220993041992,
+          "p99_ms": 5.940914154052734,
+          "user_us_per_request": 315.4054565701559
+        },
+        "per_request": {
+          "cycles:u": 568795.0636971047,
+          "instructions:u": 278527.3071269488,
+          "L2I": 11209.402004454343,
+          "FE_L2": 1013.993986636971,
+          "ITLB_WALK": 1125.3119153674834,
+          "SWPF_MISS": 0.13452115812917595,
+          "SWPF_HIT": 1.7415367483296214
+        }
+      },
+      "rating": {
+        "counters": {
+          "cycles:u": 2448551073.0,
+          "instructions:u": 949721694.0,
+          "L2I": 51179058.0,
+          "FE_L2": 4450562.0,
+          "ITLB_WALK": 4233041.0,
+          "SWPF_MISS": 407.0,
+          "SWPF_HIT": 6551.0
+        },
+        "scheduled_pct": {
+          "cycles:u": 100.0,
+          "instructions:u": 100.0,
+          "L2I": 100.0,
+          "FE_L2": 100.0,
+          "ITLB_WALK": 100.0,
+          "SWPF_MISS": 100.0,
+          "SWPF_HIT": 100.0
+        },
+        "fully_scheduled": true,
+        "window": {
+          "start": 1790589010.9779825,
+          "end": 1790589019.1199644,
+          "wall_s": 8.141982637986075,
+          "cpu_us": 3997633,
+          "user_us": 1425773,
+          "system_us": 2571861,
+          "delta": {
+            "usage_usec": 3997633,
+            "user_usec": 1425773,
+            "system_usec": 2571861,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "completed": 9056,
+          "achieved_rps": 1112.259802391326,
+          "cpu_us_per_request": 441.4347393992933,
+          "mean_ms": 3.5262873442349925,
+          "p50_ms": 3.3941268920898438,
+          "p95_ms": 4.60362434387207,
+          "p99_ms": 5.991220474243164,
+          "user_us_per_request": 157.4395980565371
+        },
+        "per_request": {
+          "cycles:u": 270378.87290194345,
+          "instructions:u": 104872.09518551237,
+          "L2I": 5651.3977473498235,
+          "FE_L2": 491.44898409893995,
+          "ITLB_WALK": 467.4294390459364,
+          "SWPF_MISS": 0.044942579505300354,
+          "SWPF_HIT": 0.7233878091872792
+        }
+      }
+    },
+    "extra": {
+      "late": {
+        "movie": {
+          "counters": {
+            "cycles:u": 2497917403.0,
+            "instructions:u": 896633972.0,
+            "FE_LATE_SWPF": 0.0,
+            "T1_T2_ISSUED": 0.0,
+            "ITLB_WALK_ACTIVE": 289257695.0,
+            "branches:u": 186154959.0,
+            "branch-misses:u": 20388143.0
+          },
+          "scheduled_pct": {
+            "cycles:u": 100.0,
+            "instructions:u": 100.0,
+            "FE_LATE_SWPF": 100.0,
+            "T1_T2_ISSUED": 100.0,
+            "ITLB_WALK_ACTIVE": 100.0,
+            "branches:u": 100.0,
+            "branch-misses:u": 100.0
+          },
+          "fully_scheduled": true,
+          "window": {
+            "start": 1790589019.1202826,
+            "end": 1790589027.2640383,
+            "wall_s": 8.143756311008474,
+            "cpu_us": 4603309,
+            "user_us": 1397305,
+            "system_us": 3206004,
+            "delta": {
+              "usage_usec": 4603309,
+              "user_usec": 1397305,
+              "system_usec": 3206004,
+              "core_sched.force_idle_usec": 0,
+              "nr_periods": 0,
+              "nr_throttled": 0,
+              "throttled_usec": 0,
+              "nr_bursts": 0,
+              "burst_usec": 0
+            },
+            "completed": 9053,
+            "achieved_rps": 1111.6491768991712,
+            "cpu_us_per_request": 508.4843698221584,
+            "mean_ms": 3.5278243306432917,
+            "p50_ms": 3.3957958221435547,
+            "p95_ms": 4.547119140625,
+            "p99_ms": 6.133079528808594,
+            "user_us_per_request": 154.34717773113886
+          },
+          "per_request": {
+            "cycles:u": 275921.5070142494,
+            "instructions:u": 99042.74516734784,
+            "FE_LATE_SWPF": 0.0,
+            "T1_T2_ISSUED": 0.0,
+            "ITLB_WALK_ACTIVE": 31951.584557605212,
+            "branches:u": 20562.792334032918,
+            "branch-misses:u": 2252.0869325085605
+          }
+        },
+        "compose": {
+          "counters": {
+            "cycles:u": 5096915919.0,
+            "instructions:u": 2491918801.0,
+            "FE_LATE_SWPF": 0.0,
+            "T1_T2_ISSUED": 0.0,
+            "ITLB_WALK_ACTIVE": 498387264.0,
+            "branches:u": 502450267.0,
+            "branch-misses:u": 41377668.0
+          },
+          "scheduled_pct": {
+            "cycles:u": 100.0,
+            "instructions:u": 100.0,
+            "FE_LATE_SWPF": 100.0,
+            "T1_T2_ISSUED": 100.0,
+            "ITLB_WALK_ACTIVE": 100.0,
+            "branches:u": 100.0,
+            "branch-misses:u": 100.0
+          },
+          "fully_scheduled": true,
+          "window": {
+            "start": 1790589027.2643836,
+            "end": 1790589035.4076846,
+            "wall_s": 8.14330169200548,
+            "cpu_us": 10186127,
+            "user_us": 2838252,
+            "system_us": 7347875,
+            "delta": {
+              "usage_usec": 10186127,
+              "user_usec": 2838252,
+              "system_usec": 7347875,
+              "core_sched.force_idle_usec": 0,
+              "nr_periods": 0,
+              "nr_throttled": 0,
+              "throttled_usec": 0,
+              "nr_bursts": 0,
+              "burst_usec": 0
+            },
+            "completed": 8949,
+            "achieved_rps": 1098.9400047385568,
+            "cpu_us_per_request": 1138.2419264722316,
+            "mean_ms": 3.5694410366936893,
+            "p50_ms": 3.4515857696533203,
+            "p95_ms": 4.5928955078125,
+            "p99_ms": 5.747795104980469,
+            "user_us_per_request": 317.15856520281596
+          },
+          "per_request": {
+            "cycles:u": 569551.4492122025,
+            "instructions:u": 278457.79427869036,
+            "FE_LATE_SWPF": 0.0,
+            "T1_T2_ISSUED": 0.0,
+            "ITLB_WALK_ACTIVE": 55691.950385517936,
+            "branches:u": 56145.967929377584,
+            "branch-misses:u": 4623.71974522293
+          }
+        },
+        "rating": {
+          "counters": {
+            "cycles:u": 2483977020.0,
+            "instructions:u": 971386334.0,
+            "FE_LATE_SWPF": 0.0,
+            "T1_T2_ISSUED": 0.0,
+            "ITLB_WALK_ACTIVE": 257459026.0,
+            "branches:u": 205547233.0,
+            "branch-misses:u": 22523492.0
+          },
+          "scheduled_pct": {
+            "cycles:u": 100.0,
+            "instructions:u": 100.0,
+            "FE_LATE_SWPF": 100.0,
+            "T1_T2_ISSUED": 100.0,
+            "ITLB_WALK_ACTIVE": 100.0,
+            "branches:u": 100.0,
+            "branch-misses:u": 100.0
+          },
+          "fully_scheduled": true,
+          "window": {
+            "start": 1790589035.4080255,
+            "end": 1790589043.5494008,
+            "wall_s": 8.141375567996874,
+            "cpu_us": 4048563,
+            "user_us": 1363024,
+            "system_us": 2685538,
+            "delta": {
+              "usage_usec": 4048563,
+              "user_usec": 1363024,
+              "system_usec": 2685538,
+              "core_sched.force_idle_usec": 0,
+              "nr_periods": 0,
+              "nr_throttled": 0,
+              "throttled_usec": 0,
+              "nr_bursts": 0,
+              "burst_usec": 0
+            },
+            "completed": 9278,
+            "achieved_rps": 1139.6108584489223,
+            "cpu_us_per_request": 436.3616081051951,
+            "mean_ms": 3.4393210893151163,
+            "p50_ms": 3.3006668090820312,
+            "p95_ms": 4.541635513305664,
+            "p99_ms": 6.018161773681641,
+            "user_us_per_request": 146.90924768269022
+          },
+          "per_request": {
+            "cycles:u": 267727.63742185815,
+            "instructions:u": 104697.8156930373,
+            "FE_LATE_SWPF": 0.0,
+            "T1_T2_ISSUED": 0.0,
+            "ITLB_WALK_ACTIVE": 27749.410002155637,
+            "branches:u": 22154.26093985773,
+            "branch-misses:u": 2427.6236257814185
+          }
+        }
+      }
+    }
+  },
+  {
+    "arm": "ungated_it0",
+    "block": 0,
+    "services": {
+      "movie": {
+        "counters": {
+          "cycles:u": 2505827677.0,
+          "instructions:u": 898973318.0,
+          "L2I": 54292719.0,
+          "FE_L2": 4460799.0,
+          "ITLB_WALK": 4794894.0,
+          "SWPF_MISS": 164985.0,
+          "SWPF_HIT": 492535.0
+        },
+        "scheduled_pct": {
+          "cycles:u": 100.0,
+          "instructions:u": 100.0,
+          "L2I": 100.0,
+          "FE_L2": 100.0,
+          "ITLB_WALK": 100.0,
+          "SWPF_MISS": 100.0,
+          "SWPF_HIT": 100.0
+        },
+        "fully_scheduled": true,
+        "window": {
+          "start": 1790589216.2496727,
+          "end": 1790589224.3929915,
+          "wall_s": 8.143319401016925,
+          "cpu_us": 4622191,
+          "user_us": 1397625,
+          "system_us": 3224567,
+          "delta": {
+            "usage_usec": 4622191,
+            "user_usec": 1397625,
+            "system_usec": 3224567,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "completed": 9076,
+          "achieved_rps": 1114.5332207977258,
+          "cpu_us_per_request": 509.2762230057294,
+          "mean_ms": 3.5186261792390976,
+          "p50_ms": 3.3948421478271484,
+          "p95_ms": 4.510641098022461,
+          "p99_ms": 5.888462066650391,
+          "user_us_per_request": 153.991295724989
+        },
+        "per_request": {
+          "cycles:u": 276093.8383649185,
+          "instructions:u": 99049.506170119,
+          "L2I": 5982.0095857205815,
+          "FE_L2": 491.4939400617012,
+          "ITLB_WALK": 528.304759806082,
+          "SWPF_MISS": 18.178162185985016,
+          "SWPF_HIT": 54.2678492728074
+        }
+      },
+      "compose": {
+        "counters": {
+          "cycles:u": 5078035888.0,
+          "instructions:u": 2501160304.0,
+          "L2I": 101611330.0,
+          "FE_L2": 9072063.0,
+          "ITLB_WALK": 9614177.0,
+          "SWPF_MISS": 182723.0,
+          "SWPF_HIT": 1183791.0
+        },
+        "scheduled_pct": {
+          "cycles:u": 100.0,
+          "instructions:u": 100.0,
+          "L2I": 100.0,
+          "FE_L2": 100.0,
+          "ITLB_WALK": 100.0,
+          "SWPF_MISS": 100.0,
+          "SWPF_HIT": 100.0
+        },
+        "fully_scheduled": true,
+        "window": {
+          "start": 1790589224.3933318,
+          "end": 1790589232.5389283,
+          "wall_s": 8.145596965012373,
+          "cpu_us": 10182985,
+          "user_us": 2808953,
+          "system_us": 7374032,
+          "delta": {
+            "usage_usec": 10182985,
+            "user_usec": 2808953,
+            "system_usec": 7374032,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "completed": 8959,
+          "achieved_rps": 1099.858001627311,
+          "cpu_us_per_request": 1136.6207165978346,
+          "mean_ms": 3.5675899406830798,
+          "p50_ms": 3.431081771850586,
+          "p95_ms": 4.634618759155273,
+          "p99_ms": 6.397724151611328,
+          "user_us_per_request": 313.5342114075232
+        },
+        "per_request": {
+          "cycles:u": 566808.3366447148,
+          "instructions:u": 279178.51367340103,
+          "L2I": 11341.816050898538,
+          "FE_L2": 1012.6200468802322,
+          "ITLB_WALK": 1073.13059493247,
+          "SWPF_MISS": 20.395468244223686,
+          "SWPF_HIT": 132.13427837928342
+        }
+      },
+      "rating": {
+        "counters": {
+          "cycles:u": 2449305428.0,
+          "instructions:u": 952100873.0,
+          "L2I": 51745651.0,
+          "FE_L2": 4542489.0,
+          "ITLB_WALK": 4156649.0,
+          "SWPF_MISS": 137933.0,
+          "SWPF_HIT": 292569.0
+        },
+        "scheduled_pct": {
+          "cycles:u": 100.0,
+          "instructions:u": 100.0,
+          "L2I": 100.0,
+          "FE_L2": 100.0,
+          "ITLB_WALK": 100.0,
+          "SWPF_MISS": 100.0,
+          "SWPF_HIT": 100.0
+        },
+        "fully_scheduled": true,
+        "window": {
+          "start": 1790589232.5391452,
+          "end": 1790589240.6820955,
+          "wall_s": 8.14295155700529,
+          "cpu_us": 4001572,
+          "user_us": 1365698,
+          "system_us": 2635874,
+          "delta": {
+            "usage_usec": 4001572,
+            "user_usec": 1365698,
+            "system_usec": 2635874,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "completed": 9076,
+          "achieved_rps": 1114.5835679437414,
+          "cpu_us_per_request": 440.89598942265314,
+          "mean_ms": 3.518937153141632,
+          "p50_ms": 3.3986568450927734,
+          "p95_ms": 4.501819610595703,
+          "p99_ms": 5.726814270019531,
+          "user_us_per_request": 150.47355663287792
+        },
+        "per_request": {
+          "cycles:u": 269866.1776112825,
+          "instructions:u": 104903.13717496695,
+          "L2I": 5701.371859850155,
+          "FE_L2": 500.49460114587924,
+          "ITLB_WALK": 457.9824812692816,
+          "SWPF_MISS": 15.197553988541207,
+          "SWPF_HIT": 32.235456148082854
+        }
+      }
+    },
+    "extra": {
+      "late": {
+        "movie": {
+          "counters": {
+            "cycles:u": 2498137666.0,
+            "instructions:u": 892578640.0,
+            "FE_LATE_SWPF": 4033.0,
+            "T1_T2_ISSUED": 649742.0,
+            "ITLB_WALK_ACTIVE": 280504297.0,
+            "branches:u": 185234358.0,
+            "branch-misses:u": 20259672.0
+          },
+          "scheduled_pct": {
+            "cycles:u": 100.0,
+            "instructions:u": 100.0,
+            "FE_LATE_SWPF": 100.0,
+            "T1_T2_ISSUED": 100.0,
+            "ITLB_WALK_ACTIVE": 100.0,
+            "branches:u": 100.0,
+            "branch-misses:u": 100.0
+          },
+          "fully_scheduled": true,
+          "window": {
+            "start": 1790589240.6824372,
+            "end": 1790589248.8267424,
+            "wall_s": 8.14430578899919,
+            "cpu_us": 4596087,
+            "user_us": 1361864,
+            "system_us": 3234223,
+            "delta": {
+              "usage_usec": 4596087,
+              "user_usec": 1361864,
+              "system_usec": 3234223,
+              "core_sched.force_idle_usec": 0,
+              "nr_periods": 0,
+              "nr_throttled": 0,
+              "throttled_usec": 0,
+              "nr_bursts": 0,
+              "burst_usec": 0
+            },
+            "completed": 9036,
+            "achieved_rps": 1109.4868284790157,
+            "cpu_us_per_request": 508.6417662682603,
+            "mean_ms": 3.535405599527414,
+            "p50_ms": 3.4096240997314453,
+            "p95_ms": 4.519224166870117,
+            "p99_ms": 5.979299545288086,
+            "user_us_per_request": 150.7153607791058
+          },
+          "per_request": {
+            "cycles:u": 276464.99181053566,
+            "instructions:u": 98780.28331119964,
+            "FE_LATE_SWPF": 0.44632580787959275,
+            "T1_T2_ISSUED": 71.90593182824259,
+            "ITLB_WALK_ACTIVE": 31042.972222222223,
+            "branches:u": 20499.59694555113,
+            "branch-misses:u": 2242.106241699867
+          }
+        },
+        "compose": {
+          "counters": {
+            "cycles:u": 5053428358.0,
+            "instructions:u": 2489058861.0,
+            "FE_LATE_SWPF": 14969.0,
+            "T1_T2_ISSUED": 1374101.0,
+            "ITLB_WALK_ACTIVE": 445185373.0,
+            "branches:u": 501954310.0,
+            "branch-misses:u": 41913245.0
+          },
+          "scheduled_pct": {
+            "cycles:u": 100.0,
+            "instructions:u": 100.0,
+            "FE_LATE_SWPF": 100.0,
+            "T1_T2_ISSUED": 100.0,
+            "ITLB_WALK_ACTIVE": 100.0,
+            "branches:u": 100.0,
+            "branch-misses:u": 100.0
+          },
+          "fully_scheduled": true,
+          "window": {
+            "start": 1790589248.8270767,
+            "end": 1790589256.9682145,
+            "wall_s": 8.14113852698938,
+            "cpu_us": 10162702,
+            "user_us": 2814086,
+            "system_us": 7348616,
+            "delta": {
+              "usage_usec": 10162702,
+              "user_usec": 2814086,
+              "system_usec": 7348616,
+              "core_sched.force_idle_usec": 0,
+              "nr_periods": 0,
+              "nr_throttled": 0,
+              "throttled_usec": 0,
+              "nr_bursts": 0,
+              "burst_usec": 0
+            },
+            "completed": 8929,
+            "achieved_rps": 1096.7753429570955,
+            "cpu_us_per_request": 1138.1679919363871,
+            "mean_ms": 3.5775797486452094,
+            "p50_ms": 3.4563541412353516,
+            "p95_ms": 4.602670669555664,
+            "p99_ms": 6.0405731201171875,
+            "user_us_per_request": 315.16250419979843
+          },
+          "per_request": {
+            "cycles:u": 565956.8101691119,
+            "instructions:u": 278761.2118938291,
+            "FE_LATE_SWPF": 1.6764475305185351,
+            "T1_T2_ISSUED": 153.891925187591,
+            "ITLB_WALK_ACTIVE": 49858.368574308435,
+            "branches:u": 56216.18434315153,
+            "branch-misses:u": 4694.05812520999
+          }
+        },
+        "rating": {
+          "counters": {
+            "cycles:u": 2426640677.0,
+            "instructions:u": 945175710.0,
+            "FE_LATE_SWPF": 2326.0,
+            "T1_T2_ISSUED": 427381.0,
+            "ITLB_WALK_ACTIVE": 251462805.0,
+            "branches:u": 199984708.0,
+            "branch-misses:u": 22099014.0
+          },
+          "scheduled_pct": {
+            "cycles:u": 100.0,
+            "instructions:u": 100.0,
+            "FE_LATE_SWPF": 100.0,
+            "T1_T2_ISSUED": 100.0,
+            "ITLB_WALK_ACTIVE": 100.0,
+            "branches:u": 100.0,
+            "branch-misses:u": 100.0
+          },
+          "fully_scheduled": true,
+          "window": {
+            "start": 1790589256.968556,
+            "end": 1790589265.107217,
+            "wall_s": 8.138661438017152,
+            "cpu_us": 3958447,
+            "user_us": 1331349,
+            "system_us": 2627099,
+            "delta": {
+              "usage_usec": 3958447,
+              "user_usec": 1331349,
+              "system_usec": 2627099,
+              "core_sched.force_idle_usec": 0,
+              "nr_periods": 0,
+              "nr_throttled": 0,
+              "throttled_usec": 0,
+              "nr_bursts": 0,
+              "burst_usec": 0
+            },
+            "completed": 8990,
+            "achieved_rps": 1104.6042483111648,
+            "cpu_us_per_request": 440.3166852057842,
+            "mean_ms": 3.5510405284809456,
+            "p50_ms": 3.414154052734375,
+            "p95_ms": 4.599809646606445,
+            "p99_ms": 6.471872329711914,
+            "user_us_per_request": 148.09221357063404
+          },
+          "per_request": {
+            "cycles:u": 269926.66040044493,
+            "instructions:u": 105136.34149054505,
+            "FE_LATE_SWPF": 0.25873192436040043,
+            "T1_T2_ISSUED": 47.53959955506118,
+            "ITLB_WALK_ACTIVE": 27971.390989988875,
+            "branches:u": 22245.240044493883,
+            "branch-misses:u": 2458.1773081201336
+          }
+        }
+      }
+    }
+  },
+  {
+    "arm": "callees_nop",
+    "block": 0,
+    "services": {
+      "movie": {
+        "counters": {
+          "cycles:u": 2596581809.0,
+          "instructions:u": 942100418.0,
+          "L2I": 54105623.0,
+          "FE_L2": 4230247.0,
+          "ITLB_WALK": 5511607.0,
+          "SWPF_MISS": 403.0,
+          "SWPF_HIT": 7253.0
+        },
+        "scheduled_pct": {
+          "cycles:u": 100.0,
+          "instructions:u": 100.0,
+          "L2I": 100.0,
+          "FE_L2": 100.0,
+          "ITLB_WALK": 100.0,
+          "SWPF_MISS": 100.0,
+          "SWPF_HIT": 100.0
+        },
+        "fully_scheduled": true,
+        "window": {
+          "start": 1790589439.030878,
+          "end": 1790589447.1736178,
+          "wall_s": 8.142740367009537,
+          "cpu_us": 4659442,
+          "user_us": 1452625,
+          "system_us": 3206817,
+          "delta": {
+            "usage_usec": 4659442,
+            "user_usec": 1452625,
+            "system_usec": 3206817,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "completed": 9103,
+          "achieved_rps": 1117.9283127927022,
+          "cpu_us_per_request": 511.85784906074923,
+          "mean_ms": 3.5081116377646016,
+          "p50_ms": 3.368854522705078,
+          "p95_ms": 4.548072814941406,
+          "p99_ms": 6.060600280761719,
+          "user_us_per_request": 159.57651323739427
+        },
+        "per_request": {
+          "cycles:u": 285244.62364055804,
+          "instructions:u": 103493.39975832144,
+          "L2I": 5943.713391189718,
+          "FE_L2": 464.7091068878392,
+          "ITLB_WALK": 605.4714929144238,
+          "SWPF_MISS": 0.04427111941118313,
+          "SWPF_HIT": 0.7967702955069758
+        }
+      },
+      "compose": {
+        "counters": {
+          "cycles:u": 5349146730.0,
+          "instructions:u": 2586828184.0,
+          "L2I": 104655955.0,
+          "FE_L2": 8400849.0,
+          "ITLB_WALK": 10176637.0,
+          "SWPF_MISS": 1033.0,
+          "SWPF_HIT": 17958.0
+        },
+        "scheduled_pct": {
+          "cycles:u": 100.0,
+          "instructions:u": 100.0,
+          "L2I": 100.0,
+          "FE_L2": 100.0,
+          "ITLB_WALK": 100.0,
+          "SWPF_MISS": 100.0,
+          "SWPF_HIT": 100.0
+        },
+        "fully_scheduled": true,
+        "window": {
+          "start": 1790589447.1739695,
+          "end": 1790589455.3169985,
+          "wall_s": 8.143029723025393,
+          "cpu_us": 10350923,
+          "user_us": 2930524,
+          "system_us": 7420398,
+          "delta": {
+            "usage_usec": 10350923,
+            "user_usec": 2930524,
+            "system_usec": 7420398,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "completed": 8993,
+          "achieved_rps": 1104.3801024784686,
+          "cpu_us_per_request": 1150.9977760480374,
+          "mean_ms": 3.5514544687745144,
+          "p50_ms": 3.4155845642089844,
+          "p95_ms": 4.58836555480957,
+          "p99_ms": 6.124734878540039,
+          "user_us_per_request": 325.8672300678305
+        },
+        "per_request": {
+          "cycles:u": 594812.2684310019,
+          "instructions:u": 287649.08084065386,
+          "L2I": 11637.490826198155,
+          "FE_L2": 934.154231068609,
+          "ITLB_WALK": 1131.6175914600244,
+          "SWPF_MISS": 0.1148671188702324,
+          "SWPF_HIT": 1.9968864672523075
+        }
+      },
+      "rating": {
+        "counters": {
+          "cycles:u": 2547356667.0,
+          "instructions:u": 978452059.0,
+          "L2I": 51011796.0,
+          "FE_L2": 4310969.0,
+          "ITLB_WALK": 4631864.0,
+          "SWPF_MISS": 299.0,
+          "SWPF_HIT": 6456.0
+        },
+        "scheduled_pct": {
+          "cycles:u": 100.0,
+          "instructions:u": 100.0,
+          "L2I": 100.0,
+          "FE_L2": 100.0,
+          "ITLB_WALK": 100.0,
+          "SWPF_MISS": 100.0,
+          "SWPF_HIT": 100.0
+        },
+        "fully_scheduled": true,
+        "window": {
+          "start": 1790589455.3173378,
+          "end": 1790589463.459365,
+          "wall_s": 8.142027657973813,
+          "cpu_us": 4078659,
+          "user_us": 1396281,
+          "system_us": 2682379,
+          "delta": {
+            "usage_usec": 4078659,
+            "user_usec": 1396281,
+            "system_usec": 2682379,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "completed": 9087,
+          "achieved_rps": 1116.0610577269088,
+          "cpu_us_per_request": 448.84549356223175,
+          "mean_ms": 3.513981987176666,
+          "p50_ms": 3.3872127532958984,
+          "p95_ms": 4.556179046630859,
+          "p99_ms": 5.969524383544922,
+          "user_us_per_request": 153.65698250247607
+        },
+        "per_request": {
+          "cycles:u": 280329.7751733245,
+          "instructions:u": 107676.02718168813,
+          "L2I": 5613.711455926048,
+          "FE_L2": 474.41058655221747,
+          "ITLB_WALK": 509.72422141520855,
+          "SWPF_MISS": 0.032904148783977114,
+          "SWPF_HIT": 0.7104655001650709
+        }
+      }
+    },
+    "extra": {
+      "late": {
+        "movie": {
+          "counters": {
+            "cycles:u": 2589119760.0,
+            "instructions:u": 939171368.0,
+            "FE_LATE_SWPF": 0.0,
+            "T1_T2_ISSUED": 0.0,
+            "ITLB_WALK_ACTIVE": 302257541.0,
+            "branches:u": 194194116.0,
+            "branch-misses:u": 20925621.0
+          },
+          "scheduled_pct": {
+            "cycles:u": 100.0,
+            "instructions:u": 100.0,
+            "FE_LATE_SWPF": 100.0,
+            "T1_T2_ISSUED": 100.0,
+            "ITLB_WALK_ACTIVE": 100.0,
+            "branches:u": 100.0,
+            "branch-misses:u": 100.0
+          },
+          "fully_scheduled": true,
+          "window": {
+            "start": 1790589463.4596999,
+            "end": 1790589471.600499,
+            "wall_s": 8.14079999900423,
+            "cpu_us": 4635372,
+            "user_us": 1452980,
+            "system_us": 3182393,
+            "delta": {
+              "usage_usec": 4635372,
+              "user_usec": 1452980,
+              "system_usec": 3182393,
+              "core_sched.force_idle_usec": 0,
+              "nr_periods": 0,
+              "nr_throttled": 0,
+              "throttled_usec": 0,
+              "nr_bursts": 0,
+              "burst_usec": 0
+            },
+            "completed": 9040,
+            "achieved_rps": 1110.4559749785965,
+            "cpu_us_per_request": 512.762389380531,
+            "mean_ms": 3.5318290501569223,
+            "p50_ms": 3.408670425415039,
+            "p95_ms": 4.576444625854492,
+            "p99_ms": 5.847692489624023,
+            "user_us_per_request": 160.72787610619469
+          },
+          "per_request": {
+            "cycles:u": 286407.0530973451,
+            "instructions:u": 103890.63805309734,
+            "FE_LATE_SWPF": 0.0,
+            "T1_T2_ISSUED": 0.0,
+            "ITLB_WALK_ACTIVE": 33435.568694690264,
+            "branches:u": 21481.65,
+            "branch-misses:u": 2314.7810840707966
+          }
+        },
+        "compose": {
+          "counters": {
+            "cycles:u": 5317673073.0,
+            "instructions:u": 2561913962.0,
+            "FE_LATE_SWPF": 0.0,
+            "T1_T2_ISSUED": 0.0,
+            "ITLB_WALK_ACTIVE": 498403236.0,
+            "branches:u": 515255811.0,
+            "branch-misses:u": 43331762.0
+          },
+          "scheduled_pct": {
+            "cycles:u": 100.0,
+            "instructions:u": 100.0,
+            "FE_LATE_SWPF": 100.0,
+            "T1_T2_ISSUED": 100.0,
+            "ITLB_WALK_ACTIVE": 100.0,
+            "branches:u": 100.0,
+            "branch-misses:u": 100.0
+          },
+          "fully_scheduled": true,
+          "window": {
+            "start": 1790589471.6008708,
+            "end": 1790589479.7431104,
+            "wall_s": 8.142239703011,
+            "cpu_us": 10258733,
+            "user_us": 2985890,
+            "system_us": 7272842,
+            "delta": {
+              "usage_usec": 10258733,
+              "user_usec": 2985890,
+              "system_usec": 7272842,
+              "core_sched.force_idle_usec": 0,
+              "nr_periods": 0,
+              "nr_throttled": 0,
+              "throttled_usec": 0,
+              "nr_bursts": 0,
+              "burst_usec": 0
+            },
+            "completed": 8909,
+            "achieved_rps": 1094.170685825603,
+            "cpu_us_per_request": 1151.5021887978448,
+            "mean_ms": 3.585902030037929,
+            "p50_ms": 3.453969955444336,
+            "p95_ms": 4.574775695800781,
+            "p99_ms": 5.842685699462891,
+            "user_us_per_request": 335.1543383095746
+          },
+          "per_request": {
+            "cycles:u": 596887.7621506342,
+            "instructions:u": 287564.70557862835,
+            "FE_LATE_SWPF": 0.0,
+            "T1_T2_ISSUED": 0.0,
+            "ITLB_WALK_ACTIVE": 55943.79122235941,
+            "branches:u": 57835.42608598047,
+            "branch-misses:u": 4863.81883488607
+          }
+        },
+        "rating": {
+          "counters": {
+            "cycles:u": 2529415202.0,
+            "instructions:u": 972577693.0,
+            "FE_LATE_SWPF": 0.0,
+            "T1_T2_ISSUED": 0.0,
+            "ITLB_WALK_ACTIVE": 253757687.0,
+            "branches:u": 205186280.0,
+            "branch-misses:u": 22392334.0
+          },
+          "scheduled_pct": {
+            "cycles:u": 100.0,
+            "instructions:u": 100.0,
+            "FE_LATE_SWPF": 100.0,
+            "T1_T2_ISSUED": 100.0,
+            "ITLB_WALK_ACTIVE": 100.0,
+            "branches:u": 100.0,
+            "branch-misses:u": 100.0
+          },
+          "fully_scheduled": true,
+          "window": {
+            "start": 1790589479.743458,
+            "end": 1790589487.8873217,
+            "wall_s": 8.143863959005103,
+            "cpu_us": 4053164,
+            "user_us": 1390267,
+            "system_us": 2662896,
+            "delta": {
+              "usage_usec": 4053164,
+              "user_usec": 1390267,
+              "system_usec": 2662896,
+              "core_sched.force_idle_usec": 0,
+              "nr_periods": 0,
+              "nr_throttled": 0,
+              "throttled_usec": 0,
+              "nr_bursts": 0,
+              "burst_usec": 0
+            },
+            "completed": 9037,
+            "achieved_rps": 1109.6698134314129,
+            "cpu_us_per_request": 448.5076906052894,
+            "mean_ms": 3.5342369457387126,
+            "p50_ms": 3.3996105194091797,
+            "p95_ms": 4.563093185424805,
+            "p99_ms": 5.999326705932617,
+            "user_us_per_request": 153.8416509903729
+          },
+          "per_request": {
+            "cycles:u": 279895.4522518535,
+            "instructions:u": 107621.74316698019,
+            "FE_LATE_SWPF": 0.0,
+            "T1_T2_ISSUED": 0.0,
+            "ITLB_WALK_ACTIVE": 28079.859134668586,
+            "branches:u": 22705.1322341485,
+            "branch-misses:u": 2477.850392829479
+          }
+        }
+      }
+    }
+  },
+  {
+    "arm": "callees_it0",
+    "block": 0,
+    "services": {
+      "movie": {
+        "counters": {
+          "cycles:u": 2638955511.0,
+          "instructions:u": 963893028.0,
+          "L2I": 56451566.0,
+          "FE_L2": 4183432.0,
+          "ITLB_WALK": 5299987.0,
+          "SWPF_MISS": 474.0,
+          "SWPF_HIT": 7873.0
+        },
+        "scheduled_pct": {
+          "cycles:u": 100.0,
+          "instructions:u": 100.0,
+          "L2I": 100.0,
+          "FE_L2": 100.0,
+          "ITLB_WALK": 100.0,
+          "SWPF_MISS": 100.0,
+          "SWPF_HIT": 100.0
+        },
+        "fully_scheduled": true,
+        "window": {
+          "start": 1790589661.7698038,
+          "end": 1790589669.9118867,
+          "wall_s": 8.142082645004848,
+          "cpu_us": 4809564,
+          "user_us": 1418640,
+          "system_us": 3390924,
+          "delta": {
+            "usage_usec": 4809564,
+            "user_usec": 1418640,
+            "system_usec": 3390924,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "completed": 9336,
+          "achieved_rps": 1146.635376604488,
+          "cpu_us_per_request": 515.1632390745501,
+          "mean_ms": 3.4174872394699056,
+          "p50_ms": 3.282785415649414,
+          "p95_ms": 4.486799240112305,
+          "p99_ms": 5.988121032714844,
+          "user_us_per_request": 151.95372750642673
+        },
+        "per_request": {
+          "cycles:u": 282664.4720437018,
+          "instructions:u": 103244.75449871465,
+          "L2I": 6046.6544558697515,
+          "FE_L2": 448.0968294772922,
+          "ITLB_WALK": 567.6935518423307,
+          "SWPF_MISS": 0.05077120822622108,
+          "SWPF_HIT": 0.8432947729220223
+        }
+      },
+      "compose": {
+        "counters": {
+          "cycles:u": 5292904948.0,
+          "instructions:u": 2586545748.0,
+          "L2I": 103227603.0,
+          "FE_L2": 8355766.0,
+          "ITLB_WALK": 10592807.0,
+          "SWPF_MISS": 1063.0,
+          "SWPF_HIT": 17223.0
+        },
+        "scheduled_pct": {
+          "cycles:u": 100.0,
+          "instructions:u": 100.0,
+          "L2I": 100.0,
+          "FE_L2": 100.0,
+          "ITLB_WALK": 100.0,
+          "SWPF_MISS": 100.0,
+          "SWPF_HIT": 100.0
+        },
+        "fully_scheduled": true,
+        "window": {
+          "start": 1790589669.9120972,
+          "end": 1790589678.0553708,
+          "wall_s": 8.143274171976373,
+          "cpu_us": 10330900,
+          "user_us": 2957691,
+          "system_us": 7373210,
+          "delta": {
+            "usage_usec": 10330900,
+            "user_usec": 2957691,
+            "system_usec": 7373210,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "completed": 8995,
+          "achieved_rps": 1104.592552090987,
+          "cpu_us_per_request": 1148.5158421345193,
+          "mean_ms": 3.551920206431484,
+          "p50_ms": 3.425121307373047,
+          "p95_ms": 4.569768905639648,
+          "p99_ms": 6.155490875244141,
+          "user_us_per_request": 328.81500833796554
+        },
+        "per_request": {
+          "cycles:u": 588427.4539188438,
+          "instructions:u": 287553.7240689272,
+          "L2I": 11476.109282934964,
+          "FE_L2": 928.9345191773207,
+          "ITLB_WALK": 1177.6327959977766,
+          "SWPF_MISS": 0.11817676486937187,
+          "SWPF_HIT": 1.9147304057809895
+        }
+      },
+      "rating": {
+        "counters": {
+          "cycles:u": 2498123808.0,
+          "instructions:u": 978812131.0,
+          "L2I": 51687581.0,
+          "FE_L2": 4202977.0,
+          "ITLB_WALK": 4346606.0,
+          "SWPF_MISS": 292.0,
+          "SWPF_HIT": 6280.0
+        },
+        "scheduled_pct": {
+          "cycles:u": 100.0,
+          "instructions:u": 100.0,
+          "L2I": 100.0,
+          "FE_L2": 100.0,
+          "ITLB_WALK": 100.0,
+          "SWPF_MISS": 100.0,
+          "SWPF_HIT": 100.0
+        },
+        "fully_scheduled": true,
+        "window": {
+          "start": 1790589678.0557282,
+          "end": 1790589686.199383,
+          "wall_s": 8.143655592983123,
+          "cpu_us": 4029905,
+          "user_us": 1454902,
+          "system_us": 2575003,
+          "delta": {
+            "usage_usec": 4029905,
+            "user_usec": 1454902,
+            "system_usec": 2575003,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 0,
+            "nr_throttled": 0,
+            "throttled_usec": 0,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "completed": 9066,
+          "achieved_rps": 1113.2592601056954,
+          "cpu_us_per_request": 444.50750055151116,
+          "mean_ms": 3.522650548066889,
+          "p50_ms": 3.391742706298828,
+          "p95_ms": 4.500627517700195,
+          "p99_ms": 6.09278678894043,
+          "user_us_per_request": 160.47893227443194
+        },
+        "per_request": {
+          "cycles:u": 275548.6221045665,
+          "instructions:u": 107965.1589455107,
+          "L2I": 5701.255349658063,
+          "FE_L2": 463.59772777410103,
+          "ITLB_WALK": 479.4403264945952,
+          "SWPF_MISS": 0.032208250606662256,
+          "SWPF_HIT": 0.6926979924994485
+        }
+      }
+    },
+    "extra": {
+      "late": {
+        "movie": {
+          "counters": {
+            "cycles:u": 2622766258.0,
+            "instructions:u": 956708442.0,
+            "FE_LATE_SWPF": 16825.0,
+            "T1_T2_ISSUED": 0.0,
+            "ITLB_WALK_ACTIVE": 291929124.0,
+            "branches:u": 197754956.0,
+            "branch-misses:u": 21444796.0
+          },
+          "scheduled_pct": {
+            "cycles:u": 100.0,
+            "instructions:u": 100.0,
+            "FE_LATE_SWPF": 100.0,
+            "T1_T2_ISSUED": 100.0,
+            "ITLB_WALK_ACTIVE": 100.0,
+            "branches:u": 100.0,
+            "branch-misses:u": 100.0
+          },
+          "fully_scheduled": true,
+          "window": {
+            "start": 1790589686.1997437,
+            "end": 1790589694.3414397,
+            "wall_s": 8.141696437000064,
+            "cpu_us": 4786480,
+            "user_us": 1428549,
+            "system_us": 3357930,
+            "delta": {
+              "usage_usec": 4786480,
+              "user_usec": 1428549,
+              "system_usec": 3357930,
+              "core_sched.force_idle_usec": 0,
+              "nr_periods": 0,
+              "nr_throttled": 0,
+              "throttled_usec": 0,
+              "nr_bursts": 0,
+              "burst_usec": 0
+            },
+            "completed": 9285,
+            "achieved_rps": 1140.4257173976882,
+            "cpu_us_per_request": 515.506731287022,
+            "mean_ms": 3.4369333366841865,
+            "p50_ms": 3.30352783203125,
+            "p95_ms": 4.520177841186523,
+            "p99_ms": 5.9642791748046875,
+            "user_us_per_request": 153.8555735056543
+          },
+          "per_request": {
+            "cycles:u": 282473.4795907377,
+            "instructions:u": 103038.06591276253,
+            "FE_LATE_SWPF": 1.812062466343565,
+            "T1_T2_ISSUED": 0.0,
+            "ITLB_WALK_ACTIVE": 31440.93957996769,
+            "branches:u": 21298.325901992463,
+            "branch-misses:u": 2309.6172320947767
+          }
+        },
+        "compose": {
+          "counters": {
+            "cycles:u": 5336520411.0,
+            "instructions:u": 2612940691.0,
+            "FE_LATE_SWPF": 40949.0,
+            "T1_T2_ISSUED": 0.0,
+            "ITLB_WALK_ACTIVE": 504260650.0,
+            "branches:u": 525536129.0,
+            "branch-misses:u": 43573754.0
+          },
+          "scheduled_pct": {
+            "cycles:u": 100.0,
+            "instructions:u": 100.0,
+            "FE_LATE_SWPF": 100.0,
+            "T1_T2_ISSUED": 100.0,
+            "ITLB_WALK_ACTIVE": 100.0,
+            "branches:u": 100.0,
+            "branch-misses:u": 100.0
+          },
+          "fully_scheduled": true,
+          "window": {
+            "start": 1790589694.3418148,
+            "end": 1790589702.4849772,
+            "wall_s": 8.143162650987506,
+            "cpu_us": 10408723,
+            "user_us": 2985451,
+            "system_us": 7423272,
+            "delta": {
+              "usage_usec": 10408723,
+              "user_usec": 2985451,
+              "system_usec": 7423272,
+              "core_sched.force_idle_usec": 0,
+              "nr_periods": 0,
+              "nr_throttled": 0,
+              "throttled_usec": 0,
+              "nr_bursts": 0,
+              "burst_usec": 0
+            },
+            "completed": 9085,
+            "achieved_rps": 1115.6598964529192,
+            "cpu_us_per_request": 1145.7042377545404,
+            "mean_ms": 3.514578267644904,
+            "p50_ms": 3.3707618713378906,
+            "p95_ms": 4.652261734008789,
+            "p99_ms": 6.284475326538086,
+            "user_us_per_request": 328.61320858558065
+          },
+          "per_request": {
+            "cycles:u": 587399.0545954871,
+            "instructions:u": 287610.4227848101,
+            "FE_LATE_SWPF": 4.507319757842597,
+            "T1_T2_ISSUED": 0.0,
+            "ITLB_WALK_ACTIVE": 55504.7495872317,
+            "branches:u": 57846.57446340121,
+            "branch-misses:u": 4796.230489818382
+          }
+        },
+        "rating": {
+          "counters": {
+            "cycles:u": 2518688908.0,
+            "instructions:u": 988036207.0,
+            "FE_LATE_SWPF": 10483.0,
+            "T1_T2_ISSUED": 0.0,
+            "ITLB_WALK_ACTIVE": 249746221.0,
+            "branches:u": 208335324.0,
+            "branch-misses:u": 22899277.0
+          },
+          "scheduled_pct": {
+            "cycles:u": 100.0,
+            "instructions:u": 100.0,
+            "FE_LATE_SWPF": 100.0,
+            "T1_T2_ISSUED": 100.0,
+            "ITLB_WALK_ACTIVE": 100.0,
+            "branches:u": 100.0,
+            "branch-misses:u": 100.0
+          },
+          "fully_scheduled": true,
+          "window": {
+            "start": 1790589702.4853234,
+            "end": 1790589710.6286893,
+            "wall_s": 8.14336638498935,
+            "cpu_us": 4062044,
+            "user_us": 1389508,
+            "system_us": 2672537,
+            "delta": {
+              "usage_usec": 4062044,
+              "user_usec": 1389508,
+              "system_usec": 2672537,
+              "core_sched.force_idle_usec": 0,
+              "nr_periods": 0,
+              "nr_throttled": 0,
+              "throttled_usec": 0,
+              "nr_bursts": 0,
+              "burst_usec": 0
+            },
+            "completed": 9168,
+            "achieved_rps": 1125.8243294688737,
+            "cpu_us_per_request": 443.0676265270506,
+            "mean_ms": 3.4828047685806247,
+            "p50_ms": 3.3521652221679688,
+            "p95_ms": 4.565954208374023,
+            "p99_ms": 5.999088287353516,
+            "user_us_per_request": 151.56064572425828
+          },
+          "per_request": {
+            "cycles:u": 274726.102530541,
+            "instructions:u": 107770.09238656196,
+            "FE_LATE_SWPF": 1.143433682373473,
+            "T1_T2_ISSUED": 0.0,
+            "ITLB_WALK_ACTIVE": 27241.07995200698,
+            "branches:u": 22724.18455497382,
+            "branch-misses:u": 2497.739637870855
+          }
+        }
+      }
+    }
+  }
+]

@@ -1,0 +1,70 @@
+{
+  "policy": "lean_meta_callees_static_diag",
+  "original_gated": "callees_it0",
+  "tag": "lean_v4_gate_diag",
+  "overrides": {
+    "movie": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_gate_diag_it0/movie/MovieIdService",
+    "compose": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_gate_diag_it0/compose/ComposeReviewService",
+    "rating": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_gate_diag_it0/rating/RatingService"
+  },
+  "audits": {
+    "movie": {
+      "source": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_gate_diag/movie/MovieIdService",
+      "source_sha256": "0126eaae62892c322df316eb75e407684273a459ff92619f4239c727faeb7ebb",
+      "path": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_gate_diag_it0/movie/MovieIdService",
+      "sha256": "420de95f90b9a3dcd549a05cfb98148da339f37559bd5082f3d86cadd77e7979",
+      "bytes": 21501256,
+      "changed_bytes": 704,
+      "it0_rip_sites": 704,
+      "retained_t1_register_sites": 0,
+      "same_layout": true,
+      "all_targets_instruction_boundaries": true,
+      "disassembly_command": [
+        "objdump",
+        "-d",
+        "--insn-width=16",
+        "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_gate_diag_it0/movie/MovieIdService"
+      ],
+      "isa": "https://cdrdv2-public.intel.com/774990/architecture-instruction-set-extensions-programming-reference.pdf"
+    },
+    "compose": {
+      "source": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_gate_diag/compose/ComposeReviewService",
+      "source_sha256": "613e25f3bc119c29e55e9e0de1ebff869cbbe031b06595ade1e35d308f3794c8",
+      "path": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_gate_diag_it0/compose/ComposeReviewService",
+      "sha256": "a9140c455c305d7088e17cf30477042edd77b8f115f77e479bfbc8290fb85718",
+      "bytes": 20105464,
+      "changed_bytes": 751,
+      "it0_rip_sites": 751,
+      "retained_t1_register_sites": 0,
+      "same_layout": true,
+      "all_targets_instruction_boundaries": true,
+      "disassembly_command": [
+        "objdump",
+        "-d",
+        "--insn-width=16",
+        "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_gate_diag_it0/compose/ComposeReviewService"
+      ],
+      "isa": "https://cdrdv2-public.intel.com/774990/architecture-instruction-set-extensions-programming-reference.pdf"
+    },
+    "rating": {
+      "source": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_gate_diag/rating/RatingService",
+      "source_sha256": "b8937e5121826679da73f265b68acd4ca0c957be8e8864b8d65bc2168445361d",
+      "path": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_gate_diag_it0/rating/RatingService",
+      "sha256": "26610af9fccaadeb158336dc2af8dd83ff5b9b2c5f44678d8c75fcea28269d99",
+      "bytes": 19430152,
+      "changed_bytes": 671,
+      "it0_rip_sites": 671,
+      "retained_t1_register_sites": 0,
+      "same_layout": true,
+      "all_targets_instruction_boundaries": true,
+      "disassembly_command": [
+        "objdump",
+        "-d",
+        "--insn-width=16",
+        "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_gate_diag_it0/rating/RatingService"
+      ],
+      "isa": "https://cdrdv2-public.intel.com/774990/architecture-instruction-set-extensions-programming-reference.pdf"
+    }
+  },
+  "interpretation": "Diagnostic counter build, excluded from all clean E2E comparisons. Counts logical gate outcomes, not successful cache fills."
+}

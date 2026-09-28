@@ -1,0 +1,21 @@
+{
+  "frozen_utc": "2026-09-28T10:34:44.217802+00:00",
+  "policy": "lean_meta_callees_static_ungated",
+  "motivation_source": "Completed screen_v4 post-ROI PMU only, before inspecting current independent confirmation outputs; those campaigns were already running.",
+  "motivation": "Static callee policy reduces retired L2-miss instructions vs original about6\u20138% while adding about3\u20135% instructions. Test same callee allowlist/budget without gates/runtime to reduce remaining injection cost.",
+  "caveat": "Removing outlining also changes placement constraints/code generation; final sites can differ. This is not an exact machine-code gate-only ablation. Own exact-layout NOP remains required.",
+  "schedule": "Finish both already frozen C4/C16 confirmations unchanged. Build V5 only afterward. Then3arms*2blocks C4 exploratory screen; no independent promotion from this late screen.",
+  "concurrency": 4,
+  "blocks": 2,
+  "seedbase": 60001,
+  "roi_s": 60,
+  "pmu_blocks": [
+    0
+  ],
+  "pmu_event_sets": {},
+  "clean_screen_admission": "Start V5 screen by12:23UTC; otherwise retain build/audit and record time-budget omission without interpreting performance.",
+  "diagnostic_priority": "After V5 screen, MovieId original/candidate period4093 once each plus previously built all3 counter-only diagnostic. No performance claims from profiling.",
+  "diagnostic_admission": "Start reduced diagnostics by12:40UTC; otherwise record explicit time-budget omission. Original all3 two-period and optionalC16 protocols remain preserved as superseded, not executed.",
+  "decision": "Report all screen endpoints vs base and ownNOP; never pool with V4 confirmation or promote from2blocks.",
+  "source_sha256": "d58d801435fa8c8f404cef76809bbd9867da02879ff8a74e695d4141f3bf409f"
+}

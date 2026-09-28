@@ -1,0 +1,24 @@
+{
+  "stage": "IT0 conversion precondition",
+  "reason": "Build succeeded but diagnostic helper omitted the patch-map audit before lean_it0.patch. No IT0 output was written and no performance trial started.",
+  "source_sha256": "4e12cf5ce94439fda4209ce7845e3c995e87cf3634987155b220160f1c8bddec",
+  "log_sha256": "8d4de379e0993ac2d7fe1b3b643720fa8b71885b16f55c772e2eb69ee41d59ae",
+  "retained_active_inputs": [
+    {
+      "path": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_gate_diag/movie/MovieIdService",
+      "sha256": "0126eaae62892c322df316eb75e407684273a459ff92619f4239c727faeb7ebb",
+      "bytes": 21501256
+    },
+    {
+      "path": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_gate_diag/rating/RatingService",
+      "sha256": "b8937e5121826679da73f265b68acd4ca0c957be8e8864b8d65bc2168445361d",
+      "bytes": 19430152
+    },
+    {
+      "path": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_gate_diag/compose/ComposeReviewService",
+      "sha256": "613e25f3bc119c29e55e9e0de1ebff869cbbe031b06595ade1e35d308f3794c8",
+      "bytes": 20105464
+    }
+  ],
+  "cleanup": "No unused failed ELF: all three successfully built T1 images are active inputs for the corrected audit/conversion; remove immediately after conversion."
+}

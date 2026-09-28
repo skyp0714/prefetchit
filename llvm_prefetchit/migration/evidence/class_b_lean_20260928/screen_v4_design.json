@@ -1,0 +1,34 @@
+{
+  "phase": "Exploratory V4 screen, design frozen before V4 build or measurements",
+  "blocks": 2,
+  "concurrency": 4,
+  "roi_s": 60,
+  "seedbase": 51001,
+  "pmu_blocks": [
+    0
+  ],
+  "clock_options": {
+    "dense_begin_us": 5,
+    "dense_us": 15,
+    "medium_begin_us": 3,
+    "medium_us": 17,
+    "sparse_begin_us": 1,
+    "sparse_us": 20
+  },
+  "candidates": {
+    "one_far": "Historical own-function profile, max1 site/function, minimum64IR lead; early decaying window",
+    "ungated": "Same own-function and placement limits; remove all clock/gate/runtime overhead, no age control",
+    "callees": "Profile allowlist from known main-image definitions, any eligible caller, max1site/24IR lead, RIP-relative named targets; every final linked target verified beforeIT0 patch"
+  },
+  "controls": "Fresh original baseline plus own exact-layout NOP for every candidate; ungated pair has no kernel hook",
+  "orders": "Exact reverse in block1, independent seeds from V3",
+  "selection": "Whole CPU and mean point gains vs both controls, p99 point regression <=2%; if none qualifies, choose best cost tradeoff only for diagnostic confirmation and do not label it a winner",
+  "limitation": "V4 gated policies change placement and age window together; their E2E result does not separately identify the effect of moving the window.",
+  "additional_control": "base_clock: original uninstrumented executables with scheduler-clock module enabled; isolates hook cost from compiler/runtime overhead",
+  "arms_total": 8,
+  "pmu_event_sets": {
+    "late": "cycles:u,instructions:u,cpu/event=0xc6,umask=0x3,name=FE_LATE_SWPF,config1=0xa/u,cpu/event=0x40,umask=0x4,name=T1_T2_ISSUED/u,cpu/event=0x11,umask=0x10,name=ITLB_WALK_ACTIVE,cmask=1/u,branches:u,branch-misses:u"
+  },
+  "pmu_note": "Primary and late selectors in separate serial post-ROI windows; late includes walk-active cycles. FE_LATE_SWPF is demand misses with IT0/IT1 inflight, not all hint issues.",
+  "static_revision": "Before any V4 timing; based on static addressing audit only."
+}

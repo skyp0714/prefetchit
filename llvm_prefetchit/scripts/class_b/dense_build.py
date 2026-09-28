@@ -49,6 +49,8 @@ POLICIES['lean_meta_one_far_diag'] = dict(POLICIES['lean_meta_one_far'], PREFETC
 POLICIES['lean_meta_callees_diag'] = dict(POLICIES['lean_meta_callees'], PREFETCHIT_GATE_STATS='1')
 POLICIES['lean_meta_callees_static'] = dict(POLICIES['lean_meta_callees'], PREFETCHIT_COLD_DIRECT_IN_PIC='1')
 POLICIES['lean_meta_callees_static_diag'] = dict(POLICIES['lean_meta_callees_static'], PREFETCHIT_GATE_STATS='1')
+POLICIES['lean_meta_callees_static_ungated'] = dict(POLICIES['lean_meta_callees_static'],
+    PREFETCHIT_DOM_SCHED_GATE='0', PREFETCHIT_DOM_OUTLINE='0', PREFETCHIT_DOM_WINDOW='0')
 SERVICES = {'movie': 'MovieIdService', 'compose': 'ComposeReviewService', 'rating': 'RatingService'}
 
 

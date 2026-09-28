@@ -1,0 +1,90 @@
+{
+  "out": "/storage/prefetchit/class_b_lean_20260928/confirmation_c16",
+  "blocks": 6,
+  "concurrency": 16,
+  "roi_s": 60,
+  "seedbase": 57001,
+  "arms": {
+    "base": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+      },
+      "clock": false
+    },
+    "matched_nop": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_ungated/movie/MovieIdService.nop",
+        "compose": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_ungated/compose/ComposeReviewService.nop",
+        "rating": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_ungated/rating/RatingService.nop"
+      },
+      "clock": false,
+      "controls": [
+        "base"
+      ]
+    },
+    "selected_candidate": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_ungated_it0/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_ungated_it0/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_ungated_it0/rating/RatingService"
+      },
+      "clock": false,
+      "controls": [
+        "base",
+        "matched_nop"
+      ]
+    }
+  },
+  "module": "/storage/prefetchit/class_b_lean_20260928/kernel_v1/prefetchit_sched_clock.ko",
+  "clock_options": {
+    "dense_begin_us": 5,
+    "dense_us": 15,
+    "medium_begin_us": 3,
+    "medium_us": 17,
+    "sparse_begin_us": 1,
+    "sparse_us": 20
+  },
+  "pmu_blocks": [
+    0
+  ],
+  "pmu_event_sets": {
+    "late": "cycles:u,instructions:u,cpu/event=0xc6,umask=0x3,name=FE_LATE_SWPF,config1=0xa/u,cpu/event=0x40,umask=0x4,name=T1_T2_ISSUED/u,cpu/event=0x11,umask=0x10,name=ITLB_WALK_ACTIVE,cmask=1/u,branches:u,branch-misses:u"
+  },
+  "phase": "Independent new-seed confirmation; no screen data pooled",
+  "selection": {
+    "selected": "ungated_it0",
+    "matched_nop": "ungated_nop",
+    "eligible": [],
+    "promoted": false,
+    "selection_kind": "diagnostic best tradeoff; no eligible screen winner",
+    "criterion": "Largest minimum CPU/mean cost reduction over original and own NOP; fresh confirmation still required.",
+    "evaluation_sha256": "6b51a411ba15c9b258728e89745119d5a6a0e1d3b34a4ef6a02caf93e2a44769",
+    "design": "/storage/prefetchit/class_b_lean_20260928/confirmation_design.json"
+  },
+  "decision": {
+    "phase": "independent confirmation, frozen before confirmation data",
+    "blocks": 6,
+    "roi_s": 60,
+    "warmup_s": 50,
+    "arms": [
+      "base",
+      "matched_nop",
+      "selected_candidate"
+    ],
+    "orders": "lean_study exact reversed block pairs with rotated starting position",
+    "selection": "Choose candidate after exploratory screens; use disjoint request seeds and fresh full stacks; do not pool screen data",
+    "endpoints": {
+      "CPU_request": "paired log cost-reduction t95 lower bound >0 vs both original and own NOP",
+      "mean_latency": "paired log cost-reduction t95 lower bound >0 vs both original and own NOP",
+      "p99": "noninferiority: cost-reduction t95 lower bound >-2% vs both controls"
+    },
+    "throughput": "Report RPS and interval, but C4 closed-loop RPS and mean are related, not independent evidence",
+    "multiplicity": "Individual intervals reported; promotion requires every named criterion, no cherry-picking an endpoint",
+    "saturation": "Repeat selected/reference comparison at C16 near prior measured plateau, same8CPUs; separately interpret it fromC4",
+    "time_budget": "Aim to begin final confirmations by10:30UTC and finish measurement by12:30UTC for final report before12:52:38"
+  },
+  "saturation": "C16 is near the previously measured throughput plateau on the same8CPUs, not proof of a universal maximum",
+  "postroi_worker_snapshot": "Lifetime worker CPU only; retained without excluding any performance outlier"
+}
