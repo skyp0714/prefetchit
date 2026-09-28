@@ -149,6 +149,38 @@ static bool runDominatorPrefetch(Module &M, const SeqConfig &C) {
     }
     if (ProfileCallees.empty()) report_fatal_error("empty dominator callee profile");
   }
+  // Miss/LBR training supplies a small static set for each indirect caller.
+  // These are speculative code hints, never replacements for the real call.
+  // All named targets must be audited as global definitions in the main ELF.
+  const char *IndirectProfile = std::getenv("PREFETCHIT_DOM_INDIRECT_TARGETS");
+  std::map<std::string, std::vector<std::string>> IndirectTargets;
+  uint64_t IndirectProfileHash = 0;
+  if (IndirectProfile) {
+    if (!CalleeOnly || !CalleeProfile || !C.ColdDirectInPIC)
+      report_fatal_error("profiled indirect hints require static callee mode");
+    auto Buffer = MemoryBuffer::getFile(IndirectProfile);
+    if (!Buffer) report_fatal_error("cannot read indirect target profile");
+    IndirectProfileHash = domHash((*Buffer)->getBuffer());
+    auto Parsed = json::parse((*Buffer)->getBuffer());
+    if (!Parsed) report_fatal_error("invalid indirect target JSON");
+    auto *Object = Parsed->getAsObject();
+    if (!Object || Object->getString("schema") != "prefetchit.indirect_targets.v1")
+      report_fatal_error("invalid indirect target schema");
+    auto *Callers = Object->getObject("callers");
+    if (!Callers) report_fatal_error("missing indirect callers");
+    for (const auto &Entry : *Callers) {
+      auto *Targets = Entry.second.getAsArray();
+      if (!Targets || Targets->empty() || Targets->size() > 8)
+        report_fatal_error("invalid indirect target budget");
+      std::set<std::string> Seen;
+      for (const auto &Target : *Targets) {
+        auto Name = Target.getAsString();
+        if (!Name || !ProfileCallees.count(Name->str()) || !Seen.insert(Name->str()).second)
+          report_fatal_error("unlisted or duplicate indirect target");
+        IndirectTargets[Entry.first.str()].push_back(Name->str());
+      }
+    }
+  }
   const uint64_t ModuleID = domHash(M.getSourceFileName());
   std::string Placement;
   for (unsigned N : {MinLead, MaxLead, Batch, CallerTargets, unsigned(Gate), unsigned(Lean),
@@ -158,6 +190,7 @@ static bool runDominatorPrefetch(Module &M, const SeqConfig &C) {
     Placement += ",callee=" + std::to_string(CalleeOnly) + ",profile=" +
                  utohexstr(CalleeProfileHash) + ",indirect=" + std::to_string(ProfileIndirect);
   if (C.ColdDirectInPIC) Placement += ",direct_pic=1";
+  if (IndirectProfile) Placement += ",indirect_targets=" + utohexstr(IndirectProfileHash);
   const auto Drops = domDrops(Placement);
   if (Metadata && !Lean) report_fatal_error("dominator metadata requires lean placement");
   if (!Batch || Batch > 16 || MinLead > MaxLead)
@@ -234,6 +267,7 @@ static bool runDominatorPrefetch(Module &M, const SeqConfig &C) {
   uint64_t Hints = 0, Groups = 0, Short = 0, Lifted = 0, SkippedEH = 0;
   uint64_t BudgetSkipped = 0, Duplicates = 0;
   uint64_t ProfileRemoved = 0, CalleeSkipped = 0;
+  uint64_t PredictedIndirect = 0;
   DenseMap<BasicBlock *, Instruction *> OriginalHeads;
   std::vector<std::pair<CallInst *, std::vector<BasicBlock *>>> AnchoredCalls;
   if (Outline) for (Function *F : Functions) for (BasicBlock &B : *F)
@@ -302,6 +336,20 @@ static bool runDominatorPrefetch(Module &M, const SeqConfig &C) {
             add(CB, BlockAddress::get(G, S), true); ++Lifted;
           }
         } else {
+          auto It = IndirectTargets.find(F->getName().str());
+          if (It != IndirectTargets.end()) {
+            for (const auto &Name : It->second) {
+              Function *G = M.getFunction(Name);
+              if (!G) {
+                if (M.getNamedValue(Name))
+                  report_fatal_error("indirect target is not a function");
+                G = Function::Create(FunctionType::get(Type::getVoidTy(Ctx), false),
+                                     GlobalValue::ExternalLinkage, Name, M);
+              }
+              G->setDSOLocal(true);
+              add(CB, G, true); ++PredictedIndirect;
+            }
+          }
           if (CalleeProfile && !ProfileIndirect) { ++CalleeSkipped; continue; }
           ++Indirect; add(CB, Address, false);
         }
@@ -448,6 +496,8 @@ static bool runDominatorPrefetch(Module &M, const SeqConfig &C) {
       << " module=" << utohexstr(ModuleID) << " removed=" << ProfileRemoved << " metadata=" << Metadata << "\n";
   if (CalleeOnly || CalleeProfile) errs() << "prefetchit-dominator-callees: only=" << CalleeOnly
       << " profiled=" << ProfileCallees.size() << " skipped=" << CalleeSkipped << "\n";
+  if (IndirectProfile) errs() << "prefetchit-dominator-indirect-targets: candidates="
+      << PredictedIndirect << " callers=" << IndirectTargets.size() << "\n";
   Ctx.setDiscardValueNames(DiscardNames);
   return true; // Globals, labels or metadata can change even when hints are zero.
 }

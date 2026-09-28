@@ -54,6 +54,7 @@ POLICIES['lean_meta_callees_static_ungated'] = dict(POLICIES['lean_meta_callees_
 POLICIES['coverage_callees'] = dict(POLICIES['lean_meta_callees_static_ungated'],
     PREFETCHIT_DOM_MIN_FUNCTION='0', PREFETCHIT_DOM_SKIP_SHORT='0',
     PREFETCHIT_DOM_MAX_SITES='4', PREFETCHIT_DOM_BATCH='8')
+POLICIES['coverage_indirect'] = dict(POLICIES['coverage_callees'])
 SERVICES = {'movie': 'MovieIdService', 'compose': 'ComposeReviewService', 'rating': 'RatingService'}
 
 
@@ -142,7 +143,7 @@ def prepare(root):
         selection='Three frozen dense policies, no trace ranking or existing-NOP site restriction'))
 
 
-def worker(arm, tag=None, drop_plan=None, functions_file=None, callees_file=None):
+def worker(arm, tag=None, drop_plan=None, functions_file=None, callees_file=None, indirect_file=None):
     tag=tag or arm;assert re.fullmatch('[a-z0-9_]+',tag)
     root = Path('/dense'); out = root/'builds'/tag; out.mkdir(parents=True,exist_ok=False)
     env = {k:v for k,v in os.environ.items() if not k.startswith('PREFETCHIT_')}; env.update(POLICIES[arm])
@@ -162,6 +163,11 @@ def worker(arm, tag=None, drop_plan=None, functions_file=None, callees_file=None
         assert names and len(names)==len(set(names))
         env['PREFETCHIT_DOM_CALLEE_PROFILE']=str(callees_file)
         save(out/'callee_selection.json',dict(path=str(callees_file),sha256=sha(callees_file),names=names))
+    if indirect_file:
+        assert callees_file and POLICIES[arm].get('PREFETCHIT_COLD_DIRECT_IN_PIC') == '1'
+        env['PREFETCHIT_DOM_INDIRECT_TARGETS'] = str(indirect_file)
+        save(out/'indirect_selection.json',dict(path=str(indirect_file),sha256=sha(indirect_file),
+                                              profile=json.loads(Path(indirect_file).read_text())))
     if drop_plan:
         assert POLICIES[arm].get('PREFETCHIT_DOM_METADATA') == '1'
         plan = json.loads(Path(drop_plan).read_text())
@@ -224,7 +230,7 @@ def worker(arm, tag=None, drop_plan=None, functions_file=None, callees_file=None
     save(out/'complete.json',dict(arm=arm,tag=tag,settings=POLICIES[arm],installed_hashes={str(p):sha(p) for p in Path('/usr/local/lib').glob('*.a')}))
 
 
-def build(root, arm, tag=None, plugin_dir=None, drop_plan=None, functions_file=None, callees_file=None):
+def build(root, arm, tag=None, plugin_dir=None, drop_plan=None, functions_file=None, callees_file=None, indirect_file=None):
     space(root)
     if POLICIES[arm].get('PREFETCHIT_COLD_DIRECT_IN_PIC'):
         assert callees_file,'Static callee references require an explicit known-main-image target profile'
@@ -246,11 +252,15 @@ def build(root, arm, tag=None, plugin_dir=None, drop_plan=None, functions_file=N
         callees_file=Path(callees_file).resolve();callees_file.relative_to(root.resolve())
         assert callees_file.is_file() and not callees_file.is_symlink()
         assert POLICIES[arm].get('PREFETCHIT_DOM_CALLEE_ONLY') == '1'
+    if indirect_file:
+        indirect_file = Path(indirect_file).resolve();indirect_file.relative_to(root.resolve())
+        assert indirect_file.is_file() and not indirect_file.is_symlink() and callees_file
     save(root/(tag+'_implementation.json'),dict(settings=POLICIES[arm],
         plugin_sha256=sha(plugin_dir/'PrefetchITPass.so'),driver_sha256=sha(__file__),
         drop_plan_sha256=sha(drop_plan) if drop_plan else None,
         functions_file_sha256=sha(functions_file) if functions_file else None,
         callees_file_sha256=sha(callees_file) if callees_file else None,
+        indirect_file_sha256=sha(indirect_file) if indirect_file else None,
         source_hashes={str(p.relative_to(REPO)):sha(p) for p in
                       (REPO/'llvm_prefetchit/lib').glob('*') if p.is_file()}))
     command=['docker','run','--rm','--name',name,'--label','prefetchit.dense=20260927',
@@ -266,6 +276,8 @@ def build(root, arm, tag=None, plugin_dir=None, drop_plan=None, functions_file=N
         command += ['--functions-file', str(Path('/dense')/functions_file.relative_to(root.resolve()))]
     if callees_file:
         command += ['--callees-file',str(Path('/dense')/callees_file.relative_to(root.resolve()))]
+    if indirect_file:
+        command += ['--indirect-file',str(Path('/dense')/indirect_file.relative_to(root.resolve()))]
     try:
         run(command,root/(tag+'_build.log'),timeout=7200)
     except BaseException as error:
@@ -291,12 +303,12 @@ def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('action',choices=['prepare','worker','build']);p.add_argument('root',type=Path)
     p.add_argument('--arm',choices=list(POLICIES));p.add_argument('--tag');p.add_argument('--plugin-dir',type=Path)
     p.add_argument('--drop-plan',type=Path);p.add_argument('--functions-file',type=Path)
-    p.add_argument('--callees-file',type=Path);a=p.parse_args()
+    p.add_argument('--callees-file',type=Path);p.add_argument('--indirect-file',type=Path);a=p.parse_args()
     def interrupted(signum,frame):raise KeyboardInterrupt(signum)
     if a.action!='worker':signal.signal(signal.SIGTERM,interrupted)
     if a.action=='prepare':prepare(a.root)
-    elif a.action=='worker':worker(a.arm,a.tag,a.drop_plan,a.functions_file,a.callees_file)
-    else:build(a.root,a.arm,a.tag,a.plugin_dir,a.drop_plan,a.functions_file,a.callees_file)
+    elif a.action=='worker':worker(a.arm,a.tag,a.drop_plan,a.functions_file,a.callees_file,a.indirect_file)
+    else:build(a.root,a.arm,a.tag,a.plugin_dir,a.drop_plan,a.functions_file,a.callees_file,a.indirect_file)
 
 
 if __name__=='__main__':main()
