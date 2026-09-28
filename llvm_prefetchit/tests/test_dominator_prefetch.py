@@ -52,8 +52,10 @@ def test_no_runtime_and_invalid_settings(tmp_path):
     env['PREFETCHIT_DOM_BATCH']='4'
     subprocess.run(['clang-19','-O2','-fPIC','-shared','-fpass-plugin='+PLUGIN,str(source),'-o',str(tmp_path/'libprobe.so')],env=env,check=True)
 
-@pytest.mark.parametrize('window,outline', [(False,False),(True,False),(True,True)])
-def test_gate_executes_monotonically_fewer_groups(tmp_path, window, outline):
+@pytest.mark.parametrize('window,outline,relaxed', [(False,False,False),(True,False,False),(True,True,False),(True,True,True)])
+def test_gate_executes_monotonically_fewer_groups(tmp_path, window, outline, relaxed):
+    if relaxed and 'rdpid' not in Path('/proc/cpuinfo').read_text().split():
+        pytest.skip('RDPID hardware required')
     # Replace ONLY the hint mnemonic in emitted IR with an observable counter.
     # Exercise the actual inline gate, register clobbers and target operands.
     source=tmp_path/'phase.c'
@@ -89,7 +91,8 @@ int main(void){
         source.write_text(source.read_text().replace('void *__prefetchit_sched_slots;',
                                                    'extern void *__prefetchit_sched_slots;'))
         runtime=tmp_path/'runtime.o'
-        subprocess.run(['clang-19','-O2','-c',str(RUNTIME),'-o',str(runtime)],check=True)
+        subprocess.run(['clang-19','-O2','-DPREFETCHIT_RELAXED_CLOCK='+str(int(relaxed)),
+                        '-c',str(RUNTIME),'-o',str(runtime)],check=True)
         extra=[str(runtime)]
     baseline=tmp_path/'phase_expected'
     subprocess.run(['clang-19','-O2',str(source),*extra,'-o',str(baseline)],check=True)
@@ -172,3 +175,40 @@ right:
     prefix=by_name[name].split('%l0 = load volatile',1)[0]
     assert 'preserve_allcc' not in prefix
     assert sum('%slot = alloca' in v for v in by_name.values())==1
+
+
+def test_memo_gate_rechecks_early_calls_and_resets_on_schedule_epoch(tmp_path):
+    if 'rdpid' not in Path('/proc/cpuinfo').read_text().split():
+        pytest.skip('RDPID hardware required')
+    source=tmp_path/'memo.c'
+    source.write_text(r'''
+#include <stdint.h>
+#include <stdio.h>
+extern void *__prefetchit_sched_slots;
+extern __attribute__((preserve_all)) int __prefetchit_gate_0(void);
+static uint64_t slots[4096][8];
+static void phase(uint64_t epoch,uint64_t begin,uint64_t end){
+ for(int cpu=0;cpu<4096;cpu++){slots[cpu][3]=epoch;slots[cpu][4]=begin;slots[cpu][0]=end;}}
+__attribute__((noinline)) int sample(unsigned n){int sum=0;
+ #pragma clang loop unroll(disable)
+ for(unsigned i=0;i<n;i++)sum+=__prefetchit_gate_0();
+ return sum;}
+int main(void){__prefetchit_sched_slots=slots;
+ phase(1,0,UINT64_MAX);printf("%d\n",sample(7));printf("%d\n",sample(7));
+ phase(2,0,UINT64_MAX);printf("%d\n",sample(7));
+ phase(3,UINT64_MAX,UINT64_MAX);printf("%d\n",sample(7));
+ /* Moving synthetic bounds simulates reaching the beginning of a window. */
+ phase(3,0,UINT64_MAX);printf("%d\n",sample(7));
+ phase(4,0,0);printf("%d\n",sample(7));
+ /* Once expired, this epoch stays suppressed until scheduling resets it. */
+ phase(4,0,UINT64_MAX);printf("%d\n",sample(7));
+ phase(5,0,UINT64_MAX);printf("%d\n",sample(7));
+}
+''')
+    runtime=tmp_path/'runtime.o';exe=tmp_path/'memo'
+    subprocess.run(['clang-19','-O2','-DPREFETCHIT_RELAXED_CLOCK=1','-DPREFETCHIT_MEMO_GATE=1',
+                    '-c',str(RUNTIME),'-o',str(runtime)],check=True)
+    subprocess.run(['clang-19','-O2',str(source),str(runtime),'-o',str(exe)],check=True)
+    cpu=min(os.sched_getaffinity(0))
+    values=list(map(int,subprocess.check_output(['taskset','-c',str(cpu),str(exe)],text=True).split()))
+    assert values==[1,0,1,0,1,0,0,1]
