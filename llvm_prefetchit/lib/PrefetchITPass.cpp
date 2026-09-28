@@ -12,6 +12,7 @@
 #include "llvm/IR/IntrinsicInst.h"
 #include "llvm/IR/GlobalAlias.h"
 #include "llvm/Transforms/Utils/ModuleUtils.h"
+#include "llvm/Transforms/Utils/BasicBlockUtils.h"
 #include "llvm/IR/Module.h"
 #include "llvm/IR/PassManager.h"
 #include "llvm/Passes/PassBuilder.h"
@@ -31,6 +32,7 @@
 #include <cstdint>
 #include <charconv>
 #include <map>
+#include <queue>
 #include <optional>
 #include <set>
 #include "llvm/Support/Regex.h"
@@ -1776,6 +1778,8 @@ static uint64_t runSequentialLookahead(Module &M, const SeqConfig &C) {
   return Injected;
 }
 
+#include "DominatorPrefetch.h"
+
 class PrefetchITPass : public PassInfoMixin<PrefetchITPass> {
 public:
   PreservedAnalyses run(Module &M, ModuleAnalysisManager &) {
@@ -1799,7 +1803,7 @@ public:
     bool Changed = false;
     if (!PlanPath.empty())
       Changed |= runPlan(M, PlanPath);
-    else if (!Seq.enabled() && !std::getenv("PREFETCHIT_INDIRECT_EARLY"))
+    else if (!Seq.enabled() && !std::getenv("PREFETCHIT_INDIRECT_EARLY") && !std::getenv("PREFETCHIT_DOMINATOR"))
       errs() << "prefetchit-inject: missing -prefetchit-plan or PREFETCHIT_PLAN "
                 "(and no -prefetchit-seq-distance)\n";
     if (const char *CP = std::getenv("PREFETCHIT_COLD_PLAN"); CP && *CP)
@@ -1811,6 +1815,7 @@ public:
     if (Seq.Distance > 0)
       Changed |= runSequentialLookahead(M, Seq) > 0;
     Changed |= runEarlyIndirect(M, Seq) > 0;
+    Changed |= runDominatorPrefetch(M, Seq) > 0;
     return Changed ? PreservedAnalyses::none() : PreservedAnalyses::all();
   }
 
