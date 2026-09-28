@@ -3,6 +3,7 @@
 import argparse
 from bisect import bisect_right
 from collections import Counter
+import gzip
 import json
 import os
 from pathlib import Path
@@ -49,6 +50,33 @@ def translate(ip, mappings):
     return ip-matches[0]['bias'] if matches else None
 
 
+def attribute_ips(ips, ranges):
+    """Keep overlapping symbol ranges explicit rather than choosing one name."""
+    functions=Counter();unmapped=ambiguous=0;annotated=[]
+    for ip,events in ips.most_common():
+        matches=[r for r in ranges if r['start']<=ip<r['end']]
+        if len(matches)==1: functions[tuple(matches[0]['names'])]+=events
+        elif matches: ambiguous+=events
+        else: unmapped+=events
+        if len(annotated)<80:
+            annotated.append(dict(va=hex(ip),estimated_events=events,
+                function_ranges=matches))
+    return dict(top_main_ips=annotated,
+        top_unique_functions=[dict(names=list(names),estimated_events=n)
+                              for names,n in functions.most_common(80)],
+        unmapped_events=unmapped,ambiguous_events=ambiguous,
+        attribution_limitation='Exact sampled retirement IPs within ELF symbol ranges. Aliases share one range; overlapping ranges are excluded from the unique-function ranking.')
+
+
+def request_window(samples, begin, end):
+    assert end>begin
+    count=sum(begin<=finished<end for _,finished in samples)
+    assert count>0
+    return dict(begin_epoch=begin,end_epoch=end,seconds=end-begin,
+        completed_requests=count,
+        limitation='Requests bracket perf record startup/teardown as well as its 15-second capture. Approximate per-request normalization, not an E2E performance trial.')
+
+
 def remove_failed_captures(out, reason):
     from e2e_lbr import remove_generated
     paths=[p for directory in out.glob('*_p*') if directory.is_dir() and not directory.is_symlink()
@@ -82,11 +110,13 @@ def decode_one(path, binary, maps):
             if has_metadata and va//64 in targets:bucket['static_target_line']+=period
 
     def retained():
+        from lean_profile import symbol_ranges
+        ranges,command=symbol_ranges(binary)
         b.save(path/'target_overlap.json',dict(binary=str(binary),sha256=b.sha(binary),
             mappings=mappings,coverage_applicable=has_metadata,target_lines=len(targets),
             bins=[dict(lo_us=lo,hi_us=EDGES[i+1] if i+1<len(EDGES) else None,**counts)
                   for i,(lo,counts) in enumerate(zip(EDGES,bins))],
-            top_main_ips=[dict(va=hex(ip),estimated_events=n) for ip,n in ips.most_common(80)],
+            **attribute_ips(ips,ranges),symbol_command=command,
             limitation='Static target-line overlap only. It does not prove this path issued a hint, that a fill arrived, or that a line survived until demand. Indirect T1 targets are not statically resolved.'))
     capture.decode_capture(path,sample_callback=callback,before_cleanup=retained)
 
@@ -102,7 +132,7 @@ def trial(spec):
         bins_us=EDGES,purpose='Perturbing PEBS diagnostic; no E2E speedup estimate',
         source_sha256=b.sha(__file__),warmup_s=50,seconds_per_capture=15))
     stack=client=None;loaded=False;old=os.environ.get('CLASS_B_SCHED_CLOCK')
-    captures=[];failure=None
+    captures=[];windows={};failure=None
     try:
         assert not Path('/sys/module/prefetchit_sched_clock').exists()
         if spec.get('clock',True):
@@ -135,7 +165,9 @@ def trial(spec):
                     import lean_gate_stats
                     stats_path=Path(f'/proc/{pid}/root/tmp/prefetchit_gate_stats.bin')
                     stats_before=lean_gate_stats.read(stats_path)
+                begin=time.time()
                 capture.capture(dest,pid,period)
+                windows[str(dest)]=(begin,time.time())
                 if spec.get('gate_stats'):
                     stats_after=lean_gate_stats.read(stats_path)
                     b.save(dest/'gate_activity.json',dict(before=stats_before,after=stats_after,
@@ -144,6 +176,9 @@ def trial(spec):
         assert client.wait(timeout=90)==0;client=None;stack.check()
         info=json.loads((load/'load.json').read_text())
         assert not info['steady_errors'] and info['client_cpu_cores']<.8
+        with gzip.open(load/'requests.json.gz','rt') as source:samples=json.load(source)
+        for dest,_,_ in captures:
+            b.save(dest/'request_window.json',request_window(samples,*windows[str(dest)]))
         b.save(out/'load_validation.json',dict(valid=True,load=info,
             interpretation='Health under profiling only, not an accepted latency/throughput trial'))
     except BaseException as error:

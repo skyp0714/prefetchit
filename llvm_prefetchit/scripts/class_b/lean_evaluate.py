@@ -15,7 +15,7 @@ def evaluate(root, candidate=None, matched_nop=None, out=None):
     assert complete['rows']==len(rows)==protocol['blocks']*len(protocol['arms'])
     assert all(row['valid'] for row in rows)
     summary=complete['summary']
-    means={}; variation={}; services={}; pmu=[]; restoration=[]
+    means={}; variation={}; services={}; pmu=[]; restoration=[]; workers=[]
     for arm in protocol['arms']:
         group=[row for row in rows if row['arm']==arm]
         assert sorted(row['block'] for row in group)==list(range(protocol['blocks']))
@@ -35,6 +35,19 @@ def evaluate(root, candidate=None, matched_nop=None, out=None):
             assert clock['unloaded'] and scheduler['restored'] and platform['restored']
             restoration.append(dict(arm=arm,block=row['block'],clock=clock,scheduler=scheduler,platform=platform))
             measurements.append(result['all_services'])
+            worker_path=path/'nginx_processes_postroi.json'
+            if worker_path.exists():
+                snapshot=json.loads(worker_path.read_text())
+                ticks=[p['user_ticks']+p['system_ticks'] for p in snapshot['processes']
+                       if p['command'].startswith('nginx: worker process')]
+                total=sum(ticks)
+                workers.append(dict(arm=arm,block=row['block'],worker_cpu_ticks=ticks,
+                    effective_workers=total*total/sum(x*x for x in ticks) if total else None,
+                    max_worker_share_pct=100*max(ticks)/total if total else None,
+                    nginx_cpu_us_per_request=result['all_services']['nginx-web-server']['cpu_us_per_request'],
+                    stack_cpu_us_per_request=row['metrics']['stack_cpu'],
+                    snapshot_sha256=b.sha(worker_path),unavailable=snapshot['unavailable'],
+                    interpretation=snapshot['interpretation']))
             if result.get('pmu'):
                 pmu.append(dict(arm=arm,block=row['block'],services=result['pmu'],extra=result.get('pmu_extra',{})))
         services[arm]={name:{key:statistics.mean(m[name][key] for m in measurements)
@@ -70,7 +83,7 @@ def evaluate(root, candidate=None, matched_nop=None, out=None):
                 for control in controls for metric in ('stack_cpu','mean_ms')))
     result=dict(campaign=str(root),protocol_sha256=b.sha(root/'protocol.json'),driver_sha256=b.sha(__file__),rows=len(rows),
         independent_confirmation=bool(candidate),means=means,variation=variation,decisions=decisions,
-        comparisons=summary,throughput=throughput,services=services,
+        comparisons=summary,throughput=throughput,services=services,workers=workers,
         limitations=['Individual paired log t95 intervals, all frozen promotion criteria must pass.',
           'Screen observations are never pooled into independent confirmation.',
           'Closed-loop throughput and mean latency are related, not independent confirmations.',
