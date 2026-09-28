@@ -132,6 +132,7 @@ static bool runDominatorPrefetch(Module &M, const SeqConfig &C) {
   const unsigned MinFunction = domOption("PREFETCHIT_DOM_MIN_FUNCTION", Lean ? 64 : 0);
   const bool SkipShort = domOption("PREFETCHIT_DOM_SKIP_SHORT", Lean);
   const bool Metadata = domOption("PREFETCHIT_DOM_METADATA", 0);
+  const bool PathDedup = domOption("PREFETCHIT_DOM_PATH_DEDUP", 0);
   const bool CalleeOnly = domOption("PREFETCHIT_DOM_CALLEE_ONLY", 0);
   const bool ProfileIndirect = domOption("PREFETCHIT_DOM_PROFILE_INDIRECT", 0);
   const char *CalleeProfile = std::getenv("PREFETCHIT_DOM_CALLEE_PROFILE");
@@ -195,6 +196,7 @@ static bool runDominatorPrefetch(Module &M, const SeqConfig &C) {
   if (C.ColdDirectInPIC) Placement += ",direct_pic=1";
   if (IndirectProfile) Placement += ",indirect_targets=" + utohexstr(IndirectProfileHash);
   if (IndirectLift) Placement += ",indirect_lift=1";
+  if (PathDedup) Placement += ",path_dedup=1";
   const auto Drops = domDrops(Placement);
   if (Metadata && !Lean) report_fatal_error("dominator metadata requires lean placement");
   if (!Batch || Batch > 16 || MinLead > MaxLead)
@@ -203,6 +205,8 @@ static bool runDominatorPrefetch(Module &M, const SeqConfig &C) {
     report_fatal_error("outlined dominator gate requires window gating");
   if (CalleeOnly && (!Lean || CallerTargets))
     report_fatal_error("callee-only mode requires lean placement and zero caller BB targets");
+  if (PathDedup && (!Lean || Gate))
+    report_fatal_error("path-aware dedup requires ungated lean placement");
   LLVMContext &Ctx = M.getContext();
   const bool DiscardNames = Ctx.shouldDiscardValueNames();
   Ctx.setDiscardValueNames(false);
@@ -377,15 +381,21 @@ static bool runDominatorPrefetch(Module &M, const SeqConfig &C) {
         return Sites.at(A).size() > Sites.at(B).size();
       });
       SmallPtrSet<Value *, 32> Seen;
+      std::map<Value *, SmallVector<Instruction *, 4>> SeenAt;
       std::vector<Instruction *> Selected;
       for (Instruction *At : Ordered) {
         auto &V = Sites.at(At);
         if (MaxSites && Selected.size() >= MaxSites) { BudgetSkipped += V.size(); continue; }
         std::vector<Target> Unique;
         for (const Target &T : V) {
-          if (Seen.count(T.Address)) { ++Duplicates; continue; }
+          bool Covered = PathDedup ? llvm::any_of(SeenAt[T.Address],
+              [&](Instruction *Earlier) { return DT.dominates(Earlier, At); }) :
+              Seen.count(T.Address);
+          if (Covered) { ++Duplicates; continue; }
           if (Unique.size() >= Batch) { ++BudgetSkipped; continue; }
-          Seen.insert(T.Address); Unique.push_back(T);
+          if (PathDedup) SeenAt[T.Address].push_back(At);
+          else Seen.insert(T.Address);
+          Unique.push_back(T);
         }
         V = std::move(Unique);
         if (!V.empty()) Selected.push_back(At);
