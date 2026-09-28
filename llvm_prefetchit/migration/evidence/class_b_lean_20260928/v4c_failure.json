@@ -1,0 +1,9 @@
+{
+  "stage": "New external-PIC integration test, no benchmark measurement",
+  "result": "36 passed, 1 failed",
+  "cause": "Fixture incorrectly excluded legitimate caller.specialized.1 clone; all hints target the expected a entry and application outputs match",
+  "fix": "Validate original caller and compiler-generated caller.specialized.* ranges; compiler/runtime unchanged.",
+  "source_snapshot": "/storage/prefetchit/class_b_lean_20260928/sources_v4c.json",
+  "plugin_sha256": "1cd797ee140550b44bdc8782e117a0857f9c8e38a819f82921e1c6fc049c41ed",
+  "log": "/storage/prefetchit/class_b_lean_20260928/test_v4c.log"
+}

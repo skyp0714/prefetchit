@@ -1,0 +1,9 @@
+{
+  "stage": "New external-PIC integration test, no benchmark measurement",
+  "result": "36 passed, 1 failed",
+  "cause": "LLVM rejects immediate constraint for a preemptible external Function operand in PIC IR",
+  "fix": "Known-static callee profile needs explicit dso_local binding; final main-image target audit and exact NOP must cover binding/codegen changes.",
+  "source_snapshot": "/storage/prefetchit/class_b_lean_20260928/sources_v4b.json",
+  "plugin_sha256": "97802be9cc35ba4c92347ab5fa0943d07268eaa33d7a936036a891013d753850",
+  "log": "/storage/prefetchit/class_b_lean_20260928/test_v4b.log"
+}

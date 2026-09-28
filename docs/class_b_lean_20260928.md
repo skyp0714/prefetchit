@@ -62,3 +62,14 @@ v2의 14회 복구를 검증했다. v3 초기 단위 검사 15개는 통과했�
 미스 함수 프로파일로 삽입 함수 집합을 제한한 profile 버전은 힌트 1156/1133/1101개, executable bytes 증가 0.513/0.576/0.468%다. 과거 64B 미스 라인을 함수 범위에 배분한 순위이며, 경계가 모호한 라인이 많아 “동적 미스 80% 커버”로 해석하지 않는다.
 
 v3 종료 후 후속 비교를 위한 profile PF/NOP 쌍만 fallback reference로 유지하고, 다른 PF/NOP ELF 24개 503,957,744 bytes를 정리했다. profile도 승격된 구현이 아니다. 다음 반복은 함수당 한 지점·더 긴 IR lead·게이트 생략·callee 프로파일과 앞당긴 발행 구간을 검증한다. 이 문서는 아직 캠페인 진행 중 체크포인트다.
+
+
+## v4 정적 축소와 검증 (성능 비교 진행 중)
+
+![정적 삽입 수와 코드 크기](figures/class_b_lean_static_20260928.png)
+
+v4 one-site는 함수당 최대 한 지점과 최소 64 IR lead를 사용하며, executable bytes 증가는 MovieId/ComposeReview/Rating에서 0.176/0.197/0.160%다. 게이트와 런타임을 완전히 뺀 ungated 비교군은 0.113/0.123/0.100%다. 직접 callee 프로파일 정책은 더 많은 caller에서 hot 함수 entry를 선행 prefetch하도록 하고, 모든 704/751/671개 힌트를 main executable의 직접 RIP-relative IT0로 검증했다. 코드 증가는 0.550/0.657/0.501%다.
+
+Gated 정책은 가장 많은 그룹이 [5,15)µs, 일부는 [3,17), 더 적은 그룹은 [1,20)에 eligible하도록 앞당겼다. 이는 10–20µs의 과거 retirement miss peak보다 앞서 발행하려는 설정이다. 실제 fetch lead를 µs 단위로 측정한 값은 아니며, IR instruction 거리와 실제 시간도 동일하지 않다. ungated 정책은 이 시간 제한 자체를 제거한다.
+
+PIC 선언을 직접 주소로 바꾸는 과정에서 inline-asm 제약 오류를 먼저 검출했다. 명시적 allowlist의 main-executable binding만 적용하도록 수정하고, 모든 최종 target이 원본 main image에도 정의되는지 확인했다. 이어 compiler-generated 함수 복제를 검사 fixture가 허용하도록 고쳤으며, 최종 37개 검사와 Media ELF 대상/동일 배치 NOP 검증을 통과했다. 실패 소스·로그·해시·정리 기록을 보존했다. 현재 8개 arm × 2 block을 비교 중이며 이 정적 개선을 성능 개선으로 승격하지 않는다.

@@ -1,0 +1,130 @@
+...................F.................                                    [100%]
+=================================== FAILURES ===================================
+____ test_callee_profile_filters_targets_without_restricting_callers[True] _____
+
+tmp_path = PosixPath('/storage/prefetchit/class_b_lean_20260928/test_v4b/test_callee_profile_filters_ta1')
+static_pic = True
+
+    @pytest.mark.parametrize('static_pic',[False,True])
+    def test_callee_profile_filters_targets_without_restricting_callers(tmp_path,static_pic):
+        plugin=os.environ.get('DOMINATOR_TEST_PLUGIN')
+        if not plugin:
+            pytest.skip('Set DOMINATOR_TEST_PLUGIN to the built plugin')
+        import lean_plan
+        source=tmp_path/'callees.c'
+        source.write_text('''#include <stdio.h>
+    __attribute__((noinline)) int a(int x){return x+1;}
+    __attribute__((noinline)) int b(int x){return x+2;}
+    __attribute__((noinline)) int caller(int x,int(*fn)(int)){
+     volatile int v=x;if(x&1)v+=a(x);else v-=a(x);v+=b(x);return v+fn(v);}
+    int main(){for(int i=0;i<8;i++)printf("%d\\n",caller(i,b));}
+    ''')
+        profile=tmp_path/'callees.txt';profile.write_text('a\n')
+        extra=[]
+        if static_pic:
+            definitions='__attribute__((noinline)) int a(int x){return x+1;}\n__attribute__((noinline)) int b(int x){return x+2;}'
+            source.write_text(source.read_text().replace(definitions,'extern int a(int);\nextern int b(int);'))
+            target=tmp_path/'target.c';target.write_text(definitions)
+            obj=tmp_path/'target.o'
+            subprocess.run(['clang-19','-O2','-fPIC','-c',str(target),'-o',str(obj)],check=True)
+            extra=[str(obj)]
+        env=dict(os.environ,PREFETCHIT_DOMINATOR='1',PREFETCHIT_DOM_LEAN='1',
+            PREFETCHIT_DOM_METADATA='1',PREFETCHIT_DOM_SCHED_GATE='0',
+            PREFETCHIT_DOM_LEAD='0',PREFETCHIT_DOM_MIN_FUNCTION='0',
+            PREFETCHIT_DOM_SKIP_SHORT='0',PREFETCHIT_DOM_BATCH='8',
+            PREFETCHIT_DOM_CALLER_TARGETS='0',PREFETCHIT_DOM_CALLEE_ONLY='1',
+            PREFETCHIT_DOM_CALLEE_PROFILE=str(profile))
+        if static_pic:env['PREFETCHIT_COLD_DIRECT_IN_PIC']='1'
+        base=tmp_path/'base';exe=tmp_path/'callees'
+        pic=['-fPIC'] if static_pic else []
+        subprocess.run(['clang-19','-O2',*pic,str(source),*extra,'-o',str(base)],check=True)
+>       subprocess.run(['clang-19','-O2',*pic,'-fpass-plugin='+plugin,str(source),*extra,'-o',str(exe)],env=env,check=True)
+
+llvm_prefetchit/tests/test_lean_profile.py:84: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+input = None, capture_output = False, timeout = None, check = True
+popenargs = (['clang-19', '-O2', '-fPIC', '-fpass-plugin=/storage/prefetchit/class_b_lean_20260928/plugin_v4b/PrefetchITPass.so', ...s_ta1/callees.c', '/storage/prefetchit/class_b_lean_20260928/test_v4b/test_callee_profile_filters_ta1/target.o', ...],)
+kwargs = {'env': {'SHELL': '/bin/bash', 'COLORTERM': '', 'SUDO_GID': '1006', 'SUDO_COMMAND': '/usr/bin/bash --noprofile --norc', ...}}
+
+    def run(*popenargs,
+            input=None, capture_output=False, timeout=None, check=False, **kwargs):
+        """Run command with arguments and return a CompletedProcess instance.
+    
+        The returned instance will have attributes args, returncode, stdout and
+        stderr. By default, stdout and stderr are not captured, and those attributes
+        will be None. Pass stdout=PIPE and/or stderr=PIPE in order to capture them,
+        or pass capture_output=True to capture both.
+    
+        If check is True and the exit code was non-zero, it raises a
+        CalledProcessError. The CalledProcessError object will have the return code
+        in the returncode attribute, and output & stderr attributes if those streams
+        were captured.
+    
+        If timeout is given, and the process takes too long, a TimeoutExpired
+        exception will be raised.
+    
+        There is an optional argument "input", allowing you to
+        pass bytes or a string to the subprocess's stdin.  If you use this argument
+        you may not also use the Popen constructor's "stdin" argument, as
+        it will be used internally.
+    
+        By default, all communication is in bytes, and therefore any "input" should
+        be bytes, and the stdout and stderr will be bytes. If in text mode, any
+        "input" should be a string, and stdout and stderr will be strings decoded
+        according to locale encoding, or by "encoding" if set. Text mode is
+        triggered by setting any of text, encoding, errors or universal_newlines.
+    
+        The other arguments are the same as for the Popen constructor.
+        """
+        if input is not None:
+            if kwargs.get('stdin') is not None:
+                raise ValueError('stdin and input arguments may not both be used.')
+            kwargs['stdin'] = PIPE
+    
+        if capture_output:
+            if kwargs.get('stdout') is not None or kwargs.get('stderr') is not None:
+                raise ValueError('stdout and stderr arguments may not be used '
+                                 'with capture_output.')
+            kwargs['stdout'] = PIPE
+            kwargs['stderr'] = PIPE
+    
+        with Popen(*popenargs, **kwargs) as process:
+            try:
+                stdout, stderr = process.communicate(input, timeout=timeout)
+            except TimeoutExpired as exc:
+                process.kill()
+                if _mswindows:
+                    # Windows accumulates the output in a single blocking
+                    # read() call run on child threads, with the timeout
+                    # being done in a join() on those threads.  communicate()
+                    # _after_ kill() is required to collect that and add it
+                    # to the exception.
+                    exc.stdout, exc.stderr = process.communicate()
+                else:
+                    # POSIX _communicate already populated the output so
+                    # far into the TimeoutExpired exception.
+                    process.wait()
+                raise
+            except:  # Including KeyboardInterrupt, communicate handled that.
+                process.kill()
+                # We don't call process.wait() as .__exit__ does that for us.
+                raise
+            retcode = process.poll()
+            if check and retcode:
+>               raise CalledProcessError(retcode, process.args,
+                                         output=stdout, stderr=stderr)
+E               subprocess.CalledProcessError: Command '['clang-19', '-O2', '-fPIC', '-fpass-plugin=/storage/prefetchit/class_b_lean_20260928/plugin_v4b/PrefetchITPass.so', '/storage/prefetchit/class_b_lean_20260928/test_v4b/test_callee_profile_filters_ta1/callees.c', '/storage/prefetchit/class_b_lean_20260928/test_v4b/test_callee_profile_filters_ta1/target.o', '-o', '/storage/prefetchit/class_b_lean_20260928/test_v4b/test_callee_profile_filters_ta1/callees']' returned non-zero exit status 1.
+
+/usr/lib/python3.12/subprocess.py:571: CalledProcessError
+----------------------------- Captured stderr call -----------------------------
+prefetchit-dominator: functions=3 edges=0 calls=2 indirect=0 continuations=0 caller_targets=0 short_lead=0 skipped_eh=0 groups=2 hints=2 gate=0
+prefetchit-dominator-lean: budget_skipped=0 duplicate_targets=0 window=0
+prefetchit-dominator-profile: placement=0,600,8,0,0,1,0,0,2,0,0,callee=1,profile=89BDC07B544E7B2,indirect=0,direct_pic=1 module=AA754C68C0147189 removed=0 metadata=1
+prefetchit-dominator-callees: only=1 profiled=1 skipped=20
+error: invalid operand for inline asm constraint 'i'
+error: invalid operand for inline asm constraint 'i'
+2 errors generated.
+=========================== short test summary info ============================
+FAILED llvm_prefetchit/tests/test_lean_profile.py::test_callee_profile_filters_targets_without_restricting_callers[True]
+1 failed, 36 passed in 3.95s

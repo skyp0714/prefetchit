@@ -1,0 +1,6 @@
+{
+  "command": "taskset -c 84-85 profiling/.venv/bin/python -m pytest -q llvm_prefetchit/tests/test_lean_timeline.py llvm_prefetchit/tests/test_lean_timeline_summary.py llvm_prefetchit/tests/test_wake_miss_timeline.py",
+  "result": "16 passed in 0.06s",
+  "environment_retry": "System python3 lacked pytest; rerun in existing profiling/.venv, no package installation or generated build artifacts.",
+  "commit": "ba7b4b5"
+}
