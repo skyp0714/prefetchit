@@ -148,8 +148,10 @@ def trial(spec):
     keys=spec.get('services',['movie'])
     assert keys and all(k in b.SERVICES for k in keys)
     periods=spec.get('periods',[1021,4093]);assert all(type(p) is int and p>=257 for p in periods)
+    gate_only=bool(spec.get('gate_only'));assert not gate_only or spec.get('gate_stats')
+    assert gate_only or periods,'A PEBS diagnostic needs at least one period'
     b.save(out/'protocol.json',dict(spec,binary_hashes={k:b.sha(p) for k,p in spec['overrides'].items()},
-        bins_us=EDGES,purpose='Perturbing PEBS diagnostic; no E2E speedup estimate',
+        bins_us=EDGES,purpose=('Counter-only diagnostic, no PEBS' if gate_only else 'Perturbing PEBS diagnostic')+'; no E2E speedup estimate',
         source_sha256=b.sha(__file__),warmup_s=50,seconds_per_capture=15))
     stack=client=None;loaded=False;old=os.environ.get('CLASS_B_SCHED_CLOCK')
     captures=[];windows={};failure=None
@@ -165,7 +167,7 @@ def trial(spec):
         stack=h.start(out,'media',spec['overrides'],8)
         load=out/'load';load.mkdir()
         command=['python3',Path(__file__).with_name('closed_loop_load.py'),'--out',load,
-            '--concurrency',str(spec['concurrency']),'--seconds',str(65+18*len(keys)*len(periods)),
+            '--concurrency',str(spec['concurrency']),'--seconds',str(85 if gate_only else 65+18*len(keys)*len(periods)),
             '--seed',str(spec['seed'])]
         b.save(load/'command.json',command)
         with (load/'client.log').open('w') as log:
@@ -175,7 +177,17 @@ def trial(spec):
             assert client.poll() is None;time.sleep(.1)
         else:raise RuntimeError('Diagnostic client did not start')
         time.sleep(50)
-        for key in keys:
+        gate_record=None
+        if gate_only:
+            import lean_gate_stats
+            stats_paths={key:Path('/proc/%d/root/tmp/prefetchit_gate_stats.bin'%
+                stack.states[h.TARGETS['media'][key][0]]['State']['Pid']) for key in keys}
+            before={key:lean_gate_stats.read(path) for key,path in stats_paths.items()}
+            gate_begin=time.time();time.sleep(15);gate_end=time.time()
+            after={key:lean_gate_stats.read(path) for key,path in stats_paths.items()}
+            gate_record={key:dict(before=before[key],after=after[key],
+                delta=lean_gate_stats.delta(before[key],after[key])) for key in keys}
+        for key in ([] if gate_only else keys):
             service=h.TARGETS['media'][key][0];pid=stack.states[service]['State']['Pid']
             maps=Path(f'/proc/{pid}/maps').read_text();(out/(key+'.maps')).write_text(maps)
             for period in periods:
@@ -197,6 +209,11 @@ def trial(spec):
         info=json.loads((load/'load.json').read_text())
         assert not info['steady_errors'] and info['client_cpu_cores']<.8
         with gzip.open(load/'requests.json.gz','rt') as source:samples=json.load(source)
+        if gate_record is not None:
+            b.save(out/'gate_only.json',dict(services=gate_record,
+                request_window=dict(request_window(samples,gate_begin,gate_end),
+                    limitation='15-second counter window. Counter snapshots include small additional read time; request normalization is approximate.'),
+                limitation='No PEBS or perf recorder. Diagnostic atomic counters still perturb execution. Per-service snapshots are sequential, not globally simultaneous.'))
         for dest,_,_ in captures:
             b.save(dest/'request_window.json',request_window(samples,*windows[str(dest)]))
         b.save(out/'load_validation.json',dict(valid=True,load=info,
@@ -229,7 +246,7 @@ def trial(spec):
         b.save(out/'decode_failures.json',errors)
         remove_failed_captures(out,'Diagnostic decode/quality rejection: valid compact results and failure reasons retained; remaining raw/decoded copies unused.')
         raise RuntimeError('One or more diagnostic captures failed quality/decode')
-    b.save(out/'complete.json',dict(valid=True,captures=[str(p[0]) for p in captures]))
+    b.save(out/'complete.json',dict(valid=True,gate_only=gate_only,captures=[str(p[0]) for p in captures]))
 
 
 def main():

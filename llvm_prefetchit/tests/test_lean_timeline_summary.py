@@ -29,3 +29,16 @@ def test_residual_coverage_is_conditional_on_main_image_not_all_events(tmp_path)
     assert row['peak10_20']['estimated_events_per_request']==5
     assert row['peak10_20']['static_target_overlap_pct_of_main']==20
     assert row['peak10_20']['share_pct']==pytest.approx(100*30/42)
+
+
+def test_counter_only_window_never_invents_miss_rates(tmp_path):
+    trial=tmp_path/'00_counters';trial.mkdir()
+    (tmp_path/'protocol.json').write_text(json.dumps(dict(trials=[dict(name='counters',concurrency=4)])))
+    (tmp_path/'complete.json').write_text(json.dumps(dict(trials=1)))
+    (trial/'complete.json').write_text(json.dumps(dict(valid=True,gate_only=True,captures=[])))
+    (trial/'gate_only.json').write_text(json.dumps(dict(services={'movie':dict(delta=dict(checks=5,eligible=2))},
+        request_window=dict(completed_requests=100))))
+    row=summarize(tmp_path)['rows'][0]
+    assert row['gate_only'] and row['counter_build'] and row['period'] is None
+    assert row['gate']['eligible']==2
+    assert 'bins' not in row and 'peak10_20' not in row

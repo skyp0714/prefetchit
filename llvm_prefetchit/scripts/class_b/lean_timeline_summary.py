@@ -14,6 +14,12 @@ def summarize(root):
     for index,setting in enumerate(protocol['trials']):
         trial=root/('%02d_%s'%(index,setting['name']))
         complete=json.loads((trial/'complete.json').read_text());assert complete['valid']
+        if complete.get('gate_only'):
+            data=json.loads((trial/'gate_only.json').read_text())
+            for service,value in data['services'].items():
+                rows.append(dict(name=setting['name'],concurrency=setting['concurrency'],service=service,
+                    period=None,clock=True,counter_build=True,gate_only=True,gate=value['delta'],
+                    request_window=data['request_window'],source_sha256=b.sha(trial/'gate_only.json')))
         for capture in complete['captures']:
             path=Path(capture)
             service,period=path.name.rsplit('_p',1)
@@ -105,4 +111,4 @@ if __name__=='__main__':
     args=parser.parse_args();result=summarize(args.root)
     if args.figure:plot(result,args.figure)
     print(json.dumps([dict(name=v['name'],service=v['service'],period=v['period'],
-        peak10_20=v['peak10_20'],gate=v['gate']) for v in result['rows']],indent=2))
+        peak10_20=v.get('peak10_20'),gate=v['gate']) for v in result['rows']],indent=2))
