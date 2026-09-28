@@ -127,10 +127,17 @@ def prepare(root):
         selection='Three frozen dense policies, no trace ranking or existing-NOP site restriction'))
 
 
-def worker(arm, tag=None, drop_plan=None):
+def worker(arm, tag=None, drop_plan=None, functions_file=None):
     tag=tag or arm;assert re.fullmatch('[a-z0-9_]+',tag)
     root = Path('/dense'); out = root/'builds'/tag; out.mkdir(parents=True,exist_ok=False)
     env = {k:v for k,v in os.environ.items() if not k.startswith('PREFETCHIT_')}; env.update(POLICIES[arm])
+    if functions_file:
+        assert POLICIES[arm]
+        names = [line.strip() for line in Path(functions_file).read_text().splitlines()
+                 if line.strip() and not line.lstrip().startswith('#')]
+        assert names and len(names) == len(set(names))
+        env['PREFETCHIT_SEQ_FUNCTIONS_FILE'] = str(functions_file)
+        save(out/'function_selection.json',dict(path=str(functions_file),sha256=sha(functions_file),names=names))
     if drop_plan:
         assert POLICIES[arm].get('PREFETCHIT_DOM_METADATA') == '1'
         plan = json.loads(Path(drop_plan).read_text())
@@ -193,7 +200,7 @@ def worker(arm, tag=None, drop_plan=None):
     save(out/'complete.json',dict(arm=arm,tag=tag,settings=POLICIES[arm],installed_hashes={str(p):sha(p) for p in Path('/usr/local/lib').glob('*.a')}))
 
 
-def build(root, arm, tag=None, plugin_dir=None, drop_plan=None):
+def build(root, arm, tag=None, plugin_dir=None, drop_plan=None, functions_file=None):
     space(root)
     tag=tag or arm;assert re.fullmatch('[a-z0-9_]+',tag)
     name='codex-dense-build-20260927-'+tag
@@ -205,9 +212,14 @@ def build(root, arm, tag=None, plugin_dir=None, drop_plan=None):
         drop_plan = Path(drop_plan).resolve()
         drop_plan.relative_to(root.resolve())
         assert drop_plan.is_file() and not drop_plan.is_symlink()
+    if functions_file:
+        functions_file = Path(functions_file).resolve()
+        functions_file.relative_to(root.resolve())
+        assert functions_file.is_file() and not functions_file.is_symlink() and POLICIES[arm]
     save(root/(tag+'_implementation.json'),dict(settings=POLICIES[arm],
         plugin_sha256=sha(plugin_dir/'PrefetchITPass.so'),driver_sha256=sha(__file__),
         drop_plan_sha256=sha(drop_plan) if drop_plan else None,
+        functions_file_sha256=sha(functions_file) if functions_file else None,
         source_hashes={str(p.relative_to(REPO)):sha(p) for p in
                       (REPO/'llvm_prefetchit/lib').glob('*') if p.is_file()}))
     command=['docker','run','--rm','--name',name,'--label','prefetchit.dense=20260927',
@@ -219,6 +231,8 @@ def build(root, arm, tag=None, plugin_dir=None, drop_plan=None):
         '/repo/llvm_prefetchit/scripts/class_b/dense_build.py','worker','/dense','--arm',arm,'--tag',tag]
     if drop_plan:
         command += ['--drop-plan', str(Path('/dense')/drop_plan.relative_to(root.resolve()))]
+    if functions_file:
+        command += ['--functions-file', str(Path('/dense')/functions_file.relative_to(root.resolve()))]
     try:
         run(command,root/(tag+'_build.log'),timeout=7200)
     except BaseException as error:
@@ -243,12 +257,12 @@ def build(root, arm, tag=None, plugin_dir=None, drop_plan=None):
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('action',choices=['prepare','worker','build']);p.add_argument('root',type=Path)
     p.add_argument('--arm',choices=list(POLICIES));p.add_argument('--tag');p.add_argument('--plugin-dir',type=Path)
-    p.add_argument('--drop-plan',type=Path);a=p.parse_args()
+    p.add_argument('--drop-plan',type=Path);p.add_argument('--functions-file',type=Path);a=p.parse_args()
     def interrupted(signum,frame):raise KeyboardInterrupt(signum)
     if a.action!='worker':signal.signal(signal.SIGTERM,interrupted)
     if a.action=='prepare':prepare(a.root)
-    elif a.action=='worker':worker(a.arm,a.tag,a.drop_plan)
-    else:build(a.root,a.arm,a.tag,a.plugin_dir,a.drop_plan)
+    elif a.action=='worker':worker(a.arm,a.tag,a.drop_plan,a.functions_file)
+    else:build(a.root,a.arm,a.tag,a.plugin_dir,a.drop_plan,a.functions_file)
 
 
 if __name__=='__main__':main()
