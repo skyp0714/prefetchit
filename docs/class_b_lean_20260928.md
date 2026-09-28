@@ -42,3 +42,23 @@ v2의 14회 복구를 검증했다. v3 초기 단위 검사 15개는 통과했�
 원본 결과: `/storage/prefetchit/class_b_lean_20260928`. Git의 compact evidence에는 설정·행별 결과·비교 통계·PMU·복구·정리 기록이 있다. 진행 중인 빌드와 후속 확인 결과는 다음 체크포인트에 추가한다.
 
 명령 의미: [Intel ISA reference](https://cdrdv2-public.intel.com/774990/architecture-instruction-set-extensions-programming-reference.pdf). 호출 규약: [Clang preserve_all](https://clang.llvm.org/docs/AttributeReference.html#preserve-all). 복제 라벨: [LLVM inline assembly](https://www.llvm.org/docs/LangRef.html#inline-assembler-expressions). PMU 의미: [Intel Granite Rapids events](https://perfmon-events.intel.com/platforms/graniterapids/core-events/core/).
+
+## v3 재측정과 삽입 축소
+
+새 시드의 11개 arm × 2 block, 정확한 역순으로 22회를 완료했다. 모두 유효하고 설정 복구를 확인했다. **원본·각 NOP 양쪽에 대한 CPU/평균 점추정 기준을 통과한 후보가 없다.** v2의 약 1% 탐색 이득은 이 재측정에서 재현되지 않았다. 서로 다른 screen 결과를 합치지 않는다.
+
+| 구현 | CPU/request 절감 vs base | 평균 절감 vs base | CPU 절감 vs own NOP |
+|---|---:|---:|---:|
+| reference_it0 | -0.41% | -0.33% | -0.35% |
+| fast_full_it0 | -0.58% | -0.20% | +0.01% |
+| compact_it0 | -0.89% | -0.24% | -0.33% |
+| memo_it0 | -1.02% | -0.48% | -0.43% |
+| profile_it0 | -1.07% | +0.03% | -0.80% |
+
+위 수치는 두 block의 탐색 점추정이다. 원본 CPU는 5907.05–6044.99µs/request, 실행 간 CV 1.63%였다. 같은 profile IT0의 두 실행 사이 전체 CPU 차이 약 116µs/request 중 Nginx 차이는 약 123µs/request였다. 이는 다른 서비스의 변동도 존재함을 보여주며 JIT·worker 배치 등 특정 원인을 입증하지 않는다.
+
+실제 명령 삭제 버전은 최종 링크 주소에서 같은 그룹의 원래 직접 대상 cache line이 모두 남는지 확인하면서 재빌드했다. compact는 논리 힌트 2945개를 제거했으며, MovieId/ComposeReview/Rating 정적 힌트는 12835/11476/10498개다. 코드 생성 복제와 재배치로 커버리지가 깨진 시도는 복원 계획·메타데이터·해시를 보존하고 ELF를 즉시 삭제했다.
+
+미스 함수 프로파일로 삽입 함수 집합을 제한한 profile 버전은 힌트 1156/1133/1101개, executable bytes 증가 0.513/0.576/0.468%다. 과거 64B 미스 라인을 함수 범위에 배분한 순위이며, 경계가 모호한 라인이 많아 “동적 미스 80% 커버”로 해석하지 않는다.
+
+v3 종료 후 후속 비교를 위한 profile PF/NOP 쌍만 fallback reference로 유지하고, 다른 PF/NOP ELF 24개 503,957,744 bytes를 정리했다. profile도 승격된 구현이 아니다. 다음 반복은 함수당 한 지점·더 긴 IR lead·게이트 생략·callee 프로파일과 앞당긴 발행 구간을 검증한다. 이 문서는 아직 캠페인 진행 중 체크포인트다.

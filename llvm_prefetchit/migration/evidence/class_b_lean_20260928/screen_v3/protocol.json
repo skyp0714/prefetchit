@@ -1,0 +1,183 @@
+{
+  "blocks": 2,
+  "concurrency": 4,
+  "roi_s": 60,
+  "seedbase": 49001,
+  "pmu_blocks": [
+    0
+  ],
+  "pmu_event_sets": {},
+  "clock_options": {
+    "dense_us": 20,
+    "medium_us": 22,
+    "sparse_us": 24,
+    "dense_begin_us": 10,
+    "medium_begin_us": 8,
+    "sparse_begin_us": 5
+  },
+  "module": "/storage/prefetchit/class_b_lean_20260928/kernel_v1/prefetchit_sched_clock.ko",
+  "eligibility": "Whole-stack CPU and mean point improvement vs base and matching NOP, p99 point regression <=2%; select best balanced candidate for independent new-seed repeated confirmation.",
+  "out": "/storage/prefetchit/class_b_lean_20260928/screen_v3",
+  "arms": {
+    "base": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+      },
+      "clock": false
+    },
+    "reference_nop": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v2/movie/MovieIdService.nop",
+        "compose": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v2/compose/ComposeReviewService.nop",
+        "rating": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v2/rating/RatingService.nop"
+      },
+      "controls": [
+        "base"
+      ]
+    },
+    "reference_it0": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v2_it0/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v2_it0/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v2_it0/rating/RatingService"
+      },
+      "controls": [
+        "base",
+        "reference_nop"
+      ]
+    },
+    "fast_full_nop": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v3b_full/movie/MovieIdService.nop",
+        "compose": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v3b_full/compose/ComposeReviewService.nop",
+        "rating": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v3b_full/rating/RatingService.nop"
+      },
+      "controls": [
+        "base"
+      ]
+    },
+    "fast_full_it0": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v3b_full_it0/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v3b_full_it0/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v3b_full_it0/rating/RatingService"
+      },
+      "controls": [
+        "base",
+        "fast_full_nop",
+        "reference_it0"
+      ]
+    },
+    "compact_nop": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v3b_compact10/movie/MovieIdService.nop",
+        "compose": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v3b_compact10/compose/ComposeReviewService.nop",
+        "rating": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v3b_compact10/rating/RatingService.nop"
+      },
+      "controls": [
+        "base"
+      ]
+    },
+    "compact_it0": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v3b_compact10_it0/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v3b_compact10_it0/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v3b_compact10_it0/rating/RatingService"
+      },
+      "controls": [
+        "base",
+        "compact_nop",
+        "reference_it0",
+        "fast_full_it0"
+      ]
+    },
+    "memo_nop": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v3b_memo4/movie/MovieIdService.nop",
+        "compose": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v3b_memo4/compose/ComposeReviewService.nop",
+        "rating": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v3b_memo4/rating/RatingService.nop"
+      },
+      "controls": [
+        "base"
+      ]
+    },
+    "memo_it0": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v3b_memo4_it0/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v3b_memo4_it0/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v3b_memo4_it0/rating/RatingService"
+      },
+      "controls": [
+        "base",
+        "memo_nop",
+        "reference_it0",
+        "compact_it0"
+      ]
+    },
+    "profile_nop": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v3_profile/movie/MovieIdService.nop",
+        "compose": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v3_profile/compose/ComposeReviewService.nop",
+        "rating": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v3_profile/rating/RatingService.nop"
+      },
+      "controls": [
+        "base"
+      ]
+    },
+    "profile_it0": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v3_profile_it0/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v3_profile_it0/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v3_profile_it0/rating/RatingService"
+      },
+      "controls": [
+        "base",
+        "profile_nop",
+        "reference_it0",
+        "fast_full_it0"
+      ]
+    }
+  },
+  "normalization": "Each 8s perf count is divided by successful completions in its bracketing CPU-accounting window (~8.14s including tool startup/teardown). Same method for every arm; do not interpret tiny PMU differences as exact avoided events.",
+  "interpretation": "SWPF_MISS/HIT and T1_T2_ISSUED exclude IT0; FE_LATE_SWPF counts demand misses with an instruction prefetch still in flight, not all issued IT0 hints.",
+  "phase": "Exploratory screen; previous v2 reference is remeasured on new seeds, not pooled with old screen",
+  "profile_training": "/storage/prefetchit/class_b_lean_20260928/profile_v3/profile.json",
+  "profile_limitations": "Historical64B sample ranking; filtering own functions does not preserve all prior target coverage. All final injection functions match the recorded allowlist.",
+  "compact_coverage": "Final metadata verifies every original direct target line remains covered in each physical group/copy; does not imply identical dynamic cache behavior.",
+  "design_sha256": "feab27e7a7d475bf3642c023cc6f8ec781165f4aca5e9e522166cf34dc356fd1",
+  "driver_sha256": "8d8ebeaa972257ba6cad3cf10c89c7edba4c57a5496a6e374ef8338bc486f686",
+  "controls": "Original baseline without hook; exact-layout NOP retains all gates and register pressure",
+  "pmu": "After clean ROI only; no concurrent builds or decoding",
+  "timing": "50s warmup then fixed clean ROI; no performance-based retries",
+  "orders": [
+    [
+      "base",
+      "reference_nop",
+      "reference_it0",
+      "fast_full_nop",
+      "fast_full_it0",
+      "compact_nop",
+      "compact_it0",
+      "memo_nop",
+      "memo_it0",
+      "profile_nop",
+      "profile_it0"
+    ],
+    [
+      "profile_it0",
+      "profile_nop",
+      "memo_it0",
+      "memo_nop",
+      "compact_it0",
+      "compact_nop",
+      "fast_full_it0",
+      "fast_full_nop",
+      "reference_it0",
+      "reference_nop",
+      "base"
+    ]
+  ],
+  "decision": "Exploratory screens; net benefit requires independent repeated confirmation"
+}
