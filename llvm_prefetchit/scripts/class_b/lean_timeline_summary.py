@@ -80,7 +80,7 @@ def plot(result, destination):
     periods=sorted(set(v['period'] for v in selected))
     colors=dict(zip(names,plt.get_cmap('tab10').colors))
     styles={p:['-','--',':','-.'][i%4] for i,p in enumerate(periods)}
-    fig,axes=plt.subplots(2,len(services),figsize=(4.5*len(services),7),squeeze=False)
+    fig,axes=plt.subplots(2,len(services),figsize=(max(6,4.5*len(services)),7.5),squeeze=False)
     for column,service in enumerate(services):
         for row in (v for v in selected if v['service']==service):
             bins=[v for v in row['bins'] if v['hi_us'] is not None and v['hi_us']<=50]
@@ -97,9 +97,9 @@ def plot(result, destination):
         axes[0,column].legend(fontsize=7)
     axes[0,0].set_ylabel('Estimated events / scheduled µs')
     axes[1,0].set_ylabel('Events / 1000 switch-ins / bin µs')
-    fig.suptitle('Retired front-end L2 miss distribution — separate diagnostic captures')
-    fig.text(.5,.01,'PEBS retirement time; kernel time included. Shaded region: prior 10–20 µs peak. No profiling latency claims.',ha='center',fontsize=9)
-    fig.tight_layout(rect=(0,.035,1,.96))
+    fig.suptitle('Retired front-end L2 miss distribution\nSeparate diagnostic captures')
+    fig.text(.5,.01,'PEBS retirement time; kernel time included.\nShaded region: prior 10–20 µs peak. No profiling latency claims.',ha='center',fontsize=9)
+    fig.tight_layout(rect=(0,.065,1,.95))
     destination.parent.mkdir(parents=True,exist_ok=True)
     for suffix in ('.png','.svg'):fig.savefig(destination.with_suffix(suffix),dpi=170)
     plt.close(fig)

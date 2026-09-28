@@ -1,0 +1,58 @@
+{
+  "module": "/storage/prefetchit/class_b_lean_20260928/kernel_v1/prefetchit_sched_clock.ko",
+  "clock_options": {
+    "dense_begin_us": 5,
+    "dense_us": 15,
+    "medium_begin_us": 3,
+    "medium_us": 17,
+    "sparse_begin_us": 1,
+    "sparse_us": 20
+  },
+  "concurrency": 4,
+  "seed": 61001,
+  "name": "gate_counter_c4",
+  "overrides": {
+    "movie": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_gate_diag_it0/movie/MovieIdService",
+    "compose": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_gate_diag_it0/compose/ComposeReviewService",
+    "rating": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_gate_diag_it0/rating/RatingService"
+  },
+  "clock": true,
+  "services": [
+    "movie",
+    "compose",
+    "rating"
+  ],
+  "periods": [],
+  "gate_stats": true,
+  "gate_only": true,
+  "original_gated": "callees_it0",
+  "out": "/storage/prefetchit/class_b_lean_20260928/diagnostics_late/00_gate_counter_c4",
+  "binary_hashes": {
+    "movie": "420de95f90b9a3dcd549a05cfb98148da339f37559bd5082f3d86cadd77e7979",
+    "compose": "a9140c455c305d7088e17cf30477042edd77b8f115f77e479bfbc8290fb85718",
+    "rating": "26610af9fccaadeb158336dc2af8dd83ff5b9b2c5f44678d8c75fcea28269d99"
+  },
+  "bins_us": [
+    0,
+    1,
+    2,
+    5,
+    8,
+    10,
+    15,
+    20,
+    22,
+    24,
+    30,
+    40,
+    50,
+    100,
+    200,
+    500,
+    1000
+  ],
+  "purpose": "Counter-only diagnostic, no PEBS; no E2E speedup estimate",
+  "source_sha256": "1bd35544e4d2169ee00b0bb8dc12e070c5f00949c5a2d18d798aaee7da3bc8f1",
+  "warmup_s": 50,
+  "seconds_per_capture": 15
+}

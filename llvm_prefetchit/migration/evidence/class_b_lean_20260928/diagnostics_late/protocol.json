@@ -1,0 +1,95 @@
+{
+  "out": "/storage/prefetchit/class_b_lean_20260928/diagnostics_late",
+  "trials": [
+    {
+      "module": "/storage/prefetchit/class_b_lean_20260928/kernel_v1/prefetchit_sched_clock.ko",
+      "clock_options": {
+        "dense_begin_us": 5,
+        "dense_us": 15,
+        "medium_begin_us": 3,
+        "medium_us": 17,
+        "sparse_begin_us": 1,
+        "sparse_us": 20
+      },
+      "concurrency": 4,
+      "seed": 61001,
+      "name": "gate_counter_c4",
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_gate_diag_it0/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_gate_diag_it0/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_gate_diag_it0/rating/RatingService"
+      },
+      "clock": true,
+      "services": [
+        "movie",
+        "compose",
+        "rating"
+      ],
+      "periods": [],
+      "gate_stats": true,
+      "gate_only": true,
+      "original_gated": "callees_it0"
+    },
+    {
+      "module": "/storage/prefetchit/class_b_lean_20260928/kernel_v1/prefetchit_sched_clock.ko",
+      "clock_options": {
+        "dense_begin_us": 5,
+        "dense_us": 15,
+        "medium_begin_us": 3,
+        "medium_us": 17,
+        "sparse_begin_us": 1,
+        "sparse_us": 20
+      },
+      "concurrency": 4,
+      "seed": 61001,
+      "name": "base_c4",
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+      },
+      "clock": false,
+      "services": [
+        "movie"
+      ],
+      "periods": [
+        4093
+      ]
+    },
+    {
+      "module": "/storage/prefetchit/class_b_lean_20260928/kernel_v1/prefetchit_sched_clock.ko",
+      "clock_options": {
+        "dense_begin_us": 5,
+        "dense_us": 15,
+        "medium_begin_us": 3,
+        "medium_us": 17,
+        "sparse_begin_us": 1,
+        "sparse_us": 20
+      },
+      "concurrency": 4,
+      "seed": 61001,
+      "name": "v5_c4",
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v5_callees_ungated_it0/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v5_callees_ungated_it0/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v5_callees_ungated_it0/rating/RatingService"
+      },
+      "clock": false,
+      "services": [
+        "movie"
+      ],
+      "periods": [
+        4093
+      ]
+    }
+  ],
+  "purpose": "Late separate MovieId schedule-age/target coverage and all3 gate counters; no E2E claims.",
+  "supersedes": [
+    "diagnostics_v4.json",
+    "diagnostics_c16.json"
+  ],
+  "reason": "V4 post-ROI mechanism evidence motivated a new ungated-callee E2E screen. Diagnostic breadth reduced prospectively to honor7hour budget; original protocols retained, never executed.",
+  "limitation": "One current PEBS sample period and MovieId only; cannot claim current all-service or C16 age-distribution validation.",
+  "v5_valid": true,
+  "v5_screen_complete": true
+}

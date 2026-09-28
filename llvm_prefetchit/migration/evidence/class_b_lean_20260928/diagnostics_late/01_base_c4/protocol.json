@@ -1,0 +1,55 @@
+{
+  "module": "/storage/prefetchit/class_b_lean_20260928/kernel_v1/prefetchit_sched_clock.ko",
+  "clock_options": {
+    "dense_begin_us": 5,
+    "dense_us": 15,
+    "medium_begin_us": 3,
+    "medium_us": 17,
+    "sparse_begin_us": 1,
+    "sparse_us": 20
+  },
+  "concurrency": 4,
+  "seed": 61001,
+  "name": "base_c4",
+  "overrides": {
+    "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+    "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+    "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+  },
+  "clock": false,
+  "services": [
+    "movie"
+  ],
+  "periods": [
+    4093
+  ],
+  "out": "/storage/prefetchit/class_b_lean_20260928/diagnostics_late/01_base_c4",
+  "binary_hashes": {
+    "movie": "1dbfa7f16b813e7a1a18eb57cf17538bf1d051e27aeccaec8ffadd8fce258b07",
+    "compose": "fb16c1d304d6c0b56c24c422f5dfa7dde6ab3c368cec6a4fd9bcc0602a66c917",
+    "rating": "d2314e24f46b0fa6b2487f55dad565070adb9b6a920cd0a5f64c7e6d767ac3e3"
+  },
+  "bins_us": [
+    0,
+    1,
+    2,
+    5,
+    8,
+    10,
+    15,
+    20,
+    22,
+    24,
+    30,
+    40,
+    50,
+    100,
+    200,
+    500,
+    1000
+  ],
+  "purpose": "Perturbing PEBS diagnostic; no E2E speedup estimate",
+  "source_sha256": "1bd35544e4d2169ee00b0bb8dc12e070c5f00949c5a2d18d798aaee7da3bc8f1",
+  "warmup_s": 50,
+  "seconds_per_capture": 15
+}

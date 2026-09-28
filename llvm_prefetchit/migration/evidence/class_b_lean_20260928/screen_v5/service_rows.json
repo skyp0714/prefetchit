@@ -1,0 +1,86 @@
+[
+  {
+    "arm": "base",
+    "block": 0,
+    "valid": true,
+    "metrics": {
+      "movie-id-service:cpu_us_per_request": 449.09090909090907,
+      "movie-id-service:user_us_per_request": 154.86674811354652,
+      "rating-service:cpu_us_per_request": 390.8609270571326,
+      "rating-service:user_us_per_request": 159.1405246137262,
+      "compose-review-service:cpu_us_per_request": 987.795412079225,
+      "compose-review-service:user_us_per_request": 322.01576738436773
+    },
+    "result_sha256": "dd82cd272c30303646dbb67537513dbd649fe229cb7c4227b7adb2adb427d2b3"
+  },
+  {
+    "arm": "base",
+    "block": 1,
+    "valid": true,
+    "metrics": {
+      "movie-id-service:cpu_us_per_request": 446.47131333144637,
+      "movie-id-service:user_us_per_request": 156.95911406736485,
+      "rating-service:cpu_us_per_request": 389.2489421022092,
+      "rating-service:user_us_per_request": 159.11029026734033,
+      "compose-review-service:cpu_us_per_request": 985.0592705812423,
+      "compose-review-service:user_us_per_request": 322.24028078517955
+    },
+    "result_sha256": "d4c58c19ae2b4c8cb15b17411df62d4cfb9f706e733e843b36aab35aa4992e37"
+  },
+  {
+    "arm": "callees_ungated_nop",
+    "block": 0,
+    "valid": true,
+    "metrics": {
+      "movie-id-service:cpu_us_per_request": 449.2224731059081,
+      "movie-id-service:user_us_per_request": 153.97782316055915,
+      "rating-service:cpu_us_per_request": 391.96296615897944,
+      "rating-service:user_us_per_request": 158.16447340035378,
+      "compose-review-service:cpu_us_per_request": 985.4226747781565,
+      "compose-review-service:user_us_per_request": 319.4364959514461
+    },
+    "result_sha256": "09fa23b71eb4e1673c3f65bcb09f8d376e4c802e8dba08df6dc33d745657dddf"
+  },
+  {
+    "arm": "callees_ungated_nop",
+    "block": 1,
+    "valid": true,
+    "metrics": {
+      "movie-id-service:cpu_us_per_request": 447.88754158326014,
+      "movie-id-service:user_us_per_request": 154.42964328403346,
+      "rating-service:cpu_us_per_request": 391.94628378864905,
+      "rating-service:user_us_per_request": 156.8164720114057,
+      "compose-review-service:cpu_us_per_request": 986.0363927012976,
+      "compose-review-service:user_us_per_request": 317.7489954923168
+    },
+    "result_sha256": "fc05e97418d530e4b33353b376526b64a49dd34c8cf9678c81b4f0e16f51c840"
+  },
+  {
+    "arm": "callees_ungated_it0",
+    "block": 0,
+    "valid": true,
+    "metrics": {
+      "movie-id-service:cpu_us_per_request": 449.349008686618,
+      "movie-id-service:user_us_per_request": 154.84707512048715,
+      "rating-service:cpu_us_per_request": 388.67974488102624,
+      "rating-service:user_us_per_request": 157.60271857548952,
+      "compose-review-service:cpu_us_per_request": 988.4036882584667,
+      "compose-review-service:user_us_per_request": 322.404683915095
+    },
+    "result_sha256": "e85213ef8cf4c7cee1cc9f3016a126526a7747e91856d7bac75c05eade6c2846"
+  },
+  {
+    "arm": "callees_ungated_it0",
+    "block": 1,
+    "valid": true,
+    "metrics": {
+      "movie-id-service:cpu_us_per_request": 447.51296251477055,
+      "movie-id-service:user_us_per_request": 151.4864253071568,
+      "rating-service:cpu_us_per_request": 388.4925897979812,
+      "rating-service:user_us_per_request": 156.5008613203115,
+      "compose-review-service:cpu_us_per_request": 988.6358588878448,
+      "compose-review-service:user_us_per_request": 321.4350103926426
+    },
+    "result_sha256": "7dcc666269b9f7f904bbbc9d5bb619bdd853883e0c67d72212ffe5e8fb4897c9"
+  }
+]

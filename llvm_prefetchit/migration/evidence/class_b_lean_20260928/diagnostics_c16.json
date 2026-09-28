@@ -1,0 +1,62 @@
+{
+  "out": "/storage/prefetchit/class_b_lean_20260928/diagnostics_c16",
+  "trials": [
+    {
+      "module": "/storage/prefetchit/class_b_lean_20260928/kernel_v1/prefetchit_sched_clock.ko",
+      "clock_options": {
+        "dense_begin_us": 5,
+        "dense_us": 15,
+        "medium_begin_us": 3,
+        "medium_us": 17,
+        "sparse_begin_us": 1,
+        "sparse_us": 20
+      },
+      "concurrency": 16,
+      "seed": 59001,
+      "services": [
+        "movie"
+      ],
+      "name": "base_c16",
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+      },
+      "clock": false,
+      "periods": [
+        1021,
+        4093
+      ]
+    },
+    {
+      "module": "/storage/prefetchit/class_b_lean_20260928/kernel_v1/prefetchit_sched_clock.ko",
+      "clock_options": {
+        "dense_begin_us": 5,
+        "dense_us": 15,
+        "medium_begin_us": 3,
+        "medium_us": 17,
+        "sparse_begin_us": 1,
+        "sparse_us": 20
+      },
+      "concurrency": 16,
+      "seed": 59001,
+      "services": [
+        "movie"
+      ],
+      "name": "selected_c16",
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_ungated_it0/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_ungated_it0/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_ungated_it0/rating/RatingService"
+      },
+      "clock": false,
+      "periods": [
+        4093,
+        1021
+      ]
+    }
+  ],
+  "purpose": "MovieId schedule-age comparison near the prior throughput plateau; separate from E2E metrics",
+  "admission": "Run only if primary diagnostics finish before12:33UTC, leaving >=19minutes for both captures and final report. Admission depends on time, never observed speedup.",
+  "frozen_before_any_diagnostic": true
+}

@@ -1,0 +1,1818 @@
+{
+  "rows": [
+    {
+      "name": "gate_counter_c4",
+      "concurrency": 4,
+      "service": "movie",
+      "period": null,
+      "clock": true,
+      "counter_build": true,
+      "gate_only": true,
+      "gate": {
+        "tiers": [
+          {
+            "early": 334804,
+            "eligible": 646726,
+            "expired": 717556,
+            "memo_cached": 0
+          },
+          {
+            "early": 32053,
+            "eligible": 458103,
+            "expired": 369883,
+            "memo_cached": 0
+          },
+          {
+            "early": 159,
+            "eligible": 679697,
+            "expired": 354384,
+            "memo_cached": 0
+          }
+        ],
+        "checks": 3593365,
+        "eligible": 1784526,
+        "eligible_pct": 49.66169593125107,
+        "elapsed_s": 15.010862032999285,
+        "limitation": "Relaxed atomic counters read while live, without a global stop. Counter instrumentation perturbs execution; eligible gate returns are not completed cache fills or exact hardware hint-issue counts."
+      },
+      "request_window": {
+        "begin_epoch": 1790599193.5080895,
+        "end_epoch": 1790599208.5082111,
+        "seconds": 15.000121593475342,
+        "completed_requests": 17515,
+        "limitation": "15-second counter window. Counter snapshots include small additional read time; request normalization is approximate."
+      },
+      "source_sha256": "f76bac578a271b8cbcae4b43ea8c8f918dccf61b606b41d1ee0c46bbe3fda964"
+    },
+    {
+      "name": "gate_counter_c4",
+      "concurrency": 4,
+      "service": "compose",
+      "period": null,
+      "clock": true,
+      "counter_build": true,
+      "gate_only": true,
+      "gate": {
+        "tiers": [
+          {
+            "early": 558761,
+            "eligible": 1962739,
+            "expired": 1364161,
+            "memo_cached": 0
+          },
+          {
+            "early": 55400,
+            "eligible": 864017,
+            "expired": 675442,
+            "memo_cached": 0
+          },
+          {
+            "early": 346,
+            "eligible": 1492721,
+            "expired": 592902,
+            "memo_cached": 0
+          }
+        ],
+        "checks": 7566489,
+        "eligible": 4319477,
+        "eligible_pct": 57.08693953034228,
+        "elapsed_s": 15.010533947992371,
+        "limitation": "Relaxed atomic counters read while live, without a global stop. Counter instrumentation perturbs execution; eligible gate returns are not completed cache fills or exact hardware hint-issue counts."
+      },
+      "request_window": {
+        "begin_epoch": 1790599193.5080895,
+        "end_epoch": 1790599208.5082111,
+        "seconds": 15.000121593475342,
+        "completed_requests": 17515,
+        "limitation": "15-second counter window. Counter snapshots include small additional read time; request normalization is approximate."
+      },
+      "source_sha256": "f76bac578a271b8cbcae4b43ea8c8f918dccf61b606b41d1ee0c46bbe3fda964"
+    },
+    {
+      "name": "gate_counter_c4",
+      "concurrency": 4,
+      "service": "rating",
+      "period": null,
+      "clock": true,
+      "counter_build": true,
+      "gate_only": true,
+      "gate": {
+        "tiers": [
+          {
+            "early": 235179,
+            "eligible": 552628,
+            "expired": 455632,
+            "memo_cached": 0
+          },
+          {
+            "early": 18749,
+            "eligible": 355099,
+            "expired": 222183,
+            "memo_cached": 0
+          },
+          {
+            "early": 102,
+            "eligible": 481649,
+            "expired": 219468,
+            "memo_cached": 0
+          }
+        ],
+        "checks": 2540689,
+        "eligible": 1389376,
+        "eligible_pct": 54.685008672844255,
+        "elapsed_s": 15.010506566992262,
+        "limitation": "Relaxed atomic counters read while live, without a global stop. Counter instrumentation perturbs execution; eligible gate returns are not completed cache fills or exact hardware hint-issue counts."
+      },
+      "request_window": {
+        "begin_epoch": 1790599193.5080895,
+        "end_epoch": 1790599208.5082111,
+        "seconds": 15.000121593475342,
+        "completed_requests": 17515,
+        "limitation": "15-second counter window. Counter snapshots include small additional read time; request normalization is approximate."
+      },
+      "source_sha256": "f76bac578a271b8cbcae4b43ea8c8f918dccf61b606b41d1ee0c46bbe3fda964"
+    },
+    {
+      "name": "base_c4",
+      "concurrency": 4,
+      "service": "movie",
+      "period": 4093,
+      "clock": false,
+      "counter_build": false,
+      "quality": {
+        "initial_threads": 8,
+        "new_threads": 51043,
+        "thread_exits": 51042,
+        "target_samples": 2009,
+        "unknown_tid_resolved_by_cpu_interval": 289,
+        "unknown_tid_samples": 289,
+        "duplicate_scheduler_records": 1,
+        "right_censored_runs": 0,
+        "right_censored_samples": 0,
+        "complete_runs": 234245,
+        "complete_samples": 2009,
+        "complete_sample_pct": 100.0
+      },
+      "median_run_us": 30.773,
+      "p90_run_us": 63.206,
+      "bins": [
+        {
+          "lo_us": 0,
+          "hi_us": 1,
+          "samples": 0,
+          "known_tid_samples": 0,
+          "estimated_events": 0,
+          "exposure_us": 234245.0,
+          "runs_reaching_bin": 234245,
+          "event_share_pct": 0.0,
+          "cumulative_pct": 0.0,
+          "estimated_events_per_1000_switchins": 0.0,
+          "estimated_events_per_scheduled_us": 0.0,
+          "estimated_events_per_request": 0.0,
+          "main_events": 0,
+          "static_target_line_events": 0,
+          "static_target_overlap_pct_of_main": null
+        },
+        {
+          "lo_us": 1,
+          "hi_us": 2,
+          "samples": 0,
+          "known_tid_samples": 0,
+          "estimated_events": 0,
+          "exposure_us": 234245.0,
+          "runs_reaching_bin": 234245,
+          "event_share_pct": 0.0,
+          "cumulative_pct": 0.0,
+          "estimated_events_per_1000_switchins": 0.0,
+          "estimated_events_per_scheduled_us": 0.0,
+          "estimated_events_per_request": 0.0,
+          "main_events": 0,
+          "static_target_line_events": 0,
+          "static_target_overlap_pct_of_main": null
+        },
+        {
+          "lo_us": 2,
+          "hi_us": 5,
+          "samples": 32,
+          "known_tid_samples": 28,
+          "estimated_events": 130976,
+          "exposure_us": 702560.0509999994,
+          "runs_reaching_bin": 234245,
+          "event_share_pct": 1.5928322548531608,
+          "cumulative_pct": 1.5928322548531608,
+          "estimated_events_per_1000_switchins": 559.1410702469636,
+          "estimated_events_per_scheduled_us": 0.18642676852117246,
+          "estimated_events_per_request": 7.136489947147605,
+          "main_events": 85953,
+          "static_target_line_events": 0,
+          "static_target_overlap_pct_of_main": null
+        },
+        {
+          "lo_us": 5,
+          "hi_us": 8,
+          "samples": 182,
+          "known_tid_samples": 144,
+          "estimated_events": 744926,
+          "exposure_us": 692000.8170000011,
+          "runs_reaching_bin": 233953,
+          "event_share_pct": 9.059233449477352,
+          "cumulative_pct": 10.652065704330512,
+          "estimated_events_per_1000_switchins": 3180.114837029606,
+          "estimated_events_per_scheduled_us": 1.07648138802703,
+          "estimated_events_per_request": 40.58878657440201,
+          "main_events": 658973,
+          "static_target_line_events": 0,
+          "static_target_overlap_pct_of_main": null
+        },
+        {
+          "lo_us": 8,
+          "hi_us": 10,
+          "samples": 222,
+          "known_tid_samples": 168,
+          "estimated_events": 908646,
+          "exposure_us": 438267.01499999914,
+          "runs_reaching_bin": 224903,
+          "event_share_pct": 11.050273768043803,
+          "cumulative_pct": 21.702339472374316,
+          "estimated_events_per_1000_switchins": 3879.0411748383103,
+          "estimated_events_per_scheduled_us": 2.0732703326988955,
+          "estimated_events_per_request": 49.50939900833651,
+          "main_events": 806321,
+          "static_target_line_events": 0,
+          "static_target_overlap_pct_of_main": null
+        },
+        {
+          "lo_us": 10,
+          "hi_us": 15,
+          "samples": 502,
+          "known_tid_samples": 373,
+          "estimated_events": 2054686,
+          "exposure_us": 1005831.3520000005,
+          "runs_reaching_bin": 212513,
+          "event_share_pct": 24.98755599800896,
+          "cumulative_pct": 46.68989547038328,
+          "estimated_events_per_1000_switchins": 8771.525539499242,
+          "estimated_events_per_scheduled_us": 2.042773866527874,
+          "estimated_events_per_request": 111.95368604587806,
+          "main_events": 1792734,
+          "static_target_line_events": 0,
+          "static_target_overlap_pct_of_main": null
+        },
+        {
+          "lo_us": 15,
+          "hi_us": 20,
+          "samples": 335,
+          "known_tid_samples": 286,
+          "estimated_events": 1371155,
+          "exposure_us": 920785.0620000008,
+          "runs_reaching_bin": 192887,
+          "event_share_pct": 16.674962667994027,
+          "cumulative_pct": 63.3648581383773,
+          "estimated_events_per_1000_switchins": 5853.5080791479,
+          "estimated_events_per_scheduled_us": 1.4891151655107961,
+          "estimated_events_per_request": 74.7101291342015,
+          "main_events": 1186970,
+          "static_target_line_events": 0,
+          "static_target_overlap_pct_of_main": null
+        },
+        {
+          "lo_us": 20,
+          "hi_us": 22,
+          "samples": 88,
+          "known_tid_samples": 84,
+          "estimated_events": 360184,
+          "exposure_us": 340541.0449999995,
+          "runs_reaching_bin": 174341,
+          "event_share_pct": 4.380288700846192,
+          "cumulative_pct": 67.7451468392235,
+          "estimated_events_per_1000_switchins": 1537.63794317915,
+          "estimated_events_per_scheduled_us": 1.0576816078073659,
+          "estimated_events_per_request": 19.625347354655915,
+          "main_events": 298789,
+          "static_target_line_events": 0,
+          "static_target_overlap_pct_of_main": null
+        },
+        {
+          "lo_us": 22,
+          "hi_us": 24,
+          "samples": 79,
+          "known_tid_samples": 76,
+          "estimated_events": 323347,
+          "exposure_us": 322886.31300000096,
+          "runs_reaching_bin": 166081,
+          "event_share_pct": 3.9323046291687405,
+          "cumulative_pct": 71.67745146839223,
+          "estimated_events_per_1000_switchins": 1380.3795171721915,
+          "estimated_events_per_scheduled_us": 1.0014267777277974,
+          "estimated_events_per_request": 17.618209557020652,
+          "main_events": 253766,
+          "static_target_line_events": 0,
+          "static_target_overlap_pct_of_main": null
+        },
+        {
+          "lo_us": 24,
+          "hi_us": 30,
+          "samples": 187,
+          "known_tid_samples": 180,
+          "estimated_events": 765391,
+          "exposure_us": 840536.5210000051,
+          "runs_reaching_bin": 156738,
+          "event_share_pct": 9.308113489298158,
+          "cumulative_pct": 80.9855649576904,
+          "estimated_events_per_1000_switchins": 3267.4806292556937,
+          "estimated_events_per_scheduled_us": 0.9105981487745437,
+          "estimated_events_per_request": 41.70386312864382,
+          "main_events": 654880,
+          "static_target_line_events": 0,
+          "static_target_overlap_pct_of_main": null
+        },
+        {
+          "lo_us": 30,
+          "hi_us": 40,
+          "samples": 196,
+          "known_tid_samples": 196,
+          "estimated_events": 802228,
+          "exposure_us": 920260.844999999,
+          "runs_reaching_bin": 122017,
+          "event_share_pct": 9.75609756097561,
+          "cumulative_pct": 90.741662518666,
+          "estimated_events_per_1000_switchins": 3424.7390552626525,
+          "estimated_events_per_scheduled_us": 0.8717397946013892,
+          "estimated_events_per_request": 43.711000926279084,
+          "main_events": 699903,
+          "static_target_line_events": 0,
+          "static_target_overlap_pct_of_main": null
+        },
+        {
+          "lo_us": 40,
+          "hi_us": 50,
+          "samples": 115,
+          "known_tid_samples": 114,
+          "estimated_events": 470695,
+          "exposure_us": 518123.7950000006,
+          "runs_reaching_bin": 66723,
+          "event_share_pct": 5.724240915878546,
+          "cumulative_pct": 96.46590343454454,
+          "estimated_events_per_1000_switchins": 2009.4132212000256,
+          "estimated_events_per_scheduled_us": 0.9084604963954598,
+          "estimated_events_per_request": 25.646760747561707,
+          "main_events": 302882,
+          "static_target_line_events": 0,
+          "static_target_overlap_pct_of_main": null
+        },
+        {
+          "lo_us": 50,
+          "hi_us": 100,
+          "samples": 63,
+          "known_tid_samples": 63,
+          "estimated_events": 257859,
+          "exposure_us": 928765.5199999955,
+          "runs_reaching_bin": 41419,
+          "event_share_pct": 3.1358885017421603,
+          "cumulative_pct": 99.60179193628672,
+          "estimated_events_per_1000_switchins": 1100.8089820487096,
+          "estimated_events_per_scheduled_us": 0.27763627573082306,
+          "estimated_events_per_request": 14.049964583446847,
+          "main_events": 155534,
+          "static_target_line_events": 0,
+          "static_target_overlap_pct_of_main": null
+        },
+        {
+          "lo_us": 100,
+          "hi_us": 200,
+          "samples": 8,
+          "known_tid_samples": 8,
+          "estimated_events": 32744,
+          "exposure_us": 153998.4729999994,
+          "runs_reaching_bin": 7130,
+          "event_share_pct": 0.3982080637132902,
+          "cumulative_pct": 100.0,
+          "estimated_events_per_1000_switchins": 139.7852675617409,
+          "estimated_events_per_scheduled_us": 0.21262548492932218,
+          "estimated_events_per_request": 1.7841224867869012,
+          "main_events": 28651,
+          "static_target_line_events": 0,
+          "static_target_overlap_pct_of_main": null
+        },
+        {
+          "lo_us": 200,
+          "hi_us": 500,
+          "samples": 0,
+          "known_tid_samples": 0,
+          "estimated_events": 0,
+          "exposure_us": 21207.00499999999,
+          "runs_reaching_bin": 87,
+          "event_share_pct": 0.0,
+          "cumulative_pct": 100.0,
+          "estimated_events_per_1000_switchins": 0.0,
+          "estimated_events_per_scheduled_us": 0.0,
+          "estimated_events_per_request": 0.0,
+          "main_events": 0,
+          "static_target_line_events": 0,
+          "static_target_overlap_pct_of_main": null
+        },
+        {
+          "lo_us": 500,
+          "hi_us": 1000,
+          "samples": 0,
+          "known_tid_samples": 0,
+          "estimated_events": 0,
+          "exposure_us": 3290.1000000000004,
+          "runs_reaching_bin": 19,
+          "event_share_pct": 0.0,
+          "cumulative_pct": 100.0,
+          "estimated_events_per_1000_switchins": 0.0,
+          "estimated_events_per_scheduled_us": 0.0,
+          "estimated_events_per_request": 0.0,
+          "main_events": 0,
+          "static_target_line_events": 0,
+          "static_target_overlap_pct_of_main": null
+        },
+        {
+          "lo_us": 1000,
+          "hi_us": null,
+          "samples": 0,
+          "known_tid_samples": 0,
+          "estimated_events": 0,
+          "exposure_us": 2863.312,
+          "runs_reaching_bin": 5,
+          "event_share_pct": 0.0,
+          "cumulative_pct": 100.0,
+          "estimated_events_per_1000_switchins": 0.0,
+          "estimated_events_per_scheduled_us": 0.0,
+          "estimated_events_per_request": 0.0,
+          "main_events": 0,
+          "static_target_line_events": 0,
+          "static_target_overlap_pct_of_main": null
+        }
+      ],
+      "all": {
+        "estimated_events": 8222837,
+        "share_pct": 100.0,
+        "estimated_events_per_request": 448.0377594943606,
+        "main_pct": 84.22100547536088,
+        "static_target_overlap_pct_of_main": null
+      },
+      "before20": {
+        "estimated_events": 5210389,
+        "share_pct": 63.3648581383773,
+        "estimated_events_per_request": 283.8984907099657,
+        "main_pct": 86.95993715632365,
+        "static_target_overlap_pct_of_main": null
+      },
+      "peak10_20": {
+        "estimated_events": 3425841,
+        "share_pct": 41.66251866600299,
+        "estimated_events_per_request": 186.66381518007955,
+        "main_pct": 86.97729988052569,
+        "static_target_overlap_pct_of_main": null
+      },
+      "target_lines": 0,
+      "coverage_applicable": false,
+      "request_window": {
+        "begin_epoch": 1790599325.4788558,
+        "end_epoch": 1790599341.8522854,
+        "seconds": 16.373429536819458,
+        "completed_requests": 18353,
+        "limitation": "Requests bracket perf record startup/teardown as well as its 15-second capture. Approximate per-request normalization, not an E2E performance trial."
+      },
+      "gate": null,
+      "top_unique_functions": [
+        {
+          "names": [
+            "_ZNSt12_Destroy_auxILb0EE9__destroyIPN13jaegertracing9ReferenceEEEvT_S5_"
+          ],
+          "estimated_events": 130976
+        },
+        {
+          "names": [
+            "_ZNSt13__future_base13_State_baseV213_M_set_resultESt8functionIFSt10unique_ptrINS_12_Result_baseENS3_8_DeleterEEvEEb"
+          ],
+          "estimated_events": 122790
+        },
+        {
+          "names": [
+            "_ZN6apache6thrift9transport7TSocket4readEPhj"
+          ],
+          "estimated_events": 118697
+        },
+        {
+          "names": [
+            "_ZNK13jaegertracing6thrift4Span5writeEPN6apache6thrift8protocol9TProtocolE"
+          ],
+          "estimated_events": 118697
+        },
+        {
+          "names": [
+            "_ZNSt10_HashtableINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4pairIKS5_S5_ESaIS8_ENSt8__detail10_Select1stESt8equal_toIS5_ESt4hashIS5_ENSA_18_Mod_range_hashingENSA_20_Default_ranged_hashENSA_20_Prime_rehash_policyENSA_17_Hashtable_traitsILb1ELb0ELb1EEEE9_M_assignIRKSL_NSA_10_AllocNodeISaINSA_10_Hash_nodeIS8_Lb1EEEEEEEEvOT_RKT0_"
+          ],
+          "estimated_events": 94139
+        },
+        {
+          "names": [
+            "__once_proxy"
+          ],
+          "estimated_events": 94139
+        },
+        {
+          "names": [
+            "_ZN13media_service14MovieIdHandler13UploadMovieIdElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiRKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE"
+          ],
+          "estimated_events": 94139
+        },
+        {
+          "names": [
+            "_ZN13jaegertracing12UDPTransport6appendERKNS_4SpanE"
+          ],
+          "estimated_events": 90046
+        },
+        {
+          "names": [
+            "_ZNK13media_service13TextMapReader10ForeachKeyESt8functionIFN11opentracing2v28expectedIvSt10error_codeEENS3_11string_viewES7_EE"
+          ],
+          "estimated_events": 77767
+        },
+        {
+          "names": [
+            "_ZN6apache6thrift9transport17TVirtualTransportINS1_16TFramedTransportENS1_11TBufferBaseEE12readAll_virtEPhj"
+          ],
+          "estimated_events": 77767
+        },
+        {
+          "names": [
+            "_ZN6apache6thrift9transport7readAllINS1_11TBufferBaseEEEjRT_Phj"
+          ],
+          "estimated_events": 77767
+        },
+        {
+          "names": [
+            "_ZNK13jaegertracing6Tracer17analyzeReferencesERKSt6vectorISt4pairIN11opentracing2v217SpanReferenceTypeEPKNS4_11SpanContextEESaIS9_EE"
+          ],
+          "estimated_events": 77767
+        },
+        {
+          "names": [
+            "_ZN13media_service23MovieIdServiceProcessor12dispatchCallEPN6apache6thrift8protocol9TProtocolES5_RKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiPv"
+          ],
+          "estimated_events": 77767
+        },
+        {
+          "names": [
+            "_ZNSt5dequeIN13jaegertracing4SpanESaIS1_EE16_M_push_back_auxIJRKS1_EEEvDpOT_"
+          ],
+          "estimated_events": 73674
+        },
+        {
+          "names": [
+            "_ZNSt6vectorIN13jaegertracing9ReferenceESaIS1_EE20_M_allocate_and_copyIN9__gnu_cxx17__normal_iteratorIPKS1_S3_EEEEPS1_mT_SB_"
+          ],
+          "estimated_events": 73674
+        },
+        {
+          "names": [
+            "_ZN6apache6thrift9transport16TFramedTransport8readSlowEPhj"
+          ],
+          "estimated_events": 73674
+        },
+        {
+          "names": [
+            "_ZNSt18condition_variable10notify_oneEv"
+          ],
+          "estimated_events": 69581
+        },
+        {
+          "names": [
+            "_ZNK13jaegertracing6thrift7SpanRef5writeEPN6apache6thrift8protocol9TProtocolE"
+          ],
+          "estimated_events": 69581
+        },
+        {
+          "names": [
+            "_ZN13jaegertracing4Span17FinishWithOptionsERKN11opentracing2v217FinishSpanOptionsE"
+          ],
+          "estimated_events": 69581
+        },
+        {
+          "names": [
+            "_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE9_M_assignERKS4_"
+          ],
+          "estimated_events": 69581
+        },
+        {
+          "names": [
+            "_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE4swapERS4_"
+          ],
+          "estimated_events": 69581
+        },
+        {
+          "names": [
+            "_ZN13jaegertracing11SpanContext10fromStreamERSi"
+          ],
+          "estimated_events": 69581
+        },
+        {
+          "names": [
+            "_ZN6apache6thrift8protocol16TBinaryProtocolTINS0_9transport10TTransportENS1_17TNetworkBigEndianEE17writeMessageBeginERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEENS1_12TMessageTypeEi"
+          ],
+          "estimated_events": 65488
+        },
+        {
+          "names": [
+            "_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE10_M_replaceEmmPKcm"
+          ],
+          "estimated_events": 65488
+        },
+        {
+          "names": [
+            "_ZNK13jaegertracing4Span7contextEv"
+          ],
+          "estimated_events": 61395
+        },
+        {
+          "names": [
+            "_ZNSt13__future_base21_Async_state_commonV217_M_complete_asyncEv"
+          ],
+          "estimated_events": 61395
+        },
+        {
+          "names": [
+            "execute_native_thread_routine"
+          ],
+          "estimated_events": 57302
+        },
+        {
+          "names": [
+            "_ZN6apache6thrift9transport7TSocket5writeEPKhj"
+          ],
+          "estimated_events": 57302
+        },
+        {
+          "names": [
+            "_ZN13jaegertracing11SpanContextC2ERKS0_"
+          ],
+          "estimated_events": 57302
+        },
+        {
+          "names": [
+            "_ZNSi3getERc"
+          ],
+          "estimated_events": 57302
+        },
+        {
+          "names": [
+            "_ZNSt6vectorIN13jaegertracing3TagESaIS1_EE7reserveEm"
+          ],
+          "estimated_events": 57302
+        },
+        {
+          "names": [
+            "_ZNSt6vectorIN13jaegertracing9LogRecordESaIS1_EEaSERKS3_"
+          ],
+          "estimated_events": 53209
+        },
+        {
+          "names": [
+            "_ZNSt13__future_base12_Result_baseD1Ev",
+            "_ZNSt13__future_base12_Result_baseD2Ev"
+          ],
+          "estimated_events": 53209
+        },
+        {
+          "names": [
+            "_ZN13media_service33MovieIdService_UploadMovieId_args4readEPN6apache6thrift8protocol9TProtocolE"
+          ],
+          "estimated_events": 53209
+        },
+        {
+          "names": [
+            "_ZNSt6vectorIN13jaegertracing3TagESaIS1_EE15_M_range_insertIN9__gnu_cxx17__normal_iteratorIPKS1_S3_EEEEvNS6_IPS1_S3_EET_SC_St20forward_iterator_tag"
+          ],
+          "estimated_events": 49116
+        },
+        {
+          "names": [
+            "_ZN13jaegertracing6thrift4SpanC1ERKS1_"
+          ],
+          "estimated_events": 49116
+        },
+        {
+          "names": [
+            "_ZNSt13__future_base17_Async_state_implINSt6thread8_InvokerISt5tupleIJZN13media_service14MovieIdHandler13UploadMovieIdElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiRKSt3mapISB_SB_St4lessISB_ESaISt4pairISC_SB_EEEE3$_2EEEEvE6_M_runEv"
+          ],
+          "estimated_events": 49116
+        },
+        {
+          "names": [
+            "_ZNK13jaegertracing6Tracer17startSpanInternalERKNS_11SpanContextERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKNSt6chrono10time_pointINSC_3_V212system_clockENSC_8durationIlSt5ratioILl1ELl1000000000EEEEEERKNSD_INSE_12steady_clockESJ_EERKSt6vectorINS_3TagESaISS_EERKSR_ISt4pairIS9_N11opentracing2v25ValueEESaIS11_EEbRKSR_INS_9ReferenceESaIS16_EE"
+          ],
+          "estimated_events": 49116
+        },
+        {
+          "names": [
+            "_ZN13media_service12ThriftClientINS_19RatingServiceClientEE9KeepAliveEv"
+          ],
+          "estimated_events": 45023
+        },
+        {
+          "names": [
+            "_ZNSt6vectorIN13jaegertracing6thrift7SpanRefESaIS2_EEaSERKS4_"
+          ],
+          "estimated_events": 45023
+        },
+        {
+          "names": [
+            "_ZN13jaegertracing11SpanContext4swapERS0_"
+          ],
+          "estimated_events": 45023
+        },
+        {
+          "names": [
+            "_ZNK13jaegertracing6Tracer20StartSpanWithOptionsEN11opentracing2v211string_viewERKNS2_16StartSpanOptionsE"
+          ],
+          "estimated_events": 45023
+        },
+        {
+          "names": [
+            "_ZN5boost3log12v2s_mt_posix7sources22basic_composite_loggerIcNS2_18severity_logger_mtINS1_7trivial14severity_levelEEENS2_18multi_thread_modelINS1_3aux14light_rw_mutexEEENS2_8featuresIJNS2_8severityIS6_EEEEEE11open_recordINS_9parameter3aux25tagged_argument_list_of_1INSJ_15tagged_argumentINS1_8keywords3tag8severityEKS6_EEEEEENS1_6recordERKT_"
+          ],
+          "estimated_events": 45023
+        },
+        {
+          "names": [
+            "_ZN6apache6thrift18TDispatchProcessor7processESt10shared_ptrINS0_8protocol9TProtocolEES5_Pv"
+          ],
+          "estimated_events": 45023
+        },
+        {
+          "names": [
+            "_ZNK13jaegertracing4Span6thriftEv"
+          ],
+          "estimated_events": 45023
+        },
+        {
+          "names": [
+            "_ZN13jaegertracing7metrics11NullCounter3incEl"
+          ],
+          "estimated_events": 40930
+        },
+        {
+          "names": [
+            "_ZN6apache6thrift8protocol24TCompactProtocolFactoryTINS0_9transport10TTransportEE11getProtocolESt10shared_ptrIS4_E"
+          ],
+          "estimated_events": 40930
+        },
+        {
+          "names": [
+            "_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE9_M_mutateEmmPKcm"
+          ],
+          "estimated_events": 40930
+        },
+        {
+          "names": [
+            "_ZNSt6localeaSERKS_"
+          ],
+          "estimated_events": 40930
+        },
+        {
+          "names": [
+            "_ZN6apache6thrift6server16TConnectedClient3runEv"
+          ],
+          "estimated_events": 40930
+        },
+        {
+          "names": [
+            "_ZN6apache6thrift8protocol16TVirtualProtocolINS1_16TBinaryProtocolTINS0_9transport10TTransportENS1_17TNetworkBigEndianEEENS1_17TProtocolDefaultsEE20readStructBegin_virtERNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE"
+          ],
+          "estimated_events": 36837
+        },
+        {
+          "names": [
+            "_ZZNSt9once_flag18_Prepare_executionC1IZSt9call_onceIMSt6threadFvvEJPS3_EEvRS_OT_DpOT0_EUlvE_EERS8_ENUlvE_8__invokeEv"
+          ],
+          "estimated_events": 36837
+        },
+        {
+          "names": [
+            "_ZNSt8ios_baseD1Ev",
+            "_ZNSt8ios_baseD2Ev"
+          ],
+          "estimated_events": 36837
+        },
+        {
+          "names": [
+            "_ZN6apache6thrift9transport17TVirtualTransportINS1_7TSocketENS1_18TTransportDefaultsEE12readAll_virtEPhj"
+          ],
+          "estimated_events": 36837
+        },
+        {
+          "names": [
+            "_ZN13jaegertracing5utils10HexParsing11readSegmentB5cxx11ERSimc"
+          ],
+          "estimated_events": 36837
+        },
+        {
+          "names": [
+            "_ZN6apache6thrift8protocol16TBinaryProtocolTINS0_9transport10TTransportENS1_17TNetworkBigEndianEE16readMessageBeginERNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERNS1_12TMessageTypeERi"
+          ],
+          "estimated_events": 36837
+        },
+        {
+          "names": [
+            "_ZN6apache6thrift9transport16TFramedTransport5flushEv"
+          ],
+          "estimated_events": 36837
+        },
+        {
+          "names": [
+            "_ZNSo6sentryC1ERSo",
+            "_ZNSo6sentryC2ERSo"
+          ],
+          "estimated_events": 36837
+        },
+        {
+          "names": [
+            "_ZN5boost3log12v2s_mt_posix4core11open_recordERKNS1_13attribute_setE"
+          ],
+          "estimated_events": 36837
+        },
+        {
+          "names": [
+            "_ZN13media_service42ComposeReviewService_UploadMovieId_presult4readEPN6apache6thrift8protocol9TProtocolE"
+          ],
+          "estimated_events": 36837
+        },
+        {
+          "names": [
+            "_ZNK11opentracing2v26Tracer9StartSpanENS0_11string_viewESt16initializer_listINS0_14option_wrapperINS0_15StartSpanOptionEEEE"
+          ],
+          "estimated_events": 36837
+        },
+        {
+          "names": [
+            "_ZNSt23mersenne_twister_engineImLm64ELm312ELm156ELm31ELm13043109905998158313ELm29ELm6148914691236517205ELm17ELm8202884508482404352ELm37ELm18444473444759240704ELm43ELm6364136223846793005EEclEv"
+          ],
+          "estimated_events": 36837
+        },
+        {
+          "names": [
+            "_ZN13media_service34RatingService_UploadRating_presult4readEPN6apache6thrift8protocol9TProtocolE"
+          ],
+          "estimated_events": 36837
+        },
+        {
+          "names": [
+            "_ZN13media_service23MovieIdServiceProcessor21process_UploadMovieIdEiPN6apache6thrift8protocol9TProtocolES5_Pv"
+          ],
+          "estimated_events": 36837
+        },
+        {
+          "names": [
+            "_ZN11opentracing2v26Tracer6GlobalEv"
+          ],
+          "estimated_events": 36837
+        },
+        {
+          "names": [
+            "_ZNSt11_Deque_baseIsSaIsEE17_M_initialize_mapEm"
+          ],
+          "estimated_events": 36837
+        },
+        {
+          "names": [
+            "_ZN13jaegertracing11SpanContextC2ERKNS_7TraceIDEmmhRKSt13unordered_mapINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESA_St4hashISA_ESt8equal_toISA_ESaISt4pairIKSA_SA_EEERSG_"
+          ],
+          "estimated_events": 36837
+        },
+        {
+          "names": [
+            "_ZN5boost3log12v2s_mt_posix7trivial6logger3getEv"
+          ],
+          "estimated_events": 36837
+        },
+        {
+          "names": [
+            "_ZNSt8_Rb_treeINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4pairIKS5_S5_ESt10_Select1stIS8_ESt4lessIS5_ESaIS8_EE8_M_eraseEPSt13_Rb_tree_nodeIS8_E"
+          ],
+          "estimated_events": 36837
+        },
+        {
+          "names": [
+            "_ZNSt10_HashtableINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4pairIKS5_S5_ESaIS8_ENSt8__detail10_Select1stESt8equal_toIS5_ESt4hashIS5_ENSA_18_Mod_range_hashingENSA_20_Default_ranged_hashENSA_20_Prime_rehash_policyENSA_17_Hashtable_traitsILb1ELb0ELb1EEEED2Ev"
+          ],
+          "estimated_events": 32744
+        },
+        {
+          "names": [
+            "_ZN6apache6thrift8protocol16TVirtualProtocolINS1_17TCompactProtocolTINS0_9transport10TTransportEEENS1_17TProtocolDefaultsEE13writeI64_virtEl"
+          ],
+          "estimated_events": 32744
+        },
+        {
+          "names": [
+            "_ZNKSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE7compareEPKc"
+          ],
+          "estimated_events": 32744
+        },
+        {
+          "names": [
+            "_ZN5boost6detail23get_current_thread_dataEv"
+          ],
+          "estimated_events": 32744
+        },
+        {
+          "names": [
+            "_ZN13jaegertracing9reporters14RemoteReporter6reportERKNS_4SpanE"
+          ],
+          "estimated_events": 32744
+        },
+        {
+          "names": [
+            "_ZN13jaegertracing4SpanD0Ev"
+          ],
+          "estimated_events": 32744
+        },
+        {
+          "names": [
+            "_ZNK11opentracing2v213SpanReference5ApplyERNS0_16StartSpanOptionsE"
+          ],
+          "estimated_events": 32744
+        },
+        {
+          "names": [
+            "_ZSt29_Rb_tree_insert_and_rebalancebPSt18_Rb_tree_node_baseS0_RS_"
+          ],
+          "estimated_events": 32744
+        },
+        {
+          "names": [
+            "_ZNSt13__future_base17_Async_state_implINSt6thread8_InvokerISt5tupleIJZN13media_service14MovieIdHandler13UploadMovieIdElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiRKSt3mapISB_SB_St4lessISB_ESaISt4pairISC_SB_EEEE3$_1EEEEvE6_M_runEv"
+          ],
+          "estimated_events": 32744
+        },
+        {
+          "names": [
+            "_ZNSt8_Rb_treeINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4pairIKS5_S5_ESt10_Select1stIS8_ESt4lessIS5_ESaIS8_EE22_M_emplace_hint_uniqueIJRKSt21piecewise_construct_tSt5tupleIJRS7_EESJ_IJEEEEESt17_Rb_tree_iteratorIS8_ESt23_Rb_tree_const_iteratorIS8_EDpOT_"
+          ],
+          "estimated_events": 32744
+        },
+        {
+          "names": [
+            "_ZNSt6vectorIN13jaegertracing3TagESaIS1_EED2Ev"
+          ],
+          "estimated_events": 32744
+        }
+      ],
+      "source_hashes": {
+        "timeline.json": "0063191d7a7498594b9a7f916afd4e9c69e34b66c62ba5c233646f52072d5623",
+        "target_overlap.json": "499bae66fe23cd6e90240375446cb1ad51d4884ab74ca7234f7f7acef0816b83",
+        "request_window.json": "89966038610c369ba8de71868298d735a7c8d0c7a5a21d992da575ac4b0a82e7"
+      }
+    },
+    {
+      "name": "v5_c4",
+      "concurrency": 4,
+      "service": "movie",
+      "period": 4093,
+      "clock": false,
+      "counter_build": false,
+      "quality": {
+        "initial_threads": 11,
+        "new_threads": 52918,
+        "thread_exits": 52913,
+        "target_samples": 2114,
+        "unknown_tid_resolved_by_cpu_interval": 320,
+        "unknown_tid_samples": 320,
+        "duplicate_scheduler_records": 1,
+        "right_censored_runs": 0,
+        "right_censored_samples": 0,
+        "complete_runs": 242984,
+        "complete_samples": 2114,
+        "complete_sample_pct": 100.0
+      },
+      "median_run_us": 30.766,
+      "p90_run_us": 62.773,
+      "bins": [
+        {
+          "lo_us": 0,
+          "hi_us": 1,
+          "samples": 0,
+          "known_tid_samples": 0,
+          "estimated_events": 0,
+          "exposure_us": 242984.0,
+          "runs_reaching_bin": 242984,
+          "event_share_pct": 0.0,
+          "cumulative_pct": 0.0,
+          "estimated_events_per_1000_switchins": 0.0,
+          "estimated_events_per_scheduled_us": 0.0,
+          "estimated_events_per_request": 0.0,
+          "main_events": 0,
+          "static_target_line_events": 0,
+          "static_target_overlap_pct_of_main": null
+        },
+        {
+          "lo_us": 1,
+          "hi_us": 2,
+          "samples": 0,
+          "known_tid_samples": 0,
+          "estimated_events": 0,
+          "exposure_us": 242984.0,
+          "runs_reaching_bin": 242984,
+          "event_share_pct": 0.0,
+          "cumulative_pct": 0.0,
+          "estimated_events_per_1000_switchins": 0.0,
+          "estimated_events_per_scheduled_us": 0.0,
+          "estimated_events_per_request": 0.0,
+          "main_events": 0,
+          "static_target_line_events": 0,
+          "static_target_overlap_pct_of_main": null
+        },
+        {
+          "lo_us": 2,
+          "hi_us": 5,
+          "samples": 24,
+          "known_tid_samples": 22,
+          "estimated_events": 98232,
+          "exposure_us": 728751.798,
+          "runs_reaching_bin": 242984,
+          "event_share_pct": 1.1352885525070955,
+          "cumulative_pct": 1.1352885525070955,
+          "estimated_events_per_1000_switchins": 404.2735324136569,
+          "estimated_events_per_scheduled_us": 0.13479486468450538,
+          "estimated_events_per_request": 5.162226075989279,
+          "main_events": 57302,
+          "static_target_line_events": 0,
+          "static_target_overlap_pct_of_main": 0.0
+        },
+        {
+          "lo_us": 5,
+          "hi_us": 8,
+          "samples": 210,
+          "known_tid_samples": 161,
+          "estimated_events": 859530,
+          "exposure_us": 717637.9050000013,
+          "runs_reaching_bin": 242645,
+          "event_share_pct": 9.933774834437086,
+          "cumulative_pct": 11.069063386944181,
+          "estimated_events_per_1000_switchins": 3537.3934086194977,
+          "estimated_events_per_scheduled_us": 1.197721015029158,
+          "estimated_events_per_request": 45.169478164906195,
+          "main_events": 724461,
+          "static_target_line_events": 94139,
+          "static_target_overlap_pct_of_main": 12.994350282485875
+        },
+        {
+          "lo_us": 8,
+          "hi_us": 10,
+          "samples": 234,
+          "known_tid_samples": 169,
+          "estimated_events": 957762,
+          "exposure_us": 453610.7629999992,
+          "runs_reaching_bin": 232932,
+          "event_share_pct": 11.069063386944181,
+          "cumulative_pct": 22.138126773888363,
+          "estimated_events_per_1000_switchins": 3941.6669410331547,
+          "estimated_events_per_scheduled_us": 2.1114181543351114,
+          "estimated_events_per_request": 50.331704240895476,
+          "main_events": 888181,
+          "static_target_line_events": 135069,
+          "static_target_overlap_pct_of_main": 15.2073732718894
+        },
+        {
+          "lo_us": 10,
+          "hi_us": 15,
+          "samples": 552,
+          "known_tid_samples": 430,
+          "estimated_events": 2259336,
+          "exposure_us": 1041100.5440000059,
+          "runs_reaching_bin": 219822,
+          "event_share_pct": 26.111636707663198,
+          "cumulative_pct": 48.24976348155156,
+          "estimated_events_per_1000_switchins": 9298.291245514109,
+          "estimated_events_per_scheduled_us": 2.1701419839042817,
+          "estimated_events_per_request": 118.73119974775342,
+          "main_events": 2013756,
+          "static_target_line_events": 323347,
+          "static_target_overlap_pct_of_main": 16.056910569105693
+        },
+        {
+          "lo_us": 15,
+          "hi_us": 20,
+          "samples": 360,
+          "known_tid_samples": 303,
+          "estimated_events": 1473480,
+          "exposure_us": 954460.2949999963,
+          "runs_reaching_bin": 199702,
+          "event_share_pct": 17.029328287606432,
+          "cumulative_pct": 65.279091769158,
+          "estimated_events_per_1000_switchins": 6064.102986204853,
+          "estimated_events_per_scheduled_us": 1.5437834425579806,
+          "estimated_events_per_request": 77.43339113983919,
+          "main_events": 1219714,
+          "static_target_line_events": 266045,
+          "static_target_overlap_pct_of_main": 21.812080536912752
+        },
+        {
+          "lo_us": 20,
+          "hi_us": 22,
+          "samples": 97,
+          "known_tid_samples": 87,
+          "estimated_events": 397021,
+          "exposure_us": 352806.01799999876,
+          "runs_reaching_bin": 180756,
+          "event_share_pct": 4.588457899716178,
+          "cumulative_pct": 69.86754966887418,
+          "estimated_events_per_1000_switchins": 1633.938860171863,
+          "estimated_events_per_scheduled_us": 1.1253237749476297,
+          "estimated_events_per_request": 20.86399705712334,
+          "main_events": 302882,
+          "static_target_line_events": 57302,
+          "static_target_overlap_pct_of_main": 18.91891891891892
+        },
+        {
+          "lo_us": 22,
+          "hi_us": 24,
+          "samples": 78,
+          "known_tid_samples": 72,
+          "estimated_events": 319254,
+          "exposure_us": 334212.0240000008,
+          "runs_reaching_bin": 171954,
+          "event_share_pct": 3.6896877956480605,
+          "cumulative_pct": 73.55723746452223,
+          "estimated_events_per_1000_switchins": 1313.888980344385,
+          "estimated_events_per_scheduled_us": 0.9552439082802097,
+          "estimated_events_per_request": 16.77723474696516,
+          "main_events": 261952,
+          "static_target_line_events": 69581,
+          "static_target_overlap_pct_of_main": 26.5625
+        },
+        {
+          "lo_us": 24,
+          "hi_us": 30,
+          "samples": 176,
+          "known_tid_samples": 169,
+          "estimated_events": 720368,
+          "exposure_us": 869519.1169999986,
+          "runs_reaching_bin": 162137,
+          "event_share_pct": 8.325449385052034,
+          "cumulative_pct": 81.88268684957427,
+          "estimated_events_per_1000_switchins": 2964.6725710334836,
+          "estimated_events_per_scheduled_us": 0.8284671215572609,
+          "estimated_events_per_request": 37.856324557254716,
+          "main_events": 663066,
+          "static_target_line_events": 151441,
+          "static_target_overlap_pct_of_main": 22.839506172839506
+        },
+        {
+          "lo_us": 30,
+          "hi_us": 40,
+          "samples": 218,
+          "known_tid_samples": 216,
+          "estimated_events": 892274,
+          "exposure_us": 957391.5530000054,
+          "runs_reaching_bin": 126321,
+          "event_share_pct": 10.312204351939451,
+          "cumulative_pct": 92.19489120151371,
+          "estimated_events_per_1000_switchins": 3672.151252757383,
+          "estimated_events_per_scheduled_us": 0.931984408264353,
+          "estimated_events_per_request": 46.89022019023596,
+          "main_events": 814507,
+          "static_target_line_events": 200557,
+          "static_target_overlap_pct_of_main": 24.623115577889447
+        },
+        {
+          "lo_us": 40,
+          "hi_us": 50,
+          "samples": 94,
+          "known_tid_samples": 94,
+          "estimated_events": 384742,
+          "exposure_us": 541002.4739999985,
+          "runs_reaching_bin": 69853,
+          "event_share_pct": 4.446546830652791,
+          "cumulative_pct": 96.6414380321665,
+          "estimated_events_per_1000_switchins": 1583.4046686201561,
+          "estimated_events_per_scheduled_us": 0.7111649548574912,
+          "estimated_events_per_request": 20.21871879762468,
+          "main_events": 229208,
+          "static_target_line_events": 32744,
+          "static_target_overlap_pct_of_main": 14.285714285714286
+        },
+        {
+          "lo_us": 50,
+          "hi_us": 100,
+          "samples": 59,
+          "known_tid_samples": 59,
+          "estimated_events": 241487,
+          "exposure_us": 948073.8359999947,
+          "runs_reaching_bin": 42899,
+          "event_share_pct": 2.7909176915799434,
+          "cumulative_pct": 99.43235572374645,
+          "estimated_events_per_1000_switchins": 993.8391005169065,
+          "estimated_events_per_scheduled_us": 0.2547132837447076,
+          "estimated_events_per_request": 12.69047243680698,
+          "main_events": 122790,
+          "static_target_line_events": 16372,
+          "static_target_overlap_pct_of_main": 13.333333333333334
+        },
+        {
+          "lo_us": 100,
+          "hi_us": 200,
+          "samples": 11,
+          "known_tid_samples": 11,
+          "estimated_events": 45023,
+          "exposure_us": 164132.20199999967,
+          "runs_reaching_bin": 7042,
+          "event_share_pct": 0.5203405865657521,
+          "cumulative_pct": 99.9526963103122,
+          "estimated_events_per_1000_switchins": 185.29203568959272,
+          "estimated_events_per_scheduled_us": 0.27430936435008707,
+          "estimated_events_per_request": 2.3660202848284198,
+          "main_events": 36837,
+          "static_target_line_events": 0,
+          "static_target_overlap_pct_of_main": 0.0
+        },
+        {
+          "lo_us": 200,
+          "hi_us": 500,
+          "samples": 0,
+          "known_tid_samples": 0,
+          "estimated_events": 0,
+          "exposure_us": 20879.121000000003,
+          "runs_reaching_bin": 89,
+          "event_share_pct": 0.0,
+          "cumulative_pct": 99.9526963103122,
+          "estimated_events_per_1000_switchins": 0.0,
+          "estimated_events_per_scheduled_us": 0.0,
+          "estimated_events_per_request": 0.0,
+          "main_events": 0,
+          "static_target_line_events": 0,
+          "static_target_overlap_pct_of_main": null
+        },
+        {
+          "lo_us": 500,
+          "hi_us": 1000,
+          "samples": 1,
+          "known_tid_samples": 1,
+          "estimated_events": 4093,
+          "exposure_us": 5529.303,
+          "runs_reaching_bin": 19,
+          "event_share_pct": 0.04730368968779565,
+          "cumulative_pct": 100.0,
+          "estimated_events_per_1000_switchins": 16.844730517235703,
+          "estimated_events_per_scheduled_us": 0.7402379648935861,
+          "estimated_events_per_request": 0.21509275316621998,
+          "main_events": 0,
+          "static_target_line_events": 0,
+          "static_target_overlap_pct_of_main": null
+        },
+        {
+          "lo_us": 1000,
+          "hi_us": null,
+          "samples": 0,
+          "known_tid_samples": 0,
+          "estimated_events": 0,
+          "exposure_us": 8530.464,
+          "runs_reaching_bin": 9,
+          "event_share_pct": 0.0,
+          "cumulative_pct": 100.0,
+          "estimated_events_per_1000_switchins": 0.0,
+          "estimated_events_per_scheduled_us": 0.0,
+          "estimated_events_per_request": 0.0,
+          "main_events": 0,
+          "static_target_line_events": 0,
+          "static_target_overlap_pct_of_main": null
+        }
+      ],
+      "all": {
+        "estimated_events": 8652602,
+        "share_pct": 100.0,
+        "estimated_events_per_request": 454.706080193389,
+        "main_pct": 84.76821192052981,
+        "static_target_overlap_pct_of_main": 18.359375
+      },
+      "before20": {
+        "estimated_events": 5648340,
+        "share_pct": 65.279091769158,
+        "estimated_events_per_request": 296.8279993693836,
+        "main_pct": 86.81159420289855,
+        "static_target_overlap_pct_of_main": 16.69449081803005
+      },
+      "peak10_20": {
+        "estimated_events": 3732816,
+        "share_pct": 43.140964995269634,
+        "estimated_events_per_request": 196.16459088759262,
+        "main_pct": 86.62280701754386,
+        "static_target_overlap_pct_of_main": 18.227848101265824
+      },
+      "target_lines": 74,
+      "coverage_applicable": true,
+      "request_window": {
+        "begin_epoch": 1790599530.3960009,
+        "end_epoch": 1790599546.817299,
+        "seconds": 16.421298027038574,
+        "completed_requests": 19029,
+        "limitation": "Requests bracket perf record startup/teardown as well as its 15-second capture. Approximate per-request normalization, not an E2E performance trial."
+      },
+      "gate": null,
+      "top_unique_functions": [
+        {
+          "names": [
+            "_ZN6apache6thrift9transport7TSocket4readEPhj"
+          ],
+          "estimated_events": 122790
+        },
+        {
+          "names": [
+            "_ZN6apache6thrift9transport16TFramedTransport8readSlowEPhj"
+          ],
+          "estimated_events": 118697
+        },
+        {
+          "names": [
+            "_ZN6apache6thrift9transport7readAllINS1_11TBufferBaseEEEjRT_Phj"
+          ],
+          "estimated_events": 118697
+        },
+        {
+          "names": [
+            "_ZNSt12_Destroy_auxILb0EE9__destroyIPN13jaegertracing9ReferenceEEEvT_S5_"
+          ],
+          "estimated_events": 98232
+        },
+        {
+          "names": [
+            "_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE9_M_assignERKS4_"
+          ],
+          "estimated_events": 98232
+        },
+        {
+          "names": [
+            "_ZNSt13__future_base21_Async_state_commonV217_M_complete_asyncEv"
+          ],
+          "estimated_events": 98232
+        },
+        {
+          "names": [
+            "_ZNSt18condition_variable10notify_oneEv"
+          ],
+          "estimated_events": 94139
+        },
+        {
+          "names": [
+            "_ZNSt6vectorIN13jaegertracing3TagESaIS1_EED2Ev"
+          ],
+          "estimated_events": 94139
+        },
+        {
+          "names": [
+            "_ZN13jaegertracing12UDPTransport6appendERKNS_4SpanE"
+          ],
+          "estimated_events": 90046
+        },
+        {
+          "names": [
+            "__once_proxy"
+          ],
+          "estimated_events": 85953
+        },
+        {
+          "names": [
+            "_ZNSt13__future_base13_State_baseV213_M_set_resultESt8functionIFSt10unique_ptrINS_12_Result_baseENS3_8_DeleterEEvEEb"
+          ],
+          "estimated_events": 85953
+        },
+        {
+          "names": [
+            "_ZNSt6vectorIN13jaegertracing9ReferenceESaIS1_EE17_M_realloc_insertIJS1_EEEvN9__gnu_cxx17__normal_iteratorIPS1_S3_EEDpOT_"
+          ],
+          "estimated_events": 85953
+        },
+        {
+          "names": [
+            "_ZN13media_service14MovieIdHandler13UploadMovieIdElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiRKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE"
+          ],
+          "estimated_events": 85953
+        },
+        {
+          "names": [
+            "_ZN13jaegertracing4Span17FinishWithOptionsERKN11opentracing2v217FinishSpanOptionsE"
+          ],
+          "estimated_events": 81860
+        },
+        {
+          "names": [
+            "_ZNSt6vectorIN13jaegertracing3TagESaIS1_EEaSERKS3_"
+          ],
+          "estimated_events": 81860
+        },
+        {
+          "names": [
+            "_ZN11opentracing2v26Tracer6GlobalEv"
+          ],
+          "estimated_events": 77767
+        },
+        {
+          "names": [
+            "_ZNSt6vectorIN13jaegertracing9ReferenceESaIS1_EE20_M_allocate_and_copyIN9__gnu_cxx17__normal_iteratorIPKS1_S3_EEEEPS1_mT_SB_"
+          ],
+          "estimated_events": 77767
+        },
+        {
+          "names": [
+            "_ZN6apache6thrift9transport16TFramedTransport9readFrameEv"
+          ],
+          "estimated_events": 77767
+        },
+        {
+          "names": [
+            "_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE10_M_replaceEmmPKcm"
+          ],
+          "estimated_events": 77767
+        },
+        {
+          "names": [
+            "_ZNSt6vectorIN13jaegertracing9LogRecordESaIS1_EEaSERKS3_"
+          ],
+          "estimated_events": 73674
+        },
+        {
+          "names": [
+            "_ZN6apache6thrift8protocol16TBinaryProtocolTINS0_9transport10TTransportENS1_17TNetworkBigEndianEE17writeMessageBeginERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEENS1_12TMessageTypeEi"
+          ],
+          "estimated_events": 73674
+        },
+        {
+          "names": [
+            "_ZN13jaegertracing11SpanContext4swapERS0_"
+          ],
+          "estimated_events": 69581
+        },
+        {
+          "names": [
+            "_ZNK13jaegertracing6Tracer17analyzeReferencesERKSt6vectorISt4pairIN11opentracing2v217SpanReferenceTypeEPKNS4_11SpanContextEESaIS9_EE"
+          ],
+          "estimated_events": 69581
+        },
+        {
+          "names": [
+            "_ZN13jaegertracing11SpanContextC2ERKS0_"
+          ],
+          "estimated_events": 65488
+        },
+        {
+          "names": [
+            "_ZNK13jaegertracing11propagation10PropagatorIRKN11opentracing2v213TextMapReaderERKNS3_13TextMapWriterEE7extractES6_"
+          ],
+          "estimated_events": 65488
+        },
+        {
+          "names": [
+            "_ZN13media_service16ServiceExceptionD1Ev",
+            "_ZN13media_service16ServiceExceptionD2Ev"
+          ],
+          "estimated_events": 61395
+        },
+        {
+          "names": [
+            "_ZN13jaegertracing9reporters14RemoteReporter6reportERKNS_4SpanE"
+          ],
+          "estimated_events": 61395
+        },
+        {
+          "names": [
+            "_ZNSt5dequeIN13jaegertracing4SpanESaIS1_EE16_M_push_back_auxIJRKS1_EEEvDpOT_"
+          ],
+          "estimated_events": 61395
+        },
+        {
+          "names": [
+            "_ZN6apache6thrift18TDispatchProcessor7processESt10shared_ptrINS0_8protocol9TProtocolEES5_Pv"
+          ],
+          "estimated_events": 61395
+        },
+        {
+          "names": [
+            "_ZN13media_service23MovieIdServiceProcessor12dispatchCallEPN6apache6thrift8protocol9TProtocolES5_RKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiPv"
+          ],
+          "estimated_events": 61395
+        },
+        {
+          "names": [
+            "_ZNK13jaegertracing4Span7contextEv"
+          ],
+          "estimated_events": 57302
+        },
+        {
+          "names": [
+            "_ZSt29_Rb_tree_insert_and_rebalancebPSt18_Rb_tree_node_baseS0_RS_"
+          ],
+          "estimated_events": 57302
+        },
+        {
+          "names": [
+            "execute_native_thread_routine"
+          ],
+          "estimated_events": 57302
+        },
+        {
+          "names": [
+            "_ZNSt10_HashtableINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4pairIKS5_S5_ESaIS8_ENSt8__detail10_Select1stESt8equal_toIS5_ESt4hashIS5_ENSA_18_Mod_range_hashingENSA_20_Default_ranged_hashENSA_20_Prime_rehash_policyENSA_17_Hashtable_traitsILb1ELb0ELb1EEEE9_M_assignIRKSL_NSA_10_AllocNodeISaINSA_10_Hash_nodeIS8_Lb1EEEEEEEEvOT_RKT0_"
+          ],
+          "estimated_events": 53209
+        },
+        {
+          "names": [
+            "_ZNSt6vectorIN13jaegertracing3TagESaIS1_EE7reserveEm"
+          ],
+          "estimated_events": 53209
+        },
+        {
+          "names": [
+            "_ZNKSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE7compareEPKc"
+          ],
+          "estimated_events": 53209
+        },
+        {
+          "names": [
+            "_ZNK11opentracing2v26Tracer9StartSpanENS0_11string_viewESt16initializer_listINS0_14option_wrapperINS0_15StartSpanOptionEEEE"
+          ],
+          "estimated_events": 53209
+        },
+        {
+          "names": [
+            "_ZN6apache6thrift9transport7readAllINS1_7TSocketEEEjRT_Phj"
+          ],
+          "estimated_events": 53209
+        },
+        {
+          "names": [
+            "_ZNSt10_HashtableINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4pairIKS5_S5_ESaIS8_ENSt8__detail10_Select1stESt8equal_toIS5_ESt4hashIS5_ENSA_18_Mod_range_hashingENSA_20_Default_ranged_hashENSA_20_Prime_rehash_policyENSA_17_Hashtable_traitsILb1ELb0ELb1EEEED2Ev"
+          ],
+          "estimated_events": 53209
+        },
+        {
+          "names": [
+            "_ZN13jaegertracing7metrics11NullCounter3incEl"
+          ],
+          "estimated_events": 49116
+        },
+        {
+          "names": [
+            "_ZN6apache6thrift8protocol9TProtocolD1Ev",
+            "_ZN6apache6thrift8protocol9TProtocolD2Ev"
+          ],
+          "estimated_events": 49116
+        },
+        {
+          "names": [
+            "_ZNK13jaegertracing4Span6thriftEv"
+          ],
+          "estimated_events": 49116
+        },
+        {
+          "names": [
+            "_ZNK13jaegertracing6Tracer20StartSpanWithOptionsEN11opentracing2v211string_viewERKNS2_16StartSpanOptionsE"
+          ],
+          "estimated_events": 49116
+        },
+        {
+          "names": [
+            "_ZN13jaegertracing4SpanC2ERKS0_"
+          ],
+          "estimated_events": 49116
+        },
+        {
+          "names": [
+            "_ZN6apache6thrift9transport16TFramedTransport8writeEndEv"
+          ],
+          "estimated_events": 45023
+        },
+        {
+          "names": [
+            "_ZNSt6vectorIN13jaegertracing6thrift7SpanRefESaIS2_EEaSERKS4_"
+          ],
+          "estimated_events": 45023
+        },
+        {
+          "names": [
+            "_ZN13media_service34RatingService_UploadRating_presult4readEPN6apache6thrift8protocol9TProtocolE"
+          ],
+          "estimated_events": 45023
+        },
+        {
+          "names": [
+            "_ZNKSt7num_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE13_M_insert_intImEES3_S3_RSt8ios_basecT_"
+          ],
+          "estimated_events": 45023
+        },
+        {
+          "names": [
+            "_ZNSt6vectorIN13jaegertracing3TagESaIS1_EE15_M_range_insertIN9__gnu_cxx17__normal_iteratorIPKS1_S3_EEEEvNS6_IPS1_S3_EET_SC_St20forward_iterator_tag"
+          ],
+          "estimated_events": 45023
+        },
+        {
+          "names": [
+            "_ZNSt13__future_base17_Async_state_implINSt6thread8_InvokerISt5tupleIJZN13media_service14MovieIdHandler13UploadMovieIdElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiRKSt3mapISB_SB_St4lessISB_ESaISt4pairISC_SB_EEEE3$_1EEEEvE6_M_runEv"
+          ],
+          "estimated_events": 45023
+        },
+        {
+          "names": [
+            "_ZNK13jaegertracing6Tracer17startSpanInternalERKNS_11SpanContextERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKNSt6chrono10time_pointINSC_3_V212system_clockENSC_8durationIlSt5ratioILl1ELl1000000000EEEEEERKNSD_INSE_12steady_clockESJ_EERKSt6vectorINS_3TagESaISS_EERKSR_ISt4pairIS9_N11opentracing2v25ValueEESaIS11_EEbRKSR_INS_9ReferenceESaIS16_EE"
+          ],
+          "estimated_events": 45023
+        },
+        {
+          "names": [
+            "_ZNK10__cxxabiv121__vmi_class_type_info12__do_dyncastElNS_17__class_type_info10__sub_kindEPKS1_PKvS4_S6_RNS1_16__dyncast_resultE"
+          ],
+          "estimated_events": 45023
+        },
+        {
+          "names": [
+            "_ZN5boost3log12v2s_mt_posix7trivial6logger3getEv"
+          ],
+          "estimated_events": 45023
+        },
+        {
+          "names": [
+            "_ZN5boost3log12v2s_mt_posix19attribute_value_setC1ERKNS1_13attribute_setES5_S5_m",
+            "_ZN5boost3log12v2s_mt_posix19attribute_value_setC2ERKNS1_13attribute_setES5_S5_m"
+          ],
+          "estimated_events": 45023
+        },
+        {
+          "names": [
+            "_ZN6apache6thrift9transport7TSocket6isOpenEv"
+          ],
+          "estimated_events": 40930
+        },
+        {
+          "names": [
+            "_ZN6apache6thrift9transport17TVirtualTransportINS1_7TSocketENS1_18TTransportDefaultsEE10write_virtEPKhj"
+          ],
+          "estimated_events": 40930
+        },
+        {
+          "names": [
+            "_ZNSt6chrono3_V212system_clock3nowEv"
+          ],
+          "estimated_events": 40930
+        },
+        {
+          "names": [
+            "_ZN13jaegertracing6thrift7SpanRefD1Ev"
+          ],
+          "estimated_events": 40930
+        },
+        {
+          "names": [
+            "_ZN13jaegertracing6thrift4Span17__set_traceIdHighEl"
+          ],
+          "estimated_events": 40930
+        },
+        {
+          "names": [
+            "_ZN6apache6thrift8protocol16TVirtualProtocolINS1_17TCompactProtocolTINS0_9transport10TTransportEEENS1_17TProtocolDefaultsEE13writeI64_virtEl"
+          ],
+          "estimated_events": 40930
+        },
+        {
+          "names": [
+            "_ZN6apache6thrift6server16TConnectedClient3runEv"
+          ],
+          "estimated_events": 40930
+        },
+        {
+          "names": [
+            "_ZN13jaegertracing9reporters14RemoteReporter10sweepQueueEv"
+          ],
+          "estimated_events": 40930
+        },
+        {
+          "names": [
+            "_ZN13jaegertracing6thrift4SpanC1ERKS1_"
+          ],
+          "estimated_events": 40930
+        },
+        {
+          "names": [
+            "_ZN6apache6thrift9transport16TFramedTransport6isOpenEv"
+          ],
+          "estimated_events": 36837
+        },
+        {
+          "names": [
+            "_ZN6apache6thrift9transport7TSocket5writeEPKhj"
+          ],
+          "estimated_events": 36837
+        },
+        {
+          "names": [
+            "_ZNSt13__future_base13_State_baseV29_M_do_setEPSt8functionIFSt10unique_ptrINS_12_Result_baseENS3_8_DeleterEEvEEPb"
+          ],
+          "estimated_events": 36837
+        },
+        {
+          "names": [
+            "_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE4swapERS4_"
+          ],
+          "estimated_events": 36837
+        },
+        {
+          "names": [
+            "_ZNSt8ios_baseC1Ev",
+            "_ZNSt8ios_baseC2Ev"
+          ],
+          "estimated_events": 36837
+        },
+        {
+          "names": [
+            "_ZNK13jaegertracing6thrift7SpanRef5writeEPN6apache6thrift8protocol9TProtocolE"
+          ],
+          "estimated_events": 36837
+        },
+        {
+          "names": [
+            "_ZN6apache6thrift8protocol24TCompactProtocolFactoryTINS0_9transport10TTransportEE11getProtocolESt10shared_ptrIS4_E"
+          ],
+          "estimated_events": 36837
+        },
+        {
+          "names": [
+            "_ZN13jaegertracing11SpanContext10fromStreamERSi"
+          ],
+          "estimated_events": 36837
+        },
+        {
+          "names": [
+            "_ZSt9has_facetISt5ctypeIcEEbRKSt6locale"
+          ],
+          "estimated_events": 36837
+        },
+        {
+          "names": [
+            "_ZNK5boost3log12v2s_mt_posix19attribute_value_set4findENS1_14attribute_nameE"
+          ],
+          "estimated_events": 36837
+        },
+        {
+          "names": [
+            "_ZNSt15_Sp_counted_ptrIPN6apache6thrift8protocol9TProtocolELN9__gnu_cxx12_Lock_policyE2EE10_M_disposeEv"
+          ],
+          "estimated_events": 32744
+        },
+        {
+          "names": [
+            "_ZN13jaegertracing4SpanD0Ev"
+          ],
+          "estimated_events": 32744
+        },
+        {
+          "names": [
+            "_ZNSt8_Rb_treeINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4pairIKS5_S5_ESt10_Select1stIS8_ESt4lessIS5_ESaIS8_EE29_M_get_insert_hint_unique_posESt23_Rb_tree_const_iteratorIS8_ERS7_"
+          ],
+          "estimated_events": 32744
+        },
+        {
+          "names": [
+            "_ZN6apache6thrift8protocol16TVirtualProtocolINS1_16TBinaryProtocolTINS0_9transport10TTransportENS1_17TNetworkBigEndianEEENS1_17TProtocolDefaultsEE20readStructBegin_virtERNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE"
+          ],
+          "estimated_events": 32744
+        },
+        {
+          "names": [
+            "_ZN6apache6thrift9transport17TVirtualTransportINS1_16TFramedTransportENS1_11TBufferBaseEE12readAll_virtEPhj"
+          ],
+          "estimated_events": 32744
+        },
+        {
+          "names": [
+            "_ZN6apache6thrift9transport17TVirtualTransportINS1_13TMemoryBufferENS1_11TBufferBaseEE10write_virtEPKhj"
+          ],
+          "estimated_events": 32744
+        },
+        {
+          "names": [
+            "_ZNSt6thread11_State_implINS_8_InvokerISt5tupleIJMNSt13__future_base17_Async_state_implINS1_IS2_IJZN13media_service14MovieIdHandler13UploadMovieIdElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiRKSt3mapISC_SC_St4lessISC_ESaISt4pairISD_SC_EEEE3$_0EEEEvEEFvvEPSR_EEEEE6_M_runEv"
+          ],
+          "estimated_events": 32744
+        }
+      ],
+      "source_hashes": {
+        "timeline.json": "9b9b1ac9b813a869bc115baed9957701985217342df3454598683cd7a942330c",
+        "target_overlap.json": "62a03c1441e001e81713cb87b71b257fbddd4f942e7c50c3c394af43f2f92389",
+        "request_window.json": "6c7160d8865b7a0fef45617252cb2af8398c981b99169e4bcdde5a82d394ed07"
+      }
+    }
+  ],
+  "protocol_sha256": "dcf7d704fc471902bef7822a366c25745d62b3d981bc3b2eefd931ef3a2e78e0",
+  "limitations": [
+    "PEBS estimates FRONTEND_RETIRED.L2_MISS at retirement, not fetch or all speculative requests.",
+    "Schedule age and exposure include kernel return/interrupt time; they are not user-only time.",
+    "Request denominators bracket perf startup/teardown; use exposure/switch normalization too.",
+    "Each sample period and counter build is reported separately; no E2E latency claims from profiling.",
+    "Static target overlap is among residual sampled misses, not original-miss coverage or proof a hint issued.",
+    "Gate eligible counts are logical group returns, not individual hardware hints or successful fills."
+  ]
+}

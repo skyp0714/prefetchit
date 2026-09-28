@@ -1,0 +1,939 @@
+{
+  "services": {
+    "movie": {
+      "before": {
+        "header": [
+          5784389117316247601,
+          1,
+          4096,
+          3,
+          4,
+          1,
+          524352,
+          128
+        ],
+        "file_identity": {
+          "device": 223,
+          "inode": 26609052
+        },
+        "counts_by_cpu": {
+          "32": [
+            149733,
+            283987,
+            313240,
+            0,
+            14816,
+            202399,
+            165686,
+            0,
+            81,
+            299641,
+            154374,
+            0
+          ],
+          "33": [
+            146307,
+            279267,
+            311821,
+            0,
+            14680,
+            199315,
+            156286,
+            0,
+            83,
+            294142,
+            153797,
+            0
+          ],
+          "34": [
+            145452,
+            278504,
+            310240,
+            0,
+            14195,
+            198630,
+            158919,
+            0,
+            62,
+            292660,
+            153302,
+            0
+          ],
+          "35": [
+            142527,
+            275968,
+            311199,
+            0,
+            13482,
+            195622,
+            160523,
+            0,
+            72,
+            290979,
+            153853,
+            0
+          ],
+          "36": [
+            143010,
+            276179,
+            306060,
+            0,
+            13639,
+            196271,
+            158633,
+            0,
+            83,
+            290597,
+            151174,
+            0
+          ],
+          "37": [
+            145771,
+            278683,
+            311221,
+            0,
+            14323,
+            198108,
+            166818,
+            0,
+            94,
+            293145,
+            154130,
+            0
+          ],
+          "38": [
+            144346,
+            278523,
+            314885,
+            0,
+            14077,
+            197123,
+            149965,
+            0,
+            72,
+            292262,
+            155651,
+            0
+          ],
+          "39": [
+            142508,
+            276446,
+            312539,
+            0,
+            13897,
+            195734,
+            166534,
+            0,
+            80,
+            290912,
+            155087,
+            0
+          ]
+        },
+        "monotonic_before": 245698.634778205,
+        "monotonic_after": 245698.635575402,
+        "categories": [
+          "early",
+          "eligible",
+          "expired",
+          "memo_cached"
+        ],
+        "layout": "CPU rows; tier0 categories0..3, tier1, tier2",
+        "limitation": "Relaxed atomic counters read while live, without a global stop. Counter instrumentation perturbs execution; eligible gate returns are not completed cache fills or exact hardware hint-issue counts."
+      },
+      "after": {
+        "header": [
+          5784389117316247601,
+          1,
+          4096,
+          3,
+          4,
+          1,
+          524352,
+          128
+        ],
+        "file_identity": {
+          "device": 223,
+          "inode": 26609052
+        },
+        "counts_by_cpu": {
+          "32": [
+            189851,
+            363433,
+            400759,
+            0,
+            18572,
+            257361,
+            207547,
+            0,
+            105,
+            383120,
+            197558,
+            0
+          ],
+          "33": [
+            189171,
+            361358,
+            403249,
+            0,
+            18767,
+            257369,
+            199639,
+            0,
+            107,
+            380548,
+            199098,
+            0
+          ],
+          "34": [
+            186802,
+            359384,
+            400938,
+            0,
+            18261,
+            256140,
+            209487,
+            0,
+            73,
+            377565,
+            197961,
+            0
+          ],
+          "35": [
+            184539,
+            356653,
+            399871,
+            0,
+            17541,
+            252589,
+            203991,
+            0,
+            93,
+            375720,
+            197582,
+            0
+          ],
+          "36": [
+            185683,
+            357787,
+            397189,
+            0,
+            17739,
+            254638,
+            205720,
+            0,
+            106,
+            376510,
+            196250,
+            0
+          ],
+          "37": [
+            189303,
+            360687,
+            401348,
+            0,
+            18427,
+            257300,
+            221164,
+            0,
+            113,
+            379587,
+            198803,
+            0
+          ],
+          "38": [
+            185597,
+            358570,
+            403161,
+            0,
+            17996,
+            253668,
+            192417,
+            0,
+            88,
+            376386,
+            198937,
+            0
+          ],
+          "39": [
+            183512,
+            356411,
+            402246,
+            0,
+            17859,
+            252240,
+            213282,
+            0,
+            101,
+            374599,
+            199563,
+            0
+          ]
+        },
+        "monotonic_before": 245713.645640238,
+        "monotonic_after": 245713.646112826,
+        "categories": [
+          "early",
+          "eligible",
+          "expired",
+          "memo_cached"
+        ],
+        "layout": "CPU rows; tier0 categories0..3, tier1, tier2",
+        "limitation": "Relaxed atomic counters read while live, without a global stop. Counter instrumentation perturbs execution; eligible gate returns are not completed cache fills or exact hardware hint-issue counts."
+      },
+      "delta": {
+        "tiers": [
+          {
+            "early": 334804,
+            "eligible": 646726,
+            "expired": 717556,
+            "memo_cached": 0
+          },
+          {
+            "early": 32053,
+            "eligible": 458103,
+            "expired": 369883,
+            "memo_cached": 0
+          },
+          {
+            "early": 159,
+            "eligible": 679697,
+            "expired": 354384,
+            "memo_cached": 0
+          }
+        ],
+        "checks": 3593365,
+        "eligible": 1784526,
+        "eligible_pct": 49.66169593125107,
+        "elapsed_s": 15.010862032999285,
+        "limitation": "Relaxed atomic counters read while live, without a global stop. Counter instrumentation perturbs execution; eligible gate returns are not completed cache fills or exact hardware hint-issue counts."
+      }
+    },
+    "compose": {
+      "before": {
+        "header": [
+          5784389117316247601,
+          1,
+          4096,
+          3,
+          4,
+          1,
+          524352,
+          128
+        ],
+        "file_identity": {
+          "device": 230,
+          "inode": 26609043
+        },
+        "counts_by_cpu": {
+          "32": [
+            239081,
+            841031,
+            574424,
+            0,
+            23491,
+            368082,
+            288966,
+            0,
+            143,
+            639117,
+            248350,
+            0
+          ],
+          "33": [
+            239646,
+            835099,
+            575830,
+            0,
+            23627,
+            369063,
+            300568,
+            0,
+            137,
+            636353,
+            249486,
+            0
+          ],
+          "34": [
+            237086,
+            833637,
+            576432,
+            0,
+            23126,
+            369540,
+            287016,
+            0,
+            133,
+            633853,
+            250221,
+            0
+          ],
+          "35": [
+            235674,
+            834774,
+            570963,
+            0,
+            22789,
+            359506,
+            276252,
+            0,
+            153,
+            636569,
+            246081,
+            0
+          ],
+          "36": [
+            239874,
+            838964,
+            575506,
+            0,
+            23740,
+            369409,
+            283374,
+            0,
+            163,
+            639859,
+            248475,
+            0
+          ],
+          "37": [
+            242646,
+            839333,
+            572558,
+            0,
+            24290,
+            371688,
+            300713,
+            0,
+            144,
+            639980,
+            247838,
+            0
+          ],
+          "38": [
+            234286,
+            823964,
+            574371,
+            0,
+            22989,
+            363867,
+            276162,
+            0,
+            174,
+            624991,
+            251442,
+            0
+          ],
+          "39": [
+            240296,
+            834881,
+            575246,
+            0,
+            23889,
+            367483,
+            277999,
+            0,
+            149,
+            637729,
+            247748,
+            0
+          ]
+        },
+        "monotonic_before": 245698.638613918,
+        "monotonic_after": 245698.639036324,
+        "categories": [
+          "early",
+          "eligible",
+          "expired",
+          "memo_cached"
+        ],
+        "layout": "CPU rows; tier0 categories0..3, tier1, tier2",
+        "limitation": "Relaxed atomic counters read while live, without a global stop. Counter instrumentation perturbs execution; eligible gate returns are not completed cache fills or exact hardware hint-issue counts."
+      },
+      "after": {
+        "header": [
+          5784389117316247601,
+          1,
+          4096,
+          3,
+          4,
+          1,
+          524352,
+          128
+        ],
+        "file_identity": {
+          "device": 230,
+          "inode": 26609043
+        },
+        "counts_by_cpu": {
+          "32": [
+            308102,
+            1085551,
+            742263,
+            0,
+            30269,
+            475438,
+            377375,
+            0,
+            183,
+            824975,
+            321239,
+            0
+          ],
+          "33": [
+            309725,
+            1078373,
+            746641,
+            0,
+            30741,
+            476996,
+            387262,
+            0,
+            185,
+            821984,
+            323645,
+            0
+          ],
+          "34": [
+            305409,
+            1076457,
+            749568,
+            0,
+            29825,
+            475547,
+            372898,
+            0,
+            166,
+            818232,
+            325864,
+            0
+          ],
+          "35": [
+            307275,
+            1085289,
+            741665,
+            0,
+            29986,
+            470236,
+            356907,
+            0,
+            205,
+            827081,
+            319854,
+            0
+          ],
+          "36": [
+            310779,
+            1088462,
+            746011,
+            0,
+            30761,
+            480184,
+            375650,
+            0,
+            207,
+            829770,
+            322111,
+            0
+          ],
+          "37": [
+            312473,
+            1085863,
+            741956,
+            0,
+            31139,
+            479923,
+            384117,
+            0,
+            178,
+            826476,
+            321961,
+            0
+          ],
+          "38": [
+            304908,
+            1066049,
+            746385,
+            0,
+            30076,
+            471948,
+            352835,
+            0,
+            225,
+            810027,
+            326214,
+            0
+          ],
+          "39": [
+            308679,
+            1078378,
+            745002,
+            0,
+            30544,
+            472383,
+            359448,
+            0,
+            193,
+            822627,
+            321655,
+            0
+          ]
+        },
+        "monotonic_before": 245713.649147866,
+        "monotonic_after": 245713.64939759,
+        "categories": [
+          "early",
+          "eligible",
+          "expired",
+          "memo_cached"
+        ],
+        "layout": "CPU rows; tier0 categories0..3, tier1, tier2",
+        "limitation": "Relaxed atomic counters read while live, without a global stop. Counter instrumentation perturbs execution; eligible gate returns are not completed cache fills or exact hardware hint-issue counts."
+      },
+      "delta": {
+        "tiers": [
+          {
+            "early": 558761,
+            "eligible": 1962739,
+            "expired": 1364161,
+            "memo_cached": 0
+          },
+          {
+            "early": 55400,
+            "eligible": 864017,
+            "expired": 675442,
+            "memo_cached": 0
+          },
+          {
+            "early": 346,
+            "eligible": 1492721,
+            "expired": 592902,
+            "memo_cached": 0
+          }
+        ],
+        "checks": 7566489,
+        "eligible": 4319477,
+        "eligible_pct": 57.08693953034228,
+        "elapsed_s": 15.010533947992371,
+        "limitation": "Relaxed atomic counters read while live, without a global stop. Counter instrumentation perturbs execution; eligible gate returns are not completed cache fills or exact hardware hint-issue counts."
+      }
+    },
+    "rating": {
+      "before": {
+        "header": [
+          5784389117316247601,
+          1,
+          4096,
+          3,
+          4,
+          1,
+          524352,
+          128
+        ],
+        "file_identity": {
+          "device": 231,
+          "inode": 26609236
+        },
+        "counts_by_cpu": {
+          "32": [
+            101601,
+            235074,
+            195451,
+            0,
+            8130,
+            152336,
+            96996,
+            0,
+            41,
+            204827,
+            94319,
+            0
+          ],
+          "33": [
+            102453,
+            237042,
+            194959,
+            0,
+            8066,
+            153545,
+            88380,
+            0,
+            49,
+            206881,
+            93880,
+            0
+          ],
+          "34": [
+            101576,
+            235599,
+            192209,
+            0,
+            8160,
+            150705,
+            85732,
+            0,
+            44,
+            206222,
+            92644,
+            0
+          ],
+          "35": [
+            100736,
+            235197,
+            191922,
+            0,
+            8344,
+            152768,
+            95709,
+            0,
+            51,
+            204475,
+            92780,
+            0
+          ],
+          "36": [
+            98983,
+            231286,
+            187954,
+            0,
+            7889,
+            147104,
+            85766,
+            0,
+            34,
+            201599,
+            91612,
+            0
+          ],
+          "37": [
+            103477,
+            236391,
+            194569,
+            0,
+            8201,
+            154440,
+            105678,
+            0,
+            41,
+            207057,
+            94431,
+            0
+          ],
+          "38": [
+            98406,
+            232476,
+            192223,
+            0,
+            7745,
+            148922,
+            99574,
+            0,
+            47,
+            203904,
+            91771,
+            0
+          ],
+          "39": [
+            100497,
+            232652,
+            187336,
+            0,
+            7847,
+            149346,
+            95121,
+            0,
+            49,
+            203128,
+            90604,
+            0
+          ]
+        },
+        "monotonic_before": 245698.642047861,
+        "monotonic_after": 245698.642439287,
+        "categories": [
+          "early",
+          "eligible",
+          "expired",
+          "memo_cached"
+        ],
+        "layout": "CPU rows; tier0 categories0..3, tier1, tier2",
+        "limitation": "Relaxed atomic counters read while live, without a global stop. Counter instrumentation perturbs execution; eligible gate returns are not completed cache fills or exact hardware hint-issue counts."
+      },
+      "after": {
+        "header": [
+          5784389117316247601,
+          1,
+          4096,
+          3,
+          4,
+          1,
+          524352,
+          128
+        ],
+        "file_identity": {
+          "device": 231,
+          "inode": 26609236
+        },
+        "counts_by_cpu": {
+          "32": [
+            130700,
+            303751,
+            253290,
+            0,
+            10379,
+            196568,
+            121611,
+            0,
+            58,
+            264558,
+            122262,
+            0
+          ],
+          "33": [
+            131776,
+            305058,
+            251840,
+            0,
+            10333,
+            197704,
+            117055,
+            0,
+            60,
+            266678,
+            121132,
+            0
+          ],
+          "34": [
+            130493,
+            305474,
+            250265,
+            0,
+            10497,
+            194931,
+            108325,
+            0,
+            50,
+            266792,
+            120412,
+            0
+          ],
+          "35": [
+            131425,
+            306139,
+            250008,
+            0,
+            10789,
+            198942,
+            126172,
+            0,
+            63,
+            266222,
+            120785,
+            0
+          ],
+          "36": [
+            129710,
+            301642,
+            244691,
+            0,
+            10370,
+            192195,
+            115497,
+            0,
+            51,
+            263400,
+            118834,
+            0
+          ],
+          "37": [
+            133798,
+            306349,
+            251554,
+            0,
+            10718,
+            200544,
+            137775,
+            0,
+            54,
+            268226,
+            121835,
+            0
+          ],
+          "38": [
+            126413,
+            300027,
+            248240,
+            0,
+            9922,
+            191999,
+            126819,
+            0,
+            58,
+            262252,
+            118786,
+            0
+          ],
+          "39": [
+            128593,
+            299905,
+            242367,
+            0,
+            10123,
+            191382,
+            121885,
+            0,
+            64,
+            261614,
+            117463,
+            0
+          ]
+        },
+        "monotonic_before": 245713.652554428,
+        "monotonic_after": 245713.653019059,
+        "categories": [
+          "early",
+          "eligible",
+          "expired",
+          "memo_cached"
+        ],
+        "layout": "CPU rows; tier0 categories0..3, tier1, tier2",
+        "limitation": "Relaxed atomic counters read while live, without a global stop. Counter instrumentation perturbs execution; eligible gate returns are not completed cache fills or exact hardware hint-issue counts."
+      },
+      "delta": {
+        "tiers": [
+          {
+            "early": 235179,
+            "eligible": 552628,
+            "expired": 455632,
+            "memo_cached": 0
+          },
+          {
+            "early": 18749,
+            "eligible": 355099,
+            "expired": 222183,
+            "memo_cached": 0
+          },
+          {
+            "early": 102,
+            "eligible": 481649,
+            "expired": 219468,
+            "memo_cached": 0
+          }
+        ],
+        "checks": 2540689,
+        "eligible": 1389376,
+        "eligible_pct": 54.685008672844255,
+        "elapsed_s": 15.010506566992262,
+        "limitation": "Relaxed atomic counters read while live, without a global stop. Counter instrumentation perturbs execution; eligible gate returns are not completed cache fills or exact hardware hint-issue counts."
+      }
+    }
+  },
+  "request_window": {
+    "begin_epoch": 1790599193.5080895,
+    "end_epoch": 1790599208.5082111,
+    "seconds": 15.000121593475342,
+    "completed_requests": 17515,
+    "limitation": "15-second counter window. Counter snapshots include small additional read time; request normalization is approximate."
+  },
+  "limitation": "No PEBS or perf recorder. Diagnostic atomic counters still perturb execution. Per-service snapshots are sequential, not globally simultaneous."
+}

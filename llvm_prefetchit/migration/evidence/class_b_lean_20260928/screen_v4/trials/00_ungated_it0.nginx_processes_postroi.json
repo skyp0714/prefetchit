@@ -1,0 +1,55 @@
+{
+  "cgroup": "/sys/fs/cgroup/system.slice/docker-665bd1d5439db26d70a7da7bc0585e4715411a6ee5a68e81a81bd2813f65fafd.scope",
+  "processes": [
+    {
+      "pid": 1962358,
+      "comm": "openresty",
+      "user_ticks": 2,
+      "system_ticks": 2,
+      "start_ticks": 23558553,
+      "last_cpu": 35,
+      "command": "nginx: master process /usr/local/openresty/bin/openresty -g daemon off;"
+    },
+    {
+      "pid": 1962770,
+      "comm": "openresty",
+      "user_ticks": 1560,
+      "system_ticks": 437,
+      "start_ticks": 23558579,
+      "last_cpu": 36,
+      "command": "nginx: worker process"
+    },
+    {
+      "pid": 1962772,
+      "comm": "openresty",
+      "user_ticks": 1538,
+      "system_ticks": 420,
+      "start_ticks": 23558579,
+      "last_cpu": 35,
+      "command": "nginx: worker process"
+    },
+    {
+      "pid": 1962774,
+      "comm": "openresty",
+      "user_ticks": 2762,
+      "system_ticks": 794,
+      "start_ticks": 23558579,
+      "last_cpu": 37,
+      "command": "nginx: worker process"
+    },
+    {
+      "pid": 1962775,
+      "comm": "openresty",
+      "user_ticks": 100,
+      "system_ticks": 28,
+      "start_ticks": 23558579,
+      "last_cpu": 36,
+      "command": "nginx: worker process"
+    }
+  ],
+  "unavailable": [],
+  "clock_ticks": 100,
+  "monotonic_before": 235721.384681162,
+  "monotonic_after": 235721.385503948,
+  "interpretation": "Process lifetime CPU at a post-ROI snapshot, including startup/warmup. Not clean-ROI per-worker CPU or a causal explanation of variance."
+}

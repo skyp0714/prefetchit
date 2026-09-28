@@ -1,0 +1,23 @@
+{
+  "gate_diag": {
+    "overrides": {
+      "movie": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_gate_diag/movie/MovieIdService",
+      "compose": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_gate_diag/compose/ComposeReviewService",
+      "rating": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_gate_diag/rating/RatingService"
+    },
+    "controls": [
+      "base",
+      "gate_diag_nop"
+    ]
+  },
+  "gate_diag_nop": {
+    "overrides": {
+      "movie": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_gate_diag/movie/MovieIdService.nop",
+      "compose": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_gate_diag/compose/ComposeReviewService.nop",
+      "rating": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_gate_diag/rating/RatingService.nop"
+    },
+    "controls": [
+      "base"
+    ]
+  }
+}

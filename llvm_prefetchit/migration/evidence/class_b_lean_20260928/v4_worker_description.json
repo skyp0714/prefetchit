@@ -1,0 +1,17 @@
+{
+  "n": 16,
+  "configured_workers": 4,
+  "effective_worker_cpu_concentration_range": [
+    1.8123725327376203,
+    3.999970621978694
+  ],
+  "nginx_cpu_us_per_request_range": [
+    511.08282688964556,
+    576.7589173250888
+  ],
+  "observed_correlations": {
+    "concentration_with_nginx_cpu": 0.9223627207775928,
+    "nginx_with_stack_cpu": 0.4302772630757314
+  },
+  "interpretation": "Descriptive across all16 mixed arms; no exclusions, adjustment or causal attribution. Effective workers is a lifetime CPU-concentration statistic, not configured worker count or clean-ROI per-worker CPU. Correlation does not isolate prefetch, JIT, scheduling or connection assignment."
+}

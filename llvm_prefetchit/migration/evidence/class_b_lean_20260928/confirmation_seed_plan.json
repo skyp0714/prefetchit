@@ -1,0 +1,11 @@
+{
+  "frozen_before_confirmation": true,
+  "c4_seedbase": 56001,
+  "c16_seedbase": 57001,
+  "blocks": 6,
+  "roi_s": 60,
+  "warmup_s": 50,
+  "pmu": "primary + late only after clean ROI in block0",
+  "selection": "prepare_confirmations.py: highest minimum CPU/mean point reduction vs base+ownNOP among eligible; if none, diagnosticbesttradeoff explicitly notwinner",
+  "candidate_pair_count": 3
+}

@@ -1,0 +1,1748 @@
+{
+  "rows": [
+    {
+      "phase": "screen_v4",
+      "arm": "base",
+      "service": "movie",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 271127.53116412007,
+        "instructions:u": 98317.80081345499,
+        "L2I": 6018.628778718259,
+        "FE_L2": 488.6842915246785,
+        "ITLB_WALK": 531.0540837638782,
+        "SWPF_MISS": 0.049576783555018135,
+        "SWPF_HIT": 0.7927888314829065
+      },
+      "extra_per_request": {
+        "cycles:u": 269698.662557616,
+        "instructions:u": 98515.97180833959,
+        "FE_LATE_SWPF": 0.0,
+        "T1_T2_ISSUED": 0.0,
+        "ITLB_WALK_ACTIVE": 30071.09851002251,
+        "branches:u": 20553.427162611213,
+        "branch-misses:u": 2211.4164433486976
+      },
+      "L2I_mpki": 61.21606391641947,
+      "itlb_walk_active_pct_user_cycles": 11.14988788778231,
+      "cost_reduction_pct": {}
+    },
+    {
+      "phase": "screen_v4",
+      "arm": "base",
+      "service": "compose",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 559501.5858378379,
+        "instructions:u": 277476.15437837836,
+        "L2I": 10991.443891891891,
+        "FE_L2": 987.1332972972973,
+        "ITLB_WALK": 1114.7144864864865,
+        "SWPF_MISS": 0.10540540540540541,
+        "SWPF_HIT": 1.8756756756756756
+      },
+      "extra_per_request": {
+        "cycles:u": 560714.4062839748,
+        "instructions:u": 277210.8162644053,
+        "FE_LATE_SWPF": 0.0,
+        "T1_T2_ISSUED": 0.0,
+        "ITLB_WALK_ACTIVE": 53316.677864753205,
+        "branches:u": 56097.02761469885,
+        "branch-misses:u": 4634.5979560774085
+      },
+      "L2I_mpki": 39.61221070154911,
+      "itlb_walk_active_pct_user_cycles": 9.508704835693285,
+      "cost_reduction_pct": {}
+    },
+    {
+      "phase": "screen_v4",
+      "arm": "base",
+      "service": "rating",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 270254.3240217507,
+        "instructions:u": 104678.12687919821,
+        "L2I": 5620.9198208764265,
+        "FE_L2": 503.2130291075808,
+        "ITLB_WALK": 473.20332658065894,
+        "SWPF_MISS": 0.036997547712975795,
+        "SWPF_HIT": 0.7219319756903722
+      },
+      "extra_per_request": {
+        "cycles:u": 270254.9310716209,
+        "instructions:u": 104829.44835756597,
+        "FE_LATE_SWPF": 0.0,
+        "T1_T2_ISSUED": 0.0,
+        "ITLB_WALK_ACTIVE": 27772.193753365642,
+        "branches:u": 22243.89746903608,
+        "branch-misses:u": 2438.7348411416265
+      },
+      "L2I_mpki": 53.697176176672905,
+      "itlb_walk_active_pct_user_cycles": 10.276294920223183,
+      "cost_reduction_pct": {}
+    },
+    {
+      "phase": "screen_v4",
+      "arm": "base_clock",
+      "service": "movie",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 271399.21302428254,
+        "instructions:u": 98511.79337748344,
+        "L2I": 6015.13178807947,
+        "FE_L2": 482.9991169977925,
+        "ITLB_WALK": 548.9719646799117,
+        "SWPF_MISS": 0.05121412803532009,
+        "SWPF_HIT": 0.7230684326710817
+      },
+      "extra_per_request": {
+        "cycles:u": 272512.53518785327,
+        "instructions:u": 98393.67006538845,
+        "FE_LATE_SWPF": 0.0,
+        "T1_T2_ISSUED": 0.0,
+        "ITLB_WALK_ACTIVE": 30573.926299456944,
+        "branches:u": 20524.19139975618,
+        "branch-misses:u": 2228.645572426022
+      },
+      "L2I_mpki": 61.06001709897134,
+      "itlb_walk_active_pct_user_cycles": 11.219273373381219,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": -0.10020445323126737,
+          "instructions:u": -0.19731174052246558,
+          "L2I": 0.05810278000786262,
+          "FE_L2": 1.163363469111811,
+          "ITLB_WALK": -3.374021867799115
+        }
+      }
+    },
+    {
+      "phase": "screen_v4",
+      "arm": "base_clock",
+      "service": "compose",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 566725.322935368,
+        "instructions:u": 277640.56945691205,
+        "L2I": 11048.832136445242,
+        "FE_L2": 1019.4559021543986,
+        "ITLB_WALK": 1144.7762567324955,
+        "SWPF_MISS": 0.11512567324955117,
+        "SWPF_HIT": 1.8572710951526032
+      },
+      "extra_per_request": {
+        "cycles:u": 567595.7625534789,
+        "instructions:u": 277434.63927043456,
+        "FE_LATE_SWPF": 0.0,
+        "T1_T2_ISSUED": 0.0,
+        "ITLB_WALK_ACTIVE": 57941.713803197475,
+        "branches:u": 56158.44708399009,
+        "branch-misses:u": 4670.957329430308
+      },
+      "L2I_mpki": 39.79545265325479,
+      "itlb_walk_active_pct_user_cycles": 10.208271031223246,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": -1.2911021667101785,
+          "instructions:u": -0.05925376863538112,
+          "L2I": -0.5221174316841548,
+          "FE_L2": -3.2743911025591377,
+          "ITLB_WALK": -2.6968134540676703
+        }
+      }
+    },
+    {
+      "phase": "screen_v4",
+      "arm": "base_clock",
+      "service": "rating",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 274450.2185357222,
+        "instructions:u": 104304.70128290201,
+        "L2I": 5543.0144879451445,
+        "FE_L2": 517.1548330015484,
+        "ITLB_WALK": 520.675293076753,
+        "SWPF_MISS": 0.0371599203715992,
+        "SWPF_HIT": 0.7217429772174297
+      },
+      "extra_per_request": {
+        "cycles:u": 274642.91812020884,
+        "instructions:u": 104197.8416842573,
+        "FE_LATE_SWPF": 0.0,
+        "T1_T2_ISSUED": 0.0,
+        "ITLB_WALK_ACTIVE": 30041.626152649707,
+        "branches:u": 22120.47228085768,
+        "branch-misses:u": 2461.458393511832
+      },
+      "L2I_mpki": 53.14251821603918,
+      "itlb_walk_active_pct_user_cycles": 10.938431021003334,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": -1.552572573689437,
+          "instructions:u": 0.35673698740057436,
+          "L2I": 1.385989044745617,
+          "FE_L2": -2.770557018106734,
+          "ITLB_WALK": -10.032044119200044
+        }
+      }
+    },
+    {
+      "phase": "screen_v4",
+      "arm": "one_far_nop",
+      "service": "movie",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 276576.4177514793,
+        "instructions:u": 100229.72232383002,
+        "L2I": 6081.002582033351,
+        "FE_L2": 477.66013986013985,
+        "ITLB_WALK": 554.6622915545993,
+        "SWPF_MISS": 0.06218396987627757,
+        "SWPF_HIT": 0.7812802582033351
+      },
+      "extra_per_request": {
+        "cycles:u": 278624.3452790414,
+        "instructions:u": 100084.81282591812,
+        "FE_LATE_SWPF": 0.0,
+        "T1_T2_ISSUED": 0.0,
+        "ITLB_WALK_ACTIVE": 32646.578497725506,
+        "branches:u": 20788.272717186286,
+        "branch-misses:u": 2256.576944413625
+      },
+      "L2I_mpki": 60.67065178916063,
+      "itlb_walk_active_pct_user_cycles": 11.717058846752987,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": -2.009713496804899,
+          "instructions:u": -1.9446341298893,
+          "L2I": -1.0363457459885872,
+          "FE_L2": 2.255884188571655,
+          "ITLB_WALK": -4.445537377925124
+        }
+      }
+    },
+    {
+      "phase": "screen_v4",
+      "arm": "one_far_nop",
+      "service": "compose",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 577989.2959037209,
+        "instructions:u": 280944.1656177542,
+        "L2I": 11366.80103787126,
+        "FE_L2": 979.4025615545986,
+        "ITLB_WALK": 1110.1879209451254,
+        "SWPF_MISS": 0.12785690626035112,
+        "SWPF_HIT": 1.8720326819035
+      },
+      "extra_per_request": {
+        "cycles:u": 579931.0904794058,
+        "instructions:u": 280704.38847625477,
+        "FE_LATE_SWPF": 0.0,
+        "T1_T2_ISSUED": 0.0,
+        "ITLB_WALK_ACTIVE": 55669.73137519694,
+        "branches:u": 56610.08451496736,
+        "branch-misses:u": 4741.913796984019
+      },
+      "L2I_mpki": 40.45928845995917,
+      "itlb_walk_active_pct_user_cycles": 9.599370043978329,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": -3.3043177238180954,
+          "instructions:u": -1.2498411790177633,
+          "L2I": -3.414993968683766,
+          "FE_L2": 0.7831501342184355,
+          "ITLB_WALK": 0.4060739854228168
+        }
+      }
+    },
+    {
+      "phase": "screen_v4",
+      "arm": "one_far_nop",
+      "service": "rating",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 272040.97215751524,
+        "instructions:u": 105531.71292290627,
+        "L2I": 5793.674542429285,
+        "FE_L2": 459.86300610094287,
+        "ITLB_WALK": 478.06378258458125,
+        "SWPF_MISS": 0.04326123128119801,
+        "SWPF_HIT": 0.7052689961175818
+      },
+      "extra_per_request": {
+        "cycles:u": 270671.1624584718,
+        "instructions:u": 105338.70520487265,
+        "FE_LATE_SWPF": 0.0,
+        "T1_T2_ISSUED": 0.0,
+        "ITLB_WALK_ACTIVE": 26892.280066445182,
+        "branches:u": 22288.214064230342,
+        "branch-misses:u": 2452.7456256921373
+      },
+      "L2I_mpki": 54.89984367695916,
+      "itlb_walk_active_pct_user_cycles": 9.93540642534137,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": -0.6610988158031184,
+          "instructions:u": -0.8154387828253062,
+          "L2I": -3.073424404867642,
+          "FE_L2": 8.614646382172708,
+          "ITLB_WALK": -1.0271390184519058
+        }
+      }
+    },
+    {
+      "phase": "screen_v4",
+      "arm": "one_far_it0",
+      "service": "movie",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 278551.4649267702,
+        "instructions:u": 100001.68814007269,
+        "L2I": 6001.364717542121,
+        "FE_L2": 478.64695518114746,
+        "ITLB_WALK": 554.429468120251,
+        "SWPF_MISS": 7.677238189626693,
+        "SWPF_HIT": 31.559850236758066
+      },
+      "extra_per_request": {
+        "cycles:u": 279452.8369721822,
+        "instructions:u": 99871.76881303336,
+        "FE_LATE_SWPF": 0.03413498836307215,
+        "T1_T2_ISSUED": 38.33569766153164,
+        "ITLB_WALK_ACTIVE": 31435.793195167906,
+        "branches:u": 20729.349661974953,
+        "branch-misses:u": 2267.9331707857696
+      },
+      "L2I_mpki": 60.01263407809667,
+      "itlb_walk_active_pct_user_cycles": 11.24905137330817,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": -2.7381703845325234,
+          "instructions:u": -1.7126983238901383,
+          "L2I": 0.28684376144253454,
+          "FE_L2": 2.053951092271633,
+          "ITLB_WALK": -4.401695622166835
+        },
+        "one_far_nop": {
+          "cycles:u": -0.7141054148244841,
+          "instructions:u": 0.22751153896304332,
+          "L2I": 1.3096173437999292,
+          "FE_L2": -0.20659360885681988,
+          "ITLB_WALK": 0.04197570988567767
+        }
+      }
+    },
+    {
+      "phase": "screen_v4",
+      "arm": "one_far_it0",
+      "service": "compose",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 568927.659220373,
+        "instructions:u": 280871.5390371942,
+        "L2I": 11503.880040209986,
+        "FE_L2": 928.0669049480621,
+        "ITLB_WALK": 1048.8638445213894,
+        "SWPF_MISS": 12.13224617446666,
+        "SWPF_HIT": 70.25410476935106
+      },
+      "extra_per_request": {
+        "cycles:u": 569317.645971086,
+        "instructions:u": 281203.99809481116,
+        "FE_LATE_SWPF": 0.9768015241510702,
+        "T1_T2_ISSUED": 80.63790205087975,
+        "ITLB_WALK_ACTIVE": 51668.742799506894,
+        "branches:u": 56712.108595763755,
+        "branch-misses:u": 4730.3270200605175
+      },
+      "L2I_mpki": 40.95779899823383,
+      "itlb_walk_active_pct_user_cycles": 9.075556179428698,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": -1.6847268392313541,
+          "instructions:u": -1.2236671891400652,
+          "L2I": -4.6621367798284075,
+          "FE_L2": 5.983628807877817,
+          "ITLB_WALK": 5.907399855603779
+        },
+        "one_far_nop": {
+          "cycles:u": 1.567786245795344,
+          "instructions:u": 0.025850894749956943,
+          "L2I": -1.2059593713483086,
+          "FE_L2": 5.241527704915516,
+          "ITLB_WALK": 5.523756407971858
+        }
+      }
+    },
+    {
+      "phase": "screen_v4",
+      "arm": "one_far_it0",
+      "service": "rating",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 274099.11920309905,
+        "instructions:u": 105338.61671278362,
+        "L2I": 5707.500719424461,
+        "FE_L2": 474.21405644714997,
+        "ITLB_WALK": 485.1743220807969,
+        "SWPF_MISS": 6.083895960154953,
+        "SWPF_HIT": 21.20553403431101
+      },
+      "extra_per_request": {
+        "cycles:u": 274143.47980361525,
+        "instructions:u": 105489.51383619728,
+        "FE_LATE_SWPF": 0.04139700959607231,
+        "T1_T2_ISSUED": 26.535148404374024,
+        "ITLB_WALK_ACTIVE": 28455.371680428474,
+        "branches:u": 22331.975340325822,
+        "branch-misses:u": 2461.073086364651
+      },
+      "L2I_mpki": 54.18241569458367,
+      "itlb_walk_active_pct_user_cycles": 10.379736808189891,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": -1.4226581555227602,
+          "instructions:u": -0.6309721555751935,
+          "L2I": -1.5403332783091361,
+          "FE_L2": 5.762762683601174,
+          "ITLB_WALK": -2.52977839074795
+        },
+        "one_far_nop": {
+          "cycles:u": -0.7565577454237804,
+          "instructions:u": 0.18297458154944435,
+          "L2I": 1.4873776974136277,
+          "FE_L2": -3.120722944836518,
+          "ITLB_WALK": -1.4873620958637757
+        }
+      }
+    },
+    {
+      "phase": "screen_v4",
+      "arm": "ungated_nop",
+      "service": "movie",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 273835.40201112535,
+        "instructions:u": 98921.31204535729,
+        "L2I": 5993.700470688917,
+        "FE_L2": 491.1370346598203,
+        "ITLB_WALK": 530.7367351305091,
+        "SWPF_MISS": 0.07948224219084296,
+        "SWPF_HIT": 0.7851946940522037
+      },
+      "extra_per_request": {
+        "cycles:u": 275921.5070142494,
+        "instructions:u": 99042.74516734784,
+        "FE_LATE_SWPF": 0.0,
+        "T1_T2_ISSUED": 0.0,
+        "ITLB_WALK_ACTIVE": 31951.584557605212,
+        "branches:u": 20562.792334032918,
+        "branch-misses:u": 2252.0869325085605
+      },
+      "L2I_mpki": 60.59058808217882,
+      "itlb_walk_active_pct_user_cycles": 11.579954351276843,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": -0.9987443308979715,
+          "instructions:u": -0.6138371962238987,
+          "L2I": 0.41418583776902107,
+          "FE_L2": -0.5019075050457067,
+          "ITLB_WALK": 0.05975825119728384
+        }
+      }
+    },
+    {
+      "phase": "screen_v4",
+      "arm": "ungated_nop",
+      "service": "compose",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 568795.0636971047,
+        "instructions:u": 278527.3071269488,
+        "L2I": 11209.402004454343,
+        "FE_L2": 1013.993986636971,
+        "ITLB_WALK": 1125.3119153674834,
+        "SWPF_MISS": 0.13452115812917595,
+        "SWPF_HIT": 1.7415367483296214
+      },
+      "extra_per_request": {
+        "cycles:u": 569551.4492122025,
+        "instructions:u": 278457.79427869036,
+        "FE_LATE_SWPF": 0.0,
+        "T1_T2_ISSUED": 0.0,
+        "ITLB_WALK_ACTIVE": 55691.950385517936,
+        "branches:u": 56145.967929377584,
+        "branch-misses:u": 4623.71974522293
+      },
+      "L2I_mpki": 40.24525322159977,
+      "itlb_walk_active_pct_user_cycles": 9.778212391970989,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": -1.6610279746303247,
+          "instructions:u": -0.378826335879312,
+          "L2I": -1.982979804165974,
+          "FE_L2": -2.7210802647642973,
+          "ITLB_WALK": -0.9506854902728845
+        }
+      }
+    },
+    {
+      "phase": "screen_v4",
+      "arm": "ungated_nop",
+      "service": "rating",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 270378.87290194345,
+        "instructions:u": 104872.09518551237,
+        "L2I": 5651.3977473498235,
+        "FE_L2": 491.44898409893995,
+        "ITLB_WALK": 467.4294390459364,
+        "SWPF_MISS": 0.044942579505300354,
+        "SWPF_HIT": 0.7233878091872792
+      },
+      "extra_per_request": {
+        "cycles:u": 267727.63742185815,
+        "instructions:u": 104697.8156930373,
+        "FE_LATE_SWPF": 0.0,
+        "T1_T2_ISSUED": 0.0,
+        "ITLB_WALK_ACTIVE": 27749.410002155637,
+        "branches:u": 22154.26093985773,
+        "branch-misses:u": 2427.6236257814185
+      },
+      "L2I_mpki": 53.888479460173315,
+      "itlb_walk_active_pct_user_cycles": 10.364790975401215,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": -0.0460858047854007,
+          "instructions:u": -0.18529974895138412,
+          "L2I": -0.5422231137366618,
+          "FE_L2": 2.33778625118346,
+          "ITLB_WALK": 1.2201705293249598
+        }
+      }
+    },
+    {
+      "phase": "screen_v4",
+      "arm": "ungated_it0",
+      "service": "movie",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 276093.8383649185,
+        "instructions:u": 99049.506170119,
+        "L2I": 5982.0095857205815,
+        "FE_L2": 491.4939400617012,
+        "ITLB_WALK": 528.304759806082,
+        "SWPF_MISS": 18.178162185985016,
+        "SWPF_HIT": 54.2678492728074
+      },
+      "extra_per_request": {
+        "cycles:u": 276464.99181053566,
+        "instructions:u": 98780.28331119964,
+        "FE_LATE_SWPF": 0.44632580787959275,
+        "T1_T2_ISSUED": 71.90593182824259,
+        "ITLB_WALK_ACTIVE": 31042.972222222223,
+        "branches:u": 20499.59694555113,
+        "branch-misses:u": 2242.106241699867
+      },
+      "L2I_mpki": 60.3941384164641,
+      "itlb_walk_active_pct_user_cycles": 11.228536394038741,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": -1.831723683491293,
+          "instructions:u": -0.7442246984880496,
+          "L2I": 0.6084308294135421,
+          "FE_L2": -0.5749414470141323,
+          "ITLB_WALK": 0.5177107269960679
+        },
+        "ungated_nop": {
+          "cycles:u": -0.8247422857696751,
+          "instructions:u": -0.12959201825277766,
+          "L2I": 0.19505287302072905,
+          "FE_L2": -0.0726692097508197,
+          "ITLB_WALK": 0.4582263038244716
+        }
+      }
+    },
+    {
+      "phase": "screen_v4",
+      "arm": "ungated_it0",
+      "service": "compose",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 566808.3366447148,
+        "instructions:u": 279178.51367340103,
+        "L2I": 11341.816050898538,
+        "FE_L2": 1012.6200468802322,
+        "ITLB_WALK": 1073.13059493247,
+        "SWPF_MISS": 20.395468244223686,
+        "SWPF_HIT": 132.13427837928342
+      },
+      "extra_per_request": {
+        "cycles:u": 565956.8101691119,
+        "instructions:u": 278761.2118938291,
+        "FE_LATE_SWPF": 1.6764475305185351,
+        "T1_T2_ISSUED": 153.891925187591,
+        "ITLB_WALK_ACTIVE": 49858.368574308435,
+        "branches:u": 56216.18434315153,
+        "branch-misses:u": 4694.05812520999
+      },
+      "L2I_mpki": 40.62567674590761,
+      "itlb_walk_active_pct_user_cycles": 8.809571274424703,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": -1.305939248757504,
+          "instructions:u": -0.6135155285096117,
+          "L2I": -3.1876809130155115,
+          "FE_L2": -2.5818954393206806,
+          "ITLB_WALK": 3.7304522420881336
+        },
+        "ungated_nop": {
+          "cycles:u": 0.3492869715634228,
+          "instructions:u": -0.2338034834607594,
+          "L2I": -1.1812766318094248,
+          "FE_L2": 0.1354978209777813,
+          "ITLB_WALK": 4.637053933439683
+        }
+      }
+    },
+    {
+      "phase": "screen_v4",
+      "arm": "ungated_it0",
+      "service": "rating",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 269866.1776112825,
+        "instructions:u": 104903.13717496695,
+        "L2I": 5701.371859850155,
+        "FE_L2": 500.49460114587924,
+        "ITLB_WALK": 457.9824812692816,
+        "SWPF_MISS": 15.197553988541207,
+        "SWPF_HIT": 32.235456148082854
+      },
+      "extra_per_request": {
+        "cycles:u": 269926.66040044493,
+        "instructions:u": 105136.34149054505,
+        "FE_LATE_SWPF": 0.25873192436040043,
+        "T1_T2_ISSUED": 47.53959955506118,
+        "ITLB_WALK_ACTIVE": 27971.390989988875,
+        "branches:u": 22245.240044493883,
+        "branch-misses:u": 2458.1773081201336
+      },
+      "L2I_mpki": 54.34891666148068,
+      "itlb_walk_active_pct_user_cycles": 10.36258921163712,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": 0.14362264577012507,
+          "instructions:u": -0.21495445369250632,
+          "L2I": -1.431296683416905,
+          "FE_L2": 0.5402141447971909,
+          "ITLB_WALK": 3.2165550105833662
+        },
+        "ungated_nop": {
+          "cycles:u": 0.18962106216298125,
+          "instructions:u": -0.029599856281747883,
+          "L2I": -0.8842788056063755,
+          "FE_L2": -1.8406014336410204,
+          "ITLB_WALK": 2.021044672739669
+        }
+      }
+    },
+    {
+      "phase": "screen_v4",
+      "arm": "callees_nop",
+      "service": "movie",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 285244.62364055804,
+        "instructions:u": 103493.39975832144,
+        "L2I": 5943.713391189718,
+        "FE_L2": 464.7091068878392,
+        "ITLB_WALK": 605.4714929144238,
+        "SWPF_MISS": 0.04427111941118313,
+        "SWPF_HIT": 0.7967702955069758
+      },
+      "extra_per_request": {
+        "cycles:u": 286407.0530973451,
+        "instructions:u": 103890.63805309734,
+        "FE_LATE_SWPF": 0.0,
+        "T1_T2_ISSUED": 0.0,
+        "ITLB_WALK_ACTIVE": 33435.568694690264,
+        "branches:u": 21481.65,
+        "branch-misses:u": 2314.7810840707966
+      },
+      "L2I_mpki": 57.430844914453694,
+      "itlb_walk_active_pct_user_cycles": 11.674142914115338,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": -5.206808919708172,
+          "instructions:u": -5.264152474979045,
+          "L2I": 1.244725173837602,
+          "FE_L2": 4.906068202445701,
+          "ITLB_WALK": -14.01315071774003
+        }
+      }
+    },
+    {
+      "phase": "screen_v4",
+      "arm": "callees_nop",
+      "service": "compose",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 594812.2684310019,
+        "instructions:u": 287649.08084065386,
+        "L2I": 11637.490826198155,
+        "FE_L2": 934.154231068609,
+        "ITLB_WALK": 1131.6175914600244,
+        "SWPF_MISS": 0.1148671188702324,
+        "SWPF_HIT": 1.9968864672523075
+      },
+      "extra_per_request": {
+        "cycles:u": 596887.7621506342,
+        "instructions:u": 287564.70557862835,
+        "FE_LATE_SWPF": 0.0,
+        "T1_T2_ISSUED": 0.0,
+        "ITLB_WALK_ACTIVE": 55943.79122235941,
+        "branches:u": 57835.42608598047,
+        "branch-misses:u": 4863.81883488607
+      },
+      "L2I_mpki": 40.45725017506613,
+      "itlb_walk_active_pct_user_cycles": 9.37258137456018,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": -6.3110960696004526,
+          "instructions:u": -3.666234486010378,
+          "L2I": -5.877725808006318,
+          "FE_L2": 5.366961723785568,
+          "ITLB_WALK": -1.5163618288316583
+        }
+      }
+    },
+    {
+      "phase": "screen_v4",
+      "arm": "callees_nop",
+      "service": "rating",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 280329.7751733245,
+        "instructions:u": 107676.02718168813,
+        "L2I": 5613.711455926048,
+        "FE_L2": 474.41058655221747,
+        "ITLB_WALK": 509.72422141520855,
+        "SWPF_MISS": 0.032904148783977114,
+        "SWPF_HIT": 0.7104655001650709
+      },
+      "extra_per_request": {
+        "cycles:u": 279895.4522518535,
+        "instructions:u": 107621.74316698019,
+        "FE_LATE_SWPF": 0.0,
+        "T1_T2_ISSUED": 0.0,
+        "ITLB_WALK_ACTIVE": 28079.859134668586,
+        "branches:u": 22705.1322341485,
+        "branch-misses:u": 2477.850392829479
+      },
+      "L2I_mpki": 52.135202262372665,
+      "itlb_walk_active_pct_user_cycles": 10.032267015686262,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": -3.7281368903325784,
+          "instructions:u": -2.8639223798392788,
+          "L2I": 0.12824173231588132,
+          "FE_L2": 5.723707632618891,
+          "ITLB_WALK": -7.717801795360901
+        }
+      }
+    },
+    {
+      "phase": "screen_v4",
+      "arm": "callees_it0",
+      "service": "movie",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 282664.4720437018,
+        "instructions:u": 103244.75449871465,
+        "L2I": 6046.6544558697515,
+        "FE_L2": 448.0968294772922,
+        "ITLB_WALK": 567.6935518423307,
+        "SWPF_MISS": 0.05077120822622108,
+        "SWPF_HIT": 0.8432947729220223
+      },
+      "extra_per_request": {
+        "cycles:u": 282473.4795907377,
+        "instructions:u": 103038.06591276253,
+        "FE_LATE_SWPF": 1.812062466343565,
+        "T1_T2_ISSUED": 0.0,
+        "ITLB_WALK_ACTIVE": 31440.93957996769,
+        "branches:u": 21298.325901992463,
+        "branch-misses:u": 2309.6172320947767
+      },
+      "L2I_mpki": 58.56621467335688,
+      "itlb_walk_active_pct_user_cycles": 11.130581046235193,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": -4.255171295237492,
+          "instructions:u": -5.011252941476907,
+          "L2I": -0.4656488742184939,
+          "FE_L2": 8.30545666216419,
+          "ITLB_WALK": -6.899385429590921
+        },
+        "callees_nop": {
+          "cycles:u": 0.904539957292072,
+          "instructions:u": 0.2402522868003354,
+          "L2I": -1.7319318396580297,
+          "FE_L2": 3.5747690682886635,
+          "ITLB_WALK": 6.239425227148154
+        }
+      }
+    },
+    {
+      "phase": "screen_v4",
+      "arm": "callees_it0",
+      "service": "compose",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 588427.4539188438,
+        "instructions:u": 287553.7240689272,
+        "L2I": 11476.109282934964,
+        "FE_L2": 928.9345191773207,
+        "ITLB_WALK": 1177.6327959977766,
+        "SWPF_MISS": 0.11817676486937187,
+        "SWPF_HIT": 1.9147304057809895
+      },
+      "extra_per_request": {
+        "cycles:u": 587399.0545954871,
+        "instructions:u": 287610.4227848101,
+        "FE_LATE_SWPF": 4.507319757842597,
+        "T1_T2_ISSUED": 0.0,
+        "ITLB_WALK_ACTIVE": 55504.7495872317,
+        "branches:u": 57846.57446340121,
+        "branch-misses:u": 4796.230489818382
+      },
+      "L2I_mpki": 39.9094441224629,
+      "itlb_walk_active_pct_user_cycles": 9.449240538096388,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": -5.169934958752664,
+          "instructions:u": -3.6318687323331655,
+          "L2I": -4.409478825621793,
+          "FE_L2": 5.8957365007665015,
+          "ITLB_WALK": -5.644343037974231
+        },
+        "callees_nop": {
+          "cycles:u": 1.0734167486154966,
+          "instructions:u": 0.03315038290684358,
+          "L2I": 1.3867383070231165,
+          "FE_L2": 0.5587633944897141,
+          "ITLB_WALK": -4.06632106862026
+        }
+      }
+    },
+    {
+      "phase": "screen_v4",
+      "arm": "callees_it0",
+      "service": "rating",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 275548.6221045665,
+        "instructions:u": 107965.1589455107,
+        "L2I": 5701.255349658063,
+        "FE_L2": 463.59772777410103,
+        "ITLB_WALK": 479.4403264945952,
+        "SWPF_MISS": 0.032208250606662256,
+        "SWPF_HIT": 0.6926979924994485
+      },
+      "extra_per_request": {
+        "cycles:u": 274726.102530541,
+        "instructions:u": 107770.09238656196,
+        "FE_LATE_SWPF": 1.143433682373473,
+        "T1_T2_ISSUED": 0.0,
+        "ITLB_WALK_ACTIVE": 27241.07995200698,
+        "branches:u": 22724.18455497382,
+        "branch-misses:u": 2497.739637870855
+      },
+      "L2I_mpki": 52.80643686668815,
+      "itlb_walk_active_pct_user_cycles": 9.915723224362571,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": -1.959005874181563,
+          "instructions:u": -3.140132675573981,
+          "L2I": -1.429223887579134,
+          "FE_L2": 7.8724713077749975,
+          "ITLB_WALK": -1.3180380533257097
+        },
+        "callees_nop": {
+          "cycles:u": 1.7055459291835495,
+          "instructions:u": -0.26852008881670386,
+          "L2I": -1.5594655054741002,
+          "FE_L2": 2.2792195378056324,
+          "ITLB_WALK": 5.941231287093352
+        }
+      }
+    },
+    {
+      "phase": "confirmation_c4",
+      "arm": "base",
+      "service": "movie",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 272544.4533627343,
+        "instructions:u": 98330.7592061742,
+        "L2I": 6026.589746416758,
+        "FE_L2": 477.40815876515984,
+        "ITLB_WALK": 528.5699007717751,
+        "SWPF_MISS": 0.036824696802646086,
+        "SWPF_HIT": 0.7603087100330761
+      },
+      "extra_per_request": {
+        "cycles:u": 271120.9407669237,
+        "instructions:u": 98411.24100257069,
+        "FE_LATE_SWPF": 0.0,
+        "T1_T2_ISSUED": 0.0,
+        "ITLB_WALK_ACTIVE": 29775.73564695801,
+        "branches:u": 20526.404241645243,
+        "branch-misses:u": 2220.5262425021424
+      },
+      "L2I_mpki": 61.288957749024966,
+      "itlb_walk_active_pct_user_cycles": 10.982455122326943,
+      "cost_reduction_pct": {}
+    },
+    {
+      "phase": "confirmation_c4",
+      "arm": "base",
+      "service": "compose",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 561236.4535823504,
+        "instructions:u": 277209.1094364351,
+        "L2I": 11225.487876802097,
+        "FE_L2": 979.1083442551333,
+        "ITLB_WALK": 1031.102009611184,
+        "SWPF_MISS": 0.08955875928352992,
+        "SWPF_HIT": 1.8448012232415902
+      },
+      "extra_per_request": {
+        "cycles:u": 560846.4875844043,
+        "instructions:u": 277647.406883032,
+        "FE_LATE_SWPF": 0.0,
+        "T1_T2_ISSUED": 0.0,
+        "ITLB_WALK_ACTIVE": 50630.08636462644,
+        "branches:u": 56200.88608146373,
+        "branch-misses:u": 4607.243084295361
+      },
+      "L2I_mpki": 40.49465726297186,
+      "itlb_walk_active_pct_user_cycles": 9.02744110651257,
+      "cost_reduction_pct": {}
+    },
+    {
+      "phase": "confirmation_c4",
+      "arm": "base",
+      "service": "rating",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 264453.89944491885,
+        "instructions:u": 104142.82546968403,
+        "L2I": 5692.2670794193,
+        "FE_L2": 479.8790563620837,
+        "ITLB_WALK": 421.3019854824936,
+        "SWPF_MISS": 0.03223740392826644,
+        "SWPF_HIT": 0.712532023911187
+      },
+      "extra_per_request": {
+        "cycles:u": 264945.2940339354,
+        "instructions:u": 104095.55030103996,
+        "FE_LATE_SWPF": 0.0,
+        "T1_T2_ISSUED": 0.0,
+        "ITLB_WALK_ACTIVE": 24779.543732895458,
+        "branches:u": 22104.447947454843,
+        "branch-misses:u": 2418.36179529283
+      },
+      "L2I_mpki": 54.658273901703566,
+      "itlb_walk_active_pct_user_cycles": 9.352701969381492,
+      "cost_reduction_pct": {}
+    },
+    {
+      "phase": "confirmation_c4",
+      "arm": "matched_nop",
+      "service": "movie",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 273647.45105124835,
+        "instructions:u": 98807.47656592203,
+        "L2I": 5995.795225580377,
+        "FE_L2": 492.0467586508979,
+        "ITLB_WALK": 539.9022120017521,
+        "SWPF_MISS": 0.05935173017958826,
+        "SWPF_HIT": 0.7591984231274639
+      },
+      "extra_per_request": {
+        "cycles:u": 274277.6431878307,
+        "instructions:u": 98851.47905643738,
+        "FE_LATE_SWPF": 0.0,
+        "T1_T2_ISSUED": 0.0,
+        "ITLB_WALK_ACTIVE": 31822.568121693123,
+        "branches:u": 20518.971119929454,
+        "branch-misses:u": 2233.184523809524
+      },
+      "L2I_mpki": 60.68159449027243,
+      "itlb_walk_active_pct_user_cycles": 11.602319369464759,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": -0.40470377397336943,
+          "instructions:u": -0.4848100061429106,
+          "L2I": 0.5109775533450156,
+          "FE_L2": -3.066265127014489,
+          "ITLB_WALK": -2.143956970200245
+        }
+      }
+    },
+    {
+      "phase": "confirmation_c4",
+      "arm": "matched_nop",
+      "service": "compose",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 566241.3111382837,
+        "instructions:u": 278481.72832369944,
+        "L2I": 11283.196198310361,
+        "FE_L2": 1009.4449755446865,
+        "ITLB_WALK": 1112.9046242774566,
+        "SWPF_MISS": 0.12861271676300579,
+        "SWPF_HIT": 1.7755669186305025
+      },
+      "extra_per_request": {
+        "cycles:u": 566734.8138138138,
+        "instructions:u": 278441.2322322322,
+        "FE_LATE_SWPF": 0.0,
+        "T1_T2_ISSUED": 0.0,
+        "ITLB_WALK_ACTIVE": 53642.61261261261,
+        "branches:u": 56155.83917250584,
+        "branch-misses:u": 4626.506395284173
+      },
+      "L2I_mpki": 40.51682767924754,
+      "itlb_walk_active_pct_user_cycles": 9.465205119767976,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": -0.8917556092423284,
+          "instructions:u": -0.4590826361556388,
+          "L2I": -0.5140829703047523,
+          "FE_L2": -3.0983937035724107,
+          "ITLB_WALK": -7.933513260935188
+        }
+      }
+    },
+    {
+      "phase": "confirmation_c4",
+      "arm": "matched_nop",
+      "service": "rating",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 269472.75230465323,
+        "instructions:u": 104790.76009657595,
+        "L2I": 5570.62181738367,
+        "FE_L2": 499.1077699736611,
+        "ITLB_WALK": 497.1331211589113,
+        "SWPF_MISS": 0.046202809482001755,
+        "SWPF_HIT": 0.6771290605794557
+      },
+      "extra_per_request": {
+        "cycles:u": 270240.6700187866,
+        "instructions:u": 104938.92551663167,
+        "FE_LATE_SWPF": 0.0,
+        "T1_T2_ISSUED": 0.0,
+        "ITLB_WALK_ACTIVE": 28518.332522930712,
+        "branches:u": 22200.899104873468,
+        "branch-misses:u": 2452.51420046414
+      },
+      "L2I_mpki": 53.15947524619291,
+      "itlb_walk_active_pct_user_cycles": 10.552938801161266,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": -1.8978176802341817,
+          "instructions:u": -0.6221596389091033,
+          "L2I": 2.1370266071218835,
+          "FE_L2": -4.006991627713119,
+          "ITLB_WALK": -17.999235296641803
+        }
+      }
+    },
+    {
+      "phase": "confirmation_c4",
+      "arm": "selected_candidate",
+      "service": "movie",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 271971.75065934064,
+        "instructions:u": 98910.40824175824,
+        "L2I": 5967.759230769231,
+        "FE_L2": 486.6103296703297,
+        "ITLB_WALK": 547.568021978022,
+        "SWPF_MISS": 17.700659340659342,
+        "SWPF_HIT": 54.16164835164835
+      },
+      "extra_per_request": {
+        "cycles:u": 272379.76206285966,
+        "instructions:u": 98779.58277999115,
+        "FE_LATE_SWPF": 0.3895528995130589,
+        "T1_T2_ISSUED": 71.28065515714918,
+        "ITLB_WALK_ACTIVE": 30109.554891544933,
+        "branches:u": 20503.205732625054,
+        "branch-misses:u": 2230.600044267375
+      },
+      "L2I_mpki": 60.334997467432835,
+      "itlb_walk_active_pct_user_cycles": 11.054255523064986,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": 0.21013185053941896,
+          "instructions:u": -0.5894890268961062,
+          "L2I": 0.9761825198489116,
+          "FE_L2": -1.927526946538105,
+          "ITLB_WALK": -3.5942495360608673
+        },
+        "matched_nop": {
+          "cycles:u": 0.6123573910410296,
+          "instructions:u": -0.10417397489910218,
+          "L2I": 0.4675942682554113,
+          "FE_L2": 1.1048602363470272,
+          "ITLB_WALK": -1.4198515593866423
+        }
+      }
+    },
+    {
+      "phase": "confirmation_c4",
+      "arm": "selected_candidate",
+      "service": "compose",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 565258.4903664105,
+        "instructions:u": 278693.17206815904,
+        "L2I": 11236.907339347366,
+        "FE_L2": 1004.8471990199354,
+        "ITLB_WALK": 1106.871143779931,
+        "SWPF_MISS": 20.41418866243457,
+        "SWPF_HIT": 131.55440472212942
+      },
+      "extra_per_request": {
+        "cycles:u": 565721.5949536675,
+        "instructions:u": 278664.43273417436,
+        "FE_LATE_SWPF": 1.5086524505972982,
+        "T1_T2_ISSUED": 153.58401250418666,
+        "ITLB_WALK_ACTIVE": 53795.7981467009,
+        "branches:u": 56199.699676230885,
+        "branch-misses:u": 4673.658591046109
+      },
+      "L2I_mpki": 40.31999512567604,
+      "itlb_walk_active_pct_user_cycles": 9.509235395390338,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": -0.7166385501846007,
+          "instructions:u": -0.5353585366444147,
+          "L2I": -0.10172798430319041,
+          "FE_L2": -2.6288055776282127,
+          "ITLB_WALK": -7.3483645131599
+        },
+        "matched_nop": {
+          "cycles:u": 0.1735692455743898,
+          "instructions:u": -0.07592733129471174,
+          "L2I": 0.41024598127546996,
+          "FE_L2": 0.45547569566832813,
+          "ITLB_WALK": 0.5421381460646635
+        }
+      }
+    },
+    {
+      "phase": "confirmation_c4",
+      "arm": "selected_candidate",
+      "service": "rating",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 270741.171926727,
+        "instructions:u": 104975.4389759435,
+        "L2I": 5658.10880600309,
+        "FE_L2": 502.4069741778857,
+        "ITLB_WALK": 477.0532994923858,
+        "SWPF_MISS": 14.597770911498566,
+        "SWPF_HIT": 33.07305230633414
+      },
+      "extra_per_request": {
+        "cycles:u": 271016.6420410427,
+        "instructions:u": 104890.52090959511,
+        "FE_LATE_SWPF": 0.2022185246810871,
+        "T1_T2_ISSUED": 47.54975041597338,
+        "ITLB_WALK_ACTIVE": 27295.464226289518,
+        "branches:u": 22198.595452024405,
+        "branch-misses:u": 2452.4641153632833
+      },
+      "L2I_mpki": 53.89935837562651,
+      "itlb_walk_active_pct_user_cycles": 10.071508531994835,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": -2.377455010118945,
+          "instructions:u": -0.7994919501217446,
+          "L2I": 0.6000820576341437,
+          "FE_L2": -4.694499065365321,
+          "ITLB_WALK": -13.23310023000328
+        },
+        "matched_nop": {
+          "cycles:u": -0.4707042219391999,
+          "instructions:u": -0.17623584292865146,
+          "L2I": -1.570506695435836,
+          "FE_L2": -0.661020405352275,
+          "ITLB_WALK": 4.039123689790703
+        }
+      }
+    },
+    {
+      "phase": "confirmation_c16",
+      "arm": "base",
+      "service": "movie",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 248911.97978684306,
+        "instructions:u": 98324.0599044469,
+        "L2I": 5131.515894891584,
+        "FE_L2": 442.0998713708195,
+        "ITLB_WALK": 537.6592245497978,
+        "SWPF_MISS": 0.07377802278574054,
+        "SWPF_HIT": 0.8965453877251011
+      },
+      "extra_per_request": {
+        "cycles:u": 248574.50765235137,
+        "instructions:u": 98087.02819775531,
+        "FE_LATE_SWPF": 0.0,
+        "T1_T2_ISSUED": 0.0,
+        "ITLB_WALK_ACTIVE": 30004.99146646879,
+        "branches:u": 20462.818198682868,
+        "branch-misses:u": 1965.231240144699
+      },
+      "L2I_mpki": 52.18982922265908,
+      "itlb_walk_active_pct_user_cycles": 12.07082405587336,
+      "cost_reduction_pct": {}
+    },
+    {
+      "phase": "confirmation_c16",
+      "arm": "base",
+      "service": "compose",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 515376.2773551235,
+        "instructions:u": 276864.22090729786,
+        "L2I": 9954.088569550107,
+        "FE_L2": 893.9826242133935,
+        "ITLB_WALK": 999.4080022541561,
+        "SWPF_MISS": 0.17000093923170848,
+        "SWPF_HIT": 2.1643655489809337
+      },
+      "extra_per_request": {
+        "cycles:u": 515772.60738571966,
+        "instructions:u": 276988.4711938043,
+        "FE_LATE_SWPF": 0.0,
+        "T1_T2_ISSUED": 0.0,
+        "ITLB_WALK_ACTIVE": 50917.93747638836,
+        "branches:u": 56053.770400453344,
+        "branch-misses:u": 4095.9122591613145
+      },
+      "L2I_mpki": 35.952961119100415,
+      "itlb_walk_active_pct_user_cycles": 9.872167840489729,
+      "cost_reduction_pct": {}
+    },
+    {
+      "phase": "confirmation_c16",
+      "arm": "base",
+      "service": "rating",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 239678.41908981814,
+        "instructions:u": 106906.87528847042,
+        "L2I": 4601.892088987353,
+        "FE_L2": 426.28634727222374,
+        "ITLB_WALK": 415.27739315055845,
+        "SWPF_MISS": 0.062217298993815194,
+        "SWPF_HIT": 0.7618388258100249
+      },
+      "extra_per_request": {
+        "cycles:u": 240718.91662018962,
+        "instructions:u": 107241.8768358431,
+        "FE_LATE_SWPF": 0.0,
+        "T1_T2_ISSUED": 0.0,
+        "ITLB_WALK_ACTIVE": 24192.47676147983,
+        "branches:u": 22994.007622234618,
+        "branch-misses:u": 2092.9204313069345
+      },
+      "L2I_mpki": 43.045801091556676,
+      "itlb_walk_active_pct_user_cycles": 10.050093736360209,
+      "cost_reduction_pct": {}
+    },
+    {
+      "phase": "confirmation_c16",
+      "arm": "matched_nop",
+      "service": "movie",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 247168.57070474434,
+        "instructions:u": 98613.36397973284,
+        "L2I": 5316.543896821741,
+        "FE_L2": 433.75430677107323,
+        "ITLB_WALK": 495.7778903731,
+        "SWPF_MISS": 0.06817134960847536,
+        "SWPF_HIT": 0.8686319668355597
+      },
+      "extra_per_request": {
+        "cycles:u": 247290.18480683508,
+        "instructions:u": 98542.4322065379,
+        "FE_LATE_SWPF": 0.0,
+        "T1_T2_ISSUED": 0.0,
+        "ITLB_WALK_ACTIVE": 27151.528789004456,
+        "branches:u": 20454.06305720654,
+        "branch-misses:u": 1962.0232169390788
+      },
+      "L2I_mpki": 53.913016271449834,
+      "itlb_walk_active_pct_user_cycles": 10.979622507142059,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": 0.7004118819800009,
+          "instructions:u": -0.29423528235823504,
+          "L2I": -3.6057181877649835,
+          "FE_L2": 1.8877102528596534,
+          "ITLB_WALK": 7.789568608585984
+        }
+      }
+    },
+    {
+      "phase": "confirmation_c16",
+      "arm": "matched_nop",
+      "service": "compose",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 518687.2676659529,
+        "instructions:u": 277981.8424727679,
+        "L2I": 9745.620985010706,
+        "FE_L2": 886.7728330695466,
+        "ITLB_WALK": 1123.1557583092822,
+        "SWPF_MISS": 0.17791639512149707,
+        "SWPF_HIT": 2.1530583744530305
+      },
+      "extra_per_request": {
+        "cycles:u": 518646.1871125305,
+        "instructions:u": 277910.82143528084,
+        "FE_LATE_SWPF": 0.0,
+        "T1_T2_ISSUED": 0.0,
+        "ITLB_WALK_ACTIVE": 54951.17715573924,
+        "branches:u": 56020.86821341349,
+        "branch-misses:u": 4137.011083975202
+      },
+      "L2I_mpki": 35.058480432819714,
+      "itlb_walk_active_pct_user_cycles": 10.595118314022523,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": -0.6424413494197312,
+          "instructions:u": -0.40367135984835656,
+          "L2I": 2.09429103511406,
+          "FE_L2": 0.8064800085114343,
+          "ITLB_WALK": -12.382105784225672
+        }
+      }
+    },
+    {
+      "phase": "confirmation_c16",
+      "arm": "matched_nop",
+      "service": "rating",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 238524.07621332348,
+        "instructions:u": 107428.20326628529,
+        "L2I": 4684.9030263886325,
+        "FE_L2": 418.19468536630376,
+        "ITLB_WALK": 406.0808267207972,
+        "SWPF_MISS": 0.051300978040228824,
+        "SWPF_HIT": 0.8410223288429599
+      },
+      "extra_per_request": {
+        "cycles:u": 239100.83763079223,
+        "instructions:u": 107252.2206651719,
+        "FE_LATE_SWPF": 0.0,
+        "T1_T2_ISSUED": 0.0,
+        "ITLB_WALK_ACTIVE": 23284.745982810164,
+        "branches:u": 22920.87696188341,
+        "branch-misses:u": 2074.1012705530643
+      },
+      "L2I_mpki": 43.609619112553084,
+      "itlb_walk_active_pct_user_cycles": 9.738462739626755,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": 0.48162153308516364,
+          "instructions:u": -0.4876468201022277,
+          "L2I": -1.8038436320558127,
+          "FE_L2": 1.8981752424627185,
+          "ITLB_WALK": 2.2145598535933453
+        }
+      }
+    },
+    {
+      "phase": "confirmation_c16",
+      "arm": "selected_candidate",
+      "service": "movie",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 251621.93025430068,
+        "instructions:u": 98674.9880329095,
+        "L2I": 5300.695680628272,
+        "FE_L2": 425.3259162303665,
+        "ITLB_WALK": 484.1930628272251,
+        "SWPF_MISS": 15.833863126402393,
+        "SWPF_HIT": 58.19577412116679
+      },
+      "extra_per_request": {
+        "cycles:u": 251501.133690342,
+        "instructions:u": 98780.36809470125,
+        "FE_LATE_SWPF": 0.5490417136414881,
+        "T1_T2_ISSUED": 73.38209319804585,
+        "ITLB_WALK_ACTIVE": 28448.41450582488,
+        "branches:u": 20497.568865088313,
+        "branch-misses:u": 1982.0353250657647
+      },
+      "L2I_mpki": 53.718736493389954,
+      "itlb_walk_active_pct_user_cycles": 11.311445832626616,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": -1.0887183773871767,
+          "instructions:u": -0.35690972159168055,
+          "L2I": -3.2968773594778567,
+          "FE_L2": 3.7941551732286194,
+          "ITLB_WALK": 9.944247077196888
+        },
+        "matched_nop": {
+          "cycles:u": -1.8017499299601836,
+          "instructions:u": -0.062490569928574935,
+          "L2I": 0.2980924544410013,
+          "FE_L2": 1.9431254996518321,
+          "ITLB_WALK": 2.3366970917474084
+        }
+      }
+    },
+    {
+      "phase": "confirmation_c16",
+      "arm": "selected_candidate",
+      "service": "compose",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 517189.87125237193,
+        "instructions:u": 277622.1559772296,
+        "L2I": 9937.278842504744,
+        "FE_L2": 897.681688804554,
+        "ITLB_WALK": 1016.3291271347249,
+        "SWPF_MISS": 17.279411764705884,
+        "SWPF_HIT": 137.44648956356735
+      },
+      "extra_per_request": {
+        "cycles:u": 517224.8626274174,
+        "instructions:u": 277872.74954748974,
+        "FE_LATE_SWPF": 2.077831761455654,
+        "T1_T2_ISSUED": 156.59559874249786,
+        "ITLB_WALK_ACTIVE": 48951.639706582835,
+        "branches:u": 56015.65552062494,
+        "branch-misses:u": 4164.562446413261
+      },
+      "L2I_mpki": 35.79425715330802,
+      "itlb_walk_active_pct_user_cycles": 9.464285892583845,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": -0.3518970462815352,
+          "instructions:u": -0.27375695835596403,
+          "L2I": 0.16887258866457033,
+          "FE_L2": -0.4137736563297745,
+          "ITLB_WALK": -1.693114808206797
+        },
+        "matched_nop": {
+          "cycles:u": 0.28868964150964294,
+          "instructions:u": 0.12939208271258718,
+          "L2I": -1.9666048760650368,
+          "FE_L2": -1.2301747784995598,
+          "ITLB_WALK": 9.511292657695702
+        }
+      }
+    },
+    {
+      "phase": "confirmation_c16",
+      "arm": "selected_candidate",
+      "service": "rating",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 241569.97523452158,
+        "instructions:u": 107503.24793621013,
+        "L2I": 4689.321294559099,
+        "FE_L2": 423.92260787992495,
+        "ITLB_WALK": 400.22983114446527,
+        "SWPF_MISS": 12.355534709193245,
+        "SWPF_HIT": 36.58377110694184
+      },
+      "extra_per_request": {
+        "cycles:u": 241209.85280241555,
+        "instructions:u": 107406.00009435743,
+        "FE_LATE_SWPF": 0.35903000566144555,
+        "T1_T2_ISSUED": 49.44197018305341,
+        "ITLB_WALK_ACTIVE": 23858.575485940743,
+        "branches:u": 22962.68107190036,
+        "branch-misses:u": 2105.121438007171
+      },
+      "L2I_mpki": 43.62027552266729,
+      "itlb_walk_active_pct_user_cycles": 9.891210996875918,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": -0.7892058667136714,
+          "instructions:u": -0.5578431191918254,
+          "L2I": -1.899853448996991,
+          "FE_L2": 0.5544956828723691,
+          "ITLB_WALK": 3.6234965481585224
+        },
+        "matched_nop": {
+          "cycles:u": -1.276977598887763,
+          "instructions:u": -0.06985565023258644,
+          "L2I": -0.09430863660528921,
+          "FE_L2": -1.3696784569617426,
+          "ITLB_WALK": 1.4408450710613807
+        }
+      }
+    },
+    {
+      "phase": "screen_v5",
+      "arm": "base",
+      "service": "movie",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 273274.76944230555,
+        "instructions:u": 98272.49444505555,
+        "L2I": 6057.007589924101,
+        "FE_L2": 481.75250247497524,
+        "ITLB_WALK": 530.9760202397975,
+        "SWPF_MISS": 0.042679573204267955,
+        "SWPF_HIT": 0.7701022989770102
+      },
+      "extra_per_request": {},
+      "L2I_mpki": 61.634820853261154,
+      "itlb_walk_active_pct_user_cycles": null,
+      "cost_reduction_pct": {}
+    },
+    {
+      "phase": "screen_v5",
+      "arm": "base",
+      "service": "compose",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 567485.775821727,
+        "instructions:u": 277674.97415041784,
+        "L2I": 11206.278551532034,
+        "FE_L2": 999.2538161559888,
+        "ITLB_WALK": 1080.569025069638,
+        "SWPF_MISS": 0.08969359331476323,
+        "SWPF_HIT": 1.8671866295264623
+      },
+      "extra_per_request": {},
+      "L2I_mpki": 40.35753883049446,
+      "itlb_walk_active_pct_user_cycles": null,
+      "cost_reduction_pct": {}
+    },
+    {
+      "phase": "screen_v5",
+      "arm": "base",
+      "service": "rating",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 270658.3423298485,
+        "instructions:u": 104584.82334115639,
+        "L2I": 5546.114145508855,
+        "FE_L2": 501.59814380200555,
+        "ITLB_WALK": 508.2496266268402,
+        "SWPF_MISS": 0.03435033070194154,
+        "SWPF_HIT": 0.7357584809046298
+      },
+      "extra_per_request": {},
+      "L2I_mpki": 53.02981798245615,
+      "itlb_walk_active_pct_user_cycles": null,
+      "cost_reduction_pct": {}
+    },
+    {
+      "phase": "screen_v5",
+      "arm": "callees_ungated_nop",
+      "service": "movie",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 271949.77658877487,
+        "instructions:u": 98158.73804324088,
+        "L2I": 5858.776916357283,
+        "FE_L2": 491.40194365582005,
+        "ITLB_WALK": 547.3965931426076,
+        "SWPF_MISS": 0.05044769600349421,
+        "SWPF_HIT": 0.7335662808473465
+      },
+      "extra_per_request": {},
+      "L2I_mpki": 59.68675874557774,
+      "itlb_walk_active_pct_user_cycles": null,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": 0.4848573676357715,
+          "instructions:u": 0.1157560947822156,
+          "L2I": 3.272749301100053,
+          "FE_L2": -2.002987245789356,
+          "ITLB_WALK": -3.092526268021345
+        }
+      }
+    },
+    {
+      "phase": "screen_v5",
+      "arm": "callees_ungated_nop",
+      "service": "compose",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 560351.0966092274,
+        "instructions:u": 277808.6023346303,
+        "L2I": 11361.96620344636,
+        "FE_L2": 994.7826570316843,
+        "ITLB_WALK": 1062.9115063924403,
+        "SWPF_MISS": 0.1103946637020567,
+        "SWPF_HIT": 1.7965536409116176
+      },
+      "extra_per_request": {},
+      "L2I_mpki": 40.89853988668237,
+      "itlb_walk_active_pct_user_cycles": null,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": 1.2572437083852028,
+          "instructions:u": -0.04812395665880764,
+          "L2I": -1.389289505864033,
+          "FE_L2": 0.4474497922364318,
+          "ITLB_WALK": 1.6340944694449022
+        }
+      }
+    },
+    {
+      "phase": "screen_v5",
+      "arm": "callees_ungated_nop",
+      "service": "rating",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 272442.30298704153,
+        "instructions:u": 104648.42653195695,
+        "L2I": 5580.952448934769,
+        "FE_L2": 500.898528442785,
+        "ITLB_WALK": 497.8193498792005,
+        "SWPF_MISS": 0.038436195914781465,
+        "SWPF_HIT": 0.6960245991653855
+      },
+      "extra_per_request": {},
+      "L2I_mpki": 53.330495583041454,
+      "itlb_walk_active_pct_user_cycles": null,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": -0.6591190361385335,
+          "instructions:u": -0.06081493353302658,
+          "L2I": -0.6281569854476476,
+          "FE_L2": 0.13947726239926794,
+          "ITLB_WALK": 2.052195653711253
+        }
+      }
+    },
+    {
+      "phase": "screen_v5",
+      "arm": "callees_ungated_it0",
+      "service": "movie",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 272432.98495332233,
+        "instructions:u": 98864.84557935201,
+        "L2I": 6033.070071389347,
+        "FE_L2": 484.9056562328391,
+        "ITLB_WALK": 529.4928061504668,
+        "SWPF_MISS": 0.05019220208676552,
+        "SWPF_HIT": 0.800658978583196
+      },
+      "extra_per_request": {},
+      "L2I_mpki": 61.02341065760343,
+      "itlb_walk_active_pct_user_cycles": null,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": 0.30803593419953534,
+          "instructions:u": -0.60276391440095,
+          "L2I": 0.39520370710075525,
+          "FE_L2": -0.6545173593628828,
+          "ITLB_WALK": 0.27933730202371887
+        },
+        "callees_ungated_nop": {
+          "cycles:u": -0.17768294227287207,
+          "instructions:u": -0.7193527037807623,
+          "L2I": -2.9749068367059595,
+          "FE_L2": 1.321990583645516,
+          "ITLB_WALK": 3.2707158240344647
+        }
+      }
+    },
+    {
+      "phase": "screen_v5",
+      "arm": "callees_ungated_it0",
+      "service": "compose",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 567569.2996986271,
+        "instructions:u": 278767.15682553855,
+        "L2I": 11084.364772854113,
+        "FE_L2": 1012.989730996763,
+        "ITLB_WALK": 1158.2435539680769,
+        "SWPF_MISS": 0.11273579640584887,
+        "SWPF_HIT": 1.7849090300256725
+      },
+      "extra_per_request": {},
+      "L2I_mpki": 39.76208997888178,
+      "itlb_walk_active_pct_user_cycles": null,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": -0.014718232678023746,
+          "instructions:u": -0.3933313322391996,
+          "L2I": 1.0879060173036081,
+          "FE_L2": -1.3746172012246705,
+          "ITLB_WALK": -7.188298673787452
+        },
+        "callees_ungated_nop": {
+          "cycles:u": -1.2881572166233202,
+          "instructions:u": -0.3450413280412512,
+          "L2I": 2.443251683921077,
+          "FE_L2": -1.8302564722435521,
+          "ITLB_WALK": -8.968954329904367
+        }
+      }
+    },
+    {
+      "phase": "screen_v5",
+      "arm": "callees_ungated_it0",
+      "service": "rating",
+      "block": 0,
+      "per_request": {
+        "cycles:u": 270130.90892070485,
+        "instructions:u": 104740.48898678414,
+        "L2I": 5723.425660792952,
+        "FE_L2": 479.7735682819383,
+        "ITLB_WALK": 462.3235682819383,
+        "SWPF_MISS": 0.034691629955947136,
+        "SWPF_HIT": 0.6747797356828193
+      },
+      "extra_per_request": {},
+      "L2I_mpki": 54.6438699700468,
+      "itlb_walk_active_pct_user_cycles": null,
+      "cost_reduction_pct": {
+        "base": {
+          "cycles:u": 0.1948705532604178,
+          "instructions:u": -0.14884152466363432,
+          "L2I": -3.197040497763304,
+          "FE_L2": 4.3510080309790755,
+          "ITLB_WALK": 9.036122397119062
+        },
+        "callees_ungated_nop": {
+          "cycles:u": 0.8483976390577741,
+          "instructions:u": -0.08797309035417644,
+          "L2I": -2.552847621652421,
+          "FE_L2": 4.217413100917044,
+          "ITLB_WALK": 7.130253495746097
+        }
+      }
+    }
+  ],
+  "interpretation": "Separate post-ROI PMU windows, one block per phase. Ratios are descriptive, no uncertainty estimate or causal promotion. Bracketing request denominator includes recorder setup/teardown. L2I and FE_L2 count different event populations; FE_LATE_SWPF is not all prefetch issues."
+}

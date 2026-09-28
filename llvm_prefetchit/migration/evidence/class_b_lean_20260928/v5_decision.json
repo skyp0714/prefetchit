@@ -1,0 +1,37 @@
+{
+  "promoted": false,
+  "exploratory_only": true,
+  "decisions": {
+    "callees_ungated_it0": {
+      "matched_nop": "callees_ungated_nop",
+      "point_eligible": false,
+      "point_checks": {
+        "base": {
+          "stack_cpu": false,
+          "mean_ms": false,
+          "p99_ms": true
+        },
+        "callees_ungated_nop": {
+          "stack_cpu": false,
+          "mean_ms": true,
+          "p99_ms": true
+        }
+      },
+      "confirmation_checks": {
+        "base": {
+          "stack_cpu": false,
+          "mean_ms": false,
+          "p99_ms": false
+        },
+        "callees_ungated_nop": {
+          "stack_cpu": false,
+          "mean_ms": false,
+          "p99_ms": true
+        }
+      },
+      "confirmed": false,
+      "minimum_effect_pct": -0.48222708278065074
+    }
+  },
+  "interpretation": "Two-block mechanism screen. No independent V5 promotion and no pooling with V4 confirmations."
+}

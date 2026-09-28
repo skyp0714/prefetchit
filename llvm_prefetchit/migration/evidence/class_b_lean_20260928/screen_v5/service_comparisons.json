@@ -1,0 +1,159 @@
+{
+  "comparisons": {
+    "callees_ungated_nop": {
+      "base": {
+        "compose-review-service:cpu_us_per_request": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.07064963722507311,
+          "ci95_pct": [
+            -2.1090211280229587,
+            2.203792048833131
+          ]
+        },
+        "compose-review-service:user_us_per_request": {
+          "pairs": 2,
+          "cost_reduction_pct": 1.0978170277210597,
+          "ci95_pct": [
+            -2.7408697109408964,
+            4.7930796750838445
+          ]
+        },
+        "movie-id-service:cpu_us_per_request": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.17314675931736634,
+          "ci95_pct": [
+            -2.0190638016582385,
+            1.6393705477169118
+          ]
+        },
+        "movie-id-service:user_us_per_request": {
+          "pairs": 2,
+          "cost_reduction_pct": 1.094131021141842,
+          "ci95_pct": [
+            -5.722141500669942,
+            7.4709348523642305
+          ]
+        },
+        "rating-service:cpu_us_per_request": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.4872460079541341,
+          "ci95_pct": [
+            -3.1326472565801566,
+            2.0902994457089097
+          ]
+        },
+        "rating-service:user_us_per_request": {
+          "pairs": 2,
+          "cost_reduction_pct": 1.0283563719519773,
+          "ci95_pct": [
+            -4.376487768647008,
+            6.153325793553732
+          ]
+        }
+      }
+    },
+    "callees_ungated_it0": {
+      "base": {
+        "compose-review-service:cpu_us_per_request": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.21221797468118364,
+          "ci95_pct": [
+            -2.1461293674787996,
+            1.6850790765025936
+          ]
+        },
+        "compose-review-service:user_us_per_request": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.06473279863001835,
+          "ci95_pct": [
+            -2.3181555866618853,
+            2.392126076292156
+          ]
+        },
+        "movie-id-service:cpu_us_per_request": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.14535073329486892,
+          "ci95_pct": [
+            -1.268705331175335,
+            0.9655427044626297
+          ]
+        },
+        "movie-id-service:user_us_per_request": {
+          "pairs": 2,
+          "cost_reduction_pct": 1.7650557479096274,
+          "ci95_pct": [
+            -22.980064514543642,
+            21.53114970052662
+          ]
+        },
+        "rating-service:cpu_us_per_request": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.3763441445608473,
+          "ci95_pct": [
+            -1.9615089314290346,
+            2.660593100111608
+          ]
+        },
+        "rating-service:user_us_per_request": {
+          "pairs": 2,
+          "cost_reduction_pct": 1.3037409507349107,
+          "ci95_pct": [
+            -3.070451550614428,
+            5.492297707299876
+          ]
+        }
+      },
+      "callees_ungated_nop": {
+        "compose-review-service:cpu_us_per_request": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.2830675981374542,
+          "ci95_pct": [
+            -0.5304019278432381,
+            -0.0363417835621771
+          ]
+        },
+        "compose-review-service:user_us_per_request": {
+          "pairs": 2,
+          "cost_reduction_pct": -1.0445514932472255,
+          "ci95_pct": [
+            -2.5218267649009807,
+            0.4114371675734474
+          ]
+        },
+        "movie-id-service:cpu_us_per_request": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.02774798129211442,
+          "ci95_pct": [
+            -0.6850584903801415,
+            0.73550809282239
+          ]
+        },
+        "movie-id-service:user_us_per_request": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.6783467287580169,
+          "ci95_pct": [
+            -16.323849260813915,
+            15.195457584844796
+          ]
+        },
+        "rating-service:cpu_us_per_request": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.859402746938287,
+          "ci95_pct": [
+            0.5824690006956512,
+            1.1355650769222736
+          ]
+        },
+        "rating-service:user_us_per_request": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.2782459386224678,
+          "ci95_pct": [
+            -0.7043702846620814,
+            1.2512743491881362
+          ]
+        }
+      }
+    }
+  },
+  "interpretation": "Secondary decomposition of the three modified services; individual unadjusted paired-log t95 intervals. These do not replace whole-stack E2E promotion criteria."
+}

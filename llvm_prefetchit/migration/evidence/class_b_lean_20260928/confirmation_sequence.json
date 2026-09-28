@@ -1,0 +1,132 @@
+{
+  "started_utc": "2026-09-28T10:29:49.425783+00:00",
+  "steps": [
+    {
+      "concurrency": 4,
+      "completed_utc": "2026-09-28T11:24:11.159370+00:00",
+      "evaluation_sha256": "d034d40b5efbc1b1137190919cc8eb826863bf3a1fde25d3536efcbaa2e824f8",
+      "decision": {
+        "selected_candidate": {
+          "matched_nop": "matched_nop",
+          "point_eligible": false,
+          "point_checks": {
+            "base": {
+              "stack_cpu": true,
+              "mean_ms": false,
+              "p99_ms": true
+            },
+            "matched_nop": {
+              "stack_cpu": false,
+              "mean_ms": false,
+              "p99_ms": true
+            }
+          },
+          "confirmation_checks": {
+            "base": {
+              "stack_cpu": false,
+              "mean_ms": false,
+              "p99_ms": true
+            },
+            "matched_nop": {
+              "stack_cpu": false,
+              "mean_ms": false,
+              "p99_ms": true
+            }
+          },
+          "confirmed": false,
+          "minimum_effect_pct": -1.8039896037469916
+        }
+      },
+      "means": {
+        "base": {
+          "mean_ms": 3.3478232717670307,
+          "p99_ms": 5.87006409962972,
+          "stack_cpu": 5928.931717039439,
+          "inverse_rps": 0.0008543943450909577,
+          "rps": 1170.5864335898061,
+          "util_pct": 85.44038250442267
+        },
+        "matched_nop": {
+          "mean_ms": 3.29888856491049,
+          "p99_ms": 5.846301714579265,
+          "stack_cpu": 5895.704066748479,
+          "inverse_rps": 0.0008423357684980537,
+          "rps": 1187.306228173809,
+          "util_pct": 86.17481487483366
+        },
+        "selected_candidate": {
+          "mean_ms": 3.358435099826914,
+          "p99_ms": 5.837718645731608,
+          "stack_cpu": 5927.553012937465,
+          "inverse_rps": 0.0008572000123976185,
+          "rps": 1166.7420615884405,
+          "util_pct": 85.18662562158802
+        }
+      }
+    },
+    {
+      "concurrency": 16,
+      "completed_utc": "2026-09-28T12:18:43.365623+00:00",
+      "evaluation_sha256": "872959f9ae84fb372d455f1743fc8b8f7257696771708d217e36bd20c4e68bf8",
+      "decision": {
+        "selected_candidate": {
+          "matched_nop": "matched_nop",
+          "point_eligible": false,
+          "point_checks": {
+            "base": {
+              "stack_cpu": false,
+              "mean_ms": false,
+              "p99_ms": true
+            },
+            "matched_nop": {
+              "stack_cpu": false,
+              "mean_ms": false,
+              "p99_ms": true
+            }
+          },
+          "confirmation_checks": {
+            "base": {
+              "stack_cpu": false,
+              "mean_ms": false,
+              "p99_ms": true
+            },
+            "matched_nop": {
+              "stack_cpu": false,
+              "mean_ms": false,
+              "p99_ms": true
+            }
+          },
+          "confirmed": false,
+          "minimum_effect_pct": -0.5005289722248119
+        }
+      },
+      "means": {
+        "base": {
+          "mean_ms": 11.410074214612594,
+          "p99_ms": 20.88785171508789,
+          "stack_cpu": 5579.258993102028,
+          "inverse_rps": 0.0007174804353235053,
+          "rps": 1393.7684045744384,
+          "util_pct": 97.30587434290716
+        },
+        "matched_nop": {
+          "mean_ms": 11.378305563285886,
+          "p99_ms": 20.894805590311687,
+          "stack_cpu": 5562.54875473205,
+          "inverse_rps": 0.0007155382085773632,
+          "rps": 1397.5550495693994,
+          "util_pct": 97.25905658447287
+        },
+        "selected_candidate": {
+          "mean_ms": 11.432865173147382,
+          "p99_ms": 21.01278305053711,
+          "stack_cpu": 5590.468651415965,
+          "inverse_rps": 0.0007189184409454997,
+          "rps": 1391.0170447528458,
+          "util_pct": 97.27714326420934
+        }
+      }
+    }
+  ],
+  "complete": true
+}

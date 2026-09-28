@@ -1,0 +1,16 @@
+[
+  "/home/hnpark2/prefetchit/profiling/.venv/bin/python",
+  "-m",
+  "pytest",
+  "-q",
+  "llvm_prefetchit/tests/test_dominator_prefetch.py",
+  "llvm_prefetchit/tests/test_lean_it0.py",
+  "llvm_prefetchit/tests/test_lean_plan.py",
+  "llvm_prefetchit/tests/test_lean_profile.py",
+  "llvm_prefetchit/tests/test_lean_timeline.py",
+  "llvm_prefetchit/tests/test_concurrency_study.py",
+  "llvm_prefetchit/tests/test_wake_miss_timeline.py",
+  "--basetemp=/storage/prefetchit/class_b_lean_20260928/test_v4",
+  "-o",
+  "cache_dir=/storage/prefetchit/class_b_lean_20260928/test_cache_v4"
+]

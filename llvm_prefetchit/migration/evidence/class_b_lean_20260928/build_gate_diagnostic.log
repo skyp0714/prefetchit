@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/storage/prefetchit/class_b_lean_20260928/build_gate_diagnostic.py", line 24, in <module>
+    converted[key]=lean_it0.patch(source,dest,b.sha(source));p.read_image(dest)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/lean_it0.py", line 17, in patch
+    sites=json.load(gzip.open(source.with_suffix('.patches.json.gz'),'rt'))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/gzip.py", line 61, in open
+    binary_file = GzipFile(filename, gz_mode, compresslevel)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/gzip.py", line 192, in __init__
+    fileobj = self.myfileobj = builtins.open(filename, mode or 'rb')
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_gate_diag/movie/MovieIdService.patches.json.gz'

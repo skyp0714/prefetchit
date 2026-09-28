@@ -1,0 +1,644 @@
+{
+  "quality": {
+    "initial_threads": 11,
+    "new_threads": 52918,
+    "thread_exits": 52913,
+    "target_samples": 2114,
+    "unknown_tid_resolved_by_cpu_interval": 320,
+    "unknown_tid_samples": 320,
+    "duplicate_scheduler_records": 1,
+    "right_censored_runs": 0,
+    "right_censored_samples": 0,
+    "complete_runs": 242984,
+    "complete_samples": 2114,
+    "complete_sample_pct": 100.0
+  },
+  "duplicate_scheduler_examples": [
+    {
+      "comm": "ComposeReviewSe",
+      "pid": 3838120,
+      "tid": 207932,
+      "cpu": 39,
+      "time": 246043567630862,
+      "period": 1,
+      "event": "sched:sched_switch",
+      "prev": 207932,
+      "state": "R",
+      "next": 3842542
+    }
+  ],
+  "bins": [
+    {
+      "lo_us": 0,
+      "hi_us": 1,
+      "samples": 0,
+      "known_tid_samples": 0,
+      "estimated_events": 0,
+      "exposure_us": 242984.0,
+      "runs_reaching_bin": 242984,
+      "event_share_pct": 0.0,
+      "cumulative_pct": 0.0,
+      "estimated_events_per_1000_switchins": 0.0,
+      "estimated_events_per_scheduled_us": 0.0
+    },
+    {
+      "lo_us": 1,
+      "hi_us": 2,
+      "samples": 0,
+      "known_tid_samples": 0,
+      "estimated_events": 0,
+      "exposure_us": 242984.0,
+      "runs_reaching_bin": 242984,
+      "event_share_pct": 0.0,
+      "cumulative_pct": 0.0,
+      "estimated_events_per_1000_switchins": 0.0,
+      "estimated_events_per_scheduled_us": 0.0
+    },
+    {
+      "lo_us": 2,
+      "hi_us": 5,
+      "samples": 24,
+      "known_tid_samples": 22,
+      "estimated_events": 98232,
+      "exposure_us": 728751.798,
+      "runs_reaching_bin": 242984,
+      "event_share_pct": 1.1352885525070955,
+      "cumulative_pct": 1.1352885525070955,
+      "estimated_events_per_1000_switchins": 404.2735324136569,
+      "estimated_events_per_scheduled_us": 0.13479486468450538
+    },
+    {
+      "lo_us": 5,
+      "hi_us": 8,
+      "samples": 210,
+      "known_tid_samples": 161,
+      "estimated_events": 859530,
+      "exposure_us": 717637.9050000013,
+      "runs_reaching_bin": 242645,
+      "event_share_pct": 9.933774834437086,
+      "cumulative_pct": 11.069063386944181,
+      "estimated_events_per_1000_switchins": 3537.3934086194977,
+      "estimated_events_per_scheduled_us": 1.197721015029158
+    },
+    {
+      "lo_us": 8,
+      "hi_us": 10,
+      "samples": 234,
+      "known_tid_samples": 169,
+      "estimated_events": 957762,
+      "exposure_us": 453610.7629999992,
+      "runs_reaching_bin": 232932,
+      "event_share_pct": 11.069063386944181,
+      "cumulative_pct": 22.138126773888363,
+      "estimated_events_per_1000_switchins": 3941.6669410331547,
+      "estimated_events_per_scheduled_us": 2.1114181543351114
+    },
+    {
+      "lo_us": 10,
+      "hi_us": 15,
+      "samples": 552,
+      "known_tid_samples": 430,
+      "estimated_events": 2259336,
+      "exposure_us": 1041100.5440000059,
+      "runs_reaching_bin": 219822,
+      "event_share_pct": 26.111636707663198,
+      "cumulative_pct": 48.24976348155156,
+      "estimated_events_per_1000_switchins": 9298.291245514109,
+      "estimated_events_per_scheduled_us": 2.1701419839042817
+    },
+    {
+      "lo_us": 15,
+      "hi_us": 20,
+      "samples": 360,
+      "known_tid_samples": 303,
+      "estimated_events": 1473480,
+      "exposure_us": 954460.2949999963,
+      "runs_reaching_bin": 199702,
+      "event_share_pct": 17.029328287606432,
+      "cumulative_pct": 65.279091769158,
+      "estimated_events_per_1000_switchins": 6064.102986204853,
+      "estimated_events_per_scheduled_us": 1.5437834425579806
+    },
+    {
+      "lo_us": 20,
+      "hi_us": 22,
+      "samples": 97,
+      "known_tid_samples": 87,
+      "estimated_events": 397021,
+      "exposure_us": 352806.01799999876,
+      "runs_reaching_bin": 180756,
+      "event_share_pct": 4.588457899716178,
+      "cumulative_pct": 69.86754966887418,
+      "estimated_events_per_1000_switchins": 1633.938860171863,
+      "estimated_events_per_scheduled_us": 1.1253237749476297
+    },
+    {
+      "lo_us": 22,
+      "hi_us": 24,
+      "samples": 78,
+      "known_tid_samples": 72,
+      "estimated_events": 319254,
+      "exposure_us": 334212.0240000008,
+      "runs_reaching_bin": 171954,
+      "event_share_pct": 3.6896877956480605,
+      "cumulative_pct": 73.55723746452223,
+      "estimated_events_per_1000_switchins": 1313.888980344385,
+      "estimated_events_per_scheduled_us": 0.9552439082802097
+    },
+    {
+      "lo_us": 24,
+      "hi_us": 30,
+      "samples": 176,
+      "known_tid_samples": 169,
+      "estimated_events": 720368,
+      "exposure_us": 869519.1169999986,
+      "runs_reaching_bin": 162137,
+      "event_share_pct": 8.325449385052034,
+      "cumulative_pct": 81.88268684957427,
+      "estimated_events_per_1000_switchins": 2964.6725710334836,
+      "estimated_events_per_scheduled_us": 0.8284671215572609
+    },
+    {
+      "lo_us": 30,
+      "hi_us": 40,
+      "samples": 218,
+      "known_tid_samples": 216,
+      "estimated_events": 892274,
+      "exposure_us": 957391.5530000054,
+      "runs_reaching_bin": 126321,
+      "event_share_pct": 10.312204351939451,
+      "cumulative_pct": 92.19489120151371,
+      "estimated_events_per_1000_switchins": 3672.151252757383,
+      "estimated_events_per_scheduled_us": 0.931984408264353
+    },
+    {
+      "lo_us": 40,
+      "hi_us": 50,
+      "samples": 94,
+      "known_tid_samples": 94,
+      "estimated_events": 384742,
+      "exposure_us": 541002.4739999985,
+      "runs_reaching_bin": 69853,
+      "event_share_pct": 4.446546830652791,
+      "cumulative_pct": 96.6414380321665,
+      "estimated_events_per_1000_switchins": 1583.4046686201561,
+      "estimated_events_per_scheduled_us": 0.7111649548574912
+    },
+    {
+      "lo_us": 50,
+      "hi_us": 100,
+      "samples": 59,
+      "known_tid_samples": 59,
+      "estimated_events": 241487,
+      "exposure_us": 948073.8359999947,
+      "runs_reaching_bin": 42899,
+      "event_share_pct": 2.7909176915799434,
+      "cumulative_pct": 99.43235572374645,
+      "estimated_events_per_1000_switchins": 993.8391005169065,
+      "estimated_events_per_scheduled_us": 0.2547132837447076
+    },
+    {
+      "lo_us": 100,
+      "hi_us": 200,
+      "samples": 11,
+      "known_tid_samples": 11,
+      "estimated_events": 45023,
+      "exposure_us": 164132.20199999967,
+      "runs_reaching_bin": 7042,
+      "event_share_pct": 0.5203405865657521,
+      "cumulative_pct": 99.9526963103122,
+      "estimated_events_per_1000_switchins": 185.29203568959272,
+      "estimated_events_per_scheduled_us": 0.27430936435008707
+    },
+    {
+      "lo_us": 200,
+      "hi_us": 500,
+      "samples": 0,
+      "known_tid_samples": 0,
+      "estimated_events": 0,
+      "exposure_us": 20879.121000000003,
+      "runs_reaching_bin": 89,
+      "event_share_pct": 0.0,
+      "cumulative_pct": 99.9526963103122,
+      "estimated_events_per_1000_switchins": 0.0,
+      "estimated_events_per_scheduled_us": 0.0
+    },
+    {
+      "lo_us": 500,
+      "hi_us": 1000,
+      "samples": 1,
+      "known_tid_samples": 1,
+      "estimated_events": 4093,
+      "exposure_us": 5529.303,
+      "runs_reaching_bin": 19,
+      "event_share_pct": 0.04730368968779565,
+      "cumulative_pct": 100.0,
+      "estimated_events_per_1000_switchins": 16.844730517235703,
+      "estimated_events_per_scheduled_us": 0.7402379648935861
+    },
+    {
+      "lo_us": 1000,
+      "hi_us": null,
+      "samples": 0,
+      "known_tid_samples": 0,
+      "estimated_events": 0,
+      "exposure_us": 8530.464,
+      "runs_reaching_bin": 9,
+      "event_share_pct": 0.0,
+      "cumulative_pct": 100.0,
+      "estimated_events_per_1000_switchins": 0.0,
+      "estimated_events_per_scheduled_us": 0.0
+    }
+  ],
+  "origins": {
+    "new_thread_first_run": {
+      "runs": 52139,
+      "samples": 370,
+      "estimated_events": 1514410,
+      "bins": [
+        {
+          "lo_us": 0,
+          "hi_us": 1,
+          "samples": 0,
+          "estimated_events": 0,
+          "exposure_us": 52139.0
+        },
+        {
+          "lo_us": 1,
+          "hi_us": 2,
+          "samples": 0,
+          "estimated_events": 0,
+          "exposure_us": 52139.0
+        },
+        {
+          "lo_us": 2,
+          "hi_us": 5,
+          "samples": 6,
+          "estimated_events": 24558,
+          "exposure_us": 156415.50900000002
+        },
+        {
+          "lo_us": 5,
+          "hi_us": 8,
+          "samples": 23,
+          "estimated_events": 94139,
+          "exposure_us": 156325.20399999997
+        },
+        {
+          "lo_us": 8,
+          "hi_us": 10,
+          "samples": 36,
+          "estimated_events": 147348,
+          "exposure_us": 103882.97900000004
+        },
+        {
+          "lo_us": 10,
+          "hi_us": 15,
+          "samples": 168,
+          "estimated_events": 687624,
+          "exposure_us": 257142.65600000025
+        },
+        {
+          "lo_us": 15,
+          "hi_us": 20,
+          "samples": 77,
+          "estimated_events": 315161,
+          "exposure_us": 254021.5120000001
+        },
+        {
+          "lo_us": 20,
+          "hi_us": 22,
+          "samples": 15,
+          "estimated_events": 61395,
+          "exposure_us": 98824.57800000008
+        },
+        {
+          "lo_us": 22,
+          "hi_us": 24,
+          "samples": 9,
+          "estimated_events": 36837,
+          "exposure_us": 94282.67500000013
+        },
+        {
+          "lo_us": 24,
+          "hi_us": 30,
+          "samples": 8,
+          "estimated_events": 32744,
+          "exposure_us": 236498.28900000057
+        },
+        {
+          "lo_us": 30,
+          "hi_us": 40,
+          "samples": 26,
+          "estimated_events": 106418,
+          "exposure_us": 191713.2369999985
+        },
+        {
+          "lo_us": 40,
+          "hi_us": 50,
+          "samples": 2,
+          "estimated_events": 8186,
+          "exposure_us": 33381.452
+        },
+        {
+          "lo_us": 50,
+          "hi_us": 100,
+          "samples": 0,
+          "estimated_events": 0,
+          "exposure_us": 4177.212999999995
+        },
+        {
+          "lo_us": 100,
+          "hi_us": 200,
+          "samples": 0,
+          "estimated_events": 0,
+          "exposure_us": 3.4920000000000044
+        },
+        {
+          "lo_us": 200,
+          "hi_us": 500,
+          "samples": 0,
+          "estimated_events": 0,
+          "exposure_us": 0.0
+        },
+        {
+          "lo_us": 500,
+          "hi_us": 1000,
+          "samples": 0,
+          "estimated_events": 0,
+          "exposure_us": 0.0
+        },
+        {
+          "lo_us": 1000,
+          "hi_us": null,
+          "samples": 0,
+          "estimated_events": 0,
+          "exposure_us": 0.0
+        }
+      ]
+    },
+    "boundary_or_initial": {
+      "runs": 6,
+      "samples": 0,
+      "estimated_events": 0,
+      "bins": [
+        {
+          "lo_us": 0,
+          "hi_us": 1,
+          "samples": 0,
+          "estimated_events": 0,
+          "exposure_us": 6.0
+        },
+        {
+          "lo_us": 1,
+          "hi_us": 2,
+          "samples": 0,
+          "estimated_events": 0,
+          "exposure_us": 6.0
+        },
+        {
+          "lo_us": 2,
+          "hi_us": 5,
+          "samples": 0,
+          "estimated_events": 0,
+          "exposure_us": 18.0
+        },
+        {
+          "lo_us": 5,
+          "hi_us": 8,
+          "samples": 0,
+          "estimated_events": 0,
+          "exposure_us": 18.0
+        },
+        {
+          "lo_us": 8,
+          "hi_us": 10,
+          "samples": 0,
+          "estimated_events": 0,
+          "exposure_us": 12.0
+        },
+        {
+          "lo_us": 10,
+          "hi_us": 15,
+          "samples": 0,
+          "estimated_events": 0,
+          "exposure_us": 26.892
+        },
+        {
+          "lo_us": 15,
+          "hi_us": 20,
+          "samples": 0,
+          "estimated_events": 0,
+          "exposure_us": 24.293
+        },
+        {
+          "lo_us": 20,
+          "hi_us": 22,
+          "samples": 0,
+          "estimated_events": 0,
+          "exposure_us": 8.0
+        },
+        {
+          "lo_us": 22,
+          "hi_us": 24,
+          "samples": 0,
+          "estimated_events": 0,
+          "exposure_us": 8.0
+        },
+        {
+          "lo_us": 24,
+          "hi_us": 30,
+          "samples": 0,
+          "estimated_events": 0,
+          "exposure_us": 18.53
+        },
+        {
+          "lo_us": 30,
+          "hi_us": 40,
+          "samples": 0,
+          "estimated_events": 0,
+          "exposure_us": 30.0
+        },
+        {
+          "lo_us": 40,
+          "hi_us": 50,
+          "samples": 0,
+          "estimated_events": 0,
+          "exposure_us": 30.0
+        },
+        {
+          "lo_us": 50,
+          "hi_us": 100,
+          "samples": 0,
+          "estimated_events": 0,
+          "exposure_us": 40.308
+        },
+        {
+          "lo_us": 100,
+          "hi_us": 200,
+          "samples": 0,
+          "estimated_events": 0,
+          "exposure_us": 0.0
+        },
+        {
+          "lo_us": 200,
+          "hi_us": 500,
+          "samples": 0,
+          "estimated_events": 0,
+          "exposure_us": 0.0
+        },
+        {
+          "lo_us": 500,
+          "hi_us": 1000,
+          "samples": 0,
+          "estimated_events": 0,
+          "exposure_us": 0.0
+        },
+        {
+          "lo_us": 1000,
+          "hi_us": null,
+          "samples": 0,
+          "estimated_events": 0,
+          "exposure_us": 0.0
+        }
+      ]
+    },
+    "resume": {
+      "runs": 190839,
+      "samples": 1744,
+      "estimated_events": 7138192,
+      "bins": [
+        {
+          "lo_us": 0,
+          "hi_us": 1,
+          "samples": 0,
+          "estimated_events": 0,
+          "exposure_us": 190839.0
+        },
+        {
+          "lo_us": 1,
+          "hi_us": 2,
+          "samples": 0,
+          "estimated_events": 0,
+          "exposure_us": 190839.0
+        },
+        {
+          "lo_us": 2,
+          "hi_us": 5,
+          "samples": 18,
+          "estimated_events": 73674,
+          "exposure_us": 572318.289
+        },
+        {
+          "lo_us": 5,
+          "hi_us": 8,
+          "samples": 187,
+          "estimated_events": 765391,
+          "exposure_us": 561294.7009999974
+        },
+        {
+          "lo_us": 8,
+          "hi_us": 10,
+          "samples": 198,
+          "estimated_events": 810414,
+          "exposure_us": 349715.7840000002
+        },
+        {
+          "lo_us": 10,
+          "hi_us": 15,
+          "samples": 384,
+          "estimated_events": 1571712,
+          "exposure_us": 783930.9960000066
+        },
+        {
+          "lo_us": 15,
+          "hi_us": 20,
+          "samples": 283,
+          "estimated_events": 1158319,
+          "exposure_us": 700414.4900000037
+        },
+        {
+          "lo_us": 20,
+          "hi_us": 22,
+          "samples": 82,
+          "estimated_events": 335626,
+          "exposure_us": 253973.43999999907
+        },
+        {
+          "lo_us": 22,
+          "hi_us": 24,
+          "samples": 69,
+          "estimated_events": 282417,
+          "exposure_us": 239921.3489999993
+        },
+        {
+          "lo_us": 24,
+          "hi_us": 30,
+          "samples": 168,
+          "estimated_events": 687624,
+          "exposure_us": 633002.2980000026
+        },
+        {
+          "lo_us": 30,
+          "hi_us": 40,
+          "samples": 192,
+          "estimated_events": 785856,
+          "exposure_us": 765648.3159999991
+        },
+        {
+          "lo_us": 40,
+          "hi_us": 50,
+          "samples": 92,
+          "estimated_events": 376556,
+          "exposure_us": 507591.02199999965
+        },
+        {
+          "lo_us": 50,
+          "hi_us": 100,
+          "samples": 59,
+          "estimated_events": 241487,
+          "exposure_us": 943856.3149999946
+        },
+        {
+          "lo_us": 100,
+          "hi_us": 200,
+          "samples": 11,
+          "estimated_events": 45023,
+          "exposure_us": 164128.70999999967
+        },
+        {
+          "lo_us": 200,
+          "hi_us": 500,
+          "samples": 0,
+          "estimated_events": 0,
+          "exposure_us": 20879.121000000003
+        },
+        {
+          "lo_us": 500,
+          "hi_us": 1000,
+          "samples": 1,
+          "estimated_events": 4093,
+          "exposure_us": 5529.303
+        },
+        {
+          "lo_us": 1000,
+          "hi_us": null,
+          "samples": 0,
+          "estimated_events": 0,
+          "exposure_us": 8530.464
+        }
+      ]
+    }
+  },
+  "median_run_us": 30.766,
+  "p90_run_us": 62.773,
+  "runs_with_prior_out": 190839,
+  "migrated_pct": 46.78865431070169,
+  "median_off_us": 244.187,
+  "event": "FRONTEND_RETIRED.L2_MISS, user mode, PEBS precise_ip=2",
+  "origin": "sched_switch selection of this next TID, before switch completes; includes kernel return time",
+  "estimator": "Sum of fixed sample periods, assigned at sampled retirement; counters are not reset at switches. Estimates, not exact per-bin miss counts.",
+  "exposure": "Scheduled wall time of complete target runs, includes kernel/interrupt time; not user instructions or user-only time",
+  "limitations": "Boundary runs excluded. PEBS retirement time differs from fetch time. Diagnostic sampling perturbs execution; not a clean latency/throughput result.",
+  "period": 4093
+}

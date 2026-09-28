@@ -1,0 +1,92 @@
+{
+  "out": "/storage/prefetchit/class_b_lean_20260928/screen_v5",
+  "arms": {
+    "base": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+      },
+      "clock": false
+    },
+    "callees_ungated_nop": {
+      "clock": false,
+      "controls": [
+        "base"
+      ],
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v5_callees_ungated/movie/MovieIdService.nop",
+        "compose": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v5_callees_ungated/compose/ComposeReviewService.nop",
+        "rating": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v5_callees_ungated/rating/RatingService.nop"
+      }
+    },
+    "callees_ungated_it0": {
+      "clock": false,
+      "controls": [
+        "base",
+        "callees_ungated_nop"
+      ],
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v5_callees_ungated_it0/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v5_callees_ungated_it0/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v5_callees_ungated_it0/rating/RatingService"
+      }
+    }
+  },
+  "module": "/storage/prefetchit/class_b_lean_20260928/kernel_v1/prefetchit_sched_clock.ko",
+  "clock_options": {
+    "dense_begin_us": 5,
+    "dense_us": 15,
+    "medium_begin_us": 3,
+    "medium_us": 17,
+    "sparse_begin_us": 1,
+    "sparse_us": 20
+  },
+  "blocks": 2,
+  "concurrency": 4,
+  "roi_s": 60,
+  "seedbase": 60001,
+  "pmu_blocks": [
+    0
+  ],
+  "pmu_event_sets": {},
+  "phase": "Late exploratory mechanism follow-up; not independent confirmation and not pooled with V4",
+  "design": {
+    "frozen_utc": "2026-09-28T10:34:44.217802+00:00",
+    "policy": "lean_meta_callees_static_ungated",
+    "motivation_source": "Completed screen_v4 post-ROI PMU only, before inspecting current independent confirmation outputs; those campaigns were already running.",
+    "motivation": "Static callee policy reduces retired L2-miss instructions vs original about6\u20138% while adding about3\u20135% instructions. Test same callee allowlist/budget without gates/runtime to reduce remaining injection cost.",
+    "caveat": "Removing outlining also changes placement constraints/code generation; final sites can differ. This is not an exact machine-code gate-only ablation. Own exact-layout NOP remains required.",
+    "schedule": "Finish both already frozen C4/C16 confirmations unchanged. Build V5 only afterward. Then3arms*2blocks C4 exploratory screen; no independent promotion from this late screen.",
+    "concurrency": 4,
+    "blocks": 2,
+    "seedbase": 60001,
+    "roi_s": 60,
+    "pmu_blocks": [
+      0
+    ],
+    "pmu_event_sets": {},
+    "clean_screen_admission": "Start V5 screen by12:23UTC; otherwise retain build/audit and record time-budget omission without interpreting performance.",
+    "diagnostic_priority": "After V5 screen, MovieId original/candidate period4093 once each plus previously built all3 counter-only diagnostic. No performance claims from profiling.",
+    "diagnostic_admission": "Start reduced diagnostics by12:40UTC; otherwise record explicit time-budget omission. Original all3 two-period and optionalC16 protocols remain preserved as superseded, not executed.",
+    "decision": "Report all screen endpoints vs base and ownNOP; never pool with V4 confirmation or promote from2blocks.",
+    "source_sha256": "d58d801435fa8c8f404cef76809bbd9867da02879ff8a74e695d4141f3bf409f"
+  },
+  "driver_sha256": "8d8ebeaa972257ba6cad3cf10c89c7edba4c57a5496a6e374ef8338bc486f686",
+  "controls": "Original baseline without hook; exact-layout NOP retains all gates and register pressure",
+  "pmu": "After clean ROI only; no concurrent builds or decoding",
+  "timing": "50s warmup then fixed clean ROI; no performance-based retries",
+  "orders": [
+    [
+      "base",
+      "callees_ungated_nop",
+      "callees_ungated_it0"
+    ],
+    [
+      "callees_ungated_it0",
+      "callees_ungated_nop",
+      "base"
+    ]
+  ],
+  "decision": "Exploratory screens; net benefit requires independent repeated confirmation"
+}

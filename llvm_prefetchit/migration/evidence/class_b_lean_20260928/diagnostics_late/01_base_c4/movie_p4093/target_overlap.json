@@ -1,0 +1,1630 @@
+{
+  "binary": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+  "sha256": "1dbfa7f16b813e7a1a18eb57cf17538bf1d051e27aeccaec8ffadd8fce258b07",
+  "mappings": [
+    {
+      "start": 99126807371776,
+      "end": 99126809714688,
+      "bias": 99126806777856,
+      "path": "/custom/MovieIdService"
+    }
+  ],
+  "coverage_applicable": false,
+  "target_lines": 0,
+  "bins": [
+    {
+      "lo_us": 0,
+      "hi_us": 1
+    },
+    {
+      "lo_us": 1,
+      "hi_us": 2
+    },
+    {
+      "lo_us": 2,
+      "hi_us": 5,
+      "estimated_events": 130976,
+      "outside_main": 45023,
+      "main": 85953
+    },
+    {
+      "lo_us": 5,
+      "hi_us": 8,
+      "estimated_events": 744926,
+      "main": 658973,
+      "outside_main": 85953
+    },
+    {
+      "lo_us": 8,
+      "hi_us": 10,
+      "estimated_events": 908646,
+      "main": 806321,
+      "outside_main": 102325
+    },
+    {
+      "lo_us": 10,
+      "hi_us": 15,
+      "estimated_events": 2054686,
+      "main": 1792734,
+      "outside_main": 261952
+    },
+    {
+      "lo_us": 15,
+      "hi_us": 20,
+      "estimated_events": 1371155,
+      "main": 1186970,
+      "outside_main": 184185
+    },
+    {
+      "lo_us": 20,
+      "hi_us": 22,
+      "estimated_events": 360184,
+      "main": 298789,
+      "outside_main": 61395
+    },
+    {
+      "lo_us": 22,
+      "hi_us": 24,
+      "estimated_events": 323347,
+      "main": 253766,
+      "outside_main": 69581
+    },
+    {
+      "lo_us": 24,
+      "hi_us": 30,
+      "estimated_events": 765391,
+      "main": 654880,
+      "outside_main": 110511
+    },
+    {
+      "lo_us": 30,
+      "hi_us": 40,
+      "estimated_events": 802228,
+      "outside_main": 102325,
+      "main": 699903
+    },
+    {
+      "lo_us": 40,
+      "hi_us": 50,
+      "estimated_events": 470695,
+      "outside_main": 167813,
+      "main": 302882
+    },
+    {
+      "lo_us": 50,
+      "hi_us": 100,
+      "estimated_events": 257859,
+      "main": 155534,
+      "outside_main": 102325
+    },
+    {
+      "lo_us": 100,
+      "hi_us": 200,
+      "estimated_events": 32744,
+      "main": 28651,
+      "outside_main": 4093
+    },
+    {
+      "lo_us": 200,
+      "hi_us": 500
+    },
+    {
+      "lo_us": 500,
+      "hi_us": 1000
+    },
+    {
+      "lo_us": 1000,
+      "hi_us": null
+    }
+  ],
+  "top_main_ips": [
+    {
+      "va": "0x1b6f33",
+      "estimated_events": 106418,
+      "function_ranges": [
+        {
+          "start": 1797936,
+          "end": 1798147,
+          "names": [
+            "_ZNSt12_Destroy_auxILb0EE9__destroyIPN13jaegertracing9ReferenceEEEvT_S5_"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0xbd9a0",
+      "estimated_events": 81860,
+      "function_ranges": [
+        {
+          "start": 776608,
+          "end": 777143,
+          "names": [
+            "_ZNSt10_HashtableINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4pairIKS5_S5_ESaIS8_ENSt8__detail10_Select1stESt8equal_toIS5_ESt4hashIS5_ENSA_18_Mod_range_hashingENSA_20_Default_ranged_hashENSA_20_Prime_rehash_policyENSA_17_Hashtable_traitsILb1ELb0ELb1EEEE9_M_assignIRKSL_NSA_10_AllocNodeISaINSA_10_Hash_nodeIS8_Lb1EEEEEEEEvOT_RKT0_"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x15ad40",
+      "estimated_events": 77767,
+      "function_ranges": [
+        {
+          "start": 1420608,
+          "end": 1422220,
+          "names": [
+            "_ZN6apache6thrift9transport7TSocket4readEPhj"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1dec40",
+      "estimated_events": 69581,
+      "function_ranges": [
+        {
+          "start": 1961024,
+          "end": 1962275,
+          "names": [
+            "_ZNK13jaegertracing6thrift4Span5writeEPN6apache6thrift8protocol9TProtocolE"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x235ea0",
+      "estimated_events": 69581,
+      "function_ranges": [
+        {
+          "start": 2317984,
+          "end": 2317993,
+          "names": [
+            "_ZNSt18condition_variable10notify_oneEv"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x295020",
+      "estimated_events": 65488,
+      "function_ranges": [
+        {
+          "start": 2707488,
+          "end": 2707521,
+          "names": [
+            "__once_proxy"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0xd3f40",
+      "estimated_events": 61395,
+      "function_ranges": [
+        {
+          "start": 868160,
+          "end": 868421,
+          "names": [
+            "_ZNSt13__future_base13_State_baseV213_M_set_resultESt8functionIFSt10unique_ptrINS_12_Result_baseENS3_8_DeleterEEvEEb"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x92170",
+      "estimated_events": 57302,
+      "function_ranges": []
+    },
+    {
+      "va": "0x1ddc50",
+      "estimated_events": 57302,
+      "function_ranges": [
+        {
+          "start": 1956944,
+          "end": 1957438,
+          "names": [
+            "_ZNK13jaegertracing6thrift7SpanRef5writeEPN6apache6thrift8protocol9TProtocolE"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0xc10b0",
+      "estimated_events": 57302,
+      "function_ranges": [
+        {
+          "start": 790704,
+          "end": 790933,
+          "names": [
+            "_ZNK13media_service13TextMapReader10ForeachKeyESt8functionIFN11opentracing2v28expectedIvSt10error_codeEENS3_11string_viewES7_EE"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1e9c90",
+      "estimated_events": 53209,
+      "function_ranges": [
+        {
+          "start": 2006160,
+          "end": 2006511,
+          "names": [
+            "_ZN13jaegertracing4Span17FinishWithOptionsERKN11opentracing2v217FinishSpanOptionsE"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x2a6a80",
+      "estimated_events": 49116,
+      "function_ranges": [
+        {
+          "start": 2779776,
+          "end": 2780028,
+          "names": [
+            "_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE9_M_assignERKS4_"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1eb220",
+      "estimated_events": 49116,
+      "function_ranges": [
+        {
+          "start": 2011680,
+          "end": 2011744,
+          "names": [
+            "_ZNK13jaegertracing4Span7contextEv"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x15f8e0",
+      "estimated_events": 49116,
+      "function_ranges": [
+        {
+          "start": 1439968,
+          "end": 1440032,
+          "names": [
+            "_ZN6apache6thrift9transport17TVirtualTransportINS1_16TFramedTransportENS1_11TBufferBaseEE12readAll_virtEPhj"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1d6160",
+      "estimated_events": 45023,
+      "function_ranges": [
+        {
+          "start": 1925472,
+          "end": 1925738,
+          "names": [
+            "_ZNSt5dequeIN13jaegertracing4SpanESaIS1_EE16_M_push_back_auxIJRKS1_EEEvDpOT_"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0xd94c0",
+      "estimated_events": 45023,
+      "function_ranges": [
+        {
+          "start": 890048,
+          "end": 890049,
+          "names": [
+            "_ZN13media_service12ThriftClientINS_19RatingServiceClientEE9KeepAliveEv"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1deff9",
+      "estimated_events": 45023,
+      "function_ranges": [
+        {
+          "start": 1961024,
+          "end": 1962275,
+          "names": [
+            "_ZNK13jaegertracing6thrift4Span5writeEPN6apache6thrift8protocol9TProtocolE"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x2a9c90",
+      "estimated_events": 45023,
+      "function_ranges": [
+        {
+          "start": 2792592,
+          "end": 2792644,
+          "names": [
+            "execute_native_thread_routine"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1d5e00",
+      "estimated_events": 45023,
+      "function_ranges": [
+        {
+          "start": 1924576,
+          "end": 1924831,
+          "names": [
+            "_ZNSt6vectorIN13jaegertracing9ReferenceESaIS1_EE20_M_allocate_and_copyIN9__gnu_cxx17__normal_iteratorIPKS1_S3_EEEEPS1_mT_SB_"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0xb3850",
+      "estimated_events": 40930,
+      "function_ranges": [
+        {
+          "start": 735312,
+          "end": 735313,
+          "names": [
+            "_ZN13jaegertracing7metrics11NullCounter3incEl"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1e1ad0",
+      "estimated_events": 40930,
+      "function_ranges": [
+        {
+          "start": 1972944,
+          "end": 1973529,
+          "names": [
+            "_ZNSt6vectorIN13jaegertracing6thrift7SpanRefESaIS2_EEaSERKS4_"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x15fc76",
+      "estimated_events": 40930,
+      "function_ranges": [
+        {
+          "start": 1440784,
+          "end": 1441057,
+          "names": [
+            "_ZN6apache6thrift9transport7readAllINS1_11TBufferBaseEEEjRT_Phj"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x15b390",
+      "estimated_events": 40930,
+      "function_ranges": [
+        {
+          "start": 1422224,
+          "end": 1422440,
+          "names": [
+            "_ZN6apache6thrift9transport7TSocket5writeEPKhj"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1d56e0",
+      "estimated_events": 40930,
+      "function_ranges": [
+        {
+          "start": 1922784,
+          "end": 1923173,
+          "names": [
+            "_ZNSt6vectorIN13jaegertracing9LogRecordESaIS1_EEaSERKS3_"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x15ea50",
+      "estimated_events": 40930,
+      "function_ranges": [
+        {
+          "start": 1436240,
+          "end": 1436365,
+          "names": [
+            "_ZN6apache6thrift9transport16TFramedTransport8readSlowEPhj"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x2a8770",
+      "estimated_events": 40930,
+      "function_ranges": [
+        {
+          "start": 2787184,
+          "end": 2787467,
+          "names": [
+            "_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE4swapERS4_"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1b3ac0",
+      "estimated_events": 36837,
+      "function_ranges": [
+        {
+          "start": 1784512,
+          "end": 1784808,
+          "names": [
+            "_ZN13jaegertracing11SpanContextC2ERKS0_"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0xd6400",
+      "estimated_events": 36837,
+      "function_ranges": [
+        {
+          "start": 877568,
+          "end": 877597,
+          "names": [
+            "_ZN6apache6thrift8protocol16TVirtualProtocolINS1_16TBinaryProtocolTINS0_9transport10TTransportENS1_17TNetworkBigEndianEEENS1_17TProtocolDefaultsEE20readStructBegin_virtERNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1b4c3c",
+      "estimated_events": 36837,
+      "function_ranges": [
+        {
+          "start": 1788912,
+          "end": 1789747,
+          "names": [
+            "_ZNK13jaegertracing6Tracer17analyzeReferencesERKSt6vectorISt4pairIN11opentracing2v217SpanReferenceTypeEPKNS4_11SpanContextEESaIS9_EE"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1bb180",
+      "estimated_events": 36837,
+      "function_ranges": [
+        {
+          "start": 1814912,
+          "end": 1815576,
+          "names": [
+            "_ZN6apache6thrift8protocol24TCompactProtocolFactoryTINS0_9transport10TTransportEE11getProtocolESt10shared_ptrIS4_E"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0xd4350",
+      "estimated_events": 36837,
+      "function_ranges": [
+        {
+          "start": 869200,
+          "end": 869242,
+          "names": [
+            "_ZZNSt9once_flag18_Prepare_executionC1IZSt9call_onceIMSt6threadFvvEJPS3_EEvRS_OT_DpOT0_EUlvE_EERS8_ENUlvE_8__invokeEv"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x278840",
+      "estimated_events": 36837,
+      "function_ranges": [
+        {
+          "start": 2590784,
+          "end": 2590871,
+          "names": [
+            "_ZNSt8ios_baseD1Ev",
+            "_ZNSt8ios_baseD2Ev"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x15c320",
+      "estimated_events": 36837,
+      "function_ranges": [
+        {
+          "start": 1426208,
+          "end": 1426213,
+          "names": [
+            "_ZN6apache6thrift9transport17TVirtualTransportINS1_7TSocketENS1_18TTransportDefaultsEE12readAll_virtEPhj"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x2a6b80",
+      "estimated_events": 36837,
+      "function_ranges": [
+        {
+          "start": 2780032,
+          "end": 2780367,
+          "names": [
+            "_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE9_M_mutateEmmPKcm"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0xd6a50",
+      "estimated_events": 36837,
+      "function_ranges": [
+        {
+          "start": 879184,
+          "end": 879549,
+          "names": [
+            "_ZN6apache6thrift8protocol16TBinaryProtocolTINS0_9transport10TTransportENS1_17TNetworkBigEndianEE17writeMessageBeginERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEENS1_12TMessageTypeEi"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1b4bf0",
+      "estimated_events": 32744,
+      "function_ranges": [
+        {
+          "start": 1788912,
+          "end": 1789747,
+          "names": [
+            "_ZNK13jaegertracing6Tracer17analyzeReferencesERKSt6vectorISt4pairIN11opentracing2v217SpanReferenceTypeEPKNS4_11SpanContextEESaIS9_EE"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x22b660",
+      "estimated_events": 32744,
+      "function_ranges": [
+        {
+          "start": 2274912,
+          "end": 2275078,
+          "names": [
+            "_ZNSt6localeaSERKS_"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1b38a0",
+      "estimated_events": 32744,
+      "function_ranges": [
+        {
+          "start": 1783968,
+          "end": 1784391,
+          "names": [
+            "_ZN13jaegertracing5utils10HexParsing11readSegmentB5cxx11ERSimc"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0xbd440",
+      "estimated_events": 32744,
+      "function_ranges": [
+        {
+          "start": 775232,
+          "end": 775571,
+          "names": [
+            "_ZN13jaegertracing11SpanContext4swapERS0_"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1b3f90",
+      "estimated_events": 32744,
+      "function_ranges": [
+        {
+          "start": 1785744,
+          "end": 1788897,
+          "names": [
+            "_ZNK13jaegertracing6Tracer20StartSpanWithOptionsEN11opentracing2v211string_viewERKNS2_16StartSpanOptionsE"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1b8dab",
+      "estimated_events": 32744,
+      "function_ranges": [
+        {
+          "start": 1804608,
+          "end": 1807182,
+          "names": [
+            "_ZN13jaegertracing12UDPTransport6appendERKNS_4SpanE"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x91620",
+      "estimated_events": 32744,
+      "function_ranges": []
+    },
+    {
+      "va": "0xb8840",
+      "estimated_events": 32744,
+      "function_ranges": [
+        {
+          "start": 755776,
+          "end": 755958,
+          "names": [
+            "_ZNSt10_HashtableINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4pairIKS5_S5_ESaIS8_ENSt8__detail10_Select1stESt8equal_toIS5_ESt4hashIS5_ENSA_18_Mod_range_hashingENSA_20_Default_ranged_hashENSA_20_Prime_rehash_policyENSA_17_Hashtable_traitsILb1ELb0ELb1EEEED2Ev"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1b7ec0",
+      "estimated_events": 32744,
+      "function_ranges": [
+        {
+          "start": 1801920,
+          "end": 1802938,
+          "names": [
+            "_ZNSt6vectorIN13jaegertracing3TagESaIS1_EE15_M_range_insertIN9__gnu_cxx17__normal_iteratorIPKS1_S3_EEEEvNS6_IPS1_S3_EET_SC_St20forward_iterator_tag"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x925f8",
+      "estimated_events": 32744,
+      "function_ranges": []
+    },
+    {
+      "va": "0xd6c9c",
+      "estimated_events": 32744,
+      "function_ranges": [
+        {
+          "start": 879728,
+          "end": 880212,
+          "names": [
+            "_ZN6apache6thrift8protocol16TBinaryProtocolTINS0_9transport10TTransportENS1_17TNetworkBigEndianEE16readMessageBeginERNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERNS1_12TMessageTypeERi"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0xd3fd7",
+      "estimated_events": 32744,
+      "function_ranges": [
+        {
+          "start": 868160,
+          "end": 868421,
+          "names": [
+            "_ZNSt13__future_base13_State_baseV213_M_set_resultESt8functionIFSt10unique_ptrINS_12_Result_baseENS3_8_DeleterEEvEEb"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x15ee20",
+      "estimated_events": 32744,
+      "function_ranges": [
+        {
+          "start": 1437216,
+          "end": 1437360,
+          "names": [
+            "_ZN6apache6thrift9transport16TFramedTransport5flushEv"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1bbc70",
+      "estimated_events": 32744,
+      "function_ranges": [
+        {
+          "start": 1817712,
+          "end": 1817805,
+          "names": [
+            "_ZN6apache6thrift8protocol16TVirtualProtocolINS1_17TCompactProtocolTINS0_9transport10TTransportEEENS1_17TProtocolDefaultsEE13writeI64_virtEl"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1d61c0",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 1925472,
+          "end": 1925738,
+          "names": [
+            "_ZNSt5dequeIN13jaegertracing4SpanESaIS1_EE16_M_push_back_auxIJRKS1_EEEvDpOT_"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x295b60",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 2710368,
+          "end": 2710476,
+          "names": [
+            "_ZNSo6sentryC1ERSo",
+            "_ZNSo6sentryC2ERSo"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x2a9060",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 2789472,
+          "end": 2789581,
+          "names": [
+            "_ZNKSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE7compareEPKc"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0xdb8d0",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 899280,
+          "end": 899296,
+          "names": [
+            "_ZNSt15_Sp_counted_ptrIPN6apache6thrift8protocol9TProtocolELN9__gnu_cxx12_Lock_policyE2EE10_M_disposeEv"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1d5de0",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 1924576,
+          "end": 1924831,
+          "names": [
+            "_ZNSt6vectorIN13jaegertracing9ReferenceESaIS1_EE20_M_allocate_and_copyIN9__gnu_cxx17__normal_iteratorIPKS1_S3_EEEEPS1_mT_SB_"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x2116d0",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 2168528,
+          "end": 2168577,
+          "names": [
+            "_ZN5boost6detail23get_current_thread_dataEv"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x91d50",
+      "estimated_events": 28651,
+      "function_ranges": []
+    },
+    {
+      "va": "0x1b33bf",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 1782576,
+          "end": 1783956,
+          "names": [
+            "_ZN13jaegertracing11SpanContext10fromStreamERSi"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1d4650",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 1918544,
+          "end": 1918776,
+          "names": [
+            "_ZN13jaegertracing9reporters14RemoteReporter6reportERKNS_4SpanE"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x17be90",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 1556112,
+          "end": 1556892,
+          "names": [
+            "_ZN5boost3log12v2s_mt_posix4core11open_recordERKNS1_13attribute_setE"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x29503f",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 2707488,
+          "end": 2707521,
+          "names": [
+            "__once_proxy"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1df3fb",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 1962896,
+          "end": 1963180,
+          "names": [
+            "_ZN13jaegertracing6thrift4SpanC1ERKS1_"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0xe9af0",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 957168,
+          "end": 957609,
+          "names": [
+            "_ZN13media_service42ComposeReviewService_UploadMovieId_presult4readEPN6apache6thrift8protocol9TProtocolE"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x27ae10",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 2600464,
+          "end": 2600814,
+          "names": [
+            "_ZNSi3getERc"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1eab30",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 2009904,
+          "end": 2009922,
+          "names": [
+            "_ZN13jaegertracing4SpanD0Ev"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x15f900",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 1439968,
+          "end": 1440032,
+          "names": [
+            "_ZN6apache6thrift9transport17TVirtualTransportINS1_16TFramedTransportENS1_11TBufferBaseEE12readAll_virtEPhj"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x2a5330",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 2773808,
+          "end": 2773957,
+          "names": [
+            "_ZNSt15basic_streambufIcSt11char_traitsIcEE6xsputnEPKcl"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1b5b43",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 1792768,
+          "end": 1793076,
+          "names": [
+            "_ZNSt6vectorIN13jaegertracing3TagESaIS1_EE7reserveEm"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x15f830",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 1439792,
+          "end": 1439802,
+          "names": [
+            "_ZN6apache6thrift9transport16TFramedTransport6isOpenEv"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x27ae39",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 2600464,
+          "end": 2600814,
+          "names": [
+            "_ZNSi3getERc"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x15fb40",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 1440576,
+          "end": 1440641,
+          "names": [
+            "_ZN6apache6thrift9transport17TVirtualTransportINS1_13TMemoryBufferENS1_11TBufferBaseEE10write_virtEPKhj"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0xfb5d0",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 1029584,
+          "end": 1029689,
+          "names": [
+            "_ZN13media_service16ServiceExceptionD1Ev",
+            "_ZN13media_service16ServiceExceptionD2Ev"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x2768bf",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 2582704,
+          "end": 2582745,
+          "names": [
+            "_ZNSt13__future_base12_Result_baseD1Ev",
+            "_ZNSt13__future_base12_Result_baseD2Ev"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x15ea97",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 1436240,
+          "end": 1436365,
+          "names": [
+            "_ZN6apache6thrift9transport16TFramedTransport8readSlowEPhj"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1b5b00",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 1792768,
+          "end": 1793076,
+          "names": [
+            "_ZNSt6vectorIN13jaegertracing3TagESaIS1_EE7reserveEm"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x914f0",
+      "estimated_events": 28651,
+      "function_ranges": []
+    },
+    {
+      "va": "0x1de0d0",
+      "estimated_events": 24558,
+      "function_ranges": [
+        {
+          "start": 1958096,
+          "end": 1958335,
+          "names": [
+            "_ZN13jaegertracing6thrift4SpanD2Ev"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0xd3fc0",
+      "estimated_events": 24558,
+      "function_ranges": [
+        {
+          "start": 868160,
+          "end": 868421,
+          "names": [
+            "_ZNSt13__future_base13_State_baseV213_M_set_resultESt8functionIFSt10unique_ptrINS_12_Result_baseENS3_8_DeleterEEvEEb"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x296c00",
+      "estimated_events": 24558,
+      "function_ranges": [
+        {
+          "start": 2714624,
+          "end": 2715199,
+          "names": [
+            "_ZNSo9_M_insertImEERSoT_"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0xa82b0",
+      "estimated_events": 24558,
+      "function_ranges": [
+        {
+          "start": 688816,
+          "end": 688972,
+          "names": [
+            "_ZN5boost3log12v2s_mt_posix7sources22basic_composite_loggerIcNS2_18severity_logger_mtINS1_7trivial14severity_levelEEENS2_18multi_thread_modelINS1_3aux14light_rw_mutexEEENS2_8featuresIJNS2_8severityIS6_EEEEEE11open_recordINS_9parameter3aux25tagged_argument_list_of_1INSJ_15tagged_argumentINS1_8keywords3tag8severityEKS6_EEEEEENS1_6recordERKT_"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0xd63f0",
+      "estimated_events": 24558,
+      "function_ranges": [
+        {
+          "start": 877552,
+          "end": 877555,
+          "names": [
+            "_ZN6apache6thrift8protocol16TVirtualProtocolINS1_16TBinaryProtocolTINS0_9transport10TTransportENS1_17TNetworkBigEndianEEENS1_17TProtocolDefaultsEE19readMessageEnd_virtEv"
+          ]
+        }
+      ]
+    }
+  ],
+  "top_unique_functions": [
+    {
+      "names": [
+        "_ZNSt12_Destroy_auxILb0EE9__destroyIPN13jaegertracing9ReferenceEEEvT_S5_"
+      ],
+      "estimated_events": 130976
+    },
+    {
+      "names": [
+        "_ZNSt13__future_base13_State_baseV213_M_set_resultESt8functionIFSt10unique_ptrINS_12_Result_baseENS3_8_DeleterEEvEEb"
+      ],
+      "estimated_events": 122790
+    },
+    {
+      "names": [
+        "_ZN6apache6thrift9transport7TSocket4readEPhj"
+      ],
+      "estimated_events": 118697
+    },
+    {
+      "names": [
+        "_ZNK13jaegertracing6thrift4Span5writeEPN6apache6thrift8protocol9TProtocolE"
+      ],
+      "estimated_events": 118697
+    },
+    {
+      "names": [
+        "_ZNSt10_HashtableINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4pairIKS5_S5_ESaIS8_ENSt8__detail10_Select1stESt8equal_toIS5_ESt4hashIS5_ENSA_18_Mod_range_hashingENSA_20_Default_ranged_hashENSA_20_Prime_rehash_policyENSA_17_Hashtable_traitsILb1ELb0ELb1EEEE9_M_assignIRKSL_NSA_10_AllocNodeISaINSA_10_Hash_nodeIS8_Lb1EEEEEEEEvOT_RKT0_"
+      ],
+      "estimated_events": 94139
+    },
+    {
+      "names": [
+        "__once_proxy"
+      ],
+      "estimated_events": 94139
+    },
+    {
+      "names": [
+        "_ZN13media_service14MovieIdHandler13UploadMovieIdElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiRKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE"
+      ],
+      "estimated_events": 94139
+    },
+    {
+      "names": [
+        "_ZN13jaegertracing12UDPTransport6appendERKNS_4SpanE"
+      ],
+      "estimated_events": 90046
+    },
+    {
+      "names": [
+        "_ZNK13media_service13TextMapReader10ForeachKeyESt8functionIFN11opentracing2v28expectedIvSt10error_codeEENS3_11string_viewES7_EE"
+      ],
+      "estimated_events": 77767
+    },
+    {
+      "names": [
+        "_ZN6apache6thrift9transport17TVirtualTransportINS1_16TFramedTransportENS1_11TBufferBaseEE12readAll_virtEPhj"
+      ],
+      "estimated_events": 77767
+    },
+    {
+      "names": [
+        "_ZN6apache6thrift9transport7readAllINS1_11TBufferBaseEEEjRT_Phj"
+      ],
+      "estimated_events": 77767
+    },
+    {
+      "names": [
+        "_ZNK13jaegertracing6Tracer17analyzeReferencesERKSt6vectorISt4pairIN11opentracing2v217SpanReferenceTypeEPKNS4_11SpanContextEESaIS9_EE"
+      ],
+      "estimated_events": 77767
+    },
+    {
+      "names": [
+        "_ZN13media_service23MovieIdServiceProcessor12dispatchCallEPN6apache6thrift8protocol9TProtocolES5_RKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiPv"
+      ],
+      "estimated_events": 77767
+    },
+    {
+      "names": [
+        "_ZNSt5dequeIN13jaegertracing4SpanESaIS1_EE16_M_push_back_auxIJRKS1_EEEvDpOT_"
+      ],
+      "estimated_events": 73674
+    },
+    {
+      "names": [
+        "_ZNSt6vectorIN13jaegertracing9ReferenceESaIS1_EE20_M_allocate_and_copyIN9__gnu_cxx17__normal_iteratorIPKS1_S3_EEEEPS1_mT_SB_"
+      ],
+      "estimated_events": 73674
+    },
+    {
+      "names": [
+        "_ZN6apache6thrift9transport16TFramedTransport8readSlowEPhj"
+      ],
+      "estimated_events": 73674
+    },
+    {
+      "names": [
+        "_ZNSt18condition_variable10notify_oneEv"
+      ],
+      "estimated_events": 69581
+    },
+    {
+      "names": [
+        "_ZNK13jaegertracing6thrift7SpanRef5writeEPN6apache6thrift8protocol9TProtocolE"
+      ],
+      "estimated_events": 69581
+    },
+    {
+      "names": [
+        "_ZN13jaegertracing4Span17FinishWithOptionsERKN11opentracing2v217FinishSpanOptionsE"
+      ],
+      "estimated_events": 69581
+    },
+    {
+      "names": [
+        "_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE9_M_assignERKS4_"
+      ],
+      "estimated_events": 69581
+    },
+    {
+      "names": [
+        "_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE4swapERS4_"
+      ],
+      "estimated_events": 69581
+    },
+    {
+      "names": [
+        "_ZN13jaegertracing11SpanContext10fromStreamERSi"
+      ],
+      "estimated_events": 69581
+    },
+    {
+      "names": [
+        "_ZN6apache6thrift8protocol16TBinaryProtocolTINS0_9transport10TTransportENS1_17TNetworkBigEndianEE17writeMessageBeginERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEENS1_12TMessageTypeEi"
+      ],
+      "estimated_events": 65488
+    },
+    {
+      "names": [
+        "_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE10_M_replaceEmmPKcm"
+      ],
+      "estimated_events": 65488
+    },
+    {
+      "names": [
+        "_ZNK13jaegertracing4Span7contextEv"
+      ],
+      "estimated_events": 61395
+    },
+    {
+      "names": [
+        "_ZNSt13__future_base21_Async_state_commonV217_M_complete_asyncEv"
+      ],
+      "estimated_events": 61395
+    },
+    {
+      "names": [
+        "execute_native_thread_routine"
+      ],
+      "estimated_events": 57302
+    },
+    {
+      "names": [
+        "_ZN6apache6thrift9transport7TSocket5writeEPKhj"
+      ],
+      "estimated_events": 57302
+    },
+    {
+      "names": [
+        "_ZN13jaegertracing11SpanContextC2ERKS0_"
+      ],
+      "estimated_events": 57302
+    },
+    {
+      "names": [
+        "_ZNSi3getERc"
+      ],
+      "estimated_events": 57302
+    },
+    {
+      "names": [
+        "_ZNSt6vectorIN13jaegertracing3TagESaIS1_EE7reserveEm"
+      ],
+      "estimated_events": 57302
+    },
+    {
+      "names": [
+        "_ZNSt6vectorIN13jaegertracing9LogRecordESaIS1_EEaSERKS3_"
+      ],
+      "estimated_events": 53209
+    },
+    {
+      "names": [
+        "_ZNSt13__future_base12_Result_baseD1Ev",
+        "_ZNSt13__future_base12_Result_baseD2Ev"
+      ],
+      "estimated_events": 53209
+    },
+    {
+      "names": [
+        "_ZN13media_service33MovieIdService_UploadMovieId_args4readEPN6apache6thrift8protocol9TProtocolE"
+      ],
+      "estimated_events": 53209
+    },
+    {
+      "names": [
+        "_ZNSt6vectorIN13jaegertracing3TagESaIS1_EE15_M_range_insertIN9__gnu_cxx17__normal_iteratorIPKS1_S3_EEEEvNS6_IPS1_S3_EET_SC_St20forward_iterator_tag"
+      ],
+      "estimated_events": 49116
+    },
+    {
+      "names": [
+        "_ZN13jaegertracing6thrift4SpanC1ERKS1_"
+      ],
+      "estimated_events": 49116
+    },
+    {
+      "names": [
+        "_ZNSt13__future_base17_Async_state_implINSt6thread8_InvokerISt5tupleIJZN13media_service14MovieIdHandler13UploadMovieIdElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiRKSt3mapISB_SB_St4lessISB_ESaISt4pairISC_SB_EEEE3$_2EEEEvE6_M_runEv"
+      ],
+      "estimated_events": 49116
+    },
+    {
+      "names": [
+        "_ZNK13jaegertracing6Tracer17startSpanInternalERKNS_11SpanContextERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKNSt6chrono10time_pointINSC_3_V212system_clockENSC_8durationIlSt5ratioILl1ELl1000000000EEEEEERKNSD_INSE_12steady_clockESJ_EERKSt6vectorINS_3TagESaISS_EERKSR_ISt4pairIS9_N11opentracing2v25ValueEESaIS11_EEbRKSR_INS_9ReferenceESaIS16_EE"
+      ],
+      "estimated_events": 49116
+    },
+    {
+      "names": [
+        "_ZN13media_service12ThriftClientINS_19RatingServiceClientEE9KeepAliveEv"
+      ],
+      "estimated_events": 45023
+    },
+    {
+      "names": [
+        "_ZNSt6vectorIN13jaegertracing6thrift7SpanRefESaIS2_EEaSERKS4_"
+      ],
+      "estimated_events": 45023
+    },
+    {
+      "names": [
+        "_ZN13jaegertracing11SpanContext4swapERS0_"
+      ],
+      "estimated_events": 45023
+    },
+    {
+      "names": [
+        "_ZNK13jaegertracing6Tracer20StartSpanWithOptionsEN11opentracing2v211string_viewERKNS2_16StartSpanOptionsE"
+      ],
+      "estimated_events": 45023
+    },
+    {
+      "names": [
+        "_ZN5boost3log12v2s_mt_posix7sources22basic_composite_loggerIcNS2_18severity_logger_mtINS1_7trivial14severity_levelEEENS2_18multi_thread_modelINS1_3aux14light_rw_mutexEEENS2_8featuresIJNS2_8severityIS6_EEEEEE11open_recordINS_9parameter3aux25tagged_argument_list_of_1INSJ_15tagged_argumentINS1_8keywords3tag8severityEKS6_EEEEEENS1_6recordERKT_"
+      ],
+      "estimated_events": 45023
+    },
+    {
+      "names": [
+        "_ZN6apache6thrift18TDispatchProcessor7processESt10shared_ptrINS0_8protocol9TProtocolEES5_Pv"
+      ],
+      "estimated_events": 45023
+    },
+    {
+      "names": [
+        "_ZNK13jaegertracing4Span6thriftEv"
+      ],
+      "estimated_events": 45023
+    },
+    {
+      "names": [
+        "_ZN13jaegertracing7metrics11NullCounter3incEl"
+      ],
+      "estimated_events": 40930
+    },
+    {
+      "names": [
+        "_ZN6apache6thrift8protocol24TCompactProtocolFactoryTINS0_9transport10TTransportEE11getProtocolESt10shared_ptrIS4_E"
+      ],
+      "estimated_events": 40930
+    },
+    {
+      "names": [
+        "_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE9_M_mutateEmmPKcm"
+      ],
+      "estimated_events": 40930
+    },
+    {
+      "names": [
+        "_ZNSt6localeaSERKS_"
+      ],
+      "estimated_events": 40930
+    },
+    {
+      "names": [
+        "_ZN6apache6thrift6server16TConnectedClient3runEv"
+      ],
+      "estimated_events": 40930
+    },
+    {
+      "names": [
+        "_ZN6apache6thrift8protocol16TVirtualProtocolINS1_16TBinaryProtocolTINS0_9transport10TTransportENS1_17TNetworkBigEndianEEENS1_17TProtocolDefaultsEE20readStructBegin_virtERNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE"
+      ],
+      "estimated_events": 36837
+    },
+    {
+      "names": [
+        "_ZZNSt9once_flag18_Prepare_executionC1IZSt9call_onceIMSt6threadFvvEJPS3_EEvRS_OT_DpOT0_EUlvE_EERS8_ENUlvE_8__invokeEv"
+      ],
+      "estimated_events": 36837
+    },
+    {
+      "names": [
+        "_ZNSt8ios_baseD1Ev",
+        "_ZNSt8ios_baseD2Ev"
+      ],
+      "estimated_events": 36837
+    },
+    {
+      "names": [
+        "_ZN6apache6thrift9transport17TVirtualTransportINS1_7TSocketENS1_18TTransportDefaultsEE12readAll_virtEPhj"
+      ],
+      "estimated_events": 36837
+    },
+    {
+      "names": [
+        "_ZN13jaegertracing5utils10HexParsing11readSegmentB5cxx11ERSimc"
+      ],
+      "estimated_events": 36837
+    },
+    {
+      "names": [
+        "_ZN6apache6thrift8protocol16TBinaryProtocolTINS0_9transport10TTransportENS1_17TNetworkBigEndianEE16readMessageBeginERNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERNS1_12TMessageTypeERi"
+      ],
+      "estimated_events": 36837
+    },
+    {
+      "names": [
+        "_ZN6apache6thrift9transport16TFramedTransport5flushEv"
+      ],
+      "estimated_events": 36837
+    },
+    {
+      "names": [
+        "_ZNSo6sentryC1ERSo",
+        "_ZNSo6sentryC2ERSo"
+      ],
+      "estimated_events": 36837
+    },
+    {
+      "names": [
+        "_ZN5boost3log12v2s_mt_posix4core11open_recordERKNS1_13attribute_setE"
+      ],
+      "estimated_events": 36837
+    },
+    {
+      "names": [
+        "_ZN13media_service42ComposeReviewService_UploadMovieId_presult4readEPN6apache6thrift8protocol9TProtocolE"
+      ],
+      "estimated_events": 36837
+    },
+    {
+      "names": [
+        "_ZNK11opentracing2v26Tracer9StartSpanENS0_11string_viewESt16initializer_listINS0_14option_wrapperINS0_15StartSpanOptionEEEE"
+      ],
+      "estimated_events": 36837
+    },
+    {
+      "names": [
+        "_ZNSt23mersenne_twister_engineImLm64ELm312ELm156ELm31ELm13043109905998158313ELm29ELm6148914691236517205ELm17ELm8202884508482404352ELm37ELm18444473444759240704ELm43ELm6364136223846793005EEclEv"
+      ],
+      "estimated_events": 36837
+    },
+    {
+      "names": [
+        "_ZN13media_service34RatingService_UploadRating_presult4readEPN6apache6thrift8protocol9TProtocolE"
+      ],
+      "estimated_events": 36837
+    },
+    {
+      "names": [
+        "_ZN13media_service23MovieIdServiceProcessor21process_UploadMovieIdEiPN6apache6thrift8protocol9TProtocolES5_Pv"
+      ],
+      "estimated_events": 36837
+    },
+    {
+      "names": [
+        "_ZN11opentracing2v26Tracer6GlobalEv"
+      ],
+      "estimated_events": 36837
+    },
+    {
+      "names": [
+        "_ZNSt11_Deque_baseIsSaIsEE17_M_initialize_mapEm"
+      ],
+      "estimated_events": 36837
+    },
+    {
+      "names": [
+        "_ZN13jaegertracing11SpanContextC2ERKNS_7TraceIDEmmhRKSt13unordered_mapINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESA_St4hashISA_ESt8equal_toISA_ESaISt4pairIKSA_SA_EEERSG_"
+      ],
+      "estimated_events": 36837
+    },
+    {
+      "names": [
+        "_ZN5boost3log12v2s_mt_posix7trivial6logger3getEv"
+      ],
+      "estimated_events": 36837
+    },
+    {
+      "names": [
+        "_ZNSt8_Rb_treeINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4pairIKS5_S5_ESt10_Select1stIS8_ESt4lessIS5_ESaIS8_EE8_M_eraseEPSt13_Rb_tree_nodeIS8_E"
+      ],
+      "estimated_events": 36837
+    },
+    {
+      "names": [
+        "_ZNSt10_HashtableINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4pairIKS5_S5_ESaIS8_ENSt8__detail10_Select1stESt8equal_toIS5_ESt4hashIS5_ENSA_18_Mod_range_hashingENSA_20_Default_ranged_hashENSA_20_Prime_rehash_policyENSA_17_Hashtable_traitsILb1ELb0ELb1EEEED2Ev"
+      ],
+      "estimated_events": 32744
+    },
+    {
+      "names": [
+        "_ZN6apache6thrift8protocol16TVirtualProtocolINS1_17TCompactProtocolTINS0_9transport10TTransportEEENS1_17TProtocolDefaultsEE13writeI64_virtEl"
+      ],
+      "estimated_events": 32744
+    },
+    {
+      "names": [
+        "_ZNKSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE7compareEPKc"
+      ],
+      "estimated_events": 32744
+    },
+    {
+      "names": [
+        "_ZN5boost6detail23get_current_thread_dataEv"
+      ],
+      "estimated_events": 32744
+    },
+    {
+      "names": [
+        "_ZN13jaegertracing9reporters14RemoteReporter6reportERKNS_4SpanE"
+      ],
+      "estimated_events": 32744
+    },
+    {
+      "names": [
+        "_ZN13jaegertracing4SpanD0Ev"
+      ],
+      "estimated_events": 32744
+    },
+    {
+      "names": [
+        "_ZNK11opentracing2v213SpanReference5ApplyERNS0_16StartSpanOptionsE"
+      ],
+      "estimated_events": 32744
+    },
+    {
+      "names": [
+        "_ZSt29_Rb_tree_insert_and_rebalancebPSt18_Rb_tree_node_baseS0_RS_"
+      ],
+      "estimated_events": 32744
+    },
+    {
+      "names": [
+        "_ZNSt13__future_base17_Async_state_implINSt6thread8_InvokerISt5tupleIJZN13media_service14MovieIdHandler13UploadMovieIdElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiRKSt3mapISB_SB_St4lessISB_ESaISt4pairISC_SB_EEEE3$_1EEEEvE6_M_runEv"
+      ],
+      "estimated_events": 32744
+    },
+    {
+      "names": [
+        "_ZNSt8_Rb_treeINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4pairIKS5_S5_ESt10_Select1stIS8_ESt4lessIS5_ESaIS8_EE22_M_emplace_hint_uniqueIJRKSt21piecewise_construct_tSt5tupleIJRS7_EESJ_IJEEEEESt17_Rb_tree_iteratorIS8_ESt23_Rb_tree_const_iteratorIS8_EDpOT_"
+      ],
+      "estimated_events": 32744
+    },
+    {
+      "names": [
+        "_ZNSt6vectorIN13jaegertracing3TagESaIS1_EED2Ev"
+      ],
+      "estimated_events": 32744
+    }
+  ],
+  "unmapped_events": 278324,
+  "ambiguous_events": 0,
+  "attribution_limitation": "Exact sampled retirement IPs within ELF symbol ranges. Aliases share one range; overlapping ranges are excluded from the unique-function ranking.",
+  "symbol_command": [
+    "nm",
+    "-S",
+    "-n",
+    "--defined-only",
+    "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService"
+  ],
+  "all_main_ips": {
+    "path": "/storage/prefetchit/class_b_lean_20260928/diagnostics_late/01_base_c4/movie_p4093/main_ip_counts.json.gz",
+    "sha256": "ca9666be4dea3c8b701e66811d241c217c6021e432f54454a81b4c58be00dc96"
+  },
+  "all_symbols": {
+    "path": "/storage/prefetchit/class_b_lean_20260928/diagnostics_late/01_base_c4/movie.symbols.json.gz",
+    "sha256": "c57accaa7814499bb871ced801243236592fd5cf3601150857d55f957c2cabbf"
+  },
+  "limitation": "Static target-line overlap only. It does not prove this path issued a hint, that a fill arrived, or that a line survived until demand. Indirect T1 targets are not statically resolved."
+}

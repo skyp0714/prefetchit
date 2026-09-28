@@ -1,0 +1,36 @@
+{
+  "valid": true,
+  "load": {
+    "epoch": 1790599480.3303587,
+    "seconds": 83.0,
+    "concurrency": 4,
+    "seed": 61001,
+    "warmup_s": 50,
+    "port": 18081,
+    "pid": 3842460,
+    "mode": "closed-loop; next request after completion; no intentional think time",
+    "latency": "HTTP dispatch to response completion; excludes external arrival queue",
+    "payload": "Upstream Media field distributions; deterministic per-dispatch-index seed",
+    "client_cpus": [
+      16,
+      17,
+      18,
+      19
+    ],
+    "completed": 98679,
+    "errors": 1,
+    "error_times": [
+      1790599480.3791904
+    ],
+    "error_examples": [
+      "(500, b'<html>\\r\\n<head><title>500 Internal Server Error</title></head>\\r\\n<body>\\r\\n<center><h1>500 Internal Server Error</h1></cente')"
+    ],
+    "steady_errors": 0,
+    "response_bodies": {
+      "": 98679
+    },
+    "client_cpu_cores": 0.27574128389668534,
+    "elapsed_s": 83.00299206402269
+  },
+  "interpretation": "Health under profiling only, not an accepted latency/throughput trial"
+}

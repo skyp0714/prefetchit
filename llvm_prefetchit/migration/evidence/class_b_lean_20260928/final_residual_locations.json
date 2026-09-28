@@ -1,0 +1,693 @@
+{
+  "rows": [
+    {
+      "name": "01_base_c4",
+      "binary_sha256": "1dbfa7f16b813e7a1a18eb57cf17538bf1d051e27aeccaec8ffadd8fce258b07",
+      "groups": {
+        "all_mapped_main": {
+          "estimated_events": 6925356,
+          "counts": {
+            "unmapped": 278324,
+            "entry_cache_line": 4878856,
+            "later_cache_line": 1768176
+          },
+          "v5_selected_entry_line_events": 1313853,
+          "v5_selected_entry_line_pct_of_main": 18.97163120567376,
+          "pct_of_main": {
+            "unmapped": 4.0189125295508275,
+            "entry_cache_line": 70.44917257683215,
+            "later_cache_line": 25.53191489361702
+          },
+          "v5_selected_function_counts": {
+            "untargeted_function_entry_cache_line": 3601840,
+            "untargeted_function_later_cache_line": 1346597,
+            "targeted_function_entry_cache_line": 1277016,
+            "targeted_function_later_cache_line": 421579
+          },
+          "v5_selected_function_pct_of_main": {
+            "untargeted_function_entry_cache_line": 52.009456264775416,
+            "untargeted_function_later_cache_line": 19.444444444444443,
+            "targeted_function_entry_cache_line": 18.43971631205674,
+            "targeted_function_later_cache_line": 6.087470449172577
+          },
+          "top_functions": [
+            {
+              "names": [
+                "_ZNSt12_Destroy_auxILb0EE9__destroyIPN13jaegertracing9ReferenceEEEvT_S5_"
+              ],
+              "demangled": [
+                "void std::_Destroy_aux<false>::__destroy<jaegertracing::Reference*>(jaegertracing::Reference*, jaegertracing::Reference*)"
+              ],
+              "estimated_events": 130976,
+              "share_pct_of_main": 1.8912529550827424
+            },
+            {
+              "names": [
+                "_ZNSt13__future_base13_State_baseV213_M_set_resultESt8functionIFSt10unique_ptrINS_12_Result_baseENS3_8_DeleterEEvEEb"
+              ],
+              "demangled": [
+                "std::__future_base::_State_baseV2::_M_set_result(std::function<std::unique_ptr<std::__future_base::_Result_base, std::__future_base::_Result_base::_Deleter> ()>, bool)"
+              ],
+              "estimated_events": 122790,
+              "share_pct_of_main": 1.7730496453900708
+            },
+            {
+              "names": [
+                "_ZN6apache6thrift9transport7TSocket4readEPhj"
+              ],
+              "demangled": [
+                "apache::thrift::transport::TSocket::read(unsigned char*, unsigned int)"
+              ],
+              "estimated_events": 118697,
+              "share_pct_of_main": 1.7139479905437351
+            },
+            {
+              "names": [
+                "_ZNK13jaegertracing6thrift4Span5writeEPN6apache6thrift8protocol9TProtocolE"
+              ],
+              "demangled": [
+                "jaegertracing::thrift::Span::write(apache::thrift::protocol::TProtocol*) const"
+              ],
+              "estimated_events": 118697,
+              "share_pct_of_main": 1.7139479905437351
+            },
+            {
+              "names": [
+                "_ZN13media_service14MovieIdHandler13UploadMovieIdElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiRKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE"
+              ],
+              "demangled": [
+                "media_service::MovieIdHandler::UploadMovieId(long, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, int, std::map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::less<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > > const&)"
+              ],
+              "estimated_events": 94139,
+              "share_pct_of_main": 1.3593380614657211
+            },
+            {
+              "names": [
+                "_ZNSt10_HashtableINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4pairIKS5_S5_ESaIS8_ENSt8__detail10_Select1stESt8equal_toIS5_ESt4hashIS5_ENSA_18_Mod_range_hashingENSA_20_Default_ranged_hashENSA_20_Prime_rehash_policyENSA_17_Hashtable_traitsILb1ELb0ELb1EEEE9_M_assignIRKSL_NSA_10_AllocNodeISaINSA_10_Hash_nodeIS8_Lb1EEEEEEEEvOT_RKT0_"
+              ],
+              "demangled": [
+                "void std::_Hashtable<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >, std::__detail::_Select1st, std::equal_to<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::hash<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true> >::_M_assign<std::_Hashtable<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >, std::__detail::_Select1st, std::equal_to<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::hash<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true> > const&, std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, true> > > >(std::_Hashtable<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >, std::__detail::_Select1st, std::equal_to<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::hash<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true> > const&, std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, true> > > const&)"
+              ],
+              "estimated_events": 94139,
+              "share_pct_of_main": 1.3593380614657211
+            },
+            {
+              "names": [
+                "__once_proxy"
+              ],
+              "demangled": [
+                "__once_proxy"
+              ],
+              "estimated_events": 94139,
+              "share_pct_of_main": 1.3593380614657211
+            },
+            {
+              "names": [
+                "_ZN13jaegertracing12UDPTransport6appendERKNS_4SpanE"
+              ],
+              "demangled": [
+                "jaegertracing::UDPTransport::append(jaegertracing::Span const&)"
+              ],
+              "estimated_events": 90046,
+              "share_pct_of_main": 1.3002364066193854
+            },
+            {
+              "names": [
+                "_ZNK13media_service13TextMapReader10ForeachKeyESt8functionIFN11opentracing2v28expectedIvSt10error_codeEENS3_11string_viewES7_EE"
+              ],
+              "demangled": [
+                "media_service::TextMapReader::ForeachKey(std::function<opentracing::v2::expected<void, std::error_code> (opentracing::v2::string_view, opentracing::v2::string_view)>) const"
+              ],
+              "estimated_events": 77767,
+              "share_pct_of_main": 1.1229314420803782
+            },
+            {
+              "names": [
+                "_ZN13media_service23MovieIdServiceProcessor12dispatchCallEPN6apache6thrift8protocol9TProtocolES5_RKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiPv"
+              ],
+              "demangled": [
+                "media_service::MovieIdServiceProcessor::dispatchCall(apache::thrift::protocol::TProtocol*, apache::thrift::protocol::TProtocol*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, int, void*)"
+              ],
+              "estimated_events": 77767,
+              "share_pct_of_main": 1.1229314420803782
+            },
+            {
+              "names": [
+                "_ZN6apache6thrift9transport17TVirtualTransportINS1_16TFramedTransportENS1_11TBufferBaseEE12readAll_virtEPhj"
+              ],
+              "demangled": [
+                "apache::thrift::transport::TVirtualTransport<apache::thrift::transport::TFramedTransport, apache::thrift::transport::TBufferBase>::readAll_virt(unsigned char*, unsigned int)"
+              ],
+              "estimated_events": 77767,
+              "share_pct_of_main": 1.1229314420803782
+            },
+            {
+              "names": [
+                "_ZN6apache6thrift9transport7readAllINS1_11TBufferBaseEEEjRT_Phj"
+              ],
+              "demangled": [
+                "unsigned int apache::thrift::transport::readAll<apache::thrift::transport::TBufferBase>(apache::thrift::transport::TBufferBase&, unsigned char*, unsigned int)"
+              ],
+              "estimated_events": 77767,
+              "share_pct_of_main": 1.1229314420803782
+            }
+          ]
+        },
+        "age10_20_mapped_main": {
+          "estimated_events": 2979704,
+          "counts": {
+            "unmapped": 147348,
+            "later_cache_line": 716275,
+            "entry_cache_line": 2116081
+          },
+          "v5_selected_entry_line_events": 548462,
+          "v5_selected_entry_line_pct_of_main": 18.406593406593405,
+          "pct_of_main": {
+            "unmapped": 4.945054945054945,
+            "later_cache_line": 24.03846153846154,
+            "entry_cache_line": 71.01648351648352
+          },
+          "v5_selected_function_counts": {
+            "untargeted_function_later_cache_line": 540276,
+            "untargeted_function_entry_cache_line": 1583991,
+            "targeted_function_entry_cache_line": 532090,
+            "targeted_function_later_cache_line": 175999
+          },
+          "v5_selected_function_pct_of_main": {
+            "untargeted_function_later_cache_line": 18.13186813186813,
+            "untargeted_function_entry_cache_line": 53.15934065934066,
+            "targeted_function_entry_cache_line": 17.857142857142858,
+            "targeted_function_later_cache_line": 5.906593406593407
+          },
+          "top_functions": [
+            {
+              "names": [
+                "_ZNSt13__future_base13_State_baseV213_M_set_resultESt8functionIFSt10unique_ptrINS_12_Result_baseENS3_8_DeleterEEvEEb"
+              ],
+              "demangled": [
+                "std::__future_base::_State_baseV2::_M_set_result(std::function<std::unique_ptr<std::__future_base::_Result_base, std::__future_base::_Result_base::_Deleter> ()>, bool)"
+              ],
+              "estimated_events": 94139,
+              "share_pct_of_main": 3.159340659340659
+            },
+            {
+              "names": [
+                "_ZNK13jaegertracing6thrift4Span5writeEPN6apache6thrift8protocol9TProtocolE"
+              ],
+              "demangled": [
+                "jaegertracing::thrift::Span::write(apache::thrift::protocol::TProtocol*) const"
+              ],
+              "estimated_events": 65488,
+              "share_pct_of_main": 2.197802197802198
+            },
+            {
+              "names": [
+                "_ZN6apache6thrift9transport17TVirtualTransportINS1_16TFramedTransportENS1_11TBufferBaseEE12readAll_virtEPhj"
+              ],
+              "demangled": [
+                "apache::thrift::transport::TVirtualTransport<apache::thrift::transport::TFramedTransport, apache::thrift::transport::TBufferBase>::readAll_virt(unsigned char*, unsigned int)"
+              ],
+              "estimated_events": 49116,
+              "share_pct_of_main": 1.6483516483516483
+            },
+            {
+              "names": [
+                "_ZNSt12_Destroy_auxILb0EE9__destroyIPN13jaegertracing9ReferenceEEEvT_S5_"
+              ],
+              "demangled": [
+                "void std::_Destroy_aux<false>::__destroy<jaegertracing::Reference*>(jaegertracing::Reference*, jaegertracing::Reference*)"
+              ],
+              "estimated_events": 49116,
+              "share_pct_of_main": 1.6483516483516483
+            },
+            {
+              "names": [
+                "_ZN13jaegertracing12UDPTransport6appendERKNS_4SpanE"
+              ],
+              "demangled": [
+                "jaegertracing::UDPTransport::append(jaegertracing::Span const&)"
+              ],
+              "estimated_events": 49116,
+              "share_pct_of_main": 1.6483516483516483
+            },
+            {
+              "names": [
+                "_ZNK13jaegertracing6thrift7SpanRef5writeEPN6apache6thrift8protocol9TProtocolE"
+              ],
+              "demangled": [
+                "jaegertracing::thrift::SpanRef::write(apache::thrift::protocol::TProtocol*) const"
+              ],
+              "estimated_events": 49116,
+              "share_pct_of_main": 1.6483516483516483
+            },
+            {
+              "names": [
+                "_ZNSt10_HashtableINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4pairIKS5_S5_ESaIS8_ENSt8__detail10_Select1stESt8equal_toIS5_ESt4hashIS5_ENSA_18_Mod_range_hashingENSA_20_Default_ranged_hashENSA_20_Prime_rehash_policyENSA_17_Hashtable_traitsILb1ELb0ELb1EEEE9_M_assignIRKSL_NSA_10_AllocNodeISaINSA_10_Hash_nodeIS8_Lb1EEEEEEEEvOT_RKT0_"
+              ],
+              "demangled": [
+                "void std::_Hashtable<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >, std::__detail::_Select1st, std::equal_to<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::hash<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true> >::_M_assign<std::_Hashtable<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >, std::__detail::_Select1st, std::equal_to<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::hash<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true> > const&, std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, true> > > >(std::_Hashtable<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >, std::__detail::_Select1st, std::equal_to<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::hash<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true> > const&, std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, true> > > const&)"
+              ],
+              "estimated_events": 45023,
+              "share_pct_of_main": 1.510989010989011
+            },
+            {
+              "names": [
+                "_ZN6apache6thrift8protocol16TBinaryProtocolTINS0_9transport10TTransportENS1_17TNetworkBigEndianEE17writeMessageBeginERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEENS1_12TMessageTypeEi"
+              ],
+              "demangled": [
+                "apache::thrift::protocol::TBinaryProtocolT<apache::thrift::transport::TTransport, apache::thrift::protocol::TNetworkBigEndian>::writeMessageBegin(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, apache::thrift::protocol::TMessageType, int)"
+              ],
+              "estimated_events": 40930,
+              "share_pct_of_main": 1.3736263736263736
+            },
+            {
+              "names": [
+                "_ZN13media_service12ThriftClientINS_19RatingServiceClientEE9KeepAliveEv"
+              ],
+              "demangled": [
+                "media_service::ThriftClient<media_service::RatingServiceClient>::KeepAlive()"
+              ],
+              "estimated_events": 40930,
+              "share_pct_of_main": 1.3736263736263736
+            },
+            {
+              "names": [
+                "_ZN6apache6thrift9transport7TSocket5writeEPKhj"
+              ],
+              "demangled": [
+                "apache::thrift::transport::TSocket::write(unsigned char const*, unsigned int)"
+              ],
+              "estimated_events": 40930,
+              "share_pct_of_main": 1.3736263736263736
+            },
+            {
+              "names": [
+                "_ZNSt18condition_variable10notify_oneEv"
+              ],
+              "demangled": [
+                "std::condition_variable::notify_one()"
+              ],
+              "estimated_events": 36837,
+              "share_pct_of_main": 1.2362637362637363
+            },
+            {
+              "names": [
+                "_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE4swapERS4_"
+              ],
+              "demangled": [
+                "std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::swap(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&)"
+              ],
+              "estimated_events": 36837,
+              "share_pct_of_main": 1.2362637362637363
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "02_v5_c4",
+      "binary_sha256": "523ebe38076e16e1d96926274bdecad07312bf0d5b0e5e65d718448bf21085a6",
+      "groups": {
+        "all_mapped_main": {
+          "estimated_events": 7334656,
+          "counts": {
+            "unmapped": 302882,
+            "entry_cache_line": 5108064,
+            "later_cache_line": 1923710
+          },
+          "v5_selected_entry_line_events": 1346597,
+          "v5_selected_entry_line_pct_of_main": 18.359375,
+          "pct_of_main": {
+            "unmapped": 4.129464285714286,
+            "entry_cache_line": 69.64285714285714,
+            "later_cache_line": 26.227678571428573
+          },
+          "v5_selected_function_counts": {
+            "untargeted_function_entry_cache_line": 3802397,
+            "untargeted_function_later_cache_line": 1428457,
+            "targeted_function_entry_cache_line": 1305667,
+            "targeted_function_later_cache_line": 495253
+          },
+          "v5_selected_function_pct_of_main": {
+            "untargeted_function_entry_cache_line": 51.841517857142854,
+            "untargeted_function_later_cache_line": 19.475446428571427,
+            "targeted_function_entry_cache_line": 17.801339285714285,
+            "targeted_function_later_cache_line": 6.752232142857143
+          },
+          "top_functions": [
+            {
+              "names": [
+                "_ZN6apache6thrift9transport7TSocket4readEPhj"
+              ],
+              "demangled": [
+                "apache::thrift::transport::TSocket::read(unsigned char*, unsigned int)"
+              ],
+              "estimated_events": 122790,
+              "share_pct_of_main": 1.6741071428571428
+            },
+            {
+              "names": [
+                "_ZN6apache6thrift9transport16TFramedTransport8readSlowEPhj"
+              ],
+              "demangled": [
+                "apache::thrift::transport::TFramedTransport::readSlow(unsigned char*, unsigned int)"
+              ],
+              "estimated_events": 118697,
+              "share_pct_of_main": 1.6183035714285714
+            },
+            {
+              "names": [
+                "_ZN6apache6thrift9transport7readAllINS1_11TBufferBaseEEEjRT_Phj"
+              ],
+              "demangled": [
+                "unsigned int apache::thrift::transport::readAll<apache::thrift::transport::TBufferBase>(apache::thrift::transport::TBufferBase&, unsigned char*, unsigned int)"
+              ],
+              "estimated_events": 118697,
+              "share_pct_of_main": 1.6183035714285714
+            },
+            {
+              "names": [
+                "_ZNSt13__future_base21_Async_state_commonV217_M_complete_asyncEv"
+              ],
+              "demangled": [
+                "std::__future_base::_Async_state_commonV2::_M_complete_async()"
+              ],
+              "estimated_events": 98232,
+              "share_pct_of_main": 1.3392857142857142
+            },
+            {
+              "names": [
+                "_ZNSt12_Destroy_auxILb0EE9__destroyIPN13jaegertracing9ReferenceEEEvT_S5_"
+              ],
+              "demangled": [
+                "void std::_Destroy_aux<false>::__destroy<jaegertracing::Reference*>(jaegertracing::Reference*, jaegertracing::Reference*)"
+              ],
+              "estimated_events": 98232,
+              "share_pct_of_main": 1.3392857142857142
+            },
+            {
+              "names": [
+                "_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE9_M_assignERKS4_"
+              ],
+              "demangled": [
+                "std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_assign(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)"
+              ],
+              "estimated_events": 98232,
+              "share_pct_of_main": 1.3392857142857142
+            },
+            {
+              "names": [
+                "_ZNSt6vectorIN13jaegertracing3TagESaIS1_EED2Ev"
+              ],
+              "demangled": [
+                "std::vector<jaegertracing::Tag, std::allocator<jaegertracing::Tag> >::~vector()"
+              ],
+              "estimated_events": 94139,
+              "share_pct_of_main": 1.2834821428571428
+            },
+            {
+              "names": [
+                "_ZNSt18condition_variable10notify_oneEv"
+              ],
+              "demangled": [
+                "std::condition_variable::notify_one()"
+              ],
+              "estimated_events": 94139,
+              "share_pct_of_main": 1.2834821428571428
+            },
+            {
+              "names": [
+                "_ZN13jaegertracing12UDPTransport6appendERKNS_4SpanE"
+              ],
+              "demangled": [
+                "jaegertracing::UDPTransport::append(jaegertracing::Span const&)"
+              ],
+              "estimated_events": 90046,
+              "share_pct_of_main": 1.2276785714285714
+            },
+            {
+              "names": [
+                "_ZN13media_service14MovieIdHandler13UploadMovieIdElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiRKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE"
+              ],
+              "demangled": [
+                "media_service::MovieIdHandler::UploadMovieId(long, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, int, std::map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::less<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > > const&)"
+              ],
+              "estimated_events": 85953,
+              "share_pct_of_main": 1.171875
+            },
+            {
+              "names": [
+                "_ZNSt13__future_base13_State_baseV213_M_set_resultESt8functionIFSt10unique_ptrINS_12_Result_baseENS3_8_DeleterEEvEEb"
+              ],
+              "demangled": [
+                "std::__future_base::_State_baseV2::_M_set_result(std::function<std::unique_ptr<std::__future_base::_Result_base, std::__future_base::_Result_base::_Deleter> ()>, bool)"
+              ],
+              "estimated_events": 85953,
+              "share_pct_of_main": 1.171875
+            },
+            {
+              "names": [
+                "_ZNSt6vectorIN13jaegertracing9ReferenceESaIS1_EE17_M_realloc_insertIJS1_EEEvN9__gnu_cxx17__normal_iteratorIPS1_S3_EEDpOT_"
+              ],
+              "demangled": [
+                "void std::vector<jaegertracing::Reference, std::allocator<jaegertracing::Reference> >::_M_realloc_insert<jaegertracing::Reference>(__gnu_cxx::__normal_iterator<jaegertracing::Reference*, std::vector<jaegertracing::Reference, std::allocator<jaegertracing::Reference> > >, jaegertracing::Reference&&)"
+              ],
+              "estimated_events": 85953,
+              "share_pct_of_main": 1.171875
+            }
+          ]
+        },
+        "age10_20_mapped_main": {
+          "estimated_events": 3233470,
+          "counts": {
+            "unmapped": 188278,
+            "later_cache_line": 785856,
+            "entry_cache_line": 2259336
+          },
+          "v5_selected_entry_line_events": 589392,
+          "v5_selected_entry_line_pct_of_main": 18.227848101265824,
+          "pct_of_main": {
+            "unmapped": 5.822784810126582,
+            "later_cache_line": 24.303797468354432,
+            "entry_cache_line": 69.87341772151899
+          },
+          "v5_selected_function_counts": {
+            "untargeted_function_later_cache_line": 601671,
+            "untargeted_function_entry_cache_line": 1690409,
+            "targeted_function_entry_cache_line": 568927,
+            "targeted_function_later_cache_line": 184185
+          },
+          "v5_selected_function_pct_of_main": {
+            "untargeted_function_later_cache_line": 18.60759493670886,
+            "untargeted_function_entry_cache_line": 52.278481012658226,
+            "targeted_function_entry_cache_line": 17.59493670886076,
+            "targeted_function_later_cache_line": 5.69620253164557
+          },
+          "top_functions": [
+            {
+              "names": [
+                "_ZNSt12_Destroy_auxILb0EE9__destroyIPN13jaegertracing9ReferenceEEEvT_S5_"
+              ],
+              "demangled": [
+                "void std::_Destroy_aux<false>::__destroy<jaegertracing::Reference*>(jaegertracing::Reference*, jaegertracing::Reference*)"
+              ],
+              "estimated_events": 69581,
+              "share_pct_of_main": 2.151898734177215
+            },
+            {
+              "names": [
+                "_ZNSt6vectorIN13jaegertracing3TagESaIS1_EEaSERKS3_"
+              ],
+              "demangled": [
+                "std::vector<jaegertracing::Tag, std::allocator<jaegertracing::Tag> >::operator=(std::vector<jaegertracing::Tag, std::allocator<jaegertracing::Tag> > const&)"
+              ],
+              "estimated_events": 61395,
+              "share_pct_of_main": 1.8987341772151898
+            },
+            {
+              "names": [
+                "_ZNSt13__future_base13_State_baseV213_M_set_resultESt8functionIFSt10unique_ptrINS_12_Result_baseENS3_8_DeleterEEvEEb"
+              ],
+              "demangled": [
+                "std::__future_base::_State_baseV2::_M_set_result(std::function<std::unique_ptr<std::__future_base::_Result_base, std::__future_base::_Result_base::_Deleter> ()>, bool)"
+              ],
+              "estimated_events": 57302,
+              "share_pct_of_main": 1.7721518987341771
+            },
+            {
+              "names": [
+                "_ZN6apache6thrift8protocol16TBinaryProtocolTINS0_9transport10TTransportENS1_17TNetworkBigEndianEE17writeMessageBeginERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEENS1_12TMessageTypeEi"
+              ],
+              "demangled": [
+                "apache::thrift::protocol::TBinaryProtocolT<apache::thrift::transport::TTransport, apache::thrift::protocol::TNetworkBigEndian>::writeMessageBegin(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, apache::thrift::protocol::TMessageType, int)"
+              ],
+              "estimated_events": 49116,
+              "share_pct_of_main": 1.518987341772152
+            },
+            {
+              "names": [
+                "_ZNSt18condition_variable10notify_oneEv"
+              ],
+              "demangled": [
+                "std::condition_variable::notify_one()"
+              ],
+              "estimated_events": 49116,
+              "share_pct_of_main": 1.518987341772152
+            },
+            {
+              "names": [
+                "_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE9_M_assignERKS4_"
+              ],
+              "demangled": [
+                "std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_assign(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)"
+              ],
+              "estimated_events": 49116,
+              "share_pct_of_main": 1.518987341772152
+            },
+            {
+              "names": [
+                "execute_native_thread_routine"
+              ],
+              "demangled": [
+                "execute_native_thread_routine"
+              ],
+              "estimated_events": 49116,
+              "share_pct_of_main": 1.518987341772152
+            },
+            {
+              "names": [
+                "_ZN13jaegertracing11SpanContext4swapERS0_"
+              ],
+              "demangled": [
+                "jaegertracing::SpanContext::swap(jaegertracing::SpanContext&)"
+              ],
+              "estimated_events": 45023,
+              "share_pct_of_main": 1.3924050632911393
+            },
+            {
+              "names": [
+                "_ZN13jaegertracing12UDPTransport6appendERKNS_4SpanE"
+              ],
+              "demangled": [
+                "jaegertracing::UDPTransport::append(jaegertracing::Span const&)"
+              ],
+              "estimated_events": 45023,
+              "share_pct_of_main": 1.3924050632911393
+            },
+            {
+              "names": [
+                "_ZN13media_service14MovieIdHandler13UploadMovieIdElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiRKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE"
+              ],
+              "demangled": [
+                "media_service::MovieIdHandler::UploadMovieId(long, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, int, std::map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::less<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > > const&)"
+              ],
+              "estimated_events": 40930,
+              "share_pct_of_main": 1.2658227848101267
+            },
+            {
+              "names": [
+                "_ZNSt6vectorIN13jaegertracing3TagESaIS1_EED2Ev"
+              ],
+              "demangled": [
+                "std::vector<jaegertracing::Tag, std::allocator<jaegertracing::Tag> >::~vector()"
+              ],
+              "estimated_events": 40930,
+              "share_pct_of_main": 1.2658227848101267
+            },
+            {
+              "names": [
+                "_ZN6apache6thrift9transport7TSocket6isOpenEv"
+              ],
+              "demangled": [
+                "apache::thrift::transport::TSocket::isOpen()"
+              ],
+              "estimated_events": 40930,
+              "share_pct_of_main": 1.2658227848101267
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "v5_target_function_names": [
+    "_ZN13jaegertracing11SpanContext10fromStreamERSi",
+    "_ZN13jaegertracing11SpanContext4swapERS0_",
+    "_ZN13jaegertracing11SpanContextC2ERKNS_7TraceIDEmmhRKSt13unordered_mapINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESA_St4hashISA_ESt8equal_toISA_ESaISt4pairIKSA_SA_EEERSG_",
+    "_ZN13jaegertracing11SpanContextC2ERKS0_",
+    "_ZN13jaegertracing11SpanContextD2Ev",
+    "_ZN13jaegertracing11propagation10PropagatorIRKN11opentracing2v213TextMapReaderERKNS3_13TextMapWriterEE22parseCommaSeparatedMapERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE",
+    "_ZN13jaegertracing4Span18logFieldsNoLockingIN9__gnu_cxx17__normal_iteratorIPKNS_3TagESt6vectorIS4_SaIS4_EEEEEEvT_SB_",
+    "_ZN13jaegertracing4SpanC2ERKS0_",
+    "_ZN13jaegertracing5utils9ErrorUtil8logErrorERNS_7logging6LoggerERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE",
+    "_ZN13jaegertracing6thrift4SpanC1ERKS1_",
+    "_ZN13jaegertracing6thrift7SpanRefC1ERKS1_",
+    "_ZN13media_service16ServiceExceptionD1Ev",
+    "_ZN13media_service16ServiceExceptionD2Ev",
+    "_ZN4YAML4NodeD2Ev",
+    "_ZN5boost3log12v2s_mt_posix4core3getEv",
+    "_ZN5boost3log12v2s_mt_posix7sources22basic_composite_loggerIcNS2_18severity_logger_mtINS1_7trivial14severity_levelEEENS2_18multi_thread_modelINS1_3aux14light_rw_mutexEEENS2_8featuresIJNS2_8severityIS6_EEEEEE11open_recordINS_9parameter3aux25tagged_argument_list_of_1INSJ_15tagged_argumentINS1_8keywords3tag8severityEKS6_EEEEEENS1_6recordERKT_",
+    "_ZN5boost3log12v2s_mt_posix7trivial6logger3getEv",
+    "_ZN6apache6thrift8protocol16TBinaryProtocolTINS0_9transport10TTransportENS1_17TNetworkBigEndianEE12readMapBeginERNS1_5TTypeES8_Rj",
+    "_ZN6apache6thrift8protocol16TBinaryProtocolTINS0_9transport10TTransportENS1_17TNetworkBigEndianEE14readStringBodyINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEjRT_i",
+    "_ZN6apache6thrift8protocol17TCompactProtocolTINS0_9transport10TTransportEEC2ESt10shared_ptrIS4_Eii",
+    "_ZN6apache6thrift9to_stringIN13jaegertracing6thrift7TagType4typeEEENSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKT_",
+    "_ZN6apache6thrift9transport7TSocket13getSocketInfoB5cxx11Ev",
+    "_ZNK13media_service32RatingService_UploadRating_pargs5writeEPN6apache6thrift8protocol9TProtocolE",
+    "_ZNK13media_service39ComposeReviewService_UploadRating_pargs5writeEPN6apache6thrift8protocol9TProtocolE",
+    "_ZNK13media_service40ComposeReviewService_UploadMovieId_pargs5writeEPN6apache6thrift8protocol9TProtocolE",
+    "_ZNKSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE7compareEPKc",
+    "_ZNSi3getERc",
+    "_ZNSi3getEv",
+    "_ZNSi7putbackEc",
+    "_ZNSo9_M_insertImEERSoT_",
+    "_ZNSolsEi",
+    "_ZNSt10_HashtableINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4pairIKS5_N11opentracing2v25ValueEESaISB_ENSt8__detail10_Select1stESt8equal_toIS5_ESt4hashIS5_ENSD_18_Mod_range_hashingENSD_20_Default_ranged_hashENSD_20_Prime_rehash_policyENSD_17_Hashtable_traitsILb1ELb0ELb1EEEE9_M_assignIRKSO_NSD_10_AllocNodeISaINSD_10_Hash_nodeISB_Lb1EEEEEEEEvOT_RKT0_",
+    "_ZNSt10_HashtableINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4pairIKS5_S5_ESaIS8_ENSt8__detail10_Select1stESt8equal_toIS5_ESt4hashIS5_ENSA_18_Mod_range_hashingENSA_20_Default_ranged_hashENSA_20_Prime_rehash_policyENSA_17_Hashtable_traitsILb1ELb0ELb1EEEED2Ev",
+    "_ZNSt11__copy_moveILb0ELb0ESt26random_access_iterator_tagE8__copy_mIPKN11opentracing2v29LogRecordESt20back_insert_iteratorISt6vectorIN13jaegertracing9LogRecordESaISB_EEEEET0_T_SG_SF_",
+    "_ZNSt12_Destroy_auxILb0EE9__destroyIPN13jaegertracing9ReferenceEEEvT_S5_",
+    "_ZNSt14__basic_futureIvED2Ev",
+    "_ZNSt18condition_variable10notify_oneEv",
+    "_ZNSt18condition_variableD1Ev",
+    "_ZNSt18condition_variableD2Ev",
+    "_ZNSt20__uninitialized_copyILb0EE13__uninit_copyIN9__gnu_cxx17__normal_iteratorIPKN13jaegertracing3TagESt6vectorIS5_SaIS5_EEEEPS5_EET0_T_SE_SD_",
+    "_ZNSt20__uninitialized_copyILb0EE13__uninit_copyIPN13jaegertracing9LogRecordES4_EET0_T_S6_S5_",
+    "_ZNSt23mersenne_twister_engineImLm64ELm312ELm156ELm31ELm13043109905998158313ELm29ELm6148914691236517205ELm17ELm8202884508482404352ELm37ELm18444473444759240704ELm43ELm6364136223846793005EEclEv",
+    "_ZNSt3_V216generic_categoryEv",
+    "_ZNSt5dequeIN13jaegertracing4SpanESaIS1_EE16_M_push_back_auxIJRKS1_EEEvDpOT_",
+    "_ZNSt6chrono3_V212steady_clock3nowEv",
+    "_ZNSt6chrono3_V212system_clock3nowEv",
+    "_ZNSt6localeaSERKS_",
+    "_ZNSt6vectorIN11opentracing2v29LogRecordESaIS2_EED2Ev",
+    "_ZNSt6vectorIN13jaegertracing3TagESaIS1_EE15_M_range_insertIN9__gnu_cxx17__normal_iteratorIPKS1_S3_EEEEvNS6_IPS1_S3_EET_SC_St20forward_iterator_tag",
+    "_ZNSt6vectorIN13jaegertracing3TagESaIS1_EED2Ev",
+    "_ZNSt6vectorIN13jaegertracing3TagESaIS1_EEaSERKS3_",
+    "_ZNSt6vectorIN13jaegertracing6thrift3TagESaIS2_EEaSERKS4_",
+    "_ZNSt6vectorIN13jaegertracing6thrift7SpanRefESaIS2_EE20_M_allocate_and_copyIPKS2_EEPS2_mT_S9_",
+    "_ZNSt6vectorIN13jaegertracing9ReferenceESaIS1_EEC2ERKS3_",
+    "_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE10_M_replaceEmmPKcm",
+    "_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE4swapERS4_",
+    "_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE6resizeEmc",
+    "_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE9_M_appendEPKcm",
+    "_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE9_M_assignERKS4_",
+    "_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE9_M_createERmm",
+    "_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE9_M_mutateEmmPKcm",
+    "_ZNSt7__cxx1119basic_istringstreamIcSt11char_traitsIcESaIcEEC1ERKNS_12basic_stringIcS2_S3_EESt13_Ios_Openmode",
+    "_ZNSt7__cxx1119basic_ostringstreamIcSt11char_traitsIcESaIcEEC1Ev",
+    "_ZNSt8_Rb_treeINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4pairIKS5_S5_ESt10_Select1stIS8_ESt4lessIS5_ESaIS8_EE29_M_get_insert_hint_unique_posESt23_Rb_tree_const_iteratorIS8_ERS7_",
+    "_ZNSt8_Rb_treeINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4pairIKS5_S5_ESt10_Select1stIS8_ESt4lessIS5_ESaIS8_EE8_M_eraseEPSt13_Rb_tree_nodeIS8_E",
+    "_ZNSt8_Rb_treeIiSt4pairIKiSt10shared_ptrIN6apache6thrift11concurrency7MonitorEEESt10_Select1stIS8_ESt4lessIiESaIS8_EE12_M_erase_auxESt23_Rb_tree_const_iteratorIS8_ESG_",
+    "_ZNSt8_Rb_treeIiSt4pairIKiSt10shared_ptrIN6apache6thrift11concurrency7MonitorEEESt10_Select1stIS8_ESt4lessIiESaIS8_EE8_M_eraseEPSt13_Rb_tree_nodeIS8_E",
+    "_ZNSt8ios_baseD1Ev",
+    "_ZNSt8ios_baseD2Ev",
+    "_ZNSt9basic_iosIcSt11char_traitsIcEE5imbueERKSt6locale",
+    "_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l",
+    "_ZSt18_Rb_tree_incrementPKSt18_Rb_tree_node_base",
+    "_ZSt18_Rb_tree_incrementPSt18_Rb_tree_node_base",
+    "_ZSt19uncaught_exceptionsv",
+    "_ZSt29_Rb_tree_insert_and_rebalancebPSt18_Rb_tree_node_baseS0_RS_",
+    "_ZSt8_DestroyIPN13jaegertracing3TagES1_EvT_S3_RSaIT0_E",
+    "_Znwm",
+    "__dynamic_cast"
+  ],
+  "interpretation": "Secondary descriptive attribution from retained main-image PEBS retirement IP aggregates. Entry-cache-line means the 64B line containing the unique owning function start, not all first64bytes. Exact symbol aliases share one range; overlaps/unmapped remain explicit. V5-selected function classification uses actual audited target names, applied separately in each binary. It is not dynamic hint coverage, a fill success rate, or evidence of a BTB/FDIP cause. Remaining sampled misses exclude avoided misses."
+}

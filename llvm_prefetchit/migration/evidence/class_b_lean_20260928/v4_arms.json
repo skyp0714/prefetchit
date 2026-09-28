@@ -1,0 +1,65 @@
+{
+  "one_far": {
+    "overrides": {
+      "movie": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_one_far/movie/MovieIdService",
+      "compose": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_one_far/compose/ComposeReviewService",
+      "rating": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_one_far/rating/RatingService"
+    },
+    "controls": [
+      "base",
+      "one_far_nop"
+    ]
+  },
+  "one_far_nop": {
+    "overrides": {
+      "movie": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_one_far/movie/MovieIdService.nop",
+      "compose": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_one_far/compose/ComposeReviewService.nop",
+      "rating": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_one_far/rating/RatingService.nop"
+    },
+    "controls": [
+      "base"
+    ]
+  },
+  "ungated": {
+    "overrides": {
+      "movie": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_ungated/movie/MovieIdService",
+      "compose": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_ungated/compose/ComposeReviewService",
+      "rating": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_ungated/rating/RatingService"
+    },
+    "controls": [
+      "base",
+      "ungated_nop"
+    ]
+  },
+  "ungated_nop": {
+    "overrides": {
+      "movie": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_ungated/movie/MovieIdService.nop",
+      "compose": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_ungated/compose/ComposeReviewService.nop",
+      "rating": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_ungated/rating/RatingService.nop"
+    },
+    "controls": [
+      "base"
+    ]
+  },
+  "callees": {
+    "overrides": {
+      "movie": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_callees/movie/MovieIdService",
+      "compose": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_callees/compose/ComposeReviewService",
+      "rating": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_callees/rating/RatingService"
+    },
+    "controls": [
+      "base",
+      "callees_nop"
+    ]
+  },
+  "callees_nop": {
+    "overrides": {
+      "movie": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_callees/movie/MovieIdService.nop",
+      "compose": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_callees/compose/ComposeReviewService.nop",
+      "rating": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v4_callees/rating/RatingService.nop"
+    },
+    "controls": [
+      "base"
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "valid": true,
+  "load": {
+    "epoch": 1790599275.4129207,
+    "seconds": 83.0,
+    "concurrency": 4,
+    "seed": 61001,
+    "warmup_s": 50,
+    "port": 18081,
+    "pid": 3062829,
+    "mode": "closed-loop; next request after completion; no intentional think time",
+    "latency": "HTTP dispatch to response completion; excludes external arrival queue",
+    "payload": "Upstream Media field distributions; deterministic per-dispatch-index seed",
+    "client_cpus": [
+      16,
+      17,
+      18,
+      19
+    ],
+    "completed": 96169,
+    "errors": 0,
+    "error_times": [],
+    "error_examples": [],
+    "steady_errors": 0,
+    "response_bodies": {
+      "": 96169
+    },
+    "client_cpu_cores": 0.26797780384175257,
+    "elapsed_s": 83.00291227901471
+  },
+  "interpretation": "Health under profiling only, not an accepted latency/throughput trial"
+}

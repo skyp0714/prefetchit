@@ -1,0 +1,979 @@
+{
+  "campaign": "/storage/prefetchit/class_b_lean_20260928/confirmation_c16",
+  "protocol_sha256": "98b183aa0c6f4c39b25dcbb86ced100c528bc3c3c48741b530eb3b919f1ded8b",
+  "driver_sha256": "e9b8c9e622a67b07fe240728a22cbfe73b6d182f3a0b0c778f99e452098db567",
+  "rows": 18,
+  "independent_confirmation": true,
+  "means": {
+    "base": {
+      "mean_ms": 11.410074214612594,
+      "p99_ms": 20.88785171508789,
+      "stack_cpu": 5579.258993102028,
+      "inverse_rps": 0.0007174804353235053,
+      "rps": 1393.7684045744384,
+      "util_pct": 97.30587434290716
+    },
+    "matched_nop": {
+      "mean_ms": 11.378305563285886,
+      "p99_ms": 20.894805590311687,
+      "stack_cpu": 5562.54875473205,
+      "inverse_rps": 0.0007155382085773632,
+      "rps": 1397.5550495693994,
+      "util_pct": 97.25905658447287
+    },
+    "selected_candidate": {
+      "mean_ms": 11.432865173147382,
+      "p99_ms": 21.01278305053711,
+      "stack_cpu": 5590.468651415965,
+      "inverse_rps": 0.0007189184409454997,
+      "rps": 1391.0170447528458,
+      "util_pct": 97.27714326420934
+    }
+  },
+  "variation": {
+    "base": {
+      "mean_ms": {
+        "min": 11.39171409199327,
+        "max": 11.433354265287468,
+        "sample_cv_pct": 0.1386230703471826
+      },
+      "p99_ms": {
+        "min": 20.750045776367188,
+        "max": 21.01898193359375,
+        "sample_cv_pct": 0.42847779685626947
+      },
+      "stack_cpu": {
+        "min": 5568.822411384774,
+        "max": 5591.935970860991,
+        "sample_cv_pct": 0.16022250983524808
+      },
+      "inverse_rps": {
+        "min": 0.0007163700802283513,
+        "max": 0.0007189377584287384,
+        "sample_cv_pct": 0.13690847154916774
+      }
+    },
+    "matched_nop": {
+      "mean_ms": {
+        "min": 11.331364036053753,
+        "max": 11.404547317051353,
+        "sample_cv_pct": 0.22173970066652635
+      },
+      "p99_ms": {
+        "min": 20.73073387145996,
+        "max": 21.055221557617188,
+        "sample_cv_pct": 0.6234513421857915
+      },
+      "stack_cpu": {
+        "min": 5535.4395753170875,
+        "max": 5577.829050840165,
+        "sample_cv_pct": 0.26067331399165067
+      },
+      "inverse_rps": {
+        "min": 0.0007126005123746763,
+        "max": 0.0007171142908429714,
+        "sample_cv_pct": 0.21983271737455087
+      }
+    },
+    "selected_candidate": {
+      "mean_ms": {
+        "min": 11.374518133686838,
+        "max": 11.558988061091407,
+        "sample_cv_pct": 0.5838184178220965
+      },
+      "p99_ms": {
+        "min": 20.93791961669922,
+        "max": 21.121740341186523,
+        "sample_cv_pct": 0.326981513387435
+      },
+      "stack_cpu": {
+        "min": 5558.062715319418,
+        "max": 5657.847179661099,
+        "sample_cv_pct": 0.6353690142966849
+      },
+      "inverse_rps": {
+        "min": 0.0007152942433991065,
+        "max": 0.0007267826164534086,
+        "sample_cv_pct": 0.579494664480034
+      }
+    }
+  },
+  "decisions": {
+    "selected_candidate": {
+      "matched_nop": "matched_nop",
+      "point_eligible": false,
+      "point_checks": {
+        "base": {
+          "stack_cpu": false,
+          "mean_ms": false,
+          "p99_ms": true
+        },
+        "matched_nop": {
+          "stack_cpu": false,
+          "mean_ms": false,
+          "p99_ms": true
+        }
+      },
+      "confirmation_checks": {
+        "base": {
+          "stack_cpu": false,
+          "mean_ms": false,
+          "p99_ms": true
+        },
+        "matched_nop": {
+          "stack_cpu": false,
+          "mean_ms": false,
+          "p99_ms": true
+        }
+      },
+      "confirmed": false,
+      "minimum_effect_pct": -0.5005289722248119
+    }
+  },
+  "comparisons": {
+    "matched_nop": {
+      "base": {
+        "inverse_rps": {
+          "pairs": 6,
+          "cost_reduction_pct": 0.2708242531365146,
+          "ci95_pct": [
+            -0.053361631492565564,
+            0.5939597334005731
+          ]
+        },
+        "mean_ms": {
+          "pairs": 6,
+          "cost_reduction_pct": 0.278551105351843,
+          "ci95_pct": [
+            -0.048796866479161594,
+            0.6048280328723066
+          ]
+        },
+        "p99_ms": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.03243562698334035,
+          "ci95_pct": [
+            -1.011514671858138,
+            0.9371534525224101
+          ]
+        },
+        "stack_cpu": {
+          "pairs": 6,
+          "cost_reduction_pct": 0.29968255767979235,
+          "ci95_pct": [
+            -0.07485673424432182,
+            0.6728201020943514
+          ]
+        }
+      }
+    },
+    "selected_candidate": {
+      "base": {
+        "inverse_rps": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.19910660279156556,
+          "ci95_pct": [
+            -0.8035076281108999,
+            0.40167053474844394
+          ]
+        },
+        "mean_ms": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.1984075619893222,
+          "ci95_pct": [
+            -0.8050113027738837,
+            0.404545883104801
+          ]
+        },
+        "p99_ms": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.5984272364734089,
+          "ci95_pct": [
+            -1.0158482125036894,
+            -0.18273114098725785
+          ]
+        },
+        "stack_cpu": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.19934641651910834,
+          "ci95_pct": [
+            -0.8698307587747589,
+            0.4666811991828279
+          ]
+        }
+      },
+      "matched_nop": {
+        "inverse_rps": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.47120699876319616,
+          "ci95_pct": [
+            -1.0448239140274929,
+            0.0991535758719242
+          ]
+        },
+        "mean_ms": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.47829095207496675,
+          "ci95_pct": [
+            -1.0589362134261426,
+            0.09901814790183039
+          ]
+        },
+        "p99_ms": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.5658080860898362,
+          "ci95_pct": [
+            -1.3236158508617146,
+            0.18633197127222445
+          ]
+        },
+        "stack_cpu": {
+          "pairs": 6,
+          "cost_reduction_pct": -0.5005289722248119,
+          "ci95_pct": [
+            -1.153683829359875,
+            0.1484084283506215
+          ]
+        }
+      }
+    }
+  },
+  "throughput": {
+    "matched_nop": {
+      "base": {
+        "pairs": 6,
+        "gain_pct": 0.2715597026730965,
+        "ci95_pct": [
+          -0.053333172041836185,
+          0.597508694449167
+        ]
+      }
+    },
+    "selected_candidate": {
+      "base": {
+        "pairs": 6,
+        "gain_pct": -0.19871095615738854,
+        "ci95_pct": [
+          -0.7971028459398788,
+          0.40329043358964256
+        ]
+      },
+      "matched_nop": {
+        "pairs": 6,
+        "gain_pct": -0.4689970518309772,
+        "ci95_pct": [
+          -1.034020223456933,
+          0.09925198776692401
+        ]
+      }
+    }
+  },
+  "services": {
+    "base": {
+      "unique-id-service": {
+        "cpu_us_per_request": 113.99745310839918,
+        "user_us_per_request": 66.6757394578191
+      },
+      "movie-id-service": {
+        "cpu_us_per_request": 426.97905742695303,
+        "user_us_per_request": 136.01538255493153
+      },
+      "movie-id-mongodb": {
+        "cpu_us_per_request": 2.0119758782187387,
+        "user_us_per_request": 1.3799261391947044
+      },
+      "movie-id-memcached": {
+        "cpu_us_per_request": 56.67562400542731,
+        "user_us_per_request": 23.930809799049413
+      },
+      "text-service": {
+        "cpu_us_per_request": 108.447201779078,
+        "user_us_per_request": 61.32919421199276
+      },
+      "rating-service": {
+        "cpu_us_per_request": 356.06388729312243,
+        "user_us_per_request": 132.0778277520065
+      },
+      "rating-redis": {
+        "cpu_us_per_request": 32.59154383791213,
+        "user_us_per_request": 19.3709436653737
+      },
+      "user-service": {
+        "cpu_us_per_request": 157.3432876475829,
+        "user_us_per_request": 86.7093373508527
+      },
+      "user-mongodb": {
+        "cpu_us_per_request": 1.995245421164077,
+        "user_us_per_request": 1.3643505454314804
+      },
+      "user-memcached": {
+        "cpu_us_per_request": 34.171140532329176,
+        "user_us_per_request": 14.343128677254294
+      },
+      "compose-review-service": {
+        "cpu_us_per_request": 928.4653352429618,
+        "user_us_per_request": 282.19908008802844
+      },
+      "compose-review-memcached": {
+        "cpu_us_per_request": 338.27482433162936,
+        "user_us_per_request": 100.5492264316589
+      },
+      "review-storage-service": {
+        "cpu_us_per_request": 153.4301580923423,
+        "user_us_per_request": 108.08500288079583
+      },
+      "review-storage-mongodb": {
+        "cpu_us_per_request": 166.35391038426502,
+        "user_us_per_request": 142.2778059227865
+      },
+      "review-storage-memcached": {
+        "cpu_us_per_request": 0.045742994095059386,
+        "user_us_per_request": 0.03630614065551857
+      },
+      "user-review-service": {
+        "cpu_us_per_request": 357.18031542057264,
+        "user_us_per_request": 210.7788837326646
+      },
+      "user-review-mongodb": {
+        "cpu_us_per_request": 538.1181361129586,
+        "user_us_per_request": 482.83988274004514
+      },
+      "user-review-redis": {
+        "cpu_us_per_request": 31.34119799452966,
+        "user_us_per_request": 17.0126613029766
+      },
+      "movie-review-service": {
+        "cpu_us_per_request": 358.1381629063157,
+        "user_us_per_request": 210.5799223164799
+      },
+      "movie-review-mongodb": {
+        "cpu_us_per_request": 538.1913186357162,
+        "user_us_per_request": 481.7788317759508
+      },
+      "movie-review-redis": {
+        "cpu_us_per_request": 31.332237398263825,
+        "user_us_per_request": 16.89350567539538
+      },
+      "nginx-web-server": {
+        "cpu_us_per_request": 511.88716033286596,
+        "user_us_per_request": 392.68403798779957
+      },
+      "cast-info-service": {
+        "cpu_us_per_request": 0.0074843474758340585,
+        "user_us_per_request": 0.004748948647027221
+      },
+      "cast-info-mongodb": {
+        "cpu_us_per_request": 2.023701413054643,
+        "user_us_per_request": 1.463471316586301
+      },
+      "cast-info-memcached": {
+        "cpu_us_per_request": 0.045070641158947,
+        "user_us_per_request": 0.02487083311486452
+      },
+      "plot-service": {
+        "cpu_us_per_request": 0.007382512352488308,
+        "user_us_per_request": 0.004413596004025744
+      },
+      "plot-mongodb": {
+        "cpu_us_per_request": 1.9978772264435098,
+        "user_us_per_request": 1.328294242325316
+      },
+      "plot-memcached": {
+        "cpu_us_per_request": 0.04528818684964194,
+        "user_us_per_request": 0.03026228663067817
+      },
+      "movie-info-service": {
+        "cpu_us_per_request": 0.007787125236306188,
+        "user_us_per_request": 0.0037038090878184736
+      },
+      "movie-info-mongodb": {
+        "cpu_us_per_request": 2.004320492297067,
+        "user_us_per_request": 1.3639401146988046
+      },
+      "movie-info-memcached": {
+        "cpu_us_per_request": 0.04505734097798945,
+        "user_us_per_request": 0.03015260788142618
+      },
+      "jaeger": {
+        "cpu_us_per_request": 329.3776132859865,
+        "user_us_per_request": 312.93725431592213
+      }
+    },
+    "matched_nop": {
+      "unique-id-service": {
+        "cpu_us_per_request": 113.50757104083705,
+        "user_us_per_request": 66.4220048035307
+      },
+      "movie-id-service": {
+        "cpu_us_per_request": 426.9083108083501,
+        "user_us_per_request": 135.8069578239246
+      },
+      "movie-id-mongodb": {
+        "cpu_us_per_request": 2.0045089702947743,
+        "user_us_per_request": 1.401729486805332
+      },
+      "movie-id-memcached": {
+        "cpu_us_per_request": 56.41815122297098,
+        "user_us_per_request": 23.609083775175787
+      },
+      "text-service": {
+        "cpu_us_per_request": 108.22975890671646,
+        "user_us_per_request": 60.798914077457574
+      },
+      "rating-service": {
+        "cpu_us_per_request": 356.7777091259188,
+        "user_us_per_request": 132.2185890966538
+      },
+      "rating-redis": {
+        "cpu_us_per_request": 32.59010253866357,
+        "user_us_per_request": 19.42127029403625
+      },
+      "user-service": {
+        "cpu_us_per_request": 157.0241188808294,
+        "user_us_per_request": 86.37496552712734
+      },
+      "user-mongodb": {
+        "cpu_us_per_request": 1.9907706961636449,
+        "user_us_per_request": 1.363533389369953
+      },
+      "user-memcached": {
+        "cpu_us_per_request": 34.033047086129834,
+        "user_us_per_request": 14.31887197413827
+      },
+      "compose-review-service": {
+        "cpu_us_per_request": 926.670750442051,
+        "user_us_per_request": 281.1559278849441
+      },
+      "compose-review-memcached": {
+        "cpu_us_per_request": 337.3509766909996,
+        "user_us_per_request": 100.17137933041433
+      },
+      "review-storage-service": {
+        "cpu_us_per_request": 153.29389152787755,
+        "user_us_per_request": 107.82586742463526
+      },
+      "review-storage-mongodb": {
+        "cpu_us_per_request": 166.0247600782605,
+        "user_us_per_request": 141.8845167193911
+      },
+      "review-storage-memcached": {
+        "cpu_us_per_request": 0.04532139507487934,
+        "user_us_per_request": 0.02902273721345592
+      },
+      "user-review-service": {
+        "cpu_us_per_request": 357.77149783132427,
+        "user_us_per_request": 210.8591071978812
+      },
+      "user-review-mongodb": {
+        "cpu_us_per_request": 536.7781715394435,
+        "user_us_per_request": 481.765133324241
+      },
+      "user-review-redis": {
+        "cpu_us_per_request": 31.383242750628206,
+        "user_us_per_request": 17.238614451066017
+      },
+      "movie-review-service": {
+        "cpu_us_per_request": 356.74213204351946,
+        "user_us_per_request": 210.2407617188942
+      },
+      "movie-review-mongodb": {
+        "cpu_us_per_request": 537.5984996899033,
+        "user_us_per_request": 482.2725950786223
+      },
+      "movie-review-redis": {
+        "cpu_us_per_request": 31.331707184198976,
+        "user_us_per_request": 17.024852621359557
+      },
+      "nginx-web-server": {
+        "cpu_us_per_request": 503.4805732183864,
+        "user_us_per_request": 385.795071255085
+      },
+      "cast-info-service": {
+        "cpu_us_per_request": 0.007427926602350023,
+        "user_us_per_request": 0.004206753990173121
+      },
+      "cast-info-mongodb": {
+        "cpu_us_per_request": 2.006791371241655,
+        "user_us_per_request": 1.3934269027051591
+      },
+      "cast-info-memcached": {
+        "cpu_us_per_request": 0.04506588010243662,
+        "user_us_per_request": 0.035697747602173965
+      },
+      "plot-service": {
+        "cpu_us_per_request": 0.007698807941563095,
+        "user_us_per_request": 0.004583005925966542
+      },
+      "plot-mongodb": {
+        "cpu_us_per_request": 1.9916109151393782,
+        "user_us_per_request": 1.3611887821461746
+      },
+      "plot-memcached": {
+        "cpu_us_per_request": 0.0450622715384336,
+        "user_us_per_request": 0.033378697894921816
+      },
+      "movie-info-service": {
+        "cpu_us_per_request": 0.007523316446091387,
+        "user_us_per_request": 0.004366239579510379
+      },
+      "movie-info-mongodb": {
+        "cpu_us_per_request": 2.0015090171124106,
+        "user_us_per_request": 1.3718841626518454
+      },
+      "movie-info-memcached": {
+        "cpu_us_per_request": 0.04511291832142644,
+        "user_us_per_request": 0.03198879131999901
+      },
+      "jaeger": {
+        "cpu_us_per_request": 327.7182080579503,
+        "user_us_per_request": 310.9476151235407
+      }
+    },
+    "selected_candidate": {
+      "unique-id-service": {
+        "cpu_us_per_request": 113.68573007408843,
+        "user_us_per_request": 66.86860951491431
+      },
+      "movie-id-service": {
+        "cpu_us_per_request": 427.5714210546593,
+        "user_us_per_request": 135.80243606272697
+      },
+      "movie-id-mongodb": {
+        "cpu_us_per_request": 2.016703381210058,
+        "user_us_per_request": 1.4048201872928792
+      },
+      "movie-id-memcached": {
+        "cpu_us_per_request": 56.737361353866035,
+        "user_us_per_request": 23.781037158245056
+      },
+      "text-service": {
+        "cpu_us_per_request": 108.301990829262,
+        "user_us_per_request": 61.17318061784206
+      },
+      "rating-service": {
+        "cpu_us_per_request": 357.0555279174704,
+        "user_us_per_request": 132.75556809120542
+      },
+      "rating-redis": {
+        "cpu_us_per_request": 32.72105041848581,
+        "user_us_per_request": 19.59390705074781
+      },
+      "user-service": {
+        "cpu_us_per_request": 157.44464976198026,
+        "user_us_per_request": 86.79015312271983
+      },
+      "user-mongodb": {
+        "cpu_us_per_request": 2.013819566146602,
+        "user_us_per_request": 1.3741994101607344
+      },
+      "user-memcached": {
+        "cpu_us_per_request": 33.95129976682746,
+        "user_us_per_request": 14.155940189603964
+      },
+      "compose-review-service": {
+        "cpu_us_per_request": 927.133116675866,
+        "user_us_per_request": 281.66447114929326
+      },
+      "compose-review-memcached": {
+        "cpu_us_per_request": 338.31651034262114,
+        "user_us_per_request": 101.2008521324094
+      },
+      "review-storage-service": {
+        "cpu_us_per_request": 153.9752709520643,
+        "user_us_per_request": 108.50252000273537
+      },
+      "review-storage-mongodb": {
+        "cpu_us_per_request": 166.37862374108352,
+        "user_us_per_request": 142.08222901581146
+      },
+      "review-storage-memcached": {
+        "cpu_us_per_request": 0.045479342202285174,
+        "user_us_per_request": 0.027517230437843227
+      },
+      "user-review-service": {
+        "cpu_us_per_request": 357.81962972923,
+        "user_us_per_request": 211.6279060368758
+      },
+      "user-review-mongodb": {
+        "cpu_us_per_request": 537.5679479612536,
+        "user_us_per_request": 482.05468370998256
+      },
+      "user-review-redis": {
+        "cpu_us_per_request": 31.434723340159078,
+        "user_us_per_request": 17.35875032229271
+      },
+      "movie-review-service": {
+        "cpu_us_per_request": 356.9042311444776,
+        "user_us_per_request": 210.08976670598074
+      },
+      "movie-review-mongodb": {
+        "cpu_us_per_request": 538.2111525219821,
+        "user_us_per_request": 483.3406870063633
+      },
+      "movie-review-redis": {
+        "cpu_us_per_request": 31.217040012748086,
+        "user_us_per_request": 17.046544923625028
+      },
+      "nginx-web-server": {
+        "cpu_us_per_request": 523.5856448338568,
+        "user_us_per_request": 404.0695382606411
+      },
+      "cast-info-service": {
+        "cpu_us_per_request": 0.007669959996489886,
+        "user_us_per_request": 0.0041042458929207645
+      },
+      "cast-info-mongodb": {
+        "cpu_us_per_request": 2.025106158876239,
+        "user_us_per_request": 1.343391886351253
+      },
+      "cast-info-memcached": {
+        "cpu_us_per_request": 0.04476468075468963,
+        "user_us_per_request": 0.033339994293102825
+      },
+      "plot-service": {
+        "cpu_us_per_request": 0.007614968812971109,
+        "user_us_per_request": 0.00561621441236669
+      },
+      "plot-mongodb": {
+        "cpu_us_per_request": 2.0112359463496494,
+        "user_us_per_request": 1.304755399962774
+      },
+      "plot-memcached": {
+        "cpu_us_per_request": 0.04658820469134757,
+        "user_us_per_request": 0.023255055769187093
+      },
+      "movie-info-service": {
+        "cpu_us_per_request": 0.008073193233473913,
+        "user_us_per_request": 0.00464626218985491
+      },
+      "movie-info-mongodb": {
+        "cpu_us_per_request": 2.0158863609994873,
+        "user_us_per_request": 1.3945376206973243
+      },
+      "movie-info-memcached": {
+        "cpu_us_per_request": 0.045626180828502956,
+        "user_us_per_request": 0.037495225929639844
+      },
+      "jaeger": {
+        "cpu_us_per_request": 329.5398064358356,
+        "user_us_per_request": 312.4877239962907
+      }
+    }
+  },
+  "workers": [
+    {
+      "arm": "base",
+      "block": 0,
+      "worker_cpu_ticks": [
+        1742,
+        1756,
+        2161,
+        2776
+      ],
+      "effective_workers": 3.8471107991333713,
+      "max_worker_share_pct": 32.910491997628924,
+      "nginx_cpu_us_per_request": 513.5611068592749,
+      "stack_cpu_us_per_request": 5579.8491723676025,
+      "snapshot_sha256": "a8b7fbe7a5f493bb678b928d72adeae061d3e958d50523548e2bc2265359f653",
+      "unavailable": [],
+      "interpretation": "Process lifetime CPU at a post-ROI snapshot, including startup/warmup. Not clean-ROI per-worker CPU or a causal explanation of variance."
+    },
+    {
+      "arm": "base",
+      "block": 1,
+      "worker_cpu_ticks": [
+        2423,
+        2164,
+        1716,
+        2159
+      ],
+      "effective_workers": 3.943082734234072,
+      "max_worker_share_pct": 28.633892696761993,
+      "nginx_cpu_us_per_request": 516.4424118267203,
+      "stack_cpu_us_per_request": 5591.935970860991,
+      "snapshot_sha256": "f37e4ccede8ca54a018f71db11f35aa997da747c05b5adae324da58f1483282d",
+      "unavailable": [],
+      "interpretation": "Process lifetime CPU at a post-ROI snapshot, including startup/warmup. Not clean-ROI per-worker CPU or a causal explanation of variance."
+    },
+    {
+      "arm": "base",
+      "block": 2,
+      "worker_cpu_ticks": [
+        1747,
+        2120,
+        2136,
+        2439
+      ],
+      "effective_workers": 3.946662977735833,
+      "max_worker_share_pct": 28.891257995735607,
+      "nginx_cpu_us_per_request": 514.7287107388573,
+      "stack_cpu_us_per_request": 5584.638995261117,
+      "snapshot_sha256": "2a389e899f2e31c23f71ffc45667cb690c8d4134889fdd3d93b55e7929c6b0d4",
+      "unavailable": [],
+      "interpretation": "Process lifetime CPU at a post-ROI snapshot, including startup/warmup. Not clean-ROI per-worker CPU or a causal explanation of variance."
+    },
+    {
+      "arm": "base",
+      "block": 3,
+      "worker_cpu_ticks": [
+        1274,
+        2221,
+        2788,
+        2145
+      ],
+      "effective_workers": 3.7523302570337718,
+      "max_worker_share_pct": 33.080208827717136,
+      "nginx_cpu_us_per_request": 514.0108910062525,
+      "stack_cpu_us_per_request": 5580.9382323401405,
+      "snapshot_sha256": "eb8f1ee145343a8bcef30e73bcb3e38050d9eac5a660cf2d8673bfeb24762567",
+      "unavailable": [],
+      "interpretation": "Process lifetime CPU at a post-ROI snapshot, including startup/warmup. Not clean-ROI per-worker CPU or a causal explanation of variance."
+    },
+    {
+      "arm": "base",
+      "block": 4,
+      "worker_cpu_ticks": [
+        1759,
+        3096,
+        2164,
+        1302
+      ],
+      "effective_workers": 3.633184584442461,
+      "max_worker_share_pct": 37.20706645835837,
+      "nginx_cpu_us_per_request": 504.9907833001039,
+      "stack_cpu_us_per_request": 5569.369176397545,
+      "snapshot_sha256": "3f2f47b80474c60ccc63217fb575f3eb2783f50f888d8177fb86100563f52229",
+      "unavailable": [],
+      "interpretation": "Process lifetime CPU at a post-ROI snapshot, including startup/warmup. Not clean-ROI per-worker CPU or a causal explanation of variance."
+    },
+    {
+      "arm": "base",
+      "block": 5,
+      "worker_cpu_ticks": [
+        3054,
+        1750,
+        1781,
+        1776
+      ],
+      "effective_workers": 3.735199328601191,
+      "max_worker_share_pct": 36.526731252242556,
+      "nginx_cpu_us_per_request": 507.58905826598703,
+      "stack_cpu_us_per_request": 5568.822411384774,
+      "snapshot_sha256": "5a64d1c1aca81a18e04ad125eb11c281e3afcb0ec2fa2482433d75c90573b4db",
+      "unavailable": [],
+      "interpretation": "Process lifetime CPU at a post-ROI snapshot, including startup/warmup. Not clean-ROI per-worker CPU or a causal explanation of variance."
+    },
+    {
+      "arm": "matched_nop",
+      "block": 0,
+      "worker_cpu_ticks": [
+        1810,
+        779,
+        2549,
+        3121
+      ],
+      "effective_workers": 3.3900471463049295,
+      "max_worker_share_pct": 37.789078580942004,
+      "nginx_cpu_us_per_request": 501.9674805479975,
+      "stack_cpu_us_per_request": 5564.944726257117,
+      "snapshot_sha256": "7e99c0a790e0db39f15c479b2147d8e0a183c8b3b59646d4347db8e7fc37aeb7",
+      "unavailable": [],
+      "interpretation": "Process lifetime CPU at a post-ROI snapshot, including startup/warmup. Not clean-ROI per-worker CPU or a causal explanation of variance."
+    },
+    {
+      "arm": "matched_nop",
+      "block": 1,
+      "worker_cpu_ticks": [
+        3160,
+        1306,
+        1329,
+        2590
+      ],
+      "effective_workers": 3.4865466532398255,
+      "max_worker_share_pct": 37.686344663088846,
+      "nginx_cpu_us_per_request": 510.3710127306537,
+      "stack_cpu_us_per_request": 5564.105245588937,
+      "snapshot_sha256": "a88e9a97a2dc5b3d72a5dd5131d698451c00dec9d3487c71ff9e16f7e6d019a1",
+      "unavailable": [],
+      "interpretation": "Process lifetime CPU at a post-ROI snapshot, including startup/warmup. Not clean-ROI per-worker CPU or a causal explanation of variance."
+    },
+    {
+      "arm": "matched_nop",
+      "block": 2,
+      "worker_cpu_ticks": [
+        1860,
+        2917,
+        3185,
+        124
+      ],
+      "effective_workers": 2.954769074059261,
+      "max_worker_share_pct": 39.38906752411575,
+      "nginx_cpu_us_per_request": 487.96426959887907,
+      "stack_cpu_us_per_request": 5535.4395753170875,
+      "snapshot_sha256": "c00e86dd08d0a6d89562217f64de00b4042701989b307faab36b16ba536504d7",
+      "unavailable": [],
+      "interpretation": "Process lifetime CPU at a post-ROI snapshot, including startup/warmup. Not clean-ROI per-worker CPU or a causal explanation of variance."
+    },
+    {
+      "arm": "matched_nop",
+      "block": 3,
+      "worker_cpu_ticks": [
+        3106,
+        1750,
+        2134,
+        1292
+      ],
+      "effective_workers": 3.6228639627113695,
+      "max_worker_share_pct": 37.50301859454238,
+      "nginx_cpu_us_per_request": 503.8086142679782,
+      "stack_cpu_us_per_request": 5571.160519623178,
+      "snapshot_sha256": "a2ead283191bbfacf6cd1ccd4999f1107a457ebb869dc54753ef549012190a50",
+      "unavailable": [],
+      "interpretation": "Process lifetime CPU at a post-ROI snapshot, including startup/warmup. Not clean-ROI per-worker CPU or a causal explanation of variance."
+    },
+    {
+      "arm": "matched_nop",
+      "block": 4,
+      "worker_cpu_ticks": [
+        1307,
+        1773,
+        3321,
+        1816
+      ],
+      "effective_workers": 3.5205293900647465,
+      "max_worker_share_pct": 40.41621029572837,
+      "nginx_cpu_us_per_request": 498.5791105281984,
+      "stack_cpu_us_per_request": 5561.813410765819,
+      "snapshot_sha256": "729d35a2b42f8ae6c434ff14ca7c3480cb2c584530608240245e105960ae4741",
+      "unavailable": [],
+      "interpretation": "Process lifetime CPU at a post-ROI snapshot, including startup/warmup. Not clean-ROI per-worker CPU or a causal explanation of variance."
+    },
+    {
+      "arm": "matched_nop",
+      "block": 5,
+      "worker_cpu_ticks": [
+        2483,
+        2135,
+        2145,
+        1735
+      ],
+      "effective_workers": 3.938747398112133,
+      "max_worker_share_pct": 29.21863967992469,
+      "nginx_cpu_us_per_request": 518.1929516366114,
+      "stack_cpu_us_per_request": 5577.829050840165,
+      "snapshot_sha256": "23c057ec23891e07256feb317fd083d0ff09e7dbd4c26e190f2e74d11d063382",
+      "unavailable": [],
+      "interpretation": "Process lifetime CPU at a post-ROI snapshot, including startup/warmup. Not clean-ROI per-worker CPU or a causal explanation of variance."
+    },
+    {
+      "arm": "selected_candidate",
+      "block": 0,
+      "worker_cpu_ticks": [
+        2004,
+        2010,
+        2791,
+        2792
+      ],
+      "effective_workers": 3.8958661373108425,
+      "max_worker_share_pct": 29.092424716057103,
+      "nginx_cpu_us_per_request": 593.4307479895359,
+      "stack_cpu_us_per_request": 5657.847179661099,
+      "snapshot_sha256": "e2c967e7498aea215a8f74b2dbf9a525c76b7510ecf7e04fe06a19a82bbff17c",
+      "unavailable": [],
+      "interpretation": "Process lifetime CPU at a post-ROI snapshot, including startup/warmup. Not clean-ROI per-worker CPU or a causal explanation of variance."
+    },
+    {
+      "arm": "selected_candidate",
+      "block": 1,
+      "worker_cpu_ticks": [
+        1731,
+        2769,
+        2192,
+        1760
+      ],
+      "effective_workers": 3.847656379183102,
+      "max_worker_share_pct": 32.76147657359205,
+      "nginx_cpu_us_per_request": 514.3864063491303,
+      "stack_cpu_us_per_request": 5587.133638235717,
+      "snapshot_sha256": "b4758fb812d9181a3a0c6e2432669dcf1738393ffd1a56109922aff46dd8f528",
+      "unavailable": [],
+      "interpretation": "Process lifetime CPU at a post-ROI snapshot, including startup/warmup. Not clean-ROI per-worker CPU or a causal explanation of variance."
+    },
+    {
+      "arm": "selected_candidate",
+      "block": 2,
+      "worker_cpu_ticks": [
+        2550,
+        135,
+        2888,
+        2573
+      ],
+      "effective_workers": 3.0890307136368533,
+      "max_worker_share_pct": 35.452983059170144,
+      "nginx_cpu_us_per_request": 495.15734770015615,
+      "stack_cpu_us_per_request": 5558.062715319418,
+      "snapshot_sha256": "d7ccf13add10564466fff7fb24383119b4ce969403c8556a9612c116df3efdd4",
+      "unavailable": [],
+      "interpretation": "Process lifetime CPU at a post-ROI snapshot, including startup/warmup. Not clean-ROI per-worker CPU or a causal explanation of variance."
+    },
+    {
+      "arm": "selected_candidate",
+      "block": 3,
+      "worker_cpu_ticks": [
+        1730,
+        2480,
+        2114,
+        2121
+      ],
+      "effective_workers": 3.9378429177905043,
+      "max_worker_share_pct": 29.36648904677324,
+      "nginx_cpu_us_per_request": 516.2266460461325,
+      "stack_cpu_us_per_request": 5592.741241217237,
+      "snapshot_sha256": "93dc8ea6078834c9966bfea8d5175c4fdf235fd552789d95f7455f1dc8fcacc8",
+      "unavailable": [],
+      "interpretation": "Process lifetime CPU at a post-ROI snapshot, including startup/warmup. Not clean-ROI per-worker CPU or a causal explanation of variance."
+    },
+    {
+      "arm": "selected_candidate",
+      "block": 4,
+      "worker_cpu_ticks": [
+        2479,
+        2546,
+        1282,
+        2183
+      ],
+      "effective_workers": 3.786401646935346,
+      "max_worker_share_pct": 29.988221436984688,
+      "nginx_cpu_us_per_request": 517.3782982082625,
+      "stack_cpu_us_per_request": 5581.486708936475,
+      "snapshot_sha256": "f3caf65421c76a05bdc49459950ae019a590f9cf57f88f8ca68f7b2367d36d94",
+      "unavailable": [],
+      "interpretation": "Process lifetime CPU at a post-ROI snapshot, including startup/warmup. Not clean-ROI per-worker CPU or a causal explanation of variance."
+    },
+    {
+      "arm": "selected_candidate",
+      "block": 5,
+      "worker_cpu_ticks": [
+        1806,
+        1324,
+        3375,
+        1808
+      ],
+      "effective_workers": 3.51253503273161,
+      "max_worker_share_pct": 40.5990617105738,
+      "nginx_cpu_us_per_request": 504.93442270992364,
+      "stack_cpu_us_per_request": 5565.540425125844,
+      "snapshot_sha256": "a025a09a3559c53d352fbaab385642f5ffa15afcfa407f9439db0599e9824424",
+      "unavailable": [],
+      "interpretation": "Process lifetime CPU at a post-ROI snapshot, including startup/warmup. Not clean-ROI per-worker CPU or a causal explanation of variance."
+    }
+  ],
+  "limitations": [
+    "Individual paired log t95 intervals, all frozen promotion criteria must pass.",
+    "Screen observations are never pooled into independent confirmation.",
+    "Closed-loop throughput and mean latency are related, not independent confirmations.",
+    "PMU windows follow clean timing; bracketing request normalization includes perf startup/teardown.",
+    "ITLB_WALK (0x11/0x0e) is completed page walks, not walk-active cycles.",
+    "L2I is a speculative instruction-fetch miss event; FE_L2 is a retired front-end event. Neither count is a cycle fraction."
+  ]
+}

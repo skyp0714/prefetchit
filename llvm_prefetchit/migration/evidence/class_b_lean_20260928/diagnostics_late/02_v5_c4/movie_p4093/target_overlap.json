@@ -1,0 +1,1649 @@
+{
+  "binary": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v5_callees_ungated_it0/movie/MovieIdService",
+  "sha256": "523ebe38076e16e1d96926274bdecad07312bf0d5b0e5e65d718448bf21085a6",
+  "mappings": [
+    {
+      "start": 93859451748352,
+      "end": 93859454099456,
+      "bias": 93859451154432,
+      "path": "/custom/MovieIdService"
+    }
+  ],
+  "coverage_applicable": true,
+  "target_lines": 74,
+  "bins": [
+    {
+      "lo_us": 0,
+      "hi_us": 1
+    },
+    {
+      "lo_us": 1,
+      "hi_us": 2
+    },
+    {
+      "lo_us": 2,
+      "hi_us": 5,
+      "estimated_events": 98232,
+      "outside_main": 40930,
+      "main": 57302
+    },
+    {
+      "lo_us": 5,
+      "hi_us": 8,
+      "estimated_events": 859530,
+      "main": 724461,
+      "outside_main": 135069,
+      "static_target_line": 94139
+    },
+    {
+      "lo_us": 8,
+      "hi_us": 10,
+      "estimated_events": 957762,
+      "main": 888181,
+      "outside_main": 69581,
+      "static_target_line": 135069
+    },
+    {
+      "lo_us": 10,
+      "hi_us": 15,
+      "estimated_events": 2259336,
+      "outside_main": 245580,
+      "main": 2013756,
+      "static_target_line": 323347
+    },
+    {
+      "lo_us": 15,
+      "hi_us": 20,
+      "estimated_events": 1473480,
+      "outside_main": 253766,
+      "main": 1219714,
+      "static_target_line": 266045
+    },
+    {
+      "lo_us": 20,
+      "hi_us": 22,
+      "estimated_events": 397021,
+      "main": 302882,
+      "outside_main": 94139,
+      "static_target_line": 57302
+    },
+    {
+      "lo_us": 22,
+      "hi_us": 24,
+      "estimated_events": 319254,
+      "outside_main": 57302,
+      "main": 261952,
+      "static_target_line": 69581
+    },
+    {
+      "lo_us": 24,
+      "hi_us": 30,
+      "estimated_events": 720368,
+      "main": 663066,
+      "static_target_line": 151441,
+      "outside_main": 57302
+    },
+    {
+      "lo_us": 30,
+      "hi_us": 40,
+      "estimated_events": 892274,
+      "main": 814507,
+      "static_target_line": 200557,
+      "outside_main": 77767
+    },
+    {
+      "lo_us": 40,
+      "hi_us": 50,
+      "estimated_events": 384742,
+      "outside_main": 155534,
+      "main": 229208,
+      "static_target_line": 32744
+    },
+    {
+      "lo_us": 50,
+      "hi_us": 100,
+      "estimated_events": 241487,
+      "main": 122790,
+      "outside_main": 118697,
+      "static_target_line": 16372
+    },
+    {
+      "lo_us": 100,
+      "hi_us": 200,
+      "estimated_events": 45023,
+      "main": 36837,
+      "outside_main": 8186
+    },
+    {
+      "lo_us": 200,
+      "hi_us": 500
+    },
+    {
+      "lo_us": 500,
+      "hi_us": 1000,
+      "estimated_events": 4093,
+      "outside_main": 4093
+    },
+    {
+      "lo_us": 1000,
+      "hi_us": null
+    }
+  ],
+  "top_main_ips": [
+    {
+      "va": "0x237330",
+      "estimated_events": 94139,
+      "function_ranges": [
+        {
+          "start": 2323248,
+          "end": 2323257,
+          "names": [
+            "_ZNSt18condition_variable10notify_oneEv"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1b7983",
+      "estimated_events": 77767,
+      "function_ranges": [
+        {
+          "start": 1800576,
+          "end": 1800787,
+          "names": [
+            "_ZNSt12_Destroy_auxILb0EE9__destroyIPN13jaegertracing9ReferenceEEEvT_S5_"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x15b5f0",
+      "estimated_events": 73674,
+      "function_ranges": [
+        {
+          "start": 1422832,
+          "end": 1424444,
+          "names": [
+            "_ZN6apache6thrift9transport7TSocket4readEPhj"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1eac40",
+      "estimated_events": 61395,
+      "function_ranges": [
+        {
+          "start": 2010176,
+          "end": 2010534,
+          "names": [
+            "_ZN13jaegertracing4Span17FinishWithOptionsERKN11opentracing2v217FinishSpanOptionsE"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1fb230",
+      "estimated_events": 61395,
+      "function_ranges": [
+        {
+          "start": 2077232,
+          "end": 2077386,
+          "names": [
+            "_ZN11opentracing2v26Tracer6GlobalEv"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x15f360",
+      "estimated_events": 57302,
+      "function_ranges": [
+        {
+          "start": 1438560,
+          "end": 1438685,
+          "names": [
+            "_ZN6apache6thrift9transport16TFramedTransport8readSlowEPhj"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x2964b0",
+      "estimated_events": 57302,
+      "function_ranges": [
+        {
+          "start": 2712752,
+          "end": 2712785,
+          "names": [
+            "__once_proxy"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1ec210",
+      "estimated_events": 57302,
+      "function_ranges": [
+        {
+          "start": 2015760,
+          "end": 2015824,
+          "names": [
+            "_ZNK13jaegertracing4Span7contextEv"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0xba1f0",
+      "estimated_events": 57302,
+      "function_ranges": [
+        {
+          "start": 762352,
+          "end": 762469,
+          "names": [
+            "_ZNSt6vectorIN13jaegertracing3TagESaIS1_EED2Ev"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0xbdc90",
+      "estimated_events": 53209,
+      "function_ranges": [
+        {
+          "start": 777360,
+          "end": 777911,
+          "names": [
+            "_ZNSt10_HashtableINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4pairIKS5_S5_ESaIS8_ENSt8__detail10_Select1stESt8equal_toIS5_ESt4hashIS5_ENSA_18_Mod_range_hashingENSA_20_Default_ranged_hashENSA_20_Prime_rehash_policyENSA_17_Hashtable_traitsILb1ELb0ELb1EEEE9_M_assignIRKSL_NSA_10_AllocNodeISaINSA_10_Hash_nodeIS8_Lb1EEEEEEEEvOT_RKT0_"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1d63f0",
+      "estimated_events": 53209,
+      "function_ranges": [
+        {
+          "start": 1926128,
+          "end": 1926533,
+          "names": [
+            "_ZNSt6vectorIN13jaegertracing9LogRecordESaIS1_EEaSERKS3_"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1d6b30",
+      "estimated_events": 53209,
+      "function_ranges": [
+        {
+          "start": 1927984,
+          "end": 1928239,
+          "names": [
+            "_ZNSt6vectorIN13jaegertracing9ReferenceESaIS1_EE20_M_allocate_and_copyIN9__gnu_cxx17__normal_iteratorIPKS1_S3_EEEEPS1_mT_SB_"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0xfbcc0",
+      "estimated_events": 53209,
+      "function_ranges": [
+        {
+          "start": 1031360,
+          "end": 1031465,
+          "names": [
+            "_ZN13media_service16ServiceExceptionD1Ev",
+            "_ZN13media_service16ServiceExceptionD2Ev"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0xb3a70",
+      "estimated_events": 49116,
+      "function_ranges": [
+        {
+          "start": 735856,
+          "end": 735857,
+          "names": [
+            "_ZN13jaegertracing7metrics11NullCounter3incEl"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x2a7f40",
+      "estimated_events": 49116,
+      "function_ranges": [
+        {
+          "start": 2785040,
+          "end": 2785292,
+          "names": [
+            "_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE9_M_assignERKS4_"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1d5310",
+      "estimated_events": 49116,
+      "function_ranges": [
+        {
+          "start": 1921808,
+          "end": 1922061,
+          "names": [
+            "_ZN13jaegertracing9reporters14RemoteReporter6reportERKNS_4SpanE"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x15f7c0",
+      "estimated_events": 45023,
+      "function_ranges": [
+        {
+          "start": 1439680,
+          "end": 1439687,
+          "names": [
+            "_ZN6apache6thrift9transport16TFramedTransport8writeEndEv"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x92608",
+      "estimated_events": 45023,
+      "function_ranges": []
+    },
+    {
+      "va": "0xd6f00",
+      "estimated_events": 45023,
+      "function_ranges": [
+        {
+          "start": 880336,
+          "end": 880701,
+          "names": [
+            "_ZN6apache6thrift8protocol16TBinaryProtocolTINS0_9transport10TTransportENS1_17TNetworkBigEndianEE17writeMessageBeginERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEENS1_12TMessageTypeEi"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x158f40",
+      "estimated_events": 45023,
+      "function_ranges": [
+        {
+          "start": 1412928,
+          "end": 1413067,
+          "names": [
+            "_ZN6apache6thrift8protocol9TProtocolD1Ev",
+            "_ZN6apache6thrift8protocol9TProtocolD2Ev"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0xd4390",
+      "estimated_events": 40930,
+      "function_ranges": [
+        {
+          "start": 869264,
+          "end": 869525,
+          "names": [
+            "_ZNSt13__future_base13_State_baseV213_M_set_resultESt8functionIFSt10unique_ptrINS_12_Result_baseENS3_8_DeleterEEvEEb"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x159e70",
+      "estimated_events": 40930,
+      "function_ranges": [
+        {
+          "start": 1416816,
+          "end": 1416824,
+          "names": [
+            "_ZN6apache6thrift9transport7TSocket6isOpenEv"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1b44be",
+      "estimated_events": 40930,
+      "function_ranges": [
+        {
+          "start": 1786960,
+          "end": 1787263,
+          "names": [
+            "_ZN13jaegertracing11SpanContextC2ERKS0_"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x15cc30",
+      "estimated_events": 40930,
+      "function_ranges": [
+        {
+          "start": 1428528,
+          "end": 1428540,
+          "names": [
+            "_ZN6apache6thrift9transport17TVirtualTransportINS1_7TSocketENS1_18TTransportDefaultsEE10write_virtEPKhj"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x234050",
+      "estimated_events": 40930,
+      "function_ranges": [
+        {
+          "start": 2310224,
+          "end": 2310297,
+          "names": [
+            "_ZNSt6chrono3_V212system_clock3nowEv"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1b6510",
+      "estimated_events": 40930,
+      "function_ranges": [
+        {
+          "start": 1795344,
+          "end": 1795652,
+          "names": [
+            "_ZNSt6vectorIN13jaegertracing3TagESaIS1_EE7reserveEm"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1b8fff",
+      "estimated_events": 40930,
+      "function_ranges": [
+        {
+          "start": 1806304,
+          "end": 1806929,
+          "names": [
+            "_ZNSt6vectorIN13jaegertracing9ReferenceESaIS1_EE17_M_realloc_insertIJS1_EEEvN9__gnu_cxx17__normal_iteratorIPS1_S3_EEDpOT_"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0xbd730",
+      "estimated_events": 40930,
+      "function_ranges": [
+        {
+          "start": 775984,
+          "end": 776330,
+          "names": [
+            "_ZN13jaegertracing11SpanContext4swapERS0_"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1de6a0",
+      "estimated_events": 40930,
+      "function_ranges": [
+        {
+          "start": 1959584,
+          "end": 1959585,
+          "names": [
+            "_ZN13jaegertracing6thrift7SpanRefD1Ev"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x91d50",
+      "estimated_events": 40930,
+      "function_ranges": []
+    },
+    {
+      "va": "0x1df010",
+      "estimated_events": 40930,
+      "function_ranges": [
+        {
+          "start": 1962000,
+          "end": 1962005,
+          "names": [
+            "_ZN13jaegertracing6thrift4Span17__set_traceIdHighEl"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1bc740",
+      "estimated_events": 40930,
+      "function_ranges": [
+        {
+          "start": 1820480,
+          "end": 1820573,
+          "names": [
+            "_ZN6apache6thrift8protocol16TVirtualProtocolINS1_17TCompactProtocolTINS0_9transport10TTransportEEENS1_17TProtocolDefaultsEE13writeI64_virtEl"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x160520",
+      "estimated_events": 40930,
+      "function_ranges": [
+        {
+          "start": 1443104,
+          "end": 1443377,
+          "names": [
+            "_ZN6apache6thrift9transport7readAllINS1_11TBufferBaseEEEjRT_Phj"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1ba260",
+      "estimated_events": 36837,
+      "function_ranges": [
+        {
+          "start": 1811040,
+          "end": 1812709,
+          "names": [
+            "_ZNK13jaegertracing4Span6thriftEv"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1e28c0",
+      "estimated_events": 36837,
+      "function_ranges": [
+        {
+          "start": 1976512,
+          "end": 1977097,
+          "names": [
+            "_ZNSt6vectorIN13jaegertracing6thrift7SpanRefESaIS2_EEaSERKS4_"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x2a7f10",
+      "estimated_events": 36837,
+      "function_ranges": [
+        {
+          "start": 2785040,
+          "end": 2785292,
+          "names": [
+            "_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE9_M_assignERKS4_"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x15f43b",
+      "estimated_events": 36837,
+      "function_ranges": [
+        {
+          "start": 1438688,
+          "end": 1439182,
+          "names": [
+            "_ZN6apache6thrift9transport16TFramedTransport9readFrameEv"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x15f3a7",
+      "estimated_events": 36837,
+      "function_ranges": [
+        {
+          "start": 1438560,
+          "end": 1438685,
+          "names": [
+            "_ZN6apache6thrift9transport16TFramedTransport8readSlowEPhj"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x160140",
+      "estimated_events": 36837,
+      "function_ranges": [
+        {
+          "start": 1442112,
+          "end": 1442122,
+          "names": [
+            "_ZN6apache6thrift9transport16TFramedTransport6isOpenEv"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x23383d",
+      "estimated_events": 36837,
+      "function_ranges": [
+        {
+          "start": 2308112,
+          "end": 2308847,
+          "names": [
+            "_ZSt29_Rb_tree_insert_and_rebalancebPSt18_Rb_tree_node_baseS0_RS_"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1d6eb0",
+      "estimated_events": 36837,
+      "function_ranges": [
+        {
+          "start": 1928880,
+          "end": 1929160,
+          "names": [
+            "_ZNSt5dequeIN13jaegertracing4SpanESaIS1_EE16_M_push_back_auxIJRKS1_EEEvDpOT_"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0xdbde0",
+      "estimated_events": 32744,
+      "function_ranges": [
+        {
+          "start": 900576,
+          "end": 900592,
+          "names": [
+            "_ZNSt15_Sp_counted_ptrIPN6apache6thrift8protocol9TProtocolELN9__gnu_cxx12_Lock_policyE2EE10_M_disposeEv"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1ebb00",
+      "estimated_events": 32744,
+      "function_ranges": [
+        {
+          "start": 2013952,
+          "end": 2013970,
+          "names": [
+            "_ZN13jaegertracing4SpanD0Ev"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0xc1a90",
+      "estimated_events": 32744,
+      "function_ranges": [
+        {
+          "start": 793232,
+          "end": 793890,
+          "names": [
+            "_ZNSt8_Rb_treeINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4pairIKS5_S5_ESt10_Select1stIS8_ESt4lessIS5_ESaIS8_EE29_M_get_insert_hint_unique_posESt23_Rb_tree_const_iteratorIS8_ERS7_"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0xe21dc",
+      "estimated_events": 32744,
+      "function_ranges": [
+        {
+          "start": 926096,
+          "end": 926315,
+          "names": [
+            "_ZN6apache6thrift18TDispatchProcessor7processESt10shared_ptrINS0_8protocol9TProtocolEES5_Pv"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x15bc40",
+      "estimated_events": 32744,
+      "function_ranges": [
+        {
+          "start": 1424448,
+          "end": 1424664,
+          "names": [
+            "_ZN6apache6thrift9transport7TSocket5writeEPKhj"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x2aa4f0",
+      "estimated_events": 32744,
+      "function_ranges": [
+        {
+          "start": 2794736,
+          "end": 2794845,
+          "names": [
+            "_ZNKSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE7compareEPKc"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0xe3cc0",
+      "estimated_events": 32744,
+      "function_ranges": [
+        {
+          "start": 933056,
+          "end": 933497,
+          "names": [
+            "_ZN13media_service34RatingService_UploadRating_presult4readEPN6apache6thrift8protocol9TProtocolE"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0xd6880",
+      "estimated_events": 32744,
+      "function_ranges": [
+        {
+          "start": 878720,
+          "end": 878749,
+          "names": [
+            "_ZN6apache6thrift8protocol16TVirtualProtocolINS1_16TBinaryProtocolTINS0_9transport10TTransportENS1_17TNetworkBigEndianEEENS1_17TProtocolDefaultsEE20readStructBegin_virtERNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1601f0",
+      "estimated_events": 32744,
+      "function_ranges": [
+        {
+          "start": 1442288,
+          "end": 1442352,
+          "names": [
+            "_ZN6apache6thrift9transport17TVirtualTransportINS1_16TFramedTransportENS1_11TBufferBaseEE12readAll_virtEPhj"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0xba1ff",
+      "estimated_events": 32744,
+      "function_ranges": [
+        {
+          "start": 762352,
+          "end": 762469,
+          "names": [
+            "_ZNSt6vectorIN13jaegertracing3TagESaIS1_EED2Ev"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0xa98c0",
+      "estimated_events": 32744,
+      "function_ranges": [
+        {
+          "start": 694384,
+          "end": 694659,
+          "names": [
+            "_ZNK11opentracing2v26Tracer9StartSpanENS0_11string_viewESt16initializer_listINS0_14option_wrapperINS0_15StartSpanOptionEEEE"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x160450",
+      "estimated_events": 32744,
+      "function_ranges": [
+        {
+          "start": 1442896,
+          "end": 1442961,
+          "names": [
+            "_ZN6apache6thrift9transport17TVirtualTransportINS1_13TMemoryBufferENS1_11TBufferBaseEE10write_virtEPKhj"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x2a8f30",
+      "estimated_events": 32744,
+      "function_ranges": [
+        {
+          "start": 2789168,
+          "end": 2789883,
+          "names": [
+            "_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE10_M_replaceEmmPKcm"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0xa6f40",
+      "estimated_events": 32744,
+      "function_ranges": [
+        {
+          "start": 683840,
+          "end": 683870,
+          "names": [
+            "_ZNSt6thread11_State_implINS_8_InvokerISt5tupleIJMNSt13__future_base17_Async_state_implINS1_IS2_IJZN13media_service14MovieIdHandler13UploadMovieIdElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiRKSt3mapISC_SC_St4lessISC_ESaISt4pairISD_SC_EEEE3$_0EEEEvEEFvvEPSR_EEEEE6_M_runEv"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0xbc2c0",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 770752,
+          "end": 770878,
+          "names": [
+            "_ZNK13jaegertracing11propagation10PropagatorIRKN11opentracing2v213TextMapReaderERKNS3_13TextMapWriterEE11decodeValueERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1b93d0",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 1807312,
+          "end": 1809902,
+          "names": [
+            "_ZN13jaegertracing12UDPTransport6appendERKNS_4SpanE"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0xd41ff",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 868736,
+          "end": 868902,
+          "names": [
+            "_ZNSt13__future_base21_Async_state_commonV217_M_complete_asyncEv"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x91620",
+      "estimated_events": 28651,
+      "function_ranges": []
+    },
+    {
+      "va": "0xe9bb0",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 957360,
+          "end": 957908,
+          "names": [
+            "_ZNK13media_service40ComposeReviewService_UploadMovieId_pargs5writeEPN6apache6thrift8protocol9TProtocolE"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1b55c0",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 1791424,
+          "end": 1792275,
+          "names": [
+            "_ZNK13jaegertracing6Tracer17analyzeReferencesERKSt6vectorISt4pairIN11opentracing2v217SpanReferenceTypeEPKNS4_11SpanContextEESaIS9_EE"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x17c800",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 1558528,
+          "end": 1559308,
+          "names": [
+            "_ZN5boost3log12v2s_mt_posix4core11open_recordERKNS1_13attribute_setE"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x2ab134",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 2797856,
+          "end": 2797908,
+          "names": [
+            "execute_native_thread_routine"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x91710",
+      "estimated_events": 28651,
+      "function_ranges": []
+    },
+    {
+      "va": "0x289bb0",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 2661296,
+          "end": 2662046,
+          "names": [
+            "_ZNKSt7num_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE13_M_insert_intImEES3_S3_RSt8ios_basecT_"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x2964b8",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 2712752,
+          "end": 2712785,
+          "names": [
+            "__once_proxy"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0xa7bd0",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 687056,
+          "end": 687086,
+          "names": [
+            "_ZNSt6thread11_State_implINS_8_InvokerISt5tupleIJMNSt13__future_base17_Async_state_implINS1_IS2_IJZN13media_service14MovieIdHandler13UploadMovieIdElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiRKSt3mapISC_SC_St4lessISC_ESaISt4pairISD_SC_EEEE3$_2EEEEvEEFvvEPSR_EEEEE6_M_runEv"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x2ab120",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 2797856,
+          "end": 2797908,
+          "names": [
+            "execute_native_thread_routine"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0xbd200",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 774656,
+          "end": 774908,
+          "names": [
+            "_ZN13jaegertracingeqERKNS_11SpanContextES2_"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x27c2a0",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 2605728,
+          "end": 2606078,
+          "names": [
+            "_ZNSi3getERc"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x2a6860",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 2779232,
+          "end": 2779307,
+          "names": [
+            "_ZNSt15basic_streambufIcSt11char_traitsIcEE5uflowEv"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x16056a",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 1443104,
+          "end": 1443377,
+          "names": [
+            "_ZN6apache6thrift9transport7readAllINS1_11TBufferBaseEEEjRT_Phj"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1dec80",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 1961088,
+          "end": 1961125,
+          "names": [
+            "_ZN13jaegertracing6thrift7SpanRefC1ERKS1_"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0xd4180",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 868736,
+          "end": 868902,
+          "names": [
+            "_ZNSt13__future_base21_Async_state_commonV217_M_complete_asyncEv"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x29cca0",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 2739360,
+          "end": 2739430,
+          "names": [
+            "_ZNSt7__cxx1115basic_stringbufIcSt11char_traitsIcESaIcEE9underflowEv"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x15ce00",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 1428976,
+          "end": 1429198,
+          "names": [
+            "_ZN6apache6thrift9transport7readAllINS1_7TSocketEEEjRT_Phj"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x29e0c0",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 2744512,
+          "end": 2744573,
+          "names": [
+            "_ZNSt7__cxx1115basic_stringbufIcSt11char_traitsIcESaIcEE8_M_pbumpEPcS5_l"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0xd45c7",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 869808,
+          "end": 869882,
+          "names": [
+            "_ZNSt13__future_base13_State_baseV29_M_do_setEPSt8functionIFSt10unique_ptrINS_12_Result_baseENS3_8_DeleterEEvEEPb"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0x1dfa00",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 1964544,
+          "end": 1965795,
+          "names": [
+            "_ZNK13jaegertracing6thrift4Span5writeEPN6apache6thrift8protocol9TProtocolE"
+          ]
+        }
+      ]
+    },
+    {
+      "va": "0xd9990",
+      "estimated_events": 28651,
+      "function_ranges": [
+        {
+          "start": 891280,
+          "end": 891281,
+          "names": [
+            "_ZN13media_service12ThriftClientINS_19RatingServiceClientEE9KeepAliveEv"
+          ]
+        }
+      ]
+    }
+  ],
+  "top_unique_functions": [
+    {
+      "names": [
+        "_ZN6apache6thrift9transport7TSocket4readEPhj"
+      ],
+      "estimated_events": 122790
+    },
+    {
+      "names": [
+        "_ZN6apache6thrift9transport16TFramedTransport8readSlowEPhj"
+      ],
+      "estimated_events": 118697
+    },
+    {
+      "names": [
+        "_ZN6apache6thrift9transport7readAllINS1_11TBufferBaseEEEjRT_Phj"
+      ],
+      "estimated_events": 118697
+    },
+    {
+      "names": [
+        "_ZNSt12_Destroy_auxILb0EE9__destroyIPN13jaegertracing9ReferenceEEEvT_S5_"
+      ],
+      "estimated_events": 98232
+    },
+    {
+      "names": [
+        "_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE9_M_assignERKS4_"
+      ],
+      "estimated_events": 98232
+    },
+    {
+      "names": [
+        "_ZNSt13__future_base21_Async_state_commonV217_M_complete_asyncEv"
+      ],
+      "estimated_events": 98232
+    },
+    {
+      "names": [
+        "_ZNSt18condition_variable10notify_oneEv"
+      ],
+      "estimated_events": 94139
+    },
+    {
+      "names": [
+        "_ZNSt6vectorIN13jaegertracing3TagESaIS1_EED2Ev"
+      ],
+      "estimated_events": 94139
+    },
+    {
+      "names": [
+        "_ZN13jaegertracing12UDPTransport6appendERKNS_4SpanE"
+      ],
+      "estimated_events": 90046
+    },
+    {
+      "names": [
+        "__once_proxy"
+      ],
+      "estimated_events": 85953
+    },
+    {
+      "names": [
+        "_ZNSt13__future_base13_State_baseV213_M_set_resultESt8functionIFSt10unique_ptrINS_12_Result_baseENS3_8_DeleterEEvEEb"
+      ],
+      "estimated_events": 85953
+    },
+    {
+      "names": [
+        "_ZNSt6vectorIN13jaegertracing9ReferenceESaIS1_EE17_M_realloc_insertIJS1_EEEvN9__gnu_cxx17__normal_iteratorIPS1_S3_EEDpOT_"
+      ],
+      "estimated_events": 85953
+    },
+    {
+      "names": [
+        "_ZN13media_service14MovieIdHandler13UploadMovieIdElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiRKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE"
+      ],
+      "estimated_events": 85953
+    },
+    {
+      "names": [
+        "_ZN13jaegertracing4Span17FinishWithOptionsERKN11opentracing2v217FinishSpanOptionsE"
+      ],
+      "estimated_events": 81860
+    },
+    {
+      "names": [
+        "_ZNSt6vectorIN13jaegertracing3TagESaIS1_EEaSERKS3_"
+      ],
+      "estimated_events": 81860
+    },
+    {
+      "names": [
+        "_ZN11opentracing2v26Tracer6GlobalEv"
+      ],
+      "estimated_events": 77767
+    },
+    {
+      "names": [
+        "_ZNSt6vectorIN13jaegertracing9ReferenceESaIS1_EE20_M_allocate_and_copyIN9__gnu_cxx17__normal_iteratorIPKS1_S3_EEEEPS1_mT_SB_"
+      ],
+      "estimated_events": 77767
+    },
+    {
+      "names": [
+        "_ZN6apache6thrift9transport16TFramedTransport9readFrameEv"
+      ],
+      "estimated_events": 77767
+    },
+    {
+      "names": [
+        "_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE10_M_replaceEmmPKcm"
+      ],
+      "estimated_events": 77767
+    },
+    {
+      "names": [
+        "_ZNSt6vectorIN13jaegertracing9LogRecordESaIS1_EEaSERKS3_"
+      ],
+      "estimated_events": 73674
+    },
+    {
+      "names": [
+        "_ZN6apache6thrift8protocol16TBinaryProtocolTINS0_9transport10TTransportENS1_17TNetworkBigEndianEE17writeMessageBeginERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEENS1_12TMessageTypeEi"
+      ],
+      "estimated_events": 73674
+    },
+    {
+      "names": [
+        "_ZN13jaegertracing11SpanContext4swapERS0_"
+      ],
+      "estimated_events": 69581
+    },
+    {
+      "names": [
+        "_ZNK13jaegertracing6Tracer17analyzeReferencesERKSt6vectorISt4pairIN11opentracing2v217SpanReferenceTypeEPKNS4_11SpanContextEESaIS9_EE"
+      ],
+      "estimated_events": 69581
+    },
+    {
+      "names": [
+        "_ZN13jaegertracing11SpanContextC2ERKS0_"
+      ],
+      "estimated_events": 65488
+    },
+    {
+      "names": [
+        "_ZNK13jaegertracing11propagation10PropagatorIRKN11opentracing2v213TextMapReaderERKNS3_13TextMapWriterEE7extractES6_"
+      ],
+      "estimated_events": 65488
+    },
+    {
+      "names": [
+        "_ZN13media_service16ServiceExceptionD1Ev",
+        "_ZN13media_service16ServiceExceptionD2Ev"
+      ],
+      "estimated_events": 61395
+    },
+    {
+      "names": [
+        "_ZN13jaegertracing9reporters14RemoteReporter6reportERKNS_4SpanE"
+      ],
+      "estimated_events": 61395
+    },
+    {
+      "names": [
+        "_ZNSt5dequeIN13jaegertracing4SpanESaIS1_EE16_M_push_back_auxIJRKS1_EEEvDpOT_"
+      ],
+      "estimated_events": 61395
+    },
+    {
+      "names": [
+        "_ZN6apache6thrift18TDispatchProcessor7processESt10shared_ptrINS0_8protocol9TProtocolEES5_Pv"
+      ],
+      "estimated_events": 61395
+    },
+    {
+      "names": [
+        "_ZN13media_service23MovieIdServiceProcessor12dispatchCallEPN6apache6thrift8protocol9TProtocolES5_RKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiPv"
+      ],
+      "estimated_events": 61395
+    },
+    {
+      "names": [
+        "_ZNK13jaegertracing4Span7contextEv"
+      ],
+      "estimated_events": 57302
+    },
+    {
+      "names": [
+        "_ZSt29_Rb_tree_insert_and_rebalancebPSt18_Rb_tree_node_baseS0_RS_"
+      ],
+      "estimated_events": 57302
+    },
+    {
+      "names": [
+        "execute_native_thread_routine"
+      ],
+      "estimated_events": 57302
+    },
+    {
+      "names": [
+        "_ZNSt10_HashtableINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4pairIKS5_S5_ESaIS8_ENSt8__detail10_Select1stESt8equal_toIS5_ESt4hashIS5_ENSA_18_Mod_range_hashingENSA_20_Default_ranged_hashENSA_20_Prime_rehash_policyENSA_17_Hashtable_traitsILb1ELb0ELb1EEEE9_M_assignIRKSL_NSA_10_AllocNodeISaINSA_10_Hash_nodeIS8_Lb1EEEEEEEEvOT_RKT0_"
+      ],
+      "estimated_events": 53209
+    },
+    {
+      "names": [
+        "_ZNSt6vectorIN13jaegertracing3TagESaIS1_EE7reserveEm"
+      ],
+      "estimated_events": 53209
+    },
+    {
+      "names": [
+        "_ZNKSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE7compareEPKc"
+      ],
+      "estimated_events": 53209
+    },
+    {
+      "names": [
+        "_ZNK11opentracing2v26Tracer9StartSpanENS0_11string_viewESt16initializer_listINS0_14option_wrapperINS0_15StartSpanOptionEEEE"
+      ],
+      "estimated_events": 53209
+    },
+    {
+      "names": [
+        "_ZN6apache6thrift9transport7readAllINS1_7TSocketEEEjRT_Phj"
+      ],
+      "estimated_events": 53209
+    },
+    {
+      "names": [
+        "_ZNSt10_HashtableINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4pairIKS5_S5_ESaIS8_ENSt8__detail10_Select1stESt8equal_toIS5_ESt4hashIS5_ENSA_18_Mod_range_hashingENSA_20_Default_ranged_hashENSA_20_Prime_rehash_policyENSA_17_Hashtable_traitsILb1ELb0ELb1EEEED2Ev"
+      ],
+      "estimated_events": 53209
+    },
+    {
+      "names": [
+        "_ZN13jaegertracing7metrics11NullCounter3incEl"
+      ],
+      "estimated_events": 49116
+    },
+    {
+      "names": [
+        "_ZN6apache6thrift8protocol9TProtocolD1Ev",
+        "_ZN6apache6thrift8protocol9TProtocolD2Ev"
+      ],
+      "estimated_events": 49116
+    },
+    {
+      "names": [
+        "_ZNK13jaegertracing4Span6thriftEv"
+      ],
+      "estimated_events": 49116
+    },
+    {
+      "names": [
+        "_ZNK13jaegertracing6Tracer20StartSpanWithOptionsEN11opentracing2v211string_viewERKNS2_16StartSpanOptionsE"
+      ],
+      "estimated_events": 49116
+    },
+    {
+      "names": [
+        "_ZN13jaegertracing4SpanC2ERKS0_"
+      ],
+      "estimated_events": 49116
+    },
+    {
+      "names": [
+        "_ZN6apache6thrift9transport16TFramedTransport8writeEndEv"
+      ],
+      "estimated_events": 45023
+    },
+    {
+      "names": [
+        "_ZNSt6vectorIN13jaegertracing6thrift7SpanRefESaIS2_EEaSERKS4_"
+      ],
+      "estimated_events": 45023
+    },
+    {
+      "names": [
+        "_ZN13media_service34RatingService_UploadRating_presult4readEPN6apache6thrift8protocol9TProtocolE"
+      ],
+      "estimated_events": 45023
+    },
+    {
+      "names": [
+        "_ZNKSt7num_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE13_M_insert_intImEES3_S3_RSt8ios_basecT_"
+      ],
+      "estimated_events": 45023
+    },
+    {
+      "names": [
+        "_ZNSt6vectorIN13jaegertracing3TagESaIS1_EE15_M_range_insertIN9__gnu_cxx17__normal_iteratorIPKS1_S3_EEEEvNS6_IPS1_S3_EET_SC_St20forward_iterator_tag"
+      ],
+      "estimated_events": 45023
+    },
+    {
+      "names": [
+        "_ZNSt13__future_base17_Async_state_implINSt6thread8_InvokerISt5tupleIJZN13media_service14MovieIdHandler13UploadMovieIdElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiRKSt3mapISB_SB_St4lessISB_ESaISt4pairISC_SB_EEEE3$_1EEEEvE6_M_runEv"
+      ],
+      "estimated_events": 45023
+    },
+    {
+      "names": [
+        "_ZNK13jaegertracing6Tracer17startSpanInternalERKNS_11SpanContextERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKNSt6chrono10time_pointINSC_3_V212system_clockENSC_8durationIlSt5ratioILl1ELl1000000000EEEEEERKNSD_INSE_12steady_clockESJ_EERKSt6vectorINS_3TagESaISS_EERKSR_ISt4pairIS9_N11opentracing2v25ValueEESaIS11_EEbRKSR_INS_9ReferenceESaIS16_EE"
+      ],
+      "estimated_events": 45023
+    },
+    {
+      "names": [
+        "_ZNK10__cxxabiv121__vmi_class_type_info12__do_dyncastElNS_17__class_type_info10__sub_kindEPKS1_PKvS4_S6_RNS1_16__dyncast_resultE"
+      ],
+      "estimated_events": 45023
+    },
+    {
+      "names": [
+        "_ZN5boost3log12v2s_mt_posix7trivial6logger3getEv"
+      ],
+      "estimated_events": 45023
+    },
+    {
+      "names": [
+        "_ZN5boost3log12v2s_mt_posix19attribute_value_setC1ERKNS1_13attribute_setES5_S5_m",
+        "_ZN5boost3log12v2s_mt_posix19attribute_value_setC2ERKNS1_13attribute_setES5_S5_m"
+      ],
+      "estimated_events": 45023
+    },
+    {
+      "names": [
+        "_ZN6apache6thrift9transport7TSocket6isOpenEv"
+      ],
+      "estimated_events": 40930
+    },
+    {
+      "names": [
+        "_ZN6apache6thrift9transport17TVirtualTransportINS1_7TSocketENS1_18TTransportDefaultsEE10write_virtEPKhj"
+      ],
+      "estimated_events": 40930
+    },
+    {
+      "names": [
+        "_ZNSt6chrono3_V212system_clock3nowEv"
+      ],
+      "estimated_events": 40930
+    },
+    {
+      "names": [
+        "_ZN13jaegertracing6thrift7SpanRefD1Ev"
+      ],
+      "estimated_events": 40930
+    },
+    {
+      "names": [
+        "_ZN13jaegertracing6thrift4Span17__set_traceIdHighEl"
+      ],
+      "estimated_events": 40930
+    },
+    {
+      "names": [
+        "_ZN6apache6thrift8protocol16TVirtualProtocolINS1_17TCompactProtocolTINS0_9transport10TTransportEEENS1_17TProtocolDefaultsEE13writeI64_virtEl"
+      ],
+      "estimated_events": 40930
+    },
+    {
+      "names": [
+        "_ZN6apache6thrift6server16TConnectedClient3runEv"
+      ],
+      "estimated_events": 40930
+    },
+    {
+      "names": [
+        "_ZN13jaegertracing9reporters14RemoteReporter10sweepQueueEv"
+      ],
+      "estimated_events": 40930
+    },
+    {
+      "names": [
+        "_ZN13jaegertracing6thrift4SpanC1ERKS1_"
+      ],
+      "estimated_events": 40930
+    },
+    {
+      "names": [
+        "_ZN6apache6thrift9transport16TFramedTransport6isOpenEv"
+      ],
+      "estimated_events": 36837
+    },
+    {
+      "names": [
+        "_ZN6apache6thrift9transport7TSocket5writeEPKhj"
+      ],
+      "estimated_events": 36837
+    },
+    {
+      "names": [
+        "_ZNSt13__future_base13_State_baseV29_M_do_setEPSt8functionIFSt10unique_ptrINS_12_Result_baseENS3_8_DeleterEEvEEPb"
+      ],
+      "estimated_events": 36837
+    },
+    {
+      "names": [
+        "_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE4swapERS4_"
+      ],
+      "estimated_events": 36837
+    },
+    {
+      "names": [
+        "_ZNSt8ios_baseC1Ev",
+        "_ZNSt8ios_baseC2Ev"
+      ],
+      "estimated_events": 36837
+    },
+    {
+      "names": [
+        "_ZNK13jaegertracing6thrift7SpanRef5writeEPN6apache6thrift8protocol9TProtocolE"
+      ],
+      "estimated_events": 36837
+    },
+    {
+      "names": [
+        "_ZN6apache6thrift8protocol24TCompactProtocolFactoryTINS0_9transport10TTransportEE11getProtocolESt10shared_ptrIS4_E"
+      ],
+      "estimated_events": 36837
+    },
+    {
+      "names": [
+        "_ZN13jaegertracing11SpanContext10fromStreamERSi"
+      ],
+      "estimated_events": 36837
+    },
+    {
+      "names": [
+        "_ZSt9has_facetISt5ctypeIcEEbRKSt6locale"
+      ],
+      "estimated_events": 36837
+    },
+    {
+      "names": [
+        "_ZNK5boost3log12v2s_mt_posix19attribute_value_set4findENS1_14attribute_nameE"
+      ],
+      "estimated_events": 36837
+    },
+    {
+      "names": [
+        "_ZNSt15_Sp_counted_ptrIPN6apache6thrift8protocol9TProtocolELN9__gnu_cxx12_Lock_policyE2EE10_M_disposeEv"
+      ],
+      "estimated_events": 32744
+    },
+    {
+      "names": [
+        "_ZN13jaegertracing4SpanD0Ev"
+      ],
+      "estimated_events": 32744
+    },
+    {
+      "names": [
+        "_ZNSt8_Rb_treeINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4pairIKS5_S5_ESt10_Select1stIS8_ESt4lessIS5_ESaIS8_EE29_M_get_insert_hint_unique_posESt23_Rb_tree_const_iteratorIS8_ERS7_"
+      ],
+      "estimated_events": 32744
+    },
+    {
+      "names": [
+        "_ZN6apache6thrift8protocol16TVirtualProtocolINS1_16TBinaryProtocolTINS0_9transport10TTransportENS1_17TNetworkBigEndianEEENS1_17TProtocolDefaultsEE20readStructBegin_virtERNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE"
+      ],
+      "estimated_events": 32744
+    },
+    {
+      "names": [
+        "_ZN6apache6thrift9transport17TVirtualTransportINS1_16TFramedTransportENS1_11TBufferBaseEE12readAll_virtEPhj"
+      ],
+      "estimated_events": 32744
+    },
+    {
+      "names": [
+        "_ZN6apache6thrift9transport17TVirtualTransportINS1_13TMemoryBufferENS1_11TBufferBaseEE10write_virtEPKhj"
+      ],
+      "estimated_events": 32744
+    },
+    {
+      "names": [
+        "_ZNSt6thread11_State_implINS_8_InvokerISt5tupleIJMNSt13__future_base17_Async_state_implINS1_IS2_IJZN13media_service14MovieIdHandler13UploadMovieIdElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiRKSt3mapISC_SC_St4lessISC_ESaISt4pairISD_SC_EEEE3$_0EEEEvEEFvvEPSR_EEEEE6_M_runEv"
+      ],
+      "estimated_events": 32744
+    }
+  ],
+  "unmapped_events": 302882,
+  "ambiguous_events": 0,
+  "attribution_limitation": "Exact sampled retirement IPs within ELF symbol ranges. Aliases share one range; overlapping ranges are excluded from the unique-function ranking.",
+  "symbol_command": [
+    "nm",
+    "-S",
+    "-n",
+    "--defined-only",
+    "/storage/prefetchit/class_b_lean_20260928/builds/lean_v5_callees_ungated_it0/movie/MovieIdService"
+  ],
+  "all_main_ips": {
+    "path": "/storage/prefetchit/class_b_lean_20260928/diagnostics_late/02_v5_c4/movie_p4093/main_ip_counts.json.gz",
+    "sha256": "2f962121a28ca2831ee8fa5b98c5064f8c85d82518d579af2e176cc6da4a81ea"
+  },
+  "all_symbols": {
+    "path": "/storage/prefetchit/class_b_lean_20260928/diagnostics_late/02_v5_c4/movie.symbols.json.gz",
+    "sha256": "fc3b5ef16b55fd13a27540e1cdf2c29cffdfda93770c152f0d08c1c39fd0fc19"
+  },
+  "limitation": "Static target-line overlap only. It does not prove this path issued a hint, that a fill arrived, or that a line survived until demand. Indirect T1 targets are not statically resolved."
+}
