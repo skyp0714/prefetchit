@@ -17,6 +17,42 @@ __attribute__((visibility("hidden"))) void *__prefetchit_sched_slots;
 #ifndef PREFETCHIT_MEMO_GATE
 #define PREFETCHIT_MEMO_GATE 0
 #endif
+#ifndef PREFETCHIT_GATE_STATS
+#define PREFETCHIT_GATE_STATS 0
+#endif
+#if PREFETCHIT_GATE_STATS
+/* Diagnostic-only counters. These perturb execution and must never be used
+ * to claim E2E performance. Rows are isolated per CPU; relaxed atomic updates
+ * remain valid if the calling thread migrates after reading its CPU number. */
+struct stats_cpu { _Atomic uint64_t counts[3][4]; uint64_t padding[4]; };
+struct stats_file { uint64_t header[8]; struct stats_cpu cpu[4096]; };
+_Static_assert(sizeof(struct stats_cpu) == 128 && ATOMIC_LLONG_LOCK_FREE == 2,
+               "gate diagnostic requires aligned lock-free counters");
+static struct stats_file *gate_stats;
+static void initialize_stats(void)
+{
+    const char *path = getenv("PREFETCHIT_GATE_STATS_PATH");
+    if (!path) path = "/tmp/prefetchit_gate_stats.bin";
+    int fd = open(path, O_RDWR | O_CREAT | O_EXCL | O_CLOEXEC | O_NOFOLLOW, 0600);
+    if (fd < 0 || ftruncate(fd, sizeof(struct stats_file))) {
+        perror("prefetchit gate diagnostic file"); _exit(125);
+    }
+    void *p = mmap(NULL, sizeof(struct stats_file), PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+    close(fd);
+    if (p == MAP_FAILED) { perror("prefetchit gate diagnostic mmap"); _exit(125); }
+    gate_stats = p;
+    uint64_t header[8] = {0x5046474154453031ULL, 1, 4096, 3, 4,
+                          (uint64_t)getpid(), sizeof(struct stats_file), 128};
+    for (unsigned i = 0; i < 8; ++i) gate_stats->header[i] = header[i];
+}
+static __attribute__((always_inline)) inline void record_gate(unsigned cpu, unsigned tier, unsigned category)
+{
+    if (gate_stats) atomic_fetch_add_explicit(&gate_stats->cpu[cpu & 4095].counts[tier][category],
+                                            1, memory_order_relaxed);
+}
+#else
+#define record_gate(cpu, tier, category) ((void)0)
+#endif
 #if PREFETCHIT_MEMO_GATE && !PREFETCHIT_RELAXED_CLOCK
 #error memoized gate requires the RDPID clock
 #endif
@@ -49,7 +85,9 @@ static __attribute__((always_inline)) inline int in_window(unsigned tier, uintpt
     uintptr_t relative = site - (uintptr_t)&__prefetchit_sched_slots;
     struct memo_entry *entry = &memo[aux & 4095][((relative >> 4) ^ (relative >> 10)) & 63];
     if (atomic_load_explicit(&entry->epoch, memory_order_relaxed) == epoch &&
-        atomic_load_explicit(&entry->site, memory_order_relaxed) == site) return 0;
+        atomic_load_explicit(&entry->site, memory_order_relaxed) == site) {
+        record_gate(aux, tier, 3); return 0;
+    }
 #endif
     /* Best-effort scheduling age for optional hints. Unlike RDTSCP this does
      * not wait for older instructions; migration can misclassify a hint. */
@@ -60,6 +98,7 @@ static __attribute__((always_inline)) inline int in_window(unsigned tier, uintpt
     const volatile uint64_t *s = base + (aux & 4095) * 8;
 #endif
     uint64_t begin = s[4 + tier], end = s[tier];
+    record_gate(aux, tier, now < begin ? 0 : now < end ? 1 : 2);
 #if PREFETCHIT_MEMO_GATE
     // A pre-window rejection must remain eligible to be checked again later.
     // Remember either an issued group or an expired group for this epoch.
@@ -86,6 +125,9 @@ GATE(2)
  * the pass's weak NULL and skip prefetches. No per-thread registration needed. */
 __attribute__((constructor(101))) static void initialize(void)
 {
+#if PREFETCHIT_GATE_STATS
+    initialize_stats();
+#endif
 #if PREFETCHIT_RELAXED_CLOCK
     unsigned a,b,c,d;
     if (!__get_cpuid_count(7,0,&a,&b,&c,&d) || !(c & (1u << 22))) {

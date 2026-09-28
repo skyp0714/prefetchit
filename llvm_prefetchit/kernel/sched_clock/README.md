@@ -22,6 +22,9 @@ compiler's environment. The mode is off by default. Configuration:
 | `PREFETCHIT_DOM_OUTLINE` | 0 | Call shared `preserve_all` helpers instead of inlining the clock |
 | `PREFETCHIT_DOM_METADATA` | 0 | Emit non-allocated linked hint/target records (lean mode only) |
 | `PREFETCHIT_DOM_DROP_PLAN` | unset | Exact-placement JSON plan for removing redundant direct hints |
+| `PREFETCHIT_DOM_CALLEE_ONLY` | 0 | Restrict lean targets to calls; requires zero caller BB targets |
+| `PREFETCHIT_DOM_CALLEE_PROFILE` | unset | Exact callee names eligible for prefetch, one per line |
+| `PREFETCHIT_DOM_PROFILE_INDIRECT` | 0 | With a callee profile, optionally retain unresolved indirect calls |
 
 The shared `PREFETCHIT_SEQ_FUNCTIONS` include/exclude selection applies to site
 functions. External call targets are included even without their body. Calls
@@ -29,6 +32,26 @@ into a discardable COMDAT definition use its entry rather than cross-function
 BB addresses. Indirect pointers must already be available in SSA. This is a
 per-translation-unit call graph with external entry references, not whole-program
 LTO or trace-predicted indirect target enumeration.
+
+Site-function selection and callee selection are distinct. A site allowlist
+(`dense_build.py --functions-file FILE`) keeps injections only in the named
+functions. A callee allowlist (`--arm lean_meta_callees --callees-file FILE`)
+can prefetch those named functions from any eligible caller. It omits branch
+successors and, by default, unresolved indirect calls; it does not invent
+indirect targets. All retained call targets still use the normal SSA/dominance
+and lead checks. The target-list content hash is part of the drop-plan placement
+identity. Historical miss-function scores are a heuristic for these modes,
+not a guarantee that the retained targets account for the same dynamic misses.
+
+`lean_meta_callees_static` additionally uses `PREFETCHIT_COLD_DIRECT_IN_PIC=1`.
+Use this only with an explicit profile of targets known to bind to the main
+executable. Those declarations become `dso_local`, permitting immediate
+RIP-relative operands without register address materialization. Verify every
+linked target against defined function entries in both the original and new
+main image before using the build. This is unsuitable for interposable shared
+library targets. Ordinary call code generation can also change with the binding;
+the same-layout NOP control must retain it. The setting participates in the
+drop-plan identity. The diagnostic counterpart adds `_diag` to the policy name.
 
 For the Media build driver, prepare an isolated directory, then use
 `dense_build.py build ROOT --arm dom_decay --plugin-dir DIR` where DIR contains
@@ -78,6 +101,22 @@ epoch, while early calls remain eligible to check again. Hash collisions can
 cause reissuance, and migration can misclassify optional hints. Relaxed atomics
 avoid C data races; this is not an exact once-per-epoch guarantee. Required-clock
 startup checks RDPID support. These options need independent E2E validation.
+
+`dense_build.py --arm lean_meta_ungated` is a separate sparse diagnostic: one
+site per selected function, minimum lead 64 IR instructions, with scheduler
+gates and the runtime entirely omitted. It issues whenever that site executes.
+Use its own exact-layout NOP control and disable the module in both arms.
+This isolates a lower-overhead alternative; it provides no schedule-age control.
+The gated `lean_meta_one_far` retains the same site budget and lead settings.
+
+`-DPREFETCHIT_GATE_STATS=1` is an intrusive diagnostic build. It creates a new
+`/tmp/prefetchit_gate_stats.bin` (override with `PREFETCHIT_GATE_STATS_PATH`) and
+counts early, eligible, expired and memo-cached gate outcomes by CPU and tier.
+The compiler gates and runtime counters perturb execution. Keep this binary
+out of clean performance comparisons. `lean_gate_stats.py` decodes the versioned
+file; `lean_timeline.py` can snapshot it around separate PEBS captures. Eligible
+returns count selected groups, not individual hints, hardware issues or fills.
+The per-CPU clock is still best effort under migration/preemption.
 
 `scripts/class_b/lean_plan.py` can derive a conservative removal plan from the
 linked metadata. A hint is proposed for removal only when an earlier target in

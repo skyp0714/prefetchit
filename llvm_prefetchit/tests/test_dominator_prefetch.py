@@ -2,6 +2,7 @@
 import os
 from pathlib import Path
 import subprocess
+import sys
 import re
 import pytest
 
@@ -52,8 +53,10 @@ def test_no_runtime_and_invalid_settings(tmp_path):
     env['PREFETCHIT_DOM_BATCH']='4'
     subprocess.run(['clang-19','-O2','-fPIC','-shared','-fpass-plugin='+PLUGIN,str(source),'-o',str(tmp_path/'libprobe.so')],env=env,check=True)
 
-@pytest.mark.parametrize('window,outline,relaxed', [(False,False,False),(True,False,False),(True,True,False),(True,True,True)])
-def test_gate_executes_monotonically_fewer_groups(tmp_path, window, outline, relaxed):
+@pytest.mark.parametrize('window,outline,relaxed,stats', [
+    (False,False,False,False),(True,False,False,False),(True,True,False,False),
+    (True,True,True,False),(True,True,True,True)])
+def test_gate_executes_monotonically_fewer_groups(tmp_path, window, outline, relaxed, stats):
     if relaxed and 'rdpid' not in Path('/proc/cpuinfo').read_text().split():
         pytest.skip('RDPID hardware required')
     # Replace ONLY the hint mnemonic in emitted IR with an observable counter.
@@ -92,18 +95,21 @@ int main(void){
                                                    'extern void *__prefetchit_sched_slots;'))
         runtime=tmp_path/'runtime.o'
         subprocess.run(['clang-19','-O2','-DPREFETCHIT_RELAXED_CLOCK='+str(int(relaxed)),
+                        '-DPREFETCHIT_GATE_STATS='+str(int(stats)),
                         '-c',str(RUNTIME),'-o',str(runtime)],check=True)
         extra=[str(runtime)]
     baseline=tmp_path/'phase_expected'
     subprocess.run(['clang-19','-O2',str(source),*extra,'-o',str(baseline)],check=True)
-    expected=[line.split()[1] for line in subprocess.check_output([baseline],text=True).splitlines()]
+    baseline_env=dict(os.environ,PREFETCHIT_GATE_STATS_PATH=str(tmp_path/'baseline.stats'))
+    expected=[line.split()[1] for line in subprocess.check_output([baseline],text=True,env=baseline_env).splitlines()]
     subprocess.run(['clang-19','-O2','-S','-emit-llvm','-fpass-plugin='+PLUGIN,str(source),'-o',str(ir)],env=env,check=True)
     text,n=re.subn(r'prefetcht1 \$\{\d+:c\}\(%rip\)',r'incq gate_count(%rip)',ir.read_text())
     assert n>4
     ir.write_text(text)
     exe=tmp_path/'phase'
     subprocess.run(['clang-19',str(ir),*extra,'-o',str(exe)],check=True)
-    rows=[line.split() for line in subprocess.check_output([exe],text=True).splitlines()]
+    run_env=dict(os.environ,PREFETCHIT_GATE_STATS_PATH=str(tmp_path/'gates.stats'))
+    rows=[line.split() for line in subprocess.check_output([exe],text=True,env=run_env).splitlines()]
     assert [row[1] for row in rows]==expected,'Gate clobbered live application values'
     counts=[int(row[0]) for row in rows]
     if window:
@@ -111,6 +117,15 @@ int main(void){
         assert counts[0]<counts[1]<counts[2]<counts[3]>counts[4]>counts[5]>counts[6],counts
     else:
         assert counts[0]>counts[1]>counts[2]>counts[3]==0,counts
+    if stats:
+        sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts/class_b'))
+        from lean_gate_stats import read,delta
+        recorded=read(tmp_path/'gates.stats')
+        result=delta(dict(recorded,counts_by_cpu={}),recorded)
+        assert result['checks']>result['eligible']>0
+        assert sum(t['early'] for t in result['tiers'])>0
+        assert sum(t['expired'] for t in result['tiers'])>0
+        assert not sum(t['memo_cached'] for t in result['tiers'])
 
 def test_lean_limits_and_semantics(tmp_path):
     source=tmp_path/'lean.c'
