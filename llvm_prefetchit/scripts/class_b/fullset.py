@@ -86,8 +86,21 @@ def load(out,family,rate,seed,seconds):
 def platform(out,command):
     c.space()
     p=out.with_name(out.name+'_platform')
-    c.run(['python3',HARNESS/'run_platform.py','--out',p,'--cpus','16-19,32-45',*command],
-          out.with_suffix('.log'),timeout=2400)
+    cmd=['python3',HARNESS/'run_platform.py','--out',p,'--cpus','16-19,32-45',*command]
+    c.save(out.with_suffix('.command.json'),cmd)
+    # subprocess.run kills its direct child on KeyboardInterrupt before that
+    # wrapper can unwind its sysfs/MSR contexts. Give the wrapper a private
+    # session and let its SIGTERM handler perform orderly child/state cleanup.
+    with out.with_suffix('.log').open('w') as log:
+        child=subprocess.Popen(list(map(str,cmd)),stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
+        try:
+            rc=child.wait(timeout=2400)
+            if rc:raise subprocess.CalledProcessError(rc,cmd)
+        except BaseException:
+            if child.poll() is None:
+                child.send_signal(signal.SIGTERM)
+                child.wait(timeout=120)
+            raise
     checks=[]
     for before in p.rglob('*_before.json'):
         after=before.with_name(before.name.replace('_before','_restored'))
@@ -100,10 +113,12 @@ def trial(spec):
     c.space()
     out=Path(spec['out']);out.mkdir(parents=True,exist_ok=False)
     family=spec['family'];pool=spec['pool'];rate=spec.get('rate',RATE[family])
+    roi=spec.get('roi_s',30)
+    assert isinstance(roi,(int,float)) and 0<roi<=600
     overrides={k:c.ensure_local(Path(v)) for k,v in spec.get('overrides',{}).items()}
     c.save(out/'protocol.json',dict(**spec,policy_metric='target and whole-stack user+kernel CPU per exact completed request',
         binary_hashes={k:c.sha(overrides.get(k,baseline(family,k))) for k in TARGETS[family]},
-        driver_sha256=c.sha(__file__),warmup_s=50,primary_s=30,
+        driver_sha256=c.sha(__file__),warmup_s=50,primary_s=roi,
         source_hashes={p.name:c.sha(p) for p in HARNESS.glob('*.py')}))
     stack=client=None;fd=None;loaded=False
     measured=set(range(32,32+pool))
@@ -125,13 +140,13 @@ def trial(spec):
                 fcntl.ioctl(fd,old.control.CONFIG_IOCTL,config,True)
                 c.save(out/'kernel_registration.json',dict(profiles=profiles,audit=audit,
                     module_sha256=c.sha(module),plan_sha256=c.sha(kernel['plan']),settings=kernel))
-        client=load(out/'load',family,rate,spec['seed'],max(95,95+20*len(pmu_keys)))
+        client=load(out/'load',family,rate,spec['seed'],int(65+roi+20*len(pmu_keys)))
         time.sleep(50);assert client.poll() is None
         before=stack.accounts();pb=old.pool_cpu(measured)
         kb=old.control.stats(fd) if fd is not None else None
         db=old.control.detail(fd) if fd is not None else None
         wb=old.control.waves(fd) if fd is not None and kernel.get('options',{}).get('interval_ns') else None
-        time.sleep(30)
+        time.sleep(roi)
         ka=old.control.stats(fd) if fd is not None else None
         da=old.control.detail(fd) if fd is not None else None
         wa=old.control.waves(fd) if wb is not None else None
@@ -141,7 +156,7 @@ def trial(spec):
         for key in pmu_keys:
             name=TARGETS[family][key][0];pid=stack.states[name]['State']['Pid'];b=c.cpu(pid)
             group=str(Path(b['path']).parent.relative_to('/sys/fs/cgroup'))
-            command=['perf','stat','-x,','-o',str(out/(key+'.pmu.csv')),'-e',c.EVENTS,
+            command=['perf','stat','-x,','-o',str(out/(key+'.pmu.csv')),'-e',spec.get('pmu_events',c.EVENTS),
                      '-a','-C','32-45','-G',group,'--','sleep','20']
             c.run(command,out/(key+'.pmu.log'))
             pmu[key]=dict(**c.counters(out/(key+'.pmu.csv')),window=c.diff_cpu(b,c.cpu(pid)))
