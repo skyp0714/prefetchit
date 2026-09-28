@@ -15,7 +15,7 @@ def evaluate(root, candidate=None, matched_nop=None, out=None):
     assert complete['rows']==len(rows)==protocol['blocks']*len(protocol['arms'])
     assert all(row['valid'] for row in rows)
     summary=complete['summary']
-    means={}; variation={}; services={}; pmu=[]; restoration=[]; workers=[]
+    means={}; variation={}; services={}; pmu=[]; restoration=[]; workers=[]; service_rows=[]
     for arm in protocol['arms']:
         group=[row for row in rows if row['arm']==arm]
         assert sorted(row['block'] for row in group)==list(range(protocol['blocks']))
@@ -35,6 +35,12 @@ def evaluate(root, candidate=None, matched_nop=None, out=None):
             assert clock['unloaded'] and scheduler['restored'] and platform['restored']
             restoration.append(dict(arm=arm,block=row['block'],clock=clock,scheduler=scheduler,platform=platform))
             measurements.append(result['all_services'])
+            service_metrics={name+':'+metric:values[metric]
+                for name,values in result['all_services'].items()
+                if name in ('movie-id-service','compose-review-service','rating-service')
+                for metric in ('cpu_us_per_request','user_us_per_request')}
+            service_rows.append(dict(arm=arm,block=row['block'],valid=True,metrics=service_metrics,
+                result_sha256=b.sha(path/'result.json')))
             worker_path=path/'nginx_processes_postroi.json'
             if worker_path.exists():
                 snapshot=json.loads(worker_path.read_text())
@@ -91,6 +97,10 @@ def evaluate(root, candidate=None, matched_nop=None, out=None):
           'ITLB_WALK (0x11/0x0e) is completed page walks, not walk-active cycles.',
           'L2I is a speculative instruction-fetch miss event; FE_L2 is a retired front-end event. Neither count is a cycle fraction.'])
     out=out or root
+    from fullset_study import summarize
+    b.save(out/'service_rows.json',service_rows)
+    b.save(out/'service_comparisons.json',dict(comparisons=summarize(service_rows,protocol['arms']),
+        interpretation='Secondary decomposition of the three modified services; individual unadjusted paired-log t95 intervals. These do not replace whole-stack E2E promotion criteria.'))
     b.save(out/'evaluation.json',result)
     b.save(out/'compact_pmu.json',pmu)
     b.save(out/'restoration_audit.json',restoration)
