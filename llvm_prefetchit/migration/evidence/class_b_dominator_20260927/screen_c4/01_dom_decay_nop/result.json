@@ -1,0 +1,240 @@
+{
+  "valid": true,
+  "pmu": {},
+  "concurrency": 4,
+  "pool": {
+    "start": 1790568447.679484,
+    "end": 1790568507.6832588,
+    "wall_s": 60.00377483299235,
+    "cpu_us": 405230000.0,
+    "completed": 62244,
+    "achieved_rps": 1037.3347372434957,
+    "cpu_us_per_request": 6510.346378767432,
+    "mean_ms": 3.785492261373386,
+    "p50_ms": 3.4720897674560547,
+    "p95_ms": 6.675481796264648,
+    "p99_ms": 8.656978607177734
+  },
+  "load": {
+    "epoch": 1790568397.6068633,
+    "seconds": 125.0,
+    "concurrency": 4,
+    "seed": 46002,
+    "warmup_s": 50,
+    "port": 18081,
+    "pid": 1597535,
+    "mode": "closed-loop; next request after completion; no intentional think time",
+    "latency": "HTTP dispatch to response completion; excludes external arrival queue",
+    "payload": "Upstream Media field distributions; deterministic per-dispatch-index seed",
+    "client_cpus": [
+      16,
+      17,
+      18,
+      19
+    ],
+    "completed": 129205,
+    "errors": 1,
+    "error_times": [
+      1790568400.3904266
+    ],
+    "error_examples": [
+      "(500, b'<html>\\r\\n<head><title>500 Internal Server Error</title></head>\\r\\n<body>\\r\\n<center><h1>500 Internal Server Error</h1></cente')"
+    ],
+    "steady_errors": 0,
+    "response_bodies": {
+      "": 129205
+    },
+    "client_cpu_cores": 0.2419880197225577,
+    "elapsed_s": 125.00187569897389
+  },
+  "roi_errors": 0,
+  "error_fraction": 0.0,
+  "whole_stack_cpu_us_per_request": 6592.7406015037595,
+  "pool_util_pct": 84.41760562728572,
+  "scheduler": {
+    "before": {
+      "monotonic": 214952.816912616,
+      "epoch": 1790568447.6794982,
+      "counters": {
+        "32": {
+          "run_ns": 39428464773872,
+          "wait_ns": 30691465335673,
+          "timeslices": 791452053
+        },
+        "33": {
+          "run_ns": 37455044297720,
+          "wait_ns": 30534306907297,
+          "timeslices": 788700147
+        },
+        "34": {
+          "run_ns": 37491059488664,
+          "wait_ns": 30665347298671,
+          "timeslices": 786580128
+        },
+        "35": {
+          "run_ns": 37417772267205,
+          "wait_ns": 30539567818458,
+          "timeslices": 793230608
+        },
+        "36": {
+          "run_ns": 26130865324264,
+          "wait_ns": 21787854759463,
+          "timeslices": 633155362
+        },
+        "37": {
+          "run_ns": 26174618188824,
+          "wait_ns": 21843928176257,
+          "timeslices": 630667622
+        },
+        "38": {
+          "run_ns": 25970753204091,
+          "wait_ns": 21723439419073,
+          "timeslices": 621757963
+        },
+        "39": {
+          "run_ns": 25898226785507,
+          "wait_ns": 21545023121713,
+          "timeslices": 626725632
+        }
+      }
+    },
+    "after": {
+      "monotonic": 215012.818205914,
+      "epoch": 1790568507.6807933,
+      "counters": {
+        "32": {
+          "run_ns": 39480264178273,
+          "wait_ns": 30732743186006,
+          "timeslices": 792720522
+        },
+        "33": {
+          "run_ns": 37506766901762,
+          "wait_ns": 30575275179036,
+          "timeslices": 789965937
+        },
+        "34": {
+          "run_ns": 37542831848649,
+          "wait_ns": 30705761225460,
+          "timeslices": 787836705
+        },
+        "35": {
+          "run_ns": 37469475825217,
+          "wait_ns": 30579763562079,
+          "timeslices": 794502468
+        },
+        "36": {
+          "run_ns": 26182340763699,
+          "wait_ns": 21825412584071,
+          "timeslices": 634416055
+        },
+        "37": {
+          "run_ns": 26226318745523,
+          "wait_ns": 21884534890174,
+          "timeslices": 631924069
+        },
+        "38": {
+          "run_ns": 26022487785280,
+          "wait_ns": 21764218232711,
+          "timeslices": 623005511
+        },
+        "39": {
+          "run_ns": 25949970930865,
+          "wait_ns": 21585746491621,
+          "timeslices": 627996034
+        }
+      }
+    },
+    "delta": {
+      "run_ns": 413652649121,
+      "wait_ns": 322522514553,
+      "timeslices": 10097786
+    },
+    "average_running_tasks": 6.894062217401745,
+    "average_waiting_runnable_tasks": 5.375259379013031,
+    "runqueue_wait_us_per_request": 5181.58400091575,
+    "limitation": "All tasks scheduled on the selected CPUs, not only service threads; wait accumulation may include boundary-crossing waits"
+  },
+  "services": {
+    "movie": {
+      "start": 1790568447.6726162,
+      "end": 1790568507.683747,
+      "wall_s": 60.01113023201469,
+      "cpu_us": 38648175,
+      "user_us": 20026858,
+      "system_us": 18621316,
+      "delta": {
+        "usage_usec": 38648175,
+        "user_usec": 20026858,
+        "system_usec": 18621316,
+        "core_sched.force_idle_usec": 0,
+        "nr_periods": 0,
+        "nr_throttled": 0,
+        "throttled_usec": 0,
+        "nr_bursts": 0,
+        "burst_usec": 0
+      },
+      "completed": 62253,
+      "achieved_rps": 1037.3575661601074,
+      "cpu_us_per_request": 620.8242976242109,
+      "mean_ms": 3.785414149835384,
+      "p50_ms": 3.4720897674560547,
+      "p95_ms": 6.675481796264648,
+      "p99_ms": 8.656978607177734,
+      "user_us_per_request": 321.70109071048785
+    },
+    "compose": {
+      "start": 1790568447.6744034,
+      "end": 1790568507.6854768,
+      "wall_s": 60.01107356202556,
+      "cpu_us": 84547339,
+      "user_us": 43014260,
+      "system_us": 41533079,
+      "delta": {
+        "usage_usec": 84547339,
+        "user_usec": 43014260,
+        "system_usec": 41533079,
+        "core_sched.force_idle_usec": 0,
+        "nr_periods": 0,
+        "nr_throttled": 0,
+        "throttled_usec": 0,
+        "nr_bursts": 0,
+        "burst_usec": 0
+      },
+      "completed": 62252,
+      "achieved_rps": 1037.341882172101,
+      "cpu_us_per_request": 1358.1465495084494,
+      "mean_ms": 3.785421997969388,
+      "p50_ms": 3.4720897674560547,
+      "p95_ms": 6.675481796264648,
+      "p99_ms": 8.656978607177734,
+      "user_us_per_request": 690.9699286769903
+    },
+    "rating": {
+      "start": 1790568447.6734574,
+      "end": 1790568507.6845512,
+      "wall_s": 60.011093692999566,
+      "cpu_us": 31803996,
+      "user_us": 17201963,
+      "system_us": 14602032,
+      "delta": {
+        "usage_usec": 31803996,
+        "user_usec": 17201963,
+        "system_usec": 14602032,
+        "core_sched.force_idle_usec": 0,
+        "nr_periods": 0,
+        "nr_throttled": 0,
+        "throttled_usec": 0,
+        "nr_bursts": 0,
+        "burst_usec": 0
+      },
+      "completed": 62253,
+      "achieved_rps": 1037.3581977770546,
+      "cpu_us_per_request": 510.8829454002217,
+      "mean_ms": 3.7854154711276875,
+      "p50_ms": 3.4720897674560547,
+      "p95_ms": 6.675481796264648,
+      "p99_ms": 8.656978607177734,
+      "user_us_per_request": 276.3234382278766
+    }
+  }
+}

@@ -1,0 +1,114 @@
+[
+  {
+    "block": 0,
+    "arm": "base",
+    "valid": true,
+    "output": "/storage/prefetchit/class_b_dominator_20260927/screen_c4/00_base",
+    "metrics": {
+      "mean_ms": 3.387163385283913,
+      "p99_ms": 5.807161331176758,
+      "stack_cpu": 5918.104569420035,
+      "inverse_rps": 0.0008643841921545874
+    },
+    "achieved_rps": 1156.8929754573287,
+    "pool_util_pct": 84.4237890809727
+  },
+  {
+    "block": 0,
+    "arm": "dom_decay_nop",
+    "valid": true,
+    "output": "/storage/prefetchit/class_b_dominator_20260927/screen_c4/00_dom_decay_nop",
+    "metrics": {
+      "mean_ms": 3.8641961880475053,
+      "p99_ms": 8.69441032409668,
+      "stack_cpu": 6591.632758451096,
+      "inverse_rps": 0.0009837019216203022
+    },
+    "achieved_rps": 1016.5681066809877,
+    "pool_util_pct": 82.63428122175058
+  },
+  {
+    "block": 0,
+    "arm": "dom_decay",
+    "valid": true,
+    "output": "/storage/prefetchit/class_b_dominator_20260927/screen_c4/00_dom_decay",
+    "metrics": {
+      "mean_ms": 3.8810591236941576,
+      "p99_ms": 8.785724639892578,
+      "stack_cpu": 6608.298111592222,
+      "inverse_rps": 0.0009878726455655443
+    },
+    "achieved_rps": 1012.2762326590316,
+    "pool_util_pct": 82.52587028218048
+  },
+  {
+    "block": 0,
+    "arm": "flat",
+    "valid": true,
+    "output": "/storage/prefetchit/class_b_dominator_20260927/screen_c4/00_flat",
+    "metrics": {
+      "mean_ms": 3.842666098808968,
+      "p99_ms": 8.701562881469727,
+      "stack_cpu": 6502.721770315429,
+      "inverse_rps": 0.0009781328630044982
+    },
+    "achieved_rps": 1022.355998681338,
+    "pool_util_pct": 81.90138986094385
+  },
+  {
+    "block": 1,
+    "arm": "flat",
+    "valid": true,
+    "output": "/storage/prefetchit/class_b_dominator_20260927/screen_c4/01_flat",
+    "metrics": {
+      "mean_ms": 3.813234810690278,
+      "p99_ms": 8.732318878173828,
+      "stack_cpu": 6496.77789644013,
+      "inverse_rps": 0.0009709361102592132
+    },
+    "achieved_rps": 1029.9338848701668,
+    "pool_util_pct": 82.4842883726421
+  },
+  {
+    "block": 1,
+    "arm": "dom_decay",
+    "valid": true,
+    "output": "/storage/prefetchit/class_b_dominator_20260927/screen_c4/01_dom_decay",
+    "metrics": {
+      "mean_ms": 3.8746552093360873,
+      "p99_ms": 8.798837661743164,
+      "stack_cpu": 6627.234255560487,
+      "inverse_rps": 0.0009864023493120523
+    },
+    "achieved_rps": 1013.7850956026525,
+    "pool_util_pct": 82.84886252921514
+  },
+  {
+    "block": 1,
+    "arm": "dom_decay_nop",
+    "valid": true,
+    "output": "/storage/prefetchit/class_b_dominator_20260927/screen_c4/01_dom_decay_nop",
+    "metrics": {
+      "mean_ms": 3.785492261373386,
+      "p99_ms": 8.656978607177734,
+      "stack_cpu": 6592.7406015037595,
+      "inverse_rps": 0.0009640089781021841
+    },
+    "achieved_rps": 1037.3347372434957,
+    "pool_util_pct": 84.41760562728572
+  },
+  {
+    "block": 1,
+    "arm": "base",
+    "valid": true,
+    "output": "/storage/prefetchit/class_b_dominator_20260927/screen_c4/01_base",
+    "metrics": {
+      "mean_ms": 3.3927870334133083,
+      "p99_ms": 5.826473236083984,
+      "stack_cpu": 5910.126462821604,
+      "inverse_rps": 0.0008658436983449405
+    },
+    "achieved_rps": 1154.942863142042,
+    "pool_util_pct": 83.99463254838878
+  }
+]

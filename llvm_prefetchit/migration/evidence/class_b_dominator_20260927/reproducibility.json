@@ -1,0 +1,32 @@
+{
+  "plugin_sha256": "9d94a4ae260379c673be2e28e78de081867f6ebf55cb71ee9c73323acddf55f3",
+  "module_sha256": "b787bc32be1e17fc438b1a5895bd2a3b1b39f049d956c684d10fcd6bc2c2c628",
+  "plugin_command": [
+    "docker",
+    "run",
+    "--rm",
+    "--network=none",
+    "--cpuset-cpus",
+    "48-51",
+    "-v",
+    "/home/hnpark2/prefetchit/llvm_prefetchit:/source:ro",
+    "-v",
+    "/opt/llvm-19.1.7/include:/llvm-include:ro",
+    "-v",
+    "/storage/prefetchit/class_b_dominator_20260927:/out",
+    "--entrypoint",
+    "bash",
+    "sha256:12b003320b7c9e6c885d347770c149f77fa4027e1e8789dc650dddf20e1164ae",
+    "-c",
+    "clang++-19 -shared -fPIC -O2 -std=c++17 -fno-exceptions -fno-rtti -I/llvm-include /source/lib/PrefetchITPass.cpp -o /out/plugin_jammy/PrefetchITPass.so"
+  ],
+  "kernel_command": [
+    "make",
+    "-C",
+    "/storage/prefetchit/class_b_dominator_20260927/kernel_build",
+    "-j4"
+  ],
+  "kernel": "6.8.0-142-generic",
+  "compiler_tests": "DOMINATOR_TEST_PLUGIN=ROOT/plugin_jammy/PrefetchITPass.so profiling/.venv/bin/python -m pytest -q llvm_prefetchit/tests/test_dominator_prefetch.py",
+  "accepted_measurement_sources": "source_hashes.json and sources/; original executable source commit recorded in source.json"
+}

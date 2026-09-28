@@ -1,0 +1,66 @@
+{
+  "blocks": 2,
+  "concurrency": 4,
+  "pool": 8,
+  "roi_s": 60,
+  "warmup_s": 50,
+  "seedbase": 46001,
+  "primary": "Whole-stack throughput, dispatch-to-completion mean/p99, total CPU per successful request",
+  "arms": {
+    "base": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+      }
+    },
+    "dom_decay": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_dominator_20260927/builds/dom_decay_v2/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_dominator_20260927/builds/dom_decay_v2/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_dominator_20260927/builds/dom_decay_v2/rating/RatingService"
+      },
+      "controls": [
+        "base",
+        "dom_decay_nop"
+      ]
+    },
+    "dom_decay_nop": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_dominator_20260927/builds/dom_decay_v2/movie/MovieIdService.nop",
+        "compose": "/storage/prefetchit/class_b_dominator_20260927/builds/dom_decay_v2/compose/ComposeReviewService.nop",
+        "rating": "/storage/prefetchit/class_b_dominator_20260927/builds/dom_decay_v2/rating/RatingService.nop"
+      },
+      "controls": [
+        "base"
+      ]
+    },
+    "flat": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_dominator_20260927/builds/dom_decay_v2/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_dominator_20260927/builds/dom_decay_v2/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_dominator_20260927/builds/dom_decay_v2/rating/RatingService"
+      },
+      "controls": [
+        "base"
+      ],
+      "flat": true
+    }
+  },
+  "intervals_us": [
+    10,
+    20,
+    40
+  ],
+  "eligible_group_fractions": [
+    1,
+    0.5,
+    0.25,
+    0
+  ],
+  "note": "Fractions are static group eligibility, not guaranteed dynamic issue-rate fractions. Flat retains the gate but all deadlines are UINT64_MAX.",
+  "selection": "Exploratory screen. Promote to independent confirmation only if both mean and CPU improve over base and matched NOP, p99 regression <=2%.",
+  "controls": "Original baseline has no clock hook. Exact-layout NOP retains the clock, all gates and register pressure.",
+  "pmu_after_clean_roi_first_block": "cycles:u,instructions:u,cpu/event=0x24,umask=0x24,name=L2I/u,cpu/event=0xc6,umask=0x3,name=FE_L2,config1=0x13/u,cpu/event=0x11,umask=0xe,name=ITLB_WALK/u,cpu/event=0x24,umask=0x28,name=SWPF_MISS/u,cpu/event=0x24,umask=0xc8,name=SWPF_HIT/u",
+  "source_sha256": "d8977794c65a6a8cddca0006e1adb4dac000a5c7ebcb81df9d9b4df6e3fd076c"
+}

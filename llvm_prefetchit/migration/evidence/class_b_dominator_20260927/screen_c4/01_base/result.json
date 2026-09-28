@@ -1,0 +1,236 @@
+{
+  "valid": true,
+  "pmu": {},
+  "concurrency": 4,
+  "pool": {
+    "start": 1790568621.2320542,
+    "end": 1790568681.2358885,
+    "wall_s": 60.00383413900272,
+    "cpu_us": 403200000.0,
+    "completed": 69301,
+    "achieved_rps": 1154.942863142042,
+    "cpu_us_per_request": 5818.0978629457,
+    "mean_ms": 3.3927870334133083,
+    "p50_ms": 3.262042999267578,
+    "p95_ms": 4.436016082763672,
+    "p99_ms": 5.826473236083984
+  },
+  "load": {
+    "epoch": 1790568571.1597133,
+    "seconds": 125.0,
+    "concurrency": 4,
+    "seed": 46002,
+    "warmup_s": 50,
+    "port": 18081,
+    "pid": 2641146,
+    "mode": "closed-loop; next request after completion; no intentional think time",
+    "latency": "HTTP dispatch to response completion; excludes external arrival queue",
+    "payload": "Upstream Media field distributions; deterministic per-dispatch-index seed",
+    "client_cpus": [
+      16,
+      17,
+      18,
+      19
+    ],
+    "completed": 144961,
+    "errors": 0,
+    "error_times": [],
+    "error_examples": [],
+    "steady_errors": 0,
+    "response_bodies": {
+      "": 144961
+    },
+    "client_cpu_cores": 0.26751639237901015,
+    "elapsed_s": 125.00255425702198
+  },
+  "roi_errors": 0,
+  "error_fraction": 0.0,
+  "whole_stack_cpu_us_per_request": 5910.126462821604,
+  "pool_util_pct": 83.99463254838878,
+  "scheduler": {
+    "before": {
+      "monotonic": 215126.369483,
+      "epoch": 1790568621.2320685,
+      "counters": {
+        "32": {
+          "run_ns": 39538710269638,
+          "wait_ns": 30773922738924,
+          "timeslices": 794196077
+        },
+        "33": {
+          "run_ns": 37565185005659,
+          "wait_ns": 30616654000442,
+          "timeslices": 791444745
+        },
+        "34": {
+          "run_ns": 37601175684908,
+          "wait_ns": 30742242315283,
+          "timeslices": 789290410
+        },
+        "35": {
+          "run_ns": 37527907716745,
+          "wait_ns": 30622256953835,
+          "timeslices": 795999542
+        },
+        "36": {
+          "run_ns": 26240429526371,
+          "wait_ns": 21860472193105,
+          "timeslices": 635882174
+        },
+        "37": {
+          "run_ns": 26284769273859,
+          "wait_ns": 21927912773868,
+          "timeslices": 633414782
+        },
+        "38": {
+          "run_ns": 26080840172148,
+          "wait_ns": 21806903845709,
+          "timeslices": 624483731
+        },
+        "39": {
+          "run_ns": 26007929814928,
+          "wait_ns": 21620828147478,
+          "timeslices": 629450588
+        }
+      }
+    },
+    "after": {
+      "monotonic": 215186.370843141,
+      "epoch": 1790568681.2334306,
+      "counters": {
+        "32": {
+          "run_ns": 39590483091319,
+          "wait_ns": 30812078330922,
+          "timeslices": 795560988
+        },
+        "33": {
+          "run_ns": 37617006398923,
+          "wait_ns": 30655040942130,
+          "timeslices": 792809014
+        },
+        "34": {
+          "run_ns": 37652856330292,
+          "wait_ns": 30777669609967,
+          "timeslices": 790639837
+        },
+        "35": {
+          "run_ns": 37579679809287,
+          "wait_ns": 30659206603684,
+          "timeslices": 797377424
+        },
+        "36": {
+          "run_ns": 26291587586396,
+          "wait_ns": 21889109465906,
+          "timeslices": 637212251
+        },
+        "37": {
+          "run_ns": 26336555617361,
+          "wait_ns": 21965823229403,
+          "timeslices": 634773644
+        },
+        "38": {
+          "run_ns": 26132690245384,
+          "wait_ns": 21844816747870,
+          "timeslices": 625837510
+        },
+        "39": {
+          "run_ns": 26059131638482,
+          "wait_ns": 21649554365630,
+          "timeslices": 630776728
+        }
+      }
+    },
+    "delta": {
+      "run_ns": 413043253188,
+      "wait_ns": 282106326868,
+      "timeslices": 10825347
+    },
+    "average_running_tasks": 6.883898168597362,
+    "average_waiting_runnable_tasks": 4.701665532332133,
+    "runqueue_wait_us_per_request": 4070.7396266720534,
+    "limitation": "All tasks scheduled on the selected CPUs, not only service threads; wait accumulation may include boundary-crossing waits"
+  },
+  "services": {
+    "movie": {
+      "start": 1790568621.2251146,
+      "end": 1790568681.2363858,
+      "wall_s": 60.01127082799212,
+      "cpu_us": 31024218,
+      "user_us": 10771609,
+      "system_us": 20252609,
+      "delta": {
+        "usage_usec": 31024218,
+        "user_usec": 10771609,
+        "system_usec": 20252609,
+        "core_sched.force_idle_usec": 0,
+        "nr_periods": 0,
+        "nr_throttled": 0,
+        "throttled_usec": 0,
+        "nr_bursts": 0,
+        "burst_usec": 0
+      },
+      "completed": 69310,
+      "achieved_rps": 1154.9497126741483,
+      "cpu_us_per_request": 447.61532246429084,
+      "mean_ms": 3.392766196565046,
+      "p50_ms": 3.262042999267578,
+      "p95_ms": 4.43577766418457,
+      "p99_ms": 5.824089050292969,
+      "user_us_per_request": 155.41204732361854
+    },
+    "compose": {
+      "start": 1790568621.2269297,
+      "end": 1790568681.2381551,
+      "wall_s": 60.01122540101642,
+      "cpu_us": 68416533,
+      "user_us": 22426979,
+      "system_us": 45989555,
+      "delta": {
+        "usage_usec": 68416533,
+        "user_usec": 22426979,
+        "system_usec": 45989555,
+        "core_sched.force_idle_usec": 0,
+        "nr_periods": 0,
+        "nr_throttled": 0,
+        "throttled_usec": 0,
+        "nr_bursts": 0,
+        "burst_usec": 0
+      },
+      "completed": 69310,
+      "achieved_rps": 1154.9505869417906,
+      "cpu_us_per_request": 987.1091184533257,
+      "mean_ms": 3.3927840530192968,
+      "p50_ms": 3.262042999267578,
+      "p95_ms": 4.43577766418457,
+      "p99_ms": 5.824089050292969,
+      "user_us_per_request": 323.574938681287
+    },
+    "rating": {
+      "start": 1790568621.2259643,
+      "end": 1790568681.2372034,
+      "wall_s": 60.01123928898596,
+      "cpu_us": 27119940,
+      "user_us": 11128606,
+      "system_us": 15991334,
+      "delta": {
+        "usage_usec": 27119940,
+        "user_usec": 11128606,
+        "system_usec": 15991334,
+        "core_sched.force_idle_usec": 0,
+        "nr_periods": 0,
+        "nr_throttled": 0,
+        "throttled_usec": 0,
+        "nr_bursts": 0,
+        "burst_usec": 0
+      },
+      "completed": 69310,
+      "achieved_rps": 1154.9503196598819,
+      "cpu_us_per_request": 391.2846631077767,
+      "mean_ms": 3.392766196565046,
+      "p50_ms": 3.262042999267578,
+      "p95_ms": 4.43577766418457,
+      "p99_ms": 5.824089050292969,
+      "user_us_per_request": 160.56277593420862
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "base": {
+    "overrides": {
+      "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+      "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+      "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+    }
+  },
+  "dom_decay": {
+    "overrides": {
+      "movie": "/storage/prefetchit/class_b_dominator_20260927/builds/dom_decay_v2/movie/MovieIdService",
+      "compose": "/storage/prefetchit/class_b_dominator_20260927/builds/dom_decay_v2/compose/ComposeReviewService",
+      "rating": "/storage/prefetchit/class_b_dominator_20260927/builds/dom_decay_v2/rating/RatingService"
+    },
+    "controls": [
+      "base",
+      "dom_decay_nop"
+    ]
+  },
+  "dom_decay_nop": {
+    "overrides": {
+      "movie": "/storage/prefetchit/class_b_dominator_20260927/builds/dom_decay_v2/movie/MovieIdService.nop",
+      "compose": "/storage/prefetchit/class_b_dominator_20260927/builds/dom_decay_v2/compose/ComposeReviewService.nop",
+      "rating": "/storage/prefetchit/class_b_dominator_20260927/builds/dom_decay_v2/rating/RatingService.nop"
+    },
+    "controls": [
+      "base"
+    ]
+  }
+}

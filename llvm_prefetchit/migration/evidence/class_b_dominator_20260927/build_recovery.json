@@ -1,0 +1,33 @@
+[
+  {
+    "stage": "host plugin / Jammy configure",
+    "outcome": "GLIBC_2.38 unavailable in benchmark container; no service ELF or performance run",
+    "fix": "Build plugin inside immutable Jammy image with LLVM 19 headers",
+    "log": "builds/dom_decay/mongo-c-driver-1.15.0_configure.log",
+    "provenance_gap": "Initial host plugin SHA was not captured before generated build-tree cleanup; not used for accepted timings"
+  },
+  {
+    "stage": "first container plugin",
+    "outcome": "RTTI symbol unresolved against host LLVM",
+    "fix": "Compile with -fno-rtti",
+    "sha_record": "plugin_rtti_failure.json"
+  },
+  {
+    "stage": "cross-function blockaddress IR",
+    "outcome": "Textual IR verifier rejects backward numeric BB labels",
+    "fix": "Enable value names while emitting explicit BB labels",
+    "sha_record": "plugin_names_failure.json"
+  },
+  {
+    "stage": "discarded-name functions",
+    "outcome": "Repeated SplitBlock .split labels in functions lacking value symbol tables",
+    "fix": "Explicit unique numbering of every BB, including previously named split blocks",
+    "sha_record": "plugin_duplicate_names_failure.json"
+  },
+  {
+    "stage": "kernel initial smoke",
+    "outcome": "Read-only clock and reschedule tests passed",
+    "fix": "Added flat=1 control then repeated smoke and module-lifetime tests on final module",
+    "provenance_gap": "Initial pre-flat module SHA not captured; every accepted measurement uses the final hashed module"
+  }
+]
