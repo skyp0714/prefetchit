@@ -5,6 +5,7 @@ import gzip
 import json
 import os
 from pathlib import Path
+import re
 import signal
 import subprocess
 import time
@@ -29,10 +30,25 @@ def snapshot(cpus):
                 counters=schedstat(Path('/proc/schedstat').read_text(),cpus))
 
 
+def pmu_sets(spec):
+    sets=dict(spec.get('pmu_event_sets',{}))
+    if spec.get('pmu_events'):
+        assert 'primary' not in sets
+        sets={'primary':spec['pmu_events'],**sets}
+    for name,events in sets.items():
+        assert re.fullmatch('[a-z0-9_]+',name) and isinstance(events,str)
+        # FRONTEND_RETIRED events share one selector MSR. Conflicting
+        # selectors in a single perf stat would silently corrupt attribution.
+        selectors=set(re.findall(r'config1=(0x[0-9a-fA-F]+|[0-9]+)',events))
+        assert len({int(x,0) for x in selectors})<=1,'Conflicting frontend selectors'
+    return sets
+
+
 def trial(spec):
     import fullset as h
     h.c.space();out=Path(spec['out']);out.mkdir(parents=True,exist_ok=False)
     cpus=set(range(32,32+spec.get('pool',8)));roi=spec.get('roi_s',60)
+    event_sets=pmu_sets(spec)
     sysctl=Path('/proc/sys/kernel/sched_schedstats');before_setting=sysctl.read_text()
     h.c.save(out/'protocol.json',dict(**spec,mode='Fixed-resource closed-loop concurrency scaling',
         process_instances='One instance per Media service in every arm; internal async/server threading model unchanged',
@@ -46,7 +62,7 @@ def trial(spec):
         stack=h.start(out,'media',spec['overrides'],len(cpus))
         load=out/'load';load.mkdir()
         command=['python3',Path(__file__).with_name('closed_loop_load.py'),'--out',load,
-            '--concurrency',str(spec['concurrency']),'--seconds',str(65+roi+(24 if spec.get('pmu_events') else 0)),
+            '--concurrency',str(spec['concurrency']),'--seconds',str(65+roi+24*len(event_sets)),
             '--seed',str(spec['seed'])]
         h.c.save(load/'command.json',command)
         with (load/'client.log').open('w') as log:
@@ -59,23 +75,26 @@ def trial(spec):
         accounts_before=stack.accounts();pool_before=h.old.pool_cpu(cpus);schedule_before=snapshot(cpus)
         time.sleep(roi)
         schedule_after=snapshot(cpus);pool_after=h.old.pool_cpu(cpus);accounts_after=stack.accounts()
-        pmu={}
-        if spec.get('pmu_events'):
+        pmu_all={}
+        for label,events in event_sets.items():
+            pmu_all[label]={}
             from dense_causes import counters
             for key,(name,_,_) in h.TARGETS['media'].items():
                 pid=stack.states[name]['State']['Pid'];before=h.c.cpu(pid)
                 group=str(Path(before['path']).parent.relative_to('/sys/fs/cgroup'))
-                command=['perf','stat','-x,','-o',str(out/(key+'.pmu.csv')),'-e',spec['pmu_events'],
+                stem=key+('' if label=='primary' else '.'+label)
+                command=['perf','stat','-x,','-o',str(out/(stem+'.pmu.csv')),'-e',events,
                          '-a','-C','32-39','-G',group,'--','sleep','8']
-                h.c.run(command,out/(key+'.pmu.log'))
-                pmu[key]=dict(**counters(out/(key+'.pmu.csv')),window=h.c.diff_cpu(before,h.c.cpu(pid)))
-                assert pmu[key]['fully_scheduled']
+                h.c.run(command,out/(stem+'.pmu.log'))
+                pmu_all[label][key]=dict(**counters(out/(stem+'.pmu.csv')),window=h.c.diff_cpu(before,h.c.cpu(pid)))
+                assert pmu_all[label][key]['fully_scheduled']
         assert client.wait(timeout=90)==0;client=None;stack.check()
         info=json.loads((load/'load.json').read_text())
         with gzip.open(load/'requests.json.gz','rt') as f:samples=json.load(f)
-        for entry in pmu.values():
-            h.old.attach(entry['window'],samples)
-            entry['per_request']={k:v/entry['window']['completed'] for k,v in entry['counters'].items()}
+        for values in pmu_all.values():
+            for entry in values.values():
+                h.old.attach(entry['window'],samples)
+                entry['per_request']={k:v/entry['window']['completed'] for k,v in entry['counters'].items()}
         pool=h.old.attach(dict(start=pool_before['epoch'],end=pool_after['epoch'],
             wall_s=pool_after['monotonic']-pool_before['monotonic'],
             cpu_us=sum(pool_after['ticks'][k]-v for k,v in pool_before['ticks'].items())*1e6/pool_before['clock_ticks']),samples)
@@ -86,7 +105,8 @@ def trial(spec):
         assert all(v>=0 for v in delta.values())
         errors=sum(pool['start']<=t<pool['end'] for t in info['error_times'])
         # CPython's GIL can saturate a single core despite a four-core affinity.
-        result=dict(valid=not info['steady_errors'] and info['client_cpu_cores']<.8,pmu=pmu,
+        result=dict(valid=not info['steady_errors'] and info['client_cpu_cores']<.8,
+            pmu=pmu_all.get('primary',{}),pmu_extra={k:v for k,v in pmu_all.items() if k!='primary'},
             concurrency=spec['concurrency'],pool=pool,load=info,
             roi_errors=errors,error_fraction=errors/(pool['completed']+errors),
             whole_stack_cpu_us_per_request=sum(v['cpu_us'] for v in costs.values())/pool['completed'],
@@ -96,7 +116,7 @@ def trial(spec):
                 average_waiting_runnable_tasks=delta['wait_ns']/1e9/duration,
                 runqueue_wait_us_per_request=delta['wait_ns']/1000/pool['completed'],
                 limitation='All tasks scheduled on the selected CPUs, not only service threads; wait accumulation may include boundary-crossing waits'),
-            services={k:costs[v[0]] for k,v in h.TARGETS['media'].items()})
+            services={k:costs[v[0]] for k,v in h.TARGETS['media'].items()},all_services=costs)
         h.c.save(out/'result.json',result)
     except BaseException as error:
         h.c.save(out/'failure.json',dict(error=repr(error)));raise

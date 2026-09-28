@@ -53,3 +53,13 @@ def test_scheduler_version_fields_and_missing_cpu_are_checked():
     assert study.schedstat(text,{32})=={32:dict(run_ns=100,wait_ns=30,timeslices=5)}
     with pytest.raises(ValueError):study.schedstat(text.replace('version 15','version 17'),{32})
     with pytest.raises(ValueError):study.schedstat(text,{34})
+
+
+def test_frontend_selector_conflicts_require_separate_windows():
+    study=module('concurrency_study')
+    l1='cycles:u,instructions:u,cpu/event=0xc6,umask=3,config1=0x12,name=FE_L1/u'
+    late='cycles:u,instructions:u,cpu/event=0xc6,umask=3,config1=0xa,name=FE_LATE/u'
+    assert study.pmu_sets(dict(pmu_events=l1,pmu_event_sets={'late':late}))=={'primary':l1,'late':late}
+    with pytest.raises(AssertionError,match='Conflicting frontend selectors'):
+        study.pmu_sets(dict(pmu_events=l1+','+late))
+    with pytest.raises(AssertionError):study.pmu_sets(dict(pmu_event_sets={'../bad':l1}))

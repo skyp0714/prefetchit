@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Frozen, resumable screens and confirmation for low-inflation prefetch policies."""
+"""Frozen screens and confirmation for low-inflation prefetch policies."""
 import argparse
 import json
 from pathlib import Path
@@ -13,24 +13,30 @@ def campaign(spec):
     from dense_causes import ev,fe
     import dominator_study as d
     out=Path(spec['out']);out.mkdir(parents=True,exist_ok=False)
+    names=list(spec['arms']);orders=[]
+    for block in range(spec.get('blocks',2)):
+        offset=(block//2)%len(names);order=names[offset:]+names[:offset]
+        if block%2:order.reverse()
+        orders.append(order)
     b.save(out/'protocol.json',dict(spec,driver_sha256=b.sha(__file__),
         controls='Original baseline without hook; exact-layout NOP retains all gates and register pressure',
         pmu='After clean ROI only; no concurrent builds or decoding',
         timing='50s warmup then fixed clean ROI; no performance-based retries',
+        orders=orders,
         decision='Exploratory screens; net benefit requires independent repeated confirmation'))
     events=','.join(['cycles:u','instructions:u',ev('L2I',0x24,0x24),fe('FE_L2',0x13),
         ev('ITLB_WALK',0x11,0x0e),ev('SWPF_MISS',0x24,0x28),ev('SWPF_HIT',0x24,0xc8)])
-    rows=[];arms=spec['arms'];names=list(arms)
+    rows=[];arms=spec['arms']
     for block in range(spec.get('blocks',2)):
-        offset=2*block%len(names);order=names[offset:]+names[:offset]
-        if block%2:order.reverse()
-        for name in order:
+        for name in orders[block]:
             arm=arms[name];dest=out/f'{block:02d}_{name}'
             setting=dict(out=str(dest),overrides=arm['overrides'],flat=arm.get('flat',False),
                 clock=arm.get('clock',True),clock_options=arm.get('clock_options',spec.get('clock_options',{})),
                 concurrency=spec.get('concurrency',4),pool=8,roi_s=spec.get('roi_s',60),
                 seed=spec['seedbase']+block,module=spec['module'])
-            if block in spec.get('pmu_blocks',[0]):setting['pmu_events']=events
+            if block in spec.get('pmu_blocks',[0]):
+                setting['pmu_events']=events
+                setting['pmu_event_sets']=spec.get('pmu_event_sets',{})
             p=dest.with_suffix('.json');b.save(p,setting)
             h.platform(dest,['python3',Path(d.__file__),'trial',p])
             r=json.loads((dest/'result.json').read_text())
