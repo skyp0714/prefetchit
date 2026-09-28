@@ -12,16 +12,21 @@
 
 #define SLOTS 4096
 #define BYTES (SLOTS * 64UL)
-struct slot { u64 until[3], start; u64 padding[4]; };
+struct slot { u64 until[3], start, begin[3], abi; };
 static struct slot *slots;
 static struct tracepoint *switch_tp;
 static unsigned int dense_us = 10, medium_us = 20, sparse_us = 40;
+static unsigned int dense_begin_us, medium_begin_us, sparse_begin_us;
 static bool flat;
 module_param(flat, bool, 0444);
 module_param(dense_us, uint, 0444);
 module_param(medium_us, uint, 0444);
 module_param(sparse_us, uint, 0444);
+module_param(dense_begin_us, uint, 0444);
+module_param(medium_begin_us, uint, 0444);
+module_param(sparse_begin_us, uint, 0444);
 static u64 offsets[3];
+static u64 begins[3];
 
 static void on_switch(void *ignored, bool preempt, struct task_struct *prev,
 		      struct task_struct *next, unsigned int prev_state)
@@ -35,6 +40,9 @@ static void on_switch(void *ignored, bool preempt, struct task_struct *prev,
 	WRITE_ONCE(s->until[0], flat ? U64_MAX : now + offsets[0]);
 	WRITE_ONCE(s->until[1], flat ? U64_MAX : now + offsets[1]);
 	WRITE_ONCE(s->until[2], flat ? U64_MAX : now + offsets[2]);
+	WRITE_ONCE(s->begin[0], flat ? 0 : now + begins[0]);
+	WRITE_ONCE(s->begin[1], flat ? 0 : now + begins[1]);
+	WRITE_ONCE(s->begin[2], flat ? 0 : now + begins[2]);
 }
 
 static int clock_mmap(struct file *file, struct vm_area_struct *vma)
@@ -64,13 +72,18 @@ static int __init clock_init(void)
 	int err;
 	if (nr_cpu_ids > SLOTS || !tsc_khz || !boot_cpu_has(X86_FEATURE_RDTSCP) ||
 	    !boot_cpu_has(X86_FEATURE_CONSTANT_TSC) || !boot_cpu_has(X86_FEATURE_NONSTOP_TSC) ||
-	    !dense_us || dense_us > medium_us || medium_us > sparse_us || sparse_us > 1000)
+	    !dense_us || dense_us > medium_us || medium_us > sparse_us || sparse_us > 1000 ||
+	    dense_begin_us >= dense_us || medium_begin_us >= medium_us || sparse_begin_us >= sparse_us)
 		return -EINVAL;
 	offsets[0] = (u64)tsc_khz * dense_us / 1000;
 	offsets[1] = (u64)tsc_khz * medium_us / 1000;
 	offsets[2] = (u64)tsc_khz * sparse_us / 1000;
+	begins[0] = (u64)tsc_khz * dense_begin_us / 1000;
+	begins[1] = (u64)tsc_khz * medium_begin_us / 1000;
+	begins[2] = (u64)tsc_khz * sparse_begin_us / 1000;
 	slots = vmalloc_user(BYTES);
 	if (!slots) return -ENOMEM;
+	for (err = 0; err < SLOTS; ++err) slots[err].abi = 2;
 	for_each_kernel_tracepoint(find_switch, NULL);
 	if (!switch_tp) { err = -ENOENT; goto free; }
 	err = tracepoint_probe_register(switch_tp, on_switch, NULL);

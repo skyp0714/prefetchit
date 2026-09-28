@@ -2,6 +2,7 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <sys/mman.h>
 #include <unistd.h>
 
@@ -16,6 +17,13 @@ __attribute__((constructor(101))) static void initialize(void)
     if (p == MAP_FAILED) {
         if (getenv("PREFETCHIT_SCHED_REQUIRED")) {
             perror("prefetchit schedule clock required"); _exit(125);
+        }
+        return;
+    }
+    if (((const uint64_t *)p)[7] != 2) {
+        munmap(p, 4096 * 64);
+        if (getenv("PREFETCHIT_SCHED_REQUIRED")) {
+            fputs("prefetchit schedule clock ABI mismatch\n", stderr); _exit(125);
         }
         return;
     }
