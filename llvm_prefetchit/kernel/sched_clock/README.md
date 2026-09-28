@@ -53,6 +53,13 @@ library targets. Ordinary call code generation can also change with the binding;
 the same-layout NOP control must retain it. The setting participates in the
 drop-plan identity. The diagnostic counterpart adds `_diag` to the policy name.
 
+`lean_meta_callees_static_ungated` uses the same callee allowlist, one-site budget
+and 24-IR minimum lead, with gates, outlining, windows and the runtime disabled.
+It still requires `--callees-file FILE` and the original/new main-image binding
+audit. Disabling outlining can change placement constraints and code generation,
+so inspect the final sites and use its own exact-layout NOP control. Both arms
+run without the clock module. This policy is an experiment, not a default.
+
 For the Media build driver, prepare an isolated directory, then use
 `dense_build.py build ROOT --arm dom_decay --plugin-dir DIR` where DIR contains
 the **new** `PrefetchITPass.so`. Build that plugin in a libc environment compatible
@@ -76,6 +83,9 @@ must each be strictly below their corresponding upper bound. For the 10–20 us
 peak campaign, the windows are `[10,20)`, `[8,22)`, and `[5,24)` microseconds.
 Half of the static groups use the first window and a quarter use each of the
 other windows; the dynamic distribution depends on the executed path.
+The later sparse screen advances those windows to `[5,15)`, `[3,17)` and
+`[1,20)` to test earlier issuance. Neither configuration measures the actual
+fetch deadline; IR lead, scheduling age and fetch lead are distinct quantities.
 
 The compiler uses RDTSCP at an issuance group and checks its CPU's deadline. All
 groups are eligible for 0–10 us, approximately half for 10–20 us, approximately a
@@ -117,6 +127,16 @@ out of clean performance comparisons. `lean_gate_stats.py` decodes the versioned
 file; `lean_timeline.py` can snapshot it around separate PEBS captures. Eligible
 returns count selected groups, not individual hints, hardware issues or fills.
 The per-CPU clock is still best effort under migration/preemption.
+
+A `lean_timeline.py` trial with `gate_stats: true, gate_only: true` instead uses
+one separate 15-second counter window for all selected services, without a perf
+recorder. It still excludes the counter binary from performance comparisons.
+Normal PEBS trials retain compact IP and `(age bin, IP)` aggregates and ELF
+symbol ranges before removing raw recordings and decoded text. The summary
+reports request, scheduled-time and switch-in denominators separately. Static
+target overlap concerns residual sampled misses, not original-miss coverage or
+proof that a hint issued. `lean_timeline_summary.py` produces the compact table
+and optional standalone PNG/SVG figure.
 
 `scripts/class_b/lean_plan.py` can derive a conservative removal plan from the
 linked metadata. A hint is proposed for removal only when an earlier target in
