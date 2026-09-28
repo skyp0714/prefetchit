@@ -18,7 +18,7 @@ def row(argument, target, active=True):
 
 def image(rows):
     return dict(path='fixture', sha256='fixture', executable_bytes=100,
-                metadata_bytes=40*len(rows), records=rows)
+                metadata_bytes=48*len(rows), records=rows)
 
 
 def test_plan_intersection_and_relayout_restoration():
@@ -34,6 +34,11 @@ def test_plan_intersection_and_relayout_restoration():
     assert audit['coverage_verified']
     with pytest.raises(ValueError,match='active-state mismatch'):
         p.refine(plan,[a])
+    # Machine tail duplication can create several physical copies of one key.
+    # A removal must remain redundant in all those copies as well as all ELFs.
+    copies=image([dict(r,instance=0) for r in a['records']]+
+                 [dict(r,instance=1) for r in b['records']])
+    assert p.plan([copies])['drop']==['1:2:0:3']
 
 
 @pytest.mark.parametrize('shared', [False, True])
@@ -72,7 +77,7 @@ __attribute__((noinline)) inline int probe(int n) {
             plan_path.write_text(json.dumps(policy))
             local['PREFETCHIT_DOM_DROP_PLAN']=str(plan_path)
         binary=tmp_path/name
-        command=['clang++-19','-O2',*flags]
+        command=['clang++-19','-O2','-fno-crash-diagnostics',*flags]
         if instrument:command+=['-fpass-plugin='+plugin]
         command += [str(one),str(two),'-o',str(binary)]
         completed=subprocess.run(command,env=local,capture_output=True,text=True)
@@ -100,3 +105,33 @@ __attribute__((noinline)) inline int probe(int n) {
     bad=dict(policy,placement='wrong')
     with pytest.raises(AssertionError,match='placement mismatch'):
         build('mismatch',bad)
+
+
+def test_codegen_can_clone_the_same_logical_asm_group(tmp_path):
+    plugin=os.environ.get('DOMINATOR_TEST_PLUGIN')
+    if not plugin:
+        pytest.skip('Set DOMINATOR_TEST_PLUGIN to the built plugin')
+    source=tmp_path/'clone.c'
+    source.write_text('''__attribute__((noinline)) int f(int x){volatile int v=x;
+if(x&1)v+=3;else v-=4;if(x&2)v+=7;else v-=9;return v;}
+int main(){return f(3)!=13;}''')
+    env=dict(os.environ,PREFETCHIT_DOMINATOR='1',PREFETCHIT_DOM_LEAN='1',
+        PREFETCHIT_DOM_METADATA='1',PREFETCHIT_DOM_SCHED_GATE='0',
+        PREFETCHIT_DOM_LEAD='0',PREFETCHIT_DOM_MIN_FUNCTION='0',
+        PREFETCHIT_DOM_SKIP_SHORT='0',PREFETCHIT_DOM_BATCH='8',
+        PREFETCHIT_DOM_CALLER_TARGETS='0',PREFETCHIT_SEQ_FUNCTIONS='^f$')
+    ir=tmp_path/'clone.ll'
+    subprocess.run(['clang-19','-O2','-S','-emit-llvm','-fpass-plugin='+plugin,
+                    str(source),'-o',str(ir)],env=env,check=True)
+    lines=ir.read_text().splitlines()
+    index=next(i for i,line in enumerate(lines) if 'call void asm sideeffect' in line)
+    lines.insert(index,lines[index])
+    ir.write_text('\n'.join(lines)+'\n')
+    exe=tmp_path/'clone'
+    subprocess.run(['clang-19',str(ir),'-o',str(exe)],check=True)
+    subprocess.run([exe],check=True)
+    parsed=p.read_image(exe)
+    keys={r['key'] for r in parsed['records']}
+    assert len(keys)<len(parsed['records'])
+    assert len({(r['key'],r['instance']) for r in parsed['records']})==len(parsed['records'])
+    p.plan([parsed])

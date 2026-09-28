@@ -350,7 +350,7 @@ static bool runDominatorPrefetch(Module &M, const SeqConfig &C) {
           if (!Constraints.empty()) Constraints += ",";
           Constraints += Targets[J].Direct ? "i" : "r";
           std::string Label = ".Lpf_" + utohexstr(ModuleID) + "_" + utohexstr(FunctionID) +
-                              "_" + std::to_string(GroupID) + "_" + std::to_string(J - Begin);
+                              "_" + std::to_string(GroupID) + "_" + std::to_string(J - Begin) + "_${:uid}";
           if (Keep) {
             if (Metadata) Asm += Label + ":\n\t";
             Asm += C.Mnemonic + (Targets[J].Direct ? " ${" + std::to_string(N) + ":c}(%rip)\n\t" :
@@ -358,12 +358,14 @@ static bool runDominatorPrefetch(Module &M, const SeqConfig &C) {
             ++Hints;
           }
           if (Metadata) {
-            // Non-allocated ELF records: site, target, module/function IDs,
-            // group, argument, and active/direct flags (40 bytes per hint).
+            // Codegen can duplicate an asm group. LLVM's uid names each
+            // physical copy, while the logical key stays stable for plans.
+            // Non-allocated records contain five u64 words plus group/arg/
+            // flags: 48 bytes. The uid is shared by this asm's operands.
             Records += ".quad " + (Keep ? Label : "0") + "\n\t.quad " +
               (Targets[J].Direct ? "${" + std::to_string(N) + ":c}" : "0") +
               "\n\t.quad 0x" + utohexstr(ModuleID) + "\n\t.quad 0x" + utohexstr(FunctionID) +
-              "\n\t.long " + std::to_string(GroupID) + "\n\t.short " + std::to_string(J - Begin) +
+              "\n\t.quad ${:uid}\n\t.long " + std::to_string(GroupID) + "\n\t.short " + std::to_string(J - Begin) +
               "\n\t.short " + std::to_string(unsigned(Keep) | (unsigned(Targets[J].Direct) << 1)) + "\n\t";
           }
         }
@@ -374,7 +376,7 @@ static bool runDominatorPrefetch(Module &M, const SeqConfig &C) {
         if (Metadata) {
           // Keep COMDAT metadata with its owning function. Discarded weak
           // copies must not leave dangling local-label relocations behind.
-          Asm += ".pushsection .debug_prefetchit_v1,\"";
+          Asm += ".pushsection .debug_prefetchit_v2,\"";
           if (F->hasComdat())
             Asm += "G\",@progbits," + F->getComdat()->getName().str() + ",comdat\n\t";
           else Asm += "\",@progbits\n\t";

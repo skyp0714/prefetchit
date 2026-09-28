@@ -13,8 +13,8 @@ from pathlib import Path
 import struct
 
 
-SECTION = '.debug_prefetchit_v1'
-RECORD = struct.Struct('<QQQQIHH')
+SECTION = '.debug_prefetchit_v2'
+RECORD = struct.Struct('<QQQQQIHH')
 PLACEMENT = '24,600,8,0,1,1,1,1,2,64,1'
 
 
@@ -68,16 +68,17 @@ def read_image(path):
     seen = set()
     for section in metadata:
         if section['flags'] & 2 or section['size'] % RECORD.size:
-            raise ValueError('Metadata must be non-allocated 40-byte records')
+            raise ValueError('Metadata must be non-allocated 48-byte records')
         raw = data[section['offset']:section['offset']+section['size']]
-        for site, target, module, function, group, argument, flags in RECORD.iter_unpack(raw):
+        for site, target, module, function, instance, group, argument, flags in RECORD.iter_unpack(raw):
             if flags & ~3:
                 raise ValueError('Unknown record flags')
             active, direct = bool(flags & 1), bool(flags & 2)
             key = hint_key(module, function, group, argument)
-            if key in seen:
-                raise ValueError(f'Duplicate linked key {key}; COMDAT audit failed')
-            seen.add(key)
+            physical = (key, instance)
+            if physical in seen:
+                raise ValueError(f'Duplicate physical key {physical}; COMDAT audit failed')
+            seen.add(physical)
             if active:
                 opcode = bytes_at(site, 3)
                 if direct:
@@ -101,7 +102,7 @@ def read_image(path):
             elif target or not active:
                 raise ValueError('Indirect targets must remain active and have target=0')
             rows.append(dict(key=key, module=f'{module:X}', function=f'{function:X}',
-                             group=group, argument=argument, active=active, direct=direct,
+                             group=group, instance=instance, argument=argument, active=active, direct=direct,
                              site=site, target=target))
     return dict(path=str(path.resolve()), sha256=sha(path), records=rows,
                 executable_bytes=sum(s['size'] for s in executable),
@@ -111,7 +112,7 @@ def read_image(path):
 def groups(image):
     result = defaultdict(list)
     for row in image['records']:
-        result[(row['module'], row['function'], row['group'])].append(row)
+        result[(row['module'], row['function'], row['group'], row.get('instance',0))].append(row)
     return [sorted(rows, key=lambda r: r['argument']) for rows in result.values()]
 
 
