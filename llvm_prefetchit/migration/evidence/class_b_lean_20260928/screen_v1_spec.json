@@ -1,0 +1,70 @@
+{
+  "out": "/storage/prefetchit/class_b_lean_20260928/screen_v1",
+  "arms": {
+    "base": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+      },
+      "clock": false
+    },
+    "lean_peak_nop": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v1/movie/MovieIdService.nop",
+        "compose": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v1/compose/ComposeReviewService.nop",
+        "rating": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v1/rating/RatingService.nop"
+      },
+      "controls": [
+        "base"
+      ]
+    },
+    "lean_peak": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v1/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v1/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v1/rating/RatingService"
+      },
+      "controls": [
+        "base",
+        "lean_peak_nop"
+      ]
+    },
+    "lean_flat_nop": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v1/movie/MovieIdService.nop",
+        "compose": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v1/compose/ComposeReviewService.nop",
+        "rating": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v1/rating/RatingService.nop"
+      },
+      "controls": [
+        "base"
+      ],
+      "flat": true
+    },
+    "lean_flat": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v1/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v1/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v1/rating/RatingService"
+      },
+      "controls": [
+        "base",
+        "lean_flat_nop"
+      ],
+      "flat": true
+    }
+  },
+  "blocks": 2,
+  "concurrency": 4,
+  "roi_s": 60,
+  "seedbase": 47001,
+  "module": "/storage/prefetchit/class_b_lean_20260928/kernel_v1/prefetchit_sched_clock.ko",
+  "clock_options": {
+    "dense_us": 20,
+    "medium_us": 22,
+    "sparse_us": 24,
+    "dense_begin_us": 10,
+    "medium_begin_us": 8,
+    "sparse_begin_us": 5
+  }
+}

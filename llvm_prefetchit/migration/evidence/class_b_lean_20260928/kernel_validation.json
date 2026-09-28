@@ -1,0 +1,62 @@
+{
+  "module": "/storage/prefetchit/class_b_lean_20260928/kernel_v1/prefetchit_sched_clock.ko",
+  "module_sha256": "0ad7baf34f256c83ccca62223a9c814716e1995ece3fd6b9315a82c55510c7cc",
+  "validation": [
+    {
+      "name": "default bounds / mmap restrictions",
+      "insmod_options": {},
+      "executable_sha256": "6028a4475503ea99316e6dd5b9ea11f4bb0fe40f460e4777e76607bfbc32c7fa",
+      "source": "/storage/prefetchit/class_b_lean_20260928/sources_v1/llvm_prefetchit/kernel/sched_clock/smoke.c",
+      "compile": [
+        "gcc",
+        "-O2",
+        "-pthread",
+        "llvm_prefetchit/kernel/sched_clock/smoke.c",
+        "-o",
+        "/storage/prefetchit/class_b_lean_20260928/clock_smoke"
+      ],
+      "run": [
+        "taskset",
+        "-c",
+        "32-35",
+        "/storage/prefetchit/class_b_lean_20260928/clock_smoke"
+      ],
+      "log": "/storage/prefetchit/class_b_lean_20260928/clock_smoke.log"
+    },
+    {
+      "name": "bounded peak windows / ABI2 / mmap restrictions",
+      "insmod_options": {
+        "dense_us": 20,
+        "medium_us": 22,
+        "sparse_us": 24,
+        "dense_begin_us": 10,
+        "medium_begin_us": 8,
+        "sparse_begin_us": 5
+      },
+      "executable_sha256": "b71680f3130353bc7693716d3b84f2f5e21cd61b85abc298ed1a375c01b3ad8e",
+      "source": "/storage/prefetchit/class_b_lean_20260928/sources_v1_final/llvm_prefetchit/kernel/sched_clock/smoke.c",
+      "compile": [
+        "gcc",
+        "-O2",
+        "-pthread",
+        "llvm_prefetchit/kernel/sched_clock/smoke.c",
+        "-o",
+        "/storage/prefetchit/class_b_lean_20260928/clock_peak_smoke"
+      ],
+      "run": [
+        "taskset",
+        "-c",
+        "32-35",
+        "/storage/prefetchit/class_b_lean_20260928/clock_peak_smoke",
+        "10",
+        "8",
+        "5",
+        "20",
+        "22",
+        "24"
+      ],
+      "log": "/storage/prefetchit/class_b_lean_20260928/clock_peak_smoke.log"
+    }
+  ],
+  "restoration": "Both manual smokes ended with successful rmmod before the first clean trial. Each timing trial independently records clock restoration."
+}

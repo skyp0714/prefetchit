@@ -1,0 +1,1570 @@
+{
+  "base": {
+    "primary": {
+      "movie": {
+        "cycles:u": 275027.91446708987,
+        "instructions:u": 98597.94943757656,
+        "L2I": 6035.44938189108,
+        "FE_L2": 478.97393919144673,
+        "ITLB_WALK": 543.9029958792738,
+        "SWPF_MISS": 0.04855774585143112,
+        "SWPF_HIT": 0.7317073170731707
+      },
+      "compose": {
+        "cycles:u": 568460.6643325051,
+        "instructions:u": 277315.86491981026,
+        "L2I": 11152.037948949628,
+        "FE_L2": 1006.9501920036142,
+        "ITLB_WALK": 1103.0396430991643,
+        "SWPF_MISS": 0.1097808899932234,
+        "SWPF_HIT": 1.8038174836232213
+      },
+      "rating": {
+        "cycles:u": 270484.3329231458,
+        "instructions:u": 104432.56896744603,
+        "L2I": 5690.841928627363,
+        "FE_L2": 497.21053809150914,
+        "ITLB_WALK": 472.28056829623,
+        "SWPF_MISS": 0.034232017004139165,
+        "SWPF_HIT": 0.68687772681508
+      }
+    },
+    "extra": {
+      "l1": {
+        "movie": {
+          "cycles:u": 275387.86007587594,
+          "instructions:u": 98285.7783976791,
+          "FE_L1": 1744.3080785538941,
+          "ICACHE_DATA_STALL": 62535.21758536041,
+          "ICACHE_TAG_STALL": 47292.84032582013,
+          "BACLEARS": 3618.658669939746,
+          "branches:u": 20496.932715911626,
+          "branch-misses:u": 2243.622852041955
+        },
+        "compose": {
+          "cycles:u": 567991.7732240437,
+          "instructions:u": 277405.1571038251,
+          "FE_L1": 5290.848929872495,
+          "ICACHE_DATA_STALL": 130942.73804644808,
+          "ICACHE_TAG_STALL": 88083.54166666667,
+          "BACLEARS": 7362.287682149363,
+          "branches:u": 56146.34016393442,
+          "branch-misses:u": 4674.780168488161
+        },
+        "rating": {
+          "cycles:u": 269492.2163288288,
+          "instructions:u": 104393.83828828829,
+          "FE_L1": 1590.7309684684685,
+          "ICACHE_DATA_STALL": 58967.9161036036,
+          "ICACHE_TAG_STALL": 40732.15416666667,
+          "BACLEARS": 3577.1755630630632,
+          "branches:u": 22162.7634009009,
+          "branch-misses:u": 2452.9984234234234
+        }
+      },
+      "late": {
+        "movie": {
+          "cycles:u": 275938.64378604543,
+          "instructions:u": 98338.5023182178,
+          "FE_LATE_SWPF": 0.0,
+          "T1_T2_ISSUED": 0.0,
+          "ITLB_WALK_ACTIVE": 32470.37996155151,
+          "branches:u": 20508.62116928644,
+          "branch-misses:u": 2247.2300124392173
+        },
+        "compose": {
+          "cycles:u": 568902.75,
+          "instructions:u": 277405.9237094564,
+          "FE_LATE_SWPF": 0.0,
+          "T1_T2_ISSUED": 0.0,
+          "ITLB_WALK_ACTIVE": 53846.91388761992,
+          "branches:u": 56145.593307446325,
+          "branch-misses:u": 4685.050137048881
+        },
+        "rating": {
+          "cycles:u": 269836.9927040072,
+          "instructions:u": 104545.448198451,
+          "FE_LATE_SWPF": 0.0,
+          "T1_T2_ISSUED": 0.0,
+          "ITLB_WALK_ACTIVE": 27548.081827365586,
+          "branches:u": 22197.642608598046,
+          "branch-misses:u": 2454.023347177012
+        }
+      }
+    },
+    "all_services": {
+      "unique-id-service": {
+        "cpu_us_per_request": 118.50326530015924,
+        "user_us_per_request": 70.75220243400003
+      },
+      "movie-id-service": {
+        "cpu_us_per_request": 449.5950443408769,
+        "user_us_per_request": 155.25364150364516
+      },
+      "movie-id-mongodb": {
+        "cpu_us_per_request": 2.358467135155668,
+        "user_us_per_request": 1.4206758513886657
+      },
+      "movie-id-memcached": {
+        "cpu_us_per_request": 61.926278726605986,
+        "user_us_per_request": 26.899411223282247
+      },
+      "text-service": {
+        "cpu_us_per_request": 113.31302594670407,
+        "user_us_per_request": 64.12689925198691
+      },
+      "rating-service": {
+        "cpu_us_per_request": 390.6665449179657,
+        "user_us_per_request": 159.94896781451342
+      },
+      "rating-redis": {
+        "cpu_us_per_request": 43.09208584744401,
+        "user_us_per_request": 26.324776834631173
+      },
+      "user-service": {
+        "cpu_us_per_request": 165.37186436220725,
+        "user_us_per_request": 93.72156559089514
+      },
+      "user-mongodb": {
+        "cpu_us_per_request": 2.3701988399783773,
+        "user_us_per_request": 1.3561587797858197
+      },
+      "user-memcached": {
+        "cpu_us_per_request": 38.79372059725915,
+        "user_us_per_request": 16.31364871577594
+      },
+      "compose-review-service": {
+        "cpu_us_per_request": 987.0653800075972,
+        "user_us_per_request": 320.550857610379
+      },
+      "compose-review-memcached": {
+        "cpu_us_per_request": 385.7098192762283,
+        "user_us_per_request": 121.09632270223676
+      },
+      "review-storage-service": {
+        "cpu_us_per_request": 163.83296809256663,
+        "user_us_per_request": 116.86214352501169
+      },
+      "review-storage-mongodb": {
+        "cpu_us_per_request": 174.41410142153782,
+        "user_us_per_request": 152.54449428024603
+      },
+      "review-storage-memcached": {
+        "cpu_us_per_request": 0.051426651277630867,
+        "user_us_per_request": 0.01785322950604117
+      },
+      "user-review-service": {
+        "cpu_us_per_request": 391.34739287331803,
+        "user_us_per_request": 236.77224714012303
+      },
+      "user-review-mongodb": {
+        "cpu_us_per_request": 530.4258185165164,
+        "user_us_per_request": 480.07266936461787
+      },
+      "user-review-redis": {
+        "cpu_us_per_request": 38.438587520271156,
+        "user_us_per_request": 20.71912574692828
+      },
+      "movie-review-service": {
+        "cpu_us_per_request": 390.61636010343767,
+        "user_us_per_request": 233.04428243750638
+      },
+      "movie-review-mongodb": {
+        "cpu_us_per_request": 533.4242552631963,
+        "user_us_per_request": 482.30671906730754
+      },
+      "movie-review-redis": {
+        "cpu_us_per_request": 39.39965812465301,
+        "user_us_per_request": 21.68719866756275
+      },
+      "nginx-web-server": {
+        "cpu_us_per_request": 637.4011775706397,
+        "user_us_per_request": 517.1150249831984
+      },
+      "cast-info-service": {
+        "cpu_us_per_request": 0.010212281034961357,
+        "user_us_per_request": 0.005741668736394583
+      },
+      "cast-info-mongodb": {
+        "cpu_us_per_request": 2.365509080018116,
+        "user_us_per_request": 1.5341505106140518
+      },
+      "cast-info-memcached": {
+        "cpu_us_per_request": 0.05120750361593642,
+        "user_us_per_request": 0.021739448040089412
+      },
+      "plot-service": {
+        "cpu_us_per_request": 0.01018306134673543,
+        "user_us_per_request": 0.005537130918813096
+      },
+      "plot-mongodb": {
+        "cpu_us_per_request": 2.3582333776498605,
+        "user_us_per_request": 1.429310269259427
+      },
+      "plot-memcached": {
+        "cpu_us_per_request": 0.050901440551675774,
+        "user_us_per_request": 0.04787715863600502
+      },
+      "movie-info-service": {
+        "cpu_us_per_request": 0.008897395064794658,
+        "user_us_per_request": 0.005186494660101976
+      },
+      "movie-info-mongodb": {
+        "cpu_us_per_request": 2.3328317213569822,
+        "user_us_per_request": 1.3710516319434298
+      },
+      "movie-info-memcached": {
+        "cpu_us_per_request": 0.05120750361593642,
+        "user_us_per_request": 0.01149794731690213
+      },
+      "jaeger": {
+        "cpu_us_per_request": 355.19526056656974,
+        "user_us_per_request": 334.1341329788011
+      }
+    }
+  },
+  "outline_nop": {
+    "primary": {
+      "movie": {
+        "cycles:u": 311361.52341659233,
+        "instructions:u": 114988.58619536129,
+        "L2I": 6455.35325602141,
+        "FE_L2": 464.4944246208742,
+        "ITLB_WALK": 574.1806422836753,
+        "SWPF_MISS": 0.06032560214094559,
+        "SWPF_HIT": 0.8157894736842105
+      },
+      "compose": {
+        "cycles:u": 649447.9440685611,
+        "instructions:u": 314469.13689670723,
+        "L2I": 11916.635317997294,
+        "FE_L2": 934.5023680649526,
+        "ITLB_WALK": 1146.8756202074876,
+        "SWPF_MISS": 0.13497970230040596,
+        "SWPF_HIT": 2.0289806044203877
+      },
+      "rating": {
+        "cycles:u": 297787.86900532857,
+        "instructions:u": 116255.23312611012,
+        "L2I": 6016.602131438721,
+        "FE_L2": 466.5863676731794,
+        "ITLB_WALK": 529.3182726465365,
+        "SWPF_MISS": 0.043516873889875664,
+        "SWPF_HIT": 0.7395648312611013
+      }
+    },
+    "extra": {
+      "l1": {
+        "movie": {
+          "cycles:u": 312605.03930131,
+          "instructions:u": 115117.65278244317,
+          "FE_L1": 1540.2444295151718,
+          "ICACHE_DATA_STALL": 62755.54372410704,
+          "ICACHE_TAG_STALL": 48360.29145672377,
+          "BACLEARS": 4053.914119359534,
+          "branches:u": 23290.103907737095,
+          "branch-misses:u": 2410.338371962826
+        },
+        "compose": {
+          "cycles:u": 650099.9756125227,
+          "instructions:u": 314284.77574863884,
+          "FE_L1": 4677.4571234119785,
+          "ICACHE_DATA_STALL": 131734.0155399274,
+          "ICACHE_TAG_STALL": 92214.84346642469,
+          "BACLEARS": 8284.365018148821,
+          "branches:u": 62112.25884754991,
+          "branch-misses:u": 5101.743307622504
+        },
+        "rating": {
+          "cycles:u": 297660.49172390497,
+          "instructions:u": 116128.11620313028,
+          "FE_L1": 1438.5430694741583,
+          "ICACHE_DATA_STALL": 61327.09312014413,
+          "ICACHE_TAG_STALL": 45870.25943024434,
+          "BACLEARS": 3985.104830537102,
+          "branches:u": 24088.026010584395,
+          "branch-misses:u": 2581.4384641369215
+        }
+      },
+      "late": {
+        "movie": {
+          "cycles:u": 311642.96474286995,
+          "instructions:u": 114684.99752975522,
+          "FE_LATE_SWPF": 0.0,
+          "T1_T2_ISSUED": 0.0,
+          "ITLB_WALK_ACTIVE": 32030.575342465752,
+          "branches:u": 23204.91028520099,
+          "branch-misses:u": 2403.7310801706712
+        },
+        "compose": {
+          "cycles:u": 651187.5350667123,
+          "instructions:u": 314414.7773976508,
+          "FE_LATE_SWPF": 0.0,
+          "T1_T2_ISSUED": 0.0,
+          "ITLB_WALK_ACTIVE": 57363.74569506215,
+          "branches:u": 62137.601094765654,
+          "branch-misses:u": 5117.388755844452
+        },
+        "rating": {
+          "cycles:u": 298568.67349451536,
+          "instructions:u": 116059.35101858071,
+          "FE_LATE_SWPF": 0.0,
+          "T1_T2_ISSUED": 0.0,
+          "ITLB_WALK_ACTIVE": 29556.362659503022,
+          "branches:u": 24070.124356391316,
+          "branch-misses:u": 2591.2933736288337
+        }
+      }
+    },
+    "all_services": {
+      "unique-id-service": {
+        "cpu_us_per_request": 117.74123381347302,
+        "user_us_per_request": 68.62477811727048
+      },
+      "movie-id-service": {
+        "cpu_us_per_request": 468.7930131385587,
+        "user_us_per_request": 177.38832225116036
+      },
+      "movie-id-mongodb": {
+        "cpu_us_per_request": 2.351132709627668,
+        "user_us_per_request": 1.4017372579260574
+      },
+      "movie-id-memcached": {
+        "cpu_us_per_request": 62.217698754510536,
+        "user_us_per_request": 27.089876033057852
+      },
+      "text-service": {
+        "cpu_us_per_request": 112.08868292399022,
+        "user_us_per_request": 62.48952392038179
+      },
+      "rating-service": {
+        "cpu_us_per_request": 405.0653881969503,
+        "user_us_per_request": 170.46489058316843
+      },
+      "rating-redis": {
+        "cpu_us_per_request": 43.10537190082645,
+        "user_us_per_request": 26.51473926201839
+      },
+      "user-service": {
+        "cpu_us_per_request": 165.57379816086603,
+        "user_us_per_request": 93.75317192410662
+      },
+      "user-mongodb": {
+        "cpu_us_per_request": 2.353087533465254,
+        "user_us_per_request": 1.3151408450704225
+      },
+      "user-memcached": {
+        "cpu_us_per_request": 38.27442963566523,
+        "user_us_per_request": 16.790231055756024
+      },
+      "compose-review-service": {
+        "cpu_us_per_request": 1034.6888995591253,
+        "user_us_per_request": 363.18841212332853
+      },
+      "compose-review-memcached": {
+        "cpu_us_per_request": 386.451679082761,
+        "user_us_per_request": 121.8805435921313
+      },
+      "review-storage-service": {
+        "cpu_us_per_request": 165.0719211966011,
+        "user_us_per_request": 119.56890932371086
+      },
+      "review-storage-mongodb": {
+        "cpu_us_per_request": 172.85113781864743,
+        "user_us_per_request": 151.2691479455244
+      },
+      "review-storage-memcached": {
+        "cpu_us_per_request": 0.05371822665832472,
+        "user_us_per_request": 0.03260632338605247
+      },
+      "user-review-service": {
+        "cpu_us_per_request": 391.4777313797669,
+        "user_us_per_request": 235.57908597535248
+      },
+      "user-review-mongodb": {
+        "cpu_us_per_request": 531.5961675566355,
+        "user_us_per_request": 481.4151959143884
+      },
+      "user-review-redis": {
+        "cpu_us_per_request": 38.2537975788616,
+        "user_us_per_request": 20.86925270632057
+      },
+      "movie-review-service": {
+        "cpu_us_per_request": 389.8839628681178,
+        "user_us_per_request": 234.32285240367827
+      },
+      "movie-review-mongodb": {
+        "cpu_us_per_request": 533.3055814224188,
+        "user_us_per_request": 480.96518158538004
+      },
+      "movie-review-redis": {
+        "cpu_us_per_request": 38.81148876731463,
+        "user_us_per_request": 21.39630136189035
+      },
+      "nginx-web-server": {
+        "cpu_us_per_request": 552.6409032708649,
+        "user_us_per_request": 430.2570568036317
+      },
+      "cast-info-service": {
+        "cpu_us_per_request": 0.009093819113025259,
+        "user_us_per_request": 0.005223489698521709
+      },
+      "cast-info-mongodb": {
+        "cpu_us_per_request": 2.3856652310557562,
+        "user_us_per_request": 1.5674834128739379
+      },
+      "cast-info-memcached": {
+        "cpu_us_per_request": 0.05182749388895356,
+        "user_us_per_request": 0.028038063089279478
+      },
+      "plot-service": {
+        "cpu_us_per_request": 0.01018507740658829,
+        "user_us_per_request": 0.006169246886276336
+      },
+      "plot-mongodb": {
+        "cpu_us_per_request": 2.351661622628332,
+        "user_us_per_request": 1.228305785123967
+      },
+      "plot-memcached": {
+        "cpu_us_per_request": 0.05105708091434225,
+        "user_us_per_request": 0.0346879683384987
+      },
+      "movie-info-service": {
+        "cpu_us_per_request": 0.009647004045048454,
+        "user_us_per_request": 0.005834764135843785
+      },
+      "movie-info-mongodb": {
+        "cpu_us_per_request": 2.3317958269068475,
+        "user_us_per_request": 1.4447516223845416
+      },
+      "movie-info-memcached": {
+        "cpu_us_per_request": 0.05136263768242467,
+        "user_us_per_request": 0.04619727326960292
+      },
+      "jaeger": {
+        "cpu_us_per_request": 357.6781468709532,
+        "user_us_per_request": 335.62384506816824
+      }
+    }
+  },
+  "outline_t1": {
+    "primary": {
+      "movie": {
+        "cycles:u": 311532.3704815927,
+        "instructions:u": 115215.52608163719,
+        "L2I": 6310.7533088644195,
+        "FE_L2": 430.6445334223112,
+        "ITLB_WALK": 551.3011900789678,
+        "SWPF_MISS": 91.26648871093316,
+        "SWPF_HIT": 1110.1746190635079
+      },
+      "compose": {
+        "cycles:u": 647426.0265177161,
+        "instructions:u": 314568.47382080794,
+        "L2I": 11531.908824193184,
+        "FE_L2": 880.4183028661702,
+        "ITLB_WALK": 1031.3937034529451,
+        "SWPF_MISS": 205.96027984653577,
+        "SWPF_HIT": 2846.9027307605506
+      },
+      "rating": {
+        "cycles:u": 296391.6728649371,
+        "instructions:u": 116482.90947555951,
+        "L2I": 6005.358646030509,
+        "FE_L2": 445.39661507627216,
+        "ITLB_WALK": 444.7319897561519,
+        "SWPF_MISS": 91.17236387930075,
+        "SWPF_HIT": 844.181939650373
+      }
+    },
+    "extra": {
+      "l1": {
+        "movie": {
+          "cycles:u": 310939.60483329603,
+          "instructions:u": 114846.8403445961,
+          "FE_L1": 1523.975945401656,
+          "ICACHE_DATA_STALL": 61576.01443275901,
+          "ICACHE_TAG_STALL": 47260.74412620273,
+          "BACLEARS": 4029.377377489371,
+          "branches:u": 23246.015663459388,
+          "branch-misses:u": 2419.217162676214
+        },
+        "compose": {
+          "cycles:u": 647997.3758389262,
+          "instructions:u": 314522.560800819,
+          "FE_L1": 4586.940052326243,
+          "ICACHE_DATA_STALL": 127772.78193607098,
+          "ICACHE_TAG_STALL": 84745.03276077806,
+          "BACLEARS": 8097.129564327152,
+          "branches:u": 62146.67660106927,
+          "branch-misses:u": 5102.442384256626
+        },
+        "rating": {
+          "cycles:u": 295976.2364148816,
+          "instructions:u": 116124.40383314544,
+          "FE_L1": 1419.8600901916573,
+          "ICACHE_DATA_STALL": 58956.47666290868,
+          "ICACHE_TAG_STALL": 41857.2885005637,
+          "BACLEARS": 3943.3515219842166,
+          "branches:u": 24087.974182638107,
+          "branch-misses:u": 2588.441037204059
+        }
+      },
+      "late": {
+        "movie": {
+          "cycles:u": 311459.78788561135,
+          "instructions:u": 114871.730803873,
+          "FE_LATE_SWPF": 0.0,
+          "T1_T2_ISSUED": 1773.1324026120244,
+          "ITLB_WALK_ACTIVE": 30835.56879081288,
+          "branches:u": 23250.519702769645,
+          "branch-misses:u": 2424.054154469714
+        },
+        "compose": {
+          "cycles:u": 649115.3894498015,
+          "instructions:u": 315028.07339761767,
+          "FE_LATE_SWPF": 0.0,
+          "T1_T2_ISSUED": 4255.189790130459,
+          "ITLB_WALK_ACTIVE": 51222.98298355076,
+          "branches:u": 62238.709245604085,
+          "branch-misses:u": 5117.326602382303
+        },
+        "rating": {
+          "cycles:u": 297121.3413207335,
+          "instructions:u": 116527.82528968388,
+          "FE_LATE_SWPF": 0.0,
+          "T1_T2_ISSUED": 1363.1772977837777,
+          "ITLB_WALK_ACTIVE": 27470.978062774215,
+          "branches:u": 24174.843626954662,
+          "branch-misses:u": 2593.8753515581056
+        }
+      }
+    },
+    "all_services": {
+      "unique-id-service": {
+        "cpu_us_per_request": 118.29064017853236,
+        "user_us_per_request": 69.66943800230459
+      },
+      "movie-id-service": {
+        "cpu_us_per_request": 469.13903353316124,
+        "user_us_per_request": 175.03872576904564
+      },
+      "movie-id-mongodb": {
+        "cpu_us_per_request": 2.3793083329686837,
+        "user_us_per_request": 1.4670575708513836
+      },
+      "movie-id-memcached": {
+        "cpu_us_per_request": 61.7271255415044,
+        "user_us_per_request": 27.1352120071763
+      },
+      "text-service": {
+        "cpu_us_per_request": 113.000700126898,
+        "user_us_per_request": 64.0117562974956
+      },
+      "rating-service": {
+        "cpu_us_per_request": 404.6631027742933,
+        "user_us_per_request": 169.2623617958517
+      },
+      "rating-redis": {
+        "cpu_us_per_request": 43.08163890428542,
+        "user_us_per_request": 26.634484669914524
+      },
+      "user-service": {
+        "cpu_us_per_request": 166.92193585087298,
+        "user_us_per_request": 93.5518020974635
+      },
+      "user-mongodb": {
+        "cpu_us_per_request": 2.3463098016336055,
+        "user_us_per_request": 1.3419486581096849
+      },
+      "user-memcached": {
+        "cpu_us_per_request": 38.570740956826135,
+        "user_us_per_request": 17.503733955659275
+      },
+      "compose-review-service": {
+        "cpu_us_per_request": 1032.7722903691604,
+        "user_us_per_request": 362.9413223261038
+      },
+      "compose-review-memcached": {
+        "cpu_us_per_request": 384.9232059509918,
+        "user_us_per_request": 120.41002042007001
+      },
+      "review-storage-service": {
+        "cpu_us_per_request": 164.08375145857642,
+        "user_us_per_request": 117.85176487747958
+      },
+      "review-storage-mongodb": {
+        "cpu_us_per_request": 174.3557957379775,
+        "user_us_per_request": 152.5781297860237
+      },
+      "review-storage-memcached": {
+        "cpu_us_per_request": 0.05094881780656077,
+        "user_us_per_request": 0.025306670167301155
+      },
+      "user-review-service": {
+        "cpu_us_per_request": 391.8562551962543,
+        "user_us_per_request": 234.48552341778614
+      },
+      "user-review-mongodb": {
+        "cpu_us_per_request": 530.1904345162561,
+        "user_us_per_request": 480.2946075642877
+      },
+      "user-review-redis": {
+        "cpu_us_per_request": 38.99493866596654,
+        "user_us_per_request": 21.67759156347088
+      },
+      "movie-review-service": {
+        "cpu_us_per_request": 393.08033956154554,
+        "user_us_per_request": 234.43900873700025
+      },
+      "movie-review-mongodb": {
+        "cpu_us_per_request": 533.3812920258464,
+        "user_us_per_request": 482.22112341195174
+      },
+      "movie-review-redis": {
+        "cpu_us_per_request": 38.79735702096005,
+        "user_us_per_request": 21.34307676599717
+      },
+      "nginx-web-server": {
+        "cpu_us_per_request": 554.3496112837119,
+        "user_us_per_request": 430.79455651336804
+      },
+      "cast-info-service": {
+        "cpu_us_per_request": 0.01044355956183725,
+        "user_us_per_request": 0.01044355956183725
+      },
+      "cast-info-mongodb": {
+        "cpu_us_per_request": 2.3762452777899328,
+        "user_us_per_request": 1.5353345293834508
+      },
+      "cast-info-memcached": {
+        "cpu_us_per_request": 0.05112384953106084,
+        "user_us_per_request": 0.039615513645181524
+      },
+      "plot-service": {
+        "cpu_us_per_request": 0.009641190198366394,
+        "user_us_per_request": 0.006403150525087515
+      },
+      "plot-mongodb": {
+        "cpu_us_per_request": 2.3830165837721156,
+        "user_us_per_request": 1.5226732398885663
+      },
+      "plot-memcached": {
+        "cpu_us_per_request": 0.049926342964659205,
+        "user_us_per_request": 0.02673531599597439
+      },
+      "movie-info-service": {
+        "cpu_us_per_request": 0.010487164527421237,
+        "user_us_per_request": 0.0
+      },
+      "movie-info-mongodb": {
+        "cpu_us_per_request": 2.3665548424737457,
+        "user_us_per_request": 1.5257584597432905
+      },
+      "movie-info-memcached": {
+        "cpu_us_per_request": 0.051838562406102774,
+        "user_us_per_request": 0.042663982846891
+      },
+      "jaeger": {
+        "cpu_us_per_request": 357.9693111043043,
+        "user_us_per_request": 335.0776703277469
+      }
+    }
+  },
+  "outline_it0": {
+    "primary": {
+      "movie": {
+        "cycles:u": 312118.47912480467,
+        "instructions:u": 114762.13105603929,
+        "L2I": 6318.114087966064,
+        "FE_L2": 430.8604599240902,
+        "ITLB_WALK": 553.6272605492297,
+        "SWPF_MISS": 59.9262112078589,
+        "SWPF_HIT": 263.66454565751286
+      },
+      "compose": {
+        "cycles:u": 647572.238750423,
+        "instructions:u": 314125.20987932786,
+        "L2I": 11573.951731137928,
+        "FE_L2": 877.2610804105109,
+        "ITLB_WALK": 1074.7995940002256,
+        "SWPF_MISS": 86.07477162512687,
+        "SWPF_HIT": 722.659298522612
+      },
+      "rating": {
+        "cycles:u": 297739.85800536675,
+        "instructions:u": 116399.60766994633,
+        "L2I": 5938.111918604651,
+        "FE_L2": 434.316301431127,
+        "ITLB_WALK": 456.7409436493739,
+        "SWPF_MISS": 49.39423076923077,
+        "SWPF_HIT": 199.0805008944544
+      }
+    },
+    "extra": {
+      "l1": {
+        "movie": {
+          "cycles:u": 312849.30153398274,
+          "instructions:u": 114661.43231441049,
+          "FE_L1": 1538.0624790057104,
+          "ICACHE_DATA_STALL": 61397.21195834733,
+          "ICACHE_TAG_STALL": 47037.84313066846,
+          "BACLEARS": 4107.521330198186,
+          "branches:u": 23197.88209606987,
+          "branch-misses:u": 2424.708879184862
+        },
+        "compose": {
+          "cycles:u": 649009.7240325866,
+          "instructions:u": 314092.23512106814,
+          "FE_L1": 4721.268612808328,
+          "ICACHE_DATA_STALL": 128630.99637927132,
+          "ICACHE_TAG_STALL": 88601.05170853135,
+          "BACLEARS": 7945.194840461643,
+          "branches:u": 62054.368295994565,
+          "branch-misses:u": 5050.195179904956
+        },
+        "rating": {
+          "cycles:u": 297477.95518364594,
+          "instructions:u": 116096.4857913063,
+          "FE_L1": 1423.4416488823992,
+          "ICACHE_DATA_STALL": 59164.76097944513,
+          "ICACHE_TAG_STALL": 41194.04256992025,
+          "BACLEARS": 3943.3450522295857,
+          "branches:u": 24080.107716500057,
+          "branch-misses:u": 2564.431764573739
+        }
+      },
+      "late": {
+        "movie": {
+          "cycles:u": 313435.70105760574,
+          "instructions:u": 114654.34619711971,
+          "FE_LATE_SWPF": 3.8496849684968497,
+          "T1_T2_ISSUED": 323.26181368136815,
+          "ITLB_WALK_ACTIVE": 31072.873424842484,
+          "branches:u": 23198.918654365436,
+          "branch-misses:u": 2434.4095409540955
+        },
+        "compose": {
+          "cycles:u": 649171.4352083808,
+          "instructions:u": 314286.58061944885,
+          "FE_LATE_SWPF": 13.40696879981781,
+          "T1_T2_ISSUED": 806.726713732635,
+          "ITLB_WALK_ACTIVE": 53533.60362104304,
+          "branches:u": 62099.425187884306,
+          "branch-misses:u": 5055.524481894785
+        },
+        "rating": {
+          "cycles:u": 298368.8059265911,
+          "instructions:u": 115968.10798069368,
+          "FE_LATE_SWPF": 2.7139970816028733,
+          "T1_T2_ISSUED": 247.70782354921988,
+          "ITLB_WALK_ACTIVE": 27131.89606016388,
+          "branches:u": 24055.795150970927,
+          "branch-misses:u": 2574.654618924683
+        }
+      }
+    },
+    "all_services": {
+      "unique-id-service": {
+        "cpu_us_per_request": 117.95685906234198,
+        "user_us_per_request": 69.62045799320957
+      },
+      "movie-id-service": {
+        "cpu_us_per_request": 468.51180397029503,
+        "user_us_per_request": 175.01713526165227
+      },
+      "movie-id-mongodb": {
+        "cpu_us_per_request": 2.340552489380761,
+        "user_us_per_request": 1.3459415725142312
+      },
+      "movie-id-memcached": {
+        "cpu_us_per_request": 61.912877638593905,
+        "user_us_per_request": 26.738907430684986
+      },
+      "text-service": {
+        "cpu_us_per_request": 112.35159579847716,
+        "user_us_per_request": 63.03292734023955
+      },
+      "rating-service": {
+        "cpu_us_per_request": 404.7065478082469,
+        "user_us_per_request": 172.9205507556275
+      },
+      "rating-redis": {
+        "cpu_us_per_request": 43.295677175137975,
+        "user_us_per_request": 27.029993931863494
+      },
+      "user-service": {
+        "cpu_us_per_request": 165.93983963013798,
+        "user_us_per_request": 93.36113559199596
+      },
+      "user-mongodb": {
+        "cpu_us_per_request": 2.3253774470851694,
+        "user_us_per_request": 1.358101567579282
+      },
+      "user-memcached": {
+        "cpu_us_per_request": 38.54165342271795,
+        "user_us_per_request": 16.840624729101048
+      },
+      "compose-review-service": {
+        "cpu_us_per_request": 1032.977446759326,
+        "user_us_per_request": 364.10317276851504
+      },
+      "compose-review-memcached": {
+        "cpu_us_per_request": 387.1343658797353,
+        "user_us_per_request": 121.12844222267171
+      },
+      "review-storage-service": {
+        "cpu_us_per_request": 163.44462103042736,
+        "user_us_per_request": 116.87449070997197
+      },
+      "review-storage-mongodb": {
+        "cpu_us_per_request": 173.47976536199846,
+        "user_us_per_request": 150.32213601491048
+      },
+      "review-storage-memcached": {
+        "cpu_us_per_request": 0.051146460924970744,
+        "user_us_per_request": 0.020603065898024936
+      },
+      "user-review-service": {
+        "cpu_us_per_request": 391.09418614731123,
+        "user_us_per_request": 233.93411737509751
+      },
+      "user-review-mongodb": {
+        "cpu_us_per_request": 531.9466437425955,
+        "user_us_per_request": 482.24635189412544
+      },
+      "user-review-redis": {
+        "cpu_us_per_request": 38.782590478942424,
+        "user_us_per_request": 21.362175828938813
+      },
+      "movie-review-service": {
+        "cpu_us_per_request": 391.6877555443184,
+        "user_us_per_request": 234.56866286209637
+      },
+      "movie-review-mongodb": {
+        "cpu_us_per_request": 534.6497724481687,
+        "user_us_per_request": 484.5685183847432
+      },
+      "movie-review-redis": {
+        "cpu_us_per_request": 38.34573430614751,
+        "user_us_per_request": 20.794957740374198
+      },
+      "nginx-web-server": {
+        "cpu_us_per_request": 520.9715231022625,
+        "user_us_per_request": 399.3808478053573
+      },
+      "cast-info-service": {
+        "cpu_us_per_request": 0.009189025183130337,
+        "user_us_per_request": 0.005186886856515394
+      },
+      "cast-info-mongodb": {
+        "cpu_us_per_request": 2.3470540642066635,
+        "user_us_per_request": 1.487242465397174
+      },
+      "cast-info-memcached": {
+        "cpu_us_per_request": 0.05136244112462796,
+        "user_us_per_request": 0.00379980928713844
+      },
+      "plot-service": {
+        "cpu_us_per_request": 0.009636917920043923,
+        "user_us_per_request": 0.0060248797191279095
+      },
+      "plot-mongodb": {
+        "cpu_us_per_request": 2.320729910133788,
+        "user_us_per_request": 1.2386655878868438
+      },
+      "plot-memcached": {
+        "cpu_us_per_request": 0.05023550148813824,
+        "user_us_per_request": 0.027032103331695898
+      },
+      "movie-info-service": {
+        "cpu_us_per_request": 0.00900106914786026,
+        "user_us_per_request": 0.005706937902736441
+      },
+      "movie-info-mongodb": {
+        "cpu_us_per_request": 2.3267258069176755,
+        "user_us_per_request": 1.3073366659924293
+      },
+      "movie-info-memcached": {
+        "cpu_us_per_request": 0.05038070882637655,
+        "user_us_per_request": 0.044168003120801005
+      },
+      "jaeger": {
+        "cpu_us_per_request": 356.744643347348,
+        "user_us_per_request": 335.5660641786948
+      }
+    }
+  },
+  "dedup_it0": {
+    "primary": {
+      "movie": {
+        "cycles:u": 308697.69492627925,
+        "instructions:u": 114724.02872940156,
+        "L2I": 6108.975065047702,
+        "FE_L2": 426.90578924544667,
+        "ITLB_WALK": 577.9749566348655,
+        "SWPF_MISS": 61.2172593235039,
+        "SWPF_HIT": 259.9731136166522
+      },
+      "compose": {
+        "cycles:u": 653125.2354722908,
+        "instructions:u": 314269.4693740184,
+        "L2I": 11513.10455463316,
+        "FE_L2": 896.1773614538928,
+        "ITLB_WALK": 1137.589073367736,
+        "SWPF_MISS": 87.80670854835091,
+        "SWPF_HIT": 717.8672874130581
+      },
+      "rating": {
+        "cycles:u": 294341.11841249187,
+        "instructions:u": 115932.97744523964,
+        "L2I": 5844.382129689872,
+        "FE_L2": 432.26057254391674,
+        "ITLB_WALK": 458.24962047278245,
+        "SWPF_MISS": 44.598677076556065,
+        "SWPF_HIT": 191.75352418130558
+      }
+    },
+    "extra": {
+      "l1": {
+        "movie": {
+          "cycles:u": 310084.9067834681,
+          "instructions:u": 114524.34254267745,
+          "FE_L1": 1548.5073000898471,
+          "ICACHE_DATA_STALL": 62178.37904312668,
+          "ICACHE_TAG_STALL": 49576.480121293804,
+          "BACLEARS": 4066.056603773585,
+          "branches:u": 23179.779874213837,
+          "branch-misses:u": 2408.2411275831087
+        },
+        "compose": {
+          "cycles:u": 656796.324849449,
+          "instructions:u": 314522.67128735373,
+          "FE_L1": 4710.543233723441,
+          "ICACHE_DATA_STALL": 133459.0302238382,
+          "ICACHE_TAG_STALL": 98912.26428814908,
+          "BACLEARS": 8123.571639586411,
+          "branches:u": 62161.88239972731,
+          "branch-misses:u": 5131.857516191342
+        },
+        "rating": {
+          "cycles:u": 295713.0361432384,
+          "instructions:u": 115932.87244217082,
+          "FE_L1": 1427.5217971530249,
+          "ICACHE_DATA_STALL": 58032.371663701066,
+          "ICACHE_TAG_STALL": 41742.89390569395,
+          "BACLEARS": 3956.9775355871884,
+          "branches:u": 24058.010120106763,
+          "branch-misses:u": 2575.555048932384
+        }
+      },
+      "late": {
+        "movie": {
+          "cycles:u": 309058.36721311475,
+          "instructions:u": 114827.14666666667,
+          "FE_LATE_SWPF": 4.059344262295082,
+          "T1_T2_ISSUED": 320.42863387978144,
+          "ITLB_WALK_ACTIVE": 31484.87912568306,
+          "branches:u": 23246.802732240438,
+          "branch-misses:u": 2399.231256830601
+        },
+        "compose": {
+          "cycles:u": 652155.7030269675,
+          "instructions:u": 314481.1730324711,
+          "FE_LATE_SWPF": 14.082553659878922,
+          "T1_T2_ISSUED": 804.7237204182719,
+          "ITLB_WALK_ACTIVE": 59140.33813979087,
+          "branches:u": 62156.7228398459,
+          "branch-misses:u": 5099.599779856907
+        },
+        "rating": {
+          "cycles:u": 296493.74413954007,
+          "instructions:u": 116503.94833907344,
+          "FE_LATE_SWPF": 2.8207976891456505,
+          "T1_T2_ISSUED": 236.7650261082102,
+          "ITLB_WALK_ACTIVE": 27292.878902344182,
+          "branches:u": 24165.98077991334,
+          "branch-misses:u": 2588.5289412287525
+        }
+      }
+    },
+    "all_services": {
+      "unique-id-service": {
+        "cpu_us_per_request": 118.37809804091289,
+        "user_us_per_request": 70.45230676014889
+      },
+      "movie-id-service": {
+        "cpu_us_per_request": 468.64625349836984,
+        "user_us_per_request": 173.94275657116478
+      },
+      "movie-id-mongodb": {
+        "cpu_us_per_request": 2.3417244911207606,
+        "user_us_per_request": 1.4675918579321687
+      },
+      "movie-id-memcached": {
+        "cpu_us_per_request": 62.14219971724516,
+        "user_us_per_request": 26.3971984188811
+      },
+      "text-service": {
+        "cpu_us_per_request": 112.4468745040899,
+        "user_us_per_request": 63.909113204552995
+      },
+      "rating-service": {
+        "cpu_us_per_request": 403.21807060317093,
+        "user_us_per_request": 169.05611898956965
+      },
+      "rating-redis": {
+        "cpu_us_per_request": 43.44407576784916,
+        "user_us_per_request": 26.15942698039442
+      },
+      "user-service": {
+        "cpu_us_per_request": 166.36674456851034,
+        "user_us_per_request": 94.07876741971782
+      },
+      "user-mongodb": {
+        "cpu_us_per_request": 2.3217923194552643,
+        "user_us_per_request": 1.3972416976831414
+      },
+      "user-memcached": {
+        "cpu_us_per_request": 38.1183530973196,
+        "user_us_per_request": 16.382656741394733
+      },
+      "compose-review-service": {
+        "cpu_us_per_request": 1036.746992123258,
+        "user_us_per_request": 365.69739461611704
+      },
+      "compose-review-memcached": {
+        "cpu_us_per_request": 386.2985227502236,
+        "user_us_per_request": 120.34556680804408
+      },
+      "review-storage-service": {
+        "cpu_us_per_request": 163.710099975475,
+        "user_us_per_request": 117.23779159513539
+      },
+      "review-storage-mongodb": {
+        "cpu_us_per_request": 175.0493385460998,
+        "user_us_per_request": 152.73712076402614
+      },
+      "review-storage-memcached": {
+        "cpu_us_per_request": 0.04940996566548371,
+        "user_us_per_request": 0.03289188955249719
+      },
+      "user-review-service": {
+        "cpu_us_per_request": 393.2615049482097,
+        "user_us_per_request": 238.47632649528262
+      },
+      "user-review-mongodb": {
+        "cpu_us_per_request": 534.1574460104733,
+        "user_us_per_request": 483.855551868896
+      },
+      "user-review-redis": {
+        "cpu_us_per_request": 38.924912361690154,
+        "user_us_per_request": 21.45443529191131
+      },
+      "movie-review-service": {
+        "cpu_us_per_request": 390.9672816976587,
+        "user_us_per_request": 235.7189082358372
+      },
+      "movie-review-mongodb": {
+        "cpu_us_per_request": 532.2178623465428,
+        "user_us_per_request": 484.54736796549287
+      },
+      "movie-review-redis": {
+        "cpu_us_per_request": 38.75709051040134,
+        "user_us_per_request": 21.28261057733922
+      },
+      "nginx-web-server": {
+        "cpu_us_per_request": 524.5755875182134,
+        "user_us_per_request": 403.764285817332
+      },
+      "cast-info-service": {
+        "cpu_us_per_request": 0.009550326759669344,
+        "user_us_per_request": 0.005193531168400248
+      },
+      "cast-info-mongodb": {
+        "cpu_us_per_request": 2.362393063750595,
+        "user_us_per_request": 1.5824545205360878
+      },
+      "cast-info-memcached": {
+        "cpu_us_per_request": 0.05029069348067573,
+        "user_us_per_request": 0.025405023298757882
+      },
+      "plot-service": {
+        "cpu_us_per_request": 0.01005525340104159,
+        "user_us_per_request": 0.005583046006030267
+      },
+      "plot-mongodb": {
+        "cpu_us_per_request": 2.3381565849647274,
+        "user_us_per_request": 1.3745545825699323
+      },
+      "plot-memcached": {
+        "cpu_us_per_request": 0.05157539384846212,
+        "user_us_per_request": 0.04063996768422875
+      },
+      "movie-info-service": {
+        "cpu_us_per_request": 0.00931963760170812,
+        "user_us_per_request": 0.005640833285244388
+      },
+      "movie-info-mongodb": {
+        "cpu_us_per_request": 2.3496645747673663,
+        "user_us_per_request": 1.5118949722282333
+      },
+      "movie-info-memcached": {
+        "cpu_us_per_request": 0.04995960528593687,
+        "user_us_per_request": 0.031103929828610998
+      },
+      "jaeger": {
+        "cpu_us_per_request": 352.1390876565295,
+        "user_us_per_request": 329.22468117029257
+      }
+    }
+  },
+  "tail_nop": {
+    "primary": {
+      "movie": {
+        "cycles:u": 316348.27601204417,
+        "instructions:u": 115106.05988624958,
+        "L2I": 6314.5065239210435,
+        "FE_L2": 472.73525147764025,
+        "ITLB_WALK": 664.3751533400246,
+        "SWPF_MISS": 0.05319504851120776,
+        "SWPF_HIT": 0.8745399799263968
+      },
+      "compose": {
+        "cycles:u": 647525.547138235,
+        "instructions:u": 315024.94075644313,
+        "L2I": 12020.427200714046,
+        "FE_L2": 920.4408122280487,
+        "ITLB_WALK": 1124.714939194466,
+        "SWPF_MISS": 0.1273011268548477,
+        "SWPF_HIT": 2.0569005913198706
+      },
+      "rating": {
+        "cycles:u": 292826.8785188393,
+        "instructions:u": 116052.98170203551,
+        "L2I": 5983.650389779125,
+        "FE_L2": 451.24837592031184,
+        "ITLB_WALK": 464.8945430922477,
+        "SWPF_MISS": 0.03930272845387614,
+        "SWPF_HIT": 0.7946080554352534
+      }
+    },
+    "extra": {
+      "l1": {
+        "movie": {
+          "cycles:u": 314942.1122166943,
+          "instructions:u": 114864.35997788834,
+          "FE_L1": 1524.0258706467662,
+          "ICACHE_DATA_STALL": 64479.64875621891,
+          "ICACHE_TAG_STALL": 59047.54239911553,
+          "BACLEARS": 4087.542509673853,
+          "branches:u": 23199.35666113875,
+          "branch-misses:u": 2386.752902155887
+        },
+        "compose": {
+          "cycles:u": 650389.8304506144,
+          "instructions:u": 315455.6246017296,
+          "FE_L1": 4679.564974965862,
+          "ICACHE_DATA_STALL": 131712.32578516158,
+          "ICACHE_TAG_STALL": 88421.92057350933,
+          "BACLEARS": 8099.470414201183,
+          "branches:u": 62225.46995903505,
+          "branch-misses:u": 5045.861743286299
+        },
+        "rating": {
+          "cycles:u": 292937.76184756495,
+          "instructions:u": 116068.80792749509,
+          "FE_L1": 1408.7418650360341,
+          "ICACHE_DATA_STALL": 58755.965494649485,
+          "ICACHE_TAG_STALL": 40565.62491810439,
+          "BACLEARS": 3834.645009827473,
+          "branches:u": 24042.311421707796,
+          "branch-misses:u": 2532.473029045643
+        }
+      },
+      "late": {
+        "movie": {
+          "cycles:u": 315057.8804419164,
+          "instructions:u": 115021.47779479326,
+          "FE_LATE_SWPF": 0.0,
+          "T1_T2_ISSUED": 0.0,
+          "ITLB_WALK_ACTIVE": 37950.33920367534,
+          "branches:u": 23247.23911616714,
+          "branch-misses:u": 2388.5187048785824
+        },
+        "compose": {
+          "cycles:u": 650153.5978384528,
+          "instructions:u": 315247.3556313993,
+          "FE_LATE_SWPF": 0.0,
+          "T1_T2_ISSUED": 0.0,
+          "ITLB_WALK_ACTIVE": 55257.340500568826,
+          "branches:u": 62184.384527872586,
+          "branch-misses:u": 5048.621046643913
+        },
+        "rating": {
+          "cycles:u": 295569.10493757733,
+          "instructions:u": 115935.7977730289,
+          "FE_LATE_SWPF": 0.0,
+          "T1_T2_ISSUED": 0.0,
+          "ITLB_WALK_ACTIVE": 26756.584073782476,
+          "branches:u": 24017.14970194579,
+          "branch-misses:u": 2558.8013721741086
+        }
+      }
+    },
+    "all_services": {
+      "unique-id-service": {
+        "cpu_us_per_request": 117.40482685350025,
+        "user_us_per_request": 69.27954689025441
+      },
+      "movie-id-service": {
+        "cpu_us_per_request": 470.30069056609193,
+        "user_us_per_request": 176.2432199618107
+      },
+      "movie-id-mongodb": {
+        "cpu_us_per_request": 2.3349030192525806,
+        "user_us_per_request": 1.5423456276111582
+      },
+      "movie-id-memcached": {
+        "cpu_us_per_request": 61.63706713375065,
+        "user_us_per_request": 27.346450927467984
+      },
+      "text-service": {
+        "cpu_us_per_request": 113.05925255918795,
+        "user_us_per_request": 64.21775710327202
+      },
+      "rating-service": {
+        "cpu_us_per_request": 401.36368987796124,
+        "user_us_per_request": 170.11359655419957
+      },
+      "rating-redis": {
+        "cpu_us_per_request": 42.90894472361809,
+        "user_us_per_request": 25.98964824120603
+      },
+      "user-service": {
+        "cpu_us_per_request": 166.1429863603733,
+        "user_us_per_request": 92.40554199569274
+      },
+      "user-mongodb": {
+        "cpu_us_per_request": 2.327121320890165,
+        "user_us_per_request": 1.503776022972003
+      },
+      "user-memcached": {
+        "cpu_us_per_request": 37.961536252692035,
+        "user_us_per_request": 16.530423546302945
+      },
+      "compose-review-service": {
+        "cpu_us_per_request": 1031.0239336118648,
+        "user_us_per_request": 362.1010035749666
+      },
+      "compose-review-memcached": {
+        "cpu_us_per_request": 380.944968485736,
+        "user_us_per_request": 118.60685417294799
+      },
+      "review-storage-service": {
+        "cpu_us_per_request": 162.36522088699374,
+        "user_us_per_request": 116.11392514106043
+      },
+      "review-storage-mongodb": {
+        "cpu_us_per_request": 173.40291736059265,
+        "user_us_per_request": 150.8973898811233
+      },
+      "review-storage-memcached": {
+        "cpu_us_per_request": 0.0514988801470166,
+        "user_us_per_request": 0.03402630218802045
+      },
+      "user-review-service": {
+        "cpu_us_per_request": 389.90258714753344,
+        "user_us_per_request": 232.60658703267674
+      },
+      "user-review-mongodb": {
+        "cpu_us_per_request": 531.6624025498558,
+        "user_us_per_request": 481.54379693041017
+      },
+      "user-review-redis": {
+        "cpu_us_per_request": 38.4844369149486,
+        "user_us_per_request": 20.873226899442944
+      },
+      "movie-review-service": {
+        "cpu_us_per_request": 391.43690867586463,
+        "user_us_per_request": 233.5620719854134
+      },
+      "movie-review-mongodb": {
+        "cpu_us_per_request": 534.4854923693165,
+        "user_us_per_request": 484.06994673596256
+      },
+      "movie-review-redis": {
+        "cpu_us_per_request": 38.18104289898352,
+        "user_us_per_request": 20.41958594153793
+      },
+      "nginx-web-server": {
+        "cpu_us_per_request": 569.7045167403664,
+        "user_us_per_request": 443.2164187675874
+      },
+      "cast-info-service": {
+        "cpu_us_per_request": 0.0093178848832034,
+        "user_us_per_request": 0.00933224217886319
+      },
+      "cast-info-mongodb": {
+        "cpu_us_per_request": 2.341234745154343,
+        "user_us_per_request": 1.5805455850681982
+      },
+      "cast-info-memcached": {
+        "cpu_us_per_request": 0.050954773869346735,
+        "user_us_per_request": 0.043201722900215365
+      },
+      "plot-service": {
+        "cpu_us_per_request": 0.009748743718592965,
+        "user_us_per_request": 0.006015793251974156
+      },
+      "plot-mongodb": {
+        "cpu_us_per_request": 2.3184063173007896,
+        "user_us_per_request": 1.4236037329504667
+      },
+      "plot-memcached": {
+        "cpu_us_per_request": 0.04927423870439764,
+        "user_us_per_request": 0.049073236565160584
+      },
+      "movie-info-service": {
+        "cpu_us_per_request": 0.008714878465492239,
+        "user_us_per_request": 0.005556273420338545
+      },
+      "movie-info-mongodb": {
+        "cpu_us_per_request": 2.2974975233664985,
+        "user_us_per_request": 1.3462118275401644
+      },
+      "movie-info-memcached": {
+        "cpu_us_per_request": 0.052848446562912765,
+        "user_us_per_request": 0.04895767530006317
+      },
+      "jaeger": {
+        "cpu_us_per_request": 361.15909090909093,
+        "user_us_per_request": 338.22109917877447
+      }
+    }
+  },
+  "tail_it0": {
+    "primary": {
+      "movie": {
+        "cycles:u": 312790.0630079038,
+        "instructions:u": 114836.04653233886,
+        "L2I": 6263.7476344205725,
+        "FE_L2": 438.62885450295,
+        "ITLB_WALK": 569.9988867861516,
+        "SWPF_MISS": 64.54981631971502,
+        "SWPF_HIT": 280.5121896916398
+      },
+      "compose": {
+        "cycles:u": 647959.6306407942,
+        "instructions:u": 315178.7092734657,
+        "L2I": 11659.804151624548,
+        "FE_L2": 896.6009702166065,
+        "ITLB_WALK": 1124.1393276173285,
+        "SWPF_MISS": 90.19426895306859,
+        "SWPF_HIT": 790.5843862815884
+      },
+      "rating": {
+        "cycles:u": 297892.9136738791,
+        "instructions:u": 116364.87697970109,
+        "L2I": 5894.414454606291,
+        "FE_L2": 450.48260093687264,
+        "ITLB_WALK": 497.3801026098595,
+        "SWPF_MISS": 50.15737229533794,
+        "SWPF_HIT": 211.8899174659826
+      }
+    },
+    "extra": {
+      "l1": {
+        "movie": {
+          "cycles:u": 312760.81847704365,
+          "instructions:u": 114729.12765957447,
+          "FE_L1": 1533.2618141097425,
+          "ICACHE_DATA_STALL": 62990.79507278835,
+          "ICACHE_TAG_STALL": 49037.59260918253,
+          "BACLEARS": 4083.031914893617,
+          "branches:u": 23166.925979843225,
+          "branch-misses:u": 2382.9870100783874
+        },
+        "compose": {
+          "cycles:u": 648799.3036524501,
+          "instructions:u": 315473.279491833,
+          "FE_L1": 4768.663906533576,
+          "ICACHE_DATA_STALL": 131163.53493647912,
+          "ICACHE_TAG_STALL": 91799.66390653358,
+          "BACLEARS": 8044.665381125227,
+          "branches:u": 62219.768035390196,
+          "branch-misses:u": 5055.685685117967
+        },
+        "rating": {
+          "cycles:u": 298156.8743803515,
+          "instructions:u": 116254.46372239747,
+          "FE_L1": 1441.9669896349708,
+          "ICACHE_DATA_STALL": 61220.62494366832,
+          "ICACHE_TAG_STALL": 45136.89082920234,
+          "BACLEARS": 3958.258900405588,
+          "branches:u": 24082.926881478143,
+          "branch-misses:u": 2543.9870437133845
+        }
+      },
+      "late": {
+        "movie": {
+          "cycles:u": 312818.5879504504,
+          "instructions:u": 114912.48671171171,
+          "FE_LATE_SWPF": 4.629729729729729,
+          "T1_T2_ISSUED": 343.70912162162165,
+          "ITLB_WALK_ACTIVE": 30851.83490990991,
+          "branches:u": 23223.059797297297,
+          "branch-misses:u": 2382.464527027027
+        },
+        "compose": {
+          "cycles:u": 648970.3146463498,
+          "instructions:u": 315038.2945189902,
+          "FE_LATE_SWPF": 17.994996588583124,
+          "T1_T2_ISSUED": 879.168523993632,
+          "ITLB_WALK_ACTIVE": 54688.434841937684,
+          "branches:u": 62128.054014100526,
+          "branch-misses:u": 5062.825904025472
+        },
+        "rating": {
+          "cycles:u": 298407.5522573363,
+          "instructions:u": 116119.83521444695,
+          "FE_LATE_SWPF": 5.164672686230248,
+          "T1_T2_ISSUED": 261.61286681715575,
+          "ITLB_WALK_ACTIVE": 29266.573589164786,
+          "branches:u": 24054.45079006772,
+          "branch-misses:u": 2545.8944695259593
+        }
+      }
+    },
+    "all_services": {
+      "unique-id-service": {
+        "cpu_us_per_request": 118.15384727612268,
+        "user_us_per_request": 69.73457150360363
+      },
+      "movie-id-service": {
+        "cpu_us_per_request": 471.8431034985848,
+        "user_us_per_request": 175.2645822999037
+      },
+      "movie-id-mongodb": {
+        "cpu_us_per_request": 2.353656935265024,
+        "user_us_per_request": 1.3337564377525861
+      },
+      "movie-id-memcached": {
+        "cpu_us_per_request": 61.988313564144086,
+        "user_us_per_request": 28.01571322274259
+      },
+      "text-service": {
+        "cpu_us_per_request": 113.21479114690477,
+        "user_us_per_request": 64.02510905881151
+      },
+      "rating-service": {
+        "cpu_us_per_request": 405.12747114865556,
+        "user_us_per_request": 172.41739980449657
+      },
+      "rating-redis": {
+        "cpu_us_per_request": 43.625392101078184,
+        "user_us_per_request": 27.095971754132563
+      },
+      "user-service": {
+        "cpu_us_per_request": 166.87181208053693,
+        "user_us_per_request": 93.26051940472716
+      },
+      "user-mongodb": {
+        "cpu_us_per_request": 2.3482491975488764,
+        "user_us_per_request": 1.4031806244528742
+      },
+      "user-memcached": {
+        "cpu_us_per_request": 38.70497519696528,
+        "user_us_per_request": 16.748438867814414
+      },
+      "compose-review-service": {
+        "cpu_us_per_request": 1034.0351765392472,
+        "user_us_per_request": 367.9281295593814
+      },
+      "compose-review-memcached": {
+        "cpu_us_per_request": 387.72529909541873,
+        "user_us_per_request": 125.61934636708492
+      },
+      "review-storage-service": {
+        "cpu_us_per_request": 162.97521155529617,
+        "user_us_per_request": 117.71901079661511
+      },
+      "review-storage-mongodb": {
+        "cpu_us_per_request": 173.84752192118586,
+        "user_us_per_request": 152.31223647160093
+      },
+      "review-storage-memcached": {
+        "cpu_us_per_request": 0.050626632234720824,
+        "user_us_per_request": 0.04175602923797435
+      },
+      "user-review-service": {
+        "cpu_us_per_request": 391.54233900382246,
+        "user_us_per_request": 233.8555338332701
+      },
+      "user-review-mongodb": {
+        "cpu_us_per_request": 533.3920718985717,
+        "user_us_per_request": 482.48105513488275
+      },
+      "user-review-redis": {
+        "cpu_us_per_request": 38.581978932625255,
+        "user_us_per_request": 21.043170610720434
+      },
+      "movie-review-service": {
+        "cpu_us_per_request": 390.1759067433107,
+        "user_us_per_request": 231.54117183624638
+      },
+      "movie-review-mongodb": {
+        "cpu_us_per_request": 530.9328139361842,
+        "user_us_per_request": 480.49169110459434
+      },
+      "movie-review-redis": {
+        "cpu_us_per_request": 38.72277906654411,
+        "user_us_per_request": 21.089347981500126
+      },
+      "nginx-web-server": {
+        "cpu_us_per_request": 556.6236996834011,
+        "user_us_per_request": 432.1276316365387
+      },
+      "cast-info-service": {
+        "cpu_us_per_request": 0.00957091375964751,
+        "user_us_per_request": 0.00957091375964751
+      },
+      "cast-info-mongodb": {
+        "cpu_us_per_request": 2.3776772687481764,
+        "user_us_per_request": 1.482170995039393
+      },
+      "cast-info-memcached": {
+        "cpu_us_per_request": 0.051386051940472716,
+        "user_us_per_request": 0.04034140647796907
+      },
+      "plot-service": {
+        "cpu_us_per_request": 0.010533994747592647,
+        "user_us_per_request": 0.0
+      },
+      "plot-mongodb": {
+        "cpu_us_per_request": 2.370513568718996,
+        "user_us_per_request": 1.4643711701196382
+      },
+      "plot-memcached": {
+        "cpu_us_per_request": 0.05199883279836592,
+        "user_us_per_request": 0.049766559673183546
+      },
+      "movie-info-service": {
+        "cpu_us_per_request": 0.009731543624161074,
+        "user_us_per_request": 0.006346658885322439
+      },
+      "movie-info-mongodb": {
+        "cpu_us_per_request": 2.369477677268748,
+        "user_us_per_request": 1.5016924423694193
+      },
+      "movie-info-memcached": {
+        "cpu_us_per_request": 0.052407353370294715,
+        "user_us_per_request": 0.03335278669390137
+      },
+      "jaeger": {
+        "cpu_us_per_request": 363.6763058068281,
+        "user_us_per_request": 341.8974613364459
+      }
+    }
+  }
+}

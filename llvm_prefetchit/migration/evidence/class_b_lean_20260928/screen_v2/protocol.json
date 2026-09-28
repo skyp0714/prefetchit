@@ -1,0 +1,142 @@
+{
+  "out": "/storage/prefetchit/class_b_lean_20260928/screen_v2",
+  "arms": {
+    "base": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+      },
+      "clock": false
+    },
+    "outline_nop": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v2/movie/MovieIdService.nop",
+        "compose": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v2/compose/ComposeReviewService.nop",
+        "rating": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v2/rating/RatingService.nop"
+      },
+      "controls": [
+        "base"
+      ]
+    },
+    "outline_t1": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v2/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v2/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v2/rating/RatingService"
+      },
+      "controls": [
+        "base",
+        "outline_nop"
+      ]
+    },
+    "outline_it0": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v2_it0/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v2_it0/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v2_it0/rating/RatingService"
+      },
+      "controls": [
+        "base",
+        "outline_nop",
+        "outline_t1"
+      ]
+    },
+    "dedup_it0": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v2_dedup/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v2_dedup/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v2_dedup/rating/RatingService"
+      },
+      "controls": [
+        "base",
+        "outline_nop",
+        "outline_it0"
+      ]
+    },
+    "tail_nop": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v2/movie/MovieIdService.nop",
+        "compose": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v2/compose/ComposeReviewService.nop",
+        "rating": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v2/rating/RatingService.nop"
+      },
+      "controls": [
+        "base"
+      ],
+      "clock_options": {
+        "dense_us": 20,
+        "medium_us": 30,
+        "sparse_us": 40,
+        "dense_begin_us": 10,
+        "medium_begin_us": 8,
+        "sparse_begin_us": 5
+      }
+    },
+    "tail_it0": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v2_it0/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v2_it0/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v2_it0/rating/RatingService"
+      },
+      "controls": [
+        "base",
+        "tail_nop",
+        "outline_it0"
+      ],
+      "clock_options": {
+        "dense_us": 20,
+        "medium_us": 30,
+        "sparse_us": 40,
+        "dense_begin_us": 10,
+        "medium_begin_us": 8,
+        "sparse_begin_us": 5
+      }
+    }
+  },
+  "blocks": 2,
+  "concurrency": 4,
+  "roi_s": 60,
+  "seedbase": 48001,
+  "module": "/storage/prefetchit/class_b_lean_20260928/kernel_v1/prefetchit_sched_clock.ko",
+  "clock_options": {
+    "dense_us": 20,
+    "medium_us": 22,
+    "sparse_us": 24,
+    "dense_begin_us": 10,
+    "medium_begin_us": 8,
+    "sparse_begin_us": 5
+  },
+  "pmu_event_sets": {
+    "l1": "cycles:u,instructions:u,cpu/event=0xc6,umask=0x3,name=FE_L1,config1=0x12/u,cpu/event=0x80,umask=0x4,name=ICACHE_DATA_STALL/u,cpu/event=0x83,umask=0x4,name=ICACHE_TAG_STALL/u,cpu/event=0x60,umask=0x1,name=BACLEARS/u,branches:u,branch-misses:u",
+    "late": "cycles:u,instructions:u,cpu/event=0xc6,umask=0x3,name=FE_LATE_SWPF,config1=0xa/u,cpu/event=0x40,umask=0x4,name=T1_T2_ISSUED/u,cpu/event=0x11,umask=0x10,name=ITLB_WALK_ACTIVE,cmask=1/u,branches:u,branch-misses:u"
+  },
+  "eligibility": "Screen only: whole-stack CPU and mean must improve versus original and exact-window NOP; p99 point regression <=2%. Then NEW-seed independent confirmation.",
+  "interpretation": "SWPF_MISS/HIT and T1_T2_ISSUED exclude IT0; FE_LATE_SWPF counts demand misses with an instruction prefetch still in flight, not all issued IT0 hints.",
+  "normalization": "Each 8s perf count is divided by successful completions in its bracketing CPU-accounting window (~8.14s including tool startup/teardown). Same method for every arm; do not interpret tiny PMU differences as exact avoided events.",
+  "dedup_note": "Identical code size; contiguous same-line direct hints become NOPs. This diagnostic tests duplicate issuance cost before removing compiler injections.",
+  "driver_sha256": "8d8ebeaa972257ba6cad3cf10c89c7edba4c57a5496a6e374ef8338bc486f686",
+  "controls": "Original baseline without hook; exact-layout NOP retains all gates and register pressure",
+  "pmu": "After clean ROI only; no concurrent builds or decoding",
+  "timing": "50s warmup then fixed clean ROI; no performance-based retries",
+  "orders": [
+    [
+      "base",
+      "outline_nop",
+      "outline_t1",
+      "outline_it0",
+      "dedup_it0",
+      "tail_nop",
+      "tail_it0"
+    ],
+    [
+      "tail_it0",
+      "tail_nop",
+      "dedup_it0",
+      "outline_it0",
+      "outline_t1",
+      "outline_nop",
+      "base"
+    ]
+  ],
+  "decision": "Exploratory screens; net benefit requires independent repeated confirmation"
+}

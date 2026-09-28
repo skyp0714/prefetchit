@@ -1,0 +1,8 @@
+{
+  "reason": "Machine code generation can duplicate an inline-asm group (e.g. tail duplication). Logical key is not a unique assembler label or linked physical instance.",
+  "plugin_sha256": "3cc59e32ee167d14a95ded22554d4937ef74033a250da1ed4ee259a1e4807609",
+  "sources": "/storage/prefetchit/class_b_lean_20260928/sources_v3.json",
+  "build_log": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v3_full/yaml-cpp-yaml-cpp-0.6.2_build.log",
+  "cleanup": "dense_build removed generated dependency trees and failed container; no service ELF was produced",
+  "next": "Use LLVM inline-asm uid for physical labels and records; intersect drop decisions across all physical copies."
+}

@@ -1,0 +1,17 @@
+{
+  "references": {
+    "preserve_all": "https://clang.llvm.org/docs/AttributeReference.html#preserve-all",
+    "prefetchi": "https://cdrdv2-public.intel.com/774990/architecture-instruction-set-extensions-programming-reference.pdf",
+    "GNR_events": "https://perfmon-events.intel.com/platforms/graniterapids/core-events/core/"
+  },
+  "constraints": [
+    "PREFETCHIT0/1 require RIP-relative 64-bit addressing; retain T1 for register targets",
+    "IT0 code targets must be real instruction boundaries",
+    "Clock samples describe schedule-selection age; PEBS miss sample timestamps are retirement, not fetch times",
+    "Different FE selectors share MSR_PEBS_FRONTEND and need separate captures"
+  ],
+  "inline_asm_uid": {
+    "url": "https://www.llvm.org/docs/LangRef.html#inline-assembler-expressions",
+    "claim": "Inline asm uid distinguishes optimizer-cloned physical instances; labels based only on logical insertion keys can collide."
+  }
+}

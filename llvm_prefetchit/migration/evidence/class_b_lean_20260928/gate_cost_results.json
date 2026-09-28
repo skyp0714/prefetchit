@@ -1,0 +1,186 @@
+{
+  "runtime_sha256": "ab00c5bde87f2ba711b8a08b4cb6742ffc3de9b460a95b694c6df8f7a2d38291",
+  "source_sha256": "3a42afd1b1d493d9cddfd9a146e64896f982150d7a465ae66be32cd1781e7fd2",
+  "results": {
+    "rdtscp": {
+      "sha256": "5c917b3b023883fb2b3b4a9bf570ffbdfd22b7daba3f9324cc3decdbe8a04397",
+      "flags": [],
+      "cases": {
+        "null": {
+          "command": [
+            "taskset",
+            "-c",
+            "84",
+            "/storage/prefetchit/class_b_lean_20260928/gate_cost_rdtscp",
+            "null"
+          ],
+          "output": "0 null 0 0.789680\n1 null 0 0.789940\n2 null 0 0.789620\n3 null 0 0.789560\n4 null 0 0.789540\n5 null 0 0.789520\n6 null 0 0.789560\n7 null 0 0.789520\n8 null 0 0.789560\n9 null 0 0.789500\n10 null 0 0.789580\n",
+          "median_tsc_ticks_per_call": 0.78956,
+          "min_tsc_ticks_per_call": 0.7895,
+          "max_tsc_ticks_per_call": 0.78994
+        },
+        "early": {
+          "command": [
+            "taskset",
+            "-c",
+            "84",
+            "/storage/prefetchit/class_b_lean_20260928/gate_cost_rdtscp",
+            "early"
+          ],
+          "output": "0 early 0 23.196560\n1 early 0 23.632920\n2 early 0 23.631200\n3 early 0 23.241420\n4 early 0 23.405540\n5 early 0 23.193840\n6 early 0 23.177780\n7 early 0 23.179660\n8 early 0 23.449960\n9 early 0 23.184140\n10 early 0 23.180480\n",
+          "median_tsc_ticks_per_call": 23.19656,
+          "min_tsc_ticks_per_call": 23.17778,
+          "max_tsc_ticks_per_call": 23.63292
+        },
+        "eligible": {
+          "command": [
+            "taskset",
+            "-c",
+            "84",
+            "/storage/prefetchit/class_b_lean_20260928/gate_cost_rdtscp",
+            "eligible"
+          ],
+          "output": "0 eligible 100000 23.324220\n1 eligible 100000 23.177780\n2 eligible 100000 23.179860\n3 eligible 100000 23.178160\n4 eligible 100000 23.242240\n5 eligible 100000 23.177420\n6 eligible 100000 23.176640\n7 eligible 100000 23.187580\n8 eligible 100000 23.181080\n9 eligible 100000 23.176180\n10 eligible 100000 23.741660\n",
+          "median_tsc_ticks_per_call": 23.17986,
+          "min_tsc_ticks_per_call": 23.17618,
+          "max_tsc_ticks_per_call": 23.74166
+        },
+        "expired": {
+          "command": [
+            "taskset",
+            "-c",
+            "84",
+            "/storage/prefetchit/class_b_lean_20260928/gate_cost_rdtscp",
+            "expired"
+          ],
+          "output": "0 expired 0 23.354260\n1 expired 0 23.180640\n2 expired 0 23.180020\n3 expired 0 23.219680\n4 expired 0 23.178440\n5 expired 0 23.191760\n6 expired 0 23.777600\n7 expired 0 23.274240\n8 expired 0 23.177340\n9 expired 0 23.222180\n10 expired 0 23.180940\n",
+          "median_tsc_ticks_per_call": 23.19176,
+          "min_tsc_ticks_per_call": 23.17734,
+          "max_tsc_ticks_per_call": 23.7776
+        }
+      }
+    },
+    "fast": {
+      "sha256": "a3cb2081fec87b9f14287f111f4577f1d2654efe1d3542de30c9480f145a6a2c",
+      "flags": [
+        "-DPREFETCHIT_RELAXED_CLOCK=1"
+      ],
+      "cases": {
+        "null": {
+          "command": [
+            "taskset",
+            "-c",
+            "84",
+            "/storage/prefetchit/class_b_lean_20260928/gate_cost_fast",
+            "null"
+          ],
+          "output": "0 null 0 3.335000\n1 null 0 3.336320\n2 null 0 3.334640\n3 null 0 3.436840\n4 null 0 3.334800\n5 null 0 3.334840\n6 null 0 3.334660\n7 null 0 3.334480\n8 null 0 3.334260\n9 null 0 3.406380\n10 null 0 3.334220\n",
+          "median_tsc_ticks_per_call": 3.3348,
+          "min_tsc_ticks_per_call": 3.33422,
+          "max_tsc_ticks_per_call": 3.43684
+        },
+        "early": {
+          "command": [
+            "taskset",
+            "-c",
+            "84",
+            "/storage/prefetchit/class_b_lean_20260928/gate_cost_fast",
+            "early"
+          ],
+          "output": "0 early 0 42.089920\n1 early 0 42.151800\n2 early 0 39.884240\n3 early 0 16.331000\n4 early 0 16.872020\n5 early 0 16.335100\n6 early 0 16.332800\n7 early 0 15.699860\n8 early 0 15.473280\n9 early 0 15.482480\n10 early 0 15.476940\n",
+          "median_tsc_ticks_per_call": 16.3328,
+          "min_tsc_ticks_per_call": 15.47328,
+          "max_tsc_ticks_per_call": 42.1518
+        },
+        "eligible": {
+          "command": [
+            "taskset",
+            "-c",
+            "84",
+            "/storage/prefetchit/class_b_lean_20260928/gate_cost_fast",
+            "eligible"
+          ],
+          "output": "0 eligible 100000 15.605820\n1 eligible 100000 15.546300\n2 eligible 100000 15.501260\n3 eligible 100000 15.480380\n4 eligible 100000 15.473200\n5 eligible 100000 15.474420\n6 eligible 100000 15.451940\n7 eligible 100000 15.485900\n8 eligible 100000 15.514840\n9 eligible 100000 15.475520\n10 eligible 100000 16.309000\n",
+          "median_tsc_ticks_per_call": 15.4859,
+          "min_tsc_ticks_per_call": 15.45194,
+          "max_tsc_ticks_per_call": 16.309
+        },
+        "expired": {
+          "command": [
+            "taskset",
+            "-c",
+            "84",
+            "/storage/prefetchit/class_b_lean_20260928/gate_cost_fast",
+            "expired"
+          ],
+          "output": "0 expired 0 16.362800\n1 expired 0 15.479640\n2 expired 0 15.474740\n3 expired 0 15.451920\n4 expired 0 15.476760\n5 expired 0 15.479420\n6 expired 0 15.477940\n7 expired 0 15.451860\n8 expired 0 15.474560\n9 expired 0 15.484620\n10 expired 0 15.806160\n",
+          "median_tsc_ticks_per_call": 15.47794,
+          "min_tsc_ticks_per_call": 15.45186,
+          "max_tsc_ticks_per_call": 16.3628
+        }
+      }
+    },
+    "memo": {
+      "sha256": "ed2f3772ec53d6bf7ca60df1e8489e9713c6a29b14c2bd33672f0bbf927b7fba",
+      "flags": [
+        "-DPREFETCHIT_RELAXED_CLOCK=1",
+        "-DPREFETCHIT_MEMO_GATE=1"
+      ],
+      "cases": {
+        "null": {
+          "command": [
+            "taskset",
+            "-c",
+            "84",
+            "/storage/prefetchit/class_b_lean_20260928/gate_cost_memo",
+            "null"
+          ],
+          "output": "0 null 0 12.502320\n1 null 0 15.472220\n2 null 0 11.942600\n3 null 0 4.999300\n4 null 0 4.999180\n5 null 0 4.999380\n6 null 0 5.057040\n7 null 0 4.999480\n8 null 0 4.999160\n9 null 0 4.999160\n10 null 0 5.085280\n",
+          "median_tsc_ticks_per_call": 4.99948,
+          "min_tsc_ticks_per_call": 4.99916,
+          "max_tsc_ticks_per_call": 15.47222
+        },
+        "early": {
+          "command": [
+            "taskset",
+            "-c",
+            "84",
+            "/storage/prefetchit/class_b_lean_20260928/gate_cost_memo",
+            "early"
+          ],
+          "output": "0 early 0 30.933100\n1 early 0 32.030480\n2 early 0 32.075600\n3 early 0 19.264060\n4 early 0 17.240720\n5 early 0 17.225220\n6 early 0 16.331460\n7 early 0 16.309560\n8 early 0 18.168740\n9 early 0 16.685060\n10 early 0 16.040060\n",
+          "median_tsc_ticks_per_call": 17.24072,
+          "min_tsc_ticks_per_call": 16.04006,
+          "max_tsc_ticks_per_call": 32.0756
+        },
+        "eligible": {
+          "command": [
+            "taskset",
+            "-c",
+            "84",
+            "/storage/prefetchit/class_b_lean_20260928/gate_cost_memo",
+            "eligible"
+          ],
+          "output": "0 eligible 0 9.372980\n1 eligible 0 8.295480\n2 eligible 0 7.365700\n3 eligible 0 8.453880\n4 eligible 0 9.038380\n5 eligible 0 8.067500\n6 eligible 0 8.944100\n7 eligible 0 8.807720\n8 eligible 0 8.943900\n9 eligible 0 8.943900\n10 eligible 0 8.692760\n",
+          "median_tsc_ticks_per_call": 8.80772,
+          "min_tsc_ticks_per_call": 7.3657,
+          "max_tsc_ticks_per_call": 9.37298
+        },
+        "expired": {
+          "command": [
+            "taskset",
+            "-c",
+            "84",
+            "/storage/prefetchit/class_b_lean_20260928/gate_cost_memo",
+            "expired"
+          ],
+          "output": "0 expired 0 9.017560\n1 expired 0 8.943900\n2 expired 0 9.038820\n3 expired 0 8.975320\n4 expired 0 8.943960\n5 expired 0 8.907960\n6 expired 0 8.944020\n7 expired 0 7.506740\n8 expired 0 7.365820\n9 expired 0 7.365780\n10 expired 0 7.394060\n",
+          "median_tsc_ticks_per_call": 8.9439,
+          "min_tsc_ticks_per_call": 7.36578,
+          "max_tsc_ticks_per_call": 9.03882
+        }
+      }
+    }
+  },
+  "limitation": "Synthetic hot one-callsite loop on one CPU with a fixed schedule epoch. Measures gate cost in TSC ticks, not core cycles or whole-service benefit. Memo represents a favorable reuse case; real epoch/cache collisions may differ."
+}

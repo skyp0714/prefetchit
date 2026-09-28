@@ -1,0 +1,39 @@
+{
+  "reason": "Neither peak nor flat reduces whole-stack CPU/request versus original and matched NOP. Small latency differences are exploratory and inconsistent across blocks.",
+  "files": [
+    {
+      "path": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v1/movie/MovieIdService",
+      "bytes": 21734696,
+      "sha256": "45100d9a40ca0e3e8dfe2bfd9e690f4e581ae51e1fd2aa346c93c8985443ac96"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v1/movie/MovieIdService.nop",
+      "bytes": 21734696,
+      "sha256": "27c91d7aea10c4b03de337d14ad259671e5b61dcdf0c3668d2b4e3a8761ee7e9"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v1/compose/ComposeReviewService",
+      "bytes": 20311608,
+      "sha256": "dafd06f343e75e01acbc61d4ba4ba53906c6e0c21d4835e83b118417de807125"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v1/compose/ComposeReviewService.nop",
+      "bytes": 20311608,
+      "sha256": "c9b8fc7c239786d5774633c6f224a779668d6ed87bce6b9919ca44b1f917abb9"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v1/rating/RatingService",
+      "bytes": 19615720,
+      "sha256": "3a5ab1552eff6cdf7bda519a62ece6597a9d4b4b57365f907a76842fceefb3a7"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_lean_20260928/builds/lean_v1/rating/RatingService.nop",
+      "bytes": 19615720,
+      "sha256": "4bd2c34d09e9123f8746528513fff001767ba3f99e51f004edbc294aa0a93238"
+    }
+  ],
+  "bytes_removed": 123324048,
+  "free_before": 916793364480,
+  "status": "complete",
+  "free_after": 916916690944
+}
