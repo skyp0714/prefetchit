@@ -75,6 +75,12 @@ def trial(spec):
         accounts_before=stack.accounts();pool_before=h.old.pool_cpu(cpus);schedule_before=snapshot(cpus)
         time.sleep(roi)
         schedule_after=snapshot(cpus);pool_after=h.old.pool_cpu(cpus);accounts_after=stack.accounts()
+        # Outside clean ROI: retain worker concentration as a diagnostic of
+        # fresh-stack variation, without changing Nginx or client behavior.
+        from lean_workers import processes
+        nginx_pid=stack.states['nginx-web-server']['State']['Pid']
+        nginx_group=Path(h.c.cpu(nginx_pid)['path']).parent
+        h.c.save(out/'nginx_processes_postroi.json',processes(nginx_group))
         pmu_all={}
         for label,events in event_sets.items():
             pmu_all[label]={}

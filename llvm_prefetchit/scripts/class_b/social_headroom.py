@@ -13,6 +13,7 @@ import math
 import os
 from pathlib import Path
 import signal
+import shutil
 import subprocess
 import sys
 import time
@@ -66,8 +67,14 @@ def compact(out):
         if p.is_file() and not p.is_symlink() and p.name in {
             'requests.json.gz', 'up.log', 'backends_up.log', 'jaeger_up.log', 'down.log'}:
             removed.append(dict(path=str(p), bytes=p.stat().st_size, sha256=c.sha(p)))
-            p.unlink()
-    c.save(out/'compact_cleanup.json', dict(removed=removed, bytes_removed=sum(x['bytes'] for x in removed)))
+    record=dict(removed=removed,bytes_removed=0,status='prepared',
+                free_before=shutil.disk_usage(out).free,root_free_before=shutil.disk_usage('/').free)
+    c.save(out/'compact_cleanup.json',record)
+    for row in removed:
+        Path(row['path']).unlink();record['bytes_removed']+=row['bytes']
+    record.update(status='complete',free_after=shutil.disk_usage(out).free,
+                  root_free_after=shutil.disk_usage('/').free)
+    c.save(out/'compact_cleanup.json',record)
 
 
 def start_stack(out, binary, pool, alone):

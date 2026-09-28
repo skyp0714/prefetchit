@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 import re
+import shutil
 import subprocess
 import time
 
@@ -65,9 +66,13 @@ def decode_capture(out, sample_callback=None, before_cleanup=None):
     removed = []
     for p in (out/'perf.data', out/'events.txt'):
         removed.append(dict(path=str(p), bytes=p.stat().st_size, sha256=h.c.sha(p)))
-    h.c.save(out/'cleanup.json', dict(removed=removed, bytes_removed=sum(p['bytes'] for p in removed)))
+    cleanup=dict(removed=removed,bytes_removed=sum(p['bytes'] for p in removed),
+                 status='prepared',free_before=shutil.disk_usage(out).free)
+    h.c.save(out/'cleanup.json',cleanup)
     for p in (out/'perf.data', out/'events.txt'):
         p.unlink()
+    cleanup.update(status='complete',free_after=shutil.disk_usage(out).free)
+    h.c.save(out/'cleanup.json',cleanup)
     print(json.dumps(dict(out=str(out), quality=result['quality'], median_run_us=result['median_run_us'])), flush=True)
 
 
