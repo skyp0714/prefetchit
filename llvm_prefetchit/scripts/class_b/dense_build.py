@@ -51,6 +51,9 @@ POLICIES['lean_meta_callees_static'] = dict(POLICIES['lean_meta_callees'], PREFE
 POLICIES['lean_meta_callees_static_diag'] = dict(POLICIES['lean_meta_callees_static'], PREFETCHIT_GATE_STATS='1')
 POLICIES['lean_meta_callees_static_ungated'] = dict(POLICIES['lean_meta_callees_static'],
     PREFETCHIT_DOM_SCHED_GATE='0', PREFETCHIT_DOM_OUTLINE='0', PREFETCHIT_DOM_WINDOW='0')
+POLICIES['coverage_callees'] = dict(POLICIES['lean_meta_callees_static_ungated'],
+    PREFETCHIT_DOM_MIN_FUNCTION='0', PREFETCHIT_DOM_SKIP_SHORT='0',
+    PREFETCHIT_DOM_MAX_SITES='4', PREFETCHIT_DOM_BATCH='8')
 SERVICES = {'movie': 'MovieIdService', 'compose': 'ComposeReviewService', 'rating': 'RatingService'}
 
 
