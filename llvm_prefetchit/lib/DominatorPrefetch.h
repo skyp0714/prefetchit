@@ -132,17 +132,40 @@ static bool runDominatorPrefetch(Module &M, const SeqConfig &C) {
   const unsigned MinFunction = domOption("PREFETCHIT_DOM_MIN_FUNCTION", Lean ? 64 : 0);
   const bool SkipShort = domOption("PREFETCHIT_DOM_SKIP_SHORT", Lean);
   const bool Metadata = domOption("PREFETCHIT_DOM_METADATA", 0);
+  const bool CalleeOnly = domOption("PREFETCHIT_DOM_CALLEE_ONLY", 0);
+  const bool ProfileIndirect = domOption("PREFETCHIT_DOM_PROFILE_INDIRECT", 0);
+  const char *CalleeProfile = std::getenv("PREFETCHIT_DOM_CALLEE_PROFILE");
+  std::set<std::string> ProfileCallees;
+  uint64_t CalleeProfileHash = 0;
+  if (CalleeProfile) {
+    auto Buffer = MemoryBuffer::getFile(CalleeProfile);
+    if (!Buffer) report_fatal_error("cannot read dominator callee profile");
+    CalleeProfileHash = domHash((*Buffer)->getBuffer());
+    SmallVector<StringRef, 64> Lines;
+    (*Buffer)->getBuffer().split(Lines, '\n');
+    for (StringRef Line : Lines) {
+      Line = Line.trim();
+      if (!Line.empty() && !Line.starts_with("#")) ProfileCallees.insert(Line.str());
+    }
+    if (ProfileCallees.empty()) report_fatal_error("empty dominator callee profile");
+  }
   const uint64_t ModuleID = domHash(M.getSourceFileName());
   std::string Placement;
   for (unsigned N : {MinLead, MaxLead, Batch, CallerTargets, unsigned(Gate), unsigned(Lean),
                      unsigned(Window), unsigned(Outline), MaxSites, MinFunction, unsigned(SkipShort)})
     Placement += (Placement.empty() ? "" : ",") + std::to_string(N);
+  if (CalleeOnly || CalleeProfile)
+    Placement += ",callee=" + std::to_string(CalleeOnly) + ",profile=" +
+                 utohexstr(CalleeProfileHash) + ",indirect=" + std::to_string(ProfileIndirect);
+  if (C.ColdDirectInPIC) Placement += ",direct_pic=1";
   const auto Drops = domDrops(Placement);
   if (Metadata && !Lean) report_fatal_error("dominator metadata requires lean placement");
   if (!Batch || Batch > 16 || MinLead > MaxLead)
     report_fatal_error("invalid dominator placement limits");
   if (Outline && (!Gate || !Window))
     report_fatal_error("outlined dominator gate requires window gating");
+  if (CalleeOnly && (!Lean || CallerTargets))
+    report_fatal_error("callee-only mode requires lean placement and zero caller BB targets");
   LLVMContext &Ctx = M.getContext();
   const bool DiscardNames = Ctx.shouldDiscardValueNames();
   Ctx.setDiscardValueNames(false);
@@ -210,7 +233,7 @@ static bool runDominatorPrefetch(Module &M, const SeqConfig &C) {
   }
   uint64_t Hints = 0, Groups = 0, Short = 0, Lifted = 0, SkippedEH = 0;
   uint64_t BudgetSkipped = 0, Duplicates = 0;
-  uint64_t ProfileRemoved = 0;
+  uint64_t ProfileRemoved = 0, CalleeSkipped = 0;
   DenseMap<BasicBlock *, Instruction *> OriginalHeads;
   std::vector<std::pair<CallInst *, std::vector<BasicBlock *>>> AnchoredCalls;
   if (Outline) for (Function *F : Functions) for (BasicBlock &B : *F)
@@ -250,6 +273,7 @@ static bool runDominatorPrefetch(Module &M, const SeqConfig &C) {
     };
     for (BasicBlock &B : *F) {
       for (BasicBlock *S : successors(&B)) {
+        if (CalleeOnly) continue;
         if (S->isEHPad() || S == &F->getEntryBlock()) { ++SkippedEH; continue; }
         // A one-successor fallthrough rarely needs a separate code-line hint.
         if (Lean && B.getTerminator()->getNumSuccessors() == 1) continue;
@@ -261,6 +285,14 @@ static bool runDominatorPrefetch(Module &M, const SeqConfig &C) {
         Value *Address = CB->getCalledOperand()->stripPointerCasts();
         if (auto *G = dyn_cast<Function>(Address)) {
           if (G->isIntrinsic()) continue;
+          if (CalleeProfile && !ProfileCallees.count(G->getName().str())) {
+            ++CalleeSkipped; continue;
+          }
+          // This explicit opt-in is only valid for profile targets verified
+          // to bind to the final main image. PIC otherwise rejects Function
+          // operands with an immediate constraint. Exact NOP controls retain
+          // this binding too, including any changes to ordinary call codegen.
+          if (CalleeOnly && CalleeProfile && C.ColdDirectInPIC) G->setDSOLocal(true);
           ++Calls;
           // An explicit LLVM operand preserves strong archive extraction and
           // lets the backend handle external/interposable symbols via a reg.
@@ -269,7 +301,10 @@ static bool runDominatorPrefetch(Module &M, const SeqConfig &C) {
           for (BasicBlock *S : EntryTargets[G]) {
             add(CB, BlockAddress::get(G, S), true); ++Lifted;
           }
-        } else { ++Indirect; add(CB, Address, false); }
+        } else {
+          if (CalleeProfile && !ProfileIndirect) { ++CalleeSkipped; continue; }
+          ++Indirect; add(CB, Address, false);
+        }
       }
     }
     // Emit in program order, never pointer-map order (ASLR-dependent builds).
@@ -411,6 +446,8 @@ static bool runDominatorPrefetch(Module &M, const SeqConfig &C) {
                    << " duplicate_targets=" << Duplicates << " window=" << Window << "\n";
   if (Metadata || !Drops.empty()) errs() << "prefetchit-dominator-profile: placement=" << Placement
       << " module=" << utohexstr(ModuleID) << " removed=" << ProfileRemoved << " metadata=" << Metadata << "\n";
+  if (CalleeOnly || CalleeProfile) errs() << "prefetchit-dominator-callees: only=" << CalleeOnly
+      << " profiled=" << ProfileCallees.size() << " skipped=" << CalleeSkipped << "\n";
   Ctx.setDiscardValueNames(DiscardNames);
   return true; // Globals, labels or metadata can change even when hints are zero.
 }
