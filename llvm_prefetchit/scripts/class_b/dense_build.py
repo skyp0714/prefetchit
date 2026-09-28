@@ -35,6 +35,10 @@ POLICIES['lean_peak'] = dict(POLICIES['dom_decay'], PREFETCHIT_DOM_LEAN='1',
     PREFETCHIT_DOM_WINDOW='1', PREFETCHIT_DOM_BATCH='8', PREFETCHIT_DOM_CALLER_TARGETS='0',
     PREFETCHIT_DOM_MAX_SITES='2', PREFETCHIT_DOM_MIN_FUNCTION='64')
 POLICIES['lean_outline'] = dict(POLICIES['lean_peak'], PREFETCHIT_DOM_OUTLINE='1')
+POLICIES['lean_fast'] = dict(POLICIES['lean_outline'], PREFETCHIT_RELAXED_CLOCK='1')
+POLICIES['lean_memo'] = dict(POLICIES['lean_fast'], PREFETCHIT_MEMO_GATE='1')
+POLICIES['lean_meta'] = dict(POLICIES['lean_fast'], PREFETCHIT_DOM_METADATA='1')
+POLICIES['lean_meta_memo'] = dict(POLICIES['lean_memo'], PREFETCHIT_DOM_METADATA='1')
 SERVICES = {'movie': 'MovieIdService', 'compose': 'ComposeReviewService', 'rating': 'RatingService'}
 
 
@@ -123,10 +127,16 @@ def prepare(root):
         selection='Three frozen dense policies, no trace ranking or existing-NOP site restriction'))
 
 
-def worker(arm, tag=None):
+def worker(arm, tag=None, drop_plan=None):
     tag=tag or arm;assert re.fullmatch('[a-z0-9_]+',tag)
     root = Path('/dense'); out = root/'builds'/tag; out.mkdir(parents=True,exist_ok=False)
     env = {k:v for k,v in os.environ.items() if not k.startswith('PREFETCHIT_')}; env.update(POLICIES[arm])
+    if drop_plan:
+        assert POLICIES[arm].get('PREFETCHIT_DOM_METADATA') == '1'
+        plan = json.loads(Path(drop_plan).read_text())
+        assert plan['schema'] == 'prefetchit.dom_drop.v1'
+        env['PREFETCHIT_DOM_DROP_PLAN'] = str(drop_plan)
+        save(out/'drop_plan.json', dict(path=str(drop_plan), sha256=sha(drop_plan), plan=plan))
     flags = '-fpass-plugin=/pass/PrefetchITPass.so' if POLICIES[arm] else ''
     definitions = {
         PACKAGES[0][0]: ['-DENABLE_TESTS=OFF','-DENABLE_EXAMPLES=OFF','-DENABLE_SHM_COUNTERS=OFF',
@@ -162,11 +172,13 @@ def worker(arm, tag=None):
         if POLICIES[arm].get('PREFETCHIT_DOMINATOR') and POLICIES[arm].get('PREFETCHIT_DOM_SCHED_GATE','1') != '0':
             runtime = out/'sched_runtime.o'
             if not runtime.exists():
-                run(['clang-19','-O2','-fPIC','-c',
+                runtime_defines=['-D'+name+'='+env[name] for name in
+                                 ('PREFETCHIT_RELAXED_CLOCK','PREFETCHIT_MEMO_GATE') if name in env]
+                run(['clang-19','-O2','-fPIC',*runtime_defines,'-c',
                      '/repo/llvm_prefetchit/kernel/sched_clock/runtime.c','-o',runtime],
                     out/'runtime_build.log',env=env)
                 save(out/'runtime.json',dict(source_sha256=sha('/repo/llvm_prefetchit/kernel/sched_clock/runtime.c'),
-                                           object_sha256=sha(runtime)))
+                                           object_sha256=sha(runtime),defines=runtime_defines))
             service_env['PREFETCHIT_RUNTIME_OBJECT'] = str(runtime)
         command=['bash',root/'build_service.sh',dest,'-O3','-g','-Wno-enum-constexpr-conversion','-Wno-error']
         if flags:command.append(flags)
@@ -181,7 +193,7 @@ def worker(arm, tag=None):
     save(out/'complete.json',dict(arm=arm,tag=tag,settings=POLICIES[arm],installed_hashes={str(p):sha(p) for p in Path('/usr/local/lib').glob('*.a')}))
 
 
-def build(root, arm, tag=None, plugin_dir=None):
+def build(root, arm, tag=None, plugin_dir=None, drop_plan=None):
     space(root)
     tag=tag or arm;assert re.fullmatch('[a-z0-9_]+',tag)
     name='codex-dense-build-20260927-'+tag
@@ -189,8 +201,13 @@ def build(root, arm, tag=None, plugin_dir=None):
     image_id=subprocess.check_output(['docker','image','inspect','--format','{{.Id}}','dsb-deps-jammy'],text=True).strip()
     save(root/(tag+'_image.json'),dict(tag='dsb-deps-jammy',id=image_id))
     plugin_dir = plugin_dir or REPO/'llvm_prefetchit/build'
+    if drop_plan:
+        drop_plan = Path(drop_plan).resolve()
+        drop_plan.relative_to(root.resolve())
+        assert drop_plan.is_file() and not drop_plan.is_symlink()
     save(root/(tag+'_implementation.json'),dict(settings=POLICIES[arm],
         plugin_sha256=sha(plugin_dir/'PrefetchITPass.so'),driver_sha256=sha(__file__),
+        drop_plan_sha256=sha(drop_plan) if drop_plan else None,
         source_hashes={str(p.relative_to(REPO)):sha(p) for p in
                       (REPO/'llvm_prefetchit/lib').glob('*') if p.is_file()}))
     command=['docker','run','--rm','--name',name,'--label','prefetchit.dense=20260927',
@@ -200,6 +217,8 @@ def build(root, arm, tag=None, plugin_dir=None):
         '-v',str(REPO)+':/repo:ro','-v',str(plugin_dir)+':/pass:ro',
         '--entrypoint','python3',image_id,
         '/repo/llvm_prefetchit/scripts/class_b/dense_build.py','worker','/dense','--arm',arm,'--tag',tag]
+    if drop_plan:
+        command += ['--drop-plan', str(Path('/dense')/drop_plan.relative_to(root.resolve()))]
     try:
         run(command,root/(tag+'_build.log'),timeout=7200)
     except BaseException as error:
@@ -223,12 +242,13 @@ def build(root, arm, tag=None, plugin_dir=None):
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('action',choices=['prepare','worker','build']);p.add_argument('root',type=Path)
-    p.add_argument('--arm',choices=list(POLICIES));p.add_argument('--tag');p.add_argument('--plugin-dir',type=Path);a=p.parse_args()
+    p.add_argument('--arm',choices=list(POLICIES));p.add_argument('--tag');p.add_argument('--plugin-dir',type=Path)
+    p.add_argument('--drop-plan',type=Path);a=p.parse_args()
     def interrupted(signum,frame):raise KeyboardInterrupt(signum)
     if a.action!='worker':signal.signal(signal.SIGTERM,interrupted)
     if a.action=='prepare':prepare(a.root)
-    elif a.action=='worker':worker(a.arm,a.tag)
-    else:build(a.root,a.arm,a.tag,a.plugin_dir)
+    elif a.action=='worker':worker(a.arm,a.tag,a.drop_plan)
+    else:build(a.root,a.arm,a.tag,a.plugin_dir,a.drop_plan)
 
 
 if __name__=='__main__':main()

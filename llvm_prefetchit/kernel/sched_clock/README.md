@@ -14,6 +14,14 @@ compiler's environment. The mode is off by default. Configuration:
 | `PREFETCHIT_DOM_BATCH` | 4 | Maximum targets per guarded group |
 | `PREFETCHIT_DOM_CALLER_TARGETS` | 4 | Early successor BBs lifted from a visible callee |
 | `PREFETCHIT_DOM_SCHED_GATE` | 1 | Set 0 for compile-time ungated emission |
+| `PREFETCHIT_DOM_LEAN` | 0 | Budget sites, omit call-continuation splitting and one-successor branches |
+| `PREFETCHIT_DOM_MAX_SITES` | 2 in lean mode | Maximum groups per function (0 means unlimited) |
+| `PREFETCHIT_DOM_MIN_FUNCTION` | 64 in lean mode | Minimum original IR instruction count |
+| `PREFETCHIT_DOM_SKIP_SHORT` | 1 in lean mode | Omit targets whose minimum lead cannot be reached |
+| `PREFETCHIT_DOM_WINDOW` | 0 | Check separate lower and upper bounds for each tier |
+| `PREFETCHIT_DOM_OUTLINE` | 0 | Call shared `preserve_all` helpers instead of inlining the clock |
+| `PREFETCHIT_DOM_METADATA` | 0 | Emit non-allocated linked hint/target records (lean mode only) |
+| `PREFETCHIT_DOM_DROP_PLAN` | unset | Exact-placement JSON plan for removing redundant direct hints |
 
 The shared `PREFETCHIT_SEQ_FUNCTIONS` include/exclude selection applies to site
 functions. External call targets are included even without their body. Calls
@@ -38,12 +46,48 @@ CPU. `tsc_khz`, not the variable core frequency, converts microseconds to ticks.
 Every context switch updates that CPU's slot, including switches between threads
 of the same process. Migration requires no per-thread registration.
 
+ABI 2 uses words 4–6 for the three lower bounds and word 7 for the ABI version.
+The runtime rejects a mismatching version. The read-only module parameters
+`dense_begin_us`, `medium_begin_us`, and `sparse_begin_us` default to zero and
+must each be strictly below their corresponding upper bound. For the 10–20 us
+peak campaign, the windows are `[10,20)`, `[8,22)`, and `[5,24)` microseconds.
+Half of the static groups use the first window and a quarter use each of the
+other windows; the dynamic distribution depends on the executed path.
+
 The compiler uses RDTSCP at an issuance group and checks its CPU's deadline. All
 groups are eligible for 0–10 us, approximately half for 10–20 us, approximately a
 quarter for 20–40 us, and none later. These are **static eligibility fractions**;
 execution frequency, group size and path selection determine the actual number
 of hints. Gates remain in the instruction stream after 40 us. A group contains
 up to four deduplicated targets; several groups can share one dominator.
+
+Those are the original dense defaults. The lean experiment uses two groups of
+up to eight targets per function, ranks shared dominators, removes repeated
+target addresses, and skips insufficient lead. Outlined gates follow LLVM's
+`preserve_all` convention; LLVM handles its register-preservation rules and the
+return value. Static entry allocas stay in the original entry block. After splitting
+for a conditional gate, hint operands follow the original application BB head,
+including when that BB is in a callee processed later.
+
+Two optional runtime compile-time experiments are off by default:
+`-DPREFETCHIT_RELAXED_CLOCK=1` uses RDPID and non-serializing RDTSC;
+`-DPREFETCHIT_MEMO_GATE=1` additionally remembers a gate's caller address and the
+CPU's schedule timestamp in a small per-CPU process-owned table. The latter
+requires the former. It suppresses repeated or already-expired sites within an
+epoch, while early calls remain eligible to check again. Hash collisions can
+cause reissuance, and migration can misclassify optional hints. Relaxed atomics
+avoid C data races; this is not an exact once-per-epoch guarantee. Required-clock
+startup checks RDPID support. These options need independent E2E validation.
+
+`scripts/class_b/lean_plan.py` can derive a conservative removal plan from the
+linked metadata. A hint is proposed for removal only when an earlier target in
+its group shares the 64-byte line in every supplied service image. Rebuilding
+changes layout, so the tool rechecks all potential target addresses—including
+removed hints—and restores targets on otherwise uncovered lines. Repeat until
+coverage passes. Metadata remains non-allocated, but assembler size estimation
+and branch relaxation may still change executable layout: use the audited final
+ELF for measurement. This procedure preserves the group's static line set; it
+does not claim identical cache state or dynamic performance.
 
 The age includes the remaining context-switch and syscall-return work, and
 interrupt time. It is not time since the first user instruction. A gate samples

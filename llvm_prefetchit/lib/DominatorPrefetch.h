@@ -9,6 +9,40 @@ static unsigned domOption(const char *Name, unsigned Default) {
   return N;
 }
 
+static uint64_t domHash(StringRef Text) {
+  uint64_t H = 14695981039346656037ULL;
+  for (unsigned char Ch : Text.bytes()) H = (H ^ Ch) * 1099511628211ULL;
+  return H;
+}
+
+static std::string domHintKey(uint64_t ModuleID, uint64_t FunctionID,
+                              unsigned Group, unsigned Argument) {
+  return utohexstr(ModuleID) + ":" + utohexstr(FunctionID) + ":" +
+         std::to_string(Group) + ":" + std::to_string(Argument);
+}
+
+static std::set<std::string> domDrops(StringRef Placement) {
+  std::set<std::string> Result;
+  const char *Path = std::getenv("PREFETCHIT_DOM_DROP_PLAN");
+  if (!Path) return Result;
+  auto Buffer = MemoryBuffer::getFile(Path);
+  if (!Buffer) report_fatal_error("cannot read dominator drop plan");
+  auto Parsed = json::parse((*Buffer)->getBuffer());
+  if (!Parsed) report_fatal_error("invalid dominator drop plan JSON");
+  auto *Object = Parsed->getAsObject();
+  if (!Object || Object->getString("schema") != "prefetchit.dom_drop.v1" ||
+      Object->getString("placement") != Placement)
+    report_fatal_error("dominator drop plan placement mismatch");
+  auto *Entries = Object->getArray("drop");
+  if (!Entries) report_fatal_error("dominator drop plan has no drop array");
+  for (auto &Entry : *Entries) {
+    auto Key = Entry.getAsString();
+    if (!Key || !Result.insert(Key->str()).second)
+      report_fatal_error("invalid or duplicate dominator drop key");
+  }
+  return Result;
+}
+
 // Dijkstra, not FIFO BFS: BB instruction counts are unequal edge weights.
 static unsigned domLead(Instruction *From, Instruction *Use, unsigned Cap) {
   using Item = std::pair<unsigned, BasicBlock *>;
@@ -81,7 +115,7 @@ static Function *domGateHelper(Module &M, unsigned Tier) {
   return F;
 }
 
-static uint64_t runDominatorPrefetch(Module &M, const SeqConfig &C) {
+static bool runDominatorPrefetch(Module &M, const SeqConfig &C) {
   if (!domOption("PREFETCHIT_DOMINATOR", 0)) return 0;
   if (!moduleAllowed(M, "prefetchit-dominator")) return 0;
   if (!StringRef(M.getTargetTriple()).starts_with("x86_64"))
@@ -97,6 +131,14 @@ static uint64_t runDominatorPrefetch(Module &M, const SeqConfig &C) {
   const unsigned MaxSites = domOption("PREFETCHIT_DOM_MAX_SITES", Lean ? 2 : 0);
   const unsigned MinFunction = domOption("PREFETCHIT_DOM_MIN_FUNCTION", Lean ? 64 : 0);
   const bool SkipShort = domOption("PREFETCHIT_DOM_SKIP_SHORT", Lean);
+  const bool Metadata = domOption("PREFETCHIT_DOM_METADATA", 0);
+  const uint64_t ModuleID = domHash(M.getSourceFileName());
+  std::string Placement;
+  for (unsigned N : {MinLead, MaxLead, Batch, CallerTargets, unsigned(Gate), unsigned(Lean),
+                     unsigned(Window), unsigned(Outline), MaxSites, MinFunction, unsigned(SkipShort)})
+    Placement += (Placement.empty() ? "" : ",") + std::to_string(N);
+  const auto Drops = domDrops(Placement);
+  if (Metadata && !Lean) report_fatal_error("dominator metadata requires lean placement");
   if (!Batch || Batch > 16 || MinLead > MaxLead)
     report_fatal_error("invalid dominator placement limits");
   if (Outline && (!Gate || !Window))
@@ -168,6 +210,7 @@ static uint64_t runDominatorPrefetch(Module &M, const SeqConfig &C) {
   }
   uint64_t Hints = 0, Groups = 0, Short = 0, Lifted = 0, SkippedEH = 0;
   uint64_t BudgetSkipped = 0, Duplicates = 0;
+  uint64_t ProfileRemoved = 0;
   DenseMap<BasicBlock *, Instruction *> OriginalHeads;
   std::vector<std::pair<CallInst *, std::vector<BasicBlock *>>> AnchoredCalls;
   if (Outline) for (Function *F : Functions) for (BasicBlock &B : *F)
@@ -175,6 +218,7 @@ static uint64_t runDominatorPrefetch(Module &M, const SeqConfig &C) {
       OriginalHeads[&B] = &*B.getFirstInsertionPt();
   for (Function *F : Functions) {
     if (F->getInstructionCount() < MinFunction) continue;
+    const uint64_t FunctionID = domHash(F->getName());
     DominatorTree DT(*F);
     struct Target { Value *Address; bool Direct; };
     std::map<Instruction *, std::vector<Target>> Sites;
@@ -264,10 +308,19 @@ static uint64_t runDominatorPrefetch(Module &M, const SeqConfig &C) {
         // thinned. Tiny functions do not all receive the long-lived tier.
         unsigned Tier = ((SiteIndex + F->getName().size()) % 4 == 0) ? 2 :
                ((SiteIndex + F->getName().size()) % 4 == 1) ? 1 : 0;
-        ++SiteIndex;
+        unsigned GroupID = SiteIndex++;
+        std::vector<bool> Active;
+        for (unsigned J = Begin; J < End; ++J) {
+          bool Keep = !Drops.count(domHintKey(ModuleID, FunctionID, GroupID, J - Begin));
+          if (!Keep && !Targets[J].Direct)
+            report_fatal_error("drop plan attempted to remove an indirect target");
+          Active.push_back(Keep); ProfileRemoved += !Keep;
+        }
+        bool AnyActive = llvm::is_contained(Active, true);
+        if (!AnyActive && !Metadata) continue;
         std::string Asm, Constraints;
         Instruction *Insert = At;
-        if (Outline) {
+        if (Outline && AnyActive) {
           auto *Call = CallInst::Create(domGateHelper(M, Tier), "", At);
           Call->setCallingConv(CallingConv::PreserveAll);
           Call->setDoesNotThrow(); Call->setDebugLoc(At->getDebugLoc());
@@ -275,7 +328,7 @@ static uint64_t runDominatorPrefetch(Module &M, const SeqConfig &C) {
               ConstantInt::get(Type::getInt32Ty(Ctx), 0));
           Insert = SplitBlockAndInsertIfThen(Cond, At, false);
         }
-        if (Gate && !Outline) {
+        if (Gate && !Outline && AnyActive) {
           Asm = "movq __prefetchit_sched_slots(%rip), %r11\n\ttestq %r11, %r11\n\tje 9f\n\t"
                 "rdtscp\n\tshlq $$32, %rdx\n\torq %rdx, %rax\n\t"
                 "andl $$4095, %ecx\n\tshll $$6, %ecx\n\t"
@@ -286,24 +339,50 @@ static uint64_t runDominatorPrefetch(Module &M, const SeqConfig &C) {
         SmallVector<Value *, 16> Args;
         SmallVector<Type *, 16> Types;
         std::vector<BasicBlock *> Anchors;
+        std::string Records;
         for (unsigned J = Begin; J < End; ++J) {
+          bool Keep = Active[J - Begin];
+          if (!Keep && !Metadata) continue;
           unsigned N = Args.size();
           Args.push_back(Targets[J].Address); Types.push_back(Args.back()->getType());
           auto *BA = dyn_cast<BlockAddress>(Targets[J].Address);
           Anchors.push_back(BA ? BA->getBasicBlock() : nullptr);
           if (!Constraints.empty()) Constraints += ",";
           Constraints += Targets[J].Direct ? "i" : "r";
-          Asm += C.Mnemonic + (Targets[J].Direct ? " ${" + std::to_string(N) + ":c}(%rip)\n\t" :
-                              " ($" + std::to_string(N) + ")\n\t");
-          ++Hints;
+          std::string Label = ".Lpf_" + utohexstr(ModuleID) + "_" + utohexstr(FunctionID) +
+                              "_" + std::to_string(GroupID) + "_" + std::to_string(J - Begin);
+          if (Keep) {
+            if (Metadata) Asm += Label + ":\n\t";
+            Asm += C.Mnemonic + (Targets[J].Direct ? " ${" + std::to_string(N) + ":c}(%rip)\n\t" :
+                                " ($" + std::to_string(N) + ")\n\t");
+            ++Hints;
+          }
+          if (Metadata) {
+            // Non-allocated ELF records: site, target, module/function IDs,
+            // group, argument, and active/direct flags (40 bytes per hint).
+            Records += ".quad " + (Keep ? Label : "0") + "\n\t.quad " +
+              (Targets[J].Direct ? "${" + std::to_string(N) + ":c}" : "0") +
+              "\n\t.quad 0x" + utohexstr(ModuleID) + "\n\t.quad 0x" + utohexstr(FunctionID) +
+              "\n\t.long " + std::to_string(GroupID) + "\n\t.short " + std::to_string(J - Begin) +
+              "\n\t.short " + std::to_string(unsigned(Keep) | (unsigned(Targets[J].Direct) << 1)) + "\n\t";
+          }
         }
-        if (Gate && !Outline) {
+        if (Gate && !Outline && AnyActive) {
           Asm += "9:\n\t";
           Constraints += ",~{rax},~{rdx},~{rcx},~{r11},~{flags},~{memory}";
         }
+        if (Metadata) {
+          // Keep COMDAT metadata with its owning function. Discarded weak
+          // copies must not leave dangling local-label relocations behind.
+          Asm += ".pushsection .debug_prefetchit_v1,\"";
+          if (F->hasComdat())
+            Asm += "G\",@progbits," + F->getComdat()->getName().str() + ",comdat\n\t";
+          else Asm += "\",@progbits\n\t";
+          Asm += Records + ".popsection\n\t";
+        }
         auto *Ty = FunctionType::get(Type::getVoidTy(Ctx), Types, false);
         auto *CI = CallInst::Create(InlineAsm::get(Ty, Asm, Constraints, true), Args, "", Insert);
-        CI->setDebugLoc(At->getDebugLoc()); ++Groups;
+        CI->setDebugLoc(At->getDebugLoc()); Groups += AnyActive;
         if (Outline) AnchoredCalls.emplace_back(CI, std::move(Anchors));
       }
     }
@@ -328,6 +407,8 @@ static uint64_t runDominatorPrefetch(Module &M, const SeqConfig &C) {
          << " groups=" << Groups << " hints=" << Hints << " gate=" << Gate << "\n";
   if (Lean) errs() << "prefetchit-dominator-lean: budget_skipped=" << BudgetSkipped
                    << " duplicate_targets=" << Duplicates << " window=" << Window << "\n";
+  if (Metadata || !Drops.empty()) errs() << "prefetchit-dominator-profile: placement=" << Placement
+      << " module=" << utohexstr(ModuleID) << " removed=" << ProfileRemoved << " metadata=" << Metadata << "\n";
   Ctx.setDiscardValueNames(DiscardNames);
-  return Hints;
+  return true; // Globals, labels or metadata can change even when hints are zero.
 }
