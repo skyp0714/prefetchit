@@ -153,6 +153,9 @@ static bool runDominatorPrefetch(Module &M, const SeqConfig &C) {
   // These are speculative code hints, never replacements for the real call.
   // All named targets must be audited as global definitions in the main ELF.
   const char *IndirectProfile = std::getenv("PREFETCHIT_DOM_INDIRECT_TARGETS");
+  const bool IndirectLift = domOption("PREFETCHIT_DOM_INDIRECT_LIFT", 0);
+  if (IndirectLift && !IndirectProfile)
+    report_fatal_error("indirect lifting requires an indirect target profile");
   std::map<std::string, std::vector<std::string>> IndirectTargets;
   uint64_t IndirectProfileHash = 0;
   if (IndirectProfile) {
@@ -191,6 +194,7 @@ static bool runDominatorPrefetch(Module &M, const SeqConfig &C) {
                  utohexstr(CalleeProfileHash) + ",indirect=" + std::to_string(ProfileIndirect);
   if (C.ColdDirectInPIC) Placement += ",direct_pic=1";
   if (IndirectProfile) Placement += ",indirect_targets=" + utohexstr(IndirectProfileHash);
+  if (IndirectLift) Placement += ",indirect_lift=1";
   const auto Drops = domDrops(Placement);
   if (Metadata && !Lean) report_fatal_error("dominator metadata requires lean placement");
   if (!Batch || Batch > 16 || MinLead > MaxLead)
@@ -268,6 +272,7 @@ static bool runDominatorPrefetch(Module &M, const SeqConfig &C) {
   uint64_t BudgetSkipped = 0, Duplicates = 0;
   uint64_t ProfileRemoved = 0, CalleeSkipped = 0;
   uint64_t PredictedIndirect = 0;
+  uint64_t LiftedIndirect = 0;
   DenseMap<BasicBlock *, Instruction *> OriginalHeads;
   std::vector<std::pair<CallInst *, std::vector<BasicBlock *>>> AnchoredCalls;
   if (Outline) for (Function *F : Functions) for (BasicBlock &B : *F)
@@ -305,6 +310,22 @@ static bool runDominatorPrefetch(Module &M, const SeqConfig &C) {
       if (llvm::none_of(V, [&](const Target &T) { return T.Address == Address; }))
         V.push_back({Address, Direct});
     };
+    auto addPredicted = [&](Instruction *Use, StringRef Caller, bool Lift) {
+      auto It = IndirectTargets.find(Caller.str());
+      if (It == IndirectTargets.end()) return;
+      for (const auto &Name : It->second) {
+        Function *G = M.getFunction(Name);
+        if (!G) {
+          if (M.getNamedValue(Name))
+            report_fatal_error("indirect target is not a function");
+          G = Function::Create(FunctionType::get(Type::getVoidTy(Ctx), false),
+                               GlobalValue::ExternalLinkage, Name, M);
+        }
+        G->setDSOLocal(true);
+        add(Use, G, true); ++PredictedIndirect;
+        LiftedIndirect += Lift;
+      }
+    };
     for (BasicBlock &B : *F) {
       for (BasicBlock *S : successors(&B)) {
         if (CalleeOnly) continue;
@@ -319,6 +340,10 @@ static bool runDominatorPrefetch(Module &M, const SeqConfig &C) {
         Value *Address = CB->getCalledOperand()->stripPointerCasts();
         if (auto *G = dyn_cast<Function>(Address)) {
           if (G->isIntrinsic()) continue;
+          // Advance a learned descendant across a direct call boundary too.
+          // Useful when the profiled virtual-call wrapper has too little work
+          // before its own indirect call. The original call is left intact.
+          if (IndirectLift) addPredicted(CB, G->getName(), true);
           if (CalleeProfile && !ProfileCallees.count(G->getName().str())) {
             ++CalleeSkipped; continue;
           }
@@ -336,20 +361,7 @@ static bool runDominatorPrefetch(Module &M, const SeqConfig &C) {
             add(CB, BlockAddress::get(G, S), true); ++Lifted;
           }
         } else {
-          auto It = IndirectTargets.find(F->getName().str());
-          if (It != IndirectTargets.end()) {
-            for (const auto &Name : It->second) {
-              Function *G = M.getFunction(Name);
-              if (!G) {
-                if (M.getNamedValue(Name))
-                  report_fatal_error("indirect target is not a function");
-                G = Function::Create(FunctionType::get(Type::getVoidTy(Ctx), false),
-                                     GlobalValue::ExternalLinkage, Name, M);
-              }
-              G->setDSOLocal(true);
-              add(CB, G, true); ++PredictedIndirect;
-            }
-          }
+          addPredicted(CB, F->getName(), false);
           if (CalleeProfile && !ProfileIndirect) { ++CalleeSkipped; continue; }
           ++Indirect; add(CB, Address, false);
         }
@@ -497,7 +509,8 @@ static bool runDominatorPrefetch(Module &M, const SeqConfig &C) {
   if (CalleeOnly || CalleeProfile) errs() << "prefetchit-dominator-callees: only=" << CalleeOnly
       << " profiled=" << ProfileCallees.size() << " skipped=" << CalleeSkipped << "\n";
   if (IndirectProfile) errs() << "prefetchit-dominator-indirect-targets: candidates="
-      << PredictedIndirect << " callers=" << IndirectTargets.size() << "\n";
+      << PredictedIndirect << " lifted=" << LiftedIndirect
+      << " callers=" << IndirectTargets.size() << "\n";
   Ctx.setDiscardValueNames(DiscardNames);
   return true; // Globals, labels or metadata can change even when hints are zero.
 }

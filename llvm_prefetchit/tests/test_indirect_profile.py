@@ -42,7 +42,8 @@ def test_alias_callers_do_not_duplicate_retained_edge_events(tmp_path, monkeypat
     assert not counts and result['stats']['unavailable_global_target_or_caller'] == 101
 
 
-def test_profiled_indirect_static_target_does_not_change_real_call(tmp_path):
+@pytest.mark.parametrize('lift', [False, True])
+def test_profiled_indirect_static_target_does_not_change_real_call(tmp_path, lift):
     plugin = os.environ.get('DOMINATOR_TEST_PLUGIN')
     if not plugin:
         pytest.skip('Set DOMINATOR_TEST_PLUGIN to the built plugin')
@@ -57,18 +58,22 @@ int main(){for(int i=0;i<8;++i)printf("%d\\n",caller(i,choice));}
 ''')
     target = tmp_path/'targets.c'
     target.write_text('int predicted(int x){return x+1;}\nint actual(int x){return x+2;}\n')
+    if lift:
+        source.write_text(source.read_text().replace('extern int actual(int);',
+            'extern int actual(int);\nextern int bridge(int,int(*)(int));').replace('return fn(v);','return bridge(v,fn);'))
+        target.write_text(target.read_text()+'int bridge(int x,int(*fn)(int)){return fn(x);}\n')
     obj = tmp_path/'targets.o'
     subprocess.run(['clang-19', '-O2', '-fPIC', '-c', str(target), '-o', str(obj)], check=True)
     profile = tmp_path/'callees.txt';profile.write_text('predicted\n')
     indirect = tmp_path/'indirect.json'
-    indirect.write_text(json.dumps(dict(schema='prefetchit.indirect_targets.v1', callers={'caller':['predicted']})))
+    indirect.write_text(json.dumps(dict(schema='prefetchit.indirect_targets.v1', callers={('bridge' if lift else 'caller'):['predicted']})))
     env = dict(os.environ, PREFETCHIT_DOMINATOR='1', PREFETCHIT_DOM_LEAN='1',
         PREFETCHIT_DOM_METADATA='1', PREFETCHIT_DOM_SCHED_GATE='0',
         PREFETCHIT_DOM_LEAD='8', PREFETCHIT_DOM_MIN_FUNCTION='0',
         PREFETCHIT_DOM_SKIP_SHORT='0', PREFETCHIT_DOM_BATCH='8',
         PREFETCHIT_DOM_CALLER_TARGETS='0', PREFETCHIT_DOM_CALLEE_ONLY='1',
         PREFETCHIT_COLD_DIRECT_IN_PIC='1', PREFETCHIT_DOM_CALLEE_PROFILE=str(profile),
-        PREFETCHIT_DOM_INDIRECT_TARGETS=str(indirect))
+        PREFETCHIT_DOM_INDIRECT_TARGETS=str(indirect), PREFETCHIT_DOM_INDIRECT_LIFT=str(int(lift)))
     base = tmp_path/'base';exe = tmp_path/'instrumented'
     subprocess.run(['clang-19','-O2','-fPIC',str(source),str(obj),'-o',str(base)],check=True)
     subprocess.run(['clang-19','-O2','-fPIC','-fpass-plugin='+plugin,str(source),str(obj),'-o',str(exe)],env=env,check=True)

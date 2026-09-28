@@ -55,6 +55,8 @@ POLICIES['coverage_callees'] = dict(POLICIES['lean_meta_callees_static_ungated']
     PREFETCHIT_DOM_MIN_FUNCTION='0', PREFETCHIT_DOM_SKIP_SHORT='0',
     PREFETCHIT_DOM_MAX_SITES='4', PREFETCHIT_DOM_BATCH='8')
 POLICIES['coverage_indirect'] = dict(POLICIES['coverage_callees'])
+POLICIES['coverage_indirect_lift'] = dict(POLICIES['coverage_indirect'],
+                                       PREFETCHIT_DOM_INDIRECT_LIFT='1')
 SERVICES = {'movie': 'MovieIdService', 'compose': 'ComposeReviewService', 'rating': 'RatingService'}
 
 
