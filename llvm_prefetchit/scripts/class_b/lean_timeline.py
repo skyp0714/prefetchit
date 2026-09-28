@@ -97,26 +97,46 @@ def decode_one(path, binary, maps):
         image=lean_plan.read_image(binary)
         targets={r['target']//64 for r in image['records'] if r['active'] and r['direct']}
     bins=[Counter() for _ in EDGES]
-    ips=Counter()
+    ips=Counter();aged_ips=Counter()
 
     def callback(age, ip, period, origin):
-        bucket=bins[bisect_right(EDGES,age)-1]
+        index=bisect_right(EDGES,age)-1;bucket=bins[index]
         bucket['estimated_events']+=period
         va=translate(ip,mappings) if ip is not None else None
         if va is None:
             bucket['outside_main']+=period
         else:
-            bucket['main']+=period;ips[va]+=period
+            bucket['main']+=period;ips[va]+=period;aged_ips[(index,va)]+=period
             if has_metadata and va//64 in targets:bucket['static_target_line']+=period
 
     def retained():
         from lean_profile import symbol_ranges
-        ranges,command=symbol_ranges(binary)
+        symbol_path=path.parent/(path.name.rsplit('_p',1)[0]+'.symbols.json.gz')
+        if symbol_path.exists():
+            with gzip.open(symbol_path,'rt') as source:symbols=json.load(source)
+            assert symbols['binary_sha256']==b.sha(binary)
+            ranges,command=symbols['ranges'],symbols['command']
+        else:
+            ranges,command=symbol_ranges(binary)
+            with gzip.open(symbol_path,'wt') as dest:
+                json.dump(dict(binary=str(binary),binary_sha256=b.sha(binary),
+                    command=command,ranges=ranges),dest,separators=(',',':'))
+        # Retain every sparse IP aggregate, not just the displayed top 80.
+        # This supports later BB/line target selection after raw trace cleanup.
+        ip_path=path/'main_ip_counts.json.gz'
+        with gzip.open(ip_path,'wt') as dest:
+            json.dump(dict(binary_sha256=b.sha(binary),population='Complete-run main-image retirement samples',
+                rows=[dict(va=hex(ip),estimated_events=n) for ip,n in sorted(ips.items())],
+                bins_us=EDGES,age_rows=[dict(bin_index=i,va=hex(ip),estimated_events=n)
+                                      for (i,ip),n in sorted(aged_ips.items())]),
+                dest,separators=(',',':'))
         b.save(path/'target_overlap.json',dict(binary=str(binary),sha256=b.sha(binary),
             mappings=mappings,coverage_applicable=has_metadata,target_lines=len(targets),
             bins=[dict(lo_us=lo,hi_us=EDGES[i+1] if i+1<len(EDGES) else None,**counts)
                   for i,(lo,counts) in enumerate(zip(EDGES,bins))],
             **attribute_ips(ips,ranges),symbol_command=command,
+            all_main_ips=dict(path=str(ip_path),sha256=b.sha(ip_path)),
+            all_symbols=dict(path=str(symbol_path),sha256=b.sha(symbol_path)),
             limitation='Static target-line overlap only. It does not prove this path issued a hint, that a fill arrived, or that a line survived until demand. Indirect T1 targets are not statically resolved.'))
     capture.decode_capture(path,sample_callback=callback,before_cleanup=retained)
 
