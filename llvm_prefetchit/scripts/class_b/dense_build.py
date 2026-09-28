@@ -34,6 +34,7 @@ POLICIES = dict(ARMS, dom_decay={'PREFETCHIT_DOMINATOR': '1', 'PREFETCHIT_DOM_LE
 POLICIES['lean_peak'] = dict(POLICIES['dom_decay'], PREFETCHIT_DOM_LEAN='1',
     PREFETCHIT_DOM_WINDOW='1', PREFETCHIT_DOM_BATCH='8', PREFETCHIT_DOM_CALLER_TARGETS='0',
     PREFETCHIT_DOM_MAX_SITES='2', PREFETCHIT_DOM_MIN_FUNCTION='64')
+POLICIES['lean_outline'] = dict(POLICIES['lean_peak'], PREFETCHIT_DOM_OUTLINE='1')
 SERVICES = {'movie': 'MovieIdService', 'compose': 'ComposeReviewService', 'rating': 'RatingService'}
 
 

@@ -65,6 +65,22 @@ static Instruction *domPlace(Instruction *Use, DominatorTree &DT,
   return Fallback; // counted separately; caller placement adds another chance
 }
 
+static Function *domGateHelper(Module &M, unsigned Tier) {
+  std::string Name = "__prefetchit_gate_" + std::to_string(Tier);
+  if (Function *F = M.getFunction(Name)) return F;
+  LLVMContext &Ctx = M.getContext();
+  auto *Ty = FunctionType::get(Type::getInt32Ty(Ctx), false);
+  auto *F = Function::Create(Ty, GlobalValue::WeakAnyLinkage, Name, M);
+  F->setVisibility(GlobalValue::HiddenVisibility); F->setDSOLocal(true);
+  F->setCallingConv(CallingConv::PreserveAll);
+  F->addFnAttr(Attribute::NoInline); F->addFnAttr(Attribute::OptimizeNone);
+  F->addFnAttr(Attribute::NoUnwind);
+  // Safe configure/link probes. The executable supplies the strong runtime.
+  BasicBlock *B = BasicBlock::Create(Ctx, "entry", F);
+  ReturnInst::Create(Ctx, ConstantInt::get(Type::getInt32Ty(Ctx), 0), B);
+  return F;
+}
+
 static uint64_t runDominatorPrefetch(Module &M, const SeqConfig &C) {
   if (!domOption("PREFETCHIT_DOMINATOR", 0)) return 0;
   if (!moduleAllowed(M, "prefetchit-dominator")) return 0;
@@ -77,11 +93,14 @@ static uint64_t runDominatorPrefetch(Module &M, const SeqConfig &C) {
   const bool Gate = domOption("PREFETCHIT_DOM_SCHED_GATE", 1);
   const bool Lean = domOption("PREFETCHIT_DOM_LEAN", 0);
   const bool Window = domOption("PREFETCHIT_DOM_WINDOW", 0);
+  const bool Outline = domOption("PREFETCHIT_DOM_OUTLINE", 0);
   const unsigned MaxSites = domOption("PREFETCHIT_DOM_MAX_SITES", Lean ? 2 : 0);
   const unsigned MinFunction = domOption("PREFETCHIT_DOM_MIN_FUNCTION", Lean ? 64 : 0);
   const bool SkipShort = domOption("PREFETCHIT_DOM_SKIP_SHORT", Lean);
   if (!Batch || Batch > 16 || MinLead > MaxLead)
     report_fatal_error("invalid dominator placement limits");
+  if (Outline && (!Gate || !Window))
+    report_fatal_error("outlined dominator gate requires window gating");
   LLVMContext &Ctx = M.getContext();
   const bool DiscardNames = Ctx.shouldDiscardValueNames();
   Ctx.setDiscardValueNames(false);
@@ -149,6 +168,11 @@ static uint64_t runDominatorPrefetch(Module &M, const SeqConfig &C) {
   }
   uint64_t Hints = 0, Groups = 0, Short = 0, Lifted = 0, SkippedEH = 0;
   uint64_t BudgetSkipped = 0, Duplicates = 0;
+  DenseMap<BasicBlock *, Instruction *> OriginalHeads;
+  std::vector<std::pair<CallInst *, std::vector<BasicBlock *>>> AnchoredCalls;
+  if (Outline) for (Function *F : Functions) for (BasicBlock &B : *F)
+    if (!B.isEHPad() && B.getFirstInsertionPt() != B.end())
+      OriginalHeads[&B] = &*B.getFirstInsertionPt();
   for (Function *F : Functions) {
     if (F->getInstructionCount() < MinFunction) continue;
     DominatorTree DT(*F);
@@ -159,6 +183,13 @@ static uint64_t runDominatorPrefetch(Module &M, const SeqConfig &C) {
         ++SkippedEH; return;
       }
       Instruction *At = domPlace(Use, DT, MinLead, MaxLead);
+      if (Outline && At->getParent()->isEntryBlock()) {
+        // Splitting before static entry allocas turns them into dynamic
+        // allocas. Keep the allocation prefix in the original entry block.
+        Instruction *First = &*At->getParent()->getFirstNonPHIOrDbgOrAlloca();
+        if (DT.dominates(At, First)) At = First;
+        if (!DT.dominates(At, Use)) { ++BudgetSkipped; return; }
+      }
       if (!Direct) {
         // No new speculative pointer dereference. The already-computed SSA
         // target must dominate issuance; otherwise leave it at the call.
@@ -235,7 +266,16 @@ static uint64_t runDominatorPrefetch(Module &M, const SeqConfig &C) {
                ((SiteIndex + F->getName().size()) % 4 == 1) ? 1 : 0;
         ++SiteIndex;
         std::string Asm, Constraints;
-        if (Gate) {
+        Instruction *Insert = At;
+        if (Outline) {
+          auto *Call = CallInst::Create(domGateHelper(M, Tier), "", At);
+          Call->setCallingConv(CallingConv::PreserveAll);
+          Call->setDoesNotThrow(); Call->setDebugLoc(At->getDebugLoc());
+          auto *Cond = new ICmpInst(At, CmpInst::ICMP_NE, Call,
+              ConstantInt::get(Type::getInt32Ty(Ctx), 0));
+          Insert = SplitBlockAndInsertIfThen(Cond, At, false);
+        }
+        if (Gate && !Outline) {
           Asm = "movq __prefetchit_sched_slots(%rip), %r11\n\ttestq %r11, %r11\n\tje 9f\n\t"
                 "rdtscp\n\tshlq $$32, %rdx\n\torq %rdx, %rax\n\t"
                 "andl $$4095, %ecx\n\tshll $$6, %ecx\n\t"
@@ -245,25 +285,43 @@ static uint64_t runDominatorPrefetch(Module &M, const SeqConfig &C) {
         }
         SmallVector<Value *, 16> Args;
         SmallVector<Type *, 16> Types;
+        std::vector<BasicBlock *> Anchors;
         for (unsigned J = Begin; J < End; ++J) {
           unsigned N = Args.size();
           Args.push_back(Targets[J].Address); Types.push_back(Args.back()->getType());
+          auto *BA = dyn_cast<BlockAddress>(Targets[J].Address);
+          Anchors.push_back(BA ? BA->getBasicBlock() : nullptr);
           if (!Constraints.empty()) Constraints += ",";
           Constraints += Targets[J].Direct ? "i" : "r";
           Asm += C.Mnemonic + (Targets[J].Direct ? " ${" + std::to_string(N) + ":c}(%rip)\n\t" :
                               " ($" + std::to_string(N) + ")\n\t");
           ++Hints;
         }
-        if (Gate) {
+        if (Gate && !Outline) {
           Asm += "9:\n\t";
           Constraints += ",~{rax},~{rdx},~{rcx},~{r11},~{flags},~{memory}";
         }
         auto *Ty = FunctionType::get(Type::getVoidTy(Ctx), Types, false);
-        auto *CI = CallInst::Create(InlineAsm::get(Ty, Asm, Constraints, true), Args, "", At);
+        auto *CI = CallInst::Create(InlineAsm::get(Ty, Asm, Constraints, true), Args, "", Insert);
         CI->setDebugLoc(At->getDebugLoc()); ++Groups;
+        if (Outline) AnchoredCalls.emplace_back(CI, std::move(Anchors));
       }
     }
+    // Conditional helper gates split BBs after target collection. Explicit
+    // numbering also works for functions originally built without a symtab.
+    if (Outline) {
+      unsigned Label = 0;
+      for (BasicBlock &B : *F) B.setName("");
+      for (BasicBlock &B : *F) B.setName("__prefetchit_bb_" + std::to_string(Label++));
+    }
   }
+  // Follow the original application instruction after helper-gate splits,
+  // including callee BBs processed later. Only rewrite our hint operands;
+  // never change application blockaddress/indirectbr semantics.
+  for (auto &[Call, Anchors] : AnchoredCalls)
+    for (unsigned J = 0; J < Anchors.size(); ++J)
+      if (Instruction *Head = OriginalHeads.lookup(Anchors[J]))
+        Call->setArgOperand(J, BlockAddress::get(Head->getFunction(), Head->getParent()));
   errs() << "prefetchit-dominator: functions=" << Functions.size() << " edges=" << Edges
          << " calls=" << Calls << " indirect=" << Indirect << " continuations=" << Continuations
          << " caller_targets=" << Lifted << " short_lead=" << Short << " skipped_eh=" << SkippedEH
