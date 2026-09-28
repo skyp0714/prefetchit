@@ -1,0 +1,9 @@
+{
+  "primary": "External mean/p99 latency; whole-stack CPU/request reported independently",
+  "baseline_variation": "Four fresh-stack A/A repeats, same request seed, 90-second ROI",
+  "screen": "Two independent seed blocks, seven arms, 90-second clean ROI; PMU after first block ROI",
+  "selection": "Eligible if whole-stack CPU point estimate improves versus both original and NOP, mean/p99 point estimates never regress more than 2% versus either control, and one latency endpoint improves versus both. Choose largest minimum mean-latency reduction; screening is exploratory only.",
+  "confirmation": "If eligible, seven NEW seed blocks of base/NOP/selected. Retain only if stack CPU 95% lower bound positive against both controls and one same latency endpoint has a positive 95% lower bound against both; mean/p99 point regressions <=2%. Individual paired log-ratio t intervals, no multiple-endpoint adjustment.",
+  "cleanup": "Rejected binaries and NOP twins removed immediately after decision; patches, hashes and measurements retained",
+  "scaling": "No-prefetch baseline, concurrency 1/2/4/8/16/32; three fresh-stack blocks, 60-second ROI; dispatch-to-completion latency."
+}

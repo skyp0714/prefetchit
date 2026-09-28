@@ -1,0 +1,23 @@
+{
+  "registered_epoch": 1790560927.381785,
+  "selected": "callee8",
+  "reason": "Original selection required positive CPU point estimates against both controls. This excluded callee8 despite its best external mean/p99 screen results, contrary to the user emphasis on E2E. Retain that original analysis; run a distinct E2E-first validation on NEW seeds.",
+  "selection": "Largest mean-latency reduction versus original baseline among the three frozen policies; screen only",
+  "screen_sha256": "1a0a9bdc7700884875ef26f84a8004f2fd2054f79a5e21e8799f4e01241ad956",
+  "builds": "Rebuild both baseline and selected policy using the same retained source, plugin and image. Audit exact-layout NOP twin; record full SHA equality with original artifacts. Reuse original baseline only if all three SHA hashes match.",
+  "arms": [
+    "base",
+    "callee8_nop",
+    "callee8"
+  ],
+  "blocks": 7,
+  "seedbase": 44001,
+  "rate": 1000,
+  "pool": 8,
+  "roi_s": 90,
+  "warmup_s": 50,
+  "timing": "Fresh stacks, rotated/reversed order; no PMU recorder, no build/decoding overlap",
+  "promotion": "One SAME external latency endpoint (mean or p99) must have a positive 97.5% CI lower bound against BOTH baseline and NOP. All mean/p99 point regressions must be <=2% versus either control. CPU/request is reported independently and is not an eligibility gate.",
+  "analysis": "Paired log ratios; 95% intervals for descriptive comparisons and 97.5% intervals for the two latency endpoints (Bonferroni for endpoint selection). Screening and prior seq4k data are not pooled.",
+  "rejection": "Keep every operating failure and stop for diagnosis; do not retry based on latency. Remove rejected generated PF/NOP binaries immediately after final decision."
+}

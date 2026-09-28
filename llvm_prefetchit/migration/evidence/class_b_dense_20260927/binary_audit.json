@@ -1,0 +1,260 @@
+[
+  {
+    "arm": "base",
+    "service": "movie",
+    "path": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+    "sha256": "1dbfa7f16b813e7a1a18eb57cf17538bf1d051e27aeccaec8ffadd8fce258b07",
+    "bytes": 21439416,
+    "executable_bytes": 2341770,
+    "static_instructions": 582377,
+    "prefetch_instructions": 0,
+    "addressing": {},
+    "disassembly_command": [
+      "objdump",
+      "-d",
+      "--insn-width=16",
+      "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService"
+    ]
+  },
+  {
+    "arm": "base",
+    "service": "compose",
+    "path": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+    "sha256": "fb16c1d304d6c0b56c24c422f5dfa7dde6ab3c368cec6a4fd9bcc0602a66c917",
+    "bytes": 20036576,
+    "executable_bytes": 2063698,
+    "static_instructions": 515529,
+    "prefetch_instructions": 0,
+    "addressing": {},
+    "disassembly_command": [
+      "objdump",
+      "-d",
+      "--insn-width=16",
+      "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService"
+    ]
+  },
+  {
+    "arm": "base",
+    "service": "rating",
+    "path": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService",
+    "sha256": "d2314e24f46b0fa6b2487f55dad565070adb9b6a920cd0a5f64c7e6d767ac3e3",
+    "bytes": 19370576,
+    "executable_bytes": 2460266,
+    "static_instructions": 618618,
+    "prefetch_instructions": 0,
+    "addressing": {},
+    "disassembly_command": [
+      "objdump",
+      "-d",
+      "--insn-width=16",
+      "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+    ]
+  },
+  {
+    "arm": "callee8",
+    "service": "movie",
+    "path": "/storage/prefetchit/class_b_dense_20260927/builds/callee8/movie/MovieIdService",
+    "sha256": "fb1ddd3ab4aa5c5ab83031bcc3e697806c92951bcb2b6f45f47d9c6e27653b5f",
+    "bytes": 21563576,
+    "executable_bytes": 2407610,
+    "static_instructions": 591591,
+    "prefetch_instructions": 9128,
+    "addressing": {
+      "rip": 9128
+    },
+    "disassembly_command": [
+      "objdump",
+      "-d",
+      "--insn-width=16",
+      "/storage/prefetchit/class_b_dense_20260927/builds/callee8/movie/MovieIdService"
+    ],
+    "nop": "/storage/prefetchit/class_b_dense_20260927/builds/callee8/movie/MovieIdService.nop",
+    "nop_sha256": "7d1ec77d7205fda1cc3a121efe6daef68355218f9c71e20e42a1e6c4dc762d16",
+    "exact_layout_verified": true,
+    "changed_bytes": 46368
+  },
+  {
+    "arm": "callee8",
+    "service": "compose",
+    "path": "/storage/prefetchit/class_b_dense_20260927/builds/callee8/compose/ComposeReviewService",
+    "sha256": "8e0dd9c38ac43d1212cb96affa3a932af9527ae1defcbd84994a0b283e82458d",
+    "bytes": 20121456,
+    "executable_bytes": 2100594,
+    "static_instructions": 520677,
+    "prefetch_instructions": 5144,
+    "addressing": {
+      "rip": 5144
+    },
+    "disassembly_command": [
+      "objdump",
+      "-d",
+      "--insn-width=16",
+      "/storage/prefetchit/class_b_dense_20260927/builds/callee8/compose/ComposeReviewService"
+    ],
+    "nop": "/storage/prefetchit/class_b_dense_20260927/builds/callee8/compose/ComposeReviewService.nop",
+    "nop_sha256": "c51635c28e931be81fb234d885090fbcb3e2499c55248c7c2b9e7edf0330a81f",
+    "exact_layout_verified": true,
+    "changed_bytes": 26429
+  },
+  {
+    "arm": "callee8",
+    "service": "rating",
+    "path": "/storage/prefetchit/class_b_dense_20260927/builds/callee8/rating/RatingService",
+    "sha256": "dac8ff367c1b5220839d5725e608b5c743220195ea16aa5a966e64f1fe673766",
+    "bytes": 19443176,
+    "executable_bytes": 2492586,
+    "static_instructions": 623114,
+    "prefetch_instructions": 4488,
+    "addressing": {
+      "rip": 4488
+    },
+    "disassembly_command": [
+      "objdump",
+      "-d",
+      "--insn-width=16",
+      "/storage/prefetchit/class_b_dense_20260927/builds/callee8/rating/RatingService"
+    ],
+    "nop": "/storage/prefetchit/class_b_dense_20260927/builds/callee8/rating/RatingService.nop",
+    "nop_sha256": "bc49135f4c1507894c37e9fe3a08f48738a4a88571ed25afd92c649764537990",
+    "exact_layout_verified": true,
+    "changed_bytes": 22858
+  },
+  {
+    "arm": "seq4k",
+    "service": "movie",
+    "path": "/storage/prefetchit/class_b_dense_20260927/builds/seq4k/movie/MovieIdService",
+    "sha256": "6d51328ca9fb9c18ecf8f08ed5e5b8a1717db27353acabb56542e24b034d040a",
+    "bytes": 21836312,
+    "executable_bytes": 2486938,
+    "static_instructions": 604037,
+    "prefetch_instructions": 18203,
+    "addressing": {
+      "rip": 18203
+    },
+    "disassembly_command": [
+      "objdump",
+      "-d",
+      "--insn-width=16",
+      "/storage/prefetchit/class_b_dense_20260927/builds/seq4k/movie/MovieIdService"
+    ],
+    "nop": "/storage/prefetchit/class_b_dense_20260927/builds/seq4k/movie/MovieIdService.nop",
+    "nop_sha256": "b572a9bf4159975f0d8203c1ef9726cc624db4daab7f250fde56cf5f0cd8a587",
+    "exact_layout_verified": true,
+    "changed_bytes": 64034
+  },
+  {
+    "arm": "seq4k",
+    "service": "compose",
+    "path": "/storage/prefetchit/class_b_dense_20260927/builds/seq4k/compose/ComposeReviewService",
+    "sha256": "33369cd2f3af82c54e8937b9cefdb76068548f369a24134048c0d7cb71f89ba4",
+    "bytes": 20392672,
+    "executable_bytes": 2182674,
+    "static_instructions": 533370,
+    "prefetch_instructions": 14897,
+    "addressing": {
+      "rip": 14897
+    },
+    "disassembly_command": [
+      "objdump",
+      "-d",
+      "--insn-width=16",
+      "/storage/prefetchit/class_b_dense_20260927/builds/seq4k/compose/ComposeReviewService"
+    ],
+    "nop": "/storage/prefetchit/class_b_dense_20260927/builds/seq4k/compose/ComposeReviewService.nop",
+    "nop_sha256": "66e4259bc6dee98987ea9230568c9b7ee639d7ea340cc9d362b720341ac03f18",
+    "exact_layout_verified": true,
+    "changed_bytes": 50159
+  },
+  {
+    "arm": "seq4k",
+    "service": "rating",
+    "path": "/storage/prefetchit/class_b_dense_20260927/builds/seq4k/rating/RatingService",
+    "sha256": "101a1ae62df6d1debcfc9b5f6f8acb662cd58b4311bb6f30320b7408b960beaa",
+    "bytes": 19695168,
+    "executable_bytes": 2565338,
+    "static_instructions": 634397,
+    "prefetch_instructions": 13053,
+    "addressing": {
+      "rip": 13053
+    },
+    "disassembly_command": [
+      "objdump",
+      "-d",
+      "--insn-width=16",
+      "/storage/prefetchit/class_b_dense_20260927/builds/seq4k/rating/RatingService"
+    ],
+    "nop": "/storage/prefetchit/class_b_dense_20260927/builds/seq4k/rating/RatingService.nop",
+    "nop_sha256": "cbb5b56e0975f73f7930c97b3b143e3d8a36b91b036fedf203cc8604d51c4329",
+    "exact_layout_verified": true,
+    "changed_bytes": 43844
+  },
+  {
+    "arm": "seq256",
+    "service": "movie",
+    "path": "/storage/prefetchit/class_b_dense_20260927/builds/seq256/movie/MovieIdService",
+    "sha256": "a8a2e111cae50a2b5b009918f1324cee1cecb98133fe2376d296bd39f04062d6",
+    "bytes": 21836312,
+    "executable_bytes": 2486938,
+    "static_instructions": 604037,
+    "prefetch_instructions": 18203,
+    "addressing": {
+      "rip": 18203
+    },
+    "disassembly_command": [
+      "objdump",
+      "-d",
+      "--insn-width=16",
+      "/storage/prefetchit/class_b_dense_20260927/builds/seq256/movie/MovieIdService"
+    ],
+    "nop": "/storage/prefetchit/class_b_dense_20260927/builds/seq256/movie/MovieIdService.nop",
+    "nop_sha256": "50a6c97d5e988d2d1b639adbae95f9c4c4106afbe8d5fa993b10ff4f6393e3a3",
+    "exact_layout_verified": true,
+    "changed_bytes": 64034
+  },
+  {
+    "arm": "seq256",
+    "service": "compose",
+    "path": "/storage/prefetchit/class_b_dense_20260927/builds/seq256/compose/ComposeReviewService",
+    "sha256": "2d7bc229c361a757830cceb07a2d4502658a006eb0168ccda476c271ad8b0735",
+    "bytes": 20392672,
+    "executable_bytes": 2182674,
+    "static_instructions": 533370,
+    "prefetch_instructions": 14897,
+    "addressing": {
+      "rip": 14897
+    },
+    "disassembly_command": [
+      "objdump",
+      "-d",
+      "--insn-width=16",
+      "/storage/prefetchit/class_b_dense_20260927/builds/seq256/compose/ComposeReviewService"
+    ],
+    "nop": "/storage/prefetchit/class_b_dense_20260927/builds/seq256/compose/ComposeReviewService.nop",
+    "nop_sha256": "d1a6b103cc963a8b1f35f96a5ad463ec154b58d626f3210a5acdf7f102680439",
+    "exact_layout_verified": true,
+    "changed_bytes": 50159
+  },
+  {
+    "arm": "seq256",
+    "service": "rating",
+    "path": "/storage/prefetchit/class_b_dense_20260927/builds/seq256/rating/RatingService",
+    "sha256": "44cbd7dcdc46247b90c1f8c13f9030c4ebec329f6b79bada4e82e8e3f1a6f270",
+    "bytes": 19695168,
+    "executable_bytes": 2565338,
+    "static_instructions": 634397,
+    "prefetch_instructions": 13053,
+    "addressing": {
+      "rip": 13053
+    },
+    "disassembly_command": [
+      "objdump",
+      "-d",
+      "--insn-width=16",
+      "/storage/prefetchit/class_b_dense_20260927/builds/seq256/rating/RatingService"
+    ],
+    "nop": "/storage/prefetchit/class_b_dense_20260927/builds/seq256/rating/RatingService.nop",
+    "nop_sha256": "98f7753115b7d4bdbc1ae03ed8a7ab2506865b5c96cfe777b497e88d17990398",
+    "exact_layout_verified": true,
+    "changed_bytes": 43844
+  }
+]

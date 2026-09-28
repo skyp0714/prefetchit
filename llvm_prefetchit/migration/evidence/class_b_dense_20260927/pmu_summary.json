@@ -1,0 +1,212 @@
+[
+  {
+    "arm": "base",
+    "service": "movie",
+    "instructions_per_request": 100095.61760212881,
+    "code_misses_per_request": 5829.79042034199,
+    "mpki": 58.24221439458907,
+    "swpf_miss_per_request": 0.06578623170551422,
+    "swpf_hit_per_request": 0.8863154782437294,
+    "fully_scheduled": true
+  },
+  {
+    "arm": "base",
+    "service": "compose",
+    "instructions_per_request": 280175.4865449894,
+    "code_misses_per_request": 10837.444581099031,
+    "mpki": 38.68091643113395,
+    "swpf_miss_per_request": 0.1299257145668323,
+    "swpf_hit_per_request": 2.072071628868008,
+    "fully_scheduled": true
+  },
+  {
+    "arm": "base",
+    "service": "rating",
+    "instructions_per_request": 110714.91435981845,
+    "code_misses_per_request": 5444.516584368298,
+    "mpki": 49.17599960086557,
+    "swpf_miss_per_request": 0.0490298768018355,
+    "swpf_hit_per_request": 0.8128086188837349,
+    "fully_scheduled": true
+  },
+  {
+    "arm": "callee8_nop",
+    "service": "movie",
+    "instructions_per_request": 100324.26942546813,
+    "code_misses_per_request": 5775.849855015482,
+    "mpki": 57.57181077013889,
+    "swpf_miss_per_request": 0.05489752789108959,
+    "swpf_hit_per_request": 0.8828328500516046,
+    "fully_scheduled": true
+  },
+  {
+    "arm": "callee8_nop",
+    "service": "compose",
+    "instructions_per_request": 280775.24852333136,
+    "code_misses_per_request": 10846.858633589289,
+    "mpki": 38.63181918860614,
+    "swpf_miss_per_request": 0.10001968891514078,
+    "swpf_hit_per_request": 2.0770821027761373,
+    "fully_scheduled": true
+  },
+  {
+    "arm": "callee8_nop",
+    "service": "rating",
+    "instructions_per_request": 111307.22530802862,
+    "code_misses_per_request": 5398.560761128776,
+    "mpki": 48.50144046075126,
+    "swpf_miss_per_request": 0.03532392686804452,
+    "swpf_hit_per_request": 0.8410174880763116,
+    "fully_scheduled": true
+  },
+  {
+    "arm": "callee8",
+    "service": "movie",
+    "instructions_per_request": 100140.22394809281,
+    "code_misses_per_request": 5719.092017302399,
+    "mpki": 57.110837102450084,
+    "swpf_miss_per_request": 37.353470310656704,
+    "swpf_hit_per_request": 250.6522807707432,
+    "fully_scheduled": true
+  },
+  {
+    "arm": "callee8",
+    "service": "compose",
+    "instructions_per_request": 281117.3587673526,
+    "code_misses_per_request": 10792.509943881067,
+    "mpki": 38.391474618302546,
+    "swpf_miss_per_request": 78.8697450034459,
+    "swpf_hit_per_request": 410.7739982278232,
+    "fully_scheduled": true
+  },
+  {
+    "arm": "callee8",
+    "service": "rating",
+    "instructions_per_request": 114299.53354266347,
+    "code_misses_per_request": 5293.875199362042,
+    "mpki": 46.315807556520326,
+    "swpf_miss_per_request": 27.328498803827753,
+    "swpf_hit_per_request": 161.12345494417863,
+    "fully_scheduled": true
+  },
+  {
+    "arm": "seq4k_nop",
+    "service": "movie",
+    "instructions_per_request": 101751.43783172793,
+    "code_misses_per_request": 5851.35035384313,
+    "mpki": 57.50631616154492,
+    "swpf_miss_per_request": 0.058629840770591704,
+    "swpf_hit_per_request": 0.8498132494594063,
+    "fully_scheduled": true
+  },
+  {
+    "arm": "seq4k_nop",
+    "service": "compose",
+    "instructions_per_request": 283685.9224294925,
+    "code_misses_per_request": 11075.65250775213,
+    "mpki": 39.04195320268272,
+    "swpf_miss_per_request": 0.12039179012649505,
+    "swpf_hit_per_request": 2.0959787370182608,
+    "fully_scheduled": true
+  },
+  {
+    "arm": "seq4k_nop",
+    "service": "rating",
+    "instructions_per_request": 113360.6277783315,
+    "code_misses_per_request": 5527.1698395295525,
+    "mpki": 48.7574032347239,
+    "swpf_miss_per_request": 0.03777534137346756,
+    "swpf_hit_per_request": 0.8259244493172531,
+    "fully_scheduled": true
+  },
+  {
+    "arm": "seq4k",
+    "service": "movie",
+    "instructions_per_request": 101294.35965990073,
+    "code_misses_per_request": 5767.214085614587,
+    "mpki": 56.93519466412746,
+    "swpf_miss_per_request": 343.195163906227,
+    "swpf_hit_per_request": 1228.6830982454417,
+    "fully_scheduled": true
+  },
+  {
+    "arm": "seq4k",
+    "service": "compose",
+    "instructions_per_request": 283751.122268163,
+    "code_misses_per_request": 10612.663024217365,
+    "mpki": 37.40130766491812,
+    "swpf_miss_per_request": 669.8232919866116,
+    "swpf_hit_per_request": 3073.5649241976766,
+    "fully_scheduled": true
+  },
+  {
+    "arm": "seq4k",
+    "service": "rating",
+    "instructions_per_request": 114743.00408590364,
+    "code_misses_per_request": 5357.276147291843,
+    "mpki": 46.68934886244619,
+    "swpf_miss_per_request": 291.1967213114754,
+    "swpf_hit_per_request": 847.1933828292391,
+    "fully_scheduled": true
+  },
+  {
+    "arm": "seq256_nop",
+    "service": "movie",
+    "instructions_per_request": 101375.08619333268,
+    "code_misses_per_request": 5734.795555118498,
+    "mpki": 56.570068351721595,
+    "swpf_miss_per_request": 0.058363654243288425,
+    "swpf_hit_per_request": 0.8578031271511456,
+    "fully_scheduled": true
+  },
+  {
+    "arm": "seq256_nop",
+    "service": "compose",
+    "instructions_per_request": 283842.4199852326,
+    "code_misses_per_request": 11119.551218311592,
+    "mpki": 39.175086017411026,
+    "swpf_miss_per_request": 0.1274920009844942,
+    "swpf_hit_per_request": 2.139945852818115,
+    "fully_scheduled": true
+  },
+  {
+    "arm": "seq256_nop",
+    "service": "rating",
+    "instructions_per_request": 112023.33429696456,
+    "code_misses_per_request": 5482.6340028908935,
+    "mpki": 48.941892662799034,
+    "swpf_miss_per_request": 0.0432637192842546,
+    "swpf_hit_per_request": 0.8053631062154214,
+    "fully_scheduled": true
+  },
+  {
+    "arm": "seq256",
+    "service": "movie",
+    "instructions_per_request": 101364.48864530082,
+    "code_misses_per_request": 5696.65272316162,
+    "mpki": 56.19968885844828,
+    "swpf_miss_per_request": 41.90247738891073,
+    "swpf_hit_per_request": 1546.297384978372,
+    "fully_scheduled": true
+  },
+  {
+    "arm": "seq256",
+    "service": "compose",
+    "instructions_per_request": 283864.0242761473,
+    "code_misses_per_request": 10577.467598975772,
+    "mpki": 37.26244502433266,
+    "swpf_miss_per_request": 100.86758912743747,
+    "swpf_hit_per_request": 3733.9471636793382,
+    "fully_scheduled": true
+  },
+  {
+    "arm": "seq256",
+    "service": "rating",
+    "instructions_per_request": 112002.86643408921,
+    "code_misses_per_request": 5330.480986792923,
+    "mpki": 47.592362200210054,
+    "swpf_miss_per_request": 30.834039372040866,
+    "swpf_hit_per_request": 1137.1719910291552,
+    "fully_scheduled": true
+  }
+]

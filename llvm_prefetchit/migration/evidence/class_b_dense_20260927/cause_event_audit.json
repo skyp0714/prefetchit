@@ -1,0 +1,277 @@
+{
+  "source": "https://perfmon-events.intel.com/platforms/graniterapids/core-events/core/",
+  "events": [
+    {
+      "set": "cache",
+      "expression": "cpu/event=0x24,umask=0x24,name=L2I/u",
+      "official": [
+        {
+          "EventName": "L2_RQSTS.CODE_RD_MISS",
+          "EventCode": "0x24",
+          "UMask": "0x24",
+          "CounterMask": "0",
+          "MSRIndex": "0x00",
+          "MSRValue": "0x00",
+          "Counter": "0,1,2,3",
+          "PEBS": null
+        }
+      ]
+    },
+    {
+      "set": "cache",
+      "expression": "cpu/event=0x24,umask=0xe4,name=L2_CODE_ALL/u",
+      "official": [
+        {
+          "EventName": "L2_RQSTS.ALL_CODE_RD",
+          "EventCode": "0x24",
+          "UMask": "0xe4",
+          "CounterMask": "0",
+          "MSRIndex": "0x00",
+          "MSRValue": "0x00",
+          "Counter": "0,1,2,3",
+          "PEBS": null
+        }
+      ]
+    },
+    {
+      "set": "cache",
+      "expression": "cpu/event=0x24,umask=0x28,name=SWPF_MISS/u",
+      "official": [
+        {
+          "EventName": "L2_RQSTS.SWPF_MISS",
+          "EventCode": "0x24",
+          "UMask": "0x28",
+          "CounterMask": "0",
+          "MSRIndex": "0x00",
+          "MSRValue": "0x00",
+          "Counter": "0,1,2,3",
+          "PEBS": null
+        }
+      ]
+    },
+    {
+      "set": "cache",
+      "expression": "cpu/event=0x24,umask=0xc8,name=SWPF_HIT/u",
+      "official": [
+        {
+          "EventName": "L2_RQSTS.SWPF_HIT",
+          "EventCode": "0x24",
+          "UMask": "0xc8",
+          "CounterMask": "0",
+          "MSRIndex": "0x00",
+          "MSRValue": "0x00",
+          "Counter": "0,1,2,3",
+          "PEBS": null
+        }
+      ]
+    },
+    {
+      "set": "translation",
+      "expression": "cpu/event=0x11,umask=0x20,name=ITLB_STLB_HIT/u",
+      "official": [
+        {
+          "EventName": "ITLB_MISSES.STLB_HIT",
+          "EventCode": "0x11",
+          "UMask": "0x20",
+          "CounterMask": "0",
+          "MSRIndex": "0x00",
+          "MSRValue": "0x00",
+          "Counter": "0,1,2,3",
+          "PEBS": null
+        }
+      ]
+    },
+    {
+      "set": "translation",
+      "expression": "cpu/event=0x11,umask=0xe,name=ITLB_WALK/u",
+      "official": [
+        {
+          "EventName": "ITLB_MISSES.WALK_COMPLETED",
+          "EventCode": "0x11",
+          "UMask": "0x0e",
+          "CounterMask": "0",
+          "MSRIndex": "0x00",
+          "MSRValue": "0x00",
+          "Counter": "0,1,2,3",
+          "PEBS": null
+        }
+      ]
+    },
+    {
+      "set": "translation",
+      "expression": "cpu/event=0x11,umask=0x10,name=ITLB_WALK_ACTIVE,cmask=1/u",
+      "official": [
+        {
+          "EventName": "ITLB_MISSES.WALK_ACTIVE",
+          "EventCode": "0x11",
+          "UMask": "0x10",
+          "CounterMask": "1",
+          "MSRIndex": "0x00",
+          "MSRValue": "0x00",
+          "Counter": "0,1,2,3",
+          "PEBS": null
+        }
+      ]
+    },
+    {
+      "set": "translation",
+      "expression": "cpu/event=0x80,umask=0x4,name=ICACHE_DATA_STALL/u",
+      "official": [
+        {
+          "EventName": "ICACHE_DATA.STALLS",
+          "EventCode": "0x80",
+          "UMask": "0x04",
+          "CounterMask": "0",
+          "MSRIndex": "0x00",
+          "MSRValue": "0x00",
+          "Counter": "0,1,2,3",
+          "PEBS": null
+        }
+      ]
+    },
+    {
+      "set": "retired_l2",
+      "expression": "cpu/event=0xc6,umask=0x3,name=FE_L2,config1=0x13/u",
+      "official": [
+        {
+          "EventName": "FRONTEND_RETIRED.L2_MISS",
+          "EventCode": "0xc6",
+          "UMask": "0x03",
+          "CounterMask": "0",
+          "MSRIndex": "0x3F7",
+          "MSRValue": "0x13",
+          "Counter": "0,1,2,3,4,5,6,7",
+          "PEBS": null
+        }
+      ]
+    },
+    {
+      "set": "retired_l2",
+      "expression": "cpu/event=0x60,umask=0x1,name=BACLEARS/u",
+      "official": [
+        {
+          "EventName": "BACLEARS.ANY",
+          "EventCode": "0x60",
+          "UMask": "0x01",
+          "CounterMask": "0",
+          "MSRIndex": "0x00",
+          "MSRValue": "0x00",
+          "Counter": "0,1,2,3",
+          "PEBS": null
+        }
+      ]
+    },
+    {
+      "set": "retired_l1",
+      "expression": "cpu/event=0xc6,umask=0x3,name=FE_L1,config1=0x12/u",
+      "official": [
+        {
+          "EventName": "FRONTEND_RETIRED.L1I_MISS",
+          "EventCode": "0xc6",
+          "UMask": "0x03",
+          "CounterMask": "0",
+          "MSRIndex": "0x3F7",
+          "MSRValue": "0x12",
+          "Counter": "0,1,2,3,4,5,6,7",
+          "PEBS": null
+        }
+      ]
+    },
+    {
+      "set": "retired_l1",
+      "expression": "cpu/event=0x83,umask=0x4,name=ICACHE_TAG_STALL/u",
+      "official": [
+        {
+          "EventName": "ICACHE_TAG.STALLS",
+          "EventCode": "0x83",
+          "UMask": "0x04",
+          "CounterMask": "0",
+          "MSRIndex": "0x00",
+          "MSRValue": "0x00",
+          "Counter": "0,1,2,3",
+          "PEBS": null
+        }
+      ]
+    },
+    {
+      "set": "retired_itlb",
+      "expression": "cpu/event=0xc6,umask=0x3,name=FE_ITLB,config1=0x14/u",
+      "official": [
+        {
+          "EventName": "FRONTEND_RETIRED.ITLB_MISS",
+          "EventCode": "0xc6",
+          "UMask": "0x03",
+          "CounterMask": "0",
+          "MSRIndex": "0x3F7",
+          "MSRValue": "0x14",
+          "Counter": "0,1,2,3,4,5,6,7",
+          "PEBS": null
+        }
+      ]
+    },
+    {
+      "set": "retired_itlb",
+      "expression": "cpu/event=0xad,umask=0x80,name=CLEAR_RESTEER/u",
+      "official": [
+        {
+          "EventName": "INT_MISC.CLEAR_RESTEER_CYCLES",
+          "EventCode": "0xad",
+          "UMask": "0x80",
+          "CounterMask": "0",
+          "MSRIndex": "0x00",
+          "MSRValue": "0x00",
+          "Counter": "0,1,2,3,4,5,6,7",
+          "PEBS": null
+        }
+      ]
+    },
+    {
+      "set": "unknown_branch",
+      "expression": "cpu/event=0xc6,umask=0x3,name=FE_UNKNOWN,config1=0x17/u",
+      "official": [
+        {
+          "EventName": "FRONTEND_RETIRED.UNKNOWN_BRANCH",
+          "EventCode": "0xc6",
+          "UMask": "0x03",
+          "CounterMask": "0",
+          "MSRIndex": "0x3F7",
+          "MSRValue": "0x17",
+          "Counter": "0,1,2,3,4,5,6,7",
+          "PEBS": null
+        }
+      ]
+    },
+    {
+      "set": "unknown_branch",
+      "expression": "cpu/event=0xc4,umask=0x80,name=BR_INDIRECT/u",
+      "official": [
+        {
+          "EventName": "BR_INST_RETIRED.INDIRECT",
+          "EventCode": "0xc4",
+          "UMask": "0x80",
+          "CounterMask": "0",
+          "MSRIndex": "0x00",
+          "MSRValue": "0x00",
+          "Counter": "0,1,2,3,4,5,6,7",
+          "PEBS": null
+        }
+      ]
+    },
+    {
+      "set": "unknown_branch",
+      "expression": "cpu/event=0xc5,umask=0x80,name=MISP_INDIRECT/u",
+      "official": [
+        {
+          "EventName": "BR_MISP_RETIRED.INDIRECT",
+          "EventCode": "0xc5",
+          "UMask": "0x80",
+          "CounterMask": "0",
+          "MSRIndex": "0x00",
+          "MSRValue": "0x00",
+          "Counter": "0,1,2,3,4,5,6,7",
+          "PEBS": null
+        }
+      ]
+    }
+  ]
+}

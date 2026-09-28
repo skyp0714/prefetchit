@@ -1,0 +1,21 @@
+{
+  "command": [
+    "taskset",
+    "-c",
+    "84-85",
+    "profiling/.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "llvm_prefetchit/tests/test_concurrency_study.py",
+    "llvm_prefetchit/tests/test_dense_cause_analysis.py",
+    "--basetemp",
+    "/tmp/class_b_cause_tests_20260927"
+  ],
+  "returncode": 2,
+  "output": "\n==================================== ERRORS ====================================\n_____ ERROR collecting llvm_prefetchit/tests/test_dense_cause_analysis.py ______\nImportError while importing test module '/home/hnpark2/prefetchit/llvm_prefetchit/tests/test_dense_cause_analysis.py'.\nHint: make sure your test modules/packages have valid Python names.\nTraceback:\n/usr/lib/python3.12/importlib/__init__.py:90: in import_module\n    return _bootstrap._gcd_import(name[level:], package, level)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nllvm_prefetchit/tests/test_dense_cause_analysis.py:11: in <module>\n    import dense_causes as d\nllvm_prefetchit/scripts/class_b/dense_causes.py:21: in <module>\n    import fullset as h\nllvm_prefetchit/scripts/class_b/fullset.py:20: in <module>\n    import media\nllvm_prefetchit/migration/schemes/class_b_extension_20260926/media.py:3: in <module>\n    import argparse,gzip,json,os,re,shutil,signal,socket,subprocess,sys,time,urllib.error,urllib.request,yaml\nE   ModuleNotFoundError: No module named 'yaml'\n=========================== short test summary info ============================\nERROR llvm_prefetchit/tests/test_dense_cause_analysis.py\n!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!\n1 error in 0.11s\n",
+  "removed": [],
+  "bytes_removed": 0,
+  "free_before": 19118231552,
+  "free_after": 19118211072
+}

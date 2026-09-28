@@ -1,0 +1,19 @@
+{
+  "command": [
+    "taskset",
+    "-c",
+    "84-85",
+    "python3",
+    "-m",
+    "pytest",
+    "-q",
+    "llvm_prefetchit/tests/test_concurrency_study.py",
+    "llvm_prefetchit/tests/test_dense_cause_analysis.py",
+    "--basetemp",
+    "/tmp/class_b_cause_tests_20260927"
+  ],
+  "returncode": 1,
+  "output": "/usr/bin/python3: No module named pytest\n",
+  "removed": [],
+  "bytes_removed": 0
+}

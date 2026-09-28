@@ -1,0 +1,62 @@
+{
+  "out": "/storage/prefetchit/class_b_dense_20260927/causes_c4/seq4k",
+  "overrides": {
+    "movie": "/storage/prefetchit/class_b_dense_20260927/builds/cause_seq4k/movie/MovieIdService",
+    "compose": "/storage/prefetchit/class_b_dense_20260927/builds/cause_seq4k/compose/ComposeReviewService",
+    "rating": "/storage/prefetchit/class_b_dense_20260927/builds/cause_seq4k/rating/RatingService"
+  },
+  "concurrency": 4,
+  "seed": 45001,
+  "sample": true,
+  "rounds": 2,
+  "stat_s": 5,
+  "sample_s": 8,
+  "events": {
+    "cache": [
+      "cpu/event=0x24,umask=0x24,name=L2I/u",
+      "cpu/event=0x24,umask=0xe4,name=L2_CODE_ALL/u",
+      "cpu/event=0x24,umask=0x28,name=SWPF_MISS/u",
+      "cpu/event=0x24,umask=0xc8,name=SWPF_HIT/u"
+    ],
+    "translation": [
+      "cpu/event=0x11,umask=0x20,name=ITLB_STLB_HIT/u",
+      "cpu/event=0x11,umask=0xe,name=ITLB_WALK/u",
+      "cpu/event=0x11,umask=0x10,name=ITLB_WALK_ACTIVE,cmask=1/u",
+      "cpu/event=0x80,umask=0x4,name=ICACHE_DATA_STALL/u"
+    ],
+    "retired_l2": [
+      "cpu/event=0xc6,umask=0x3,name=FE_L2,config1=0x13/u",
+      "cpu/event=0x60,umask=0x1,name=BACLEARS/u",
+      "branches:u",
+      "branch-misses:u"
+    ],
+    "retired_l1": [
+      "cpu/event=0xc6,umask=0x3,name=FE_L1,config1=0x12/u",
+      "cpu/event=0x83,umask=0x4,name=ICACHE_TAG_STALL/u"
+    ],
+    "retired_itlb": [
+      "cpu/event=0xc6,umask=0x3,name=FE_ITLB,config1=0x14/u",
+      "cpu/event=0xad,umask=0x80,name=CLEAR_RESTEER/u"
+    ],
+    "unknown_branch": [
+      "cpu/event=0xc6,umask=0x3,name=FE_UNKNOWN,config1=0x17/u",
+      "cpu/event=0xc4,umask=0x80,name=BR_INDIRECT/u",
+      "cpu/event=0xc5,umask=0x80,name=MISP_INDIRECT/u"
+    ]
+  },
+  "samples": {
+    "l2": "cpu/event=0xc6,umask=0x3,name=fe_l2,config1=0x13,period=257/upp",
+    "unknown": "cpu/event=0xc6,umask=0x3,name=fe_unknown,config1=0x17,period=257/upp",
+    "instructions": "cpu/event=0xc0,umask=0,period=100003,name=inst/upp"
+  },
+  "event_source": "https://perfmon-events.intel.com/platforms/graniterapids/core-events/core/",
+  "scope": "Target user-mode cgroups; all threads. Samples diagnose retired instructions; L2I counts speculative requests.",
+  "limitation": "Unknown-branch and code-miss captures are independent populations, not paired causal observations. LBR records retired taken branches, not FDIP/BTB state.",
+  "source_sha256": "025e135ee92cec95efbca2af4aaa9d9bcd49bc455635b496283bf7ba414381a6",
+  "roi": "30 seconds before PMU, dispatch-to-completion",
+  "hashes": {
+    "movie": "6d51328ca9fb9c18ecf8f08ed5e5b8a1717db27353acabb56542e24b034d040a",
+    "compose": "33369cd2f3af82c54e8937b9cefdb76068548f369a24134048c0d7cb71f89ba4",
+    "rating": "101a1ae62df6d1debcfc9b5f6f8acb662cd58b4311bb6f30320b7408b960beaa"
+  }
+}

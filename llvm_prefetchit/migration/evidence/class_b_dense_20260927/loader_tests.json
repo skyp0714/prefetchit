@@ -1,0 +1,42 @@
+{
+  "command": "taskset -c 84-85 profiling/.venv/bin/python -m pytest -q llvm_prefetchit/tests/test_concurrency_study.py --basetemp /storage/prefetchit/class_b_dense_concurrency_tests_20260927",
+  "passed": 3,
+  "elapsed_s": 0.89,
+  "cleanup": {
+    "path": "/storage/prefetchit/class_b_dense_concurrency_tests_20260927",
+    "files": [
+      {
+        "path": "/storage/prefetchit/class_b_dense_concurrency_tests_20260927/test_closed_loop_obeys_concurrcurrent",
+        "symlink": "/storage/prefetchit/class_b_dense_concurrency_tests_20260927/test_closed_loop_obeys_concurr0"
+      },
+      {
+        "path": "/storage/prefetchit/class_b_dense_concurrency_tests_20260927/test_closed_loop_obeys_concurr0/good/started.json",
+        "bytes": 435
+      },
+      {
+        "path": "/storage/prefetchit/class_b_dense_concurrency_tests_20260927/test_closed_loop_obeys_concurr0/good/load.json",
+        "bytes": 653
+      },
+      {
+        "path": "/storage/prefetchit/class_b_dense_concurrency_tests_20260927/test_closed_loop_obeys_concurr0/good/requests.json.gz",
+        "bytes": 457
+      },
+      {
+        "path": "/storage/prefetchit/class_b_dense_concurrency_tests_20260927/test_closed_loop_obeys_concurr0/bad/started.json",
+        "bytes": 434
+      },
+      {
+        "path": "/storage/prefetchit/class_b_dense_concurrency_tests_20260927/test_closed_loop_obeys_concurr0/bad/load.json",
+        "bytes": 1018
+      },
+      {
+        "path": "/storage/prefetchit/class_b_dense_concurrency_tests_20260927/test_closed_loop_obeys_concurr0/bad/requests.json.gz",
+        "bytes": 42
+      }
+    ],
+    "bytes_removed": 3039,
+    "free_before": 917187641344,
+    "complete": true,
+    "free_after": 917187686400
+  }
+}

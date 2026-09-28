@@ -1,0 +1,2588 @@
+{
+  "base": {
+    "movie": {
+      "events": {
+        "l2": {
+          "samples": 17010,
+          "main_pct": 82.8747795414462,
+          "branch_ip_pct": 12.586713697824809,
+          "within_64B_pct": 94.4973544973545,
+          "same_line_pct": 90.20576131687243,
+          "associated_pct": 99.71781305114638,
+          "preceding_mispredicted_pct": 37.89647447234996,
+          "static_target_pct": 0.0,
+          "observed_matching_pf_pct": 0.0,
+          "any_observed_pf_pct": 0.0,
+          "dso_pct": {
+            "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": 6.91358024691358,
+            "/custom/MovieIdService": 82.8747795414462,
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": 9.059376837154614,
+            "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2": 0.32333921222810114,
+            "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": 0.8171663727219283,
+            "([vdso])": 0.011757789535567314
+          },
+          "preceding_branch_pct": {
+            "direct_call": 48.44947529772433,
+            "conditional_branch": 8.654639783044452,
+            "return": 9.42695436858861,
+            "indirect_call": 20.422120033014973,
+            "indirect_jump": 6.31411390166254,
+            "direct_jump": 6.732696615965098
+          },
+          "unmapped": 2,
+          "ip_not_boundary": 0,
+          "top_functions": [
+            {
+              "name": "/custom/MovieIdService::_ZNSt12_Destroy_auxILb0EE9__destroyIPN13jaegertracing9ReferenceEEEvT_S5_",
+              "samples": 243,
+              "share_pct": 1.4285714285714286
+            },
+            {
+              "name": "/custom/MovieIdService::_ZN6apache6thrift9transport7TSocket4readEPhj",
+              "samples": 210,
+              "share_pct": 1.2345679012345678
+            },
+            {
+              "name": "/custom/MovieIdService::_ZNSt13__future_base13_State_baseV213_M_set_resultESt8functionIFSt10unique_ptrINS_12_Result_baseENS3_8_DeleterEEvEEb",
+              "samples": 205,
+              "share_pct": 1.2051734273956496
+            },
+            {
+              "name": "/custom/MovieIdService::_ZNSt6vectorIN13jaegertracing9ReferenceESaIS1_EE20_M_allocate_and_copyIN9__gnu_cxx17__normal_iteratorIPKS1_S3_EEEEPS1_mT_SB_",
+              "samples": 204,
+              "share_pct": 1.199294532627866
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0::memcached_server_by_key@@Base",
+              "samples": 192,
+              "share_pct": 1.128747795414462
+            },
+            {
+              "name": "/custom/MovieIdService::_ZNK13jaegertracing6Tracer17analyzeReferencesERKSt6vectorISt4pairIN11opentracing2v217SpanReferenceTypeEPKNS4_11SpanContextEESaIS9_EE",
+              "samples": 188,
+              "share_pct": 1.1052322163433275
+            },
+            {
+              "name": "/custom/MovieIdService::_ZN13jaegertracing4Span17FinishWithOptionsERKN11opentracing2v217FinishSpanOptionsE",
+              "samples": 181,
+              "share_pct": 1.0640799529688418
+            },
+            {
+              "name": "/custom/MovieIdService::_ZNSt6vectorIN13jaegertracing9LogRecordESaIS1_EEaSERKS3_",
+              "samples": 177,
+              "share_pct": 1.0405643738977073
+            },
+            {
+              "name": "/custom/MovieIdService::__once_proxy",
+              "samples": 176,
+              "share_pct": 1.0346854791299236
+            },
+            {
+              "name": "/custom/MovieIdService::_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE10_M_replaceEmmPKcm",
+              "samples": 175,
+              "share_pct": 1.02880658436214
+            }
+          ],
+          "lead": {},
+          "footprint": {
+            "unique_sampled_lines": 829,
+            "unique_sampled_4k_pages": 160,
+            "samples_on_repeated_lines": 16855
+          }
+        },
+        "unknown": {
+          "samples": 62804,
+          "main_pct": 75.93783835424495,
+          "branch_ip_pct": 98.46347366409783,
+          "within_64B_pct": 90.6614228393096,
+          "same_line_pct": 66.48621106935865,
+          "associated_pct": 99.46500222915738,
+          "preceding_mispredicted_pct": 39.12243068451047,
+          "static_target_pct": 0.0,
+          "observed_matching_pf_pct": 0.0,
+          "any_observed_pf_pct": 0.0,
+          "dso_pct": {
+            "/custom/MovieIdService": 75.93783835424495,
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": 16.411375071651488,
+            "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": 6.236863894019489,
+            "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": 0.8980319724858289,
+            "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2": 0.3088975224507993,
+            "([vdso])": 0.20699318514744283
+          },
+          "preceding_branch_pct": {
+            "direct_jump": 6.781071908817315,
+            "conditional_branch": 31.93795223154255,
+            "return": 34.18550297752449,
+            "direct_call": 15.074918358199398,
+            "indirect_jump": 4.075686751616828,
+            "indirect_call": 7.944867772299418
+          },
+          "unmapped": 130,
+          "ip_not_boundary": 0,
+          "top_functions": [
+            {
+              "name": "/custom/MovieIdService::_ZNK13jaegertracing6thrift4Span5writeEPN6apache6thrift8protocol9TProtocolE",
+              "samples": 2489,
+              "share_pct": 3.9631233679383477
+            },
+            {
+              "name": "/custom/MovieIdService::_ZN13jaegertracing4SpanC2ERKS0_",
+              "samples": 1392,
+              "share_pct": 2.2164193363480034
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__nss_database_lookup@GLIBC_2.2.5",
+              "samples": 1294,
+              "share_pct": 2.0603783198522385
+            },
+            {
+              "name": "/custom/MovieIdService::_ZN13media_service14MovieIdHandler13UploadMovieIdElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiRKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE",
+              "samples": 1273,
+              "share_pct": 2.026940959174575
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__default_morecore@GLIBC_2.2.5",
+              "samples": 1261,
+              "share_pct": 2.0078338959301956
+            },
+            {
+              "name": "/custom/MovieIdService::_ZNK13jaegertracing4Span6thriftEv",
+              "samples": 1121,
+              "share_pct": 1.7849181580791031
+            },
+            {
+              "name": "/custom/MovieIdService::_ZN13jaegertracing12UDPTransport6appendERKNS_4SpanE",
+              "samples": 1048,
+              "share_pct": 1.6686835233424622
+            },
+            {
+              "name": "/custom/MovieIdService::_ZNK13jaegertracing6Tracer20StartSpanWithOptionsEN11opentracing2v211string_viewERKNS2_16StartSpanOptionsE",
+              "samples": 990,
+              "share_pct": 1.5763327176612956
+            },
+            {
+              "name": "/custom/MovieIdService::_ZNK13jaegertracing6thrift7SpanRef5writeEPN6apache6thrift8protocol9TProtocolE",
+              "samples": 947,
+              "share_pct": 1.507865741035603
+            },
+            {
+              "name": "/custom/MovieIdService::_ZN13jaegertracing4SpanD2Ev",
+              "samples": 768,
+              "share_pct": 1.2228520476402778
+            }
+          ],
+          "lead": {},
+          "footprint": {
+            "unique_sampled_lines": 1240,
+            "unique_sampled_4k_pages": 167,
+            "samples_on_repeated_lines": 62578
+          }
+        },
+        "instructions": {
+          "samples": 8632,
+          "main_pct": 57.56487488415199,
+          "branch_ip_pct": 32.182576459684896,
+          "within_64B_pct": 86.49212233549584,
+          "same_line_pct": 68.72103799814643,
+          "associated_pct": 98.10009267840593,
+          "preceding_mispredicted_pct": 18.953708077468114,
+          "static_target_pct": 0.0,
+          "observed_matching_pf_pct": 0.0,
+          "any_observed_pf_pct": 0.0,
+          "dso_pct": {
+            "/custom/MovieIdService": 57.56487488415199,
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": 35.924467099165895,
+            "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": 3.429101019462465,
+            "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2": 1.0889712696941614,
+            "([vdso])": 0.9615384615384616,
+            "([unknown])": 0.9267840593141798,
+            "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": 0.10426320667284522
+          },
+          "preceding_branch_pct": {
+            "indirect_call": 6.471421823334908,
+            "return": 18.540387340576288,
+            "conditional_branch": 38.946622579121396,
+            "direct_call": 19.42607463391592,
+            "indirect_jump": 7.864903164855928,
+            "direct_jump": 8.632498819083608,
+            "other": 0.11809163911195088
+          },
+          "unmapped": 163,
+          "ip_not_boundary": 0,
+          "top_functions": [
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__default_morecore@GLIBC_2.2.5",
+              "samples": 950,
+              "share_pct": 11.005560704355885
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__nss_database_lookup@GLIBC_2.2.5",
+              "samples": 573,
+              "share_pct": 6.638090824837813
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__libc_free@@GLIBC_2.2.5",
+              "samples": 364,
+              "share_pct": 4.216867469879518
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__libc_malloc@@GLIBC_2.2.5",
+              "samples": 336,
+              "share_pct": 3.892493049119555
+            },
+            {
+              "name": "/custom/MovieIdService::_ZN6apache6thrift8protocol16TVirtualProtocolINS1_17TCompactProtocolTINS0_9transport10TTransportEEENS1_17TProtocolDefaultsEE13writeI64_virtEl",
+              "samples": 294,
+              "share_pct": 3.4059314179796107
+            },
+            {
+              "name": "/custom/MovieIdService::_ZN6apache6thrift8protocol17TCompactProtocolTINS0_9transport10TTransportEE15writeFieldBeginEPKcNS1_5TTypeEs",
+              "samples": 252,
+              "share_pct": 2.9193697868396664
+            },
+            {
+              "name": "/custom/MovieIdService::_ZNK13jaegertracing6thrift4Span5writeEPN6apache6thrift8protocol9TProtocolE",
+              "samples": 244,
+              "share_pct": 2.8266913809082483
+            },
+            {
+              "name": "/custom/MovieIdService::_ZN6apache6thrift9transport17TVirtualTransportINS1_13TMemoryBufferENS1_11TBufferBaseEE10write_virtEPKhj",
+              "samples": 208,
+              "share_pct": 2.4096385542168677
+            },
+            {
+              "name": "/custom/MovieIdService::_ZNSi3getERc",
+              "samples": 178,
+              "share_pct": 2.0620945319740502
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__pthread_mutex_unlock@GLIBC_2.2.5",
+              "samples": 177,
+              "share_pct": 2.050509731232623
+            }
+          ],
+          "lead": {},
+          "footprint": {
+            "unique_sampled_lines": 1165,
+            "unique_sampled_4k_pages": 158,
+            "samples_on_repeated_lines": 8157
+          }
+        }
+      },
+      "static": {
+        "resolved": 0,
+        "unresolved": 0,
+        "target_lines": 0
+      }
+    },
+    "compose": {
+      "events": {
+        "l2": {
+          "samples": 34571,
+          "main_pct": 80.53281652251887,
+          "branch_ip_pct": 10.098059066847936,
+          "within_64B_pct": 94.64290879639003,
+          "same_line_pct": 88.26762315235312,
+          "associated_pct": 99.85826270573602,
+          "preceding_mispredicted_pct": 37.27188459533051,
+          "static_target_pct": 0.0,
+          "observed_matching_pf_pct": 0.0,
+          "any_observed_pf_pct": 0.0,
+          "dso_pct": {
+            "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": 10.92534204969483,
+            "/custom/ComposeReviewService": 80.53281652251887,
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": 7.185213039831072,
+            "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": 1.15125394116456,
+            "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2": 0.18801885973793064,
+            "([vdso])": 0.017355587052732057
+          },
+          "preceding_branch_pct": {
+            "direct_call": 46.787555761543366,
+            "direct_jump": 6.030936793928509,
+            "indirect_jump": 6.642141243265164,
+            "indirect_call": 18.840159898036035,
+            "return": 10.526620705636985,
+            "conditional_branch": 11.172585597589944
+          },
+          "unmapped": 6,
+          "ip_not_boundary": 0,
+          "top_functions": [
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0::memcached_stat_execute@@Base",
+              "samples": 607,
+              "share_pct": 1.75580689016806
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZN13media_service29ComposeReviewServiceProcessor12dispatchCallEPN6apache6thrift8protocol9TProtocolES5_RKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiPv",
+              "samples": 403,
+              "share_pct": 1.16571693037517
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE10_M_replaceEmmPKcm",
+              "samples": 357,
+              "share_pct": 1.0326574296375575
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZN6apache6thrift9transport7TSocket4readEPhj",
+              "samples": 348,
+              "share_pct": 1.0066240490584595
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZN6apache6thrift9transport7readAllINS1_11TBufferBaseEEEjRT_Phj",
+              "samples": 314,
+              "share_pct": 0.908275722426311
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZN6apache6thrift6server16TConnectedClient3runEv",
+              "samples": 314,
+              "share_pct": 0.908275722426311
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0::memcached_server_response_count@@Base",
+              "samples": 314,
+              "share_pct": 0.908275722426311
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZN13jaegertracingeqERKNS_11SpanContextES2_",
+              "samples": 311,
+              "share_pct": 0.899597928899945
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZN5boost3log12v2s_mt_posix7sources3aux18get_severity_levelEv",
+              "samples": 310,
+              "share_pct": 0.896705331057823
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZN13media_service20ComposeReviewHandler17_ComposeAndUploadElRKSt3mapINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES7_St4lessIS7_ESaISt4pairIKS7_S7_EEE",
+              "samples": 307,
+              "share_pct": 0.888027537531457
+            }
+          ],
+          "lead": {},
+          "footprint": {
+            "unique_sampled_lines": 1218,
+            "unique_sampled_4k_pages": 190,
+            "samples_on_repeated_lines": 34372
+          }
+        },
+        "unknown": {
+          "samples": 141898,
+          "main_pct": 75.34214717614061,
+          "branch_ip_pct": 97.99292449505982,
+          "within_64B_pct": 90.52981719263133,
+          "same_line_pct": 62.806382049077506,
+          "associated_pct": 99.56518062270081,
+          "preceding_mispredicted_pct": 30.59647086303183,
+          "static_target_pct": 0.0,
+          "observed_matching_pf_pct": 0.0,
+          "any_observed_pf_pct": 0.0,
+          "dso_pct": {
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": 11.414537202779462,
+            "/custom/ComposeReviewService": 75.34214717614061,
+            "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": 12.08967004467998,
+            "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": 0.9239030853148036,
+            "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2": 0.14165104511691498,
+            "([vdso])": 0.0880914459682307
+          },
+          "preceding_branch_pct": {
+            "return": 35.44284086324417,
+            "conditional_branch": 32.656903617613125,
+            "direct_jump": 8.389663153573375,
+            "direct_call": 14.011792102264282,
+            "indirect_call": 6.544404413898542,
+            "indirect_jump": 2.954395849406502
+          },
+          "unmapped": 125,
+          "ip_not_boundary": 0,
+          "top_functions": [
+            {
+              "name": "/custom/ComposeReviewService::_ZNK13jaegertracing6thrift4Span5writeEPN6apache6thrift8protocol9TProtocolE",
+              "samples": 3091,
+              "share_pct": 2.178325275902409
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0::memcached_flush_buffers@@Base",
+              "samples": 2442,
+              "share_pct": 1.720954488435355
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZNK13jaegertracing6Tracer20StartSpanWithOptionsEN11opentracing2v211string_viewERKNS2_16StartSpanOptionsE",
+              "samples": 2430,
+              "share_pct": 1.7124977096224048
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__nss_database_lookup@GLIBC_2.2.5",
+              "samples": 2193,
+              "share_pct": 1.5454763280666395
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0::memcached_callback_set@@Base",
+              "samples": 2171,
+              "share_pct": 1.529972233576231
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZN13jaegertracing11SpanContext10fromStreamERSi",
+              "samples": 2071,
+              "share_pct": 1.4594990768016463
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0::memcached_stat_execute@@Base",
+              "samples": 1871,
+              "share_pct": 1.3185527632524772
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZN13jaegertracing4SpanC2ERKS0_",
+              "samples": 1854,
+              "share_pct": 1.3065723266007978
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0::memcached_reset@@Base",
+              "samples": 1853,
+              "share_pct": 1.3058675950330518
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__default_morecore@GLIBC_2.2.5",
+              "samples": 1752,
+              "share_pct": 1.2346897066907214
+            }
+          ],
+          "lead": {},
+          "footprint": {
+            "unique_sampled_lines": 1701,
+            "unique_sampled_4k_pages": 193,
+            "samples_on_repeated_lines": 141646
+          }
+        },
+        "instructions": {
+          "samples": 24900,
+          "main_pct": 58.82730923694779,
+          "branch_ip_pct": 32.36546184738956,
+          "within_64B_pct": 88.3012048192771,
+          "same_line_pct": 69.2570281124498,
+          "associated_pct": 98.33333333333333,
+          "preceding_mispredicted_pct": 14.176026138452114,
+          "static_target_pct": 0.0,
+          "observed_matching_pf_pct": 0.0,
+          "any_observed_pf_pct": 0.0,
+          "dso_pct": {
+            "/custom/ComposeReviewService": 58.82730923694779,
+            "([vdso])": 0.678714859437751,
+            "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": 10.666666666666666,
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": 28.401606425702813,
+            "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": 0.1566265060240964,
+            "([unknown])": 0.9799196787148594,
+            "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2": 0.2891566265060241
+          },
+          "preceding_branch_pct": {
+            "return": 18.484786604043293,
+            "direct_call": 22.278946293649174,
+            "conditional_branch": 38.08862568919747,
+            "direct_jump": 8.63385746375332,
+            "indirect_jump": 7.514804982642434,
+            "indirect_call": 4.966305901572391,
+            "other": 0.03267306514192363
+          },
+          "unmapped": 413,
+          "ip_not_boundary": 0,
+          "top_functions": [
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__default_morecore@GLIBC_2.2.5",
+              "samples": 1854,
+              "share_pct": 7.445783132530121
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__nss_database_lookup@GLIBC_2.2.5",
+              "samples": 1741,
+              "share_pct": 6.991967871485944
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__libc_malloc@@GLIBC_2.2.5",
+              "samples": 951,
+              "share_pct": 3.819277108433735
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZNSi3getERc",
+              "samples": 886,
+              "share_pct": 3.5582329317269075
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZNSi6sentryC1ERSib",
+              "samples": 701,
+              "share_pct": 2.8152610441767068
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0::memcached_callback_set@@Base",
+              "samples": 698,
+              "share_pct": 2.8032128514056227
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__libc_free@@GLIBC_2.2.5",
+              "samples": 674,
+              "share_pct": 2.7068273092369477
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZN13jaegertracing5utils10HexParsing11readSegmentB5cxx11ERSimc",
+              "samples": 667,
+              "share_pct": 2.678714859437751
+            },
+            {
+              "name": "/custom/ComposeReviewService::__dynamic_cast",
+              "samples": 567,
+              "share_pct": 2.2771084337349397
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZN6apache6thrift8protocol16TVirtualProtocolINS1_17TCompactProtocolTINS0_9transport10TTransportEEENS1_17TProtocolDefaultsEE13writeI64_virtEl",
+              "samples": 503,
+              "share_pct": 2.0200803212851404
+            }
+          ],
+          "lead": {},
+          "footprint": {
+            "unique_sampled_lines": 1737,
+            "unique_sampled_4k_pages": 185,
+            "samples_on_repeated_lines": 24163
+          }
+        }
+      },
+      "static": {
+        "resolved": 0,
+        "unresolved": 0,
+        "target_lines": 0
+      }
+    },
+    "rating": {
+      "events": {
+        "l2": {
+          "samples": 17087,
+          "main_pct": 90.83513782407678,
+          "branch_ip_pct": 9.580382747117692,
+          "within_64B_pct": 95.74530344706503,
+          "same_line_pct": 91.39111605313981,
+          "associated_pct": 99.56692222157196,
+          "preceding_mispredicted_pct": 42.314700523129375,
+          "static_target_pct": 0.0,
+          "observed_matching_pf_pct": 0.0,
+          "any_observed_pf_pct": 0.0,
+          "dso_pct": {
+            "/custom/RatingService": 90.83513782407678,
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": 9.012699713232282,
+            "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2": 0.15216246269093464
+          },
+          "preceding_branch_pct": {
+            "indirect_call": 24.299065420560748,
+            "direct_call": 45.759125374713456,
+            "indirect_jump": 6.906483277493681,
+            "conditional_branch": 7.98800916945865,
+            "direct_jump": 7.076941162640334,
+            "return": 7.970375595133134
+          },
+          "unmapped": 0,
+          "ip_not_boundary": 0,
+          "top_functions": [
+            {
+              "name": "/custom/RatingService::_ZN13jaegertracing11SpanContext4swapERS0_",
+              "samples": 267,
+              "share_pct": 1.562591443787675
+            },
+            {
+              "name": "/custom/RatingService::_ZN6apache6thrift9transport7TSocket4readEPhj",
+              "samples": 210,
+              "share_pct": 1.2290045063498567
+            },
+            {
+              "name": "/custom/RatingService::_ZNSt13__future_base13_State_baseV213_M_set_resultESt8functionIFSt10unique_ptrINS_12_Result_baseENS3_8_DeleterEEvEEb",
+              "samples": 181,
+              "share_pct": 1.0592848364253526
+            },
+            {
+              "name": "/custom/RatingService::_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE10_M_replaceEmmPKcm",
+              "samples": 179,
+              "share_pct": 1.047580031602973
+            },
+            {
+              "name": "/custom/RatingService::_ZN6apache6thrift9transport16TFramedTransport8readSlowEPhj",
+              "samples": 170,
+              "share_pct": 0.9949084099022649
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__select@@GLIBC_2.2.5",
+              "samples": 169,
+              "share_pct": 0.9890560074910751
+            },
+            {
+              "name": "/custom/RatingService::execute_native_thread_routine",
+              "samples": 154,
+              "share_pct": 0.9012699713232282
+            },
+            {
+              "name": "/custom/RatingService::_ZN9cpp_redis7network16redis_connection13build_commandERKSt6vectorINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESaIS8_EE",
+              "samples": 154,
+              "share_pct": 0.9012699713232282
+            },
+            {
+              "name": "/custom/RatingService::_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE9_M_assignERKS4_",
+              "samples": 142,
+              "share_pct": 0.8310411423889507
+            },
+            {
+              "name": "/custom/RatingService::_ZN11opentracing2v26Tracer6GlobalEv",
+              "samples": 140,
+              "share_pct": 0.8193363375665711
+            }
+          ],
+          "lead": {},
+          "footprint": {
+            "unique_sampled_lines": 908,
+            "unique_sampled_4k_pages": 160,
+            "samples_on_repeated_lines": 16890
+          }
+        },
+        "unknown": {
+          "samples": 59143,
+          "main_pct": 82.69955869671813,
+          "branch_ip_pct": 98.76401264731244,
+          "within_64B_pct": 90.23384001487919,
+          "same_line_pct": 64.48438530341714,
+          "associated_pct": 99.40145072113353,
+          "preceding_mispredicted_pct": 40.623245845311196,
+          "static_target_pct": 0.0,
+          "observed_matching_pf_pct": 0.0,
+          "any_observed_pf_pct": 0.0,
+          "dso_pct": {
+            "/custom/RatingService": 82.69955869671813,
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": 16.89633599918841,
+            "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2": 0.19613479194494698,
+            "([vdso])": 0.20797051214852139
+          },
+          "preceding_branch_pct": {
+            "direct_call": 13.878446648182484,
+            "return": 35.00824984265764,
+            "conditional_branch": 32.90241371685179,
+            "direct_jump": 6.9757947915426355,
+            "indirect_jump": 3.6741567300005102,
+            "indirect_call": 7.560938270764939
+          },
+          "unmapped": 123,
+          "ip_not_boundary": 0,
+          "top_functions": [
+            {
+              "name": "/custom/RatingService::_ZNK13jaegertracing6thrift4Span5writeEPN6apache6thrift8protocol9TProtocolE",
+              "samples": 1926,
+              "share_pct": 3.256513873154896
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__default_morecore@GLIBC_2.2.5",
+              "samples": 1429,
+              "share_pct": 2.4161777387011143
+            },
+            {
+              "name": "/custom/RatingService::_ZNK13jaegertracing4Span6thriftEv",
+              "samples": 964,
+              "share_pct": 1.6299477537493872
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__nss_database_lookup@GLIBC_2.2.5",
+              "samples": 926,
+              "share_pct": 1.5656967012156975
+            },
+            {
+              "name": "/custom/RatingService::_ZNK13jaegertracing6Tracer20StartSpanWithOptionsEN11opentracing2v211string_viewERKNS2_16StartSpanOptionsE",
+              "samples": 905,
+              "share_pct": 1.5301895406049744
+            },
+            {
+              "name": "/custom/RatingService::_ZN13jaegertracing4SpanC2ERKS0_",
+              "samples": 895,
+              "share_pct": 1.5132813688855824
+            },
+            {
+              "name": "/custom/RatingService::_ZNK13jaegertracing6thrift7SpanRef5writeEPN6apache6thrift8protocol9TProtocolE",
+              "samples": 774,
+              "share_pct": 1.3086924910809394
+            },
+            {
+              "name": "/custom/RatingService::_ZN13media_service31RatingService_UploadRating_args4readEPN6apache6thrift8protocol9TProtocolE",
+              "samples": 758,
+              "share_pct": 1.2816394163299123
+            },
+            {
+              "name": "/custom/RatingService::_ZN13jaegertracing12UDPTransport6appendERKNS_4SpanE",
+              "samples": 611,
+              "share_pct": 1.03308929205485
+            },
+            {
+              "name": "/custom/RatingService::_ZN13media_service13RatingHandler12UploadRatingElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiRKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE",
+              "samples": 594,
+              "share_pct": 1.0043454001318837
+            }
+          ],
+          "lead": {},
+          "footprint": {
+            "unique_sampled_lines": 1390,
+            "unique_sampled_4k_pages": 162,
+            "samples_on_repeated_lines": 58894
+          }
+        },
+        "instructions": {
+          "samples": 9128,
+          "main_pct": 57.48247151621385,
+          "branch_ip_pct": 29.30543382997371,
+          "within_64B_pct": 85.68141980718667,
+          "same_line_pct": 65.93996494303242,
+          "associated_pct": 98.31288343558282,
+          "preceding_mispredicted_pct": 20.826833073322934,
+          "static_target_pct": 0.0,
+          "observed_matching_pf_pct": 0.0,
+          "any_observed_pf_pct": 0.0,
+          "dso_pct": {
+            "/custom/RatingService": 57.48247151621385,
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": 40.46888694127958,
+            "([unknown])": 1.0407537248028045,
+            "([vdso])": 0.6463628396143734,
+            "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2": 0.36152497808939527
+          },
+          "preceding_branch_pct": {
+            "return": 18.27501671495431,
+            "conditional_branch": 36.88433251615779,
+            "direct_jump": 9.761533318475596,
+            "direct_call": 19.857365723200356,
+            "indirect_call": 5.281925562736795,
+            "other": 0.06685981724983285,
+            "indirect_jump": 9.872966347225317
+          },
+          "unmapped": 154,
+          "ip_not_boundary": 0,
+          "top_functions": [
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__default_morecore@GLIBC_2.2.5",
+              "samples": 1310,
+              "share_pct": 14.351446099912357
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__libc_malloc@@GLIBC_2.2.5",
+              "samples": 519,
+              "share_pct": 5.685801928133216
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__nss_database_lookup@GLIBC_2.2.5",
+              "samples": 489,
+              "share_pct": 5.357142857142857
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__libc_free@@GLIBC_2.2.5",
+              "samples": 433,
+              "share_pct": 4.743645924627519
+            },
+            {
+              "name": "/custom/RatingService::_ZN6apache6thrift8protocol16TVirtualProtocolINS1_17TCompactProtocolTINS0_9transport10TTransportEEENS1_17TProtocolDefaultsEE13writeI64_virtEl",
+              "samples": 235,
+              "share_pct": 2.574496056091148
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__pthread_mutex_unlock@GLIBC_2.2.5",
+              "samples": 204,
+              "share_pct": 2.2348816827344433
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__pthread_mutex_lock@GLIBC_2.2.5",
+              "samples": 197,
+              "share_pct": 2.1581945661700264
+            },
+            {
+              "name": "/custom/RatingService::_ZNSi3getERc",
+              "samples": 171,
+              "share_pct": 1.873356704645048
+            },
+            {
+              "name": "/custom/RatingService::_ZN6apache6thrift8protocol17TCompactProtocolTINS0_9transport10TTransportEE15writeFieldBeginEPKcNS1_5TTypeEs",
+              "samples": 170,
+              "share_pct": 1.862401402278703
+            },
+            {
+              "name": "/custom/RatingService::_ZNK13jaegertracing6thrift4Span5writeEPN6apache6thrift8protocol9TProtocolE",
+              "samples": 162,
+              "share_pct": 1.7747589833479405
+            }
+          ],
+          "lead": {},
+          "footprint": {
+            "unique_sampled_lines": 1291,
+            "unique_sampled_4k_pages": 156,
+            "samples_on_repeated_lines": 8592
+          }
+        }
+      },
+      "static": {
+        "resolved": 0,
+        "unresolved": 0,
+        "target_lines": 0
+      }
+    }
+  },
+  "seq4k": {
+    "movie": {
+      "events": {
+        "l2": {
+          "samples": 17285,
+          "main_pct": 83.12988140005785,
+          "branch_ip_pct": 12.467457332947642,
+          "within_64B_pct": 94.11050043390223,
+          "same_line_pct": 87.74660109921898,
+          "associated_pct": 99.5603124096037,
+          "preceding_mispredicted_pct": 39.764076936486724,
+          "static_target_pct": 31.807925947353198,
+          "observed_matching_pf_pct": 1.643043100954585,
+          "any_observed_pf_pct": 78.84871275672549,
+          "dso_pct": {
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": 9.169800404975412,
+            "/custom/MovieIdService": 83.12988140005785,
+            "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": 6.392826149840903,
+            "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2": 0.3413364188602835,
+            "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": 0.9661556262655482
+          },
+          "preceding_branch_pct": {
+            "conditional_branch": 8.40258004532512,
+            "indirect_jump": 6.293218664652217,
+            "return": 9.628682666046837,
+            "direct_call": 48.99180661281888,
+            "indirect_call": 20.907664594107736,
+            "direct_jump": 5.776047417049218
+          },
+          "unmapped": 0,
+          "ip_not_boundary": 0,
+          "top_functions": [
+            {
+              "name": "/custom/MovieIdService::_ZNSt13__future_base13_State_baseV213_M_set_resultESt8functionIFSt10unique_ptrINS_12_Result_baseENS3_8_DeleterEEvEEb",
+              "samples": 310,
+              "share_pct": 1.7934625397743709
+            },
+            {
+              "name": "/custom/MovieIdService::_ZN6apache6thrift9transport7TSocket4readEPhj",
+              "samples": 283,
+              "share_pct": 1.6372577379230546
+            },
+            {
+              "name": "/custom/MovieIdService::_ZN13jaegertracing4SpanC2ERKS0_",
+              "samples": 226,
+              "share_pct": 1.3074920451258316
+            },
+            {
+              "name": "/custom/MovieIdService::_ZN13jaegertracing12UDPTransport6appendERKNS_4SpanE",
+              "samples": 201,
+              "share_pct": 1.162857969337576
+            },
+            {
+              "name": "/custom/MovieIdService::_ZN6apache6thrift9transport16TFramedTransport8readSlowEPhj",
+              "samples": 190,
+              "share_pct": 1.0992189759907434
+            },
+            {
+              "name": "/custom/MovieIdService::_ZNSt6vectorIN13jaegertracing3TagESaIS1_EE15_M_range_insertIN9__gnu_cxx17__normal_iteratorIPKS1_S3_EEEEvNS6_IPS1_S3_EET_SC_St20forward_iterator_tag",
+              "samples": 175,
+              "share_pct": 1.01243853051779
+            },
+            {
+              "name": "/custom/MovieIdService::_ZNSt5dequeIN13jaegertracing4SpanESaIS1_EE16_M_push_back_auxIJRKS1_EEEvDpOT_",
+              "samples": 174,
+              "share_pct": 1.0066531674862598
+            },
+            {
+              "name": "/custom/MovieIdService::_ZNSt13__future_base21_Async_state_commonV217_M_complete_asyncEv",
+              "samples": 173,
+              "share_pct": 1.0008678044547294
+            },
+            {
+              "name": "/custom/MovieIdService::_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE9_M_assignERKS4_",
+              "samples": 166,
+              "share_pct": 0.960370263234018
+            },
+            {
+              "name": "/custom/MovieIdService::_ZN13jaegertracing11SpanContext4swapERS0_",
+              "samples": 165,
+              "share_pct": 0.9545849002024877
+            }
+          ],
+          "lead": {
+            "prior_block_minage_0-31": 271,
+            "same_partial_block": 11,
+            "prior_block_minage_512+": 2
+          },
+          "footprint": {
+            "unique_sampled_lines": 825,
+            "unique_sampled_4k_pages": 173,
+            "samples_on_repeated_lines": 17124
+          }
+        },
+        "unknown": {
+          "samples": 63318,
+          "main_pct": 75.18872990302916,
+          "branch_ip_pct": 99.12347199848384,
+          "within_64B_pct": 89.37742821946365,
+          "same_line_pct": 62.39457974035819,
+          "associated_pct": 99.54199437758615,
+          "preceding_mispredicted_pct": 39.223837024814365,
+          "static_target_pct": 36.82049338260842,
+          "observed_matching_pf_pct": 1.9394169114627753,
+          "any_observed_pf_pct": 81.38128178401087,
+          "dso_pct": {
+            "/custom/MovieIdService": 75.18872990302916,
+            "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": 6.546321741053097,
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": 16.841972266969897,
+            "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": 0.9602324773366183,
+            "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2": 0.30165197890015477,
+            "([vdso])": 0.16109163271107743
+          },
+          "preceding_branch_pct": {
+            "return": 33.50733007552199,
+            "conditional_branch": 32.24281271815701,
+            "direct_jump": 6.760487402424319,
+            "indirect_call": 7.8885574665228155,
+            "direct_call": 15.494700767912674,
+            "indirect_jump": 4.104524973027861,
+            "other": 0.001586596433331218
+          },
+          "unmapped": 102,
+          "ip_not_boundary": 0,
+          "top_functions": [
+            {
+              "name": "/custom/MovieIdService::_ZNK13jaegertracing6thrift4Span5writeEPN6apache6thrift8protocol9TProtocolE",
+              "samples": 2494,
+              "share_pct": 3.938848352759089
+            },
+            {
+              "name": "/custom/MovieIdService::_ZN13jaegertracing4SpanC2ERKS0_",
+              "samples": 1324,
+              "share_pct": 2.0910325657790834
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__nss_database_lookup@GLIBC_2.2.5",
+              "samples": 1297,
+              "share_pct": 2.0483906630026216
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__default_morecore@GLIBC_2.2.5",
+              "samples": 1294,
+              "share_pct": 2.043652673805237
+            },
+            {
+              "name": "/custom/MovieIdService::_ZN13media_service14MovieIdHandler13UploadMovieIdElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiRKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE",
+              "samples": 1285,
+              "share_pct": 2.029438706213083
+            },
+            {
+              "name": "/custom/MovieIdService::_ZNK13jaegertracing4Span6thriftEv",
+              "samples": 1267,
+              "share_pct": 2.0010107710287754
+            },
+            {
+              "name": "/custom/MovieIdService::_ZNK13jaegertracing6thrift7SpanRef5writeEPN6apache6thrift8protocol9TProtocolE",
+              "samples": 951,
+              "share_pct": 1.5019425755709277
+            },
+            {
+              "name": "/custom/MovieIdService::_ZN13jaegertracing12UDPTransport6appendERKNS_4SpanE",
+              "samples": 937,
+              "share_pct": 1.4798319593164662
+            },
+            {
+              "name": "/custom/MovieIdService::_ZNK13jaegertracing6Tracer20StartSpanWithOptionsEN11opentracing2v211string_viewERKNS2_16StartSpanOptionsE",
+              "samples": 936,
+              "share_pct": 1.4782526295840046
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::pthread_condattr_setpshared@@GLIBC_2.34",
+              "samples": 786,
+              "share_pct": 1.241353169714773
+            }
+          ],
+          "lead": {
+            "prior_block_minage_32-127": 171,
+            "prior_block_minage_0-31": 587,
+            "prior_block_minage_128-511": 206,
+            "prior_block_minage_512+": 248,
+            "same_partial_block": 16
+          },
+          "footprint": {
+            "unique_sampled_lines": 1252,
+            "unique_sampled_4k_pages": 177,
+            "samples_on_repeated_lines": 63122
+          }
+        },
+        "instructions": {
+          "samples": 8992,
+          "main_pct": 57.70685053380783,
+          "branch_ip_pct": 31.972864768683273,
+          "within_64B_pct": 85.88745551601423,
+          "same_line_pct": 68.36076512455516,
+          "associated_pct": 97.89813167259787,
+          "preceding_mispredicted_pct": 19.175281154151993,
+          "static_target_pct": 23.131672597864767,
+          "observed_matching_pf_pct": 1.1788256227758007,
+          "any_observed_pf_pct": 79.14813167259787,
+          "dso_pct": {
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": 35.720640569395016,
+            "/custom/MovieIdService": 57.70685053380783,
+            "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2": 0.8118327402135231,
+            "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": 3.5920818505338077,
+            "([vdso])": 1.1677046263345197,
+            "([unknown])": 0.9119217081850534,
+            "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": 0.08896797153024912
+          },
+          "preceding_branch_pct": {
+            "conditional_branch": 38.827672384414406,
+            "indirect_jump": 8.065432239009429,
+            "direct_call": 19.561513120527092,
+            "return": 19.24343973645348,
+            "direct_jump": 8.076792002726343,
+            "indirect_call": 6.145632170850846,
+            "other": 0.07951834601840281
+          },
+          "unmapped": 187,
+          "ip_not_boundary": 0,
+          "top_functions": [
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__default_morecore@GLIBC_2.2.5",
+              "samples": 945,
+              "share_pct": 10.509341637010676
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__nss_database_lookup@GLIBC_2.2.5",
+              "samples": 644,
+              "share_pct": 7.161921708185053
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__libc_malloc@@GLIBC_2.2.5",
+              "samples": 354,
+              "share_pct": 3.9368327402135233
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__libc_free@@GLIBC_2.2.5",
+              "samples": 347,
+              "share_pct": 3.8589857651245554
+            },
+            {
+              "name": "/custom/MovieIdService::_ZN6apache6thrift8protocol17TCompactProtocolTINS0_9transport10TTransportEE15writeFieldBeginEPKcNS1_5TTypeEs",
+              "samples": 280,
+              "share_pct": 3.113879003558719
+            },
+            {
+              "name": "/custom/MovieIdService::_ZN6apache6thrift8protocol16TVirtualProtocolINS1_17TCompactProtocolTINS0_9transport10TTransportEEENS1_17TProtocolDefaultsEE13writeI64_virtEl",
+              "samples": 278,
+              "share_pct": 3.0916370106761564
+            },
+            {
+              "name": "/custom/MovieIdService::_ZNK13jaegertracing6thrift4Span5writeEPN6apache6thrift8protocol9TProtocolE",
+              "samples": 226,
+              "share_pct": 2.513345195729537
+            },
+            {
+              "name": "/custom/MovieIdService::_ZNSi3getERc",
+              "samples": 195,
+              "share_pct": 2.168594306049822
+            },
+            {
+              "name": "/custom/MovieIdService::_ZN6apache6thrift9transport17TVirtualTransportINS1_13TMemoryBufferENS1_11TBufferBaseEE10write_virtEPKhj",
+              "samples": 193,
+              "share_pct": 2.14635231316726
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__pthread_mutex_unlock@GLIBC_2.2.5",
+              "samples": 169,
+              "share_pct": 1.8794483985765125
+            }
+          ],
+          "lead": {
+            "prior_block_minage_0-31": 73,
+            "prior_block_minage_512+": 13,
+            "prior_block_minage_32-127": 9,
+            "prior_block_minage_128-511": 11
+          },
+          "footprint": {
+            "unique_sampled_lines": 1225,
+            "unique_sampled_4k_pages": 167,
+            "samples_on_repeated_lines": 8459
+          }
+        }
+      },
+      "static": {
+        "resolved": 18203,
+        "unresolved": 0,
+        "target_lines": 12270,
+        "periodic_sites": 13639,
+        "target_other_function": 17835,
+        "periodic_other_function": 13294,
+        "target_same_function": 368,
+        "periodic_same_function": 345
+      }
+    },
+    "compose": {
+      "events": {
+        "l2": {
+          "samples": 35806,
+          "main_pct": 81.84382505725297,
+          "branch_ip_pct": 11.562307993073787,
+          "within_64B_pct": 94.36686588839859,
+          "same_line_pct": 87.41551695246606,
+          "associated_pct": 99.82405183488801,
+          "preceding_mispredicted_pct": 37.372352628486695,
+          "static_target_pct": 26.903312294028932,
+          "observed_matching_pf_pct": 1.2874937161369602,
+          "any_observed_pf_pct": 72.97659610121208,
+          "dso_pct": {
+            "/custom/ComposeReviewService": 81.84382505725297,
+            "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": 10.182650952354354,
+            "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": 1.178573423448584,
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": 6.646930682008602,
+            "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2": 0.13126291682958163,
+            "([vdso])": 0.01675696810590404
+          },
+          "preceding_branch_pct": {
+            "return": 10.939204879277062,
+            "indirect_call": 19.62622051870296,
+            "direct_jump": 5.794141510225779,
+            "direct_call": 45.7208404442828,
+            "conditional_branch": 11.912822091038805,
+            "indirect_jump": 6.006770556472596
+          },
+          "unmapped": 6,
+          "ip_not_boundary": 0,
+          "top_functions": [
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0::memcached_stat_execute@@Base",
+              "samples": 634,
+              "share_pct": 1.7706529631905268
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZNK13jaegertracing11propagation10PropagatorIRKN11opentracing2v213TextMapReaderERKNS3_13TextMapWriterEE7extractES6_",
+              "samples": 548,
+              "share_pct": 1.5304697536725689
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZN6apache6thrift9transport7TSocket4readEPhj",
+              "samples": 420,
+              "share_pct": 1.1729877674132827
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZN6apache6thrift6server16TConnectedClient3runEv",
+              "samples": 419,
+              "share_pct": 1.1701949393956321
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZN13media_service29ComposeReviewServiceProcessor12dispatchCallEPN6apache6thrift8protocol9TProtocolES5_RKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiPv",
+              "samples": 405,
+              "share_pct": 1.1310953471485226
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZN13jaegertracing11SpanContext10fromStreamERSi",
+              "samples": 382,
+              "share_pct": 1.0668603027425572
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZNK5boost3log12v2s_mt_posix19attribute_value_set4findENS1_14attribute_nameE",
+              "samples": 375,
+              "share_pct": 1.0473105066190025
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZNK10__cxxabiv121__vmi_class_type_info12__do_dyncastElNS_17__class_type_info10__sub_kindEPKS1_PKvS4_S6_RNS1_16__dyncast_resultE",
+              "samples": 364,
+              "share_pct": 1.016589398424845
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZNSt13__future_base13_State_baseV213_M_set_resultESt8functionIFSt10unique_ptrINS_12_Result_baseENS3_8_DeleterEEvEEb",
+              "samples": 333,
+              "share_pct": 0.9300117298776741
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE10_M_replaceEmmPKcm",
+              "samples": 326,
+              "share_pct": 0.9104619337541194
+            }
+          ],
+          "lead": {
+            "prior_block_minage_0-31": 435,
+            "prior_block_minage_32-127": 3,
+            "same_partial_block": 19,
+            "prior_block_minage_128-511": 4
+          },
+          "footprint": {
+            "unique_sampled_lines": 1205,
+            "unique_sampled_4k_pages": 197,
+            "samples_on_repeated_lines": 35621
+          }
+        },
+        "unknown": {
+          "samples": 138648,
+          "main_pct": 75.07573134845076,
+          "branch_ip_pct": 99.04722751139576,
+          "within_64B_pct": 89.10406208528072,
+          "same_line_pct": 60.79568403438925,
+          "associated_pct": 99.46194680053084,
+          "preceding_mispredicted_pct": 31.27003234180795,
+          "static_target_pct": 32.27237320408516,
+          "observed_matching_pf_pct": 1.5499682649587445,
+          "any_observed_pf_pct": 74.7937222318389,
+          "dso_pct": {
+            "/custom/ComposeReviewService": 75.07573134845076,
+            "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": 0.9520512376666089,
+            "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": 11.279643413536437,
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": 12.400467370607581,
+            "([vdso])": 0.1377589290866078,
+            "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2": 0.15434770065201084
+          },
+          "preceding_branch_pct": {
+            "return": 35.7645284332352,
+            "direct_call": 13.833737001638845,
+            "conditional_branch": 33.462893939174194,
+            "indirect_call": 6.26749430755174,
+            "direct_jump": 7.322591405490856,
+            "indirect_jump": 3.3487549129091674
+          },
+          "unmapped": 191,
+          "ip_not_boundary": 0,
+          "top_functions": [
+            {
+              "name": "/custom/ComposeReviewService::_ZNK13jaegertracing6thrift4Span5writeEPN6apache6thrift8protocol9TProtocolE",
+              "samples": 3020,
+              "share_pct": 2.178177831631181
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZNK13jaegertracing6Tracer20StartSpanWithOptionsEN11opentracing2v211string_viewERKNS2_16StartSpanOptionsE",
+              "samples": 2823,
+              "share_pct": 2.036091396918816
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0::memcached_flush_buffers@@Base",
+              "samples": 2151,
+              "share_pct": 1.551410766833997
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__nss_database_lookup@GLIBC_2.2.5",
+              "samples": 2104,
+              "share_pct": 1.5175119727655646
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0::memcached_callback_set@@Base",
+              "samples": 1910,
+              "share_pct": 1.377589290866078
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZN13jaegertracing11SpanContext10fromStreamERSi",
+              "samples": 1857,
+              "share_pct": 1.3393629911718885
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__default_morecore@GLIBC_2.2.5",
+              "samples": 1845,
+              "share_pct": 1.3307079799203738
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZZNK13jaegertracing11propagation10PropagatorIRKN11opentracing2v213TextMapReaderERKNS3_13TextMapWriterEE7extractES6_ENKUlRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESI_E_clESI_SI_",
+              "samples": 1765,
+              "share_pct": 1.2730079049102765
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZN13jaegertracing4SpanC2ERKS0_",
+              "samples": 1753,
+              "share_pct": 1.2643528936587618
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__recv@@GLIBC_PRIVATE",
+              "samples": 1714,
+              "share_pct": 1.2362241070913391
+            }
+          ],
+          "lead": {
+            "prior_block_minage_0-31": 997,
+            "prior_block_minage_128-511": 606,
+            "prior_block_minage_512+": 341,
+            "prior_block_minage_32-127": 171,
+            "same_partial_block": 34
+          },
+          "footprint": {
+            "unique_sampled_lines": 1716,
+            "unique_sampled_4k_pages": 199,
+            "samples_on_repeated_lines": 138341
+          }
+        },
+        "instructions": {
+          "samples": 24564,
+          "main_pct": 59.23709493567823,
+          "branch_ip_pct": 32.352222765021985,
+          "within_64B_pct": 87.24963361016121,
+          "same_line_pct": 68.58817782120175,
+          "associated_pct": 98.2250447809803,
+          "preceding_mispredicted_pct": 14.302884615384615,
+          "static_target_pct": 17.83097215437225,
+          "observed_matching_pf_pct": 0.7734896596645497,
+          "any_observed_pf_pct": 71.56000651359713,
+          "dso_pct": {
+            "/custom/ComposeReviewService": 59.23709493567823,
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": 27.817130760462465,
+            "([unknown])": 1.1032405145741735,
+            "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": 10.633447321283178,
+            "([vdso])": 0.6350757205666829,
+            "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2": 0.3704608369972317,
+            "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": 0.2035499104380394
+          },
+          "preceding_branch_pct": {
+            "direct_call": 22.235576923076923,
+            "indirect_jump": 7.178381962864721,
+            "indirect_call": 4.815981432360743,
+            "return": 19.106432360742705,
+            "conditional_branch": 38.018070291777185,
+            "direct_jump": 8.61240053050398,
+            "other": 0.033156498673740056
+          },
+          "unmapped": 427,
+          "ip_not_boundary": 0,
+          "top_functions": [
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__default_morecore@GLIBC_2.2.5",
+              "samples": 1907,
+              "share_pct": 7.763393584106823
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__nss_database_lookup@GLIBC_2.2.5",
+              "samples": 1592,
+              "share_pct": 6.481029148347175
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__libc_malloc@@GLIBC_2.2.5",
+              "samples": 938,
+              "share_pct": 3.8185963198176194
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZNSi3getERc",
+              "samples": 871,
+              "share_pct": 3.5458394398306465
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZN13jaegertracing5utils10HexParsing11readSegmentB5cxx11ERSimc",
+              "samples": 724,
+              "share_pct": 2.9474027031428105
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0::memcached_callback_set@@Base",
+              "samples": 705,
+              "share_pct": 2.8700537371763555
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__libc_free@@GLIBC_2.2.5",
+              "samples": 698,
+              "share_pct": 2.8415567497150303
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZNSi6sentryC1ERSib",
+              "samples": 634,
+              "share_pct": 2.5810128643543395
+            },
+            {
+              "name": "/custom/ComposeReviewService::__dynamic_cast",
+              "samples": 578,
+              "share_pct": 2.3530369646637355
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZN6apache6thrift8protocol16TVirtualProtocolINS1_17TCompactProtocolTINS0_9transport10TTransportEEENS1_17TProtocolDefaultsEE13writeI64_virtEl",
+              "samples": 463,
+              "share_pct": 1.884872170656245
+            }
+          ],
+          "lead": {
+            "prior_block_minage_0-31": 144,
+            "prior_block_minage_512+": 10,
+            "prior_block_minage_128-511": 28,
+            "prior_block_minage_32-127": 8
+          },
+          "footprint": {
+            "unique_sampled_lines": 1798,
+            "unique_sampled_4k_pages": 194,
+            "samples_on_repeated_lines": 23790
+          }
+        }
+      },
+      "static": {
+        "resolved": 14897,
+        "unresolved": 0,
+        "target_lines": 10466,
+        "periodic_sites": 12325,
+        "target_other_function": 14415,
+        "periodic_other_function": 11851,
+        "target_same_function": 482,
+        "periodic_same_function": 474
+      }
+    },
+    "rating": {
+      "events": {
+        "l2": {
+          "samples": 17012,
+          "main_pct": 91.11803432870914,
+          "branch_ip_pct": 10.962849753115448,
+          "within_64B_pct": 94.3804373383494,
+          "same_line_pct": 88.8725605454973,
+          "associated_pct": 99.60616035739478,
+          "preceding_mispredicted_pct": 42.97432871053408,
+          "static_target_pct": 26.845755936985658,
+          "observed_matching_pf_pct": 1.7928521043968964,
+          "any_observed_pf_pct": 61.580061133317656,
+          "dso_pct": {
+            "/custom/RatingService": 91.11803432870914,
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": 8.699741359040678,
+            "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2": 0.18222431225017635
+          },
+          "preceding_branch_pct": {
+            "indirect_call": 23.912658601357332,
+            "direct_call": 45.163765122455004,
+            "return": 9.613455296547654,
+            "direct_jump": 6.355857185010327,
+            "conditional_branch": 7.748598406609619,
+            "indirect_jump": 7.205665388020065
+          },
+          "unmapped": 0,
+          "ip_not_boundary": 0,
+          "top_functions": [
+            {
+              "name": "/custom/RatingService::_ZN6apache6thrift9transport7TSocket4readEPhj",
+              "samples": 214,
+              "share_pct": 1.257935574888314
+            },
+            {
+              "name": "/custom/RatingService::_ZN13media_service13RatingHandler12UploadRatingElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiRKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE",
+              "samples": 196,
+              "share_pct": 1.1521279097107924
+            },
+            {
+              "name": "/custom/RatingService::_ZN7tacopie10io_service14process_eventsEv",
+              "samples": 173,
+              "share_pct": 1.0169292264284036
+            },
+            {
+              "name": "/custom/RatingService::_ZN6apache6thrift9transport16TFramedTransport8readSlowEPhj",
+              "samples": 173,
+              "share_pct": 1.0169292264284036
+            },
+            {
+              "name": "/custom/RatingService::_ZN13jaegertracing11SpanContext4swapERS0_",
+              "samples": 170,
+              "share_pct": 0.9992946155654832
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__select@@GLIBC_2.2.5",
+              "samples": 163,
+              "share_pct": 0.9581471902186691
+            },
+            {
+              "name": "/custom/RatingService::__once_proxy",
+              "samples": 157,
+              "share_pct": 0.9228779684928285
+            },
+            {
+              "name": "/custom/RatingService::_ZNSt13__future_base21_Async_state_commonV217_M_complete_asyncEv",
+              "samples": 152,
+              "share_pct": 0.8934869503879614
+            },
+            {
+              "name": "/custom/RatingService::_ZN13jaegertracing12UDPTransport6appendERKNS_4SpanE",
+              "samples": 152,
+              "share_pct": 0.8934869503879614
+            },
+            {
+              "name": "/custom/RatingService::_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE9_M_mutateEmmPKcm",
+              "samples": 150,
+              "share_pct": 0.8817305431460146
+            }
+          ],
+          "lead": {
+            "prior_block_minage_0-31": 303,
+            "prior_block_minage_32-127": 2
+          },
+          "footprint": {
+            "unique_sampled_lines": 890,
+            "unique_sampled_4k_pages": 156,
+            "samples_on_repeated_lines": 16827
+          }
+        },
+        "unknown": {
+          "samples": 58140,
+          "main_pct": 83.49673202614379,
+          "branch_ip_pct": 98.42277261781906,
+          "within_64B_pct": 89.39972480220158,
+          "same_line_pct": 62.00722394220846,
+          "associated_pct": 99.47712418300654,
+          "preceding_mispredicted_pct": 40.44539733038246,
+          "static_target_pct": 31.70450636394909,
+          "observed_matching_pf_pct": 1.4086687306501549,
+          "any_observed_pf_pct": 65.94771241830065,
+          "dso_pct": {
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": 16.148950808393533,
+            "/custom/RatingService": 83.49673202614379,
+            "([vdso])": 0.16167870657034744,
+            "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2": 0.19263845889232886
+          },
+          "preceding_branch_pct": {
+            "direct_jump": 6.890172211079604,
+            "return": 35.529773843281,
+            "indirect_call": 7.315512829379625,
+            "indirect_jump": 3.278235009336745,
+            "direct_call": 13.776886368351892,
+            "conditional_branch": 33.209419738571135
+          },
+          "unmapped": 94,
+          "ip_not_boundary": 0,
+          "top_functions": [
+            {
+              "name": "/custom/RatingService::_ZNK13jaegertracing6thrift4Span5writeEPN6apache6thrift8protocol9TProtocolE",
+              "samples": 1912,
+              "share_pct": 3.2886136910904713
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__default_morecore@GLIBC_2.2.5",
+              "samples": 1347,
+              "share_pct": 2.3168214654282764
+            },
+            {
+              "name": "/custom/RatingService::_ZN13jaegertracing4SpanC2ERKS0_",
+              "samples": 1014,
+              "share_pct": 1.7440660474716203
+            },
+            {
+              "name": "/custom/RatingService::_ZNK13jaegertracing4Span6thriftEv",
+              "samples": 968,
+              "share_pct": 1.6649466804265567
+            },
+            {
+              "name": "/custom/RatingService::_ZNK13jaegertracing6Tracer20StartSpanWithOptionsEN11opentracing2v211string_viewERKNS2_16StartSpanOptionsE",
+              "samples": 909,
+              "share_pct": 1.563467492260062
+            },
+            {
+              "name": "/custom/RatingService::_ZNK13jaegertracing6thrift7SpanRef5writeEPN6apache6thrift8protocol9TProtocolE",
+              "samples": 740,
+              "share_pct": 1.2727898176814585
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__nss_database_lookup@GLIBC_2.2.5",
+              "samples": 729,
+              "share_pct": 1.2538699690402477
+            },
+            {
+              "name": "/custom/RatingService::_ZN13media_service31RatingService_UploadRating_args4readEPN6apache6thrift8protocol9TProtocolE",
+              "samples": 728,
+              "share_pct": 1.2521499828001377
+            },
+            {
+              "name": "/custom/RatingService::_ZN13media_service13RatingHandler12UploadRatingElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiRKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE",
+              "samples": 694,
+              "share_pct": 1.1936704506363949
+            },
+            {
+              "name": "/custom/RatingService::_ZN13jaegertracing12UDPTransport6appendERKNS_4SpanE",
+              "samples": 690,
+              "share_pct": 1.1867905056759547
+            }
+          ],
+          "lead": {
+            "prior_block_minage_128-511": 214,
+            "prior_block_minage_512+": 119,
+            "prior_block_minage_0-31": 409,
+            "prior_block_minage_32-127": 77
+          },
+          "footprint": {
+            "unique_sampled_lines": 1429,
+            "unique_sampled_4k_pages": 164,
+            "samples_on_repeated_lines": 57927
+          }
+        },
+        "instructions": {
+          "samples": 9239,
+          "main_pct": 57.01915791752354,
+          "branch_ip_pct": 30.089836562398528,
+          "within_64B_pct": 84.6628422989501,
+          "same_line_pct": 66.60894036151099,
+          "associated_pct": 98.41974239636325,
+          "preceding_mispredicted_pct": 19.72946222368855,
+          "static_target_pct": 16.332936464985387,
+          "observed_matching_pf_pct": 0.6169498863513367,
+          "any_observed_pf_pct": 55.17913194068622,
+          "dso_pct": {
+            "/custom/RatingService": 57.01915791752354,
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": 41.173287152289205,
+            "([unknown])": 0.8983656239852797,
+            "([vdso])": 0.5953025219179565,
+            "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2": 0.3138867842840134
+          },
+          "preceding_branch_pct": {
+            "direct_jump": 9.666776641372484,
+            "direct_call": 20.114373694050368,
+            "return": 18.75068734191136,
+            "conditional_branch": 37.66633674254921,
+            "indirect_jump": 8.775981524249422,
+            "indirect_call": 4.981854173540086,
+            "other": 0.04398988232706477
+          },
+          "unmapped": 138,
+          "ip_not_boundary": 0,
+          "top_functions": [
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__default_morecore@GLIBC_2.2.5",
+              "samples": 1391,
+              "share_pct": 15.055741963415954
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__libc_malloc@@GLIBC_2.2.5",
+              "samples": 557,
+              "share_pct": 6.028790994696395
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__nss_database_lookup@GLIBC_2.2.5",
+              "samples": 483,
+              "share_pct": 5.227838510661327
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__libc_free@@GLIBC_2.2.5",
+              "samples": 422,
+              "share_pct": 4.567593895443229
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__pthread_mutex_unlock@GLIBC_2.2.5",
+              "samples": 207,
+              "share_pct": 2.2405022188548545
+            },
+            {
+              "name": "/custom/RatingService::_ZNSi3getERc",
+              "samples": 188,
+              "share_pct": 2.034852256737742
+            },
+            {
+              "name": "/custom/RatingService::_ZN6apache6thrift8protocol17TCompactProtocolTINS0_9transport10TTransportEE15writeFieldBeginEPKcNS1_5TTypeEs",
+              "samples": 187,
+              "share_pct": 2.024028574521052
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__pthread_mutex_lock@GLIBC_2.2.5",
+              "samples": 183,
+              "share_pct": 1.9807338456542916
+            },
+            {
+              "name": "/custom/RatingService::_ZN6apache6thrift8protocol16TVirtualProtocolINS1_17TCompactProtocolTINS0_9transport10TTransportEEENS1_17TProtocolDefaultsEE13writeI64_virtEl",
+              "samples": 171,
+              "share_pct": 1.8508496590540102
+            },
+            {
+              "name": "/custom/RatingService::_ZNK13jaegertracing6thrift4Span5writeEPN6apache6thrift8protocol9TProtocolE",
+              "samples": 158,
+              "share_pct": 1.7101417902370386
+            }
+          ],
+          "lead": {
+            "prior_block_minage_0-31": 35,
+            "prior_block_minage_128-511": 12,
+            "prior_block_minage_32-127": 5,
+            "prior_block_minage_512+": 5
+          },
+          "footprint": {
+            "unique_sampled_lines": 1323,
+            "unique_sampled_4k_pages": 156,
+            "samples_on_repeated_lines": 8696
+          }
+        }
+      },
+      "static": {
+        "resolved": 13053,
+        "unresolved": 0,
+        "target_lines": 9005,
+        "periodic_sites": 10809,
+        "target_other_function": 12828,
+        "periodic_other_function": 10592,
+        "target_same_function": 225,
+        "periodic_same_function": 217
+      }
+    }
+  },
+  "seq4k_nop": {
+    "movie": {
+      "events": {
+        "l2": {
+          "samples": 17901,
+          "main_pct": 84.13496452712138,
+          "branch_ip_pct": 13.01603262387576,
+          "within_64B_pct": 94.74331042958494,
+          "same_line_pct": 88.52019440254735,
+          "associated_pct": 99.62571923356236,
+          "preceding_mispredicted_pct": 38.65649882247393,
+          "static_target_pct": 31.981453550081,
+          "observed_matching_pf_pct": 2.9942461315010336,
+          "any_observed_pf_pct": 79.62683648958159,
+          "dso_pct": {
+            "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": 6.061113904251159,
+            "/custom/MovieIdService": 84.13496452712138,
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": 8.569353667392884,
+            "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2": 0.27372772470811685,
+            "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": 0.9552538964303671,
+            "([vdso])": 0.005586280096084017
+          },
+          "preceding_branch_pct": {
+            "direct_call": 48.945833800605584,
+            "indirect_call": 21.195469328249413,
+            "conditional_branch": 8.108108108108109,
+            "direct_jump": 6.173600986878995,
+            "return": 10.16597510373444,
+            "indirect_jump": 5.41101267242346
+          },
+          "unmapped": 1,
+          "ip_not_boundary": 0,
+          "top_functions": [
+            {
+              "name": "/custom/MovieIdService::_ZN6apache6thrift9transport7TSocket4readEPhj",
+              "samples": 307,
+              "share_pct": 1.7149879894977935
+            },
+            {
+              "name": "/custom/MovieIdService::__once_proxy",
+              "samples": 257,
+              "share_pct": 1.4356739846935926
+            },
+            {
+              "name": "/custom/MovieIdService::_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE10_M_replaceEmmPKcm",
+              "samples": 247,
+              "share_pct": 1.3798111837327525
+            },
+            {
+              "name": "/custom/MovieIdService::_ZNSt13__future_base13_State_baseV213_M_set_resultESt8functionIFSt10unique_ptrINS_12_Result_baseENS3_8_DeleterEEvEEb",
+              "samples": 209,
+              "share_pct": 1.1675325400815597
+            },
+            {
+              "name": "/custom/MovieIdService::_ZNK13jaegertracing6thrift4Span5writeEPN6apache6thrift8protocol9TProtocolE",
+              "samples": 205,
+              "share_pct": 1.1451874196972236
+            },
+            {
+              "name": "/custom/MovieIdService::_ZNSt5dequeIN13jaegertracing4SpanESaIS1_EE16_M_push_back_auxIJRKS1_EEEvDpOT_",
+              "samples": 204,
+              "share_pct": 1.1396011396011396
+            },
+            {
+              "name": "/custom/MovieIdService::_ZNSt6vectorIN13jaegertracing3TagESaIS1_EE15_M_range_insertIN9__gnu_cxx17__normal_iteratorIPKS1_S3_EEEEvNS6_IPS1_S3_EET_SC_St20forward_iterator_tag",
+              "samples": 192,
+              "share_pct": 1.0725657784481313
+            },
+            {
+              "name": "/custom/MovieIdService::_ZN13jaegertracing12UDPTransport6appendERKNS_4SpanE",
+              "samples": 184,
+              "share_pct": 1.0278755376794593
+            },
+            {
+              "name": "/custom/MovieIdService::_ZN13jaegertracing11SpanContext4swapERS0_",
+              "samples": 169,
+              "share_pct": 0.944081336238199
+            },
+            {
+              "name": "/custom/MovieIdService::_ZN13media_service14MovieIdHandler13UploadMovieIdElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiRKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE",
+              "samples": 162,
+              "share_pct": 0.9049773755656109
+            }
+          ],
+          "lead": {
+            "prior_block_minage_0-31": 505,
+            "same_partial_block": 15,
+            "prior_block_minage_128-511": 9,
+            "prior_block_minage_512+": 4,
+            "prior_block_minage_32-127": 3
+          },
+          "footprint": {
+            "unique_sampled_lines": 855,
+            "unique_sampled_4k_pages": 173,
+            "samples_on_repeated_lines": 17754
+          }
+        },
+        "unknown": {
+          "samples": 63095,
+          "main_pct": 74.91084872018385,
+          "branch_ip_pct": 98.77644821301213,
+          "within_64B_pct": 89.62041366193834,
+          "same_line_pct": 62.79102940011094,
+          "associated_pct": 99.60218717806482,
+          "preceding_mispredicted_pct": 39.22729297944115,
+          "static_target_pct": 37.23749900943022,
+          "observed_matching_pf_pct": 2.0128377842935254,
+          "any_observed_pf_pct": 81.23781599175845,
+          "dso_pct": {
+            "/custom/MovieIdService": 74.91084872018385,
+            "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": 6.447420556303986,
+            "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": 1.065060622870275,
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": 17.153498692447897,
+            "([vdso])": 0.09667961011173627,
+            "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2": 0.3264917980822569
+          },
+          "preceding_branch_pct": {
+            "direct_call": 15.401629431608427,
+            "conditional_branch": 31.44452931067405,
+            "return": 34.1019031251989,
+            "direct_jump": 6.761186429889886,
+            "indirect_call": 7.873464451658074,
+            "indirect_jump": 4.415696009165552,
+            "other": 0.0015912418051047038
+          },
+          "unmapped": 61,
+          "ip_not_boundary": 0,
+          "top_functions": [
+            {
+              "name": "/custom/MovieIdService::_ZNK13jaegertracing6thrift4Span5writeEPN6apache6thrift8protocol9TProtocolE",
+              "samples": 2641,
+              "share_pct": 4.185751644345828
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__default_morecore@GLIBC_2.2.5",
+              "samples": 1402,
+              "share_pct": 2.2220461209287583
+            },
+            {
+              "name": "/custom/MovieIdService::_ZN13jaegertracing4SpanC2ERKS0_",
+              "samples": 1395,
+              "share_pct": 2.2109517394405263
+            },
+            {
+              "name": "/custom/MovieIdService::_ZNK13jaegertracing4Span6thriftEv",
+              "samples": 1262,
+              "share_pct": 2.0001584911641177
+            },
+            {
+              "name": "/custom/MovieIdService::_ZN13media_service14MovieIdHandler13UploadMovieIdElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiRKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE",
+              "samples": 1184,
+              "share_pct": 1.8765353831523892
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__nss_database_lookup@GLIBC_2.2.5",
+              "samples": 1120,
+              "share_pct": 1.775101038117125
+            },
+            {
+              "name": "/custom/MovieIdService::_ZNK13jaegertracing6Tracer20StartSpanWithOptionsEN11opentracing2v211string_viewERKNS2_16StartSpanOptionsE",
+              "samples": 1004,
+              "share_pct": 1.5912512877407086
+            },
+            {
+              "name": "/custom/MovieIdService::_ZN13jaegertracing12UDPTransport6appendERKNS_4SpanE",
+              "samples": 933,
+              "share_pct": 1.4787225612172121
+            },
+            {
+              "name": "/custom/MovieIdService::_ZNK13jaegertracing6thrift7SpanRef5writeEPN6apache6thrift8protocol9TProtocolE",
+              "samples": 903,
+              "share_pct": 1.431175211981932
+            },
+            {
+              "name": "/custom/MovieIdService::_ZN13media_service33MovieIdService_UploadMovieId_args4readEPN6apache6thrift8protocol9TProtocolE",
+              "samples": 808,
+              "share_pct": 1.2806086060702115
+            }
+          ],
+          "lead": {
+            "prior_block_minage_128-511": 362,
+            "prior_block_minage_0-31": 542,
+            "prior_block_minage_32-127": 66,
+            "prior_block_minage_512+": 270,
+            "same_partial_block": 30
+          },
+          "footprint": {
+            "unique_sampled_lines": 1277,
+            "unique_sampled_4k_pages": 176,
+            "samples_on_repeated_lines": 62935
+          }
+        },
+        "instructions": {
+          "samples": 9072,
+          "main_pct": 57.60582010582011,
+          "branch_ip_pct": 32.473544973544975,
+          "within_64B_pct": 85.26234567901234,
+          "same_line_pct": 66.69973544973546,
+          "associated_pct": 98.05996472663139,
+          "preceding_mispredicted_pct": 17.43480215827338,
+          "static_target_pct": 22.993827160493826,
+          "observed_matching_pf_pct": 1.1353615520282188,
+          "any_observed_pf_pct": 79.4863315696649,
+          "dso_pct": {
+            "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": 3.306878306878307,
+            "/custom/MovieIdService": 57.60582010582011,
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": 36.067019400352734,
+            "([unknown])": 0.9810405643738977,
+            "([vdso])": 0.9369488536155203,
+            "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2": 0.9149029982363316,
+            "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": 0.18738977072310406
+          },
+          "preceding_branch_pct": {
+            "conditional_branch": 38.343075539568346,
+            "return": 19.368255395683452,
+            "indirect_call": 5.879046762589928,
+            "indirect_jump": 7.8125,
+            "direct_call": 19.89658273381295,
+            "direct_jump": 8.66681654676259,
+            "other": 0.03372302158273381
+          },
+          "unmapped": 174,
+          "ip_not_boundary": 0,
+          "top_functions": [
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__default_morecore@GLIBC_2.2.5",
+              "samples": 991,
+              "share_pct": 10.923721340388006
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__nss_database_lookup@GLIBC_2.2.5",
+              "samples": 638,
+              "share_pct": 7.032627865961199
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__libc_free@@GLIBC_2.2.5",
+              "samples": 357,
+              "share_pct": 3.935185185185185
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__libc_malloc@@GLIBC_2.2.5",
+              "samples": 357,
+              "share_pct": 3.935185185185185
+            },
+            {
+              "name": "/custom/MovieIdService::_ZN6apache6thrift8protocol17TCompactProtocolTINS0_9transport10TTransportEE15writeFieldBeginEPKcNS1_5TTypeEs",
+              "samples": 309,
+              "share_pct": 3.4060846560846563
+            },
+            {
+              "name": "/custom/MovieIdService::_ZN6apache6thrift8protocol16TVirtualProtocolINS1_17TCompactProtocolTINS0_9transport10TTransportEEENS1_17TProtocolDefaultsEE13writeI64_virtEl",
+              "samples": 308,
+              "share_pct": 3.3950617283950617
+            },
+            {
+              "name": "/custom/MovieIdService::_ZNK13jaegertracing6thrift4Span5writeEPN6apache6thrift8protocol9TProtocolE",
+              "samples": 236,
+              "share_pct": 2.601410934744268
+            },
+            {
+              "name": "/custom/MovieIdService::_ZNSi3getERc",
+              "samples": 206,
+              "share_pct": 2.2707231040564375
+            },
+            {
+              "name": "/custom/MovieIdService::_ZN6apache6thrift9transport17TVirtualTransportINS1_13TMemoryBufferENS1_11TBufferBaseEE10write_virtEPKhj",
+              "samples": 194,
+              "share_pct": 2.138447971781305
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__pthread_mutex_unlock@GLIBC_2.2.5",
+              "samples": 182,
+              "share_pct": 2.006172839506173
+            }
+          ],
+          "lead": {
+            "prior_block_minage_0-31": 61,
+            "prior_block_minage_128-511": 21,
+            "prior_block_minage_512+": 16,
+            "prior_block_minage_32-127": 4,
+            "same_partial_block": 1
+          },
+          "footprint": {
+            "unique_sampled_lines": 1229,
+            "unique_sampled_4k_pages": 164,
+            "samples_on_repeated_lines": 8589
+          }
+        }
+      },
+      "static": {
+        "resolved": 18203,
+        "unresolved": 0,
+        "target_lines": 12270,
+        "periodic_sites": 13639,
+        "target_other_function": 17835,
+        "periodic_other_function": 13294,
+        "target_same_function": 368,
+        "periodic_same_function": 345
+      }
+    },
+    "compose": {
+      "events": {
+        "l2": {
+          "samples": 37190,
+          "main_pct": 82.49260553912342,
+          "branch_ip_pct": 9.989244420543157,
+          "within_64B_pct": 93.86663081473515,
+          "same_line_pct": 87.05028233396074,
+          "associated_pct": 99.83866630814735,
+          "preceding_mispredicted_pct": 36.50686776191759,
+          "static_target_pct": 31.08631352514117,
+          "observed_matching_pf_pct": 3.218607152460339,
+          "any_observed_pf_pct": 73.82091960204356,
+          "dso_pct": {
+            "/custom/ComposeReviewService": 82.49260553912342,
+            "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": 9.878999731110513,
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": 6.44528098951331,
+            "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": 1.0325356278569509,
+            "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2": 0.1371336380747513,
+            "([vdso])": 0.013444474321054048
+          },
+          "preceding_branch_pct": {
+            "conditional_branch": 11.451656342580124,
+            "indirect_jump": 5.7823862106113655,
+            "direct_jump": 5.81739833019122,
+            "direct_call": 46.28602208456773,
+            "indirect_call": 18.809587934284945,
+            "return": 11.852949097764611
+          },
+          "unmapped": 5,
+          "ip_not_boundary": 0,
+          "top_functions": [
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0::memcached_stat_execute@@Base",
+              "samples": 737,
+              "share_pct": 1.9817155149233665
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZN6apache6thrift9transport7TSocket4readEPhj",
+              "samples": 419,
+              "share_pct": 1.126646948104329
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZNK13jaegertracing6Tracer17analyzeReferencesERKSt6vectorISt4pairIN11opentracing2v217SpanReferenceTypeEPKNS4_11SpanContextEESaIS9_EE",
+              "samples": 393,
+              "share_pct": 1.056735681634848
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZN6apache6thrift6server16TConnectedClient3runEv",
+              "samples": 369,
+              "share_pct": 0.9922022048937886
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZNK13jaegertracing11propagation10PropagatorIRKN11opentracing2v213TextMapReaderERKNS3_13TextMapWriterEE7extractES6_",
+              "samples": 365,
+              "share_pct": 0.9814466254369454
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZN6apache6thrift18TDispatchProcessor7processESt10shared_ptrINS0_8protocol9TProtocolEES5_Pv",
+              "samples": 360,
+              "share_pct": 0.9680021511158914
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZNSt6vectorIN13jaegertracing9ReferenceESaIS1_EE17_M_realloc_insertIJS1_EEEvN9__gnu_cxx17__normal_iteratorIPS1_S3_EEDpOT_",
+              "samples": 358,
+              "share_pct": 0.9626243613874698
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZNK10__cxxabiv121__vmi_class_type_info12__do_dyncastElNS_17__class_type_info10__sub_kindEPKS1_PKvS4_S6_RNS1_16__dyncast_resultE",
+              "samples": 349,
+              "share_pct": 0.9384243076095725
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZNK13media_service13TextMapReader10ForeachKeyESt8functionIFN11opentracing2v28expectedIvSt10error_codeEENS3_11string_viewES7_EE",
+              "samples": 326,
+              "share_pct": 0.8765797257327238
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZN13media_service29ComposeReviewServiceProcessor12dispatchCallEPN6apache6thrift8protocol9TProtocolES5_RKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiPv",
+              "samples": 325,
+              "share_pct": 0.873890830868513
+            }
+          ],
+          "lead": {
+            "prior_block_minage_0-31": 1120,
+            "prior_block_minage_128-511": 44,
+            "prior_block_minage_512+": 10,
+            "prior_block_minage_32-127": 15,
+            "same_partial_block": 8
+          },
+          "footprint": {
+            "unique_sampled_lines": 1271,
+            "unique_sampled_4k_pages": 194,
+            "samples_on_repeated_lines": 36988
+          }
+        },
+        "unknown": {
+          "samples": 141248,
+          "main_pct": 75.36814680561848,
+          "branch_ip_pct": 98.79077933846851,
+          "within_64B_pct": 89.63737539646579,
+          "same_line_pct": 61.517331218849115,
+          "associated_pct": 99.50654168554598,
+          "preceding_mispredicted_pct": 31.358723879588194,
+          "static_target_pct": 33.00506909832352,
+          "observed_matching_pf_pct": 1.5752435432714091,
+          "any_observed_pf_pct": 74.16812981422746,
+          "dso_pct": {
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": 11.735387403715452,
+            "/custom/ComposeReviewService": 75.36814680561848,
+            "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": 0.8814284096057997,
+            "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": 11.70140462165836,
+            "([vdso])": 0.13805505210693247,
+            "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2": 0.17557770729497055
+          },
+          "preceding_branch_pct": {
+            "return": 35.515222232499234,
+            "direct_call": 13.527474012991725,
+            "conditional_branch": 33.183684214270976,
+            "indirect_call": 6.72922995923188,
+            "indirect_jump": 3.1725138917545945,
+            "direct_jump": 7.871164203740991,
+            "other": 0.0007114855105975767
+          },
+          "unmapped": 195,
+          "ip_not_boundary": 0,
+          "top_functions": [
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0::memcached_callback_set@@Base",
+              "samples": 2891,
+              "share_pct": 2.046754644313548
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZNK13jaegertracing6thrift4Span5writeEPN6apache6thrift8protocol9TProtocolE",
+              "samples": 2850,
+              "share_pct": 2.0177276846397825
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZNK13jaegertracing6Tracer20StartSpanWithOptionsEN11opentracing2v211string_viewERKNS2_16StartSpanOptionsE",
+              "samples": 2556,
+              "share_pct": 1.8095831445400996
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__nss_database_lookup@GLIBC_2.2.5",
+              "samples": 2387,
+              "share_pct": 1.6899354327140916
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__default_morecore@GLIBC_2.2.5",
+              "samples": 2169,
+              "share_pct": 1.5355969642048029
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZN13jaegertracing11SpanContext10fromStreamERSi",
+              "samples": 2059,
+              "share_pct": 1.4577197553239691
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0::memcached_result_reset@@Base",
+              "samples": 2045,
+              "share_pct": 1.4478081105573177
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZZNK13jaegertracing11propagation10PropagatorIRKN11opentracing2v213TextMapReaderERKNS3_13TextMapWriterEE7extractES6_ENKUlRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESI_E_clESI_SI_",
+              "samples": 1762,
+              "share_pct": 1.247451291345718
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0::memcached_stat_execute@@Base",
+              "samples": 1598,
+              "share_pct": 1.131343452650657
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZN13jaegertracing4SpanC2ERKS0_",
+              "samples": 1548,
+              "share_pct": 1.095944721341187
+            }
+          ],
+          "lead": {
+            "prior_block_minage_512+": 391,
+            "prior_block_minage_128-511": 698,
+            "prior_block_minage_0-31": 1010,
+            "prior_block_minage_32-127": 92,
+            "same_partial_block": 34
+          },
+          "footprint": {
+            "unique_sampled_lines": 1710,
+            "unique_sampled_4k_pages": 198,
+            "samples_on_repeated_lines": 140947
+          }
+        },
+        "instructions": {
+          "samples": 25124,
+          "main_pct": 58.951600063684126,
+          "branch_ip_pct": 32.93265403598153,
+          "within_64B_pct": 87.50995064480178,
+          "same_line_pct": 68.14997611845247,
+          "associated_pct": 98.29644960993473,
+          "preceding_mispredicted_pct": 14.135892452218982,
+          "static_target_pct": 17.40964814519981,
+          "observed_matching_pf_pct": 0.7443082311733801,
+          "any_observed_pf_pct": 70.4704664862283,
+          "dso_pct": {
+            "/custom/ComposeReviewService": 58.951600063684126,
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": 27.82996338162713,
+            "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": 10.981531603247891,
+            "([vdso])": 0.6846043623626811,
+            "([unknown])": 1.0070052539404553,
+            "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2": 0.37414424454704664,
+            "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": 0.17115109059067027
+          },
+          "preceding_branch_pct": {
+            "indirect_call": 4.92792355037253,
+            "conditional_branch": 38.21266601878847,
+            "direct_call": 22.22222222222222,
+            "direct_jump": 8.450761256883705,
+            "return": 18.94638807904114,
+            "indirect_jump": 7.199546485260771,
+            "other": 0.04049238743116294
+          },
+          "unmapped": 425,
+          "ip_not_boundary": 0,
+          "top_functions": [
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__default_morecore@GLIBC_2.2.5",
+              "samples": 1929,
+              "share_pct": 7.6779175290558825
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__nss_database_lookup@GLIBC_2.2.5",
+              "samples": 1661,
+              "share_pct": 6.611208406304729
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__libc_malloc@@GLIBC_2.2.5",
+              "samples": 957,
+              "share_pct": 3.809106830122592
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZNSi3getERc",
+              "samples": 933,
+              "share_pct": 3.713580640025474
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0::memcached_callback_set@@Base",
+              "samples": 732,
+              "share_pct": 2.913548797962108
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZN13jaegertracing5utils10HexParsing11readSegmentB5cxx11ERSimc",
+              "samples": 726,
+              "share_pct": 2.8896672504378285
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__libc_free@@GLIBC_2.2.5",
+              "samples": 706,
+              "share_pct": 2.8100620920235633
+            },
+            {
+              "name": "/custom/ComposeReviewService::_ZNSi6sentryC1ERSib",
+              "samples": 623,
+              "share_pct": 2.4797006846043623
+            },
+            {
+              "name": "/custom/ComposeReviewService::__dynamic_cast",
+              "samples": 612,
+              "share_pct": 2.4359178474765164
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0::memcached_flush_buffers@@Base",
+              "samples": 460,
+              "share_pct": 1.8309186435281006
+            }
+          ],
+          "lead": {
+            "prior_block_minage_0-31": 124,
+            "prior_block_minage_128-511": 35,
+            "prior_block_minage_512+": 19,
+            "prior_block_minage_32-127": 9
+          },
+          "footprint": {
+            "unique_sampled_lines": 1792,
+            "unique_sampled_4k_pages": 192,
+            "samples_on_repeated_lines": 24363
+          }
+        }
+      },
+      "static": {
+        "resolved": 14897,
+        "unresolved": 0,
+        "target_lines": 10466,
+        "periodic_sites": 12325,
+        "target_other_function": 14415,
+        "periodic_other_function": 11851,
+        "target_same_function": 482,
+        "periodic_same_function": 474
+      }
+    },
+    "rating": {
+      "events": {
+        "l2": {
+          "samples": 17145,
+          "main_pct": 90.95363079615048,
+          "branch_ip_pct": 10.755322251385243,
+          "within_64B_pct": 94.93146689997084,
+          "same_line_pct": 89.09303003791193,
+          "associated_pct": 99.61504811898513,
+          "preceding_mispredicted_pct": 40.640552725569414,
+          "static_target_pct": 29.128025663458736,
+          "observed_matching_pf_pct": 2.589676290463692,
+          "any_observed_pf_pct": 62.927967337416156,
+          "dso_pct": {
+            "/custom/RatingService": 90.95363079615048,
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": 8.813065033537475,
+            "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2": 0.23330417031204434
+          },
+          "preceding_branch_pct": {
+            "indirect_call": 21.423970958487033,
+            "return": 9.192575677732888,
+            "direct_call": 47.169037999882896,
+            "conditional_branch": 7.974705779026875,
+            "indirect_jump": 7.886878622870191,
+            "direct_jump": 6.352830962000117
+          },
+          "unmapped": 0,
+          "ip_not_boundary": 0,
+          "top_functions": [
+            {
+              "name": "/custom/RatingService::_ZN6apache6thrift9transport7TSocket4readEPhj",
+              "samples": 250,
+              "share_pct": 1.458151064450277
+            },
+            {
+              "name": "/custom/RatingService::_ZNSt6vectorIN13jaegertracing3TagESaIS1_EE15_M_range_insertIN9__gnu_cxx17__normal_iteratorIPKS1_S3_EEEEvNS6_IPS1_S3_EET_SC_St20forward_iterator_tag",
+              "samples": 245,
+              "share_pct": 1.4289880431612716
+            },
+            {
+              "name": "/custom/RatingService::_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE10_M_replaceEmmPKcm",
+              "samples": 181,
+              "share_pct": 1.0557013706620006
+            },
+            {
+              "name": "/custom/RatingService::_ZNSt13__future_base13_State_baseV213_M_set_resultESt8functionIFSt10unique_ptrINS_12_Result_baseENS3_8_DeleterEEvEEb",
+              "samples": 174,
+              "share_pct": 1.0148731408573928
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__select@@GLIBC_2.2.5",
+              "samples": 168,
+              "share_pct": 0.9798775153105862
+            },
+            {
+              "name": "/custom/RatingService::_ZN13jaegertracing12UDPTransport6appendERKNS_4SpanE",
+              "samples": 164,
+              "share_pct": 0.9565470982793818
+            },
+            {
+              "name": "/custom/RatingService::_ZNK13jaegertracing6Tracer17analyzeReferencesERKSt6vectorISt4pairIN11opentracing2v217SpanReferenceTypeEPKNS4_11SpanContextEESaIS9_EE",
+              "samples": 163,
+              "share_pct": 0.9507144940215806
+            },
+            {
+              "name": "/custom/RatingService::_ZNK13jaegertracing11propagation10PropagatorIRKN11opentracing2v213TextMapReaderERKNS3_13TextMapWriterEE7extractES6_",
+              "samples": 158,
+              "share_pct": 0.9215514727325751
+            },
+            {
+              "name": "/custom/RatingService::_ZN13media_service13RatingHandler12UploadRatingElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiRKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE",
+              "samples": 158,
+              "share_pct": 0.9215514727325751
+            },
+            {
+              "name": "/custom/RatingService::_ZN9cpp_redis7network16redis_connection13build_commandERKSt6vectorINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESaIS8_EE",
+              "samples": 146,
+              "share_pct": 0.8515602216389618
+            }
+          ],
+          "lead": {
+            "prior_block_minage_0-31": 432,
+            "prior_block_minage_512+": 3,
+            "prior_block_minage_128-511": 7,
+            "prior_block_minage_32-127": 2
+          },
+          "footprint": {
+            "unique_sampled_lines": 917,
+            "unique_sampled_4k_pages": 158,
+            "samples_on_repeated_lines": 16917
+          }
+        },
+        "unknown": {
+          "samples": 57994,
+          "main_pct": 82.9499603407249,
+          "branch_ip_pct": 98.9343725212953,
+          "within_64B_pct": 89.62306445494362,
+          "same_line_pct": 62.0943545884057,
+          "associated_pct": 99.45684036279616,
+          "preceding_mispredicted_pct": 41.04440090847622,
+          "static_target_pct": 31.510156223057557,
+          "observed_matching_pf_pct": 1.2415077421802256,
+          "any_observed_pf_pct": 65.33089629961721,
+          "dso_pct": {
+            "/custom/RatingService": 82.9499603407249,
+            "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2": 0.258647446287547,
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": 16.6172362658206,
+            "([vdso])": 0.1741559471669483
+          },
+          "preceding_branch_pct": {
+            "return": 35.96282875916712,
+            "indirect_jump": 3.800343279183065,
+            "conditional_branch": 33.05709183585014,
+            "direct_call": 13.065413755439588,
+            "direct_jump": 6.817039130359403,
+            "indirect_call": 7.297283240000693
+          },
+          "unmapped": 101,
+          "ip_not_boundary": 0,
+          "top_functions": [
+            {
+              "name": "/custom/RatingService::_ZNK13jaegertracing6thrift4Span5writeEPN6apache6thrift8protocol9TProtocolE",
+              "samples": 1919,
+              "share_pct": 3.308962996172018
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__default_morecore@GLIBC_2.2.5",
+              "samples": 1238,
+              "share_pct": 2.1347035900265543
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__nss_database_lookup@GLIBC_2.2.5",
+              "samples": 941,
+              "share_pct": 1.6225816463772114
+            },
+            {
+              "name": "/custom/RatingService::_ZNK13jaegertracing6Tracer20StartSpanWithOptionsEN11opentracing2v211string_viewERKNS2_16StartSpanOptionsE",
+              "samples": 940,
+              "share_pct": 1.6208573300686278
+            },
+            {
+              "name": "/custom/RatingService::_ZN13jaegertracing4SpanC2ERKS0_",
+              "samples": 919,
+              "share_pct": 1.5846466875883711
+            },
+            {
+              "name": "/custom/RatingService::_ZNK13jaegertracing4Span6thriftEv",
+              "samples": 851,
+              "share_pct": 1.4673931786046832
+            },
+            {
+              "name": "/custom/RatingService::_ZN13media_service13RatingHandler12UploadRatingElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiRKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE",
+              "samples": 722,
+              "share_pct": 1.2449563747973929
+            },
+            {
+              "name": "/custom/RatingService::_ZN13media_service31RatingService_UploadRating_args4readEPN6apache6thrift8protocol9TProtocolE",
+              "samples": 694,
+              "share_pct": 1.1966755181570508
+            },
+            {
+              "name": "/custom/RatingService::_ZNK13jaegertracing6thrift7SpanRef5writeEPN6apache6thrift8protocol9TProtocolE",
+              "samples": 692,
+              "share_pct": 1.1932268855398835
+            },
+            {
+              "name": "/custom/RatingService::_ZN13jaegertracing12UDPTransport6appendERKNS_4SpanE",
+              "samples": 673,
+              "share_pct": 1.1604648756767941
+            }
+          ],
+          "lead": {
+            "prior_block_minage_128-511": 209,
+            "prior_block_minage_0-31": 338,
+            "prior_block_minage_512+": 133,
+            "prior_block_minage_32-127": 40
+          },
+          "footprint": {
+            "unique_sampled_lines": 1385,
+            "unique_sampled_4k_pages": 165,
+            "samples_on_repeated_lines": 57776
+          }
+        },
+        "instructions": {
+          "samples": 9524,
+          "main_pct": 55.89038219235615,
+          "branch_ip_pct": 28.83242335153297,
+          "within_64B_pct": 84.61780764384713,
+          "same_line_pct": 66.75766484670307,
+          "associated_pct": 98.42503149937001,
+          "preceding_mispredicted_pct": 21.015574994666096,
+          "static_target_pct": 16.064678706425873,
+          "observed_matching_pf_pct": 0.7979840403191936,
+          "any_observed_pf_pct": 54.30491390172197,
+          "dso_pct": {
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": 42.146157076858465,
+            "/custom/RatingService": 55.89038219235615,
+            "([unknown])": 0.9659806803863923,
+            "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2": 0.41999160016799664,
+            "([vdso])": 0.5774884502309954
+          },
+          "preceding_branch_pct": {
+            "indirect_jump": 9.569020695540857,
+            "return": 17.911243866012374,
+            "direct_jump": 10.123746532963516,
+            "conditional_branch": 37.67868572647749,
+            "indirect_call": 5.152549605291231,
+            "direct_call": 19.53275016001707,
+            "other": 0.03200341369746106
+          },
+          "unmapped": 147,
+          "ip_not_boundary": 0,
+          "top_functions": [
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__default_morecore@GLIBC_2.2.5",
+              "samples": 1472,
+              "share_pct": 15.455690886182277
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__libc_malloc@@GLIBC_2.2.5",
+              "samples": 531,
+              "share_pct": 5.5753884922301555
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__nss_database_lookup@GLIBC_2.2.5",
+              "samples": 527,
+              "share_pct": 5.533389332213356
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__libc_free@@GLIBC_2.2.5",
+              "samples": 479,
+              "share_pct": 5.0293994120117596
+            },
+            {
+              "name": "/custom/RatingService::_ZN6apache6thrift8protocol16TVirtualProtocolINS1_17TCompactProtocolTINS0_9transport10TTransportEEENS1_17TProtocolDefaultsEE13writeI64_virtEl",
+              "samples": 217,
+              "share_pct": 2.2784544309113817
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__pthread_mutex_unlock@GLIBC_2.2.5",
+              "samples": 199,
+              "share_pct": 2.089458210835783
+            },
+            {
+              "name": "/usr/lib/x86_64-linux-gnu/libc.so.6::__pthread_mutex_lock@GLIBC_2.2.5",
+              "samples": 197,
+              "share_pct": 2.0684586308273833
+            },
+            {
+              "name": "/custom/RatingService::_ZN6apache6thrift8protocol17TCompactProtocolTINS0_9transport10TTransportEE15writeFieldBeginEPKcNS1_5TTypeEs",
+              "samples": 186,
+              "share_pct": 1.9529609407811843
+            },
+            {
+              "name": "/custom/RatingService::_ZNSi3getERc",
+              "samples": 184,
+              "share_pct": 1.9319613607727846
+            },
+            {
+              "name": "/custom/RatingService::_ZNK13jaegertracing6thrift4Span5writeEPN6apache6thrift8protocol9TProtocolE",
+              "samples": 165,
+              "share_pct": 1.7324653506929861
+            }
+          ],
+          "lead": {
+            "prior_block_minage_0-31": 50,
+            "prior_block_minage_128-511": 14,
+            "prior_block_minage_512+": 8,
+            "prior_block_minage_32-127": 4
+          },
+          "footprint": {
+            "unique_sampled_lines": 1325,
+            "unique_sampled_4k_pages": 154,
+            "samples_on_repeated_lines": 8969
+          }
+        }
+      },
+      "static": {
+        "resolved": 13053,
+        "unresolved": 0,
+        "target_lines": 9005,
+        "periodic_sites": 10809,
+        "target_other_function": 12828,
+        "periodic_other_function": 10592,
+        "target_same_function": 225,
+        "periodic_same_function": 217
+      }
+    }
+  }
+}

@@ -1,0 +1,1871 @@
+{
+  "valid": true,
+  "pool": {
+    "start": 1790564311.07755,
+    "end": 1790564341.0789757,
+    "wall_s": 30.00142643498839,
+    "cpu_us": 208140000.0,
+    "completed": 35894,
+    "achieved_rps": 1196.409779974313,
+    "cpu_us_per_request": 5798.740736613361,
+    "mean_ms": 3.2735133879150315,
+    "p50_ms": 3.142118453979492,
+    "p95_ms": 4.335165023803711,
+    "p99_ms": 5.808591842651367
+  },
+  "whole_stack_cpu_us_per_request": 5871.236501922327,
+  "pool_util_pct": 86.72087661024597,
+  "load": {
+    "epoch": 1790564261.0142481,
+    "seconds": 362.0,
+    "concurrency": 4,
+    "seed": 45001,
+    "warmup_s": 50,
+    "port": 18081,
+    "pid": 2044250,
+    "mode": "closed-loop; next request after completion; no intentional think time",
+    "latency": "HTTP dispatch to response completion; excludes external arrival queue",
+    "payload": "Upstream Media field distributions; deterministic per-dispatch-index seed",
+    "client_cpus": [
+      16,
+      17,
+      18,
+      19
+    ],
+    "completed": 414983,
+    "errors": 0,
+    "error_times": [],
+    "error_examples": [],
+    "steady_errors": 0,
+    "response_bodies": {
+      "": 414983
+    },
+    "client_cpu_cores": 0.266587487377055,
+    "elapsed_s": 362.0029994600045
+  },
+  "counters": [
+    {
+      "service": "movie",
+      "repeat": 0,
+      "label": "cache",
+      "output": "/storage/prefetchit/class_b_dense_20260927/causes_c4/seq4k_nop/movie/00_cache",
+      "window": {
+        "start": 1790564341.0863566,
+        "end": 1790564346.269115,
+        "wall_s": 5.18275852597435,
+        "cpu_us": 2961806,
+        "user_us": 895717,
+        "system_us": 2066089,
+        "delta": {
+          "usage_usec": 2961806,
+          "user_usec": 895717,
+          "system_usec": 2066089,
+          "core_sched.force_idle_usec": 0,
+          "nr_periods": 0,
+          "nr_throttled": 0,
+          "throttled_usec": 0,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        },
+        "completed": 5969,
+        "achieved_rps": 1151.7032811938384,
+        "cpu_us_per_request": 496.1980231194505,
+        "mean_ms": 3.403713124384331,
+        "p50_ms": 3.2606124877929688,
+        "p95_ms": 4.439115524291992,
+        "p99_ms": 5.841970443725586,
+        "user_us_per_request": 150.06148433573463
+      },
+      "counters": {
+        "instructions:u": 587145989.0,
+        "cycles:u": 1598878475.0,
+        "L2I": 35276557.0,
+        "L2_CODE_ALL": 67783133.0,
+        "SWPF_MISS": 316.0,
+        "SWPF_HIT": 4604.0
+      },
+      "scheduled_pct": {
+        "instructions:u": 100.0,
+        "cycles:u": 100.0,
+        "L2I": 100.0,
+        "L2_CODE_ALL": 100.0,
+        "SWPF_MISS": 100.0,
+        "SWPF_HIT": 100.0
+      },
+      "fully_scheduled": true
+    },
+    {
+      "service": "movie",
+      "repeat": 0,
+      "label": "translation",
+      "output": "/storage/prefetchit/class_b_dense_20260927/causes_c4/seq4k_nop/movie/00_translation",
+      "window": {
+        "start": 1790564346.2706318,
+        "end": 1790564351.4045835,
+        "wall_s": 5.133951529016485,
+        "cpu_us": 2866369,
+        "user_us": 906719,
+        "system_us": 1959650,
+        "delta": {
+          "usage_usec": 2866369,
+          "user_usec": 906719,
+          "system_usec": 1959650,
+          "core_sched.force_idle_usec": 0,
+          "nr_periods": 0,
+          "nr_throttled": 0,
+          "throttled_usec": 0,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        },
+        "completed": 5767,
+        "achieved_rps": 1123.306281215473,
+        "cpu_us_per_request": 497.02947806485173,
+        "mean_ms": 3.490962745702223,
+        "p50_ms": 3.3540725708007812,
+        "p95_ms": 4.530906677246094,
+        "p99_ms": 6.12330436706543,
+        "user_us_per_request": 157.22542049592508
+      },
+      "counters": {
+        "instructions:u": 571810542.0,
+        "cycles:u": 1566360533.0,
+        "ITLB_STLB_HIT": 1033051.0,
+        "ITLB_WALK": 3311877.0,
+        "ITLB_WALK_ACTIVE": 185352533.0,
+        "ICACHE_DATA_STALL": 358757098.0
+      },
+      "scheduled_pct": {
+        "instructions:u": 100.0,
+        "cycles:u": 100.0,
+        "ITLB_STLB_HIT": 100.0,
+        "ITLB_WALK": 100.0,
+        "ITLB_WALK_ACTIVE": 100.0,
+        "ICACHE_DATA_STALL": 100.0
+      },
+      "fully_scheduled": true
+    },
+    {
+      "service": "movie",
+      "repeat": 0,
+      "label": "retired_l2",
+      "output": "/storage/prefetchit/class_b_dense_20260927/causes_c4/seq4k_nop/movie/00_retired_l2",
+      "window": {
+        "start": 1790564351.406369,
+        "end": 1790564356.5387208,
+        "wall_s": 5.132351534004556,
+        "cpu_us": 2963502,
+        "user_us": 897953,
+        "system_us": 2065548,
+        "delta": {
+          "usage_usec": 2963502,
+          "user_usec": 897953,
+          "system_usec": 2065548,
+          "core_sched.force_idle_usec": 0,
+          "nr_periods": 0,
+          "nr_throttled": 0,
+          "throttled_usec": 0,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        },
+        "completed": 5961,
+        "achieved_rps": 1161.4559058367704,
+        "cpu_us_per_request": 497.1484650226472,
+        "mean_ms": 3.3746567214021264,
+        "p50_ms": 3.244161605834961,
+        "p95_ms": 4.519939422607422,
+        "p99_ms": 5.936861038208008,
+        "user_us_per_request": 150.63798020466365
+      },
+      "counters": {
+        "instructions:u": 591905746.0,
+        "cycles:u": 1610324315.0,
+        "FE_L2": 2985913.0,
+        "BACLEARS": 20628450.0,
+        "branches:u": 121751793.0,
+        "branch-misses:u": 13121156.0
+      },
+      "scheduled_pct": {
+        "instructions:u": 100.0,
+        "cycles:u": 100.0,
+        "FE_L2": 100.0,
+        "BACLEARS": 100.0,
+        "branches:u": 100.0,
+        "branch-misses:u": 100.0
+      },
+      "fully_scheduled": true
+    },
+    {
+      "service": "movie",
+      "repeat": 0,
+      "label": "retired_l1",
+      "output": "/storage/prefetchit/class_b_dense_20260927/causes_c4/seq4k_nop/movie/00_retired_l1",
+      "window": {
+        "start": 1790564356.5405436,
+        "end": 1790564361.6720238,
+        "wall_s": 5.131480265001301,
+        "cpu_us": 2901747,
+        "user_us": 971843,
+        "system_us": 1929904,
+        "delta": {
+          "usage_usec": 2901747,
+          "user_usec": 971843,
+          "system_usec": 1929904,
+          "core_sched.force_idle_usec": 0,
+          "nr_periods": 0,
+          "nr_throttled": 0,
+          "throttled_usec": 0,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        },
+        "completed": 5969,
+        "achieved_rps": 1163.2121126355898,
+        "cpu_us_per_request": 486.1362037192159,
+        "mean_ms": 3.3687997611249227,
+        "p50_ms": 3.232717514038086,
+        "p95_ms": 4.4345855712890625,
+        "p99_ms": 6.134986877441406,
+        "user_us_per_request": 162.81504439604623
+      },
+      "counters": {
+        "instructions:u": 592053588.0,
+        "cycles:u": 1612891804.0,
+        "FE_L1": 10681517.0,
+        "ICACHE_TAG_STALL": 285999170.0
+      },
+      "scheduled_pct": {
+        "instructions:u": 100.0,
+        "cycles:u": 100.0,
+        "FE_L1": 100.0,
+        "ICACHE_TAG_STALL": 100.0
+      },
+      "fully_scheduled": true
+    },
+    {
+      "service": "movie",
+      "repeat": 0,
+      "label": "retired_itlb",
+      "output": "/storage/prefetchit/class_b_dense_20260927/causes_c4/seq4k_nop/movie/00_retired_itlb",
+      "window": {
+        "start": 1790564361.6735191,
+        "end": 1790564366.80552,
+        "wall_s": 5.132001218007645,
+        "cpu_us": 2911643,
+        "user_us": 891526,
+        "system_us": 2020117,
+        "delta": {
+          "usage_usec": 2911643,
+          "user_usec": 891526,
+          "system_usec": 2020117,
+          "core_sched.force_idle_usec": 0,
+          "nr_periods": 0,
+          "nr_throttled": 0,
+          "throttled_usec": 0,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        },
+        "completed": 6009,
+        "achieved_rps": 1170.88826458479,
+        "cpu_us_per_request": 484.5470128141122,
+        "mean_ms": 3.347124190829641,
+        "p50_ms": 3.2203197479248047,
+        "p95_ms": 4.379749298095703,
+        "p99_ms": 5.892276763916016,
+        "user_us_per_request": 148.36511898818438
+      },
+      "counters": {
+        "instructions:u": 593994331.0,
+        "cycles:u": 1623379103.0,
+        "FE_ITLB": 2628476.0,
+        "CLEAR_RESTEER": 337802649.0
+      },
+      "scheduled_pct": {
+        "instructions:u": 100.0,
+        "cycles:u": 100.0,
+        "FE_ITLB": 100.0,
+        "CLEAR_RESTEER": 100.0
+      },
+      "fully_scheduled": true
+    },
+    {
+      "service": "movie",
+      "repeat": 0,
+      "label": "unknown_branch",
+      "output": "/storage/prefetchit/class_b_dense_20260927/causes_c4/seq4k_nop/movie/00_unknown_branch",
+      "window": {
+        "start": 1790564366.8075628,
+        "end": 1790564371.9393928,
+        "wall_s": 5.131829766993178,
+        "cpu_us": 2916465,
+        "user_us": 927198,
+        "system_us": 1989268,
+        "delta": {
+          "usage_usec": 2916465,
+          "user_usec": 927198,
+          "system_usec": 1989268,
+          "core_sched.force_idle_usec": 0,
+          "nr_periods": 0,
+          "nr_throttled": 0,
+          "throttled_usec": 0,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        },
+        "completed": 5933,
+        "achieved_rps": 1156.117850627037,
+        "cpu_us_per_request": 491.5666610483735,
+        "mean_ms": 3.389260388336876,
+        "p50_ms": 3.2529830932617188,
+        "p95_ms": 4.53639030456543,
+        "p99_ms": 6.084442138671875,
+        "user_us_per_request": 156.2781055115456
+      },
+      "counters": {
+        "instructions:u": 586766280.0,
+        "cycles:u": 1604898920.0,
+        "FE_UNKNOWN": 10489378.0,
+        "BR_INDIRECT": 10587733.0,
+        "MISP_INDIRECT": 4804408.0
+      },
+      "scheduled_pct": {
+        "instructions:u": 100.0,
+        "cycles:u": 100.0,
+        "FE_UNKNOWN": 100.0,
+        "BR_INDIRECT": 100.0,
+        "MISP_INDIRECT": 100.0
+      },
+      "fully_scheduled": true
+    },
+    {
+      "service": "compose",
+      "repeat": 0,
+      "label": "cache",
+      "output": "/storage/prefetchit/class_b_dense_20260927/causes_c4/seq4k_nop/compose/00_cache",
+      "window": {
+        "start": 1790564371.9420886,
+        "end": 1790564377.0761037,
+        "wall_s": 5.134014916984597,
+        "cpu_us": 6364660,
+        "user_us": 1810078,
+        "system_us": 4554581,
+        "delta": {
+          "usage_usec": 6364660,
+          "user_usec": 1810078,
+          "system_usec": 4554581,
+          "core_sched.force_idle_usec": 0,
+          "nr_periods": 0,
+          "nr_throttled": 0,
+          "throttled_usec": 0,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        },
+        "completed": 5730,
+        "achieved_rps": 1116.085576815084,
+        "cpu_us_per_request": 1110.760907504363,
+        "mean_ms": 3.5136397596429156,
+        "p50_ms": 3.395557403564453,
+        "p95_ms": 4.492044448852539,
+        "p99_ms": 5.999565124511719,
+        "user_us_per_request": 315.8949389179756
+      },
+      "counters": {
+        "instructions:u": 1598778312.0,
+        "cycles:u": 3238195474.0,
+        "L2I": 66064048.0,
+        "L2_CODE_ALL": 147667838.0,
+        "SWPF_MISS": 635.0,
+        "SWPF_HIT": 10455.0
+      },
+      "scheduled_pct": {
+        "instructions:u": 100.0,
+        "cycles:u": 100.0,
+        "L2I": 100.0,
+        "L2_CODE_ALL": 100.0,
+        "SWPF_MISS": 100.0,
+        "SWPF_HIT": 100.0
+      },
+      "fully_scheduled": true
+    },
+    {
+      "service": "compose",
+      "repeat": 0,
+      "label": "translation",
+      "output": "/storage/prefetchit/class_b_dense_20260927/causes_c4/seq4k_nop/compose/00_translation",
+      "window": {
+        "start": 1790564377.0772579,
+        "end": 1790564382.209196,
+        "wall_s": 5.131937977013877,
+        "cpu_us": 6432239,
+        "user_us": 1890735,
+        "system_us": 4541503,
+        "delta": {
+          "usage_usec": 6432239,
+          "user_usec": 1890735,
+          "system_usec": 4541503,
+          "core_sched.force_idle_usec": 0,
+          "nr_periods": 0,
+          "nr_throttled": 0,
+          "throttled_usec": 0,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        },
+        "completed": 5810,
+        "achieved_rps": 1132.125919296606,
+        "cpu_us_per_request": 1107.097934595525,
+        "mean_ms": 3.462918736232948,
+        "p50_ms": 3.329753875732422,
+        "p95_ms": 4.480123519897461,
+        "p99_ms": 6.090402603149414,
+        "user_us_per_request": 325.4277108433735
+      },
+      "counters": {
+        "instructions:u": 1616517295.0,
+        "cycles:u": 3263766770.0,
+        "ITLB_STLB_HIT": 3627553.0,
+        "ITLB_WALK": 6122755.0,
+        "ITLB_WALK_ACTIVE": 300021459.0,
+        "ICACHE_DATA_STALL": 770051976.0
+      },
+      "scheduled_pct": {
+        "instructions:u": 100.0,
+        "cycles:u": 100.0,
+        "ITLB_STLB_HIT": 100.0,
+        "ITLB_WALK": 100.0,
+        "ITLB_WALK_ACTIVE": 100.0,
+        "ICACHE_DATA_STALL": 100.0
+      },
+      "fully_scheduled": true
+    },
+    {
+      "service": "compose",
+      "repeat": 0,
+      "label": "retired_l2",
+      "output": "/storage/prefetchit/class_b_dense_20260927/causes_c4/seq4k_nop/compose/00_retired_l2",
+      "window": {
+        "start": 1790564382.2102304,
+        "end": 1790564387.3417828,
+        "wall_s": 5.131552815000759,
+        "cpu_us": 6529707,
+        "user_us": 1801420,
+        "system_us": 4728288,
+        "delta": {
+          "usage_usec": 6529707,
+          "user_usec": 1801420,
+          "system_usec": 4728288,
+          "core_sched.force_idle_usec": 0,
+          "nr_periods": 0,
+          "nr_throttled": 0,
+          "throttled_usec": 0,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        },
+        "completed": 5889,
+        "achieved_rps": 1147.6058441384528,
+        "cpu_us_per_request": 1108.7972491085075,
+        "mean_ms": 3.414624088343709,
+        "p50_ms": 3.291606903076172,
+        "p95_ms": 4.515409469604492,
+        "p99_ms": 5.846977233886719,
+        "user_us_per_request": 305.8957378162676
+      },
+      "counters": {
+        "instructions:u": 1642240270.0,
+        "cycles:u": 3300482034.0,
+        "FE_L2": 6071051.0,
+        "BACLEARS": 41903674.0,
+        "branches:u": 328340486.0,
+        "branch-misses:u": 26597543.0
+      },
+      "scheduled_pct": {
+        "instructions:u": 100.0,
+        "cycles:u": 100.0,
+        "FE_L2": 100.0,
+        "BACLEARS": 100.0,
+        "branches:u": 100.0,
+        "branch-misses:u": 100.0
+      },
+      "fully_scheduled": true
+    },
+    {
+      "service": "compose",
+      "repeat": 0,
+      "label": "retired_l1",
+      "output": "/storage/prefetchit/class_b_dense_20260927/causes_c4/seq4k_nop/compose/00_retired_l1",
+      "window": {
+        "start": 1790564387.3433056,
+        "end": 1790564392.4756577,
+        "wall_s": 5.132352140004514,
+        "cpu_us": 6351666,
+        "user_us": 1876430,
+        "system_us": 4475236,
+        "delta": {
+          "usage_usec": 6351666,
+          "user_usec": 1876430,
+          "system_usec": 4475236,
+          "core_sched.force_idle_usec": 0,
+          "nr_periods": 0,
+          "nr_throttled": 0,
+          "throttled_usec": 0,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        },
+        "completed": 5893,
+        "achieved_rps": 1148.2064829625695,
+        "cpu_us_per_request": 1077.8323434583403,
+        "mean_ms": 3.414091140653855,
+        "p50_ms": 3.2820701599121094,
+        "p95_ms": 4.567146301269531,
+        "p99_ms": 6.052970886230469,
+        "user_us_per_request": 318.41676565416594
+      },
+      "counters": {
+        "instructions:u": 1642770459.0,
+        "cycles:u": 3309999206.0,
+        "FE_L1": 31566917.0,
+        "ICACHE_TAG_STALL": 486741897.0
+      },
+      "scheduled_pct": {
+        "instructions:u": 100.0,
+        "cycles:u": 100.0,
+        "FE_L1": 100.0,
+        "ICACHE_TAG_STALL": 100.0
+      },
+      "fully_scheduled": true
+    },
+    {
+      "service": "compose",
+      "repeat": 0,
+      "label": "retired_itlb",
+      "output": "/storage/prefetchit/class_b_dense_20260927/causes_c4/seq4k_nop/compose/00_retired_itlb",
+      "window": {
+        "start": 1790564392.4771237,
+        "end": 1790564397.6616895,
+        "wall_s": 5.1845656629884616,
+        "cpu_us": 6434905,
+        "user_us": 1866091,
+        "system_us": 4568815,
+        "delta": {
+          "usage_usec": 6434905,
+          "user_usec": 1866091,
+          "system_usec": 4568815,
+          "core_sched.force_idle_usec": 0,
+          "nr_periods": 0,
+          "nr_throttled": 0,
+          "throttled_usec": 0,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        },
+        "completed": 5971,
+        "achieved_rps": 1151.6876028064858,
+        "cpu_us_per_request": 1077.6930162451852,
+        "mean_ms": 3.403595475730455,
+        "p50_ms": 3.2770633697509766,
+        "p95_ms": 4.442930221557617,
+        "p99_ms": 5.761623382568359,
+        "user_us_per_request": 312.5257075866689
+      },
+      "counters": {
+        "instructions:u": 1646922727.0,
+        "cycles:u": 3314380461.0,
+        "FE_ITLB": 6074626.0,
+        "CLEAR_RESTEER": 623326247.0
+      },
+      "scheduled_pct": {
+        "instructions:u": 100.0,
+        "cycles:u": 100.0,
+        "FE_ITLB": 100.0,
+        "CLEAR_RESTEER": 100.0
+      },
+      "fully_scheduled": true
+    },
+    {
+      "service": "compose",
+      "repeat": 0,
+      "label": "unknown_branch",
+      "output": "/storage/prefetchit/class_b_dense_20260927/causes_c4/seq4k_nop/compose/00_unknown_branch",
+      "window": {
+        "start": 1790564397.6642914,
+        "end": 1790564402.798815,
+        "wall_s": 5.13452283400693,
+        "cpu_us": 6407431,
+        "user_us": 1824470,
+        "system_us": 4582961,
+        "delta": {
+          "usage_usec": 6407431,
+          "user_usec": 1824470,
+          "system_usec": 4582961,
+          "core_sched.force_idle_usec": 0,
+          "nr_periods": 0,
+          "nr_throttled": 0,
+          "throttled_usec": 0,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        },
+        "completed": 5853,
+        "achieved_rps": 1139.9306594245638,
+        "cpu_us_per_request": 1094.72595250299,
+        "mean_ms": 3.438740861776363,
+        "p50_ms": 3.3028125762939453,
+        "p95_ms": 4.599332809448242,
+        "p99_ms": 6.126642227172852,
+        "user_us_per_request": 311.7153596446267
+      },
+      "counters": {
+        "instructions:u": 1631259599.0,
+        "cycles:u": 3280725875.0,
+        "FE_UNKNOWN": 23189277.0,
+        "BR_INDIRECT": 24476615.0,
+        "MISP_INDIRECT": 9720562.0
+      },
+      "scheduled_pct": {
+        "instructions:u": 100.0,
+        "cycles:u": 100.0,
+        "FE_UNKNOWN": 100.0,
+        "BR_INDIRECT": 100.0,
+        "MISP_INDIRECT": 100.0
+      },
+      "fully_scheduled": true
+    },
+    {
+      "service": "rating",
+      "repeat": 0,
+      "label": "cache",
+      "output": "/storage/prefetchit/class_b_dense_20260927/causes_c4/seq4k_nop/rating/00_cache",
+      "window": {
+        "start": 1790564402.8005207,
+        "end": 1790564407.932517,
+        "wall_s": 5.131996837008046,
+        "cpu_us": 2529345,
+        "user_us": 878931,
+        "system_us": 1650414,
+        "delta": {
+          "usage_usec": 2529345,
+          "user_usec": 878931,
+          "system_usec": 1650414,
+          "core_sched.force_idle_usec": 0,
+          "nr_periods": 0,
+          "nr_throttled": 0,
+          "throttled_usec": 0,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        },
+        "completed": 5939,
+        "achieved_rps": 1157.2493492537765,
+        "cpu_us_per_request": 425.8873547735309,
+        "mean_ms": 3.3864763413721675,
+        "p50_ms": 3.259897232055664,
+        "p95_ms": 4.453897476196289,
+        "p99_ms": 5.844354629516602,
+        "user_us_per_request": 147.99309648088905
+      },
+      "counters": {
+        "instructions:u": 621110485.0,
+        "cycles:u": 1573157919.0,
+        "L2I": 33978044.0,
+        "L2_CODE_ALL": 61772610.0,
+        "SWPF_MISS": 231.0,
+        "SWPF_HIT": 4336.0
+      },
+      "scheduled_pct": {
+        "instructions:u": 100.0,
+        "cycles:u": 100.0,
+        "L2I": 100.0,
+        "L2_CODE_ALL": 100.0,
+        "SWPF_MISS": 100.0,
+        "SWPF_HIT": 100.0
+      },
+      "fully_scheduled": true
+    },
+    {
+      "service": "rating",
+      "repeat": 0,
+      "label": "translation",
+      "output": "/storage/prefetchit/class_b_dense_20260927/causes_c4/seq4k_nop/rating/00_translation",
+      "window": {
+        "start": 1790564407.9339533,
+        "end": 1790564413.0655823,
+        "wall_s": 5.131629479001276,
+        "cpu_us": 2494836,
+        "user_us": 905620,
+        "system_us": 1589215,
+        "delta": {
+          "usage_usec": 2494836,
+          "user_usec": 905620,
+          "system_usec": 1589215,
+          "core_sched.force_idle_usec": 0,
+          "nr_periods": 0,
+          "nr_throttled": 0,
+          "throttled_usec": 0,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        },
+        "completed": 5873,
+        "achieved_rps": 1144.4707814608257,
+        "cpu_us_per_request": 424.79754810148137,
+        "mean_ms": 3.425216504302724,
+        "p50_ms": 3.2846927642822266,
+        "p95_ms": 4.581451416015625,
+        "p99_ms": 6.065845489501953,
+        "user_us_per_request": 154.20057892048357
+      },
+      "counters": {
+        "instructions:u": 613736414.0,
+        "cycles:u": 1553270630.0,
+        "ITLB_STLB_HIT": 877149.0,
+        "ITLB_WALK": 2633361.0,
+        "ITLB_WALK_ACTIVE": 160918328.0,
+        "ICACHE_DATA_STALL": 336002698.0
+      },
+      "scheduled_pct": {
+        "instructions:u": 100.0,
+        "cycles:u": 100.0,
+        "ITLB_STLB_HIT": 100.0,
+        "ITLB_WALK": 100.0,
+        "ITLB_WALK_ACTIVE": 100.0,
+        "ICACHE_DATA_STALL": 100.0
+      },
+      "fully_scheduled": true
+    },
+    {
+      "service": "rating",
+      "repeat": 0,
+      "label": "retired_l2",
+      "output": "/storage/prefetchit/class_b_dense_20260927/causes_c4/seq4k_nop/rating/00_retired_l2",
+      "window": {
+        "start": 1790564413.0684505,
+        "end": 1790564418.2002478,
+        "wall_s": 5.131796990986913,
+        "cpu_us": 2533238,
+        "user_us": 897672,
+        "system_us": 1635566,
+        "delta": {
+          "usage_usec": 2533238,
+          "user_usec": 897672,
+          "system_usec": 1635566,
+          "core_sched.force_idle_usec": 0,
+          "nr_periods": 0,
+          "nr_throttled": 0,
+          "throttled_usec": 0,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        },
+        "completed": 5916,
+        "achieved_rps": 1152.8125548205433,
+        "cpu_us_per_request": 428.2011494252874,
+        "mean_ms": 3.399353361033039,
+        "p50_ms": 3.270864486694336,
+        "p95_ms": 4.487752914428711,
+        "p99_ms": 5.711793899536133,
+        "user_us_per_request": 151.73630831643
+      },
+      "counters": {
+        "instructions:u": 618713836.0,
+        "cycles:u": 1564654346.0,
+        "FE_L2": 2843797.0,
+        "BACLEARS": 20444424.0,
+        "branches:u": 130068430.0,
+        "branch-misses:u": 14193825.0
+      },
+      "scheduled_pct": {
+        "instructions:u": 100.0,
+        "cycles:u": 100.0,
+        "FE_L2": 100.0,
+        "BACLEARS": 100.0,
+        "branches:u": 100.0,
+        "branch-misses:u": 100.0
+      },
+      "fully_scheduled": true
+    },
+    {
+      "service": "rating",
+      "repeat": 0,
+      "label": "retired_l1",
+      "output": "/storage/prefetchit/class_b_dense_20260927/causes_c4/seq4k_nop/rating/00_retired_l1",
+      "window": {
+        "start": 1790564418.2029483,
+        "end": 1790564423.3344727,
+        "wall_s": 5.131524263997562,
+        "cpu_us": 2448448,
+        "user_us": 889922,
+        "system_us": 1558526,
+        "delta": {
+          "usage_usec": 2448448,
+          "user_usec": 889922,
+          "system_usec": 1558526,
+          "core_sched.force_idle_usec": 0,
+          "nr_periods": 0,
+          "nr_throttled": 0,
+          "throttled_usec": 0,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        },
+        "completed": 5877,
+        "achieved_rps": 1145.273742780999,
+        "cpu_us_per_request": 416.6152799047133,
+        "mean_ms": 3.4223292095839257,
+        "p50_ms": 3.2799243927001953,
+        "p95_ms": 4.493236541748047,
+        "p99_ms": 6.1473846435546875,
+        "user_us_per_request": 151.42453632805854
+      },
+      "counters": {
+        "instructions:u": 614432603.0,
+        "cycles:u": 1552735214.0,
+        "FE_L1": 9175368.0,
+        "ICACHE_TAG_STALL": 232856045.0
+      },
+      "scheduled_pct": {
+        "instructions:u": 100.0,
+        "cycles:u": 100.0,
+        "FE_L1": 100.0,
+        "ICACHE_TAG_STALL": 100.0
+      },
+      "fully_scheduled": true
+    },
+    {
+      "service": "rating",
+      "repeat": 0,
+      "label": "retired_itlb",
+      "output": "/storage/prefetchit/class_b_dense_20260927/causes_c4/seq4k_nop/rating/00_retired_itlb",
+      "window": {
+        "start": 1790564423.3369339,
+        "end": 1790564428.468909,
+        "wall_s": 5.131975268013775,
+        "cpu_us": 2450556,
+        "user_us": 866791,
+        "system_us": 1583765,
+        "delta": {
+          "usage_usec": 2450556,
+          "user_usec": 866791,
+          "system_usec": 1583765,
+          "core_sched.force_idle_usec": 0,
+          "nr_periods": 0,
+          "nr_throttled": 0,
+          "throttled_usec": 0,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        },
+        "completed": 5877,
+        "achieved_rps": 1145.1730947788785,
+        "cpu_us_per_request": 416.9739663093415,
+        "mean_ms": 3.422598743876856,
+        "p50_ms": 3.2837390899658203,
+        "p95_ms": 4.578590393066406,
+        "p99_ms": 6.187677383422852,
+        "user_us_per_request": 147.4886847030798
+      },
+      "counters": {
+        "instructions:u": 617400030.0,
+        "cycles:u": 1560171777.0,
+        "FE_ITLB": 2074709.0,
+        "CLEAR_RESTEER": 324198287.0
+      },
+      "scheduled_pct": {
+        "instructions:u": 100.0,
+        "cycles:u": 100.0,
+        "FE_ITLB": 100.0,
+        "CLEAR_RESTEER": 100.0
+      },
+      "fully_scheduled": true
+    },
+    {
+      "service": "rating",
+      "repeat": 0,
+      "label": "unknown_branch",
+      "output": "/storage/prefetchit/class_b_dense_20260927/causes_c4/seq4k_nop/rating/00_unknown_branch",
+      "window": {
+        "start": 1790564428.4720287,
+        "end": 1790564433.6036491,
+        "wall_s": 5.131619881984079,
+        "cpu_us": 2494560,
+        "user_us": 872981,
+        "system_us": 1621580,
+        "delta": {
+          "usage_usec": 2494560,
+          "user_usec": 872981,
+          "system_usec": 1621580,
+          "core_sched.force_idle_usec": 0,
+          "nr_periods": 0,
+          "nr_throttled": 0,
+          "throttled_usec": 0,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        },
+        "completed": 5890,
+        "achieved_rps": 1147.785715905891,
+        "cpu_us_per_request": 423.52461799660443,
+        "mean_ms": 3.4140715574772935,
+        "p50_ms": 3.2892227172851562,
+        "p95_ms": 4.488468170166016,
+        "p99_ms": 5.864858627319336,
+        "user_us_per_request": 148.21409168081493
+      },
+      "counters": {
+        "instructions:u": 617692549.0,
+        "cycles:u": 1560874005.0,
+        "FE_UNKNOWN": 9777872.0,
+        "BR_INDIRECT": 9938630.0,
+        "MISP_INDIRECT": 5155476.0
+      },
+      "scheduled_pct": {
+        "instructions:u": 100.0,
+        "cycles:u": 100.0,
+        "FE_UNKNOWN": 100.0,
+        "BR_INDIRECT": 100.0,
+        "MISP_INDIRECT": 100.0
+      },
+      "fully_scheduled": true
+    },
+    {
+      "service": "rating",
+      "repeat": 1,
+      "label": "unknown_branch",
+      "output": "/storage/prefetchit/class_b_dense_20260927/causes_c4/seq4k_nop/rating/01_unknown_branch",
+      "window": {
+        "start": 1790564433.605939,
+        "end": 1790564438.7371747,
+        "wall_s": 5.131236362009076,
+        "cpu_us": 2492538,
+        "user_us": 883337,
+        "system_us": 1609201,
+        "delta": {
+          "usage_usec": 2492538,
+          "user_usec": 883337,
+          "system_usec": 1609201,
+          "core_sched.force_idle_usec": 0,
+          "nr_periods": 0,
+          "nr_throttled": 0,
+          "throttled_usec": 0,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        },
+        "completed": 5884,
+        "achieved_rps": 1146.7021951209022,
+        "cpu_us_per_request": 423.6128484024473,
+        "mean_ms": 3.418081840797803,
+        "p50_ms": 3.2744407653808594,
+        "p95_ms": 4.548072814941406,
+        "p99_ms": 6.035566329956055,
+        "user_us_per_request": 150.12525492862
+      },
+      "counters": {
+        "instructions:u": 617383487.0,
+        "cycles:u": 1559466938.0,
+        "FE_UNKNOWN": 9786222.0,
+        "BR_INDIRECT": 9958781.0,
+        "MISP_INDIRECT": 5155733.0
+      },
+      "scheduled_pct": {
+        "instructions:u": 100.0,
+        "cycles:u": 100.0,
+        "FE_UNKNOWN": 100.0,
+        "BR_INDIRECT": 100.0,
+        "MISP_INDIRECT": 100.0
+      },
+      "fully_scheduled": true
+    },
+    {
+      "service": "rating",
+      "repeat": 1,
+      "label": "retired_itlb",
+      "output": "/storage/prefetchit/class_b_dense_20260927/causes_c4/seq4k_nop/rating/01_retired_itlb",
+      "window": {
+        "start": 1790564438.7404432,
+        "end": 1790564443.8729484,
+        "wall_s": 5.132504960987717,
+        "cpu_us": 2468209,
+        "user_us": 935807,
+        "system_us": 1532401,
+        "delta": {
+          "usage_usec": 2468209,
+          "user_usec": 935807,
+          "system_usec": 1532401,
+          "core_sched.force_idle_usec": 0,
+          "nr_periods": 0,
+          "nr_throttled": 0,
+          "throttled_usec": 0,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        },
+        "completed": 5894,
+        "achieved_rps": 1148.3671316054097,
+        "cpu_us_per_request": 418.7663725822871,
+        "mean_ms": 3.412419227895229,
+        "p50_ms": 3.2880306243896484,
+        "p95_ms": 4.4460296630859375,
+        "p99_ms": 5.7544708251953125,
+        "user_us_per_request": 158.77281981676282
+      },
+      "counters": {
+        "instructions:u": 618441723.0,
+        "cycles:u": 1563851522.0,
+        "FE_ITLB": 2081456.0,
+        "CLEAR_RESTEER": 325629044.0
+      },
+      "scheduled_pct": {
+        "instructions:u": 100.0,
+        "cycles:u": 100.0,
+        "FE_ITLB": 100.0,
+        "CLEAR_RESTEER": 100.0
+      },
+      "fully_scheduled": true
+    },
+    {
+      "service": "rating",
+      "repeat": 1,
+      "label": "retired_l1",
+      "output": "/storage/prefetchit/class_b_dense_20260927/causes_c4/seq4k_nop/rating/01_retired_l1",
+      "window": {
+        "start": 1790564443.8766377,
+        "end": 1790564449.0087025,
+        "wall_s": 5.132064347009873,
+        "cpu_us": 2437989,
+        "user_us": 888043,
+        "system_us": 1549945,
+        "delta": {
+          "usage_usec": 2437989,
+          "user_usec": 888043,
+          "system_usec": 1549945,
+          "core_sched.force_idle_usec": 0,
+          "nr_periods": 0,
+          "nr_throttled": 0,
+          "throttled_usec": 0,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        },
+        "completed": 5845,
+        "achieved_rps": 1138.9179099840221,
+        "cpu_us_per_request": 417.10675791274593,
+        "mean_ms": 3.443073227020081,
+        "p50_ms": 3.304004669189453,
+        "p95_ms": 4.583120346069336,
+        "p99_ms": 6.161212921142578,
+        "user_us_per_request": 151.93207869974336
+      },
+      "counters": {
+        "instructions:u": 614205869.0,
+        "cycles:u": 1544558268.0,
+        "FE_L1": 9109187.0,
+        "ICACHE_TAG_STALL": 231938459.0
+      },
+      "scheduled_pct": {
+        "instructions:u": 100.0,
+        "cycles:u": 100.0,
+        "FE_L1": 100.0,
+        "ICACHE_TAG_STALL": 100.0
+      },
+      "fully_scheduled": true
+    },
+    {
+      "service": "rating",
+      "repeat": 1,
+      "label": "retired_l2",
+      "output": "/storage/prefetchit/class_b_dense_20260927/causes_c4/seq4k_nop/rating/01_retired_l2",
+      "window": {
+        "start": 1790564449.012067,
+        "end": 1790564454.1445704,
+        "wall_s": 5.132503227010602,
+        "cpu_us": 2508404,
+        "user_us": 875230,
+        "system_us": 1633173,
+        "delta": {
+          "usage_usec": 2508404,
+          "user_usec": 875230,
+          "system_usec": 1633173,
+          "core_sched.force_idle_usec": 0,
+          "nr_periods": 0,
+          "nr_throttled": 0,
+          "throttled_usec": 0,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        },
+        "completed": 5870,
+        "achieved_rps": 1143.6914387327038,
+        "cpu_us_per_request": 427.32606473594547,
+        "mean_ms": 3.4276974871373866,
+        "p50_ms": 3.3032894134521484,
+        "p95_ms": 4.472017288208008,
+        "p99_ms": 5.998373031616211,
+        "user_us_per_request": 149.1022146507666
+      },
+      "counters": {
+        "instructions:u": 615564558.0,
+        "cycles:u": 1550253600.0,
+        "FE_L2": 2822484.0,
+        "BACLEARS": 20243914.0,
+        "branches:u": 129369877.0,
+        "branch-misses:u": 14073683.0
+      },
+      "scheduled_pct": {
+        "instructions:u": 100.0,
+        "cycles:u": 100.0,
+        "FE_L2": 100.0,
+        "BACLEARS": 100.0,
+        "branches:u": 100.0,
+        "branch-misses:u": 100.0
+      },
+      "fully_scheduled": true
+    },
+    {
+      "service": "rating",
+      "repeat": 1,
+      "label": "translation",
+      "output": "/storage/prefetchit/class_b_dense_20260927/causes_c4/seq4k_nop/rating/01_translation",
+      "window": {
+        "start": 1790564454.1480868,
+        "end": 1790564459.2803578,
+        "wall_s": 5.1322708319930825,
+        "cpu_us": 2481035,
+        "user_us": 856997,
+        "system_us": 1624039,
+        "delta": {
+          "usage_usec": 2481035,
+          "user_usec": 856997,
+          "system_usec": 1624039,
+          "core_sched.force_idle_usec": 0,
+          "nr_periods": 0,
+          "nr_throttled": 0,
+          "throttled_usec": 0,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        },
+        "completed": 5846,
+        "achieved_rps": 1139.0669337942452,
+        "cpu_us_per_request": 424.3987341772152,
+        "mean_ms": 3.4416421732998774,
+        "p50_ms": 3.3037662506103516,
+        "p95_ms": 4.5452117919921875,
+        "p99_ms": 6.045818328857422,
+        "user_us_per_request": 146.59544988026002
+      },
+      "counters": {
+        "instructions:u": 614504329.0,
+        "cycles:u": 1544071549.0,
+        "ITLB_STLB_HIT": 874422.0,
+        "ITLB_WALK": 2614902.0,
+        "ITLB_WALK_ACTIVE": 159987526.0,
+        "ICACHE_DATA_STALL": 333513199.0
+      },
+      "scheduled_pct": {
+        "instructions:u": 100.0,
+        "cycles:u": 100.0,
+        "ITLB_STLB_HIT": 100.0,
+        "ITLB_WALK": 100.0,
+        "ITLB_WALK_ACTIVE": 100.0,
+        "ICACHE_DATA_STALL": 100.0
+      },
+      "fully_scheduled": true
+    },
+    {
+      "service": "rating",
+      "repeat": 1,
+      "label": "cache",
+      "output": "/storage/prefetchit/class_b_dense_20260927/causes_c4/seq4k_nop/rating/01_cache",
+      "window": {
+        "start": 1790564459.2840712,
+        "end": 1790564464.4160564,
+        "wall_s": 5.131984980020206,
+        "cpu_us": 2479535,
+        "user_us": 924467,
+        "system_us": 1555069,
+        "delta": {
+          "usage_usec": 2479535,
+          "user_usec": 924467,
+          "system_usec": 1555069,
+          "core_sched.force_idle_usec": 0,
+          "nr_periods": 0,
+          "nr_throttled": 0,
+          "throttled_usec": 0,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        },
+        "completed": 5838,
+        "achieved_rps": 1137.5715288973845,
+        "cpu_us_per_request": 424.7233641658102,
+        "mean_ms": 3.446198400057681,
+        "p50_ms": 3.3152103424072266,
+        "p95_ms": 4.606485366821289,
+        "p99_ms": 6.140947341918945,
+        "user_us_per_request": 158.3533744433025
+      },
+      "counters": {
+        "instructions:u": 613439517.0,
+        "cycles:u": 1544887451.0,
+        "L2I": 33365604.0,
+        "L2_CODE_ALL": 60645394.0,
+        "SWPF_MISS": 206.0,
+        "SWPF_HIT": 4412.0
+      },
+      "scheduled_pct": {
+        "instructions:u": 100.0,
+        "cycles:u": 100.0,
+        "L2I": 100.0,
+        "L2_CODE_ALL": 100.0,
+        "SWPF_MISS": 100.0,
+        "SWPF_HIT": 100.0
+      },
+      "fully_scheduled": true
+    },
+    {
+      "service": "compose",
+      "repeat": 1,
+      "label": "unknown_branch",
+      "output": "/storage/prefetchit/class_b_dense_20260927/causes_c4/seq4k_nop/compose/01_unknown_branch",
+      "window": {
+        "start": 1790564464.4202778,
+        "end": 1790564469.5523026,
+        "wall_s": 5.132025097991573,
+        "cpu_us": 6372829,
+        "user_us": 1922838,
+        "system_us": 4449992,
+        "delta": {
+          "usage_usec": 6372829,
+          "user_usec": 1922838,
+          "system_usec": 4449992,
+          "core_sched.force_idle_usec": 0,
+          "nr_periods": 0,
+          "nr_throttled": 0,
+          "throttled_usec": 0,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        },
+        "completed": 5814,
+        "achieved_rps": 1132.886119803919,
+        "cpu_us_per_request": 1096.1178190574476,
+        "mean_ms": 3.460867404117591,
+        "p50_ms": 3.3330917358398438,
+        "p95_ms": 4.555940628051758,
+        "p99_ms": 5.8231353759765625,
+        "user_us_per_request": 330.72549019607845
+      },
+      "counters": {
+        "instructions:u": 1619769096.0,
+        "cycles:u": 3277787816.0,
+        "FE_UNKNOWN": 23182238.0,
+        "BR_INDIRECT": 24286063.0,
+        "MISP_INDIRECT": 9715220.0
+      },
+      "scheduled_pct": {
+        "instructions:u": 100.0,
+        "cycles:u": 100.0,
+        "FE_UNKNOWN": 100.0,
+        "BR_INDIRECT": 100.0,
+        "MISP_INDIRECT": 100.0
+      },
+      "fully_scheduled": true
+    },
+    {
+      "service": "compose",
+      "repeat": 1,
+      "label": "retired_itlb",
+      "output": "/storage/prefetchit/class_b_dense_20260927/causes_c4/seq4k_nop/compose/01_retired_itlb",
+      "window": {
+        "start": 1790564469.5561087,
+        "end": 1790564474.6884584,
+        "wall_s": 5.132349506020546,
+        "cpu_us": 6256552,
+        "user_us": 1851843,
+        "system_us": 4404710,
+        "delta": {
+          "usage_usec": 6256552,
+          "user_usec": 1851843,
+          "system_usec": 4404710,
+          "core_sched.force_idle_usec": 0,
+          "nr_periods": 0,
+          "nr_throttled": 0,
+          "throttled_usec": 0,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        },
+        "completed": 5787,
+        "achieved_rps": 1127.5537632835626,
+        "cpu_us_per_request": 1081.1391048902713,
+        "mean_ms": 3.476927064955286,
+        "p50_ms": 3.3462047576904297,
+        "p95_ms": 4.637002944946289,
+        "p99_ms": 6.011247634887695,
+        "user_us_per_request": 320.00051840331776
+      },
+      "counters": {
+        "instructions:u": 1612335695.0,
+        "cycles:u": 3256344629.0,
+        "FE_ITLB": 5949381.0,
+        "CLEAR_RESTEER": 613937375.0
+      },
+      "scheduled_pct": {
+        "instructions:u": 100.0,
+        "cycles:u": 100.0,
+        "FE_ITLB": 100.0,
+        "CLEAR_RESTEER": 100.0
+      },
+      "fully_scheduled": true
+    },
+    {
+      "service": "compose",
+      "repeat": 1,
+      "label": "retired_l1",
+      "output": "/storage/prefetchit/class_b_dense_20260927/causes_c4/seq4k_nop/compose/01_retired_l1",
+      "window": {
+        "start": 1790564474.6922915,
+        "end": 1790564479.8244915,
+        "wall_s": 5.132199737010524,
+        "cpu_us": 6268352,
+        "user_us": 1841473,
+        "system_us": 4426878,
+        "delta": {
+          "usage_usec": 6268352,
+          "user_usec": 1841473,
+          "system_usec": 4426878,
+          "core_sched.force_idle_usec": 0,
+          "nr_periods": 0,
+          "nr_throttled": 0,
+          "throttled_usec": 0,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        },
+        "completed": 5809,
+        "achieved_rps": 1131.873328722726,
+        "cpu_us_per_request": 1079.0759166810121,
+        "mean_ms": 3.4638255203543893,
+        "p50_ms": 3.318309783935547,
+        "p95_ms": 4.609584808349609,
+        "p99_ms": 6.234884262084961,
+        "user_us_per_request": 317.00344293337923
+      },
+      "counters": {
+        "instructions:u": 1628971607.0,
+        "cycles:u": 3287531697.0,
+        "FE_L1": 31201415.0,
+        "ICACHE_TAG_STALL": 483331958.0
+      },
+      "scheduled_pct": {
+        "instructions:u": 100.0,
+        "cycles:u": 100.0,
+        "FE_L1": 100.0,
+        "ICACHE_TAG_STALL": 100.0
+      },
+      "fully_scheduled": true
+    },
+    {
+      "service": "compose",
+      "repeat": 1,
+      "label": "retired_l2",
+      "output": "/storage/prefetchit/class_b_dense_20260927/causes_c4/seq4k_nop/compose/01_retired_l2",
+      "window": {
+        "start": 1790564479.8284218,
+        "end": 1790564484.960462,
+        "wall_s": 5.132039409014396,
+        "cpu_us": 6393150,
+        "user_us": 1789058,
+        "system_us": 4604091,
+        "delta": {
+          "usage_usec": 6393150,
+          "user_usec": 1789058,
+          "system_usec": 4604091,
+          "core_sched.force_idle_usec": 0,
+          "nr_periods": 0,
+          "nr_throttled": 0,
+          "throttled_usec": 0,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        },
+        "completed": 5765,
+        "achieved_rps": 1123.3350994682178,
+        "cpu_us_per_request": 1108.959236773634,
+        "mean_ms": 3.490437783061786,
+        "p50_ms": 3.339529037475586,
+        "p95_ms": 4.59599494934082,
+        "p99_ms": 6.209135055541992,
+        "user_us_per_request": 310.3309627059844
+      },
+      "counters": {
+        "instructions:u": 1606573692.0,
+        "cycles:u": 3245160670.0,
+        "FE_L2": 6015132.0,
+        "BACLEARS": 41154038.0,
+        "branches:u": 321170166.0,
+        "branch-misses:u": 26127609.0
+      },
+      "scheduled_pct": {
+        "instructions:u": 100.0,
+        "cycles:u": 100.0,
+        "FE_L2": 100.0,
+        "BACLEARS": 100.0,
+        "branches:u": 100.0,
+        "branch-misses:u": 100.0
+      },
+      "fully_scheduled": true
+    },
+    {
+      "service": "compose",
+      "repeat": 1,
+      "label": "translation",
+      "output": "/storage/prefetchit/class_b_dense_20260927/causes_c4/seq4k_nop/compose/01_translation",
+      "window": {
+        "start": 1790564484.9623485,
+        "end": 1790564490.0940807,
+        "wall_s": 5.131732251000358,
+        "cpu_us": 6398442,
+        "user_us": 1789752,
+        "system_us": 4608689,
+        "delta": {
+          "usage_usec": 6398442,
+          "user_usec": 1789752,
+          "system_usec": 4608689,
+          "core_sched.force_idle_usec": 0,
+          "nr_periods": 0,
+          "nr_throttled": 0,
+          "throttled_usec": 0,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        },
+        "completed": 5797,
+        "achieved_rps": 1129.6380474390412,
+        "cpu_us_per_request": 1103.750560634811,
+        "mean_ms": 3.4715379540912443,
+        "p50_ms": 3.3445358276367188,
+        "p95_ms": 4.545927047729492,
+        "p99_ms": 5.874395370483398,
+        "user_us_per_request": 308.7376229084009
+      },
+      "counters": {
+        "instructions:u": 1613798544.0,
+        "cycles:u": 3256567074.0,
+        "ITLB_STLB_HIT": 3587173.0,
+        "ITLB_WALK": 6118353.0,
+        "ITLB_WALK_ACTIVE": 301375215.0,
+        "ICACHE_DATA_STALL": 768526060.0
+      },
+      "scheduled_pct": {
+        "instructions:u": 100.0,
+        "cycles:u": 100.0,
+        "ITLB_STLB_HIT": 100.0,
+        "ITLB_WALK": 100.0,
+        "ITLB_WALK_ACTIVE": 100.0,
+        "ICACHE_DATA_STALL": 100.0
+      },
+      "fully_scheduled": true
+    },
+    {
+      "service": "compose",
+      "repeat": 1,
+      "label": "cache",
+      "output": "/storage/prefetchit/class_b_dense_20260927/causes_c4/seq4k_nop/compose/01_cache",
+      "window": {
+        "start": 1790564490.0959947,
+        "end": 1790564495.2291338,
+        "wall_s": 5.13313968401053,
+        "cpu_us": 6201430,
+        "user_us": 1776858,
+        "system_us": 4424572,
+        "delta": {
+          "usage_usec": 6201430,
+          "user_usec": 1776858,
+          "system_usec": 4424572,
+          "core_sched.force_idle_usec": 0,
+          "nr_periods": 0,
+          "nr_throttled": 0,
+          "throttled_usec": 0,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        },
+        "completed": 5596,
+        "achieved_rps": 1090.1709956250083,
+        "cpu_us_per_request": 1108.1897784131522,
+        "mean_ms": 3.5993042718179744,
+        "p50_ms": 3.451108932495117,
+        "p95_ms": 4.697084426879883,
+        "p99_ms": 6.406307220458984,
+        "user_us_per_request": 317.5228734810579
+      },
+      "counters": {
+        "instructions:u": 1559835929.0,
+        "cycles:u": 3162793334.0,
+        "L2I": 64699237.0,
+        "L2_CODE_ALL": 143961480.0,
+        "SWPF_MISS": 630.0,
+        "SWPF_HIT": 10415.0
+      },
+      "scheduled_pct": {
+        "instructions:u": 100.0,
+        "cycles:u": 100.0,
+        "L2I": 100.0,
+        "L2_CODE_ALL": 100.0,
+        "SWPF_MISS": 100.0,
+        "SWPF_HIT": 100.0
+      },
+      "fully_scheduled": true
+    },
+    {
+      "service": "movie",
+      "repeat": 1,
+      "label": "unknown_branch",
+      "output": "/storage/prefetchit/class_b_dense_20260927/causes_c4/seq4k_nop/movie/01_unknown_branch",
+      "window": {
+        "start": 1790564495.233862,
+        "end": 1790564500.3655102,
+        "wall_s": 5.131648565002251,
+        "cpu_us": 2865389,
+        "user_us": 900581,
+        "system_us": 1964808,
+        "delta": {
+          "usage_usec": 2865389,
+          "user_usec": 900581,
+          "system_usec": 1964808,
+          "core_sched.force_idle_usec": 0,
+          "nr_periods": 0,
+          "nr_throttled": 0,
+          "throttled_usec": 0,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        },
+        "completed": 5803,
+        "achieved_rps": 1130.825684279386,
+        "cpu_us_per_request": 493.7771842150612,
+        "mean_ms": 3.4663713370728613,
+        "p50_ms": 3.3409595489501953,
+        "p95_ms": 4.537343978881836,
+        "p99_ms": 6.019353866577148,
+        "user_us_per_request": 155.1923143201792
+      },
+      "counters": {
+        "instructions:u": 577717578.0,
+        "cycles:u": 1581468209.0,
+        "FE_UNKNOWN": 10313961.0,
+        "BR_INDIRECT": 10469044.0,
+        "MISP_INDIRECT": 4721519.0
+      },
+      "scheduled_pct": {
+        "instructions:u": 100.0,
+        "cycles:u": 100.0,
+        "FE_UNKNOWN": 100.0,
+        "BR_INDIRECT": 100.0,
+        "MISP_INDIRECT": 100.0
+      },
+      "fully_scheduled": true
+    },
+    {
+      "service": "movie",
+      "repeat": 1,
+      "label": "retired_itlb",
+      "output": "/storage/prefetchit/class_b_dense_20260927/causes_c4/seq4k_nop/movie/01_retired_itlb",
+      "window": {
+        "start": 1790564500.3698585,
+        "end": 1790564505.5022316,
+        "wall_s": 5.132372863998171,
+        "cpu_us": 2817919,
+        "user_us": 890952,
+        "system_us": 1926966,
+        "delta": {
+          "usage_usec": 2817919,
+          "user_usec": 890952,
+          "system_usec": 1926966,
+          "core_sched.force_idle_usec": 0,
+          "nr_periods": 0,
+          "nr_throttled": 0,
+          "throttled_usec": 0,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        },
+        "completed": 5799,
+        "achieved_rps": 1129.8867314722959,
+        "cpu_us_per_request": 485.93188480772545,
+        "mean_ms": 3.4707272992213856,
+        "p50_ms": 3.3257007598876953,
+        "p95_ms": 4.571676254272461,
+        "p99_ms": 6.204843521118164,
+        "user_us_per_request": 153.63890325918263
+      },
+      "counters": {
+        "instructions:u": 575073185.0,
+        "cycles:u": 1576871773.0,
+        "FE_ITLB": 2541910.0,
+        "CLEAR_RESTEER": 328846955.0
+      },
+      "scheduled_pct": {
+        "instructions:u": 100.0,
+        "cycles:u": 100.0,
+        "FE_ITLB": 100.0,
+        "CLEAR_RESTEER": 100.0
+      },
+      "fully_scheduled": true
+    },
+    {
+      "service": "movie",
+      "repeat": 1,
+      "label": "retired_l1",
+      "output": "/storage/prefetchit/class_b_dense_20260927/causes_c4/seq4k_nop/movie/01_retired_l1",
+      "window": {
+        "start": 1790564505.5065727,
+        "end": 1790564510.6392207,
+        "wall_s": 5.132647872989764,
+        "cpu_us": 2840703,
+        "user_us": 899372,
+        "system_us": 1941331,
+        "delta": {
+          "usage_usec": 2840703,
+          "user_usec": 899372,
+          "system_usec": 1941331,
+          "core_sched.force_idle_usec": 0,
+          "nr_periods": 0,
+          "nr_throttled": 0,
+          "throttled_usec": 0,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        },
+        "completed": 5826,
+        "achieved_rps": 1135.0866344560586,
+        "cpu_us_per_request": 487.59062821833163,
+        "mean_ms": 3.4539066063265107,
+        "p50_ms": 3.3257007598876953,
+        "p95_ms": 4.531621932983398,
+        "p99_ms": 5.717992782592773,
+        "user_us_per_request": 154.37212495708891
+      },
+      "counters": {
+        "instructions:u": 577210555.0,
+        "cycles:u": 1583561512.0,
+        "FE_L1": 10427387.0,
+        "ICACHE_TAG_STALL": 281623073.0
+      },
+      "scheduled_pct": {
+        "instructions:u": 100.0,
+        "cycles:u": 100.0,
+        "FE_L1": 100.0,
+        "ICACHE_TAG_STALL": 100.0
+      },
+      "fully_scheduled": true
+    },
+    {
+      "service": "movie",
+      "repeat": 1,
+      "label": "retired_l2",
+      "output": "/storage/prefetchit/class_b_dense_20260927/causes_c4/seq4k_nop/movie/01_retired_l2",
+      "window": {
+        "start": 1790564510.6436715,
+        "end": 1790564515.7753637,
+        "wall_s": 5.131692120980006,
+        "cpu_us": 2886339,
+        "user_us": 835834,
+        "system_us": 2050504,
+        "delta": {
+          "usage_usec": 2886339,
+          "user_usec": 835834,
+          "system_usec": 2050504,
+          "core_sched.force_idle_usec": 0,
+          "nr_periods": 0,
+          "nr_throttled": 0,
+          "throttled_usec": 0,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        },
+        "completed": 5776,
+        "achieved_rps": 1125.554663808816,
+        "cpu_us_per_request": 499.71243074792244,
+        "mean_ms": 3.484382441169337,
+        "p50_ms": 3.3409595489501953,
+        "p95_ms": 4.667043685913086,
+        "p99_ms": 6.3343048095703125,
+        "user_us_per_request": 144.7081024930748
+      },
+      "counters": {
+        "instructions:u": 570627431.0,
+        "cycles:u": 1570826757.0,
+        "FE_L2": 2918128.0,
+        "BACLEARS": 20088279.0,
+        "branches:u": 117345770.0,
+        "branch-misses:u": 12774734.0
+      },
+      "scheduled_pct": {
+        "instructions:u": 100.0,
+        "cycles:u": 100.0,
+        "FE_L2": 100.0,
+        "BACLEARS": 100.0,
+        "branches:u": 100.0,
+        "branch-misses:u": 100.0
+      },
+      "fully_scheduled": true
+    },
+    {
+      "service": "movie",
+      "repeat": 1,
+      "label": "translation",
+      "output": "/storage/prefetchit/class_b_dense_20260927/causes_c4/seq4k_nop/movie/01_translation",
+      "window": {
+        "start": 1790564515.7799132,
+        "end": 1790564520.9117453,
+        "wall_s": 5.131831819016952,
+        "cpu_us": 2877044,
+        "user_us": 869962,
+        "system_us": 2007082,
+        "delta": {
+          "usage_usec": 2877044,
+          "user_usec": 869962,
+          "system_usec": 2007082,
+          "core_sched.force_idle_usec": 0,
+          "nr_periods": 0,
+          "nr_throttled": 0,
+          "throttled_usec": 0,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        },
+        "completed": 5795,
+        "achieved_rps": 1129.226405769097,
+        "cpu_us_per_request": 496.47006039689387,
+        "mean_ms": 3.472156376546575,
+        "p50_ms": 3.3426284790039062,
+        "p95_ms": 4.538059234619141,
+        "p99_ms": 5.876779556274414,
+        "user_us_per_request": 150.12286453839516
+      },
+      "counters": {
+        "instructions:u": 574791369.0,
+        "cycles:u": 1577622649.0,
+        "ITLB_STLB_HIT": 1026950.0,
+        "ITLB_WALK": 3320101.0,
+        "ITLB_WALK_ACTIVE": 188608494.0,
+        "ICACHE_DATA_STALL": 360678929.0
+      },
+      "scheduled_pct": {
+        "instructions:u": 100.0,
+        "cycles:u": 100.0,
+        "ITLB_STLB_HIT": 100.0,
+        "ITLB_WALK": 100.0,
+        "ITLB_WALK_ACTIVE": 100.0,
+        "ICACHE_DATA_STALL": 100.0
+      },
+      "fully_scheduled": true
+    },
+    {
+      "service": "movie",
+      "repeat": 1,
+      "label": "cache",
+      "output": "/storage/prefetchit/class_b_dense_20260927/causes_c4/seq4k_nop/movie/01_cache",
+      "window": {
+        "start": 1790564520.9163532,
+        "end": 1790564526.0493011,
+        "wall_s": 5.132947699021315,
+        "cpu_us": 2826036,
+        "user_us": 860924,
+        "system_us": 1965111,
+        "delta": {
+          "usage_usec": 2826036,
+          "user_usec": 860924,
+          "system_usec": 1965111,
+          "core_sched.force_idle_usec": 0,
+          "nr_periods": 0,
+          "nr_throttled": 0,
+          "throttled_usec": 0,
+          "nr_bursts": 0,
+          "burst_usec": 0
+        },
+        "completed": 5684,
+        "achieved_rps": 1107.3559157993666,
+        "cpu_us_per_request": 497.1914144968332,
+        "mean_ms": 3.5429967280259693,
+        "p50_ms": 3.4029483795166016,
+        "p95_ms": 4.684925079345703,
+        "p99_ms": 6.409406661987305,
+        "user_us_per_request": 151.46446164672767
+      },
+      "counters": {
+        "instructions:u": 562335924.0,
+        "cycles:u": 1548067663.0,
+        "L2I": 34175177.0,
+        "L2_CODE_ALL": 65363626.0,
+        "SWPF_MISS": 347.0,
+        "SWPF_HIT": 4253.0
+      },
+      "scheduled_pct": {
+        "instructions:u": 100.0,
+        "cycles:u": 100.0,
+        "L2I": 100.0,
+        "L2_CODE_ALL": 100.0,
+        "SWPF_MISS": 100.0,
+        "SWPF_HIT": 100.0
+      },
+      "fully_scheduled": true
+    }
+  ],
+  "services": {
+    "movie": {
+      "start": 1790564311.0705533,
+      "end": 1790564341.0795197,
+      "wall_s": 30.00896630398347,
+      "cpu_us": 16013259,
+      "user_us": 5386948,
+      "system_us": 10626310,
+      "delta": {
+        "usage_usec": 16013259,
+        "user_usec": 5386948,
+        "system_usec": 10626310,
+        "core_sched.force_idle_usec": 0,
+        "nr_periods": 0,
+        "nr_throttled": 0,
+        "throttled_usec": 0,
+        "nr_bursts": 0,
+        "burst_usec": 0
+      },
+      "completed": 35903,
+      "achieved_rps": 1196.409087747689,
+      "cpu_us_per_request": 446.01451132217363,
+      "mean_ms": 3.2735234086760485,
+      "p50_ms": 3.142118453979492,
+      "p95_ms": 4.335165023803711,
+      "p99_ms": 5.807399749755859,
+      "user_us_per_request": 150.04172353285242
+    },
+    "compose": {
+      "start": 1790564311.0723994,
+      "end": 1790564341.081316,
+      "wall_s": 30.008916897990275,
+      "cpu_us": 35117713,
+      "user_us": 11566980,
+      "system_us": 23550732,
+      "delta": {
+        "usage_usec": 35117713,
+        "user_usec": 11566980,
+        "system_usec": 23550732,
+        "core_sched.force_idle_usec": 0,
+        "nr_periods": 0,
+        "nr_throttled": 0,
+        "throttled_usec": 0,
+        "nr_bursts": 0,
+        "burst_usec": 0
+      },
+      "completed": 35902,
+      "achieved_rps": 1196.3777340595852,
+      "cpu_us_per_request": 978.1547824633725,
+      "mean_ms": 3.273553353127354,
+      "p50_ms": 3.1423568725585938,
+      "p95_ms": 4.335165023803711,
+      "p99_ms": 5.807399749755859,
+      "user_us_per_request": 322.1820511392123
+    },
+    "rating": {
+      "start": 1790564311.0713983,
+      "end": 1790564341.0803351,
+      "wall_s": 30.00893685000483,
+      "cpu_us": 13737347,
+      "user_us": 5522342,
+      "system_us": 8215005,
+      "delta": {
+        "usage_usec": 13737347,
+        "user_usec": 5522342,
+        "system_usec": 8215005,
+        "core_sched.force_idle_usec": 0,
+        "nr_periods": 0,
+        "nr_throttled": 0,
+        "throttled_usec": 0,
+        "nr_bursts": 0,
+        "burst_usec": 0
+      },
+      "completed": 35903,
+      "achieved_rps": 1196.4102620314661,
+      "cpu_us_per_request": 382.623931147815,
+      "mean_ms": 3.2735307664953295,
+      "p50_ms": 3.1423568725585938,
+      "p95_ms": 4.335165023803711,
+      "p99_ms": 5.807399749755859,
+      "user_us_per_request": 153.81282901150323
+    }
+  }
+}

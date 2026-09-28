@@ -1,0 +1,401 @@
+[
+  {
+    "block": 0,
+    "arm": "base",
+    "valid": true,
+    "metrics": {
+      "stack_cpu": 5877.584187797586,
+      "pool_cpu": 5815.302845753516,
+      "movie_cpu": 446.1879255560599,
+      "compose_cpu": 972.8979849424269,
+      "rating_cpu": 403.21395436378333,
+      "mean_ms": 4.512944716232954,
+      "p50_ms": 3.6270618438720703,
+      "p95_ms": 9.477853775024414,
+      "p99_ms": 15.875816345214844
+    },
+    "output": "/storage/prefetchit/class_b_dense_20260927/confirmation/00_base",
+    "achieved_rps": 1003.4277720016416,
+    "pool_util_pct": 72.94045472536571
+  },
+  {
+    "block": 0,
+    "arm": "seq4k_nop",
+    "valid": true,
+    "metrics": {
+      "stack_cpu": 5876.3163722938925,
+      "pool_cpu": 5807.430374840817,
+      "movie_cpu": 445.3489780553157,
+      "compose_cpu": 974.7202692678175,
+      "rating_cpu": 395.86504351292103,
+      "mean_ms": 4.509185843079346,
+      "p50_ms": 3.5779476165771484,
+      "p95_ms": 9.643316268920898,
+      "p99_ms": 16.412734985351562
+    },
+    "output": "/storage/prefetchit/class_b_dense_20260927/confirmation/00_seq4k_nop",
+    "achieved_rps": 1003.373714656358,
+    "pool_util_pct": 72.83778734765244
+  },
+  {
+    "block": 0,
+    "arm": "seq4k",
+    "valid": true,
+    "metrics": {
+      "stack_cpu": 5869.534966893283,
+      "pool_cpu": 5808.180348561685,
+      "movie_cpu": 447.70446720177137,
+      "compose_cpu": 974.0345415494985,
+      "rating_cpu": 397.3885303072239,
+      "mean_ms": 4.49312165131045,
+      "p50_ms": 3.6051273345947266,
+      "p95_ms": 9.397745132446289,
+      "p99_ms": 16.275882720947266
+    },
+    "output": "/storage/prefetchit/class_b_dense_20260927/confirmation/00_seq4k",
+    "achieved_rps": 1003.4728563026611,
+    "pool_util_pct": 72.85439155365223
+  },
+  {
+    "block": 1,
+    "arm": "seq4k_nop",
+    "valid": true,
+    "metrics": {
+      "stack_cpu": 5857.513293976653,
+      "pool_cpu": 5783.545652270407,
+      "movie_cpu": 444.6976953207355,
+      "compose_cpu": 971.5241899689303,
+      "rating_cpu": 397.1935287003029,
+      "mean_ms": 4.496159217102486,
+      "p50_ms": 3.543853759765625,
+      "p95_ms": 9.732246398925781,
+      "p99_ms": 17.950773239135742
+    },
+    "output": "/storage/prefetchit/class_b_dense_20260927/confirmation/01_seq4k_nop",
+    "achieved_rps": 1001.2733849827039,
+    "pool_util_pct": 72.38637915563487
+  },
+  {
+    "block": 1,
+    "arm": "base",
+    "valid": true,
+    "metrics": {
+      "stack_cpu": 5877.774455948775,
+      "pool_cpu": 5804.063876774201,
+      "movie_cpu": 450.70096869763984,
+      "compose_cpu": 972.4133710608078,
+      "rating_cpu": 405.9488360222809,
+      "mean_ms": 4.500809762617337,
+      "p50_ms": 3.6017894744873047,
+      "p95_ms": 9.508609771728516,
+      "p99_ms": 16.66712760925293
+    },
+    "output": "/storage/prefetchit/class_b_dense_20260927/confirmation/01_base",
+    "achieved_rps": 1001.2164648718375,
+    "pool_util_pct": 72.63905395742746
+  },
+  {
+    "block": 1,
+    "arm": "seq4k",
+    "valid": true,
+    "metrics": {
+      "stack_cpu": 5883.582590747173,
+      "pool_cpu": 5814.477378402672,
+      "movie_cpu": 447.45364668286675,
+      "compose_cpu": 973.7929584341226,
+      "rating_cpu": 404.4356775109849,
+      "mean_ms": 4.470915249501983,
+      "p50_ms": 3.609180450439453,
+      "p95_ms": 9.318113327026367,
+      "p99_ms": 15.92707633972168
+    },
+    "output": "/storage/prefetchit/class_b_dense_20260927/confirmation/01_seq4k",
+    "achieved_rps": 1001.2395657263278,
+    "pool_util_pct": 72.7710600659681
+  },
+  {
+    "block": 2,
+    "arm": "seq4k_nop",
+    "valid": true,
+    "metrics": {
+      "stack_cpu": 5858.1897057034475,
+      "pool_cpu": 5792.477244826861,
+      "movie_cpu": 444.210556581552,
+      "compose_cpu": 972.6219518938346,
+      "rating_cpu": 394.9924691467245,
+      "mean_ms": 4.5235576715493515,
+      "p50_ms": 3.594636917114258,
+      "p95_ms": 9.727001190185547,
+      "p99_ms": 17.263174057006836
+    },
+    "output": "/storage/prefetchit/class_b_dense_20260927/confirmation/02_seq4k_nop",
+    "achieved_rps": 1004.6396628258183,
+    "pool_util_pct": 72.74190482711353
+  },
+  {
+    "block": 2,
+    "arm": "seq4k",
+    "valid": true,
+    "metrics": {
+      "stack_cpu": 5890.873899287579,
+      "pool_cpu": 5818.288419841586,
+      "movie_cpu": 453.3953123098875,
+      "compose_cpu": 976.0294208733354,
+      "rating_cpu": 401.0178300832882,
+      "mean_ms": 4.617140440187801,
+      "p50_ms": 3.6487579345703125,
+      "p95_ms": 9.953975677490234,
+      "p99_ms": 18.02206039428711
+    },
+    "output": "/storage/prefetchit/class_b_dense_20260927/confirmation/02_seq4k",
+    "achieved_rps": 1004.3840261092159,
+    "pool_util_pct": 73.047449352314
+  },
+  {
+    "block": 2,
+    "arm": "base",
+    "valid": true,
+    "metrics": {
+      "stack_cpu": 5859.149029582527,
+      "pool_cpu": 5801.935305501797,
+      "movie_cpu": 444.4374592221522,
+      "compose_cpu": 970.7108039367466,
+      "rating_cpu": 402.24754227073174,
+      "mean_ms": 4.514649259078427,
+      "p50_ms": 3.615140914916992,
+      "p95_ms": 9.483098983764648,
+      "p99_ms": 16.509532928466797
+    },
+    "output": "/storage/prefetchit/class_b_dense_20260927/confirmation/02_base",
+    "achieved_rps": 1004.7061611457993,
+    "pool_util_pct": 72.86550185008738
+  },
+  {
+    "block": 3,
+    "arm": "seq4k",
+    "valid": true,
+    "metrics": {
+      "stack_cpu": 5861.098843764508,
+      "pool_cpu": 5793.889417018549,
+      "movie_cpu": 446.8664102309027,
+      "compose_cpu": 970.9923513092303,
+      "rating_cpu": 397.172099346752,
+      "mean_ms": 4.555629386730657,
+      "p50_ms": 3.6325454711914062,
+      "p95_ms": 9.562969207763672,
+      "p99_ms": 17.14611053466797
+    },
+    "output": "/storage/prefetchit/class_b_dense_20260927/confirmation/03_seq4k",
+    "achieved_rps": 1005.1614363098798,
+    "pool_util_pct": 72.79742760288721
+  },
+  {
+    "block": 3,
+    "arm": "seq4k_nop",
+    "valid": true,
+    "metrics": {
+      "stack_cpu": 5867.062211905157,
+      "pool_cpu": 5801.249101862599,
+      "movie_cpu": 446.6922439234672,
+      "compose_cpu": 972.9325117435756,
+      "rating_cpu": 399.83402783150774,
+      "mean_ms": 4.4677290797582785,
+      "p50_ms": 3.6249160766601562,
+      "p95_ms": 9.308815002441406,
+      "p99_ms": 15.377998352050781
+    },
+    "output": "/storage/prefetchit/class_b_dense_20260927/confirmation/03_seq4k_nop",
+    "achieved_rps": 1005.1508946096003,
+    "pool_util_pct": 72.88913405737914
+  },
+  {
+    "block": 3,
+    "arm": "base",
+    "valid": true,
+    "metrics": {
+      "stack_cpu": 5852.583823399364,
+      "pool_cpu": 5783.958259639194,
+      "movie_cpu": 447.17734964795346,
+      "compose_cpu": 970.8228772907133,
+      "rating_cpu": 397.299756825467,
+      "mean_ms": 4.467556630612094,
+      "p50_ms": 3.6122798919677734,
+      "p95_ms": 9.209156036376953,
+      "p99_ms": 15.583038330078125
+    },
+    "output": "/storage/prefetchit/class_b_dense_20260927/confirmation/03_base",
+    "achieved_rps": 1005.13958963897,
+    "pool_util_pct": 72.67106789478338
+  },
+  {
+    "block": 4,
+    "arm": "seq4k",
+    "valid": true,
+    "metrics": {
+      "stack_cpu": 5900.036685068204,
+      "pool_cpu": 5837.417442001969,
+      "movie_cpu": 450.81147332441014,
+      "compose_cpu": 973.0051217947299,
+      "rating_cpu": 408.5848073540636,
+      "mean_ms": 4.545627860648616,
+      "p50_ms": 3.6468505859375,
+      "p95_ms": 9.424686431884766,
+      "p99_ms": 16.782045364379883
+    },
+    "output": "/storage/prefetchit/class_b_dense_20260927/confirmation/04_seq4k",
+    "achieved_rps": 1004.3278906434026,
+    "pool_util_pct": 73.28351432913556
+  },
+  {
+    "block": 4,
+    "arm": "base",
+    "valid": true,
+    "metrics": {
+      "stack_cpu": 5859.98963403841,
+      "pool_cpu": 5782.480750508895,
+      "movie_cpu": 445.7835272775541,
+      "compose_cpu": 969.9059966150817,
+      "rating_cpu": 398.53773657953826,
+      "mean_ms": 4.466716061968626,
+      "p50_ms": 3.5779476165771484,
+      "p95_ms": 9.36126708984375,
+      "p99_ms": 16.53766632080078
+    },
+    "output": "/storage/prefetchit/class_b_dense_20260927/confirmation/04_base",
+    "achieved_rps": 1004.3397576927915,
+    "pool_util_pct": 72.59469144786668
+  },
+  {
+    "block": 4,
+    "arm": "seq4k_nop",
+    "valid": true,
+    "metrics": {
+      "stack_cpu": 5858.944364545535,
+      "pool_cpu": 5796.420037171431,
+      "movie_cpu": 448.1040562813181,
+      "compose_cpu": 971.8713399188063,
+      "rating_cpu": 399.6333971217769,
+      "mean_ms": 4.58602441212848,
+      "p50_ms": 3.609180450439453,
+      "p95_ms": 9.806156158447266,
+      "p99_ms": 18.801450729370117
+    },
+    "output": "/storage/prefetchit/class_b_dense_20260927/confirmation/04_seq4k_nop",
+    "achieved_rps": 1004.3398319793646,
+    "pool_util_pct": 72.76969407768222
+  },
+  {
+    "block": 5,
+    "arm": "base",
+    "valid": true,
+    "metrics": {
+      "stack_cpu": 5868.550694105646,
+      "pool_cpu": 5803.654588193551,
+      "movie_cpu": 447.75300456783003,
+      "compose_cpu": 969.7129299066456,
+      "rating_cpu": 398.4032263429237,
+      "mean_ms": 4.464932533200207,
+      "p50_ms": 3.6017894744873047,
+      "p95_ms": 9.418249130249023,
+      "p99_ms": 15.349864959716797
+    },
+    "output": "/storage/prefetchit/class_b_dense_20260927/confirmation/05_base",
+    "achieved_rps": 1002.0728595307603,
+    "pool_util_pct": 72.69605936149911
+  },
+  {
+    "block": 5,
+    "arm": "seq4k",
+    "valid": true,
+    "metrics": {
+      "stack_cpu": 5863.705312295564,
+      "pool_cpu": 5796.5116923725145,
+      "movie_cpu": 445.98641831587116,
+      "compose_cpu": 972.2166797866797,
+      "rating_cpu": 396.50865911257955,
+      "mean_ms": 4.558306985387481,
+      "p50_ms": 3.610372543334961,
+      "p95_ms": 9.696245193481445,
+      "p99_ms": 17.77195930480957
+    },
+    "output": "/storage/prefetchit/class_b_dense_20260927/confirmation/05_seq4k",
+    "achieved_rps": 1002.0619507993716,
+    "pool_util_pct": 72.60579767862711
+  },
+  {
+    "block": 5,
+    "arm": "seq4k_nop",
+    "valid": true,
+    "metrics": {
+      "stack_cpu": 5866.895062481289,
+      "pool_cpu": 5803.71893953674,
+      "movie_cpu": 444.0081266560972,
+      "compose_cpu": 970.9047043562139,
+      "rating_cpu": 396.94025167692223,
+      "mean_ms": 4.578580513923845,
+      "p50_ms": 3.6079883575439453,
+      "p95_ms": 9.666681289672852,
+      "p99_ms": 17.656564712524414
+    },
+    "output": "/storage/prefetchit/class_b_dense_20260927/confirmation/05_seq4k_nop",
+    "achieved_rps": 1002.0620534424921,
+    "pool_util_pct": 72.69608147694085
+  },
+  {
+    "block": 6,
+    "arm": "base",
+    "valid": true,
+    "metrics": {
+      "stack_cpu": 5892.525444600997,
+      "pool_cpu": 5827.129813506107,
+      "movie_cpu": 450.7360504071173,
+      "compose_cpu": 972.6101657311473,
+      "rating_cpu": 411.3139795442948,
+      "mean_ms": 4.4546686063698955,
+      "p50_ms": 3.6106109619140625,
+      "p95_ms": 9.151220321655273,
+      "p99_ms": 15.43283462524414
+    },
+    "output": "/storage/prefetchit/class_b_dense_20260927/confirmation/06_base",
+    "achieved_rps": 1001.5033691326928,
+    "pool_util_pct": 72.94862675749907
+  },
+  {
+    "block": 6,
+    "arm": "seq4k_nop",
+    "valid": true,
+    "metrics": {
+      "stack_cpu": 5867.172890456855,
+      "pool_cpu": 5803.98943841665,
+      "movie_cpu": 449.39383888358884,
+      "compose_cpu": 974.6452715070164,
+      "rating_cpu": 398.4327313469261,
+      "mean_ms": 4.395674089613191,
+      "p50_ms": 3.5953521728515625,
+      "p95_ms": 9.065866470336914,
+      "p99_ms": 14.791488647460938
+    },
+    "output": "/storage/prefetchit/class_b_dense_20260927/confirmation/06_seq4k_nop",
+    "achieved_rps": 1001.5174000595804,
+    "pool_util_pct": 72.65995515420384
+  },
+  {
+    "block": 6,
+    "arm": "seq4k",
+    "valid": true,
+    "metrics": {
+      "stack_cpu": 5877.511609847014,
+      "pool_cpu": 5811.690833046739,
+      "movie_cpu": 448.00606793424004,
+      "compose_cpu": 972.4138332686227,
+      "rating_cpu": 400.07228274133075,
+      "mean_ms": 4.466892295183725,
+      "p50_ms": 3.611326217651367,
+      "p95_ms": 9.293079376220703,
+      "p99_ms": 15.97738265991211
+    },
+    "output": "/storage/prefetchit/class_b_dense_20260927/confirmation/06_seq4k",
+    "achieved_rps": 1001.5280971690839,
+    "pool_util_pct": 72.75714576695385
+  }
+]

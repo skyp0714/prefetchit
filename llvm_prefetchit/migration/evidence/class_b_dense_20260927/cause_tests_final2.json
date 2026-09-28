@@ -1,0 +1,123 @@
+{
+  "command": [
+    "taskset",
+    "-c",
+    "84-85",
+    "profiling/.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "llvm_prefetchit/tests/test_concurrency_study.py",
+    "llvm_prefetchit/tests/test_dense_cause_analysis.py",
+    "--basetemp",
+    "/tmp/class_b_cause_tests_final2_20260927"
+  ],
+  "environment": {
+    "PYTHONPATH": "/usr/lib/python3/dist-packages"
+  },
+  "returncode": 0,
+  "output": ".......                                                                  [100%]\n7 passed in 1.34s\n",
+  "source_hashes": {
+    "llvm_prefetchit/scripts/class_b/dense_pdist_analysis.py": "09ece89e41259988aa8e3755d40cb872b67880f8c272f313737ad24ac9829f2a",
+    "llvm_prefetchit/scripts/class_b/dense_build.py": "9b92e13a4a97d9087c58a24e9316156817488555944f652fc9fb888662b22b2a",
+    "llvm_prefetchit/scripts/class_b/dense_study.py": "dd0b69161b40410a0b32b6daefc233dec25f655b6e077c85e60759a1b09253fd",
+    "llvm_prefetchit/scripts/class_b/dense_pdist_check.py": "e9771ed13478fd8ae1cd4b741d65187f890c39a54018ef707e3abf4167898f2c",
+    "llvm_prefetchit/scripts/class_b/dense_latency_followup.py": "0347b8a33af9398e62ed09129b20d708abdc7129ede10ee0aa623e72db6f3372",
+    "llvm_prefetchit/scripts/class_b/dense_cause_report.py": "0077665b2a6459d0565eea1fe24de5981249e5169572679b9cec997188a82173",
+    "llvm_prefetchit/scripts/class_b/dense_report.py": "abeb9a90484bfd84bf725639dcd84eb4dc76ed04cf4685c85c0fd293dd1b97bc",
+    "llvm_prefetchit/scripts/class_b/dense_causes.py": "3e947361593c32cd1ccb7ab6751ac9783efe9eb2be6e9aebbd26a595c27e7f28",
+    "llvm_prefetchit/scripts/class_b/dense_cause_analysis.py": "b7594c5b3c177575039e3342523dcfa7bd7a49c29fb483eb4c98cbc4ab01ed7c",
+    "llvm_prefetchit/scripts/class_b/fullset.py": "6e2b832d3aa518b3718c31c8f83f47dc69f1a5302ff1ac0e0cb350283355920f",
+    "llvm_prefetchit/tests/test_dense_cause_analysis.py": "de5373874a39fbc238fdbc5aa229aa73f444eee28906e2633c08a15ce90980a4"
+  },
+  "removed": [
+    {
+      "path": "/tmp/class_b_cause_tests_final2_20260927/test_real_elf_prefetch_targets0/probe",
+      "bytes": 4864,
+      "sha256": "02a684315f669c71312ac33e788c057b4941face503914160c74ae1dc8f47186"
+    },
+    {
+      "path": "/tmp/class_b_cause_tests_final2_20260927/test_real_elf_prefetch_targets0/probe.s",
+      "bytes": 231,
+      "sha256": "4f905bf26a9065200640c7098efd2402fd7d99fea80a72e04a01b2a0cab1df1e"
+    },
+    {
+      "path": "/tmp/class_b_cause_tests_final2_20260927/test_real_elf_prefetch_targets0/probe.o",
+      "bytes": 848,
+      "sha256": "8ec82939e546635c968761a360149ec1e61376f1632ccf1d8a78d47505a04d77"
+    },
+    {
+      "path": "/tmp/class_b_cause_tests_final2_20260927/test_counter_csv_detects_multi0/stats.csv",
+      "bytes": 101,
+      "sha256": "58168f0b294633feda464ecce67fec3bca0e590603700ab37c96224b4ea3d9b8"
+    },
+    {
+      "path": "/tmp/class_b_cause_tests_final2_20260927/test_platform_interrupt_allows0/controller.log",
+      "bytes": 672,
+      "sha256": "fde8cec94b981a6e344909676977c19bab983f6b7ac3f751872246f5a94a61da"
+    },
+    {
+      "path": "/tmp/class_b_cause_tests_final2_20260927/test_platform_interrupt_allows0/run_platform.py",
+      "bytes": 394,
+      "sha256": "5ec0ce761654e0e555d77ba01326f85ddfa6bf2c9a308d44e1b3e4a2d492d3cf"
+    },
+    {
+      "path": "/tmp/class_b_cause_tests_final2_20260927/test_platform_interrupt_allows0/trial.log",
+      "bytes": 425,
+      "sha256": "94ed49bda5859eaf0e3a84cd9ac1e6e7be11fbe9ade2872edf532b4994704b93"
+    },
+    {
+      "path": "/tmp/class_b_cause_tests_final2_20260927/test_platform_interrupt_allows0/trial.command.json",
+      "bytes": 253,
+      "sha256": "3d2ef5eab9d122939fa8c2b9398d3c9b3ad9f8c07c9fedda336c122128859853"
+    },
+    {
+      "path": "/tmp/class_b_cause_tests_final2_20260927/test_platform_interrupt_allows0/controller.py",
+      "bytes": 355,
+      "sha256": "17388d5bb9649d4a5a296d1f93ba1ce8e23b5be2ef4bb0a796fa7fce8d34b190"
+    },
+    {
+      "path": "/tmp/class_b_cause_tests_final2_20260927/test_closed_loop_obeys_concurr0/bad/load.json",
+      "bytes": 1019,
+      "sha256": "5f9c33d6e5a5209112624a053de69d79803d1c531586fb3afc423f9a75a27865"
+    },
+    {
+      "path": "/tmp/class_b_cause_tests_final2_20260927/test_closed_loop_obeys_concurr0/bad/requests.json.gz",
+      "bytes": 42,
+      "sha256": "0b682816d2c73232f68ccf1ab1f4e3cf9c07560857146127ef7e95fda47d9e71"
+    },
+    {
+      "path": "/tmp/class_b_cause_tests_final2_20260927/test_closed_loop_obeys_concurr0/bad/started.json",
+      "bytes": 434,
+      "sha256": "2beaad1e5efc44525229b2fe1984c71e869a2b8b630a2c40a27978893cbc6861"
+    },
+    {
+      "path": "/tmp/class_b_cause_tests_final2_20260927/test_closed_loop_obeys_concurr0/good/load.json",
+      "bytes": 652,
+      "sha256": "6889c5d3e3ed4f09784175e34e824c49ae17bf917456629c3ab2023a3563f44f"
+    },
+    {
+      "path": "/tmp/class_b_cause_tests_final2_20260927/test_closed_loop_obeys_concurr0/good/requests.json.gz",
+      "bytes": 463,
+      "sha256": "1605a71fa907df811583a930a7004bb547259dece928eca23472144657c74669"
+    },
+    {
+      "path": "/tmp/class_b_cause_tests_final2_20260927/test_closed_loop_obeys_concurr0/good/started.json",
+      "bytes": 434,
+      "sha256": "82da043898f54a640a61fe64da3eee54036e9294bc153a65c33f77e702d1672e"
+    },
+    {
+      "path": "/tmp/class_b_cause_tests_final2_20260927/test_platform_interrupt_allows0/trial_platform/restored",
+      "bytes": 8,
+      "sha256": "eb00bf0aba491c620ddf47bf68068be4cc52c39bf3b8b554e2c51ff74e5e915e"
+    },
+    {
+      "path": "/tmp/class_b_cause_tests_final2_20260927/test_platform_interrupt_allows0/trial_platform/ready",
+      "bytes": 5,
+      "sha256": "b24d6d33736ecd5604a4b17bc9c6481039fac362bb7df044ef1c10a2bfd21db6"
+    }
+  ],
+  "bytes_removed": 11200,
+  "free_before": 19118317568,
+  "free_after": 19118317568
+}

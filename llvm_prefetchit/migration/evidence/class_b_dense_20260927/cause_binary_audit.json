@@ -1,0 +1,218 @@
+[
+  {
+    "arm": "base",
+    "service": "movie",
+    "path": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+    "sha256": "1dbfa7f16b813e7a1a18eb57cf17538bf1d051e27aeccaec8ffadd8fce258b07",
+    "bytes": 21439416,
+    "executable_bytes": 2341770,
+    "static_instructions": 582377,
+    "prefetch_instructions": 0,
+    "addressing": {},
+    "disassembly_command": [
+      "objdump",
+      "-d",
+      "--insn-width=16",
+      "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService"
+    ]
+  },
+  {
+    "arm": "base",
+    "service": "compose",
+    "path": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+    "sha256": "fb16c1d304d6c0b56c24c422f5dfa7dde6ab3c368cec6a4fd9bcc0602a66c917",
+    "bytes": 20036576,
+    "executable_bytes": 2063698,
+    "static_instructions": 515529,
+    "prefetch_instructions": 0,
+    "addressing": {},
+    "disassembly_command": [
+      "objdump",
+      "-d",
+      "--insn-width=16",
+      "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService"
+    ]
+  },
+  {
+    "arm": "base",
+    "service": "rating",
+    "path": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService",
+    "sha256": "d2314e24f46b0fa6b2487f55dad565070adb9b6a920cd0a5f64c7e6d767ac3e3",
+    "bytes": 19370576,
+    "executable_bytes": 2460266,
+    "static_instructions": 618618,
+    "prefetch_instructions": 0,
+    "addressing": {},
+    "disassembly_command": [
+      "objdump",
+      "-d",
+      "--insn-width=16",
+      "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+    ]
+  },
+  {
+    "arm": "seq4k",
+    "service": "movie",
+    "path": "/storage/prefetchit/class_b_dense_20260927/builds/cause_seq4k/movie/MovieIdService",
+    "sha256": "6d51328ca9fb9c18ecf8f08ed5e5b8a1717db27353acabb56542e24b034d040a",
+    "bytes": 21836312,
+    "executable_bytes": 2486938,
+    "static_instructions": 604037,
+    "prefetch_instructions": 18203,
+    "addressing": {
+      "rip": 18203
+    },
+    "disassembly_command": [
+      "objdump",
+      "-d",
+      "--insn-width=16",
+      "/storage/prefetchit/class_b_dense_20260927/builds/cause_seq4k/movie/MovieIdService"
+    ],
+    "nop": "/storage/prefetchit/class_b_dense_20260927/builds/cause_seq4k/movie/MovieIdService.nop",
+    "nop_sha256": "b572a9bf4159975f0d8203c1ef9726cc624db4daab7f250fde56cf5f0cd8a587",
+    "exact_layout_verified": true,
+    "changed_bytes": 64034,
+    "nop_executable_sections": [
+      {
+        "va": 593920,
+        "offset": 593920,
+        "size": 27,
+        "sha256": "9b734b3955e92e9342c91d9985c73f17e9949520a742a27e72af6df3ac09e05b"
+      },
+      {
+        "va": 593952,
+        "offset": 593952,
+        "size": 5584,
+        "sha256": "feccccb86395447d35cc5575be97413a6389ccd5f9005021a28934ad261ca239"
+      },
+      {
+        "va": 599536,
+        "offset": 599536,
+        "size": 32,
+        "sha256": "4778af08f7d7b22d16b54fb8c0584e072879f2cd09e5d9d579369337a7130e2b"
+      },
+      {
+        "va": 599568,
+        "offset": 599568,
+        "size": 2481282,
+        "sha256": "64298715e26e3e196250fe27c4238e1b047f8050f08773ad4a19f8ca056b1746"
+      },
+      {
+        "va": 3080852,
+        "offset": 3080852,
+        "size": 13,
+        "sha256": "6a4f3e5efc7c1f7ee7d6f21afd9ed040ba1d7f0b97bb12b016f5b176cc558bd8"
+      }
+    ]
+  },
+  {
+    "arm": "seq4k",
+    "service": "compose",
+    "path": "/storage/prefetchit/class_b_dense_20260927/builds/cause_seq4k/compose/ComposeReviewService",
+    "sha256": "33369cd2f3af82c54e8937b9cefdb76068548f369a24134048c0d7cb71f89ba4",
+    "bytes": 20392672,
+    "executable_bytes": 2182674,
+    "static_instructions": 533370,
+    "prefetch_instructions": 14897,
+    "addressing": {
+      "rip": 14897
+    },
+    "disassembly_command": [
+      "objdump",
+      "-d",
+      "--insn-width=16",
+      "/storage/prefetchit/class_b_dense_20260927/builds/cause_seq4k/compose/ComposeReviewService"
+    ],
+    "nop": "/storage/prefetchit/class_b_dense_20260927/builds/cause_seq4k/compose/ComposeReviewService.nop",
+    "nop_sha256": "66e4259bc6dee98987ea9230568c9b7ee639d7ea340cc9d362b720341ac03f18",
+    "exact_layout_verified": true,
+    "changed_bytes": 50159,
+    "nop_executable_sections": [
+      {
+        "va": 585728,
+        "offset": 585728,
+        "size": 27,
+        "sha256": "3f2688d5e6643d5381ea994bd7afdcc93ddb79c4e539c134772e2a64550b1b75"
+      },
+      {
+        "va": 585760,
+        "offset": 585760,
+        "size": 3536,
+        "sha256": "ebbb828e12b40972d6a544be01f4153b4bd2cdaa77b1362eab5c27bdd41c550c"
+      },
+      {
+        "va": 589296,
+        "offset": 589296,
+        "size": 8,
+        "sha256": "f849155d57f7f937b7533cc72277ab794104954efbabd41b96502d8deca9a093"
+      },
+      {
+        "va": 589312,
+        "offset": 589312,
+        "size": 2179090,
+        "sha256": "8b0837d5b47ca3e78037aa2a656f2477e54ff3a3b750153a72a61ff628d329ed"
+      },
+      {
+        "va": 2768404,
+        "offset": 2768404,
+        "size": 13,
+        "sha256": "6a4f3e5efc7c1f7ee7d6f21afd9ed040ba1d7f0b97bb12b016f5b176cc558bd8"
+      }
+    ]
+  },
+  {
+    "arm": "seq4k",
+    "service": "rating",
+    "path": "/storage/prefetchit/class_b_dense_20260927/builds/cause_seq4k/rating/RatingService",
+    "sha256": "101a1ae62df6d1debcfc9b5f6f8acb662cd58b4311bb6f30320b7408b960beaa",
+    "bytes": 19695168,
+    "executable_bytes": 2565338,
+    "static_instructions": 634397,
+    "prefetch_instructions": 13053,
+    "addressing": {
+      "rip": 13053
+    },
+    "disassembly_command": [
+      "objdump",
+      "-d",
+      "--insn-width=16",
+      "/storage/prefetchit/class_b_dense_20260927/builds/cause_seq4k/rating/RatingService"
+    ],
+    "nop": "/storage/prefetchit/class_b_dense_20260927/builds/cause_seq4k/rating/RatingService.nop",
+    "nop_sha256": "cbb5b56e0975f73f7930c97b3b143e3d8a36b91b036fedf203cc8604d51c4329",
+    "exact_layout_verified": true,
+    "changed_bytes": 43844,
+    "nop_executable_sections": [
+      {
+        "va": 221184,
+        "offset": 221184,
+        "size": 27,
+        "sha256": "24663016eefa859f4c9031291dd1057ced2f57d6cd37526ec8684d8aa4b4747e"
+      },
+      {
+        "va": 221216,
+        "offset": 221216,
+        "size": 3376,
+        "sha256": "84c5f9f6917a1c6466202515041fa295fa0f1f5c7530250345e8bcc72a29400f"
+      },
+      {
+        "va": 224592,
+        "offset": 224592,
+        "size": 16,
+        "sha256": "06d9426799f26b684a15b1865be90e56fba97693c4c59a33b8de25a5bf3954bd"
+      },
+      {
+        "va": 224608,
+        "offset": 224608,
+        "size": 2561906,
+        "sha256": "8c959aedfb6b78d1f4a6151725060459898164b6035f7622a36bff625d4a2f23"
+      },
+      {
+        "va": 2786516,
+        "offset": 2786516,
+        "size": 13,
+        "sha256": "6a4f3e5efc7c1f7ee7d6f21afd9ed040ba1d7f0b97bb12b016f5b176cc558bd8"
+      }
+    ]
+  }
+]

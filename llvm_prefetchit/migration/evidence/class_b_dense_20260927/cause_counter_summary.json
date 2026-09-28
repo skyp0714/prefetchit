@@ -1,0 +1,1568 @@
+{
+  "c4": {
+    "base": {
+      "movie": {
+        "L2I": {
+          "per_request": 5902.264282599215,
+          "per_ki": 60.884599504184145,
+          "cycle_pct": 2.1826928782281065,
+          "minimum_per_request": 5866.467018919379,
+          "maximum_per_request": 5939.781707752769,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "L2_CODE_ALL": {
+          "per_request": 11381.620148277367,
+          "per_ki": 117.40670211593019,
+          "cycle_pct": 4.208991676903098,
+          "minimum_per_request": 11329.326572353844,
+          "maximum_per_request": 11436.426580921758,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "SWPF_MISS": {
+          "per_request": 0.05058874836458788,
+          "per_ki": 0.0005218464535172411,
+          "cycle_pct": 1.8708023817129642e-05,
+          "minimum_per_request": 0.0490881199931822,
+          "maximum_per_request": 0.052161486245087534,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "SWPF_HIT": {
+          "per_request": 0.7665067597034453,
+          "per_ki": 0.007906873506050887,
+          "cycle_pct": 0.0002834588160429919,
+          "minimum_per_request": 0.7564342935060508,
+          "maximum_per_request": 0.7770632368703109,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ITLB_STLB_HIT": {
+          "per_request": 175.05803765073307,
+          "per_ki": 1.790583627148521,
+          "cycle_pct": 0.06447096977403512,
+          "minimum_per_request": 174.5624460183106,
+          "maximum_per_request": 175.5580341582433,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ITLB_WALK": {
+          "per_request": 551.0391255313612,
+          "per_ki": 5.636311530369551,
+          "cycle_pct": 0.20293856416534758,
+          "minimum_per_request": 548.9550872344101,
+          "maximum_per_request": 553.1416869989544,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ITLB_WALK_ACTIVE": {
+          "per_request": 31327.946994014055,
+          "per_ki": 320.43835126026494,
+          "cycle_pct": 11.537562918209694,
+          "minimum_per_request": 31264.614325548973,
+          "maximum_per_request": 31390.72171359475,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ICACHE_DATA_STALL": {
+          "per_request": 62557.980914374944,
+          "per_ki": 639.8751972545053,
+          "cycle_pct": 23.039066076486684,
+          "minimum_per_request": 62328.86664363448,
+          "maximum_per_request": 62789.13157894737,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "FE_L2": {
+          "per_request": 487.885562150838,
+          "per_ki": 4.991656023825485,
+          "cycle_pct": 0.1795200373598909,
+          "minimum_per_request": 485.24982923497265,
+          "maximum_per_request": 490.64178571428573,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "BACLEARS": {
+          "per_request": 3553.0513268156424,
+          "per_ki": 36.35198791346314,
+          "cycle_pct": 1.307363768092719,
+          "minimum_per_request": 3544.0235655737706,
+          "maximum_per_request": 3562.491785714286,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "branches:u": {
+          "per_request": 20390.531162709496,
+          "per_ki": 208.61965510648244,
+          "cycle_pct": 7.5028022964654175,
+          "minimum_per_request": 20386.915357142858,
+          "maximum_per_request": 20393.988900273223,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "branch-misses:u": {
+          "per_request": 2218.474773044693,
+          "per_ki": 22.697664828929174,
+          "cycle_pct": 0.8162993641033996,
+          "minimum_per_request": 2213.1480532786886,
+          "maximum_per_request": 2224.045,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "FE_L1": {
+          "per_request": 1739.4614173228347,
+          "per_ki": 17.801339760318445,
+          "cycle_pct": 0.6402174910284394,
+          "minimum_per_request": 1737.8261562998405,
+          "maximum_per_request": 1741.0559875583203,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ICACHE_TAG_STALL": {
+          "per_request": 46744.19650043744,
+          "per_ki": 478.37181982918366,
+          "cycle_pct": 17.204435755585504,
+          "minimum_per_request": 46491.29358907897,
+          "maximum_per_request": 47003.553074605705,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "FE_ITLB": {
+          "per_request": 436.8045805545806,
+          "per_ki": 4.478195254309627,
+          "cycle_pct": 0.16065126224246926,
+          "minimum_per_request": 436.70394736842104,
+          "maximum_per_request": 436.9026334026334,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "CLEAR_RESTEER": {
+          "per_request": 56584.498157248156,
+          "per_ki": 580.1139511713925,
+          "cycle_pct": 20.81107080144896,
+          "minimum_per_request": 56393.33887733888,
+          "maximum_per_request": 56780.68794452347,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "FE_UNKNOWN": {
+          "per_request": 1810.5307195174494,
+          "per_ki": 18.572664491114562,
+          "cycle_pct": 0.6677826977680096,
+          "minimum_per_request": 1801.0336249785555,
+          "maximum_per_request": 1820.1149584487534,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "BR_INDIRECT": {
+          "per_request": 1788.4403274450667,
+          "per_ki": 18.346058316463804,
+          "cycle_pct": 0.6596350416946675,
+          "minimum_per_request": 1787.1869806094182,
+          "maximum_per_request": 1789.682278263853,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "MISP_INDIRECT": {
+          "per_request": 805.5024558380009,
+          "per_ki": 8.262951132381398,
+          "cycle_pct": 0.29709554067197536,
+          "minimum_per_request": 801.9662034654315,
+          "maximum_per_request": 809.0711565096952,
+          "windows": 2,
+          "fully_scheduled": true
+        }
+      },
+      "compose": {
+        "L2I": {
+          "per_request": 11026.188677599443,
+          "per_ki": 40.04959966911367,
+          "cycle_pct": 1.9776072026050944,
+          "minimum_per_request": 11012.629004178272,
+          "maximum_per_request": 11039.805244755245,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "L2_CODE_ALL": {
+          "per_request": 24894.37552337753,
+          "per_ki": 90.42197652116681,
+          "cycle_pct": 4.464942309522108,
+          "minimum_per_request": 24844.6875,
+          "maximum_per_request": 24944.272027972027,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "SWPF_MISS": {
+          "per_request": 0.0986566643405443,
+          "per_ki": 0.0003583432160521622,
+          "cycle_pct": 1.7694611954285054e-05,
+          "minimum_per_request": 0.09213286713286713,
+          "maximum_per_request": 0.10515320334261838,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "SWPF_HIT": {
+          "per_request": 1.8325191905094207,
+          "per_ki": 0.006656122265980393,
+          "cycle_pct": 0.00032867233239223734,
+          "minimum_per_request": 1.8178321678321678,
+          "maximum_per_request": 1.8471448467966574,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ITLB_STLB_HIT": {
+          "per_request": 624.7511949017526,
+          "per_ki": 2.2670282512211437,
+          "cycle_pct": 0.11165538087529317,
+          "minimum_per_request": 624.2089919213207,
+          "maximum_per_request": 625.3021056388294,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ITLB_WALK": {
+          "per_request": 1124.007257921756,
+          "per_ki": 4.078673604917156,
+          "cycle_pct": 0.20088230244935143,
+          "minimum_per_request": 1119.2488584474886,
+          "maximum_per_request": 1128.8420770877945,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ITLB_WALK_ACTIVE": {
+          "per_request": 52214.3644007789,
+          "per_ki": 189.46972840081762,
+          "cycle_pct": 9.331738445489707,
+          "minimum_per_request": 51830.0191429575,
+          "maximum_per_request": 52604.88222698073,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ICACHE_DATA_STALL": {
+          "per_request": 130158.2765976279,
+          "per_ki": 472.3040029134813,
+          "cycle_pct": 23.261855385271122,
+          "minimum_per_request": 129333.4841938883,
+          "maximum_per_request": 130996.31513204853,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "FE_L2": {
+          "per_request": 992.9791611244125,
+          "per_ki": 3.6075537932724724,
+          "cycle_pct": 0.17768582638274466,
+          "minimum_per_request": 987.553161674549,
+          "maximum_per_request": 998.5425646551724,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "BACLEARS": {
+          "per_request": 7316.765274452426,
+          "per_ki": 26.58225404292043,
+          "cycle_pct": 1.3092777120996986,
+          "minimum_per_request": 7314.737966954023,
+          "maximum_per_request": 7318.742511823437,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "branches:u": {
+          "per_request": 55707.90529396116,
+          "per_ki": 202.3902141419797,
+          "cycle_pct": 9.968492366950045,
+          "minimum_per_request": 55635.181467857765,
+          "maximum_per_request": 55782.47072557471,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "branch-misses:u": {
+          "per_request": 4586.441252106057,
+          "per_ki": 16.662820514703117,
+          "cycle_pct": 0.8207076602831834,
+          "minimum_per_request": 4584.976703450692,
+          "maximum_per_request": 4587.942887931034,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "FE_L1": {
+          "per_request": 5258.296253856324,
+          "per_ki": 19.076523034232913,
+          "cycle_pct": 0.9380793980193601,
+          "minimum_per_request": 5257.798529669176,
+          "maximum_per_request": 5258.801136363636,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ICACHE_TAG_STALL": {
+          "per_request": 86722.04398413398,
+          "per_ki": 314.6180796538084,
+          "cycle_pct": 15.471201866190576,
+          "minimum_per_request": 86467.02818134081,
+          "maximum_per_request": 86980.72745028409,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "FE_ITLB": {
+          "per_request": 1024.8111838612635,
+          "per_ki": 3.71259092213128,
+          "cycle_pct": 0.1830438178897574,
+          "minimum_per_request": 1024.3847362906042,
+          "maximum_per_request": 1025.2491032998564,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "CLEAR_RESTEER": {
+          "per_request": 103447.50079631923,
+          "per_ki": 374.7600127923429,
+          "cycle_pct": 18.476989512904677,
+          "minimum_per_request": 102997.8672720922,
+          "maximum_per_request": 103909.22991391679,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "FE_UNKNOWN": {
+          "per_request": 4121.59255019373,
+          "per_ki": 15.060719074374987,
+          "cycle_pct": 0.7403650889079113,
+          "minimum_per_request": 4089.1493347338937,
+          "maximum_per_request": 4154.426647767541,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "BR_INDIRECT": {
+          "per_request": 4152.066132441,
+          "per_ki": 15.172072648467221,
+          "cycle_pct": 0.7458390837667147,
+          "minimum_per_request": 4126.589110644258,
+          "maximum_per_request": 4177.850106307584,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "MISP_INDIRECT": {
+          "per_request": 1694.3461606199367,
+          "per_ki": 6.191313486007553,
+          "cycle_pct": 0.30435680639737045,
+          "minimum_per_request": 1682.233368347339,
+          "maximum_per_request": 1706.6048901488307,
+          "windows": 2,
+          "fully_scheduled": true
+        }
+      },
+      "rating": {
+        "L2I": {
+          "per_request": 5640.110897994769,
+          "per_ki": 54.74679046472999,
+          "cycle_pct": 2.1246096596102224,
+          "minimum_per_request": 5602.102337662338,
+          "maximum_per_request": 5678.6533801580335,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "L2_CODE_ALL": {
+          "per_request": 10201.024324324324,
+          "per_ki": 99.01814898851579,
+          "cycle_pct": 3.842689480641911,
+          "minimum_per_request": 10132.22025974026,
+          "maximum_per_request": 10270.794907813872,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "SWPF_MISS": {
+          "per_request": 0.03600697471665214,
+          "per_ki": 0.0003495084291307517,
+          "cycle_pct": 1.3563698955553965e-05,
+          "minimum_per_request": 0.035996488147497806,
+          "maximum_per_request": 0.03601731601731602,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "SWPF_HIT": {
+          "per_request": 0.6708805579773321,
+          "per_ki": 0.00651202751128604,
+          "cycle_pct": 0.000252718313469704,
+          "minimum_per_request": 0.6561038961038961,
+          "maximum_per_request": 0.6858647936786655,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ITLB_STLB_HIT": {
+          "per_request": 139.35047099216482,
+          "per_ki": 1.3409756309552705,
+          "cycle_pct": 0.05220316718406308,
+          "minimum_per_request": 137.87921001587023,
+          "maximum_per_request": 140.8173347398031,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ITLB_WALK": {
+          "per_request": 457.6916101769522,
+          "per_ki": 4.404386231134313,
+          "cycle_pct": 0.17145942510774778,
+          "minimum_per_request": 457.41965541490856,
+          "maximum_per_request": 457.9643801798625,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ITLB_WALK_ACTIVE": {
+          "per_request": 27589.762391055552,
+          "per_ki": 265.49748104067714,
+          "cycle_pct": 10.335616151235186,
+          "minimum_per_request": 27525.523382559775,
+          "maximum_per_request": 27654.19396931758,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ICACHE_DATA_STALL": {
+          "per_request": 58469.059864424686,
+          "per_ki": 562.650300962864,
+          "cycle_pct": 21.90355070539498,
+          "minimum_per_request": 58430.27988748242,
+          "maximum_per_request": 58507.95609239993,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "FE_L2": {
+          "per_request": 492.92577645200913,
+          "per_ki": 4.758229230455446,
+          "cycle_pct": 0.1844940202055492,
+          "minimum_per_request": 491.7740350877193,
+          "maximum_per_request": 494.0779220779221,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "BACLEARS": {
+          "per_request": 3577.157396034392,
+          "per_ki": 34.53042161086473,
+          "cycle_pct": 1.3388712468086004,
+          "minimum_per_request": 3571.801052631579,
+          "maximum_per_request": 3582.5156195156196,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "branches:u": {
+          "per_request": 21993.458062818037,
+          "per_ki": 212.30359626665907,
+          "cycle_pct": 8.231790038325377,
+          "minimum_per_request": 21982.235263157894,
+          "maximum_per_request": 22004.6848016848,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "branch-misses:u": {
+          "per_request": 2424.605632567117,
+          "per_ki": 23.404800366188578,
+          "cycle_pct": 0.9074900561806537,
+          "minimum_per_request": 2417.449649122807,
+          "maximum_per_request": 2431.764127764128,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "FE_L1": {
+          "per_request": 1576.2580758119584,
+          "per_ki": 15.225220972096464,
+          "cycle_pct": 0.589627811622511,
+          "minimum_per_request": 1573.6405949256343,
+          "maximum_per_request": 1578.8787666433077,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ICACHE_TAG_STALL": {
+          "per_request": 39674.17342204325,
+          "per_ki": 383.2164710240924,
+          "cycle_pct": 14.84084136458505,
+          "minimum_per_request": 39515.32668416448,
+          "maximum_per_request": 39833.214961457605,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "FE_ITLB": {
+          "per_request": 350.6981808640896,
+          "per_ki": 3.3760236287598118,
+          "cycle_pct": 0.13119571469235153,
+          "minimum_per_request": 349.8787508722959,
+          "maximum_per_request": 351.5219221325851,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "CLEAR_RESTEER": {
+          "per_request": 55704.4292461081,
+          "per_ki": 536.2430706029841,
+          "cycle_pct": 20.83895156931228,
+          "minimum_per_request": 55697.66117151877,
+          "maximum_per_request": 55711.16189811584,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "FE_UNKNOWN": {
+          "per_request": 1692.2476574130835,
+          "per_ki": 16.315970086593364,
+          "cycle_pct": 0.634566075436663,
+          "minimum_per_request": 1691.2546507546508,
+          "maximum_per_request": 1693.2366719105053,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "BR_INDIRECT": {
+          "per_request": 1683.9313424993431,
+          "per_ki": 16.23578752893469,
+          "cycle_pct": 0.6314475890296706,
+          "minimum_per_request": 1682.6131976131976,
+          "maximum_per_request": 1685.2441880790072,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "MISP_INDIRECT": {
+          "per_request": 883.1541290831071,
+          "per_ki": 8.515016279590556,
+          "cycle_pct": 0.3311688139989258,
+          "minimum_per_request": 882.9724464724464,
+          "maximum_per_request": 883.3350812794965,
+          "windows": 2,
+          "fully_scheduled": true
+        }
+      }
+    },
+    "seq4k": {
+      "movie": {
+        "L2I": {
+          "per_request": 5971.4644635193135,
+          "per_ki": 60.43305169292985,
+          "cycle_pct": 2.2452901550622406,
+          "minimum_per_request": 5949.989407141637,
+          "maximum_per_request": 5993.14697257202,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "L2_CODE_ALL": {
+          "per_request": 11708.310729613733,
+          "per_ki": 118.4916952754706,
+          "cycle_pct": 4.402363101080572,
+          "minimum_per_request": 11686.979155988382,
+          "maximum_per_request": 11729.848369846472,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "SWPF_MISS": {
+          "per_request": 341.7974248927039,
+          "per_ki": 3.4590947619702392,
+          "cycle_pct": 0.12851694887001341,
+          "minimum_per_request": 335.8405945668888,
+          "maximum_per_request": 347.8117992064861,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "SWPF_HIT": {
+          "per_request": 1190.4830042918454,
+          "per_ki": 12.048053099443994,
+          "cycle_pct": 0.4476255005175172,
+          "minimum_per_request": 1183.4871006321544,
+          "maximum_per_request": 1197.5464895635673,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ITLB_STLB_HIT": {
+          "per_request": 212.03776794828173,
+          "per_ki": 2.143144257542779,
+          "cycle_pct": 0.07973741022988573,
+          "minimum_per_request": 211.8865200604331,
+          "maximum_per_request": 212.19313674771513,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ITLB_WALK": {
+          "per_request": 505.1989622320517,
+          "per_ki": 5.1062330324486265,
+          "cycle_pct": 0.18998151739191657,
+          "minimum_per_request": 504.10363855837215,
+          "maximum_per_request": 506.26523417827764,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ITLB_WALK_ACTIVE": {
+          "per_request": 28499.642735624362,
+          "per_ki": 288.0564451412821,
+          "cycle_pct": 10.71737231628446,
+          "minimum_per_request": 28337.025348329695,
+          "maximum_per_request": 28666.69080876013,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ICACHE_DATA_STALL": {
+          "per_request": 59440.818050357266,
+          "per_ki": 600.7903643814067,
+          "cycle_pct": 22.35288995513944,
+          "minimum_per_request": 59421.4997481954,
+          "maximum_per_request": 59460.6627004656,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "FE_L2": {
+          "per_request": 483.93490460157125,
+          "per_ki": 4.88733571225456,
+          "cycle_pct": 0.1810906859793856,
+          "minimum_per_request": 482.68956043956047,
+          "maximum_per_request": 485.1943045667651,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "BACLEARS": {
+          "per_request": 3483.147889147889,
+          "per_ki": 35.17686554085625,
+          "cycle_pct": 1.3034100963078004,
+          "minimum_per_request": 3472.0841346153848,
+          "maximum_per_request": 3494.336516756381,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "branches:u": {
+          "per_request": 20360.0048346715,
+          "per_ki": 205.61893300936833,
+          "cycle_pct": 7.618808246720334,
+          "minimum_per_request": 20351.718701163398,
+          "maximum_per_request": 20368.19848901099,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "branch-misses:u": {
+          "per_request": 2216.055685055685,
+          "per_ki": 22.38029947195966,
+          "cycle_pct": 0.8292583162722095,
+          "minimum_per_request": 2214.2426167582416,
+          "maximum_per_request": 2217.8892168779303,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "FE_L1": {
+          "per_request": 1781.040501115497,
+          "per_ki": 17.931721539308846,
+          "cycle_pct": 0.6660507633435948,
+          "minimum_per_request": 1775.1532796711765,
+          "maximum_per_request": 1786.9520206362854,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ICACHE_TAG_STALL": {
+          "per_request": 43760.11678393684,
+          "per_ki": 440.5819116441895,
+          "cycle_pct": 16.364849182088253,
+          "minimum_per_request": 43641.69045571797,
+          "maximum_per_request": 43878.0563452646,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "FE_ITLB": {
+          "per_request": 438.2788751833003,
+          "per_ki": 4.41458230474896,
+          "cycle_pct": 0.16404336712196319,
+          "minimum_per_request": 437.5340791738382,
+          "maximum_per_request": 439.02714853882065,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "CLEAR_RESTEER": {
+          "per_request": 55384.04183559044,
+          "per_ki": 557.8580782626543,
+          "cycle_pct": 20.72968883963247,
+          "minimum_per_request": 55331.3207677676,
+          "maximum_per_request": 55436.51790017212,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "FE_UNKNOWN": {
+          "per_request": 1776.345236051502,
+          "per_ki": 17.913772266933368,
+          "cycle_pct": 0.6635167241037844,
+          "minimum_per_request": 1762.5356471191656,
+          "maximum_per_request": 1790.2690915359422,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "BR_INDIRECT": {
+          "per_request": 1791.4528755364806,
+          "per_ki": 18.0661271176303,
+          "cycle_pct": 0.6691598678218916,
+          "minimum_per_request": 1789.2945802701317,
+          "maximum_per_request": 1793.6290294776763,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "MISP_INDIRECT": {
+          "per_request": 811.8963948497855,
+          "per_ki": 8.187669168416981,
+          "cycle_pct": 0.3032669693307204,
+          "minimum_per_request": 806.9329799965806,
+          "maximum_per_request": 816.9008791587657,
+          "windows": 2,
+          "fully_scheduled": true
+        }
+      },
+      "compose": {
+        "L2I": {
+          "per_request": 11211.721394778342,
+          "per_ki": 40.21340814810023,
+          "cycle_pct": 2.0133884724496127,
+          "minimum_per_request": 11182.481462140991,
+          "maximum_per_request": 11241.353325101429,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "L2_CODE_ALL": {
+          "per_request": 25738.958472051865,
+          "per_ki": 92.31867310096382,
+          "cycle_pct": 4.622173567800564,
+          "minimum_per_request": 25678.106527415144,
+          "maximum_per_request": 25800.626212735933,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "SWPF_MISS": {
+          "per_request": 676.7758016471,
+          "per_ki": 2.4274115078410414,
+          "cycle_pct": 0.12153464659795499,
+          "minimum_per_request": 672.1534662197919,
+          "maximum_per_request": 681.3369886858137,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "SWPF_HIT": {
+          "per_request": 3009.101892412826,
+          "per_ki": 10.792833526453329,
+          "cycle_pct": 0.5403711748877325,
+          "minimum_per_request": 3002.9345517841602,
+          "maximum_per_request": 3015.3519139177984,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ITLB_STLB_HIT": {
+          "per_request": 730.6590689078588,
+          "per_ki": 2.62283027925038,
+          "cycle_pct": 0.13089169618527557,
+          "minimum_per_request": 730.0358792184725,
+          "maximum_per_request": 731.2710622710623,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ITLB_WALK": {
+          "per_request": 971.7329930476106,
+          "per_ki": 3.4882078741888307,
+          "cycle_pct": 0.17407815096213652,
+          "minimum_per_request": 970.5442176870748,
+          "maximum_per_request": 972.9435168738898,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ITLB_WALK_ACTIVE": {
+          "per_request": 48892.897034233916,
+          "per_ki": 175.5097229865924,
+          "cycle_pct": 8.758769303703737,
+          "minimum_per_request": 48609.35286935287,
+          "maximum_per_request": 49181.62859680284,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ICACHE_DATA_STALL": {
+          "per_request": 131501.96963829975,
+          "per_ki": 472.04963631525385,
+          "cycle_pct": 23.557520312982362,
+          "minimum_per_request": 131120.91418105704,
+          "maximum_per_request": 131889.99644760214,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "FE_L2": {
+          "per_request": 1032.161335925075,
+          "per_ki": 3.6976429929213572,
+          "cycle_pct": 0.1839435137851793,
+          "minimum_per_request": 1024.3878300402168,
+          "maximum_per_request": 1040.1014466869083,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "BACLEARS": {
+          "per_request": 7071.4286976497615,
+          "per_ki": 25.33287952544049,
+          "cycle_pct": 1.2602132988843837,
+          "minimum_per_request": 7043.759923063472,
+          "maximum_per_request": 7099.690480442936,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "branches:u": {
+          "per_request": 55792.586411026685,
+          "per_ki": 199.8728871342528,
+          "cycle_pct": 9.942907208793631,
+          "minimum_per_request": 55674.038992830916,
+          "maximum_per_request": 55913.67458474728,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "branch-misses:u": {
+          "per_request": 4589.601961477293,
+          "per_ki": 16.44191556346627,
+          "cycle_pct": 0.8179220459879415,
+          "minimum_per_request": 4574.483825843679,
+          "maximum_per_request": 4605.04411502054,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "FE_L1": {
+          "per_request": 5351.885031203305,
+          "per_ki": 19.200099764189602,
+          "cycle_pct": 0.9563352506535673,
+          "minimum_per_request": 5351.712716967765,
+          "maximum_per_request": 5352.05478974001,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ICACHE_TAG_STALL": {
+          "per_request": 80191.37470334886,
+          "per_ki": 287.68973652366185,
+          "cycle_pct": 14.329500349886722,
+          "minimum_per_request": 79869.03664281976,
+          "maximum_per_request": 80518.5655331208,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "FE_ITLB": {
+          "per_request": 1007.3876030159565,
+          "per_ki": 3.6154603406868473,
+          "cycle_pct": 0.18041820453944107,
+          "minimum_per_request": 1002.8436557231588,
+          "maximum_per_request": 1011.8244671634033,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "CLEAR_RESTEER": {
+          "per_request": 103553.39163598107,
+          "per_ki": 371.6475957046023,
+          "cycle_pct": 18.54590719302047,
+          "minimum_per_request": 103402.34764862467,
+          "maximum_per_request": 103700.87610466123,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "FE_UNKNOWN": {
+          "per_request": 4026.4397337070777,
+          "per_ki": 14.404035112146566,
+          "cycle_pct": 0.7192259875292347,
+          "minimum_per_request": 4016.3905128653946,
+          "maximum_per_request": 4036.506575486586,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "BR_INDIRECT": {
+          "per_request": 4194.838209530483,
+          "per_ki": 15.00645752971969,
+          "cycle_pct": 0.7493062986931117,
+          "minimum_per_request": 4187.049623005436,
+          "maximum_per_request": 4202.613162961667,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "MISP_INDIRECT": {
+          "per_request": 1677.4913279607567,
+          "per_ki": 6.000994820807105,
+          "cycle_pct": 0.2996432175115414,
+          "minimum_per_request": 1676.8877997549448,
+          "maximum_per_request": 1678.0959144310011,
+          "windows": 2,
+          "fully_scheduled": true
+        }
+      },
+      "rating": {
+        "L2I": {
+          "per_request": 5632.363890588133,
+          "per_ki": 53.77783025874576,
+          "cycle_pct": 2.0893921032807,
+          "minimum_per_request": 5630.286806883365,
+          "maximum_per_request": 5634.463971880492,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "L2_CODE_ALL": {
+          "per_request": 10365.431093244779,
+          "per_ki": 98.96917257472087,
+          "cycle_pct": 3.8451794475701746,
+          "minimum_per_request": 10362.159742742917,
+          "maximum_per_request": 10368.738664323375,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "SWPF_MISS": {
+          "per_request": 293.8426112033558,
+          "per_ki": 2.8056102863820147,
+          "cycle_pct": 0.10900439733334834,
+          "minimum_per_request": 293.11437510863897,
+          "maximum_per_request": 294.5789103690685,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "SWPF_HIT": {
+          "per_request": 834.1739054443765,
+          "per_ki": 7.96469538628805,
+          "cycle_pct": 0.30944669141686193,
+          "minimum_per_request": 832.192618629174,
+          "maximum_per_request": 836.13349556753,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ITLB_STLB_HIT": {
+          "per_request": 193.02679434244047,
+          "per_ki": 1.84264078455205,
+          "cycle_pct": 0.0715039750017388,
+          "minimum_per_request": 192.70066830812522,
+          "maximum_per_request": 193.3522906793049,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ITLB_WALK": {
+          "per_request": 449.30888166564176,
+          "per_ki": 4.289118891700674,
+          "cycle_pct": 0.16643995540683065,
+          "minimum_per_request": 448.1709671757065,
+          "maximum_per_request": 450.44899753781215,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ITLB_WALK_ACTIVE": {
+          "per_request": 28024.81226390231,
+          "per_ki": 267.5258750102288,
+          "cycle_pct": 10.381385042283236,
+          "minimum_per_request": 27942.81551693874,
+          "maximum_per_request": 28106.967639817096,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ICACHE_DATA_STALL": {
+          "per_request": 59932.202143547394,
+          "per_ki": 572.114976855508,
+          "cycle_pct": 22.20101462322813,
+          "minimum_per_request": 59814.49482183605,
+          "maximum_per_request": 60050.13717903623,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "FE_L2": {
+          "per_request": 494.5751440041892,
+          "per_ki": 4.723921657189251,
+          "cycle_pct": 0.18335567945509892,
+          "minimum_per_request": 494.40573414422244,
+          "maximum_per_request": 494.7460985446256,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "BACLEARS": {
+          "per_request": 3616.864985163205,
+          "per_ki": 34.54639207343025,
+          "cycle_pct": 1.3408937850834217,
+          "minimum_per_request": 3610.0227950201647,
+          "maximum_per_request": 3623.645351867941,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "branches:u": {
+          "per_request": 22009.83007505673,
+          "per_ki": 210.22632096071357,
+          "cycle_pct": 8.159786024485522,
+          "minimum_per_request": 21983.473435034193,
+          "maximum_per_request": 22035.948566463943,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "branch-misses:u": {
+          "per_request": 2415.401029848141,
+          "per_ki": 23.07064027382704,
+          "cycle_pct": 0.8954705919887479,
+          "minimum_per_request": 2413.669998246537,
+          "maximum_per_request": 2417.1164205039095,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "FE_L1": {
+          "per_request": 1587.8984682713349,
+          "per_ki": 15.144166247990944,
+          "cycle_pct": 0.5889896652246901,
+          "minimum_per_request": 1586.2309307207838,
+          "maximum_per_request": 1589.5680504466632,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ICACHE_TAG_STALL": {
+          "per_request": 42389.86223194748,
+          "per_ki": 404.2822218784012,
+          "cycle_pct": 15.723417626377591,
+          "minimum_per_request": 42266.22165850245,
+          "maximum_per_request": 42513.65440532492,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "FE_ITLB": {
+          "per_request": 356.02510605142413,
+          "per_ki": 3.392454775791807,
+          "cycle_pct": 0.13212358221394374,
+          "minimum_per_request": 355.42378154165226,
+          "maximum_per_request": 356.62862098872506,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "CLEAR_RESTEER": {
+          "per_request": 56021.12327936975,
+          "per_ki": 533.8082174094454,
+          "cycle_pct": 20.78985824738491,
+          "minimum_per_request": 56000.42430003457,
+          "maximum_per_request": 56041.89765828274,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "FE_UNKNOWN": {
+          "per_request": 1701.2146473463688,
+          "per_ki": 16.214751315454603,
+          "cycle_pct": 0.6294914000061972,
+          "minimum_per_request": 1700.2542847149352,
+          "maximum_per_request": 1702.1716626002092,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "BR_INDIRECT": {
+          "per_request": 1692.3223638268157,
+          "per_ki": 16.129996480947987,
+          "cycle_pct": 0.6262010356710987,
+          "minimum_per_request": 1687.330951551063,
+          "maximum_per_request": 1697.3312346974467,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "MISP_INDIRECT": {
+          "per_request": 885.0144902234637,
+          "per_ki": 8.435319959143028,
+          "cycle_pct": 0.32747720068454783,
+          "minimum_per_request": 883.9501573976916,
+          "maximum_per_request": 886.0751132798885,
+          "windows": 2,
+          "fully_scheduled": true
+        }
+      }
+    },
+    "seq4k_nop": {
+      "movie": {
+        "L2I": {
+          "per_request": 5959.987471037501,
+          "per_ki": 60.420032028811924,
+          "cycle_pct": 2.206956552619586,
+          "minimum_per_request": 5909.960964985759,
+          "maximum_per_request": 6012.522343420127,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "L2_CODE_ALL": {
+          "per_request": 11425.964043593924,
+          "per_ki": 115.83197394772753,
+          "cycle_pct": 4.230983091582866,
+          "minimum_per_request": 11355.860780700285,
+          "maximum_per_request": 11499.58233638283,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "SWPF_MISS": {
+          "per_request": 0.056895220114991846,
+          "per_ki": 0.0005767815852531818,
+          "cycle_pct": 2.1068044095008276e-05,
+          "minimum_per_request": 0.05294019098676495,
+          "maximum_per_request": 0.061048557353976074,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "SWPF_HIT": {
+          "per_request": 0.7600617866643783,
+          "per_ki": 0.007705210408125839,
+          "cycle_pct": 0.00028144746085895673,
+          "minimum_per_request": 0.748240675580577,
+          "maximum_per_request": 0.7713184788071704,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ITLB_STLB_HIT": {
+          "per_request": 178.16995329527762,
+          "per_ki": 1.796613960117497,
+          "cycle_pct": 0.06552201079808448,
+          "minimum_per_request": 177.21311475409837,
+          "maximum_per_request": 179.13143748916247,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ITLB_WALK": {
+          "per_request": 573.6012800553538,
+          "per_ki": 5.784028385419288,
+          "cycle_pct": 0.21094190445958944,
+          "minimum_per_request": 572.9251078515962,
+          "maximum_per_request": 574.2807352176175,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ITLB_WALK_ACTIVE": {
+          "per_request": 32343.973966441794,
+          "per_ki": 326.14722111692,
+          "cycle_pct": 11.894498327504094,
+          "minimum_per_request": 32140.199930639847,
+          "maximum_per_request": 32546.76341673857,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ICACHE_DATA_STALL": {
+          "per_request": 62224.185002594706,
+          "per_ki": 627.4505738199489,
+          "cycle_pct": 22.8829476925618,
+          "minimum_per_request": 62208.617652158835,
+          "maximum_per_request": 62239.67713546161,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "FE_L2": {
+          "per_request": 503.02811621368323,
+          "per_ki": 5.078600006268896,
+          "cycle_pct": 0.18559448659846609,
+          "minimum_per_request": 500.90806911592017,
+          "maximum_per_request": 505.21606648199446,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "BACLEARS": {
+          "per_request": 3469.091675896737,
+          "per_ki": 35.024143659342634,
+          "cycle_pct": 1.2799369812512946,
+          "minimum_per_request": 3460.568696527428,
+          "maximum_per_request": 3477.8876385041553,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "branches:u": {
+          "per_request": 20371.26718923064,
+          "per_ki": 205.66945333724442,
+          "cycle_pct": 7.516070679714012,
+          "minimum_per_request": 20316.095914127425,
+          "maximum_per_request": 20424.726220432814,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "branch-misses:u": {
+          "per_request": 2206.3465962341315,
+          "per_ki": 22.27539868309496,
+          "cycle_pct": 0.8140415030248522,
+          "minimum_per_request": 2201.166918302298,
+          "maximum_per_request": 2211.6921745152354,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "FE_L1": {
+          "per_request": 1789.648495125053,
+          "per_ki": 18.05315259718864,
+          "cycle_pct": 0.6603851804854578,
+          "minimum_per_request": 1789.4985759758754,
+          "maximum_per_request": 1789.8020940611054,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ICACHE_TAG_STALL": {
+          "per_request": 48123.97142857143,
+          "per_ki": 485.4525355952868,
+          "cycle_pct": 17.757876836765917,
+          "minimum_per_request": 47914.08443625398,
+          "maximum_per_request": 48339.01012701682,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "FE_ITLB": {
+          "per_request": 437.8714430894309,
+          "per_ki": 4.422658169213898,
+          "cycle_pct": 0.16156189624928644,
+          "minimum_per_request": 437.42319853553005,
+          "maximum_per_request": 438.33591998620454,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "CLEAR_RESTEER": {
+          "per_request": 56457.452913279136,
+          "per_ki": 570.240465051122,
+          "cycle_pct": 20.831166987547135,
+          "minimum_per_request": 56216.117324013976,
+          "maximum_per_request": 56707.52802207277,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "FE_UNKNOWN": {
+          "per_request": 1772.6089809134287,
+          "per_ki": 17.864858200550515,
+          "cycle_pct": 0.6528858150293829,
+          "minimum_per_request": 1767.9720209000507,
+          "maximum_per_request": 1777.3498190591074,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "BR_INDIRECT": {
+          "per_request": 1794.203902522154,
+          "per_ki": 18.082497971388797,
+          "cycle_pct": 0.6608396379800842,
+          "minimum_per_request": 1784.549637620091,
+          "maximum_per_request": 1804.0744442529726,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "MISP_INDIRECT": {
+          "per_request": 811.6843047034765,
+          "per_ki": 8.180385614241807,
+          "cycle_pct": 0.29895886488728585,
+          "minimum_per_request": 809.7771784931738,
+          "maximum_per_request": 813.6341547475444,
+          "windows": 2,
+          "fully_scheduled": true
+        }
+      },
+      "compose": {
+        "L2I": {
+          "per_request": 11545.407469539114,
+          "per_ki": 41.398941125080555,
+          "cycle_pct": 2.042860703592719,
+          "minimum_per_request": 11529.502268760907,
+          "maximum_per_request": 11561.693531093639,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "L2_CODE_ALL": {
+          "per_request": 25748.65954441109,
+          "per_ki": 92.32824768993372,
+          "cycle_pct": 4.556004185408349,
+          "minimum_per_request": 25725.78270192995,
+          "maximum_per_request": 25771.00139616056,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "SWPF_MISS": {
+          "per_request": 0.11168991700512096,
+          "per_ki": 0.00040049208402210835,
+          "cycle_pct": 1.9762571657975627e-05,
+          "minimum_per_request": 0.11082024432809773,
+          "maximum_per_request": 0.11258041458184417,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "SWPF_HIT": {
+          "per_request": 1.8426628995232208,
+          "per_ki": 0.0066073279000327285,
+          "cycle_pct": 0.00032604337589087066,
+          "minimum_per_request": 1.824607329842932,
+          "maximum_per_request": 1.8611508220157256,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ITLB_STLB_HIT": {
+          "per_request": 621.5840441113121,
+          "per_ki": 2.2334429076239934,
+          "cycle_pct": 0.11064964114742343,
+          "minimum_per_request": 618.7981714680006,
+          "maximum_per_request": 624.3636833046471,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ITLB_WALK": {
+          "per_request": 1054.6315154648057,
+          "per_ki": 3.7894461749565163,
+          "cycle_pct": 0.18773744248178714,
+          "minimum_per_request": 1053.8304647160069,
+          "maximum_per_request": 1055.4343626013456,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ITLB_WALK_ACTIVE": {
+          "per_request": 51813.27423106746,
+          "per_ki": 186.17271622151125,
+          "cycle_pct": 9.223403101566712,
+          "minimum_per_request": 51638.805335628225,
+          "maximum_per_request": 51988.13437985165,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ICACHE_DATA_STALL": {
+          "per_request": 132556.04686826916,
+          "per_ki": 476.29337584410735,
+          "cycle_pct": 23.596614418996303,
+          "minimum_per_request": 132539.06643717727,
+          "maximum_per_request": 132573.06537864413,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "FE_L2": {
+          "per_request": 1037.0845203363651,
+          "per_ki": 3.720183162645495,
+          "cycle_pct": 0.18464471017665252,
+          "minimum_per_request": 1030.9137374766515,
+          "maximum_per_request": 1043.3880312228969,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "BACLEARS": {
+          "per_request": 7126.970310622962,
+          "per_ki": 25.565548834587286,
+          "cycle_pct": 1.2689007902805933,
+          "minimum_per_request": 7115.583970113771,
+          "maximum_per_request": 7138.601561144839,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "branches:u": {
+          "per_request": 55732.85155311481,
+          "per_ki": 199.9223900158799,
+          "cycle_pct": 9.922794160504488,
+          "minimum_per_request": 55710.34969644406,
+          "maximum_per_request": 55754.87960604517,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "branch-misses:u": {
+          "per_request": 4524.210743092501,
+          "per_ki": 16.2290462355505,
+          "cycle_pct": 0.805500000294547,
+          "minimum_per_request": 4516.478689081338,
+          "maximum_per_request": 4532.109106678231,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "FE_L1": {
+          "per_request": 5363.897795248676,
+          "per_ki": 19.184987915853633,
+          "cycle_pct": 0.9513912541350623,
+          "minimum_per_request": 5356.680298659427,
+          "maximum_per_request": 5371.219659149596,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ICACHE_TAG_STALL": {
+          "per_request": 82898.12467954196,
+          "per_ki": 296.50071290185866,
+          "cycle_pct": 14.703589407347714,
+          "minimum_per_request": 82596.62260308841,
+          "maximum_per_request": 83203.98657255982,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "FE_ITLB": {
+          "per_request": 1022.623490389522,
+          "per_ki": 3.6891849136103883,
+          "cycle_pct": 0.18299360930956252,
+          "minimum_per_request": 1017.3548819293251,
+          "maximum_per_request": 1028.0596163815449,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "CLEAR_RESTEER": {
+          "per_request": 105227.3874808641,
+          "per_ki": 379.6150724497537,
+          "cycle_pct": 18.829940456388808,
+          "minimum_per_request": 104392.27047395745,
+          "maximum_per_request": 106089.05736996717,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "FE_UNKNOWN": {
+          "per_request": 3974.5877260649695,
+          "per_ki": 14.263643711086962,
+          "cycle_pct": 0.7070430464090344,
+          "minimum_per_request": 3961.947206560738,
+          "maximum_per_request": 3987.3130374957,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "BR_INDIRECT": {
+          "per_request": 4179.538698894317,
+          "per_ki": 14.99915336797727,
+          "cycle_pct": 0.7435019624479122,
+          "minimum_per_request": 4177.169418644651,
+          "maximum_per_request": 4181.892192038271,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "MISP_INDIRECT": {
+          "per_request": 1665.8765749550014,
+          "per_ki": 5.978348339370779,
+          "cycle_pct": 0.2963443078066756,
+          "minimum_per_request": 1660.7828464035538,
+          "maximum_per_request": 1671.0044719642242,
+          "windows": 2,
+          "fully_scheduled": true
+        }
+      },
+      "rating": {
+        "L2I": {
+          "per_request": 5718.234524921457,
+          "per_ki": 54.54914575424382,
+          "cycle_pct": 2.15980333858965,
+          "minimum_per_request": 5715.245632065776,
+          "maximum_per_request": 5721.172587977774,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "L2_CODE_ALL": {
+          "per_request": 10394.667912031926,
+          "per_ki": 99.1600208996638,
+          "cycle_pct": 3.9261136216244346,
+          "minimum_per_request": 10388.04282288455,
+          "maximum_per_request": 10401.180333389459,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "SWPF_MISS": {
+          "per_request": 0.03710622399592426,
+          "per_ki": 0.00035397513206597526,
+          "cycle_pct": 1.4015190548686597e-05,
+          "minimum_per_request": 0.03528605686879068,
+          "maximum_per_request": 0.03889543694224617,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "SWPF_HIT": {
+          "per_request": 0.742803770060287,
+          "per_ki": 0.007085982735270369,
+          "cycle_pct": 0.0002805603819677582,
+          "minimum_per_request": 0.7300892406128978,
+          "maximum_per_request": 0.7557382665296334,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ITLB_STLB_HIT": {
+          "per_request": 149.46420343032682,
+          "per_ki": 1.4260811734039667,
+          "cycle_pct": 0.05655077478606215,
+          "minimum_per_request": 149.3528009535161,
+          "maximum_per_request": 149.5761204242217,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ITLB_WALK": {
+          "per_request": 447.8422220325966,
+          "per_ki": 4.272992106727402,
+          "cycle_pct": 0.16944408130245528,
+          "minimum_per_request": 447.29763941156347,
+          "maximum_per_request": 448.3843010386515,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ITLB_WALK_ACTIVE": {
+          "per_request": 27383.382029183376,
+          "per_ki": 261.27276417828455,
+          "cycle_pct": 10.360684595190799,
+          "minimum_per_request": 27367.007526513855,
+          "maximum_per_request": 27399.681253192575,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ICACHE_DATA_STALL": {
+          "per_request": 57130.80442017237,
+          "per_ki": 545.1015208669071,
+          "cycle_pct": 21.615819573934132,
+          "minimum_per_request": 57049.81166609647,
+          "maximum_per_request": 57211.4248254725,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "FE_L2": {
+          "per_request": 480.7637026981164,
+          "per_ki": 4.590764148140797,
+          "cycle_pct": 0.18190845759266622,
+          "minimum_per_request": 480.69590939824207,
+          "maximum_per_request": 480.8320272572402,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "BACLEARS": {
+          "per_request": 3452.2601391481417,
+          "per_ki": 32.96528416748742,
+          "cycle_pct": 1.3062452793267876,
+          "minimum_per_request": 3448.7076660988073,
+          "maximum_per_request": 3455.784989858012,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "branches:u": {
+          "per_request": 22012.413626336333,
+          "per_ki": 210.1943194186708,
+          "cycle_pct": 8.328923727365906,
+          "minimum_per_request": 21985.873901284653,
+          "maximum_per_request": 22039.16132879046,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "branch-misses:u": {
+          "per_request": 2398.397081282878,
+          "per_ki": 22.90205203089701,
+          "cycle_pct": 0.9074909592849971,
+          "minimum_per_request": 2397.5609880749575,
+          "maximum_per_request": 2399.226673427992,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "FE_L1": {
+          "per_request": 1559.8494284251833,
+          "per_ki": 14.881965213278784,
+          "cycle_pct": 0.5903397629659946,
+          "minimum_per_request": 1558.457998289136,
+          "maximum_per_request": 1561.2332822868811,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "ICACHE_TAG_STALL": {
+          "per_request": 39651.46766763351,
+          "per_ki": 378.3004639626815,
+          "cycle_pct": 15.006472802824954,
+          "minimum_per_request": 39621.583290794624,
+          "maximum_per_request": 39681.51565440548,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "FE_ITLB": {
+          "per_request": 353.0851244584147,
+          "per_ki": 3.363023615208767,
+          "cycle_pct": 0.13303886054020111,
+          "minimum_per_request": 353.02177981963587,
+          "maximum_per_request": 353.148286392942,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "CLEAR_RESTEER": {
+          "per_request": 55205.788038399456,
+          "per_ki": 525.8175890420819,
+          "cycle_pct": 20.800975818842637,
+          "minimum_per_request": 55163.90794623107,
+          "maximum_per_request": 55247.547336274176,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "FE_UNKNOWN": {
+          "per_request": 1661.6352981144896,
+          "per_ki": 15.840396404549784,
+          "cycle_pct": 0.6269857799959009,
+          "minimum_per_request": 1660.0801358234296,
+          "maximum_per_request": 1663.1920462270564,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "BR_INDIRECT": {
+          "per_request": 1689.9448785459488,
+          "per_ki": 16.110272096640372,
+          "cycle_pct": 0.6376678498750833,
+          "minimum_per_request": 1687.3735144312393,
+          "maximum_per_request": 1692.518864717879,
+          "windows": 2,
+          "fully_scheduled": true
+        },
+        "MISP_INDIRECT": {
+          "per_request": 875.7609138780364,
+          "per_ki": 8.34864307900797,
+          "cycle_pct": 0.33045135734707437,
+          "minimum_per_request": 875.293039049236,
+          "maximum_per_request": 876.2292658055744,
+          "windows": 2,
+          "fully_scheduled": true
+        }
+      }
+    }
+  },
+  "c16": null
+}

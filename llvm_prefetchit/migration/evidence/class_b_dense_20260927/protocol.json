@@ -1,0 +1,29 @@
+{
+  "arms": {
+    "base": {},
+    "callee8": {
+      "PREFETCHIT_CALLEE_BURST_LINES": "8"
+    },
+    "seq4k": {
+      "PREFETCHIT_SEQ_DISTANCE": "4096",
+      "PREFETCHIT_SEQ_STRIDE_INSNS": "20",
+      "PREFETCHIT_CALLEE_BURST_LINES": "4"
+    },
+    "seq256": {
+      "PREFETCHIT_SEQ_DISTANCE": "256",
+      "PREFETCHIT_SEQ_STRIDE_INSNS": "20",
+      "PREFETCHIT_CALLEE_BURST_LINES": "4"
+    }
+  },
+  "services": {
+    "movie": "MovieIdService",
+    "compose": "ComposeReviewService",
+    "rating": "RatingService"
+  },
+  "base_image": "dsb-deps-jammy",
+  "scope": "Rebuild Media sources plus mongo-c/bson, thrift, yaml-cpp, opentracing, jaeger. System libstdc++, libc and libmemcached remain uninstrumented.",
+  "plugin_sha256": "a8f6be2289d6627f491f6f36a548f0c5e1a8918430a7db0f42e301fb8b9e1230",
+  "primary": "Whole-stack and individual-service user+kernel CPU/request; external mean and p99",
+  "controls": "Fresh rebuilt no-prefetch baseline; each dense arm has an exact-layout NOP twin",
+  "selection": "Three frozen dense policies, no trace ranking or existing-NOP site restriction"
+}
