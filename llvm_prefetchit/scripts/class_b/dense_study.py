@@ -54,7 +54,7 @@ def audit(root, variants=None, prefix=''):
                 prefetch_instructions=len(patches),addressing=dict(counts),disassembly_command=command)
             if arm=='base':assert not patches,'A no-prefetch baseline is required'
             else:
-                assert len(patches)>1000,'Dense build unexpectedly sparse'
+                assert len(patches)>0,'Instrumented build contains no prefetches'
                 control=Path(str(binary)+'.nop');assert not control.exists()
                 control.write_bytes(patched);control.chmod(binary.stat().st_mode)
                 check=subprocess.check_output(['objdump','-d','--no-show-raw-insn',str(control)],text=True)

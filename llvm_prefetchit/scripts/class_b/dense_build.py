@@ -31,6 +31,9 @@ ARMS = {
 }
 POLICIES = dict(ARMS, dom_decay={'PREFETCHIT_DOMINATOR': '1', 'PREFETCHIT_DOM_LEAD': '24',
                                 'PREFETCHIT_DOM_BATCH': '4', 'PREFETCHIT_DOM_CALLER_TARGETS': '4'})
+POLICIES['lean_peak'] = dict(POLICIES['dom_decay'], PREFETCHIT_DOM_LEAN='1',
+    PREFETCHIT_DOM_WINDOW='1', PREFETCHIT_DOM_BATCH='8', PREFETCHIT_DOM_CALLER_TARGETS='0',
+    PREFETCHIT_DOM_MAX_SITES='2', PREFETCHIT_DOM_MIN_FUNCTION='64')
 SERVICES = {'movie': 'MovieIdService', 'compose': 'ComposeReviewService', 'rating': 'RatingService'}
 
 
@@ -155,12 +158,14 @@ def worker(arm, tag=None):
     for key, exe in SERVICES.items():
         space(root); dest=out/key;dest.mkdir()
         service_env=dict(env,MAKE_TARGET=exe,BIN_GLOB=exe,FATSTATIC='1')
-        if arm == 'dom_decay':
-            runtime = root/'sched_runtime.o'
+        if POLICIES[arm].get('PREFETCHIT_DOMINATOR') and POLICIES[arm].get('PREFETCHIT_DOM_SCHED_GATE','1') != '0':
+            runtime = out/'sched_runtime.o'
             if not runtime.exists():
                 run(['clang-19','-O2','-fPIC','-c',
                      '/repo/llvm_prefetchit/kernel/sched_clock/runtime.c','-o',runtime],
                     out/'runtime_build.log',env=env)
+                save(out/'runtime.json',dict(source_sha256=sha('/repo/llvm_prefetchit/kernel/sched_clock/runtime.c'),
+                                           object_sha256=sha(runtime)))
             service_env['PREFETCHIT_RUNTIME_OBJECT'] = str(runtime)
         command=['bash',root/'build_service.sh',dest,'-O3','-g','-Wno-enum-constexpr-conversion','-Wno-error']
         if flags:command.append(flags)

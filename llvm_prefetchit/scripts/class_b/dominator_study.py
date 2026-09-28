@@ -13,6 +13,10 @@ def trial(spec):
     module=Path(spec['module']);assert not Path('/sys/module/prefetchit_sched_clock').exists()
     b.space(Path(spec['out']).parent)
     command=['insmod',str(module),'flat='+str(int(spec.get('flat',False)))]
+    allowed={'dense_us','medium_us','sparse_us','dense_begin_us','medium_begin_us','sparse_begin_us'}
+    for name,value in spec.get('clock_options',{}).items():
+        assert name in allowed and type(value) is int and 0 <= value <= 1000
+        command.append(f'{name}={value}')
     enabled=spec.get('clock',True)
     if enabled:subprocess.run(command,check=True)
     old=os.environ.get('CLASS_B_SCHED_CLOCK')
