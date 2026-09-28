@@ -47,7 +47,8 @@ def test_no_runtime_and_invalid_settings(tmp_path):
     env['PREFETCHIT_DOM_BATCH']='4'
     subprocess.run(['clang-19','-O2','-fPIC','-shared','-fpass-plugin='+PLUGIN,str(source),'-o',str(tmp_path/'libprobe.so')],env=env,check=True)
 
-def test_gate_executes_monotonically_fewer_groups(tmp_path):
+@pytest.mark.parametrize('window', [False, True])
+def test_gate_executes_monotonically_fewer_groups(tmp_path, window):
     # Replace ONLY the hint mnemonic in emitted IR with an observable counter.
     # Exercise the actual inline gate, register clobbers and target operands.
     source=tmp_path/'phase.c'
@@ -71,7 +72,13 @@ int main(void){
 }
 ''')
     ir=tmp_path/'phase.ll'
-    env=dict(os.environ,PREFETCHIT_DOMINATOR='1',PREFETCHIT_DOM_LEAD='8',PREFETCHIT_SEQ_FUNCTIONS='^probe$')
+    env=dict(os.environ,PREFETCHIT_DOMINATOR='1',PREFETCHIT_DOM_LEAD='8',PREFETCHIT_SEQ_FUNCTIONS='^probe$',
+             PREFETCHIT_DOM_WINDOW=str(int(window)))
+    if window:
+        source.write_text(source.read_text().replace('phase<4','phase<7').replace(
+            'slots[cpu][tier]=tier>=phase?UINT64_MAX:0;',
+            '{slots[cpu][tier]=phase<=3 || tier>=phase-3?UINT64_MAX:0; '
+            'slots[cpu][tier+4]=phase>=3 || tier>=3-phase?0:UINT64_MAX;}'))
     subprocess.run(['clang-19','-O2','-S','-emit-llvm','-fpass-plugin='+PLUGIN,str(source),'-o',str(ir)],env=env,check=True)
     text,n=re.subn(r'prefetcht1 \$\{\d+:c\}\(%rip\)',r'incq gate_count(%rip)',ir.read_text())
     assert n>4
@@ -79,4 +86,33 @@ int main(void){
     exe=tmp_path/'phase'
     subprocess.run(['clang-19',str(ir),'-o',str(exe)],check=True)
     counts=list(map(int,subprocess.check_output([exe],text=True).split()))
-    assert counts[0]>counts[1]>counts[2]>counts[3]==0,counts
+    if window:
+        assert counts[0]==counts[6]==0,counts
+        assert counts[0]<counts[1]<counts[2]<counts[3]>counts[4]>counts[5]>counts[6],counts
+    else:
+        assert counts[0]>counts[1]>counts[2]>counts[3]==0,counts
+
+def test_lean_limits_and_semantics(tmp_path):
+    source=tmp_path/'lean.c'
+    source.write_text('''#include <stdio.h>
+__attribute__((noinline)) int leaf(int x){volatile int y=x;return y*3;}
+__attribute__((noinline)) int probe(int x){volatile int v=x;
+for(int i=0;i<20;i++){v+=i;v^=31;v+=leaf(i);if(v&1)v+=leaf(v);else v-=leaf(i+4);}return v;}
+int main(){for(int i=0;i<8;i++)printf("%d\\n",probe(i));}
+''')
+    env=dict(os.environ,PREFETCHIT_DOMINATOR='1',PREFETCHIT_DOM_LEAN='1',PREFETCHIT_DOM_WINDOW='1',
+        PREFETCHIT_DOM_LEAD='8',PREFETCHIT_DOM_MIN_FUNCTION='0',PREFETCHIT_DOM_MAX_SITES='2',
+        PREFETCHIT_DOM_BATCH='8',PREFETCHIT_DOM_CALLER_TARGETS='0',PREFETCHIT_SEQ_FUNCTIONS='^probe$')
+    outputs=[]
+    for name,flags in [('base',[]),('lean',['-fpass-plugin='+PLUGIN])]:
+        exe=tmp_path/name
+        subprocess.run(['clang-19','-O2',*flags,str(source),'-o',str(exe)],env=env,check=True)
+        outputs.append(subprocess.check_output([exe]))
+    assert outputs[0]==outputs[1]
+    ir=tmp_path/'lean.ll'
+    proc=subprocess.run(['clang-19','-O2','-S','-emit-llvm','-fpass-plugin='+PLUGIN,str(source),'-o',str(ir)],env=env,capture_output=True,text=True)
+    assert proc.returncode==0,proc.stderr
+    assert 'continuations=0' in proc.stderr
+    assert 0<int(re.search(r'groups=(\d+)',proc.stderr)[1])<=2
+    assert int(re.search(r'hints=(\d+)',proc.stderr)[1])<=16
+    subprocess.run(['opt-19','-passes=verify','-disable-output',str(ir)],check=True)

@@ -75,6 +75,11 @@ static uint64_t runDominatorPrefetch(Module &M, const SeqConfig &C) {
   const unsigned Batch = domOption("PREFETCHIT_DOM_BATCH", 4);
   const unsigned CallerTargets = domOption("PREFETCHIT_DOM_CALLER_TARGETS", 4);
   const bool Gate = domOption("PREFETCHIT_DOM_SCHED_GATE", 1);
+  const bool Lean = domOption("PREFETCHIT_DOM_LEAN", 0);
+  const bool Window = domOption("PREFETCHIT_DOM_WINDOW", 0);
+  const unsigned MaxSites = domOption("PREFETCHIT_DOM_MAX_SITES", Lean ? 2 : 0);
+  const unsigned MinFunction = domOption("PREFETCHIT_DOM_MIN_FUNCTION", Lean ? 64 : 0);
+  const bool SkipShort = domOption("PREFETCHIT_DOM_SKIP_SHORT", Lean);
   if (!Batch || Batch > 16 || MinLead > MaxLead)
     report_fatal_error("invalid dominator placement limits");
   LLVMContext &Ctx = M.getContext();
@@ -106,6 +111,7 @@ static uint64_t runDominatorPrefetch(Module &M, const SeqConfig &C) {
   // are excluded. Machine fallthrough remains possible; no hard-coded offsets.
   uint64_t Continuations = 0, Edges = 0, Calls = 0, Indirect = 0;
   for (Function *F : Functions) {
+    if (Lean) continue;
     SmallVector<CallInst *, 32> Split;
     for (Instruction &I : instructions(F))
       if (auto *CI = dyn_cast<CallInst>(&I))
@@ -142,7 +148,9 @@ static uint64_t runDominatorPrefetch(Module &M, const SeqConfig &C) {
     }
   }
   uint64_t Hints = 0, Groups = 0, Short = 0, Lifted = 0, SkippedEH = 0;
+  uint64_t BudgetSkipped = 0, Duplicates = 0;
   for (Function *F : Functions) {
+    if (F->getInstructionCount() < MinFunction) continue;
     DominatorTree DT(*F);
     struct Target { Value *Address; bool Direct; };
     std::map<Instruction *, std::vector<Target>> Sites;
@@ -157,7 +165,10 @@ static uint64_t runDominatorPrefetch(Module &M, const SeqConfig &C) {
         if (auto *Def = dyn_cast<Instruction>(Address))
           if (!DT.dominates(Def, At) || Def == At) At = Use;
       }
-      if (domLead(At, Use, MaxLead) < MinLead) ++Short;
+      if (domLead(At, Use, MaxLead) < MinLead) {
+        ++Short;
+        if (SkipShort) return;
+      }
       auto &V = Sites[At];
       if (llvm::none_of(V, [&](const Target &T) { return T.Address == Address; }))
         V.push_back({Address, Direct});
@@ -165,6 +176,8 @@ static uint64_t runDominatorPrefetch(Module &M, const SeqConfig &C) {
     for (BasicBlock &B : *F) {
       for (BasicBlock *S : successors(&B)) {
         if (S->isEHPad() || S == &F->getEntryBlock()) { ++SkippedEH; continue; }
+        // A one-successor fallthrough rarely needs a separate code-line hint.
+        if (Lean && B.getTerminator()->getNumSuccessors() == 1) continue;
         ++Edges; add(B.getTerminator(), BlockAddress::get(F, S), true);
       }
       for (Instruction &I : B) {
@@ -187,6 +200,30 @@ static uint64_t runDominatorPrefetch(Module &M, const SeqConfig &C) {
     // Emit in program order, never pointer-map order (ASLR-dependent builds).
     std::vector<Instruction *> Ordered;
     for (Instruction &I : instructions(F)) if (Sites.count(&I)) Ordered.push_back(&I);
+    if (Lean) {
+      // Rank shared dominator sites before applying a per-function budget.
+      // Stable ties follow IR order; no pointer/ASLR-dependent selection.
+      std::stable_sort(Ordered.begin(), Ordered.end(), [&](Instruction *A, Instruction *B) {
+        return Sites.at(A).size() > Sites.at(B).size();
+      });
+      SmallPtrSet<Value *, 32> Seen;
+      std::vector<Instruction *> Selected;
+      for (Instruction *At : Ordered) {
+        auto &V = Sites.at(At);
+        if (MaxSites && Selected.size() >= MaxSites) { BudgetSkipped += V.size(); continue; }
+        std::vector<Target> Unique;
+        for (const Target &T : V) {
+          if (Seen.count(T.Address)) { ++Duplicates; continue; }
+          if (Unique.size() >= Batch) { ++BudgetSkipped; continue; }
+          Seen.insert(T.Address); Unique.push_back(T);
+        }
+        V = std::move(Unique);
+        if (!V.empty()) Selected.push_back(At);
+      }
+      Ordered.clear();
+      for (Instruction &I : instructions(F))
+        if (llvm::is_contained(Selected, &I)) Ordered.push_back(&I);
+    }
     unsigned SiteIndex = 0;
     for (Instruction *At : Ordered) {
       const auto &Targets = Sites.at(At);
@@ -202,7 +239,8 @@ static uint64_t runDominatorPrefetch(Module &M, const SeqConfig &C) {
           Asm = "movq __prefetchit_sched_slots(%rip), %r11\n\ttestq %r11, %r11\n\tje 9f\n\t"
                 "rdtscp\n\tshlq $$32, %rdx\n\torq %rdx, %rax\n\t"
                 "andl $$4095, %ecx\n\tshll $$6, %ecx\n\t"
-                "cmpq 24(%r11,%rcx), %rax\n\tjb 9f\n\tcmpq " +
+                "cmpq " + std::to_string(Window ? 32 + Tier * 8 : 24) +
+                "(%r11,%rcx), %rax\n\tjb 9f\n\tcmpq " +
                 std::to_string(Tier * 8) + "(%r11,%rcx), %rax\n\tjae 9f\n\t";
         }
         SmallVector<Value *, 16> Args;
@@ -230,6 +268,8 @@ static uint64_t runDominatorPrefetch(Module &M, const SeqConfig &C) {
          << " calls=" << Calls << " indirect=" << Indirect << " continuations=" << Continuations
          << " caller_targets=" << Lifted << " short_lead=" << Short << " skipped_eh=" << SkippedEH
          << " groups=" << Groups << " hints=" << Hints << " gate=" << Gate << "\n";
+  if (Lean) errs() << "prefetchit-dominator-lean: budget_skipped=" << BudgetSkipped
+                   << " duplicate_targets=" << Duplicates << " window=" << Window << "\n";
   Ctx.setDiscardValueNames(DiscardNames);
   return Hints;
 }
