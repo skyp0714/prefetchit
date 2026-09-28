@@ -25,6 +25,15 @@ def evaluate(root, out):
                 metrics['sum:'+event] = metrics.get('sum:'+event, 0)+value
         if metrics:
             assert set(result['pmu']) == set(b.SERVICES)
+            for label, services in result.get('pmu_extra', {}).items():
+                assert set(services) == set(b.SERVICES)
+                for service, values in services.items():
+                    assert values['fully_scheduled'] and values['window']['completed'] > 0
+                    for event, value in values['per_request'].items():
+                        prefix = 'extra:'+label+':'
+                        metrics[prefix+service+':'+event] = value
+                        key = prefix+'sum:'+event
+                        metrics[key] = metrics.get(key, 0)+value
             diagnostics.append(dict(arm=row['arm'],block=row['block'],valid=True,metrics=metrics,
                                     result_sha256=b.sha(Path(row['output'])/'result.json')))
     summary = summarize(diagnostics, protocol['arms'])
@@ -45,7 +54,7 @@ def evaluate(root, out):
                 summary=summary[arm][control]['sum:FE_L2'])
         decisions[arm] = dict(contrasts=comparisons,
             miss_screen_eligible=all(x['every_block_reduces'] for x in comparisons.values()))
-    result = dict(campaign=str(root),rows=diagnostics,comparisons=summary,decisions=decisions,
+    result = dict(campaign=str(root),driver_sha256=b.sha(__file__),rows=diagnostics,comparisons=summary,decisions=decisions,
         interpretation='Positive values mean fewer events/request. FE_L2 retired-event population differs from speculative L2I. PMU windows follow clean E2E timing; service sums combine sequential request-normalized windows. Individual paired-log t95 intervals, no multiplicity correction; screen and confirmation never pooled.')
     b.save(out, result)
     return result
