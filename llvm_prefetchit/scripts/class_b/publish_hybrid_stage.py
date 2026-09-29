@@ -21,7 +21,8 @@ def publish(parent,phase):
         path=out/'artifacts'/entry['bundle'];assert b.sha(path)==entry['sha256']
         with gzip.open(path,'rt') as stream:json.load(stream)
     names=['complete.json','screen_report.md','report.md','grouped_pmu.json','screen_evaluation.json',
-        'workload_age.json','cpu_attribution.json','cpu_attribution.md','protocol.json']
+        'workload_age.json','cpu_attribution.json','cpu_attribution.md','protocol.json',
+        'hybrid_diagnostics.json','hybrid_diagnostic_report.md']
     for name in names:
         source=root/name
         if source.exists():(out/name).write_bytes(source.read_bytes())
