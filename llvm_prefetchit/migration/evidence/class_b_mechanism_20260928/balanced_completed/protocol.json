@@ -1,0 +1,155 @@
+{
+  "blocks": 4,
+  "arms": {
+    "original": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+      },
+      "mongo_binary": "/storage/prefetchit/class_b_mechanism_20260928/backend/reference/mongod",
+      "extra_events": {
+        "decode": "cycles:u,instructions:u,cpu/event=0x79,umask=0x8,name=DSB_UOPS/u,cpu/event=0x79,umask=0x4,name=MITE_UOPS/u,cpu/event=0x75,umask=0x1,name=DECODED/u,cpu/event=0xad,umask=0x40,name=UNKNOWN_BRANCH_CYCLES,config1=0x7/u"
+      },
+      "stat_s": 3
+    },
+    "call256": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+      },
+      "mongo_binary": "/storage/prefetchit/class_b_mechanism_20260928/callpath/builds/call256/mongod",
+      "controls": [
+        "original"
+      ],
+      "extra_events": {
+        "decode": "cycles:u,instructions:u,cpu/event=0x79,umask=0x8,name=DSB_UOPS/u,cpu/event=0x79,umask=0x4,name=MITE_UOPS/u,cpu/event=0x75,umask=0x1,name=DECODED/u,cpu/event=0xad,umask=0x40,name=UNKNOWN_BRANCH_CYCLES,config1=0x7/u"
+      },
+      "stat_s": 3
+    },
+    "cost75_nop": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+      },
+      "mongo_binary": "/storage/prefetchit/class_b_mechanism_20260928/callpath_coverage75/builds/cost75/build/mongod.nop",
+      "controls": [
+        "original"
+      ],
+      "extra_events": {
+        "decode": "cycles:u,instructions:u,cpu/event=0x79,umask=0x8,name=DSB_UOPS/u,cpu/event=0x79,umask=0x4,name=MITE_UOPS/u,cpu/event=0x75,umask=0x1,name=DECODED/u,cpu/event=0xad,umask=0x40,name=UNKNOWN_BRANCH_CYCLES,config1=0x7/u"
+      },
+      "stat_s": 3
+    },
+    "cost75": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+      },
+      "mongo_binary": "/storage/prefetchit/class_b_mechanism_20260928/callpath_coverage75/builds/cost75/build/mongod",
+      "controls": [
+        "original",
+        "cost75_nop"
+      ],
+      "extra_events": {
+        "decode": "cycles:u,instructions:u,cpu/event=0x79,umask=0x8,name=DSB_UOPS/u,cpu/event=0x79,umask=0x4,name=MITE_UOPS/u,cpu/event=0x75,umask=0x1,name=DECODED/u,cpu/event=0xad,umask=0x40,name=UNKNOWN_BRANCH_CYCLES,config1=0x7/u"
+      },
+      "stat_s": 3
+    },
+    "cost75_split": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+      },
+      "mongo_binary": "/storage/prefetchit/class_b_mechanism_20260928/split_target_refine/mongod",
+      "controls": [
+        "original",
+        "cost75_nop",
+        "cost75"
+      ],
+      "extra_events": {
+        "decode": "cycles:u,instructions:u,cpu/event=0x79,umask=0x8,name=DSB_UOPS/u,cpu/event=0x79,umask=0x4,name=MITE_UOPS/u,cpu/event=0x75,umask=0x1,name=DECODED/u,cpu/event=0xad,umask=0x40,name=UNKNOWN_BRANCH_CYCLES,config1=0x7/u"
+      },
+      "stat_s": 3
+    },
+    "cost75_it0": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+      },
+      "mongo_binary": "/storage/prefetchit/class_b_mechanism_20260928/balanced_callpath_rejected_startup/builds/cost75_it0/mongod",
+      "controls": [
+        "original",
+        "cost75_nop",
+        "cost75"
+      ],
+      "extra_events": {
+        "decode": "cycles:u,instructions:u,cpu/event=0x79,umask=0x8,name=DSB_UOPS/u,cpu/event=0x79,umask=0x4,name=MITE_UOPS/u,cpu/event=0x75,umask=0x1,name=DECODED/u,cpu/event=0xad,umask=0x40,name=UNKNOWN_BRANCH_CYCLES,config1=0x7/u"
+      },
+      "stat_s": 3
+    },
+    "combined_nop": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect/movie/MovieIdService.nop",
+        "compose": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect_lift/compose/ComposeReviewService.nop",
+        "rating": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_callees/rating/RatingService.nop"
+      },
+      "mongo_binary": "/storage/prefetchit/class_b_mechanism_20260928/callpath_coverage75/builds/cost75/build/mongod.nop",
+      "controls": [
+        "original",
+        "cost75_nop"
+      ],
+      "extra_events": {
+        "decode": "cycles:u,instructions:u,cpu/event=0x79,umask=0x8,name=DSB_UOPS/u,cpu/event=0x79,umask=0x4,name=MITE_UOPS/u,cpu/event=0x75,umask=0x1,name=DECODED/u,cpu/event=0xad,umask=0x40,name=UNKNOWN_BRANCH_CYCLES,config1=0x7/u"
+      },
+      "stat_s": 3
+    },
+    "combined": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_mechanism_20260928/builds/retarget_t1/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_mechanism_20260928/builds/retarget_t1/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_mechanism_20260928/builds/retarget_t1/rating/RatingService"
+      },
+      "mongo_binary": "/storage/prefetchit/class_b_mechanism_20260928/callpath_coverage75/builds/cost75/build/mongod",
+      "controls": [
+        "original",
+        "combined_nop",
+        "cost75"
+      ],
+      "extra_events": {
+        "decode": "cycles:u,instructions:u,cpu/event=0x79,umask=0x8,name=DSB_UOPS/u,cpu/event=0x79,umask=0x4,name=MITE_UOPS/u,cpu/event=0x75,umask=0x1,name=DECODED/u,cpu/event=0xad,umask=0x40,name=UNKNOWN_BRANCH_CYCLES,config1=0x7/u"
+      },
+      "stat_s": 3
+    }
+  },
+  "seedbase": 84001,
+  "hashes": {
+    "/storage/prefetchit/class_b_mechanism_20260928/backend/reference/mongod": "3c6655036faf043c338d698ae1dda5ed4e19f23ea54eb8023ad32cf268e821cf",
+    "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService": "1dbfa7f16b813e7a1a18eb57cf17538bf1d051e27aeccaec8ffadd8fce258b07",
+    "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService": "fb16c1d304d6c0b56c24c422f5dfa7dde6ab3c368cec6a4fd9bcc0602a66c917",
+    "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService": "d2314e24f46b0fa6b2487f55dad565070adb9b6a920cd0a5f64c7e6d767ac3e3",
+    "/storage/prefetchit/class_b_mechanism_20260928/callpath/builds/call256/mongod": "0c9b253c2187df127dee6a81c08588d9732b578e265a5fe321d61cd603845e3f",
+    "/storage/prefetchit/class_b_mechanism_20260928/callpath_coverage75/builds/cost75/build/mongod.nop": "4900be7488a16e0eeda015166f12c277a174e50948d0ea07030ab9a015e873f2",
+    "/storage/prefetchit/class_b_mechanism_20260928/callpath_coverage75/builds/cost75/build/mongod": "125a29f9a80d173fdc654ab3c276638f8d776c458fc98d3e6ae666eab08218db",
+    "/storage/prefetchit/class_b_mechanism_20260928/split_target_refine/mongod": "1fdc4a134b34783e0e5ceca1cec56c21bcd5540f8b6cd701b3b2325d06ab8d1c",
+    "/storage/prefetchit/class_b_mechanism_20260928/balanced_callpath_rejected_startup/builds/cost75_it0/mongod": "5a9fbb2709e9e3f20e7a843e2e0dada4f5b379f32e03cc50ca8de6c8870c7a21",
+    "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect/movie/MovieIdService.nop": "6a34ca8a707ae8014984aa741a324cc7b12ce20562364d871b5167883dd4a525",
+    "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect_lift/compose/ComposeReviewService.nop": "9828c5b1ffbc5f455d9cf2879b350eaf9625cb3449ee23412ed916240260ebaf",
+    "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_callees/rating/RatingService.nop": "e660e17b9fca45738080a2903bf43020942a2a49f5c1657fb8b63bf532c9fba0",
+    "/storage/prefetchit/class_b_mechanism_20260928/builds/retarget_t1/movie/MovieIdService": "9e53a680ef1b095a6020c161a4814aad0224fc6eacdadf7090e0cf2dd47fca71",
+    "/storage/prefetchit/class_b_mechanism_20260928/builds/retarget_t1/compose/ComposeReviewService": "8120d1a055699b59313bd70bcfe89f7969e097b4f2d95e99003b17897bd6fa12",
+    "/storage/prefetchit/class_b_mechanism_20260928/builds/retarget_t1/rating/RatingService": "5f2aba4bcf175da17d39715a734b083b169163edd8496a96c4a2eb69a885bc48"
+  },
+  "source_sha256": "65faf913ed06b55e82e7b6ec53a994c5bbbd8fa793be11efdbeaeaf30fb55983",
+  "client_sha256": "a4c7ef2057e9e346188e73d61661eed40dc9a242f03c3f68fda0e775cf909dd4",
+  "rationale": "A post-clean-ROI snapshot observed 3/1/0/0 persistent connections across four Nginx workers. Control this nuisance factor in a separate campaign, never exclude or pool the existing unbalanced trials.",
+  "policy": "Freeze cost75 for its measured emission reduction with similar miss coverage. Retain call256 as the earlier, smaller deployment reference. Add a same-layout continuation-line retarget (cost75_split), motivated by the completed independent split-fetch probe before this campaign begins. Compare a same-address IT0 opcode, and combine T1 with existing native retarget T1. Cost75, cost75_split and cost75_it0 share an exact NOP twin. Combined has its own NOP control; call256 versus original is a whole-change deployment comparison, not isolation of its hint opcode.",
+  "qualification": "Functional full-stack smoke, four workers with one connection each, warmup-only same-worker repair if needed, no reconnects after warmup, fresh stacks, 50s warmup, 60s clean ROI before PMU. No performance-based retries.",
+  "pmu": "Three-second windows shorten post-ROI diagnostics and keep persistent connections below the unchanged 100,000-request server limit. The existing unbalanced campaign retains its default five-second windows.",
+  "scope": "Full Media compose-review C4 at eight workload CPUs; not a maximum-throughput sweep."
+}

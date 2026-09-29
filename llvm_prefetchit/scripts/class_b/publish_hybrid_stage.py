@@ -14,6 +14,11 @@ def publish(parent,phase):
     root=parent/phase;assert (root/'complete.json').exists();b.space(parent)
     out=b.REPO/'llvm_prefetchit/migration/evidence'/parent.name/NAMES[phase]
     assert not out.exists(), 'Never silently replace a published result bundle'
+    from baseline_variation import report as baseline_variation
+    baseline_variation(root)
+    if phase=='hybrid_switch':
+        from hybrid_report import report as hybrid_report
+        hybrid_report(root)
     pack(parent,out/'artifacts',phases=[phase])
     # Read and verify every compressed record before publishing its manifest.
     archive=json.loads((out/'artifacts/manifest.json').read_text())
@@ -22,7 +27,8 @@ def publish(parent,phase):
         with gzip.open(path,'rt') as stream:json.load(stream)
     names=['complete.json','screen_report.md','report.md','grouped_pmu.json','screen_evaluation.json',
         'workload_age.json','cpu_attribution.json','cpu_attribution.md','protocol.json',
-        'hybrid_diagnostics.json','hybrid_diagnostic_report.md']
+        'hybrid_diagnostics.json','hybrid_diagnostic_report.md',
+        'baseline_variation.json','baseline_variation.md']
     for name in names:
         source=root/name
         if source.exists():(out/name).write_bytes(source.read_bytes())

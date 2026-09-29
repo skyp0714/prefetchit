@@ -1,0 +1,3157 @@
+{
+  "control": "original",
+  "trials": 32,
+  "groups": {
+    "native3": [
+      "movie",
+      "compose",
+      "rating"
+    ],
+    "review_mongo2": [
+      "mongo_user",
+      "mongo_movie"
+    ],
+    "mongo3": [
+      "mongo_user",
+      "mongo_movie",
+      "mongo_storage"
+    ]
+  },
+  "pmu": {
+    "call256": {
+      "original": {
+        "mongo3:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": 33.44352200463495,
+          "ci95_pct": [
+            33.02862878246216,
+            33.85584492874344
+          ]
+        },
+        "mongo3:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": 11.801148445280951,
+          "ci95_pct": [
+            10.89545599774462,
+            12.697635090591275
+          ]
+        },
+        "mongo3:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": -3.145690280584401,
+          "ci95_pct": [
+            -5.418749094209874,
+            -0.9216435868578676
+          ]
+        },
+        "mongo3:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": 5.07619281507532,
+          "ci95_pct": [
+            4.3440049972317425,
+            5.8027761854341
+          ]
+        },
+        "mongo3:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": -291814.3143533887,
+          "ci95_pct": [
+            -298687.1176325684,
+            -285099.60164146154
+          ]
+        },
+        "mongo3:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": -276417.50462554,
+          "ci95_pct": [
+            -321856.329740945,
+            -237391.62013947338
+          ]
+        },
+        "native3:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.36353989825008703,
+          "ci95_pct": [
+            -2.009603611224464,
+            2.6814747811131023
+          ]
+        },
+        "native3:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.14259606943127778,
+          "ci95_pct": [
+            -1.7304964445815418,
+            1.4205189395846918
+          ]
+        },
+        "native3:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": 6.320845447271861,
+          "ci95_pct": [
+            -20.21092034106198,
+            26.996782215664737
+          ]
+        },
+        "native3:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.6006046959031619,
+          "ci95_pct": [
+            -1.9963640435327168,
+            3.131451013262021
+          ]
+        },
+        "native3:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.9849465412238745,
+          "ci95_pct": [
+            -5.784391328166083,
+            7.32110202316878
+          ]
+        },
+        "native3:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": -24.4854916716047,
+          "ci95_pct": [
+            -55.49357984607046,
+            0.33905160546225943
+          ]
+        },
+        "review_mongo2:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": 34.18985165647972,
+          "ci95_pct": [
+            33.6127294202613,
+            34.76195681528812
+          ]
+        },
+        "review_mongo2:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": 11.87691780299317,
+          "ci95_pct": [
+            10.892128060463158,
+            12.85082398590175
+          ]
+        },
+        "review_mongo2:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": -3.0268472790951906,
+          "ci95_pct": [
+            -5.453233836118843,
+            -0.6562897517744748
+          ]
+        },
+        "review_mongo2:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": 5.305421518568664,
+          "ci95_pct": [
+            4.374696070828943,
+            6.227088173044715
+          ]
+        },
+        "review_mongo2:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": -291245.2640015187,
+          "ci95_pct": [
+            -299557.31293764414,
+            -283163.7789613291
+          ]
+        },
+        "review_mongo2:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": -245579.571586257,
+          "ci95_pct": [
+            -288054.71580020606,
+            -209365.4315380238
+          ]
+        }
+      }
+    },
+    "cost75_nop": {
+      "original": {
+        "mongo3:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": -5.449418505279335,
+          "ci95_pct": [
+            -6.1113896419922265,
+            -4.791577045760564
+          ]
+        },
+        "mongo3:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": -5.540543413601906,
+          "ci95_pct": [
+            -6.177897533475574,
+            -4.907015139629856
+          ]
+        },
+        "mongo3:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.4626563150537777,
+          "ci95_pct": [
+            -1.8302066348897528,
+            2.7038919465330213
+          ]
+        },
+        "mongo3:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": -3.128589311567409,
+          "ci95_pct": [
+            -3.8865808244126443,
+            -2.3761283603114247
+          ]
+        },
+        "mongo3:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.188920642336656,
+          "ci95_pct": [
+            -1.527305685509206,
+            5.76912111953547
+          ]
+        },
+        "mongo3:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": -22.184907438348354,
+          "ci95_pct": [
+            -36.04040691393173,
+            -9.740568588294018
+          ]
+        },
+        "native3:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.2757158109115698,
+          "ci95_pct": [
+            -2.728268003437595,
+            2.11828373224181
+          ]
+        },
+        "native3:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.5970866517939211,
+          "ci95_pct": [
+            -3.1693677060543823,
+            1.911060735960446
+          ]
+        },
+        "native3:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": 5.932820305406805,
+          "ci95_pct": [
+            -7.409656388729791,
+            17.617888435742636
+          ]
+        },
+        "native3:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.5844142347722014,
+          "ci95_pct": [
+            -3.5987900122244287,
+            2.3422533626267783
+          ]
+        },
+        "native3:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.7374537110739219,
+          "ci95_pct": [
+            -6.148475335330916,
+            9.037525290110771
+          ]
+        },
+        "native3:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": -26.45280637925196,
+          "ci95_pct": [
+            -59.35102358892126,
+            -0.34646707032699453
+          ]
+        },
+        "review_mongo2:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": -5.319203233831349,
+          "ci95_pct": [
+            -6.087017897146829,
+            -4.556945700585957
+          ]
+        },
+        "review_mongo2:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": -5.482023073823794,
+          "ci95_pct": [
+            -6.420684859073034,
+            -4.551640561990755
+          ]
+        },
+        "review_mongo2:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.503433531861075,
+          "ci95_pct": [
+            -2.011497216355118,
+            2.9563626739748883
+          ]
+        },
+        "review_mongo2:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": -3.0758650675190236,
+          "ci95_pct": [
+            -3.627984017674213,
+            -2.5266877487967854
+          ]
+        },
+        "review_mongo2:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.470298585649977,
+          "ci95_pct": [
+            -1.8254554790885225,
+            6.584825835365704
+          ]
+        },
+        "review_mongo2:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": -21.358644157668728,
+          "ci95_pct": [
+            -33.922975275007474,
+            -9.973068336812595
+          ]
+        }
+      }
+    },
+    "cost75": {
+      "original": {
+        "mongo3:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": 49.13145035518623,
+          "ci95_pct": [
+            48.43721693414942,
+            49.81633672367414
+          ]
+        },
+        "mongo3:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": 16.6685922605891,
+          "ci95_pct": [
+            15.760438269016818,
+            17.566955796757032
+          ]
+        },
+        "mongo3:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": -2.7125713687220943,
+          "ci95_pct": [
+            -6.245748944691387,
+            0.7031112118490057
+          ]
+        },
+        "mongo3:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": 6.9312291936465265,
+          "ci95_pct": [
+            6.239919252930015,
+            7.6174419818187395
+          ]
+        },
+        "mongo3:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": -61582.903062402795,
+          "ci95_pct": [
+            -63802.39857752987,
+            -59440.49636477438
+          ]
+        },
+        "mongo3:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": -466792.416032604,
+          "ci95_pct": [
+            -543621.102425585,
+            -400819.7494382638
+          ]
+        },
+        "native3:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.384348289461057,
+          "ci95_pct": [
+            -0.2135335303532715,
+            2.9567522499469368
+          ]
+        },
+        "native3:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.9410317940541923,
+          "ci95_pct": [
+            -0.7928096524734807,
+            2.645047639211473
+          ]
+        },
+        "native3:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.6770509581623525,
+          "ci95_pct": [
+            -8.123498397656403,
+            12.39872413890163
+          ]
+        },
+        "native3:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.5487165026174967,
+          "ci95_pct": [
+            -3.2951119018784114,
+            2.1246581355424565
+          ]
+        },
+        "native3:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.6021730300213912,
+          "ci95_pct": [
+            -5.556243746854572,
+            6.401292281223158
+          ]
+        },
+        "native3:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": -24.492719802599836,
+          "ci95_pct": [
+            -46.07978637870212,
+            -6.095700630818057
+          ]
+        },
+        "review_mongo2:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": 50.84791747774779,
+          "ci95_pct": [
+            50.14328864856701,
+            51.542587732175974
+          ]
+        },
+        "review_mongo2:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": 17.18532541270983,
+          "ci95_pct": [
+            16.099565327188902,
+            18.257034617947387
+          ]
+        },
+        "review_mongo2:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": -2.558345469221668,
+          "ci95_pct": [
+            -6.418156427620514,
+            1.1614692598240883
+          ]
+        },
+        "review_mongo2:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": 7.27068383871533,
+          "ci95_pct": [
+            6.3788626457252136,
+            8.15400967411054
+          ]
+        },
+        "review_mongo2:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": -62230.1770777519,
+          "ci95_pct": [
+            -64693.29042244726,
+            -59860.69885035433
+          ]
+        },
+        "review_mongo2:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": -427131.53848224465,
+          "ci95_pct": [
+            -502887.3559714125,
+            -362785.4389816505
+          ]
+        }
+      },
+      "cost75_nop": {
+        "mongo3:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": 51.760236930783044,
+          "ci95_pct": [
+            51.34430693435751,
+            52.17261137695277
+          ]
+        },
+        "mongo3:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": 21.043226570433525,
+          "ci95_pct": [
+            20.00895156668744,
+            22.06412851801489
+          ]
+        },
+        "mongo3:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": -3.189986357106389,
+          "ci95_pct": [
+            -6.010726499302987,
+            -0.44430064772562616
+          ]
+        },
+        "mongo3:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": 9.754636005755568,
+          "ci95_pct": [
+            8.920454842155168,
+            10.5811770541962
+          ]
+        },
+        "mongo3:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": -62963.30884750638,
+          "ci95_pct": [
+            -64882.63459856563,
+            -61100.67226212095
+          ]
+        },
+        "mongo3:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": -382019.54800406663,
+          "ci95_pct": [
+            -419275.15203688515,
+            -348073.5821916071
+          ]
+        },
+        "native3:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.6554996261537447,
+          "ci95_pct": [
+            0.7025429557618423,
+            2.5993107812154803
+          ]
+        },
+        "native3:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.5289890562856345,
+          "ci95_pct": [
+            0.5006583257491592,
+            2.546691936691936
+          ]
+        },
+        "native3:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": -3.4611108335712126,
+          "ci95_pct": [
+            -17.16885976807272,
+            8.642949362956177
+          ]
+        },
+        "native3:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.03549032166293431,
+          "ci95_pct": [
+            -1.6628762604981917,
+            1.7054842160396655
+          ]
+        },
+        "native3:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.1553544294633067,
+          "ci95_pct": [
+            -8.140790435638756,
+            5.378852063780004
+          ]
+        },
+        "native3:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.550053836506815,
+          "ci95_pct": [
+            -44.79019747734188,
+            33.05906015418301
+          ]
+        },
+        "review_mongo2:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": 53.33036994865602,
+          "ci95_pct": [
+            52.9346053792854,
+            53.722806603841875
+          ]
+        },
+        "review_mongo2:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": 21.489300096822582,
+          "ci95_pct": [
+            20.34890092270856,
+            22.613371683604033
+          ]
+        },
+        "review_mongo2:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": -3.077271015239691,
+          "ci95_pct": [
+            -5.998549090492911,
+            -0.23650220795454757
+          ]
+        },
+        "review_mongo2:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": 10.037799730768137,
+          "ci95_pct": [
+            9.179870291632797,
+            10.887624767004034
+          ]
+        },
+        "review_mongo2:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": -63808.91817964796,
+          "ci95_pct": [
+            -65407.783349828045,
+            -62249.07691932547
+          ]
+        },
+        "review_mongo2:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": -351940.46769605135,
+          "ci95_pct": [
+            -386895.05689462664,
+            -320143.0849895834
+          ]
+        }
+      }
+    },
+    "cost75_split": {
+      "original": {
+        "mongo3:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": 50.071896262525705,
+          "ci95_pct": [
+            49.21031102702178,
+            50.91886575351439
+          ]
+        },
+        "mongo3:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": 17.53792940499366,
+          "ci95_pct": [
+            16.324388079915874,
+            18.73387082833331
+          ]
+        },
+        "mongo3:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": -3.7037479527851636,
+          "ci95_pct": [
+            -8.583525113765255,
+            0.9567305151761296
+          ]
+        },
+        "mongo3:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": 6.102703695556455,
+          "ci95_pct": [
+            5.552339270451634,
+            6.649861042814331
+          ]
+        },
+        "mongo3:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": -60216.20809264996,
+          "ci95_pct": [
+            -62610.413180705174,
+            -57913.410758314225
+          ]
+        },
+        "mongo3:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": -480724.3357690873,
+          "ci95_pct": [
+            -551870.1929070312,
+            -418748.7799498332
+          ]
+        },
+        "native3:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.5545390186626697,
+          "ci95_pct": [
+            -3.1170459782519533,
+            4.095393579482254
+          ]
+        },
+        "native3:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.10893363449293592,
+          "ci95_pct": [
+            -3.385205312623185,
+            3.484980181977637
+          ]
+        },
+        "native3:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": 10.81575021831177,
+          "ci95_pct": [
+            -13.654627718692236,
+            30.017540255297238
+          ]
+        },
+        "native3:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.0982168630601752,
+          "ci95_pct": [
+            -3.176318751340479,
+            0.9380294181356885
+          ]
+        },
+        "native3:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.5810075993660124,
+          "ci95_pct": [
+            -4.710135539980409,
+            5.604782201973579
+          ]
+        },
+        "native3:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": -14.375045067178306,
+          "ci95_pct": [
+            -36.35084609462642,
+            4.058894324421702
+          ]
+        },
+        "review_mongo2:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": 51.820895716058544,
+          "ci95_pct": [
+            50.719166683702554,
+            52.89799434387277
+          ]
+        },
+        "review_mongo2:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": 17.910078748247283,
+          "ci95_pct": [
+            16.404007824448897,
+            19.389016198675957
+          ]
+        },
+        "review_mongo2:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": -3.4093134563849103,
+          "ci95_pct": [
+            -8.260148390038058,
+            1.224169109813722
+          ]
+        },
+        "review_mongo2:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": 6.364370887039539,
+          "ci95_pct": [
+            5.691669332017257,
+            7.032274060212362
+          ]
+        },
+        "review_mongo2:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": -60893.409620554994,
+          "ci95_pct": [
+            -63553.73572795995,
+            -58344.26842502994
+          ]
+        },
+        "review_mongo2:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": -440997.18156875117,
+          "ci95_pct": [
+            -510676.00452068244,
+            -380823.77454277495
+          ]
+        }
+      },
+      "cost75_nop": {
+        "mongo3:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": 52.652082443702966,
+          "ci95_pct": [
+            52.04770107401618,
+            53.248846309157294
+          ]
+        },
+        "mongo3:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": 21.86692627510316,
+          "ci95_pct": [
+            20.67169709644302,
+            23.044147091839097
+          ]
+        },
+        "mongo3:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": -4.185769997063971,
+          "ci95_pct": [
+            -7.888769569338572,
+            -0.6098661909845315
+          ]
+        },
+        "mongo3:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": 8.95124530331226,
+          "ci95_pct": [
+            8.153773113841478,
+            9.741793290074451
+          ]
+        },
+        "mongo3:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": -61566.02852023867,
+          "ci95_pct": [
+            -62935.86687033138,
+            -60225.95825613492
+          ]
+        },
+        "mongo3:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": -393421.8725861866,
+          "ci95_pct": [
+            -427693.70565135544,
+            -361895.65855685284
+          ]
+        },
+        "native3:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.8279719799156982,
+          "ci95_pct": [
+            -0.8720658878435206,
+            2.499358419488351
+          ]
+        },
+        "native3:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.7018297545043795,
+          "ci95_pct": [
+            -0.9933381973256328,
+            2.3685444000450473
+          ]
+        },
+        "native3:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": 5.190896472880668,
+          "ci95_pct": [
+            -9.961870736091583,
+            18.255609408564332
+          ]
+        },
+        "native3:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.5108173390449222,
+          "ci95_pct": [
+            -2.254071563340032,
+            1.2027174301315835
+          ]
+        },
+        "native3:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.1768941019577817,
+          "ci95_pct": [
+            -5.72122136074813,
+            3.1720995240085648
+          ]
+        },
+        "native3:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": 9.551200687354111,
+          "ci95_pct": [
+            -4.013934357679383,
+            21.347218066313957
+          ]
+        },
+        "review_mongo2:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": 54.25420739561289,
+          "ci95_pct": [
+            53.54553613664367,
+            54.952067746188746
+          ]
+        },
+        "review_mongo2:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": 22.176387160966414,
+          "ci95_pct": [
+            20.768274181689293,
+            23.55947503644917
+          ]
+        },
+        "review_mongo2:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": -3.9325447371080458,
+          "ci95_pct": [
+            -7.4860514705595405,
+            -0.4965175271102851
+          ]
+        },
+        "review_mongo2:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": 9.158531872009812,
+          "ci95_pct": [
+            8.416009921798583,
+            9.895033786993546
+          ]
+        },
+        "review_mongo2:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": -62438.2921674573,
+          "ci95_pct": [
+            -63634.61153777039,
+            -61264.42810049126
+          ]
+        },
+        "review_mongo2:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": -363365.8121226857,
+          "ci95_pct": [
+            -394370.0401832373,
+            -334798.4285869659
+          ]
+        }
+      },
+      "cost75": {
+        "mongo3:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.8487767272825417,
+          "ci95_pct": [
+            0.7943584755067179,
+            2.891987976789201
+          ]
+        },
+        "mongo3:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.043228679303121,
+          "ci95_pct": [
+            0.2591160704387696,
+            1.8211769896455676
+          ]
+        },
+        "mongo3:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.965000263214999,
+          "ci95_pct": [
+            -4.056544985277388,
+            2.0346939292160138
+          ]
+        },
+        "mongo3:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.890229333547321,
+          "ci95_pct": [
+            -1.2143629000345824,
+            -0.5671337874151972
+          ]
+        },
+        "mongo3:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.2156787406231726,
+          "ci95_pct": [
+            1.0401581455390385,
+            3.3772356041211316
+          ]
+        },
+        "mongo3:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": -2.983967881695171,
+          "ci95_pct": [
+            -4.472207743648471,
+            -1.516928470412382
+          ]
+        },
+        "mongo3:T1_T2_EXECUTED": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.27002012768007067,
+          "ci95_pct": [
+            -0.7614049003193957,
+            0.2189683008925858
+          ]
+        },
+        "native3:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.8414579799503663,
+          "ci95_pct": [
+            -3.2635172250237376,
+            1.5237915500920796
+          ]
+        },
+        "native3:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.8400028534835124,
+          "ci95_pct": [
+            -3.2355106928439348,
+            1.499918901496422
+          ]
+        },
+        "native3:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": 8.362569507270813,
+          "ci95_pct": [
+            -7.499665861134441,
+            21.88423470862353
+          ]
+        },
+        "native3:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.5465016158892277,
+          "ci95_pct": [
+            -1.3020271402883532,
+            0.20338908723208649
+          ]
+        },
+        "native3:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.021293655304721604,
+          "ci95_pct": [
+            -3.0007057667619685,
+            2.8719355852312334
+          ]
+        },
+        "native3:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": 8.127121611178945,
+          "ci95_pct": [
+            -23.537828674470475,
+            31.67578000995426
+          ]
+        },
+        "review_mongo2:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.9795259699734058,
+          "ci95_pct": [
+            0.804792390244613,
+            3.140347597536408
+          ]
+        },
+        "review_mongo2:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.8751508584067924,
+          "ci95_pct": [
+            -0.030058528524712358,
+            1.772168667264229
+          ]
+        },
+        "review_mongo2:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.8297403622006039,
+          "ci95_pct": [
+            -3.856898903622197,
+            2.109184379332485
+          ]
+        },
+        "review_mongo2:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.9773747819938894,
+          "ci95_pct": [
+            -1.2576054012992888,
+            -0.6979197014708394
+          ]
+        },
+        "review_mongo2:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.144655317647226,
+          "ci95_pct": [
+            0.9235764085321119,
+            3.3506848976865067
+          ]
+        },
+        "review_mongo2:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": -3.2454633699949387,
+          "ci95_pct": [
+            -5.010397952538415,
+            -1.510192460205717
+          ]
+        },
+        "review_mongo2:T1_T2_EXECUTED": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.3764944834204975,
+          "ci95_pct": [
+            -0.8888492578673413,
+            0.13325834426185512
+          ]
+        }
+      }
+    },
+    "cost75_it0": {
+      "original": {
+        "mongo3:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": 11.44160395728846,
+          "ci95_pct": [
+            10.298815026738017,
+            12.569833809938446
+          ]
+        },
+        "mongo3:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.5585812175719655,
+          "ci95_pct": [
+            2.657741498940114,
+            4.451084246556791
+          ]
+        },
+        "mongo3:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.9019046331490337,
+          "ci95_pct": [
+            2.1350137791540824,
+            5.636895382617468
+          ]
+        },
+        "mongo3:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.30144060637848913,
+          "ci95_pct": [
+            -0.8719105019369566,
+            1.4611431893856164
+          ]
+        },
+        "mongo3:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.38631471989741817,
+          "ci95_pct": [
+            -5.595051425539754,
+            6.028870092644068
+          ]
+        },
+        "mongo3:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": -17.373413185069065,
+          "ci95_pct": [
+            -42.9103083424786,
+            3.6002491178026674
+          ]
+        },
+        "native3:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.2199259585936586,
+          "ci95_pct": [
+            -2.2289412413274423,
+            1.7496079174342594
+          ]
+        },
+        "native3:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.2847068243027495,
+          "ci95_pct": [
+            -2.3819916788027307,
+            1.7696153598214082
+          ]
+        },
+        "native3:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.03727980683270182,
+          "ci95_pct": [
+            -24.31679251370462,
+            19.500357523724542
+          ]
+        },
+        "native3:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.1455807846241672,
+          "ci95_pct": [
+            -4.37598402606052,
+            1.984842512195062
+          ]
+        },
+        "native3:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.6747388683505551,
+          "ci95_pct": [
+            -4.970459508046554,
+            6.016344549638674
+          ]
+        },
+        "native3:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": -16.507383256781893,
+          "ci95_pct": [
+            -41.05115236001606,
+            3.765618882029853
+          ]
+        },
+        "review_mongo2:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": 12.516487347149551,
+          "ci95_pct": [
+            11.077837656544155,
+            13.931861479921736
+          ]
+        },
+        "review_mongo2:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": 4.092055231037572,
+          "ci95_pct": [
+            3.0177901662325812,
+            5.154420737857257
+          ]
+        },
+        "review_mongo2:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.9439350887066293,
+          "ci95_pct": [
+            2.047856457015429,
+            5.80331095874792
+          ]
+        },
+        "review_mongo2:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.39356592533759116,
+          "ci95_pct": [
+            -0.9227089824821899,
+            1.6926734418891032
+          ]
+        },
+        "review_mongo2:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.4317210170341701,
+          "ci95_pct": [
+            -5.232358926515923,
+            5.790934644422618
+          ]
+        },
+        "review_mongo2:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": -17.00218390606516,
+          "ci95_pct": [
+            -44.19923064607523,
+            5.065297661757762
+          ]
+        }
+      },
+      "cost75_nop": {
+        "mongo3:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": 16.01812765019861,
+          "ci95_pct": [
+            15.424643328979293,
+            16.607447358303695
+          ]
+        },
+        "mongo3:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": 8.621449479860456,
+          "ci95_pct": [
+            7.7547166515229415,
+            9.480038522754974
+          ]
+        },
+        "mongo3:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.4552341772160267,
+          "ci95_pct": [
+            2.3636580963445564,
+            4.534606417620946
+          ]
+        },
+        "mongo3:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.3259738554003215,
+          "ci95_pct": [
+            2.600883490623085,
+            4.045666265289105
+          ]
+        },
+        "mongo3:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.8429465601209616,
+          "ci95_pct": [
+            -10.886316176488142,
+            6.46288810298773
+          ]
+        },
+        "mongo3:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.93787936182467,
+          "ci95_pct": [
+            -14.299566766711447,
+            19.265389340120485
+          ]
+        },
+        "native3:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.055636453818097564,
+          "ci95_pct": [
+            -1.9462935863283182,
+            2.0182543841794964
+          ]
+        },
+        "native3:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.31052571986744937,
+          "ci95_pct": [
+            -1.5163670435233811,
+            2.1045416451076493
+          ]
+        },
+        "native3:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": -6.346634534619389,
+          "ci95_pct": [
+            -29.611289502901904,
+            12.74211744813567
+          ]
+        },
+        "native3:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.557906067377556,
+          "ci95_pct": [
+            -1.9824899383069639,
+            0.8467779245967422
+          ]
+        },
+        "native3:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.0815055001715645,
+          "ci95_pct": [
+            -3.5238803431042243,
+            1.3032479045613221
+          ]
+        },
+        "native3:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": 7.864928748708177,
+          "ci95_pct": [
+            -16.133498796723966,
+            26.90419695923184
+          ]
+        },
+        "review_mongo2:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": 16.934889396553654,
+          "ci95_pct": [
+            15.993347035371198,
+            17.86587899808415
+          ]
+        },
+        "review_mongo2:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": 9.076502351647886,
+          "ci95_pct": [
+            7.889357096796912,
+            10.24834737829834
+          ]
+        },
+        "review_mongo2:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.4579098344537096,
+          "ci95_pct": [
+            2.265243510256121,
+            4.6360219405618075
+          ]
+        },
+        "review_mongo2:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.3659004371042522,
+          "ci95_pct": [
+            2.482158188009498,
+            4.241633891620255
+          ]
+        },
+        "review_mongo2:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": -2.090212047256257,
+          "ci95_pct": [
+            -10.976335434017903,
+            6.084379565312847
+          ]
+        },
+        "review_mongo2:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.589740378067896,
+          "ci95_pct": [
+            -14.04826562881627,
+            18.499960441136043
+          ]
+        }
+      },
+      "cost75": {
+        "mongo3:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": -74.09263024219209,
+          "ci95_pct": [
+            -75.84262021696509,
+            -72.36005620962938
+          ]
+        },
+        "mongo3:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": -15.73237678164996,
+          "ci95_pct": [
+            -16.390288676556185,
+            -15.078183822974434
+          ]
+        },
+        "mongo3:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": 6.439792046609549,
+          "ci95_pct": [
+            4.146441207226948,
+            8.678273164526018
+          ]
+        },
+        "mongo3:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": -7.123537283051173,
+          "ci95_pct": [
+            -8.36788805051254,
+            -5.893474962659684
+          ]
+        },
+        "mongo3:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": 99.83850681415024,
+          "ci95_pct": [
+            99.82569264411443,
+            99.85037895306593
+          ]
+        },
+        "mongo3:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": 99.97486071541225,
+          "ci95_pct": [
+            99.97259471158615,
+            99.97693935491426
+          ]
+        },
+        "native3:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.626794753396399,
+          "ci95_pct": [
+            -3.6929344959922616,
+            0.3981759986922073
+          ]
+        },
+        "native3:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.2373827837663498,
+          "ci95_pct": [
+            -2.6496422969426225,
+            0.15544678413270674
+          ]
+        },
+        "native3:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": -2.7889935433709656,
+          "ci95_pct": [
+            -15.951808340321417,
+            8.879582432652288
+          ]
+        },
+        "native3:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.5936070620962575,
+          "ci95_pct": [
+            -1.965670228590688,
+            0.7599934460482793
+          ]
+        },
+        "native3:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.07300545750469345,
+          "ci95_pct": [
+            -4.899428181546117,
+            4.8097362264505
+          ]
+        },
+        "native3:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": 6.414300015679464,
+          "ci95_pct": [
+            -22.492959969894176,
+            28.499701177048642
+          ]
+        },
+        "review_mongo2:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": -77.98536331241874,
+          "ci95_pct": [
+            -78.9475567933207,
+            -77.02834350536448
+          ]
+        },
+        "review_mongo2:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": -15.81032618545326,
+          "ci95_pct": [
+            -16.054888933705346,
+            -15.566278804872336
+          ]
+        },
+        "review_mongo2:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": 6.3400794232582935,
+          "ci95_pct": [
+            4.017394626839199,
+            8.6065575284489
+          ]
+        },
+        "review_mongo2:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": -7.416336276454705,
+          "ci95_pct": [
+            -8.705996082134714,
+            -6.141976660960435
+          ]
+        },
+        "review_mongo2:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": 99.84025670445511,
+          "ci95_pct": [
+            99.82766268685629,
+            99.8519303799853
+          ]
+        },
+        "review_mongo2:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": 99.97261387014599,
+          "ci95_pct": [
+            99.97030864959078,
+            99.97474011461101
+          ]
+        }
+      }
+    },
+    "combined_nop": {
+      "original": {
+        "mongo3:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": -5.490514908849065,
+          "ci95_pct": [
+            -6.336948288678967,
+            -4.650819069244094
+          ]
+        },
+        "mongo3:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": -5.286529079567193,
+          "ci95_pct": [
+            -6.013895510930878,
+            -4.564153144241079
+          ]
+        },
+        "mongo3:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.0467402506015753,
+          "ci95_pct": [
+            0.33207378491936224,
+            3.731907947721169
+          ]
+        },
+        "mongo3:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": -3.247817286046595,
+          "ci95_pct": [
+            -3.8676252746088213,
+            -2.631707869986344
+          ]
+        },
+        "mongo3:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": -2.355503549484528,
+          "ci95_pct": [
+            -8.10217808905509,
+            3.0856797516343515
+          ]
+        },
+        "mongo3:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": -6.335044669660395,
+          "ci95_pct": [
+            -17.119190561444043,
+            3.4561144873467398
+          ]
+        },
+        "native3:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": -3.2557455762600718,
+          "ci95_pct": [
+            -5.2687391884277845,
+            -1.281245284273358
+          ]
+        },
+        "native3:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.4902891162381637,
+          "ci95_pct": [
+            -3.268127295560408,
+            0.2569422468801652
+          ]
+        },
+        "native3:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.0203047898962887,
+          "ci95_pct": [
+            -16.091027292740034,
+            18.98545906284028
+          ]
+        },
+        "native3:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": -2.534339873183966,
+          "ci95_pct": [
+            -4.666451586922782,
+            -0.4456604177374812
+          ]
+        },
+        "native3:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.2573121636878506,
+          "ci95_pct": [
+            -5.762670404882986,
+            4.961470774067356
+          ]
+        },
+        "native3:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": -10.405880802223223,
+          "ci95_pct": [
+            -30.999786788164307,
+            6.950546908706667
+          ]
+        },
+        "review_mongo2:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": -5.3609493539777064,
+          "ci95_pct": [
+            -6.478099899040068,
+            -4.255519766948201
+          ]
+        },
+        "review_mongo2:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": -5.281761568995336,
+          "ci95_pct": [
+            -6.132967880117701,
+            -4.437382092159892
+          ]
+        },
+        "review_mongo2:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.0516898252560534,
+          "ci95_pct": [
+            -0.012179205179774222,
+            4.072968489112094
+          ]
+        },
+        "review_mongo2:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": -3.2422419481416886,
+          "ci95_pct": [
+            -3.9506425059058436,
+            -2.5386689829555165
+          ]
+        },
+        "review_mongo2:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": -2.6346285427245375,
+          "ci95_pct": [
+            -9.753947596441058,
+            4.022887497081518
+          ]
+        },
+        "review_mongo2:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": -5.783392703152623,
+          "ci95_pct": [
+            -16.72681559246032,
+            4.13405767138737
+          ]
+        }
+      },
+      "cost75_nop": {
+        "mongo3:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.03897262227925413,
+          "ci95_pct": [
+            -0.3344954658686783,
+            0.25567979533476226
+          ]
+        },
+        "mongo3:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.24067938805210076,
+          "ci95_pct": [
+            -0.40538843259338986,
+            0.8825900251500873
+          ]
+        },
+        "mongo3:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.5914468649693037,
+          "ci95_pct": [
+            0.48074169840799374,
+            2.6897557779001158
+          ]
+        },
+        "mongo3:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.11561098166383843,
+          "ci95_pct": [
+            -0.4868459301352157,
+            0.2542524899172838
+          ]
+        },
+        "mongo3:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": -4.6461241626868155,
+          "ci95_pct": [
+            -7.990470065956701,
+            -1.405348968146014
+          ]
+        },
+        "mongo3:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": 12.97202993478177,
+          "ci95_pct": [
+            8.954317342856877,
+            16.812446756053834
+          ]
+        },
+        "native3:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": -2.9718359437771458,
+          "ci95_pct": [
+            -4.618509366510826,
+            -1.3510808157845888
+          ]
+        },
+        "native3:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.8879009265307936,
+          "ci95_pct": [
+            -2.762157792444375,
+            0.952171772030852
+          ]
+        },
+        "native3:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": -3.096207970693454,
+          "ci95_pct": [
+            -22.271196645722302,
+            13.071693174532061
+          ]
+        },
+        "native3:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.9385962062278272,
+          "ci95_pct": [
+            -3.9008394824530113,
+            -0.013411328127910238
+          ]
+        },
+        "native3:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": -2.0300368249123846,
+          "ci95_pct": [
+            -4.527254264775271,
+            0.40752062497163566
+          ]
+        },
+        "native3:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": 12.690050965655498,
+          "ci95_pct": [
+            -15.173976328056193,
+            33.812937232741206
+          ]
+        },
+        "review_mongo2:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.039637709804640764,
+          "ci95_pct": [
+            -0.3879448556308729,
+            0.3074609456196198
+          ]
+        },
+        "review_mongo2:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.18985368216563048,
+          "ci95_pct": [
+            -0.5937284849262037,
+            0.9673320789545636
+          ]
+        },
+        "review_mongo2:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.5560901731124233,
+          "ci95_pct": [
+            0.4737951747035507,
+            2.626615784095765
+          ]
+        },
+        "review_mongo2:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.1614120633512739,
+          "ci95_pct": [
+            -0.5268397970850769,
+            0.20268729450947376
+          ]
+        },
+        "review_mongo2:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": -5.234228193405888,
+          "ci95_pct": [
+            -9.129251193761023,
+            -1.4782257032012414
+          ]
+        },
+        "review_mongo2:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": 12.834068444503055,
+          "ci95_pct": [
+            8.855135012870253,
+            16.63930134725141
+          ]
+        }
+      }
+    },
+    "combined": {
+      "original": {
+        "mongo3:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": 48.73880128235799,
+          "ci95_pct": [
+            47.72543905657819,
+            49.73251909636074
+          ]
+        },
+        "mongo3:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": 16.248020246822538,
+          "ci95_pct": [
+            14.982979990031819,
+            17.49423689804447
+          ]
+        },
+        "mongo3:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": -3.5621909418348974,
+          "ci95_pct": [
+            -7.477552795031772,
+            0.21053593277529092
+          ]
+        },
+        "mongo3:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": 6.962888582009741,
+          "ci95_pct": [
+            6.119046594773381,
+            7.79914575812527
+          ]
+        },
+        "mongo3:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": -61170.6812155409,
+          "ci95_pct": [
+            -63058.96142636783,
+            -59338.85541868905
+          ]
+        },
+        "mongo3:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": -472957.85944316525,
+          "ci95_pct": [
+            -551205.2925723533,
+            -405816.1800112414
+          ]
+        },
+        "native3:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": 30.269352045177953,
+          "ci95_pct": [
+            29.05120086172782,
+            31.466588254396466
+          ]
+        },
+        "native3:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": 12.870416712405497,
+          "ci95_pct": [
+            11.116854269001786,
+            14.589383381575228
+          ]
+        },
+        "native3:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": -39.10074442877769,
+          "ci95_pct": [
+            -77.05675200335413,
+            -9.281441581361328
+          ]
+        },
+        "native3:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.5688846228677407,
+          "ci95_pct": [
+            1.9187960089198097,
+            5.1912126433167565
+          ]
+        },
+        "native3:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": -168272.55187171733,
+          "ci95_pct": [
+            -176828.26811390946,
+            -160130.5642055026
+          ]
+        },
+        "native3:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": -457393.2232526907,
+          "ci95_pct": [
+            -482034.40793815354,
+            -434011.41348987597
+          ]
+        },
+        "review_mongo2:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": 50.317281367032884,
+          "ci95_pct": [
+            49.125094442471436,
+            51.48153094905737
+          ]
+        },
+        "review_mongo2:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": 16.59096973298604,
+          "ci95_pct": [
+            15.063889965375433,
+            18.09059389171962
+          ]
+        },
+        "review_mongo2:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": -3.4450065998633095,
+          "ci95_pct": [
+            -7.349715758301234,
+            0.3176737371260563
+          ]
+        },
+        "review_mongo2:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": 7.215506160768859,
+          "ci95_pct": [
+            6.045332433394657,
+            8.371105768647968
+          ]
+        },
+        "review_mongo2:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": -61865.85689863902,
+          "ci95_pct": [
+            -63900.14537154768,
+            -59896.229678716336
+          ]
+        },
+        "review_mongo2:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": -433386.71788845275,
+          "ci95_pct": [
+            -509296.80996972765,
+            -368788.7148642924
+          ]
+        }
+      },
+      "combined_nop": {
+        "mongo3:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": 51.406817227183744,
+          "ci95_pct": [
+            50.75298049102277,
+            52.05197318465362
+          ]
+        },
+        "mongo3:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": 20.453280694736954,
+          "ci95_pct": [
+            19.799777168188427,
+            21.101459212898565
+          ]
+        },
+        "mongo3:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": -5.726130204126179,
+          "ci95_pct": [
+            -8.577176927260766,
+            -2.9499469803708545
+          ]
+        },
+        "mongo3:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": 9.889512569324088,
+          "ci95_pct": [
+            9.03955604220844,
+            10.731526895780263
+          ]
+        },
+        "mongo3:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": -59760.6612158565,
+          "ci95_pct": [
+            -62147.09647424805,
+            -57465.71734525763
+          ]
+        },
+        "mongo3:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": -444774.83962861326,
+          "ci95_pct": [
+            -501550.59860060667,
+            -394424.8415663807
+          ]
+        },
+        "native3:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": 32.46802144940002,
+          "ci95_pct": [
+            31.776981053330957,
+            33.152062201707025
+          ]
+        },
+        "native3:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": 14.14983241617941,
+          "ci95_pct": [
+            13.523690652155473,
+            14.771440528020307
+          ]
+        },
+        "native3:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": -43.43285378183541,
+          "ci95_pct": [
+            -65.6976195823243,
+            -24.15980142539107
+          ]
+        },
+        "native3:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": 5.952371179841087,
+          "ci95_pct": [
+            4.653086312387655,
+            7.2339507949533255
+          ]
+        },
+        "native3:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": -167840.42074140126,
+          "ci95_pct": [
+            -171312.33143347685,
+            -164438.83266703316
+          ]
+        },
+        "native3:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": -414273.96262634336,
+          "ci95_pct": [
+            -485682.27731419867,
+            -353362.4232320456
+          ]
+        },
+        "review_mongo2:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": 52.84522497415078,
+          "ci95_pct": [
+            52.070471286985494,
+            53.60745520673822
+          ]
+        },
+        "review_mongo2:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": 20.77542299446359,
+          "ci95_pct": [
+            19.968606092610518,
+            21.574106169271122
+          ]
+        },
+        "review_mongo2:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": -5.611833849213954,
+          "ci95_pct": [
+            -8.426625216821183,
+            -2.8701154046762767
+          ]
+        },
+        "review_mongo2:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": 10.129330699892625,
+          "ci95_pct": [
+            9.268109708507266,
+            10.982377039635427
+          ]
+        },
+        "review_mongo2:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": -60275.19478413075,
+          "ci95_pct": [
+            -63193.31903091493,
+            -57491.60999980562
+          ]
+        },
+        "review_mongo2:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": -409687.119519692,
+          "ci95_pct": [
+            -465835.74149447505,
+            -360304.8120147003
+          ]
+        }
+      },
+      "cost75": {
+        "mongo3:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.7718896559266719,
+          "ci95_pct": [
+            -2.835903063253653,
+            1.2506970587888189
+          ]
+        },
+        "mongo3:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.5046980786425292,
+          "ci95_pct": [
+            -1.4858492127049372,
+            0.46696742214845655
+          ]
+        },
+        "mongo3:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.8271816797018827,
+          "ci95_pct": [
+            -5.927761328870473,
+            4.027797454255754
+          ]
+        },
+        "mongo3:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.03401719834581485,
+          "ci95_pct": [
+            -0.3866446614290364,
+            0.4529163096906652
+          ]
+        },
+        "mongo3:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.6682919032602541,
+          "ci95_pct": [
+            -1.564204090535548,
+            2.8517151119449524
+          ]
+        },
+        "mongo3:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.3205276416679235,
+          "ci95_pct": [
+            -2.306173937228584,
+            -0.3443773382117987
+          ]
+        },
+        "mongo3:T1_T2_EXECUTED": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.25183449937153934,
+          "ci95_pct": [
+            -1.14837513545063,
+            0.6367595423004135
+          ]
+        },
+        "native3:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": 29.290486099003278,
+          "ci95_pct": [
+            28.804467672157685,
+            29.773186706548838
+          ]
+        },
+        "native3:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": 12.042710654475874,
+          "ci95_pct": [
+            11.024026104967977,
+            13.049732300325868
+          ]
+        },
+        "native3:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": -42.926972310488054,
+          "ci95_pct": [
+            -70.71380551434049,
+            -19.662960779859073
+          ]
+        },
+        "native3:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": 4.0951304687992245,
+          "ci95_pct": [
+            1.6841843360600905,
+            6.446954259769488
+          ]
+        },
+        "native3:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": -169292.58835363813,
+          "ci95_pct": [
+            -176296.57562262364,
+            -162566.7008011066
+          ]
+        },
+        "native3:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": -367385.9252638291,
+          "ci95_pct": [
+            -450817.2251895334,
+            -299391.56457762053
+          ]
+        },
+        "review_mongo2:FE_L2": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.079580118451129,
+          "ci95_pct": [
+            -3.1717122119324648,
+            0.9701273936916444
+          ]
+        },
+        "review_mongo2:ICACHE_DATA_STALL": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.7176936728735539,
+          "ci95_pct": [
+            -1.6538253494046584,
+            0.20981715232419873
+          ]
+        },
+        "review_mongo2:L1D_FB_FULL": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.8645431306297358,
+          "ci95_pct": [
+            -6.070662114165781,
+            4.0860511457864295
+          ]
+        },
+        "review_mongo2:L2I": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.059504027669632364,
+          "ci95_pct": [
+            -0.39689343086430906,
+            0.2767515594725878
+          ]
+        },
+        "review_mongo2:SWPF_HIT": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.584500471831606,
+          "ci95_pct": [
+            -1.3553880614524338,
+            2.487260564353466
+          ]
+        },
+        "review_mongo2:SWPF_MISS": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.4641192989708784,
+          "ci95_pct": [
+            -2.2656552588556256,
+            -0.6688656035801488
+          ]
+        },
+        "review_mongo2:T1_T2_EXECUTED": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.34589588755258305,
+          "ci95_pct": [
+            -1.1762535244932204,
+            0.477646970413681
+          ]
+        }
+      }
+    }
+  },
+  "rows": [
+    {
+      "block": 0,
+      "arm": "original",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1966.9477962996389,
+        "native3:L2I": 21868.338509128487,
+        "native3:ICACHE_DATA_STALL": 249851.77645360696,
+        "native3:T1_T2_EXECUTED": 0.0,
+        "native3:SWPF_MISS": 0.1840672870328369,
+        "native3:SWPF_HIT": 3.3627699411045064,
+        "native3:L1D_FB_FULL": 150.8042847439113,
+        "review_mongo2:FE_L2": 4660.733042307804,
+        "review_mongo2:L2I": 51460.76556068072,
+        "review_mongo2:ICACHE_DATA_STALL": 523873.7672290288,
+        "review_mongo2:T1_T2_EXECUTED": 0.0,
+        "review_mongo2:SWPF_MISS": 0.6489151792316301,
+        "review_mongo2:SWPF_HIT": 5.247530248274037,
+        "review_mongo2:L1D_FB_FULL": 15896.1912977473,
+        "mongo3:FE_L2": 5465.417674701392,
+        "mongo3:L2I": 60672.822774611064,
+        "mongo3:ICACHE_DATA_STALL": 612772.670766895,
+        "mongo3:T1_T2_EXECUTED": 0.0,
+        "mongo3:SWPF_MISS": 0.6780060883225392,
+        "mongo3:SWPF_HIT": 5.889208569952359,
+        "mongo3:L1D_FB_FULL": 16043.995493551494
+      }
+    },
+    {
+      "block": 0,
+      "arm": "call256",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1999.4765439609087,
+        "native3:L2I": 22228.35158646792,
+        "native3:ICACHE_DATA_STALL": 253654.68339137812,
+        "native3:T1_T2_EXECUTED": 0.0,
+        "native3:SWPF_MISS": 0.2252309922849322,
+        "native3:SWPF_HIT": 3.1669142871876845,
+        "native3:L1D_FB_FULL": 168.9244449683961,
+        "review_mongo2:FE_L2": 3051.2015701525097,
+        "review_mongo2:L2I": 48884.910817789154,
+        "review_mongo2:ICACHE_DATA_STALL": 457619.61507627787,
+        "review_mongo2:T1_T2_EXECUTED": 16727.007375841116,
+        "review_mongo2:SWPF_MISS": 1439.2865160921037,
+        "review_mongo2:SWPF_HIT": 14923.224123760412,
+        "review_mongo2:L1D_FB_FULL": 16532.734612211014,
+        "mongo3:FE_L2": 3625.4331846918167,
+        "mongo3:L2I": 57705.200195078534,
+        "mongo3:ICACHE_DATA_STALL": 536576.5313907326,
+        "mongo3:T1_T2_EXECUTED": 18951.049162584633,
+        "mongo3:SWPF_MISS": 1708.8790232967146,
+        "mongo3:SWPF_HIT": 16854.62729378923,
+        "mongo3:L1D_FB_FULL": 16711.15103872398
+      }
+    },
+    {
+      "block": 0,
+      "arm": "cost75_nop",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1946.4828384280472,
+        "native3:L2I": 22570.251464393044,
+        "native3:ICACHE_DATA_STALL": 247055.76963675072,
+        "native3:T1_T2_EXECUTED": 0.0,
+        "native3:SWPF_MISS": 0.19156005156790504,
+        "native3:SWPF_HIT": 3.2161614164846117,
+        "native3:L1D_FB_FULL": 159.24486147978007,
+        "review_mongo2:FE_L2": 4886.954361117303,
+        "review_mongo2:L2I": 53197.79144745919,
+        "review_mongo2:ICACHE_DATA_STALL": 548301.825654047,
+        "review_mongo2:T1_T2_EXECUTED": 0.0,
+        "review_mongo2:SWPF_MISS": 0.7235787913802999,
+        "review_mongo2:SWPF_HIT": 4.964315852208037,
+        "review_mongo2:L1D_FB_FULL": 15869.071534117738,
+        "mongo3:FE_L2": 5757.400088599981,
+        "mongo3:L2I": 62769.97793706658,
+        "mongo3:ICACHE_DATA_STALL": 643622.8761736774,
+        "mongo3:T1_T2_EXECUTED": 0.0,
+        "mongo3:SWPF_MISS": 0.7610243646749298,
+        "mongo3:SWPF_HIT": 5.642109756417035,
+        "mongo3:L1D_FB_FULL": 16033.142651679424
+      }
+    },
+    {
+      "block": 0,
+      "arm": "cost75",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1918.5298219131703,
+        "native3:L2I": 22523.745728294158,
+        "native3:ICACHE_DATA_STALL": 244153.03520172386,
+        "native3:T1_T2_EXECUTED": 0.0,
+        "native3:SWPF_MISS": 0.26578133602676934,
+        "native3:SWPF_HIT": 3.191529245607252,
+        "native3:L1D_FB_FULL": 150.45762769546747,
+        "review_mongo2:FE_L2": 2283.8456229792664,
+        "review_mongo2:L2I": 47975.328924679416,
+        "review_mongo2:ICACHE_DATA_STALL": 431192.5367758235,
+        "review_mongo2:T1_T2_EXECUTED": 5783.807445115769,
+        "review_mongo2:SWPF_MISS": 2478.57496423295,
+        "review_mongo2:SWPF_HIT": 3157.797316108856,
+        "review_mongo2:L1D_FB_FULL": 16282.283524310515,
+        "mongo3:FE_L2": 2777.764626094531,
+        "mongo3:L2I": 56731.12501643812,
+        "mongo3:ICACHE_DATA_STALL": 508705.0946914281,
+        "mongo3:T1_T2_EXECUTED": 6533.005016859698,
+        "mongo3:SWPF_MISS": 2863.283021628094,
+        "mongo3:SWPF_HIT": 3517.4256273671344,
+        "mongo3:L1D_FB_FULL": 16463.977784796167
+      }
+    },
+    {
+      "block": 0,
+      "arm": "cost75_split",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1937.1617087083887,
+        "native3:L2I": 22497.959503795286,
+        "native3:ICACHE_DATA_STALL": 246895.35105983936,
+        "native3:T1_T2_EXECUTED": 0.0,
+        "native3:SWPF_MISS": 0.1944501316253313,
+        "native3:SWPF_HIT": 3.2142927607858507,
+        "native3:L1D_FB_FULL": 156.94205043408158,
+        "review_mongo2:FE_L2": 2214.875782574509,
+        "review_mongo2:L2I": 48334.58971653399,
+        "review_mongo2:ICACHE_DATA_STALL": 425700.45596219215,
+        "review_mongo2:T1_T2_EXECUTED": 5831.824781476767,
+        "review_mongo2:SWPF_MISS": 2586.326527996226,
+        "review_mongo2:SWPF_HIT": 3092.524274537477,
+        "review_mongo2:L1D_FB_FULL": 16872.714218783447,
+        "mongo3:FE_L2": 2699.4749327161517,
+        "mongo3:L2I": 57067.57016979178,
+        "mongo3:ICACHE_DATA_STALL": 501004.2072369797,
+        "mongo3:T1_T2_EXECUTED": 6577.593419008901,
+        "mongo3:SWPF_MISS": 2977.1879961481827,
+        "mongo3:SWPF_HIT": 3440.390598444932,
+        "mongo3:L1D_FB_FULL": 17094.324044547517
+      }
+    },
+    {
+      "block": 0,
+      "arm": "cost75_it0",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1971.3930588674114,
+        "native3:L2I": 22687.92258850743,
+        "native3:ICACHE_DATA_STALL": 249168.36236772308,
+        "native3:T1_T2_EXECUTED": 0.0,
+        "native3:SWPF_MISS": 0.21460717099272422,
+        "native3:SWPF_HIT": 3.2540047621531705,
+        "native3:L1D_FB_FULL": 155.2750163429408,
+        "review_mongo2:FE_L2": 4068.345340725913,
+        "review_mongo2:L2I": 51426.255678520385,
+        "review_mongo2:ICACHE_DATA_STALL": 499861.3131318671,
+        "review_mongo2:T1_T2_EXECUTED": 0.0,
+        "review_mongo2:SWPF_MISS": 0.6885505824696443,
+        "review_mongo2:SWPF_HIT": 5.227174793689493,
+        "review_mongo2:L1D_FB_FULL": 15184.906686731309,
+        "mongo3:FE_L2": 4831.565835832418,
+        "mongo3:L2I": 60529.983369942376,
+        "mongo3:ICACHE_DATA_STALL": 587869.9017904738,
+        "mongo3:T1_T2_EXECUTED": 0.0,
+        "mongo3:SWPF_MISS": 0.7368881069178143,
+        "mongo3:SWPF_HIT": 5.88042989287921,
+        "mongo3:L1D_FB_FULL": 15340.809732274756
+      }
+    },
+    {
+      "block": 0,
+      "arm": "combined_nop",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 2034.2737694712587,
+        "native3:L2I": 22764.695385569878,
+        "native3:ICACHE_DATA_STALL": 253410.7245737447,
+        "native3:T1_T2_EXECUTED": 0.0,
+        "native3:SWPF_MISS": 0.2155295805992742,
+        "native3:SWPF_HIT": 3.3196617045415477,
+        "native3:L1D_FB_FULL": 148.70016988978438,
+        "review_mongo2:FE_L2": 4878.790726158218,
+        "review_mongo2:L2I": 53337.14779478747,
+        "review_mongo2:ICACHE_DATA_STALL": 548268.7214824628,
+        "review_mongo2:T1_T2_EXECUTED": 0.0,
+        "review_mongo2:SWPF_MISS": 0.6269761075307982,
+        "review_mongo2:SWPF_HIT": 5.136541613549444,
+        "review_mongo2:L1D_FB_FULL": 15480.17967426659,
+        "mongo3:FE_L2": 5745.488043095054,
+        "mongo3:L2I": 62897.9116293319,
+        "mongo3:ICACHE_DATA_STALL": 642181.706949204,
+        "mongo3:T1_T2_EXECUTED": 0.0,
+        "mongo3:SWPF_MISS": 0.6604877943795732,
+        "mongo3:SWPF_HIT": 5.785936150299656,
+        "mongo3:L1D_FB_FULL": 15636.716987699427
+      }
+    },
+    {
+      "block": 0,
+      "arm": "combined",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1361.760391682908,
+        "native3:L2I": 21146.43111976135,
+        "native3:ICACHE_DATA_STALL": 216216.50210397964,
+        "native3:T1_T2_EXECUTED": 6689.085395803843,
+        "native3:SWPF_MISS": 812.8551862623767,
+        "native3:SWPF_HIT": 5493.685087596957,
+        "native3:L1D_FB_FULL": 243.00004874706832,
+        "review_mongo2:FE_L2": 2278.3210736005494,
+        "review_mongo2:L2I": 48113.595370047886,
+        "review_mongo2:ICACHE_DATA_STALL": 431415.54018974025,
+        "review_mongo2:T1_T2_EXECUTED": 5837.425030719471,
+        "review_mongo2:SWPF_MISS": 2521.6600072080428,
+        "review_mongo2:SWPF_HIT": 3165.6365375635123,
+        "review_mongo2:L1D_FB_FULL": 16419.02873898058,
+        "mongo3:FE_L2": 2767.404127291825,
+        "mongo3:L2I": 56682.0117570725,
+        "mongo3:ICACHE_DATA_STALL": 507793.3936573018,
+        "mongo3:T1_T2_EXECUTED": 6586.113875566583,
+        "mongo3:SWPF_MISS": 2907.6803922590057,
+        "mongo3:SWPF_HIT": 3522.6107731241013,
+        "mongo3:L1D_FB_FULL": 16594.0873460021
+      }
+    },
+    {
+      "block": 1,
+      "arm": "combined",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1367.5310483661028,
+        "native3:L2I": 21643.591297791216,
+        "native3:ICACHE_DATA_STALL": 216708.72713289736,
+        "native3:T1_T2_EXECUTED": 6653.307927264415,
+        "native3:SWPF_MISS": 818.6116999284684,
+        "native3:SWPF_HIT": 5463.606102320172,
+        "native3:L1D_FB_FULL": 242.89727411917272,
+        "review_mongo2:FE_L2": 2339.0127881264307,
+        "review_mongo2:L2I": 47558.07174654915,
+        "review_mongo2:ICACHE_DATA_STALL": 437877.2457813631,
+        "review_mongo2:T1_T2_EXECUTED": 5820.598829147071,
+        "review_mongo2:SWPF_MISS": 2546.267437220561,
+        "review_mongo2:SWPF_HIT": 3125.9481560769946,
+        "review_mongo2:L1D_FB_FULL": 17359.15542311059,
+        "mongo3:FE_L2": 2826.978257355058,
+        "mongo3:L2I": 56120.1728325976,
+        "mongo3:ICACHE_DATA_STALL": 513932.64678386936,
+        "mongo3:T1_T2_EXECUTED": 6570.370654543896,
+        "mongo3:SWPF_MISS": 2932.578945157069,
+        "mongo3:SWPF_HIT": 3484.2437909976293,
+        "mongo3:L1D_FB_FULL": 17550.27305349608
+      }
+    },
+    {
+      "block": 1,
+      "arm": "combined_nop",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 2016.7869635700963,
+        "native3:L2I": 22915.99207145169,
+        "native3:ICACHE_DATA_STALL": 251592.2820027289,
+        "native3:T1_T2_EXECUTED": 0.0,
+        "native3:SWPF_MISS": 0.20772173241503827,
+        "native3:SWPF_HIT": 3.224587059427081,
+        "native3:L1D_FB_FULL": 171.48504936446713,
+        "review_mongo2:FE_L2": 4889.844728589684,
+        "review_mongo2:L2I": 53367.380290643094,
+        "review_mongo2:ICACHE_DATA_STALL": 548354.722062275,
+        "review_mongo2:T1_T2_EXECUTED": 0.0,
+        "review_mongo2:SWPF_MISS": 0.6256181092508925,
+        "review_mongo2:SWPF_HIT": 5.343063806525548,
+        "review_mongo2:L1D_FB_FULL": 16085.804652778692,
+        "mongo3:FE_L2": 5751.573448913945,
+        "mongo3:L2I": 62780.00738965873,
+        "mongo3:ICACHE_DATA_STALL": 642406.8511879265,
+        "mongo3:T1_T2_EXECUTED": 0.0,
+        "mongo3:SWPF_MISS": 0.6633114988430162,
+        "mongo3:SWPF_HIT": 5.990883778396152,
+        "mongo3:L1D_FB_FULL": 16241.784962202039
+      }
+    },
+    {
+      "block": 1,
+      "arm": "cost75_it0",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1977.1739096451545,
+        "native3:L2I": 22652.418577817298,
+        "native3:ICACHE_DATA_STALL": 250075.85334343958,
+        "native3:T1_T2_EXECUTED": 0.0,
+        "native3:SWPF_MISS": 0.23082620954365743,
+        "native3:SWPF_HIT": 3.213208451291159,
+        "native3:L1D_FB_FULL": 174.351550408777,
+        "review_mongo2:FE_L2": 4073.153654062786,
+        "review_mongo2:L2I": 51748.963277798655,
+        "review_mongo2:ICACHE_DATA_STALL": 500074.87446326145,
+        "review_mongo2:T1_T2_EXECUTED": 0.0,
+        "review_mongo2:SWPF_MISS": 0.6497214289058477,
+        "review_mongo2:SWPF_HIT": 4.920254342431761,
+        "review_mongo2:L1D_FB_FULL": 15728.704608294931,
+        "mongo3:FE_L2": 4844.654083001877,
+        "mongo3:L2I": 60996.990729900455,
+        "mongo3:ICACHE_DATA_STALL": 589405.5704884259,
+        "mongo3:T1_T2_EXECUTED": 0.0,
+        "mongo3:SWPF_MISS": 0.6842141825290361,
+        "mongo3:SWPF_HIT": 5.556196371417268,
+        "mongo3:L1D_FB_FULL": 15906.394753222467
+      }
+    },
+    {
+      "block": 1,
+      "arm": "cost75_split",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1918.5839110847232,
+        "native3:L2I": 22495.795093621633,
+        "native3:ICACHE_DATA_STALL": 245432.13866658686,
+        "native3:T1_T2_EXECUTED": 0.0,
+        "native3:SWPF_MISS": 0.208042827636209,
+        "native3:SWPF_HIT": 3.2537003715223376,
+        "native3:L1D_FB_FULL": 145.3969359384039,
+        "review_mongo2:FE_L2": 2239.516756002977,
+        "review_mongo2:L2I": 48172.80601697802,
+        "review_mongo2:ICACHE_DATA_STALL": 426357.7657940986,
+        "review_mongo2:T1_T2_EXECUTED": 5846.660856998471,
+        "review_mongo2:SWPF_MISS": 2561.7107995210163,
+        "review_mongo2:SWPF_HIT": 3134.1261626329706,
+        "review_mongo2:L1D_FB_FULL": 16542.063431796218,
+        "mongo3:FE_L2": 2721.2838122682665,
+        "mongo3:L2I": 56928.83428552926,
+        "mongo3:ICACHE_DATA_STALL": 501022.7978680318,
+        "mongo3:T1_T2_EXECUTED": 6604.7805577466015,
+        "mongo3:SWPF_MISS": 2948.225900657065,
+        "mongo3:SWPF_HIT": 3497.9643449549435,
+        "mongo3:L1D_FB_FULL": 16725.85284714673
+      }
+    },
+    {
+      "block": 1,
+      "arm": "cost75",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1939.397924062322,
+        "native3:L2I": 22271.6402683176,
+        "native3:ICACHE_DATA_STALL": 248039.3152962105,
+        "native3:T1_T2_EXECUTED": 0.0,
+        "native3:SWPF_MISS": 0.2012720594289718,
+        "native3:SWPF_HIT": 3.3387254305944944,
+        "native3:L1D_FB_FULL": 159.37440526274293,
+        "review_mongo2:FE_L2": 2278.3550590441446,
+        "review_mongo2:L2I": 47657.53049627523,
+        "review_mongo2:ICACHE_DATA_STALL": 431975.6450379788,
+        "review_mongo2:T1_T2_EXECUTED": 5840.209450212671,
+        "review_mongo2:SWPF_MISS": 2495.502993772713,
+        "review_mongo2:SWPF_HIT": 3201.5057677823306,
+        "review_mongo2:L1D_FB_FULL": 16477.586949268687,
+        "mongo3:FE_L2": 2759.4278212627055,
+        "mongo3:L2I": 56337.35696524832,
+        "mongo3:ICACHE_DATA_STALL": 508065.71258328354,
+        "mongo3:T1_T2_EXECUTED": 6604.271726321792,
+        "mongo3:SWPF_MISS": 2873.38670829462,
+        "mongo3:SWPF_HIT": 3581.663386961168,
+        "mongo3:L1D_FB_FULL": 16669.287968833305
+      }
+    },
+    {
+      "block": 1,
+      "arm": "cost75_nop",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1965.2274984707,
+        "native3:L2I": 22530.76423381103,
+        "native3:ICACHE_DATA_STALL": 250035.31278162234,
+        "native3:T1_T2_EXECUTED": 0.0,
+        "native3:SWPF_MISS": 0.24505889970805728,
+        "native3:SWPF_HIT": 3.1659326070419973,
+        "native3:L1D_FB_FULL": 153.39604785933312,
+        "review_mongo2:FE_L2": 4876.666655647206,
+        "review_mongo2:L2I": 53366.90515864469,
+        "review_mongo2:ICACHE_DATA_STALL": 547443.40702041,
+        "review_mongo2:T1_T2_EXECUTED": 0.0,
+        "review_mongo2:SWPF_MISS": 0.7243544746268381,
+        "review_mongo2:SWPF_HIT": 4.9261808923314305,
+        "review_mongo2:L1D_FB_FULL": 16334.491284284682,
+        "mongo3:FE_L2": 5737.801061161279,
+        "mongo3:L2I": 62904.99907018978,
+        "mongo3:ICACHE_DATA_STALL": 641599.9443552751,
+        "mongo3:T1_T2_EXECUTED": 0.0,
+        "mongo3:SWPF_MISS": 0.7789530147728235,
+        "mongo3:SWPF_HIT": 5.572312279192744,
+        "mongo3:L1D_FB_FULL": 16493.258291583952
+      }
+    },
+    {
+      "block": 1,
+      "arm": "call256",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1955.0836919860405,
+        "native3:L2I": 22036.74637443167,
+        "native3:ICACHE_DATA_STALL": 249644.43044544142,
+        "native3:T1_T2_EXECUTED": 0.0,
+        "native3:SWPF_MISS": 0.24584799709078645,
+        "native3:SWPF_HIT": 3.1393833476849364,
+        "native3:L1D_FB_FULL": 158.20064896192272,
+        "review_mongo2:FE_L2": 3053.03482215321,
+        "review_mongo2:L2I": 48923.791323869664,
+        "review_mongo2:ICACHE_DATA_STALL": 459932.63378085324,
+        "review_mongo2:T1_T2_EXECUTED": 16613.68632275548,
+        "review_mongo2:SWPF_MISS": 1444.285313408216,
+        "review_mongo2:SWPF_HIT": 14790.492410912993,
+        "review_mongo2:L1D_FB_FULL": 16892.64521312806,
+        "mongo3:FE_L2": 3629.293258367202,
+        "mongo3:L2I": 57812.67143360904,
+        "mongo3:ICACHE_DATA_STALL": 539697.9009962168,
+        "mongo3:T1_T2_EXECUTED": 18826.180480635216,
+        "mongo3:SWPF_MISS": 1719.8290580648134,
+        "mongo3:SWPF_HIT": 16695.852057535965,
+        "mongo3:L1D_FB_FULL": 17076.044187194744
+      }
+    },
+    {
+      "block": 1,
+      "arm": "original",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1976.440150274094,
+        "native3:L2I": 22372.9905384956,
+        "native3:ICACHE_DATA_STALL": 250594.33358745067,
+        "native3:T1_T2_EXECUTED": 0.0,
+        "native3:SWPF_MISS": 0.1738525069559227,
+        "native3:SWPF_HIT": 3.22701814840589,
+        "native3:L1D_FB_FULL": 163.2630492699898,
+        "review_mongo2:FE_L2": 4618.804275271461,
+        "review_mongo2:L2I": 51637.37163768885,
+        "review_mongo2:ICACHE_DATA_STALL": 517908.6740487526,
+        "review_mongo2:T1_T2_EXECUTED": 0.0,
+        "review_mongo2:SWPF_MISS": 0.5656602674582556,
+        "review_mongo2:SWPF_HIT": 5.051503493589928,
+        "review_mongo2:L1D_FB_FULL": 16317.080348195701,
+        "mongo3:FE_L2": 5427.138364248508,
+        "mongo3:L2I": 60714.02876435363,
+        "mongo3:ICACHE_DATA_STALL": 606778.0948478458,
+        "mongo3:T1_T2_EXECUTED": 0.0,
+        "mongo3:SWPF_MISS": 0.5924228573863131,
+        "mongo3:SWPF_HIT": 5.7136617669712235,
+        "mongo3:L1D_FB_FULL": 16476.661930929513
+      }
+    },
+    {
+      "block": 2,
+      "arm": "original",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1939.7662082950405,
+        "native3:L2I": 22655.802035191187,
+        "native3:ICACHE_DATA_STALL": 245885.434251994,
+        "native3:T1_T2_EXECUTED": 0.0,
+        "native3:SWPF_MISS": 0.17345225122797164,
+        "native3:SWPF_HIT": 3.3030953667194076,
+        "native3:L1D_FB_FULL": 196.71714770460105,
+        "review_mongo2:FE_L2": 4587.973333528472,
+        "review_mongo2:L2I": 51559.41004779189,
+        "review_mongo2:ICACHE_DATA_STALL": 516177.61283198243,
+        "review_mongo2:T1_T2_EXECUTED": 0.0,
+        "review_mongo2:SWPF_MISS": 0.6171562125405725,
+        "review_mongo2:SWPF_HIT": 5.085449168132216,
+        "review_mongo2:L1D_FB_FULL": 16343.86761213218,
+        "mongo3:FE_L2": 5400.452093574396,
+        "mongo3:L2I": 60761.600346299354,
+        "mongo3:ICACHE_DATA_STALL": 605710.7506046576,
+        "mongo3:T1_T2_EXECUTED": 0.0,
+        "mongo3:SWPF_MISS": 0.6552154804080913,
+        "mongo3:SWPF_HIT": 5.732747250642385,
+        "mongo3:L1D_FB_FULL": 16478.072434909634
+      }
+    },
+    {
+      "block": 2,
+      "arm": "call256",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1935.3175734484255,
+        "native3:L2I": 22200.205435852986,
+        "native3:ICACHE_DATA_STALL": 246336.76745060948,
+        "native3:T1_T2_EXECUTED": 0.0,
+        "native3:SWPF_MISS": 0.23366861671674766,
+        "native3:SWPF_HIT": 3.4026192364489978,
+        "native3:L1D_FB_FULL": 150.70829290893465,
+        "review_mongo2:FE_L2": 3034.694281542962,
+        "review_mongo2:L2I": 49073.09899752588,
+        "review_mongo2:ICACHE_DATA_STALL": 456089.3095128166,
+        "review_mongo2:T1_T2_EXECUTED": 16623.101360999834,
+        "review_mongo2:SWPF_MISS": 1430.7614977585931,
+        "review_mongo2:SWPF_HIT": 14832.975900876172,
+        "review_mongo2:L1D_FB_FULL": 16476.106602347125,
+        "mongo3:FE_L2": 3600.2946649995492,
+        "mongo3:L2I": 57799.9338372958,
+        "mongo3:ICACHE_DATA_STALL": 533845.1961192258,
+        "mongo3:T1_T2_EXECUTED": 18881.04288146767,
+        "mongo3:SWPF_MISS": 1696.0085041634943,
+        "mongo3:SWPF_HIT": 16790.924940141,
+        "mongo3:L1D_FB_FULL": 16655.034756064753
+      }
+    },
+    {
+      "block": 2,
+      "arm": "cost75_nop",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1986.614242972822,
+        "native3:L2I": 22515.60333257339,
+        "native3:ICACHE_DATA_STALL": 251998.78784345585,
+        "native3:T1_T2_EXECUTED": 0.0,
+        "native3:SWPF_MISS": 0.24568851062986627,
+        "native3:SWPF_HIT": 3.118209378511234,
+        "native3:L1D_FB_FULL": 171.03206645875724,
+        "review_mongo2:FE_L2": 4856.892878024507,
+        "review_mongo2:L2I": 53062.438340321634,
+        "review_mongo2:ICACHE_DATA_STALL": 544717.2065191234,
+        "review_mongo2:T1_T2_EXECUTED": 0.0,
+        "review_mongo2:SWPF_MISS": 0.7441265464203206,
+        "review_mongo2:SWPF_HIT": 4.936176356743937,
+        "review_mongo2:L1D_FB_FULL": 15896.828833570831,
+        "mongo3:FE_L2": 5714.8664705956035,
+        "mongo3:L2I": 62468.88320393162,
+        "mongo3:ICACHE_DATA_STALL": 638638.553007806,
+        "mongo3:T1_T2_EXECUTED": 0.0,
+        "mongo3:SWPF_MISS": 0.7871901302353496,
+        "mongo3:SWPF_HIT": 5.552939362524285,
+        "mongo3:L1D_FB_FULL": 16061.951665940773
+      }
+    },
+    {
+      "block": 2,
+      "arm": "cost75",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1936.121080444637,
+        "native3:L2I": 22475.684669403876,
+        "native3:ICACHE_DATA_STALL": 246755.15561106562,
+        "native3:T1_T2_EXECUTED": 0.0,
+        "native3:SWPF_MISS": 0.2060267654589858,
+        "native3:SWPF_HIT": 3.240632681161993,
+        "native3:L1D_FB_FULL": 174.6687744860156,
+        "review_mongo2:FE_L2": 2278.163121053557,
+        "review_mongo2:L2I": 48052.34115251196,
+        "review_mongo2:ICACHE_DATA_STALL": 430465.8141801753,
+        "review_mongo2:T1_T2_EXECUTED": 5841.22181200453,
+        "review_mongo2:SWPF_MISS": 2517.9893224397347,
+        "review_mongo2:SWPF_HIT": 3177.257088820579,
+        "review_mongo2:L1D_FB_FULL": 16487.823419187833,
+        "mongo3:FE_L2": 2777.669056610369,
+        "mongo3:L2I": 56732.33012933502,
+        "mongo3:ICACHE_DATA_STALL": 508097.6448754834,
+        "mongo3:T1_T2_EXECUTED": 6600.6179362564535,
+        "mongo3:SWPF_MISS": 2902.2933976748445,
+        "mongo3:SWPF_HIT": 3546.548624870736,
+        "mongo3:L1D_FB_FULL": 16685.01378681394
+      }
+    },
+    {
+      "block": 2,
+      "arm": "cost75_split",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1986.4058404065222,
+        "native3:L2I": 22620.60155366604,
+        "native3:ICACHE_DATA_STALL": 253073.1763883482,
+        "native3:T1_T2_EXECUTED": 0.0,
+        "native3:SWPF_MISS": 0.22699187201408966,
+        "native3:SWPF_HIT": 3.2478211565637944,
+        "native3:L1D_FB_FULL": 142.62272585190752,
+        "review_mongo2:FE_L2": 2248.118409426379,
+        "review_mongo2:L2I": 48501.79667547705,
+        "review_mongo2:ICACHE_DATA_STALL": 430099.899842327,
+        "review_mongo2:T1_T2_EXECUTED": 5852.523539662594,
+        "review_mongo2:SWPF_MISS": 2618.3101591507875,
+        "review_mongo2:SWPF_HIT": 3077.8530154465952,
+        "review_mongo2:L1D_FB_FULL": 16408.914907383303,
+        "mongo3:FE_L2": 2731.6916452993055,
+        "mongo3:L2I": 57285.75787873823,
+        "mongo3:ICACHE_DATA_STALL": 505678.4286587453,
+        "mongo3:T1_T2_EXECUTED": 6604.78690712562,
+        "mongo3:SWPF_MISS": 3003.28854367866,
+        "mongo3:SWPF_HIT": 3438.094767437494,
+        "mongo3:L1D_FB_FULL": 16610.689082582394
+      }
+    },
+    {
+      "block": 2,
+      "arm": "cost75_it0",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1975.5426653104619,
+        "native3:L2I": 22403.62708097335,
+        "native3:ICACHE_DATA_STALL": 251400.94720822916,
+        "native3:T1_T2_EXECUTED": 0.0,
+        "native3:SWPF_MISS": 0.20784117357860998,
+        "native3:SWPF_HIT": 3.201044678112962,
+        "native3:L1D_FB_FULL": 161.21255565699929,
+        "review_mongo2:FE_L2": 4045.2344435521145,
+        "review_mongo2:L2I": 51500.8261357341,
+        "review_mongo2:ICACHE_DATA_STALL": 497674.7632536933,
+        "review_mongo2:T1_T2_EXECUTED": 0.0,
+        "review_mongo2:SWPF_MISS": 0.6703175761218441,
+        "review_mongo2:SWPF_HIT": 5.3173931786687785,
+        "review_mongo2:L1D_FB_FULL": 15492.428393458085,
+        "mongo3:FE_L2": 4803.0301270053515,
+        "mongo3:L2I": 60680.08426523051,
+        "mongo3:ICACHE_DATA_STALL": 585500.3474263551,
+        "mongo3:T1_T2_EXECUTED": 0.0,
+        "mongo3:SWPF_MISS": 0.705296419563311,
+        "mongo3:SWPF_HIT": 6.008789511531966,
+        "mongo3:L1D_FB_FULL": 15631.320353965843
+      }
+    },
+    {
+      "block": 2,
+      "arm": "combined_nop",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 2035.6698406734147,
+        "native3:L2I": 22853.84332313905,
+        "native3:ICACHE_DATA_STALL": 253337.43322184723,
+        "native3:T1_T2_EXECUTED": 0.0,
+        "native3:SWPF_MISS": 0.1951816039021986,
+        "native3:SWPF_HIT": 3.216726095514676,
+        "native3:L1D_FB_FULL": 161.84017592119838,
+        "review_mongo2:FE_L2": 4865.708421844154,
+        "review_mongo2:L2I": 53294.18423066327,
+        "review_mongo2:ICACHE_DATA_STALL": 544699.7847880567,
+        "review_mongo2:T1_T2_EXECUTED": 0.0,
+        "review_mongo2:SWPF_MISS": 0.6752121178014873,
+        "review_mongo2:SWPF_HIT": 5.099690451071538,
+        "review_mongo2:L1D_FB_FULL": 15767.654423081618,
+        "mongo3:FE_L2": 5719.789094592159,
+        "mongo3:L2I": 62688.73924776703,
+        "mongo3:ICACHE_DATA_STALL": 638288.2192236325,
+        "mongo3:T1_T2_EXECUTED": 0.0,
+        "mongo3:SWPF_MISS": 0.7136181241543605,
+        "mongo3:SWPF_HIT": 5.778292818960652,
+        "mongo3:L1D_FB_FULL": 15937.115583924817
+      }
+    },
+    {
+      "block": 2,
+      "arm": "combined",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1373.8724785946133,
+        "native3:L2I": 21514.643898156002,
+        "native3:ICACHE_DATA_STALL": 218277.15645833872,
+        "native3:T1_T2_EXECUTED": 6655.958337642431,
+        "native3:SWPF_MISS": 815.5377855705331,
+        "native3:SWPF_HIT": 5470.237300661149,
+        "native3:L1D_FB_FULL": 222.51325911623596,
+        "review_mongo2:FE_L2": 2285.533798154792,
+        "review_mongo2:L2I": 48123.37023817704,
+        "review_mongo2:ICACHE_DATA_STALL": 432370.34132552973,
+        "review_mongo2:T1_T2_EXECUTED": 5863.093926310402,
+        "review_mongo2:SWPF_MISS": 2543.4242873069616,
+        "review_mongo2:SWPF_HIT": 3171.4726574327865,
+        "review_mongo2:L1D_FB_FULL": 16425.990818479673,
+        "mongo3:FE_L2": 2775.373697568036,
+        "mongo3:L2I": 56833.02489031451,
+        "mongo3:ICACHE_DATA_STALL": 509009.1440637247,
+        "mongo3:T1_T2_EXECUTED": 6617.669658527975,
+        "mongo3:SWPF_MISS": 2920.958457460378,
+        "mongo3:SWPF_HIT": 3541.4854886740695,
+        "mongo3:L1D_FB_FULL": 16579.023733402966
+      }
+    },
+    {
+      "block": 3,
+      "arm": "combined",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1372.440055848892,
+        "native3:L2I": 21704.702198751227,
+        "native3:ICACHE_DATA_STALL": 216338.6060302143,
+        "native3:T1_T2_EXECUTED": 6647.417976671265,
+        "native3:SWPF_MISS": 821.297669445969,
+        "native3:SWPF_HIT": 5457.78371917562,
+        "native3:L1D_FB_FULL": 216.38260906078787,
+        "review_mongo2:FE_L2": 2298.2433574585903,
+        "review_mongo2:L2I": 47938.2007124237,
+        "review_mongo2:ICACHE_DATA_STALL": 431814.96371982316,
+        "review_mongo2:T1_T2_EXECUTED": 5847.607952314434,
+        "review_mongo2:SWPF_MISS": 2542.233922802571,
+        "review_mongo2:SWPF_HIT": 3159.217996332618,
+        "review_mongo2:L1D_FB_FULL": 16536.78802460602,
+        "mongo3:FE_L2": 2783.789472606718,
+        "mongo3:L2I": 56685.339057868085,
+        "mongo3:ICACHE_DATA_STALL": 508468.4100585599,
+        "mongo3:T1_T2_EXECUTED": 6605.1277040074365,
+        "mongo3:SWPF_MISS": 2929.6834149018937,
+        "mongo3:SWPF_HIT": 3524.3288879804736,
+        "mongo3:L1D_FB_FULL": 16737.326681490897
+      }
+    },
+    {
+      "block": 3,
+      "arm": "combined_nop",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 2021.4501672720057,
+        "native3:L2I": 22914.123333378986,
+        "native3:ICACHE_DATA_STALL": 252186.1856224629,
+        "native3:T1_T2_EXECUTED": 0.0,
+        "native3:SWPF_MISS": 0.17299687981012757,
+        "native3:SWPF_HIT": 3.2716185749464772,
+        "native3:L1D_FB_FULL": 162.70040082914184,
+        "review_mongo2:FE_L2": 4877.251349724087,
+        "review_mongo2:L2I": 53342.383538861905,
+        "review_mongo2:ICACHE_DATA_STALL": 546700.8740652713,
+        "review_mongo2:T1_T2_EXECUTED": 0.0,
+        "review_mongo2:SWPF_MISS": 0.5558928985271749,
+        "review_mongo2:SWPF_HIT": 5.3314362508357735,
+        "review_mongo2:L1D_FB_FULL": 15849.755757509969,
+        "mongo3:FE_L2": 5735.323455440835,
+        "mongo3:L2I": 62789.53924124628,
+        "mongo3:ICACHE_DATA_STALL": 640632.2512557339,
+        "mongo3:T1_T2_EXECUTED": 0.0,
+        "mongo3:SWPF_MISS": 0.5958581461379482,
+        "mongo3:SWPF_HIT": 5.956689653673885,
+        "mongo3:L1D_FB_FULL": 15979.526102137828
+      }
+    },
+    {
+      "block": 3,
+      "arm": "cost75_it0",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1945.7843299620074,
+        "native3:L2I": 22467.028954299858,
+        "native3:ICACHE_DATA_STALL": 247886.15723512883,
+        "native3:T1_T2_EXECUTED": 0.0,
+        "native3:SWPF_MISS": 0.18207486736474798,
+        "native3:SWPF_HIT": 3.2424291509756724,
+        "native3:L1D_FB_FULL": 174.18496618035726,
+        "review_mongo2:FE_L2": 4014.415539198784,
+        "review_mongo2:L2I": 51153.69597522294,
+        "review_mongo2:ICACHE_DATA_STALL": 495607.21174798696,
+        "review_mongo2:T1_T2_EXECUTED": 0.0,
+        "review_mongo2:SWPF_MISS": 0.7347742271668382,
+        "review_mongo2:SWPF_HIT": 4.832859835864577,
+        "review_mongo2:L1D_FB_FULL": 15555.903715536359,
+        "mongo3:FE_L2": 4789.0664233973,
+        "mongo3:L2I": 60317.21708189721,
+        "mongo3:ICACHE_DATA_STALL": 585375.0811147867,
+        "mongo3:T1_T2_EXECUTED": 0.0,
+        "mongo3:SWPF_MISS": 0.7776766170315085,
+        "mongo3:SWPF_HIT": 5.45163323062415,
+        "mongo3:L1D_FB_FULL": 15707.996430768146
+      }
+    },
+    {
+      "block": 3,
+      "arm": "cost75_split",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1967.4699251227964,
+        "native3:L2I": 22553.346611460132,
+        "native3:ICACHE_DATA_STALL": 249264.90821373588,
+        "native3:T1_T2_EXECUTED": 0.0,
+        "native3:SWPF_MISS": 0.18960551356295094,
+        "native3:SWPF_HIT": 3.207028278182954,
+        "native3:L1D_FB_FULL": 147.5566466469822,
+        "review_mongo2:FE_L2": 2219.840594820497,
+        "review_mongo2:L2I": 48481.37464550193,
+        "review_mongo2:ICACHE_DATA_STALL": 423897.8168265158,
+        "review_mongo2:T1_T2_EXECUTED": 5844.780196040341,
+        "review_mongo2:SWPF_MISS": 2565.8087198290514,
+        "review_mongo2:SWPF_HIT": 3119.8069909183623,
+        "review_mongo2:L1D_FB_FULL": 16881.257211079275,
+        "mongo3:FE_L2": 2710.7742654219583,
+        "mongo3:L2I": 57128.77571351767,
+        "mongo3:ICACHE_DATA_STALL": 500087.66224529035,
+        "mongo3:T1_T2_EXECUTED": 6596.844923727824,
+        "mongo3:SWPF_MISS": 2954.3849958484416,
+        "mongo3:SWPF_HIT": 3477.117797875876,
+        "mongo3:L1D_FB_FULL": 17109.10665504848
+      }
+    },
+    {
+      "block": 3,
+      "arm": "cost75",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1949.8369724301117,
+        "native3:L2I": 22407.118718257676,
+        "native3:ICACHE_DATA_STALL": 247383.83547068125,
+        "native3:T1_T2_EXECUTED": 0.0,
+        "native3:SWPF_MISS": 0.22173862530563243,
+        "native3:SWPF_HIT": 3.151945304804448,
+        "native3:L1D_FB_FULL": 162.5932131622197,
+        "review_mongo2:FE_L2": 2262.0619841275375,
+        "review_mongo2:L2I": 47932.75406204027,
+        "review_mongo2:ICACHE_DATA_STALL": 427473.7907685755,
+        "review_mongo2:T1_T2_EXECUTED": 5823.038715110052,
+        "review_mongo2:SWPF_MISS": 2515.132517515046,
+        "review_mongo2:SWPF_HIT": 3159.9200438442695,
+        "review_mongo2:L1D_FB_FULL": 16909.564961240678,
+        "mongo3:FE_L2": 2752.9626332949097,
+        "mongo3:L2I": 56595.03461524378,
+        "mongo3:ICACHE_DATA_STALL": 504085.49920775136,
+        "mongo3:T1_T2_EXECUTED": 6575.2697456876285,
+        "mongo3:SWPF_MISS": 2899.699618307798,
+        "mongo3:SWPF_HIT": 3521.825762983567,
+        "mongo3:L1D_FB_FULL": 17076.28494991565
+      }
+    },
+    {
+      "block": 3,
+      "arm": "cost75_nop",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1976.0094902134383,
+        "native3:L2I": 22095.940637906122,
+        "native3:ICACHE_DATA_STALL": 252575.84682365615,
+        "native3:T1_T2_EXECUTED": 0.0,
+        "native3:SWPF_MISS": 0.2255541185242552,
+        "native3:SWPF_HIT": 3.2740682812914663,
+        "native3:L1D_FB_FULL": 142.2606487748286,
+        "review_mongo2:FE_L2": 4883.37591124217,
+        "review_mongo2:L2I": 53370.75316335693,
+        "review_mongo2:ICACHE_DATA_STALL": 551738.4431885247,
+        "review_mongo2:T1_T2_EXECUTED": 0.0,
+        "review_mongo2:SWPF_MISS": 0.653914215590309,
+        "review_mongo2:SWPF_HIT": 5.040350040744251,
+        "review_mongo2:L1D_FB_FULL": 16079.97648997022,
+        "mongo3:FE_L2": 5733.194171116241,
+        "mongo3:L2I": 62722.92946558933,
+        "mongo3:ICACHE_DATA_STALL": 645845.8430168018,
+        "mongo3:T1_T2_EXECUTED": 0.0,
+        "mongo3:SWPF_MISS": 0.6959310223129982,
+        "mongo3:SWPF_HIT": 5.6987099364266625,
+        "mongo3:L1D_FB_FULL": 16236.713667599892
+      }
+    },
+    {
+      "block": 3,
+      "arm": "call256",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1934.737946421098,
+        "native3:L2I": 22187.526303222417,
+        "native3:ICACHE_DATA_STALL": 247529.16864040866,
+        "native3:T1_T2_EXECUTED": 0.0,
+        "native3:SWPF_MISS": 0.18883256339955168,
+        "native3:SWPF_HIT": 3.168045032901882,
+        "native3:L1D_FB_FULL": 145.152115988485,
+        "review_mongo2:FE_L2": 3048.3417292675977,
+        "review_mongo2:L2I": 48796.67670789399,
+        "review_mongo2:ICACHE_DATA_STALL": 457782.74947164435,
+        "review_mongo2:T1_T2_EXECUTED": 16618.00872734085,
+        "review_mongo2:SWPF_MISS": 1440.2251080242909,
+        "review_mongo2:SWPF_HIT": 14798.98103257273,
+        "review_mongo2:L1D_FB_FULL": 16554.854018146783,
+        "mongo3:FE_L2": 3626.0951152721123,
+        "mongo3:L2I": 57589.879021663735,
+        "mongo3:ICACHE_DATA_STALL": 537349.0251488453,
+        "mongo3:T1_T2_EXECUTED": 18817.30064055584,
+        "mongo3:SWPF_MISS": 1709.0363224508899,
+        "mongo3:SWPF_HIT": 16704.883822090902,
+        "mongo3:L1D_FB_FULL": 16731.795410088176
+      }
+    },
+    {
+      "block": 3,
+      "arm": "original",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1969.5046385712546,
+        "native3:L2I": 22298.023649654526,
+        "native3:ICACHE_DATA_STALL": 249378.21623525233,
+        "native3:T1_T2_EXECUTED": 0.0,
+        "native3:SWPF_MISS": 0.1832988057397638,
+        "native3:SWPF_HIT": 3.1107189610087547,
+        "native3:L1D_FB_FULL": 156.7276527087098,
+        "review_mongo2:FE_L2": 4651.629362876765,
+        "review_mongo2:L2I": 51985.22059848781,
+        "review_mongo2:ICACHE_DATA_STALL": 520319.9247272139,
+        "review_mongo2:T1_T2_EXECUTED": 0.0,
+        "review_mongo2:SWPF_MISS": 0.5190186658577359,
+        "review_mongo2:SWPF_HIT": 4.9884844418212815,
+        "review_mongo2:L1D_FB_FULL": 15948.883834298886,
+        "mongo3:FE_L2": 5464.790396673981,
+        "mongo3:L2I": 61108.05303245543,
+        "mongo3:ICACHE_DATA_STALL": 609548.0167465266,
+        "mongo3:T1_T2_EXECUTED": 0.0,
+        "mongo3:SWPF_MISS": 0.5536507004897705,
+        "mongo3:SWPF_HIT": 5.634949088285928,
+        "mongo3:L1D_FB_FULL": 16128.322795337846
+      }
+    }
+  ],
+  "limitation": "Service sums combine separate PMU windows, normalized by each window's completed requests. They are not simultaneous global miss fractions."
+}
