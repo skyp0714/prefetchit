@@ -1,0 +1,753 @@
+{
+  "binary_sha256": "0c9b253c2187df127dee6a81c08588d9732b578e265a5fe321d61cd603845e3f",
+  "records": {
+    "user-review-mongodb": {
+      "quality": {
+        "all_samples": 57438,
+        "main_samples": 55489,
+        "within_64B_of_target": 50618,
+        "nearest_branch_mispredicted": 16641,
+        "age_bound_reached": 9,
+        "eligible_samples": 38183,
+        "instruction_classes": {
+          "other": 48890,
+          "conditional_branch": 3313,
+          "indirect_call": 241,
+          "prefetch": 694,
+          "direct_call": 1272,
+          "direct_jump": 600,
+          "return": 369,
+          "indirect_jump": 110
+        },
+        "preceding_branch_classes": {
+          "direct_call": 27128,
+          "conditional_branch": 11249,
+          "indirect_call": 6895,
+          "direct_jump": 6666,
+          "return": 2213,
+          "indirect_jump": 998,
+          "outside_main": 340
+        },
+        "top_functions": [
+          {
+            "name": ".text.prefetch_calls",
+            "samples": 737
+          },
+          {
+            "name": "_ZN5mongo12QueryPlanner4planERKNS_14CanonicalQueryERKNS_18QueryPlannerParamsE",
+            "samples": 481
+          },
+          {
+            "name": "_ZN5mongo20FindAndModifyRequest13parseFromBSONENS_15NamespaceStringERKNS_7BSONObjE",
+            "samples": 417
+          },
+          {
+            "name": "_ZZN5mongo12_GLOBAL__N_116receivedCommandsEPNS_16OperationContextERKNS_7MessageERKNS_23ServiceEntryPointCommon5HooksEENKUlvE_clEv",
+            "samples": 381
+          },
+          {
+            "name": "_ZN5mongo31indexEntryFromIndexCatalogEntryEPNS_16OperationContextERKNS_17IndexCatalogEntryEPKNS_14CanonicalQueryE",
+            "samples": 323
+          },
+          {
+            "name": "_ZN5mongo12QueryRequest20parseFromFindCommandESt10unique_ptrIS0_St14default_deleteIS0_EERKNS_7BSONObjEb",
+            "samples": 317
+          },
+          {
+            "name": "_ZN5mongo12_GLOBAL__N_119computeSortsForScanERKNS_10IndexEntryEiRKNS_11IndexBoundsEPKNS_17CollatorInterfaceERKSt3setINS_10StringDataESt4lessISB_ESaISB_EEPSA_INS_7BSONObjENS_27BSONComparatorInterfaceBaseISI_E8LessThanESaISI_EE",
+            "samples": 307
+          },
+          {
+            "name": "__wt_row_modify",
+            "samples": 304
+          },
+          {
+            "name": "_ZN5mongo9KeyString12_GLOBAL__N_111toBsonValueEhPNS_9BufReaderEPNS0_8TypeBits6ReaderEbNS0_7VersionEPNS_25BSONObjBuilderValueStreamEj",
+            "samples": 299
+          },
+          {
+            "name": "__wt_row_search",
+            "samples": 259
+          },
+          {
+            "name": "__wt_btcur_search_near",
+            "samples": 253
+          },
+          {
+            "name": "_ZN5mongo12_GLOBAL__N_116prepareExecutionEPNS_16OperationContextEPNS_10CollectionEPNS_10WorkingSetESt10unique_ptrINS_14CanonicalQueryESt14default_deleteIS8_EEm",
+            "samples": 247
+          },
+          {
+            "name": "_ZN5mongo3rpc19readRequestMetadataEPNS_16OperationContextERKNS_7BSONObjEb",
+            "samples": 238
+          },
+          {
+            "name": "_ZN5mongo15find_and_modify15serializeUpsertEmRKN5boost8optionalINS_7BSONObjEEEbRKS3_PNS_14BSONObjBuilderE",
+            "samples": 229
+          },
+          {
+            "name": "_ZN5mongo5OpMsg5parseERKNS_7MessageE",
+            "samples": 218
+          },
+          {
+            "name": "__wt_page_in_func",
+            "samples": 217
+          },
+          {
+            "name": "_ZN5mongo12_GLOBAL__N_17FindCmd10Invocation3runEPNS_16OperationContextEPNS_3rpc21ReplyBuilderInterfaceE",
+            "samples": 210
+          },
+          {
+            "name": "_ZN5mongo8PushNode4initENS_11BSONElementERKN5boost13intrusive_ptrINS_17ExpressionContextEEE",
+            "samples": 209
+          },
+          {
+            "name": "__wt_btcur_next",
+            "samples": 200
+          },
+          {
+            "name": "_ZN5mongo12validateBSONEPKcmNS_11BSONVersionE",
+            "samples": 198
+          },
+          {
+            "name": "_ZN5mongo11BSONElement15compareElementsERKS0_S2_jPKNS_10StringData19ComparatorInterfaceE",
+            "samples": 192
+          },
+          {
+            "name": "_ZN5mongo18IndexBoundsBuilder16isSingleIntervalERKNS_11IndexBoundsEPNS_7BSONObjEPbS5_S6_",
+            "samples": 192
+          },
+          {
+            "name": "_ZNK5mongo11BSONElement8toStringERNS_17StringBuilderImplINS_21SharedBufferAllocatorEEEbbbi",
+            "samples": 191
+          },
+          {
+            "name": "_ZN5mongo12PlanExecutor4makeESt10unique_ptrINS_14CanonicalQueryESt14default_deleteIS2_EES1_INS_10WorkingSetES3_IS6_EES1_INS_9PlanStageES3_IS9_EEPKNS_10CollectionENS0_11YieldPolicyENS_15NamespaceStringES1_INS_13QuerySolutionES3_ISH_EE",
+            "samples": 187
+          },
+          {
+            "name": "_ZN5mongo16WorkingSetCommon5fetchEPNS_16OperationContextEPNS_10WorkingSetEmNS_11unowned_ptrINS_20SeekableRecordCursorEEERKNS_15NamespaceStringE",
+            "samples": 185
+          },
+          {
+            "name": "_ZN5mongo23canonical_query_encoder6encodeB5cxx11ERKNS_14CanonicalQueryE",
+            "samples": 185
+          },
+          {
+            "name": "_ZN5mongo5CurOpC1EPNS_16OperationContextEPNS0_10CurOpStackE",
+            "samples": 184
+          },
+          {
+            "name": "_ZN5mongo9Variables19setRuntimeConstantsERKNS_16RuntimeConstantsE",
+            "samples": 182
+          },
+          {
+            "name": "_ZN5mongo22UncommittedCollections9getForTxnEPNS_16OperationContextERKNS_15NamespaceStringE",
+            "samples": 179
+          },
+          {
+            "name": "_ZN5mongo17AutoGetCollectionC1EPNS_16OperationContextERKNS_21NamespaceStringOrUUIDENS_8LockModeENS0_8ViewModeENS_6Date_tE",
+            "samples": 177
+          },
+          {
+            "name": "_ZZN5mongo12_GLOBAL__N_116CmdFindAndModify3runEPNS_16OperationContextERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKNS_7BSONObjERNS_14BSONObjBuilderEENKUlvE1_clEv",
+            "samples": 175
+          },
+          {
+            "name": "__curfile_search_near",
+            "samples": 175
+          },
+          {
+            "name": "_ZN5mongo12ParsedUpdate17parseArrayFiltersERKN5boost13intrusive_ptrINS_17ExpressionContextEEERKSt6vectorINS_7BSONObjESaIS8_EERKNS_15NamespaceStringE",
+            "samples": 174
+          },
+          {
+            "name": "__wt_txn_commit",
+            "samples": 172
+          },
+          {
+            "name": "_ZN5mongo23ServiceEntryPointCommon13handleRequestEPNS_16OperationContextERKNS_7MessageERKNS0_5HooksE",
+            "samples": 171
+          },
+          {
+            "name": "_ZN5mongo16UpdateObjectNode13parseAndMergeEPS0_NS_13modifiertable12ModifierTypeENS_11BSONElementERKN5boost13intrusive_ptrINS_17ExpressionContextEEERKSt3mapINS_10StringDataESt10unique_ptrINS_25ExpressionWithPlaceholderESt14default_deleteISE_EESt4lessISC_ESaISt4pairIKSC_SH_EEERSt3setINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESI_ISX_ESaISX_EE",
+            "samples": 169
+          },
+          {
+            "name": "_ZN5mongo16PlanExecutorImplC1EPNS_16OperationContextESt10unique_ptrINS_10WorkingSetESt14default_deleteIS4_EES3_INS_9PlanStageES5_IS8_EES3_INS_13QuerySolutionES5_ISB_EES3_INS_14CanonicalQueryES5_ISE_EERKN5boost13intrusive_ptrINS_17ExpressionContextEEEPKNS_10CollectionENS_15NamespaceStringENS_12PlanExecutor11YieldPolicyE",
+            "samples": 165
+          },
+          {
+            "name": "_ZN5mongo7Explain15getSummaryStatsERKNS_12PlanExecutorEPNS_16PlanSummaryStatsE",
+            "samples": 163
+          },
+          {
+            "name": "_ZN5mongo20QueryPlannerIXSelect12_rateIndicesEPNS_15MatchExpressionENSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKSt6vectorINS_10IndexEntryESaISA_EEPKNS_17CollatorInterfaceERKNS0_16ElemMatchContextE",
+            "samples": 159
+          },
+          {
+            "name": "_ZN5mongo24AuthorizationSessionImpl24_refreshUserInfoAsNeededEPNS_16OperationContextE",
+            "samples": 159
+          }
+        ],
+        "attribution_limitation": "Retired IP/nearest taken-target association, not proof of BTB or FDIP causality. All main samples remain in the main-sample denominator."
+      },
+      "counts": {
+        "main_samples": 55489,
+        "on_selected_target_line": 11571,
+        "no_matching_hint_observed": 45209,
+        "matching_hint_observed": 10280,
+        "matching_hint_age_ge64": 10092,
+        "matching_hint_age_ge512": 4928
+      },
+      "nearest_retired_age": {
+        "128-511": 4597,
+        "512-2047": 4724,
+        "64-127": 602,
+        "0-63": 196,
+        "2048-8192": 161
+      },
+      "earliest_retired_age": {
+        "128-511": 4600,
+        "512-2047": 4767,
+        "64-127": 564,
+        "2048-8192": 161,
+        "0-63": 188
+      },
+      "estimated_events_per_request": {
+        "main_samples": 1288.3433914536092,
+        "on_selected_target_line": 268.65543409522087,
+        "no_matching_hint_observed": 1049.6623904598428,
+        "matching_hint_observed": 238.68100099376636,
+        "matching_hint_age_ge64": 234.31601770710995,
+        "matching_hint_age_ge512": 114.4182853012919
+      },
+      "baseline_heldout": {
+        "counts": {
+          "main_samples": 82395,
+          "on_selected_target_line": 43165
+        },
+        "request_window": {
+          "begin_epoch": 1790673559.67295,
+          "end_epoch": 1790673569.032706,
+          "seconds": 9.359755992889404,
+          "completed_requests": 10671,
+          "limitation": "Requests bracket perf record startup/teardown as well as the capture interval. Approximate per-request normalization, not an E2E performance trial."
+        },
+        "estimated_events_per_request": {
+          "main_samples": 1984.3983694124263,
+          "on_selected_target_line": 1039.5843875925405
+        }
+      },
+      "request_window": {
+        "begin_epoch": 1790675934.5930772,
+        "end_epoch": 1790675943.925149,
+        "seconds": 9.332071781158447,
+        "completed_requests": 11069,
+        "limitation": "Requests bracket perf record startup/teardown as well as the capture interval. Approximate per-request normalization, not an E2E performance trial."
+      },
+      "observations_sha256": "b63b0281c8ef29e313d0ef0a3e98d44bd36e9e84b46f023e4c959ad0df62c18d",
+      "decoded_sha256": "bd5f43b029008575f0f3a206aca378372193e7ea12173626ff001aaf8a1a1cf4"
+    },
+    "movie-review-mongodb": {
+      "quality": {
+        "all_samples": 56237,
+        "main_samples": 54296,
+        "within_64B_of_target": 49534,
+        "nearest_branch_mispredicted": 16405,
+        "age_bound_reached": 9,
+        "without_prior_lbr": 1,
+        "eligible_samples": 37866,
+        "instruction_classes": {
+          "other": 47737,
+          "conditional_branch": 3088,
+          "direct_call": 1229,
+          "return": 430,
+          "indirect_call": 268,
+          "direct_jump": 597,
+          "prefetch": 764,
+          "indirect_jump": 183
+        },
+        "preceding_branch_classes": {
+          "indirect_call": 6746,
+          "conditional_branch": 11041,
+          "direct_call": 26751,
+          "return": 2137,
+          "direct_jump": 6367,
+          "indirect_jump": 910,
+          "outside_main": 343
+        },
+        "top_functions": [
+          {
+            "name": ".text.prefetch_calls",
+            "samples": 833
+          },
+          {
+            "name": "_ZN5mongo12QueryPlanner4planERKNS_14CanonicalQueryERKNS_18QueryPlannerParamsE",
+            "samples": 463
+          },
+          {
+            "name": "_ZN5mongo20FindAndModifyRequest13parseFromBSONENS_15NamespaceStringERKNS_7BSONObjE",
+            "samples": 394
+          },
+          {
+            "name": "_ZN5mongo12QueryRequest20parseFromFindCommandESt10unique_ptrIS0_St14default_deleteIS0_EERKNS_7BSONObjEb",
+            "samples": 369
+          },
+          {
+            "name": "__wt_row_modify",
+            "samples": 315
+          },
+          {
+            "name": "_ZN5mongo12_GLOBAL__N_119computeSortsForScanERKNS_10IndexEntryEiRKNS_11IndexBoundsEPKNS_17CollatorInterfaceERKSt3setINS_10StringDataESt4lessISB_ESaISB_EEPSA_INS_7BSONObjENS_27BSONComparatorInterfaceBaseISI_E8LessThanESaISI_EE",
+            "samples": 299
+          },
+          {
+            "name": "__wt_btcur_search_near",
+            "samples": 281
+          },
+          {
+            "name": "_ZN5mongo31indexEntryFromIndexCatalogEntryEPNS_16OperationContextERKNS_17IndexCatalogEntryEPKNS_14CanonicalQueryE",
+            "samples": 263
+          },
+          {
+            "name": "_ZN5mongo8PushNode4initENS_11BSONElementERKN5boost13intrusive_ptrINS_17ExpressionContextEEE",
+            "samples": 254
+          },
+          {
+            "name": "_ZN5mongo9KeyString12_GLOBAL__N_111toBsonValueEhPNS_9BufReaderEPNS0_8TypeBits6ReaderEbNS0_7VersionEPNS_25BSONObjBuilderValueStreamEj",
+            "samples": 233
+          },
+          {
+            "name": "_ZN5mongo15find_and_modify15serializeUpsertEmRKN5boost8optionalINS_7BSONObjEEEbRKS3_PNS_14BSONObjBuilderE",
+            "samples": 233
+          },
+          {
+            "name": "_ZZN5mongo12_GLOBAL__N_116receivedCommandsEPNS_16OperationContextERKNS_7MessageERKNS_23ServiceEntryPointCommon5HooksEENKUlvE_clEv",
+            "samples": 232
+          },
+          {
+            "name": "_ZN5mongo12_GLOBAL__N_116prepareExecutionEPNS_16OperationContextEPNS_10CollectionEPNS_10WorkingSetESt10unique_ptrINS_14CanonicalQueryESt14default_deleteIS8_EEm",
+            "samples": 228
+          },
+          {
+            "name": "__wt_row_search",
+            "samples": 228
+          },
+          {
+            "name": "_ZN5mongo12validateBSONEPKcmNS_11BSONVersionE",
+            "samples": 223
+          },
+          {
+            "name": "_ZN5mongo12ParsedUpdate17parseArrayFiltersERKN5boost13intrusive_ptrINS_17ExpressionContextEEERKSt6vectorINS_7BSONObjESaIS8_EERKNS_15NamespaceStringE",
+            "samples": 219
+          },
+          {
+            "name": "_ZZN5mongo12_GLOBAL__N_116CmdFindAndModify3runEPNS_16OperationContextERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKNS_7BSONObjERNS_14BSONObjBuilderEENKUlvE1_clEv",
+            "samples": 214
+          },
+          {
+            "name": "__curfile_search",
+            "samples": 203
+          },
+          {
+            "name": "_ZN5mongo12_GLOBAL__N_17FindCmd10Invocation3runEPNS_16OperationContextEPNS_3rpc21ReplyBuilderInterfaceE",
+            "samples": 201
+          },
+          {
+            "name": "__wt_btcur_next",
+            "samples": 197
+          },
+          {
+            "name": "_ZN5mongo16WorkingSetCommon5fetchEPNS_16OperationContextEPNS_10WorkingSetEmNS_11unowned_ptrINS_20SeekableRecordCursorEEERKNS_15NamespaceStringE",
+            "samples": 190
+          },
+          {
+            "name": "_ZN5mongo18IndexBoundsBuilder16isSingleIntervalERKNS_11IndexBoundsEPNS_7BSONObjEPbS5_S6_",
+            "samples": 178
+          },
+          {
+            "name": "_ZN5mongo20QueryPlannerAnalysis17analyzeDataAccessERKNS_14CanonicalQueryERKNS_18QueryPlannerParamsESt10unique_ptrINS_17QuerySolutionNodeESt14default_deleteIS8_EE",
+            "samples": 178
+          },
+          {
+            "name": "__wt_txn_commit",
+            "samples": 177
+          },
+          {
+            "name": "__wt_struct_packv",
+            "samples": 176
+          },
+          {
+            "name": "__wt_btcur_search",
+            "samples": 174
+          },
+          {
+            "name": "_ZN5mongo17AutoGetCollectionC1EPNS_16OperationContextERKNS_21NamespaceStringOrUUIDENS_8LockModeENS0_8ViewModeENS_6Date_tE",
+            "samples": 173
+          },
+          {
+            "name": "__wt_page_in_func",
+            "samples": 172
+          },
+          {
+            "name": "_ZN5mongo16PlanExecutorImplC1EPNS_16OperationContextESt10unique_ptrINS_10WorkingSetESt14default_deleteIS4_EES3_INS_9PlanStageES5_IS8_EES3_INS_13QuerySolutionES5_ISB_EES3_INS_14CanonicalQueryES5_ISE_EERKN5boost13intrusive_ptrINS_17ExpressionContextEEEPKNS_10CollectionENS_15NamespaceStringENS_12PlanExecutor11YieldPolicyE",
+            "samples": 171
+          },
+          {
+            "name": "_ZN5mongo5CurOpC1EPNS_16OperationContextEPNS0_10CurOpStackE",
+            "samples": 168
+          },
+          {
+            "name": "_ZN5mongo20QueryPlannerIXSelect12_rateIndicesEPNS_15MatchExpressionENSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKSt6vectorINS_10IndexEntryESaISA_EEPKNS_17CollatorInterfaceERKNS0_16ElemMatchContextE",
+            "samples": 168
+          },
+          {
+            "name": "_ZN5mongo12PlanExecutor4makeESt10unique_ptrINS_14CanonicalQueryESt14default_deleteIS2_EES1_INS_10WorkingSetES3_IS6_EES1_INS_9PlanStageES3_IS9_EEPKNS_10CollectionENS0_11YieldPolicyENS_15NamespaceStringES1_INS_13QuerySolutionES3_ISH_EE",
+            "samples": 168
+          },
+          {
+            "name": "_ZN5mongo10LockerImpl10_lockBeginEPNS_16OperationContextENS_10ResourceIdENS_8LockModeE",
+            "samples": 166
+          },
+          {
+            "name": "_ZN5mongo22UncommittedCollections9getForTxnEPNS_16OperationContextERKNS_15NamespaceStringE",
+            "samples": 166
+          },
+          {
+            "name": "_ZN5mongo14PlanEnumerator8prepMemoEPNS_15MatchExpressionENS0_15PrepMemoContextE",
+            "samples": 163
+          },
+          {
+            "name": "_ZN5mongo23ServiceEntryPointCommon13handleRequestEPNS_16OperationContextERKNS_7MessageERKNS0_5HooksE",
+            "samples": 162
+          },
+          {
+            "name": "_ZN5mongo16PlanExecutorImpl4makeEPNS_16OperationContextESt10unique_ptrINS_10WorkingSetESt14default_deleteIS4_EES3_INS_9PlanStageES5_IS8_EES3_INS_13QuerySolutionES5_ISB_EES3_INS_14CanonicalQueryES5_ISE_EERKN5boost13intrusive_ptrINS_17ExpressionContextEEEPKNS_10CollectionENS_15NamespaceStringENS_12PlanExecutor11YieldPolicyE",
+            "samples": 162
+          },
+          {
+            "name": "__curfile_search_near",
+            "samples": 161
+          },
+          {
+            "name": "_ZN5mongo17CollationIndexKey28collationAwareIndexKeyAppendENS_11BSONElementEPKNS_17CollatorInterfaceEPNS_14BSONObjBuilderE",
+            "samples": 160
+          },
+          {
+            "name": "_ZNK5mongo11BSONElement8toStringERNS_17StringBuilderImplINS_21SharedBufferAllocatorEEEbbbi",
+            "samples": 159
+          }
+        ],
+        "attribution_limitation": "Retired IP/nearest taken-target association, not proof of BTB or FDIP causality. All main samples remain in the main-sample denominator."
+      },
+      "counts": {
+        "main_samples": 54296,
+        "on_selected_target_line": 11327,
+        "no_matching_hint_observed": 44129,
+        "matching_hint_observed": 10167,
+        "matching_hint_age_ge64": 9977,
+        "matching_hint_age_ge512": 4723
+      },
+      "nearest_retired_age": {
+        "0-63": 211,
+        "512-2047": 4513,
+        "128-511": 4761,
+        "64-127": 546,
+        "2048-8192": 136
+      },
+      "earliest_retired_age": {
+        "512-2047": 4587,
+        "128-511": 4780,
+        "0-63": 190,
+        "64-127": 474,
+        "2048-8192": 136
+      },
+      "estimated_events_per_request": {
+        "main_samples": 1284.4322533136967,
+        "on_selected_target_line": 267.9527798232695,
+        "no_matching_hint_observed": 1043.9205633284241,
+        "matching_hint_observed": 240.51168998527245,
+        "matching_hint_age_ge64": 236.01702871870398,
+        "matching_hint_age_ge512": 111.72781664212077
+      },
+      "baseline_heldout": {
+        "counts": {
+          "main_samples": 81020,
+          "on_selected_target_line": 42307
+        },
+        "request_window": {
+          "begin_epoch": 1790673569.0335252,
+          "end_epoch": 1790673578.358678,
+          "seconds": 9.32515287399292,
+          "completed_requests": 10507,
+          "limitation": "Requests bracket perf record startup/teardown as well as the capture interval. Approximate per-request normalization, not an E2E performance trial."
+        },
+        "estimated_events_per_request": {
+          "main_samples": 1981.739792519273,
+          "on_selected_target_line": 1034.8243076044541
+        }
+      },
+      "request_window": {
+        "begin_epoch": 1790675943.9259503,
+        "end_epoch": 1790675953.2403796,
+        "seconds": 9.31442928314209,
+        "completed_requests": 10864,
+        "limitation": "Requests bracket perf record startup/teardown as well as the capture interval. Approximate per-request normalization, not an E2E performance trial."
+      },
+      "observations_sha256": "9b24112d612c1d72aca1b0051297a755c33652bc46c5fa4ae6aa94e7a9a75448",
+      "decoded_sha256": "7ce0520aadc9f083017f72ed5931743014d5b78401170ae3cb6ff3cb5bd56271"
+    },
+    "review-storage-mongodb": {
+      "quality": {
+        "all_samples": 21597,
+        "main_samples": 20382,
+        "within_64B_of_target": 18731,
+        "nearest_branch_mispredicted": 7187,
+        "age_bound_reached": 3,
+        "eligible_samples": 11699,
+        "instruction_classes": {
+          "other": 17972,
+          "conditional_branch": 1133,
+          "direct_jump": 150,
+          "indirect_call": 60,
+          "direct_call": 313,
+          "prefetch": 416,
+          "return": 257,
+          "indirect_jump": 81
+        },
+        "preceding_branch_classes": {
+          "direct_call": 9933,
+          "indirect_call": 3524,
+          "indirect_jump": 299,
+          "conditional_branch": 3794,
+          "direct_jump": 2275,
+          "return": 455,
+          "outside_main": 102
+        },
+        "top_functions": [
+          {
+            "name": ".text.prefetch_calls",
+            "samples": 446
+          },
+          {
+            "name": "__wt_btcur_insert",
+            "samples": 425
+          },
+          {
+            "name": "__wt_row_modify",
+            "samples": 275
+          },
+          {
+            "name": "_ZN5mongo14performInsertsEPNS_16OperationContextERKNS_9write_ops6InsertEb",
+            "samples": 246
+          },
+          {
+            "name": "_ZN5mongo12_GLOBAL__N_114serializeReplyEPNS_16OperationContextENS0_10ReplyStyleEbmNS_11WriteResultEPNS_14BSONObjBuilderE",
+            "samples": 221
+          },
+          {
+            "name": "_ZN5mongo12validateBSONEPKcmNS_11BSONVersionE",
+            "samples": 185
+          },
+          {
+            "name": "__wt_txn_commit",
+            "samples": 163
+          },
+          {
+            "name": "_ZN5mongo19userAllowedCreateNSENS_10StringDataES0_",
+            "samples": 148
+          },
+          {
+            "name": "_ZN5mongo17AutoGetCollectionC1EPNS_16OperationContextERKNS_21NamespaceStringOrUUIDENS_8LockModeENS0_8ViewModeENS_6Date_tE",
+            "samples": 143
+          },
+          {
+            "name": "__libc_realloc",
+            "samples": 130
+          },
+          {
+            "name": "_ZNK5mongo17BtreeKeyGenerator7getKeysERKNS_7BSONObjEbPSt3setINS_9KeyString5ValueESt4lessIS6_ESaIS6_EEPSt6vectorIS4_ImS7_ImESaImEESaISF_EEN5boost8optionalINS_8RecordIdEEE",
+            "samples": 128
+          },
+          {
+            "name": "_ZN5mongo9write_ops6Insert14parseProtectedERKNS_21IDLParserErrorContextERKNS_12OpMsgRequestE",
+            "samples": 124
+          },
+          {
+            "name": "_ZN5mongo14OpObserverImpl9onInsertsEPNS_16OperationContextERKNS_15NamespaceStringEN5boost8optionalINS_4UUIDEEEN9__gnu_cxx17__normal_iteratorIPKNS_15InsertStatementESt6vectorISC_SaISC_EEEESI_b",
+            "samples": 121
+          },
+          {
+            "name": "__wt_log_write",
+            "samples": 120
+          },
+          {
+            "name": "_ZNSt6vectorIN5mongo5OpMsg16DocumentSequenceESaIS2_EE17_M_realloc_insertIJS2_EEEvN9__gnu_cxx17__normal_iteratorIPS2_S4_EEDpOT_",
+            "samples": 115
+          },
+          {
+            "name": "__wt_row_search",
+            "samples": 113
+          },
+          {
+            "name": "__wt_struct_packv",
+            "samples": 112
+          },
+          {
+            "name": "_ZN5mongo16IndexCatalogImpl21_indexFilteredRecordsEPNS_16OperationContextEPNS_17IndexCatalogEntryERKSt6vectorINS_10BsonRecordESaIS6_EEPl",
+            "samples": 111
+          },
+          {
+            "name": "_ZN5mongo9KeyString11BuilderBaseINS_19StackBufBuilderBaseILm512EEEE16_appendBsonValueERKNS_11BSONElementEbPKNS_10StringDataERKSt8functionIFNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES8_EE",
+            "samples": 104
+          },
+          {
+            "name": "_ZNSt8_Rb_treeIN5mongo10StringDataES1_St9_IdentityIS1_ESt4lessIS1_ESaIS1_EE16_M_insert_uniqueIRKS1_EESt4pairISt17_Rb_tree_iteratorIS1_EbEOT_",
+            "samples": 103
+          },
+          {
+            "name": "_ZN5mongo5CurOpC1EPNS_16OperationContextEPNS0_10CurOpStackE",
+            "samples": 99
+          },
+          {
+            "name": "__wt_log_slot_join",
+            "samples": 98
+          },
+          {
+            "name": "_ZN5mongo16IndexCatalogImpl10_indexKeysEPNS_16OperationContextEPNS_17IndexCatalogEntryERKSt3setINS_9KeyString5ValueESt4lessIS7_ESaIS7_EESD_RKSt6vectorIS5_ImS8_ImESaImEESaISH_EERKNS_7BSONObjENS_8RecordIdERKNS_19InsertDeleteOptionsEPl",
+            "samples": 97
+          },
+          {
+            "name": "_ZN5mongo19waitForWriteConcernEPNS_16OperationContextERKNS_4repl6OpTimeERKNS_19WriteConcernOptionsEPNS_18WriteConcernResultE",
+            "samples": 93
+          },
+          {
+            "name": "_ZZN5mongo12_GLOBAL__N_116receivedCommandsEPNS_16OperationContextERKNS_7MessageERKNS_23ServiceEntryPointCommon5HooksEENKUlvE_clEv",
+            "samples": 93
+          },
+          {
+            "name": "_ZN5mongo23ServiceEntryPointCommon13handleRequestEPNS_16OperationContextERKNS_7MessageERKNS0_5HooksE",
+            "samples": 92
+          },
+          {
+            "name": "_ZN5mongo19extractWriteConcernEPNS_16OperationContextERKNS_7BSONObjEb",
+            "samples": 92
+          },
+          {
+            "name": "_ZN5mongo22UncommittedCollections9getForTxnEPNS_16OperationContextERKNS_15NamespaceStringE",
+            "samples": 91
+          },
+          {
+            "name": "_ZNSt6vectorIN5mongo7BSONObjESaIS1_EE17_M_realloc_insertIJRKS1_EEEvN9__gnu_cxx17__normal_iteratorIPS1_S3_EEDpOT_",
+            "samples": 90
+          },
+          {
+            "name": "config_check",
+            "samples": 90
+          },
+          {
+            "name": "_ZN5mongo14CollectionImpl16_insertDocumentsEPNS_16OperationContextEN9__gnu_cxx17__normal_iteratorIPKNS_15InsertStatementESt6vectorIS5_SaIS5_EEEESB_PNS_7OpDebugE",
+            "samples": 90
+          },
+          {
+            "name": "_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE10_M_replaceEmmPKcm",
+            "samples": 88
+          },
+          {
+            "name": "_ZNK5mongo25AbstractIndexAccessMethod7getKeysERKNS_7BSONObjENS_17IndexAccessMethod11GetKeysModeENS4_14GetKeysContextEPSt3setINS_9KeyString5ValueESt4lessIS9_ESaIS9_EESE_PSt6vectorIS7_ImSA_ImESaImEESaISI_EEN5boost8optionalINS_8RecordIdEEESt8functionIFvNS_6StatusES3_SP_EE",
+            "samples": 88
+          },
+          {
+            "name": "_ZN5mongo16SessionTxnRecordC1Ev",
+            "samples": 87
+          },
+          {
+            "name": "_ZN5mongo14CommandHelpers20runCommandInvocationEPNS_16OperationContextERKNS_12OpMsgRequestEPNS_17CommandInvocationEPNS_3rpc21ReplyBuilderInterfaceE",
+            "samples": 86
+          },
+          {
+            "name": "_ZN5mongo9AutoGetDbC1EPNS_16OperationContextENS_10StringDataENS_8LockModeENS_6Date_tE",
+            "samples": 85
+          },
+          {
+            "name": "_ZN5mongo22WiredTigerRecoveryUnit7_commitEv",
+            "samples": 81
+          },
+          {
+            "name": "_ZN5mongo5CurOp23completeAndLogOperationEPNS_16OperationContextENS_5logv212LogComponentEN5boost8optionalImEENS6_IxEEb",
+            "samples": 80
+          },
+          {
+            "name": "__wt_struct_sizev",
+            "samples": 80
+          },
+          {
+            "name": "_ZN5mongo25BSONObjBuilderValueStream8endFieldENS_10StringDataE",
+            "samples": 80
+          }
+        ],
+        "attribution_limitation": "Retired IP/nearest taken-target association, not proof of BTB or FDIP causality. All main samples remain in the main-sample denominator."
+      },
+      "counts": {
+        "main_samples": 20382,
+        "on_selected_target_line": 4220,
+        "no_matching_hint_observed": 17432,
+        "matching_hint_observed": 2950,
+        "matching_hint_age_ge64": 2907,
+        "matching_hint_age_ge512": 1463
+      },
+      "nearest_retired_age": {
+        "64-127": 210,
+        "128-511": 1253,
+        "512-2047": 1353,
+        "2048-8192": 87,
+        "0-63": 47
+      },
+      "earliest_retired_age": {
+        "64-127": 194,
+        "128-511": 1250,
+        "512-2047": 1376,
+        "2048-8192": 87,
+        "0-63": 43
+      },
+      "estimated_events_per_request": {
+        "main_samples": 475.9380337997456,
+        "on_selected_target_line": 98.540795929493,
+        "no_matching_hint_observed": 407.0528802471379,
+        "matching_hint_observed": 68.88515355260766,
+        "matching_hint_age_ge64": 67.88106487370526,
+        "matching_hint_age_ge512": 34.16236598219153
+      },
+      "baseline_heldout": {
+        "counts": {
+          "main_samples": 28179,
+          "on_selected_target_line": 13302
+        },
+        "request_window": {
+          "begin_epoch": 1790673578.359325,
+          "end_epoch": 1790673587.6774073,
+          "seconds": 9.318082332611084,
+          "completed_requests": 10531,
+          "limitation": "Requests bracket perf record startup/teardown as well as the capture interval. Approximate per-request normalization, not an E2E performance trial."
+        },
+        "estimated_events_per_request": {
+          "main_samples": 687.6842655018517,
+          "on_selected_target_line": 324.62387237679235
+        }
+      },
+      "request_window": {
+        "begin_epoch": 1790675953.2410605,
+        "end_epoch": 1790675962.5521767,
+        "seconds": 9.311116218566895,
+        "completed_requests": 11006,
+        "limitation": "Requests bracket perf record startup/teardown as well as the capture interval. Approximate per-request normalization, not an E2E performance trial."
+      },
+      "observations_sha256": "f0c7885760c3382a101e842c33325a9b13bf71bc97b06fd762d7c7fac3f29d28",
+      "decoded_sha256": "fe25f1562e6a5a3944af5a68b924bf38468e014586133d75a48721c695713e68"
+    }
+  },
+  "source_sha256": "af39bc52169ed5708c237a07cde31635a09aaf6966b0f71b737136589272645f",
+  "complete": true,
+  "limitation": "Separate diagnostic seeds/windows, no E2E inference. Missing matching hints may lie beyond finite LBR history, whose span changes with added branches. Retired age is not issue-to-fetch time. A remaining target miss does not alone distinguish late issue, dropped hint, or eviction."
+}

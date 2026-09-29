@@ -1,0 +1,39 @@
+{
+  "records": {
+    "call256": {
+      "sites": 256,
+      "hints": 755,
+      "train_coverage": 50.009445744692016,
+      "heldout_coverage": 49.39820662442457,
+      "estimated_hint_executions_per_request": 14248.726150604658,
+      "estimated_extra_jumps_per_request": 3954.0726865917977
+    },
+    "wide75": {
+      "sites": 686,
+      "hints": 1380,
+      "train_coverage": 75.02020339836903,
+      "heldout_coverage": 74.32487447414846,
+      "estimated_hint_executions_per_request": 19984.40325258728,
+      "estimated_extra_jumps_per_request": 7230.534172771192
+    },
+    "cost75": {
+      "sites": 747,
+      "hints": 1528,
+      "train_coverage": 75.02597579790304,
+      "heldout_coverage": 74.34992745075525,
+      "estimated_hint_executions_per_request": 5699.6716806982,
+      "estimated_extra_jumps_per_request": 2824.312385459721
+    },
+    "earlier75": {
+      "sites": 1014,
+      "hints": 2156,
+      "train_coverage": 64.58160598650308,
+      "heldout_coverage": 63.32400805870748,
+      "estimated_hint_executions_per_request": 24381.200070409526,
+      "estimated_extra_jumps_per_request": 9236.22405452543
+    }
+  },
+  "frequency_sha256": "254cd69ee26907390c64bde9e5c937f1b71e7935bcb531dffb9b7d9fb9a75148",
+  "cost_floor": 3.4779239148881915,
+  "limitation": "Retired-call-path estimates, not speculative hardware emission counts, accepted fills or performance predictions. Plans do not imply compiled variants."
+}

@@ -1,0 +1,77 @@
+{
+  "rows": [
+    {
+      "arm": "original",
+      "block": 0,
+      "roi_begin_epoch": 1790673863.9278355,
+      "roi_end_epoch": 1790673923.9295583,
+      "completed_before_roi": 58881,
+      "roi_completed": 69878,
+      "rps": 1164.5997941404107,
+      "cpu": 5911.820844901114,
+      "mean_ms": 3.3640595688060118,
+      "p99_ms": 5.851507186889648
+    },
+    {
+      "arm": "call256_nop",
+      "block": 0,
+      "roi_begin_epoch": 1790674208.4239554,
+      "roi_end_epoch": 1790674268.4253988,
+      "completed_before_roi": 58945,
+      "roi_completed": 69742,
+      "rps": 1162.3386057407577,
+      "cpu": 5908.656835192567,
+      "mean_ms": 3.371347190282831,
+      "p99_ms": 5.835771560668945
+    },
+    {
+      "arm": "call256",
+      "block": 0,
+      "roi_begin_epoch": 1790674553.0687768,
+      "roi_end_epoch": 1790674613.0702355,
+      "completed_before_roi": 61216,
+      "roi_completed": 72630,
+      "rps": 1210.470481608217,
+      "cpu": 5827.646647390885,
+      "mean_ms": 3.2344325127457845,
+      "p99_ms": 5.797386169433594
+    },
+    {
+      "arm": "call256",
+      "block": 1,
+      "roi_begin_epoch": 1790674898.0306678,
+      "roi_end_epoch": 1790674958.0321338,
+      "completed_before_roi": 59339,
+      "roi_completed": 70253,
+      "rps": 1170.8546263786232,
+      "cpu": 5870.964556673736,
+      "mean_ms": 3.345795367201281,
+      "p99_ms": 5.806207656860352
+    },
+    {
+      "arm": "call256_nop",
+      "block": 1,
+      "roi_begin_epoch": 1790675243.7423415,
+      "roi_end_epoch": 1790675303.7438107,
+      "completed_before_roi": 59574,
+      "roi_completed": 71876,
+      "rps": 1197.9039041280319,
+      "cpu": 5888.743488786243,
+      "mean_ms": 3.268314098514402,
+      "p99_ms": 5.856752395629883
+    },
+    {
+      "arm": "original",
+      "block": 1,
+      "roi_begin_epoch": 1790675589.8728151,
+      "roi_end_epoch": 1790675649.874295,
+      "completed_before_roi": 60834,
+      "roi_completed": 71908,
+      "rps": 1198.4371353789136,
+      "cpu": 5877.897758246649,
+      "mean_ms": 3.267496451258878,
+      "p99_ms": 5.791425704956055
+    }
+  ],
+  "limitation": "Fresh initial data and fixed warmup duration. Faster closed-loop arms can complete more writes before ROI; counts are retained when available. Null means older runs compacted raw timestamps before this field was added, not zero or equal writes."
+}

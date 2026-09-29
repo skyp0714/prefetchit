@@ -1,0 +1,23 @@
+{
+  "clean_trials": 6,
+  "prepared": {
+    "reference": "/storage/prefetchit/class_b_mechanism_20260928/backend/reference/mongod",
+    "candidates": {
+      "call256": {
+        "binary": "/storage/prefetchit/class_b_mechanism_20260928/callpath/builds/call256/mongod",
+        "nop": "/storage/prefetchit/class_b_mechanism_20260928/callpath/builds/call256/mongod.nop",
+        "reference": "/storage/prefetchit/class_b_mechanism_20260928/backend/reference/mongod",
+        "sites": 256,
+        "hints": 755,
+        "train_coverage": 50.009445744692016,
+        "heldout_coverage": 49.39820662442457,
+        "extra_instruction_bytes": 9425,
+        "extra_mapped_bytes": 810084
+      }
+    },
+    "residual_candidate": "call256",
+    "density_rule": "Primary <=256 sites/1024 hints. If train coverage <50%, consider <=1024 sites/4096 hints; build only if training cover rises >=5 percentage points. Four hints/site maximum. Separate NOP twin per policy."
+  },
+  "residual_analysis": "/storage/prefetchit/class_b_mechanism_20260928/callpath/residual_analysis.json",
+  "next": "Inspect E2E first, then Mongo-specific misses/stalls and added-jump NOP cost. Continue with independent confirmation or a cause-based refinement."
+}

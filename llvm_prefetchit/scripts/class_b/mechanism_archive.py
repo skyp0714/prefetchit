@@ -12,13 +12,13 @@ import dense_build as b
 PHASES=['probe','probe_serialized','probe_fixed','screen','retarget_screen','retarget_training',
     'refine_training','builds','crossover','crossover_preflight','crossover_startup_blocked',
     'confirmation_setup_rejected','stack_frontend','confirmation','wake_validation','backend',
-    'callpath_native_preflight','callpath']
-BACKEND_PHASES={'backend','callpath_native_preflight','callpath'}
+    'callpath_native_preflight','callpath','call_frequency','callpath_refinement','callpath_coverage75']
+BACKEND_PHASES={'backend','callpath_native_preflight','callpath','call_frequency','callpath_refinement','callpath_coverage75'}
 
 def pack(root,out,native_only=False):
     assert (root/'confirmation_followup_complete.json').exists(),'Archive completed native validation only'
     if not native_only:
-        for phase in ['backend','callpath']:
+        for phase in ['backend','callpath','call_frequency','callpath_refinement','callpath_coverage75']:
             if (root/phase).exists():
                 assert (root/phase/'complete.json').exists(), 'Do not archive an active backend phase: '+phase
     out.mkdir(parents=True,exist_ok=True);manifest=[]
@@ -56,8 +56,9 @@ def pack(root,out,native_only=False):
     # Compact training inputs support retarget/thinning reproduction after the
     # much larger decoded traces have been removed.
     for pattern in ['refine_observations/*.gz','builds/**/*.observations.json.gz','backend/observations/*.gz',
-                    'callpath/observations/*.gz','callpath/residual_observations/*.gz']:
-        if native_only and pattern.startswith(('backend/','callpath/')):continue
+                    'callpath/observations/*.gz','callpath/residual_observations/*.gz',
+                    'callpath_coverage75/residual_observations/*.gz']:
+        if native_only and pattern.startswith(('backend/','callpath/','callpath_coverage75/')):continue
         for source in sorted(root.glob(pattern)):
             assert source.is_file() and not source.is_symlink()
             dest=out/source.relative_to(root);dest.parent.mkdir(parents=True,exist_ok=True)

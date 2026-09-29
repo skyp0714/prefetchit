@@ -1,5 +1,7 @@
 # Type B: 발행 동작, 선행 경로, 중복 힌트를 분리한 실험
 
+후속 call-path 6회에서는 MongoDB 세 서비스의 retired L2 이벤트가 **33.12%**, I-cache stall이 **11.72%** 줄었다. 전체 처리량은 **1.0077×**, CPU/request 절감은 **0.77%**이고, 두 반복의 넓은 처리량 구간 때문에 E2E 이득을 확정하지 않는다. 남은 main-image 미스의 약 **79%가 선택하지 않은 타깃 줄**에 있었다. 이에 독립 트레이스 커버리지를 49.40→약 74.3%로 넓히고, 호출 빈도를 비용으로 반영해 발행을 줄이는 후속 정책을 준비했다.
+
 후속 20회 fresh-stack 검증에서, 타깃을 바꾼 T1의 처리량은 원본 대비 **1.0055× [0.9893, 1.0219]**, 동일 배치 NOP 대비 **1.0026× [0.9889, 1.0165]**다. E2E 향상은 아직 확정하지 않는다. 원본 대비 retired L2 frontend event/request는 **28.84%**, I-cache data-stall/request는 **11.01%** 줄었다. 더 낮은 이득 문턱으로 타깃을 넓힌 정책은 retired L2를 **30.65%** 줄였지만 처리량은 **1.0032×**였다. 코드 미스 감소를 요청 성능 개선으로 대신 보고하지 않는다.
 
 긴 동일 프로세스 교차 실험에서는 리뷰 데이터 누적으로 동일 NOP의 처리량이 12.7% 낮아졌다. 이 방식의 E2E 수치는 정책 효과 판정에서 제외하고, 초기 데이터 상태와 측정 시점을 맞춘 새 스택 비교로 전환했다. 아래 완료된 탐색과 후속 검증의 표본을 합치지 않는다.
@@ -114,7 +116,7 @@ retarget 탐색의 clean ROI에서 세 수정 서비스의 사용자 CPU/request
 
 이 한계를 넓히기 위해 앞선 direct call에 짧은 T1→원래 callee 점프 구간을 연결하는 후속 구현을 추가했다. 원래 call은 원래 반환 주소를 그대로 push하며, 기존 코드의 주소·명령어 길이는 바뀌지 않는다. 동일 callee·타깃 조합은 새 구간을 공유한다. 원본 대비 추가 점프와 코드 비용을 재기 위해 같은 배치의 NOP 쌍을 만든다. 목표는 **학습 표본 50% 커버리지**이고 상한은 256개 call 위치, 총 1,024개 힌트, 위치당 4개다. 이 목표를 실제 미스 50% 감소나 E2E 이득으로 부르지 않는다.
 
-PIE/일반 ELF의 인자·플래그·반환 주소 보존, C++ 예외 처리, 새 구간의 unwind 조회 및 커버리지 선택기 등 native/알고리즘 검사 5개가 통과했다. 최초 주소 변위 오류는 바이너리 검증에서 실행 전에 차단됐으며, 원인·소스·패치를 남기고 임시 ELF를 즉시 삭제했다. 검사는 완료된 workload/platform wrapper와 다음 fresh stack 사이에서만 수행했다. 기존 unwind 항목을 보존하고 새 leaf 항목을 더하는 구조는 [LSB의 unwind 표 정의](https://refspecs.linuxfoundation.org/LSB_5.0.0/LSB-Core-generic/LSB-Core-generic.html)와 [GNU assembler의 CFI 정의](https://www.sourceware.org/binutils/docs/as/CFI-directives.html)를 따른다. 이 후속 정책의 서비스 성능 측정은 아직 완료되지 않았다.
+PIE/일반 ELF의 인자·플래그·반환 주소 보존, C++ 예외 처리, 새 구간의 unwind 조회 및 커버리지 선택기 등 native/알고리즘 검사 5개가 통과했다. 최초 주소 변위 오류는 바이너리 검증에서 실행 전에 차단됐으며, 원인·소스·패치를 남기고 임시 ELF를 즉시 삭제했다. 검사는 완료된 workload/platform wrapper와 다음 fresh stack 사이에서만 수행했다. 기존 unwind 항목을 보존하고 새 leaf 항목을 더하는 구조는 [LSB의 unwind 표 정의](https://refspecs.linuxfoundation.org/LSB_5.0.0/LSB-Core-generic/LSB-Core-generic.html)와 [GNU assembler의 CFI 정의](https://www.sourceware.org/binutils/docs/as/CFI-directives.html)를 따른다. 이 후속 정책의 서비스 성능 측정 6회와 잔여 미스 분석을 완료했으며 아래에 별도로 정리했다.
 
 ![전체 스택의 CPU와 코드 미스](figures/class_b_mechanism_20260929_whole_stack.png)
 
@@ -173,7 +175,39 @@ MovieId를 포함한 full Media의 compose-review 경로, C4, 8개 workload CPU�
 
 이 값들은 서로 겹치므로 원인 비중으로 합산하거나 차감하지 않는다. Unknown-branch bubble은 BTB 부재 또는 FDIP 실패 횟수를 직접 센 값이 아니다. 그래도 I-cache 대기 감소만으로 frontend-bound 전체가 같은 비율로 줄지 않는 이유를 조사할 근거다. Call-path의 추가 점프가 이 비용을 늘리는지 별도 NOP 대조군과 decoder PMU 창에서 비교한다. CPU 풀 밖의 실행은 포함되지 않고, DSB 비율에는 다른 uop 공급원이 빠져 있다. [개별 창·분모·범위](../llvm_prefetchit/migration/evidence/class_b_mechanism_20260928/privilege_completed/summary.md)를 보존했다.
 
-**다음 수정과 독립 검증**
+**Call-path 첫 정책: 6회 완료, 잔여 미스로 다음 배치 결정**
+
+Full Media compose-review C4에서 원본·call256 NOP·call256 T1을 각각 두 fresh stack으로 비교했다. 원본은 1,181.52 RPS, 평균 3.316ms, p99 5.821ms, 전체 CPU/request 5,894.86µs, CPU 풀 사용률 85.76%였다. T1은 각각 1,190.66 RPS, 3.290ms, 5.802ms, 5,849.31µs였다. 6회 전부 정상이며 성능에 따른 제외는 없다.
+
+| 비교 | 처리량 speedup [95% CI] | 평균 지연 절감 | p99 절감 | 전체 CPU/request 절감 |
+|---|---:|---:|---:|---:|
+| T1 / 원본 | 1.00770× [0.67998, 1.49337] | +0.778% | +0.337% | +0.773% |
+| T1 / 같은 배치 NOP | 1.00891× [0.67435, 1.50945] | +0.897% | +0.760% | +0.838% |
+| NOP / 원본 | 0.99881× [0.98934, 1.00836] | — | −0.427% | −0.065% |
+
+MongoDB 세 서비스 합계의 retired L2/request 감소는 원본 대비 **33.12% [31.05, 35.12]**, I-cache stall 감소는 **11.72% [4.68, 18.23]**, speculative L2 code-read miss 감소는 **4.80% [2.58, 6.97]**였다. NOP 대비로는 각각 34.08%, 12.83%, 6.26%다. PMU 감소는 반복 간 안정적이지만 전체 처리량은 그렇지 않았다. 첫 block의 좋은 점 추정치만 선택하지 않는다. 두 T1 실행의 전체 CPU 차이는 약 43.3µs/request였고, 그중 수정한 MongoDB 세 개의 차이는 약 4µs였다. 이는 변동 위치를 보여주며 다른 서비스의 인과적 원인을 확정하지 않는다.
+
+![Call-path 전체 실행 순서](figures/class_b_mechanism_20260929_callpath_trial_order.png)
+
+256개 위치, 755개 힌트, 추가 실행 명령어 9,425바이트로 학습 커버리지 50.01%, 독립 heldout 49.40%에 도달했다. 별도 T1 잔여 미스 수집에서 main-image 표본 중 선택한 타깃 줄은 약 21%, 선택하지 않은 줄은 약 79%였다. 원본 heldout과 request로 정규화한 진단 비교에서는 선택한 줄의 이벤트가 약 70–74% 줄었다. 두 수집은 seed·시간 창이 다르고 유한 LBR의 관측 범위도 추가 점프로 달라지므로, 이를 E2E 결과나 전체 원인의 배타적 분해로 사용하지 않는다. 관측한 힌트 retirement는 실제 발행·수락·fill·상주를 보장하지 않는다.
+
+![선택한 줄과 선택하지 않은 줄의 잔여 미스](figures/class_b_mechanism_20260929_callpath_residual.png)
+
+커버리지와 발행 비용을 따로 개선하기 위해 원본에서 독립적인 retired near-call PEBS를 수집했다. 알려진 두 call을 반복하는 native probe에서 2,444개 표본 중 2,443개가 정확한 call 시작 주소에 있었고 나머지 하나는 taskset/libc 시작 구간이었다. 서비스 세 개의 main-image 표본은 모두 direct/indirect call로 분류됐으며 loss/throttle 없이 수집했다. 샘플이 없는 위치의 비용을 0으로 두지 않고 서비스별 3표본 규모의 regularization floor를 합산했다. 이는 신뢰구간이 아니다.
+
+| 다음 배치 계획 | 위치 / 힌트 | 학습 / heldout 커버리지 | 예상 힌트 실행/request | 예상 추가 점프/request |
+|---|---:|---:|---:|---:|
+| 커버리지 우선, 최소 나이 64 | 686 / 1,380 | 75.02% / 74.32% | 19,984.4 | 7,230.5 |
+| 호출 빈도 비용 반영, 최소 나이 64 | 747 / 1,528 | 75.03% / 74.35% | 5,699.7 | 2,824.3 |
+| 더 이른 경로, 최소 나이 512 | 1,014 / 2,156 | 64.58% / 63.32% | 24,381.2 | 9,236.2 |
+
+나이는 retired LBR proxy이며 실제 fetch lead time이 아니다. 비용 배치는 샘플별 miss/request 이득을 독립 호출 빈도로 나눈 값을 사용한다. 더 많은 정적 힌트를 넣어도 자주 실행되는 위치를 피하면 동적 발행은 적을 수 있다. 같은 약 74.3% heldout 커버리지에서 모델상 힌트 실행은 71.5%, 추가 점프는 60.9% 적다. 이 추정은 retired call 경로만 다루며 wrong-path 발행·하드웨어 fill 정확도 또는 성능 예측이 아니다. 더 이른 배치는 힌트가 많고 학습 커버리지가 낮아 이번 빌드 대상에서 제외했다. Heldout은 위치 선택에 사용하지 않았다.
+
+원본·기존 T1·두 새 T1·각 새 NOP를 4 block, 총 24회 비교하는 후속 구현을 추가했다. 두 배치 모두 75% 학습 목표, 최대 1,024개 위치·4,096개 힌트·위치당 4개, 최소 나이 64를 고정한다. 이 문단은 계획이며 실제 성능 결과가 아니다. 빈도 선택기 검사 2개도 통과했다.
+
+완료 자료: [E2E와 PMU](../llvm_prefetchit/migration/evidence/class_b_mechanism_20260928/callpath_completed/screen_report.md), [잔여 미스와 서비스별 비용](../llvm_prefetchit/migration/evidence/class_b_mechanism_20260928/callpath_completed/cause_report.md), [후속 배치 비교](../llvm_prefetchit/migration/evidence/class_b_mechanism_20260928/callpath_completed/next_plan_comparison.json), [해시 목록](../llvm_prefetchit/migration/evidence/class_b_mechanism_20260928/callpath_completed/manifest.json).
+
+**앞선 네이티브 수정과 독립 검증**
 
 추가 NOP 학습 73,063개 표본에서 0..8192-cycle 관측을 남겼다. 새 두 정책은 최소 나이 128 또는 512인 타깃을 선택하되, 기존 힌트의 짧은 선행 거리 커버리지까지 손실 비용에 넣었다. 한 사이트가 최근과 과거에 모두 나왔을 때 오래된 발생을 버리지 않는다. 앞선 정책과는 학습 자료·보호 조건도 다르므로 단순히 나이 하나만 바꾼 비교라고 부르지 않는다.
 
@@ -204,3 +238,5 @@ MovieId를 포함한 full Media의 compose-review 경로, C4, 8개 workload CPU�
 완료된 네이티브 검증의 [원자료 요약](../llvm_prefetchit/migration/evidence/class_b_mechanism_20260928/confirmation_evaluation.json)과 [파일 해시 목록](../llvm_prefetchit/migration/evidence/class_b_mechanism_20260928/completed_native_manifest.json)을 저장했다.
 
 이후 native wake 12개까지 포함한 [완료 단계 압축 기록](../llvm_prefetchit/migration/evidence/class_b_mechanism_20260928/completed_records/manifest.json)을 추가했다. 28개 묶음/파일의 해시와 7,988개 compact 기록을 검증했다. 진행 중인 backend/call-path 결과는 이 native-only 묶음에서 제외한다.
+
+Call-path 6회·빈도 진단·후속 배치 계획까지 완료한 [전체 압축 기록](../llvm_prefetchit/migration/evidence/class_b_mechanism_20260928/completed_all_records/manifest.json)도 보존했다. 46개 묶음/파일의 SHA-256과 13087개 compact 기록을 검증했다. 이 스냅샷에는 이후 실행하는 75% 커버리지 캠페인 결과가 들어 있지 않다.
