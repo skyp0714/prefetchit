@@ -60,7 +60,7 @@ def prepare(spec):
     root=Path(spec['root']);binary=Path(spec['reference']);b.space(root)
     b.save(root/'prepare_protocol.json',dict(spec,source_sha256=b.sha(__file__),builder_sha256=b.sha(stubs.__file__),
         observations_sha256=b.sha(Path(__file__).with_name('backend_prefetch.py')),
-        rules='Training only: earlier direct calls 64..8192 retired-cycle proxy; 50% main-sample coverage goal; <=256 sites, <=1024 hints, <=4 per site; gain >=8. Heldout is reported, not used to select placements.',
+        rules='Training only: earlier direct calls 64..8192 retired-cycle proxy; 50% main-sample coverage goal; primary <=256 sites/1024 hints, optional wide <=1024 sites/4096 hints if primary misses 50% and wide adds >=5 points; <=4 per site, gain >=8. Heldout is reported, not used to select placements.',
         costs='Original code unchanged except call displacement. New leaf stubs add hints and one direct jump. NOP twin retains this jump and full appended layout.'))
     print(json.dumps(dict(stage='decode_original',binary=str(binary))),flush=True)
     code=Code(binary);raw=binary.read_bytes();elf=stubs.Elf(raw);calls={}
@@ -91,36 +91,55 @@ def prepare(spec):
         phases[phase]=rows
     b.save(root/'profile_quality.json',dict(records=quality,call_sites=len(calls),reference_sha256=b.sha(binary)))
     remove_generated(obsolete,root/'decoded_cleanup.json','Direct-call observations, ages, denominators and source hashes retained; decoded traces no longer needed.')
-    chosen=select(phases['train'])
-    chosen.update(heldout=coverage(phases['heldout'],chosen['choices']),
-        train_all_samples=sum(v['all_samples'] for k,v in quality.items() if k.startswith('train:')),
-        heldout_all_samples=sum(v['all_samples'] for k,v in quality.items() if k.startswith('heldout:')))
-    b.save(root/'selection.json',chosen)
-    assert chosen['sites'] and chosen['hints']
-    print(json.dumps(dict(stage='selected',sites=chosen['sites'],hints=chosen['hints'],train_covered=chosen['covered'],
-        train_samples=chosen['samples'],heldout=chosen['heldout'])),flush=True)
-    grouped=collections.defaultdict(list)
-    for row in chosen['choices']:grouped[row['site']].append(row['target'])
-    plan=dict(sha256=b.sha(binary),calls=[dict(calls[site],targets=targets) for site,targets in sorted(grouped.items())])
-    b.save(root/'build_plan.json',plan)
-    output=root/'builds/call256/mongod';b.space(root)
-    record=stubs.build(binary,plan,output,boundaries=code.instructions)
-    # Direct inspection validates new hint/call/jump operands and merged FDEs
-    # in the builder. Full post-build disassembly catches section/decoder issues.
+    selections={'call256':select(phases['train'])}
+    frequencies=collections.Counter(row['line'] for row in phases['train'])
+    ranked=sorted(frequencies.values(),reverse=True)
+    b.save(root/'address_budget_bound.json',dict(samples=len(phases['train']),unique_lines=len(frequencies),
+        unrestricted_top_line_coverage={n:sum(ranked[:n])/len(phases['train']) for n in [64,256,512,1024,2048,4096,8192]},
+        limitation='Optimistic sampled address coverage without placement, dynamic issue, lead-time or cache-residency constraints. Not a predicted hardware miss reduction.'))
+    low=selections['call256']
+    if low['covered']<.5*low['samples']:
+        wide=select(phases['train'],max_sites=1024,max_hints=4096)
+        b.save(root/'wide_selection_considered.json',wide)
+        # Add a separate density arm only when training cover grows >=5 points.
+        # No heldout sample or performance outcome participates in this rule.
+        if wide['covered']-low['covered']>=.05*low['samples']:selections['call_wide']=wide
+    prepared={};records={}
+    for name,chosen in selections.items():
+        chosen.update(heldout=coverage(phases['heldout'],chosen['choices']),
+            train_all_samples=sum(v['all_samples'] for k,v in quality.items() if k.startswith('train:')),
+            heldout_all_samples=sum(v['all_samples'] for k,v in quality.items() if k.startswith('heldout:')))
+        b.save(root/(name+'_selection.json'),chosen)
+        assert chosen['sites'] and chosen['hints']
+        print(json.dumps(dict(stage='selected',policy=name,sites=chosen['sites'],hints=chosen['hints'],train_covered=chosen['covered'],
+            train_samples=chosen['samples'],heldout=chosen['heldout'])),flush=True)
+        grouped=collections.defaultdict(list)
+        for row in chosen['choices']:grouped[row['site']].append(row['target'])
+        plan=dict(sha256=b.sha(binary),calls=[dict(calls[site],targets=targets) for site,targets in sorted(grouped.items())])
+        b.save(root/(name+'_build_plan.json'),plan)
+        output=root/'builds'/name/'mongod';b.space(root)
+        records[name]=stubs.build(binary,plan,output,boundaries=code.instructions)
+        prepared[name]=dict(binary=str(output),nop=str(output)+'.nop',reference=str(binary),
+            sites=chosen['sites'],hints=chosen['hints'],train_coverage=100*chosen['covered']/chosen['samples'],
+            heldout_coverage=100*chosen['heldout']['covered']/chosen['heldout']['samples'],
+            extra_instruction_bytes=records[name]['extra_instruction_bytes'],extra_mapped_bytes=records[name]['extra_mapped_bytes'])
+    # Verify each final ELF after freeing the original decoded instruction map.
     del code
-    try:
-        verified=Code(output)
-        assert all(verified.raw_targets[h['va']]==h['target'] for h in record['hints'])
-    except BaseException as error:
-        b.save(root/'post_build_failure.json',dict(error=repr(error),binary_sha256=b.sha(output),
-            nop_sha256=b.sha(str(output)+'.nop'),patch_record=str(output)+'.json'))
-        remove_generated([output,Path(str(output)+'.nop')],root/'post_build_cleanup.json',
-            'Generated call-stub ELF did not pass full post-build decoding. Source, patches, hashes and error retained.')
-        raise
-    b.save(root/'prepared.json',dict(binary=str(output),nop=str(output)+'.nop',reference=str(binary),
-        sites=chosen['sites'],hints=chosen['hints'],train_coverage=100*chosen['covered']/chosen['samples'],
-        heldout_coverage=100*chosen['heldout']['covered']/chosen['heldout']['samples'],
-        extra_instruction_bytes=record['extra_instruction_bytes'],extra_mapped_bytes=record['extra_mapped_bytes']))
+    for name,record in records.items():
+        output=Path(prepared[name]['binary'])
+        try:
+            verified=Code(output)
+            assert all(verified.raw_targets[h['va']]==h['target'] for h in record['hints'])
+            del verified
+        except BaseException as error:
+            b.save(root/(name+'_post_build_failure.json'),dict(error=repr(error),binary_sha256=b.sha(output),
+                nop_sha256=b.sha(str(output)+'.nop'),patch_record=str(output)+'.json'))
+            remove_generated([output,Path(str(output)+'.nop')],root/(name+'_post_build_cleanup.json'),
+                'Generated call-stub ELF did not pass full post-build decoding. Source, patches, hashes and error retained.')
+            raise
+    b.save(root/'prepared.json',dict(reference=str(binary),candidates=prepared,
+        residual_candidate=max(prepared,key=lambda n:prepared[n]['train_coverage']),
+        density_rule='Primary <=256 sites/1024 hints. If train coverage <50%, consider <=1024 sites/4096 hints; build only if training cover rises >=5 percentage points. Four hints/site maximum. Separate NOP twin per policy.'))
 
 
 def residual_counts(rows,hints):
