@@ -46,7 +46,7 @@ def select(rows, max_sites=256, max_hints=1024, per_site=4, min_gain=8, goal=.5)
         sites[site]+=1;covered.update(ids)
     return dict(choices=chosen,sites=len(sites),hints=len(chosen),covered=len(covered),samples=len(rows),
                 settings=dict(max_sites=max_sites,max_hints=max_hints,per_site=per_site,min_gain=min_gain,goal=goal),
-                rule='Greedy independent line coverage, at most four targets per earlier executed call; stop at 50% sampled training cover or fixed budget.')
+                rule=f'Greedy independent line coverage, at most {per_site} targets per earlier executed call; stop at {100*goal:g}% sampled training cover or fixed budget.')
 
 
 def coverage(rows,choices):
