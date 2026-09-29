@@ -36,4 +36,4 @@ def select(rows,frequency,floor,max_sites=1024,max_hints=4096,per_site=4,min_gai
         estimated_hint_executions_per_request=sum(costs[c['site']] for c in chosen),
         estimated_extra_jumps_per_request=sum(costs[site] for site in sites),
         rule='Greedy new sampled misses per estimated hint execution; fixed per-call-site frequency costs, explicit zero-sample regularization, separate site and hint budgets.',
-        limitation='Frequency is measured on original code. These are estimates, not actual prefetched fills, hardware accuracy, optimality or E2E predictions. Added-jump and static-code costs require NOP controls.')
+        limitation='Frequency is measured on original retired call paths, omitting extra wrong-path speculative emission. These are estimates, not actual prefetched fills, hardware accuracy, optimality or E2E predictions. Added-jump and static-code costs require NOP controls.')
