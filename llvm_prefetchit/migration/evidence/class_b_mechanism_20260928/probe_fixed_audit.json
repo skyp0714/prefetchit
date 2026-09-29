@@ -1,0 +1,57 @@
+{
+  "symbols": {
+    "hint_site": 4206592,
+    "cold_target": 4214784,
+    "decode_pad": 4222976,
+    "icache_pad": 4235264
+  },
+  "hint_file_offset": 12288,
+  "records": [
+    {
+      "kind": "nop",
+      "path": "/storage/prefetchit/class_b_mechanism_20260928/probe_fixed_nop",
+      "sha256": "55f5f6b4bcda1c9647dd43b74005a71fdbc96ac9d0a58379a8c4376fa94df038",
+      "differing_offsets": [],
+      "hint_bytes": "0f1f8000000000"
+    },
+    {
+      "kind": "it0",
+      "path": "/storage/prefetchit/class_b_mechanism_20260928/probe_fixed_it0",
+      "sha256": "9fe94cab8d3f30c340535a0751561b3b5b03537829e50306de6718c3ccd89c76",
+      "differing_offsets": [
+        12289,
+        12290,
+        12291,
+        12292
+      ],
+      "hint_bytes": "0f183df91f0000"
+    },
+    {
+      "kind": "it1",
+      "path": "/storage/prefetchit/class_b_mechanism_20260928/probe_fixed_it1",
+      "sha256": "5d54ca52381c7f7aeda9243e0ed839b1e27508deb0e31f51cee3f83d0e8a9588",
+      "differing_offsets": [
+        12289,
+        12290,
+        12291,
+        12292
+      ],
+      "hint_bytes": "0f1835f91f0000"
+    },
+    {
+      "kind": "t1",
+      "path": "/storage/prefetchit/class_b_mechanism_20260928/probe_fixed_t1",
+      "sha256": "35d9314d50f22972409d06fa10159c09123b4fed4bff9ae959dac5d0b31501ff",
+      "differing_offsets": [
+        12289,
+        12290,
+        12291,
+        12292
+      ],
+      "hint_bytes": "0f1815f91f0000"
+    }
+  ],
+  "same_layout": true,
+  "only_hint_bytes_differ": true,
+  "source_sha256": "1aec0657ec23130a9d2d19cbdc82509720ef13275255bebe6909d088e2e3f639"
+}

@@ -1,0 +1,140 @@
+{
+  "reason": "Long same-stack write workload is nonstationary. Identical NOP throughput fell 12.7%; user/movie-review MongoDB CPU/request rose about 76%, while modified target service costs remained stable. Reject this design for E2E causal attribution; preserve all completed intervals and PMU diagnostics.",
+  "timestamp": 1790660640.4743867,
+  "completed_independent_stacks": 1,
+  "completed_clean_intervals": 12,
+  "next_stack_interrupted": true,
+  "first_nop_rps": 1159.2792870091075,
+  "last_nop_rps": 1012.1626140531198,
+  "services": {
+    "unique-id-service": {
+      "first_cpu_us_per_request": 118.2759260057781,
+      "last_cpu_us_per_request": 118.44122876333465
+    },
+    "movie-id-service": {
+      "first_cpu_us_per_request": 445.6155836315812,
+      "last_cpu_us_per_request": 447.89858508037634
+    },
+    "movie-id-mongodb": {
+      "first_cpu_us_per_request": 2.349920227674529,
+      "last_cpu_us_per_request": 2.693656320221251
+    },
+    "movie-id-memcached": {
+      "first_cpu_us_per_request": 61.52428691546472,
+      "last_cpu_us_per_request": 62.8168304607635
+    },
+    "text-service": {
+      "first_cpu_us_per_request": 111.75468931913242,
+      "last_cpu_us_per_request": 112.18366339078473
+    },
+    "rating-service": {
+      "first_cpu_us_per_request": 388.7565434866974,
+      "last_cpu_us_per_request": 390.45083707837426
+    },
+    "rating-redis": {
+      "first_cpu_us_per_request": 43.48703188668262,
+      "last_cpu_us_per_request": 44.08955997827053
+    },
+    "user-service": {
+      "first_cpu_us_per_request": 165.7946186020439,
+      "last_cpu_us_per_request": 165.78240363483715
+    },
+    "user-mongodb": {
+      "first_cpu_us_per_request": 2.345018649074014,
+      "last_cpu_us_per_request": 2.69891596908413
+    },
+    "user-memcached": {
+      "first_cpu_us_per_request": 38.24420585128172,
+      "last_cpu_us_per_request": 39.509568610020494
+    },
+    "compose-review-service": {
+      "first_cpu_us_per_request": 979.7444537869478,
+      "last_cpu_us_per_request": 978.4051411215646
+    },
+    "compose-review-memcached": {
+      "first_cpu_us_per_request": 383.1643705668025,
+      "last_cpu_us_per_request": 385.9812084845791
+    },
+    "review-storage-service": {
+      "first_cpu_us_per_request": 163.60206545642706,
+      "last_cpu_us_per_request": 166.6701565509408
+    },
+    "review-storage-mongodb": {
+      "first_cpu_us_per_request": 173.85925574576345,
+      "last_cpu_us_per_request": 176.91530236807665
+    },
+    "review-storage-memcached": {
+      "first_cpu_us_per_request": 0.04891983959294554,
+      "last_cpu_us_per_request": 0.06528878682371533
+    },
+    "user-review-service": {
+      "first_cpu_us_per_request": 388.74496022078006,
+      "last_cpu_us_per_request": 434.2336527064401
+    },
+    "user-review-mongodb": {
+      "first_cpu_us_per_request": 536.0061016364459,
+      "last_cpu_us_per_request": 944.9090033583564
+    },
+    "user-review-redis": {
+      "first_cpu_us_per_request": 38.64399215195878,
+      "last_cpu_us_per_request": 38.94261303306418
+    },
+    "movie-review-service": {
+      "first_cpu_us_per_request": 388.73139863306096,
+      "last_cpu_us_per_request": 421.93305676963723
+    },
+    "movie-review-mongodb": {
+      "first_cpu_us_per_request": 538.1679782669628,
+      "last_cpu_us_per_request": 950.289552312517
+    },
+    "movie-review-redis": {
+      "first_cpu_us_per_request": 38.55688751859598,
+      "last_cpu_us_per_request": 39.10615339029088
+    },
+    "nginx-web-server": {
+      "first_cpu_us_per_request": 558.5964726935599,
+      "last_cpu_us_per_request": 537.8551816094224
+    },
+    "cast-info-service": {
+      "first_cpu_us_per_request": 0.009917854293784093,
+      "last_cpu_us_per_request": 0.011210430144698504
+    },
+    "cast-info-mongodb": {
+      "first_cpu_us_per_request": 2.361872318406244,
+      "last_cpu_us_per_request": 2.7360610400513607
+    },
+    "cast-info-memcached": {
+      "first_cpu_us_per_request": 0.04999784399120349,
+      "last_cpu_us_per_request": 0.06264506889229098
+    },
+    "plot-service": {
+      "first_cpu_us_per_request": 0.009335518088913803,
+      "last_cpu_us_per_request": 0.011012889525408662
+    },
+    "plot-mongodb": {
+      "first_cpu_us_per_request": 2.3438544294245736,
+      "last_cpu_us_per_request": 2.7076645760284457
+    },
+    "plot-memcached": {
+      "first_cpu_us_per_request": 0.049975206433391546,
+      "last_cpu_us_per_request": 0.0633117684823942
+    },
+    "movie-info-service": {
+      "first_cpu_us_per_request": 0.00899055668147126,
+      "last_cpu_us_per_request": 0.0107165785964739
+    },
+    "movie-info-mongodb": {
+      "first_cpu_us_per_request": 2.350998232072787,
+      "last_cpu_us_per_request": 2.726579090325448
+    },
+    "movie-info-memcached": {
+      "first_cpu_us_per_request": 0.04909337875423126,
+      "last_cpu_us_per_request": 0.06548471529458245
+    },
+    "jaeger": {
+      "first_cpu_us_per_request": 359.1288674241608,
+      "last_cpu_us_per_request": 360.8891303274236
+    }
+  },
+  "next_action": "Fresh-stack equal-age comparison of base, NOP, retarget, age-preserving thinning and aggressive coverage; no pooling with long crossover E2E."
+}

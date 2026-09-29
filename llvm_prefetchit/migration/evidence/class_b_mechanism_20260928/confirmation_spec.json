@@ -1,0 +1,69 @@
+{
+  "out": "/storage/prefetchit/class_b_mechanism_20260928/confirmation",
+  "blocks": 4,
+  "seedbase": 72001,
+  "exploratory": true,
+  "arms": {
+    "base": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+      },
+      "clock": false
+    },
+    "selected_nop": {
+      "clock": false,
+      "controls": [
+        "base"
+      ],
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect/movie/MovieIdService.nop",
+        "compose": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_indirect_lift/compose/ComposeReviewService.nop",
+        "rating": "/storage/prefetchit/class_b_coverage_20260928/builds/coverage_callees/rating/RatingService.nop"
+      }
+    },
+    "candidate": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_mechanism_20260928/builds/retarget_t1/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_mechanism_20260928/builds/retarget_t1/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_mechanism_20260928/builds/retarget_t1/rating/RatingService"
+      },
+      "controls": [
+        "base",
+        "selected_nop"
+      ]
+    },
+    "thin_by_age": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_mechanism_20260928/builds/thin_by_age/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_mechanism_20260928/builds/thin_by_age/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_mechanism_20260928/builds/thin_by_age/rating/RatingService"
+      },
+      "controls": [
+        "base",
+        "selected_nop",
+        "candidate"
+      ]
+    },
+    "aggressive64": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_mechanism_20260928/builds/aggressive64/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_mechanism_20260928/builds/aggressive64/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_mechanism_20260928/builds/aggressive64/rating/RatingService"
+      },
+      "controls": [
+        "base",
+        "selected_nop",
+        "candidate"
+      ]
+    }
+  },
+  "pmu_event_sets": {
+    "cache": "cycles:u,instructions:u,cpu/event=0x24,umask=0x24,name=L2I/u,cpu/event=0xc6,umask=0x3,name=FE_L2,config1=0x13/u,cpu/event=0x24,umask=0x28,name=SWPF_MISS/u,cpu/event=0x24,umask=0xc8,name=SWPF_HIT/u",
+    "frontend": "cycles:u,instructions:u,cpu/event=0xc6,umask=0x3,name=FE_L1,config1=0x12/u,cpu/event=0x80,umask=0x4,name=ICACHE_DATA_STALL/u,cpu/event=0x83,umask=0x4,name=ICACHE_TAG_STALL/u,cpu/event=0x9c,umask=0x1,name=FE_BUBBLES/u,cpu/event=0xa4,umask=0x1,name=SLOTS/u",
+    "translation": "cycles:u,instructions:u,cpu/event=0xc6,umask=0x3,name=FE_ITLB,config1=0x14/u,cpu/event=0x11,umask=0x10,name=ITLB_WALK_ACTIVE,cmask=1/u,cpu/event=0x60,umask=0x1,name=BACLEARS/u,cpu/event=0xc4,umask=0x80,name=BR_INDIRECT/u,cpu/event=0xc5,umask=0x80,name=MISP_INDIRECT/u"
+  },
+  "phase": "Fresh-stack equal-age four-block validation of the retained retarget reference, plus exploratory tests of age-preserving thinning and more aggressive target coverage. Individual intervals, no multiplicity correction. Long crossover E2E is not pooled or used to choose the reference.",
+  "selected_name": "retarget"
+}

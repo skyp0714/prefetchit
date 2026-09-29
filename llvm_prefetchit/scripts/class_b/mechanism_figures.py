@@ -29,7 +29,7 @@ def confirmation(root,out):
         ax.axvline(1 if ratio else 0,color='#777',linewidth=.7)
         ax.set_title(title,fontsize=10);ax.set_xlabel('versus original'+('' if ratio else ' (%)'))
         ax.grid(axis='x',alpha=.2);ax.spines[['top','right']].set_visible(False)
-    fig.suptitle('Fresh-stack Media C4: four independent workload seeds, equal data age')
+    fig.suptitle('Fresh-stack Media C4: four workload seeds, matched warmup and ROI windows')
     fig.supxlabel('Individual paired-log 95% t intervals; exploratory refinements, no multiplicity correction.\n'
         '60-second clean ROI after 50-second warmup. Separate PMU windows; no performance-based run exclusions.',fontsize=9)
     out.mkdir(parents=True,exist_ok=True)

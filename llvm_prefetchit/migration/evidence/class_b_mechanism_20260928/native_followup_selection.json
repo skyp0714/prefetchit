@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "name": "candidate",
+      "eligible": false,
+      "throughput_speedup": 1.002611554984101,
+      "cpu_reduction_pct": -0.14853142433992605,
+      "p99_reduction_pct": -1.4043842964697628
+    },
+    {
+      "name": "thin_by_age",
+      "eligible": false,
+      "throughput_speedup": 1.0003308969083806,
+      "cpu_reduction_pct": 0.010454912430490904,
+      "p99_reduction_pct": -1.2909211434948276
+    },
+    {
+      "name": "aggressive64",
+      "eligible": false,
+      "throughput_speedup": 1.0003344294210115,
+      "cpu_reduction_pct": -0.3211585392784322,
+      "p99_reduction_pct": -1.0948911829484098
+    }
+  ],
+  "choice": "candidate",
+  "reason": "No native refinement meets the frozen CPU/p99 conditions versus NOP. Retain retarget as the existing mechanism reference, not an E2E winner. MongoDB extension follows independent whole-stack attribution.",
+  "retire": [
+    "thin_by_age",
+    "aggressive64"
+  ]
+}

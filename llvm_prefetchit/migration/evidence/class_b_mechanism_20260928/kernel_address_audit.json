@@ -1,0 +1,14 @@
+{
+  "source": "/home/hnpark2/prefetchit/llvm_prefetchit/kernel/wake_prefetch/wake_prefetch.c",
+  "sha256": "269c18f79d9ec303ecc80d04deac5f61fcfc8bd59fdfb0064c269e86f55428df",
+  "inspection_only": true,
+  "new_kernel_measurement": false,
+  "findings": [
+    "sched_switch callback selects next by pinned tgid/mm references and saved user IP/syscall profile",
+    "Registration pins read-only executable file pages using pin_user_pages_remote on target mm",
+    "Hints use page_address(page)+offset direct-map aliases; no target user-VA dereference in scheduler callback",
+    "PREFETCHT1 is the default. T0/NTA alternatives and matching NOP follow same control paths",
+    "Optional finish_task_switch probe validates current tgid/mm/tid; periodic hard timer likewise validates current task before each wave"
+  ],
+  "inference": "Pre-switch current CR3 does not redirect these direct-map physical aliases into another process. This does not prove useful target selection, user iTLB warming, or timely fills."
+}
