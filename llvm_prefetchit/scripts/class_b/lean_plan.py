@@ -83,8 +83,8 @@ def read_image(path):
                 opcode = bytes_at(site, 3)
                 if direct:
                     instruction = bytes_at(site, 7)
-                    if opcode not in (b'\x0f\x18\x15', b'\x0f\x18\x3d'):
-                        raise ValueError(f'Expected direct T1/IT0 at {site:x}')
+                    if opcode not in (b'\x0f\x18\x15', b'\x0f\x18\x3d', b'\x0f\x18\x35'):
+                        raise ValueError(f'Expected direct T1/IT0/IT1 at {site:x}')
                     actual = site+7+struct.unpack_from('<i', instruction, 3)[0]
                     if actual != target:
                         raise ValueError(f'Target relocation mismatch {key}')

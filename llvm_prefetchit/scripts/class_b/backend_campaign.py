@@ -45,6 +45,7 @@ def run(parent):
         native_choice_rule='Largest throughput point estimate with nonnegative CPU reduction, p99 regression <=1%, retired L2 reduction >=20% versus NOP; otherwise retained retarget mechanism reference. This is selection, not independent confirmation.',
         training_seeds=[75001,75002],screen_seedbase=76001,timeline_seed=77001,
         hypothesis='Two review MongoDBs have more retired L2 misses and user CPU than the three modified native services. Use observed earlier executed NOP padding, without code growth or changed benchmark semantics.',
+        opcode_interaction='Earlier opcode comparisons used the old targets. Also compare IT0 and IT1 at exactly the improved native T1 targets, with unchanged placement/layout, to separate target and opcode effects.',
         controls='Fresh stack and equal workload age for every arm; all MongoDBs share one identical selected ELF; include original image and byte-identical copied ELF control.'))
     pmu_preflight(root)
     for phase,seed in [('train',75001),('heldout',75002)]:
@@ -54,12 +55,19 @@ def run(parent):
     manifest=root/'prepare_spec.json';b.save(manifest,dict(root=str(root),reference=str(reference)))
     b.run(['python3',Path(__file__).with_name('backend_prefetch.py'),'prepare',manifest],root/'prepare.log')
     prepared=json.loads((root/'prepared.json').read_text());patched=prepared['binary']
+    from retarget_opcodes import build
+    opcodes={kind:{} for kind in ['it0','it1']}
+    for key,source in selected.items():
+        variants=build(Path(source),root/'builds/native_opcodes'/key)
+        for kind in opcodes:opcodes[kind][key]=variants[kind]['path']
     arms=dict(
         base=dict(overrides=base),
         mongo_nop=dict(overrides=base,mongo_binary=str(reference),controls=['base']),
         mongo256=dict(overrides=base,mongo_binary=patched,controls=['base','mongo_nop']),
         native=dict(overrides=selected,mongo_binary=str(reference),controls=['base','mongo_nop']),
         combined=dict(overrides=selected,mongo_binary=patched,controls=['base','mongo_nop','native','mongo256']))
+    for kind,overrides in opcodes.items():
+        arms['native_'+kind]=dict(overrides=overrides,mongo_binary=str(reference),controls=['base','mongo_nop','native'])
     screen=dict(out=str(root/'screen'),arms=arms,blocks=2,seedbase=76001,exploratory=True)
     manifest=root/'screen_spec.json';b.save(manifest,screen)
     b.run(['python3',Path(__file__).with_name('backend_study.py'),'campaign',manifest],root/'screen_driver.log')
@@ -68,7 +76,7 @@ def run(parent):
     timeline=dict(out=str(root/'timeline'),overrides=base,reference=str(reference),seed=77001,periods=[1021,4093])
     manifest=root/'timeline_spec.json';b.save(manifest,timeline)
     h.platform(root/'timeline',['python3',Path(__file__).with_name('backend_prefetch.py'),'timeline',manifest])
-    b.save(root/'complete.json',dict(clean_trials=10,profile_runs=2,wake_captures=4,prepared=prepared,
+    b.save(root/'complete.json',dict(clean_trials=screen['blocks']*len(arms),profile_runs=2,wake_captures=4,prepared=prepared,
         evaluation=str(root/'screen_evaluation.json'),next='Inspect independent held-out coverage and clean whole-stack results before selecting a follow-up.'))
 
 if __name__=='__main__':
