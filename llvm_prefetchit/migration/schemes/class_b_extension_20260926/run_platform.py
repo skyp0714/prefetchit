@@ -24,7 +24,10 @@ def main():
   finally:
    if child.poll() is None:
     os.killpg(child.pid,signal.SIGTERM)
-    try:child.wait(timeout=10)
+    # A service trial must stop its client, save diagnostics and tear down
+    # task-owned containers/volumes before the wrapper restores CPU settings.
+    # Ten seconds can kill this cleanup midway and leave a stale stack.
+    try:child.wait(timeout=90)
     except subprocess.TimeoutExpired:os.killpg(child.pid,signal.SIGKILL);child.wait()
   if rc:raise SystemExit(rc)
 if __name__=='__main__':main()
