@@ -54,7 +54,8 @@ def pack(root,out,native_only=False):
         if folder.is_dir() and not folder.is_symlink():bundle(folder.name,folder.rglob('*'))
     # Compact training inputs support retarget/thinning reproduction after the
     # much larger decoded traces have been removed.
-    for pattern in ['refine_observations/*.gz','builds/**/*.observations.json.gz','backend/observations/*.gz','callpath/observations/*.gz']:
+    for pattern in ['refine_observations/*.gz','builds/**/*.observations.json.gz','backend/observations/*.gz',
+                    'callpath/observations/*.gz','callpath/residual_observations/*.gz']:
         if native_only and pattern.startswith(('backend/','callpath/')):continue
         for source in sorted(root.glob(pattern)):
             assert source.is_file() and not source.is_symlink()

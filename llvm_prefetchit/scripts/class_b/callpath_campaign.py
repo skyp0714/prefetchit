@@ -46,6 +46,8 @@ def smoke(root,prepared):
 def run(parent):
     assert (parent/'backend/complete.json').exists(),'Finish active backend measurements before builds or tests'
     root=parent/'callpath';root.mkdir(exist_ok=False);b.space(root)
+    from retire_backend import retire
+    if not (parent/'backend/retired_artifacts.json').exists():retire(parent/'backend')
     base=json.loads((parent/'confirmation_spec.json').read_text())['arms']['base']['overrides']
     reference=parent/'backend/reference/mongod'
     services=['user-review-mongodb','movie-review-mongodb','review-storage-mongodb']
@@ -81,7 +83,14 @@ def run(parent):
     manifest=root/'screen_spec.json';b.save(manifest,dict(out=str(root/'screen'),arms=arms,blocks=2,seedbase=79001,exploratory=True))
     b.run(['python3',Path(__file__).with_name('backend_study.py'),'campaign',manifest],root/'screen_driver.log')
     evaluate(root/'screen',root/'screen_evaluation.json')
+    dest=root/'residual';manifest=root/'residual_capture_spec.json'
+    b.save(manifest,dict(out=str(dest),reference=prepared['binary'],mongo_binary=prepared['binary'],
+        overrides=base,seed=80001,services=services))
+    h.platform(dest,['python3',Path(__file__).with_name('backend_prefetch.py'),'profile',manifest])
+    manifest=root/'residual_analysis_spec.json';b.save(manifest,dict(root=str(root),binary=prepared['binary'],services=services))
+    b.run(['python3',Path(__file__).with_name('callpath_prefetch.py'),manifest,'--residual'],root/'residual_analysis.log')
     b.save(root/'complete.json',dict(clean_trials=6,prepared=prepared,
+        residual_analysis=str(root/'residual_analysis.json'),
         next='Inspect E2E first, then Mongo-specific misses/stalls and added-jump NOP cost. Continue with independent confirmation or a cause-based refinement.'))
 
 

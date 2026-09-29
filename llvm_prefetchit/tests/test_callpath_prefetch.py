@@ -24,3 +24,13 @@ def test_empty_history_stays_in_goal_denominator_and_no_duplicate_targets():
     rows += [dict(line=2,target=128,sites=[]) for _ in range(90)]
     result=m.select(rows,max_sites=2,max_hints=8,per_site=4,min_gain=1,goal=.5)
     assert result['samples']==100 and result['covered']==10 and result['hints']==1
+
+
+def test_residual_keeps_early_hint_even_after_a_later_occurrence():
+    rows=[dict(line=1,ages=[(100,[0,600]),(200,[4000])]),
+          dict(line=1,ages=[(200,[800])]),dict(line=3,ages=[])]
+    counts,nearest,earliest=m.residual_counts(rows,{100:64,200:128})
+    assert counts['main_samples']==3 and counts['on_selected_target_line']==2
+    assert counts['matching_hint_observed']==1 and counts['no_matching_hint_observed']==2
+    assert counts['matching_hint_age_ge64']==counts['matching_hint_age_ge512']==1
+    assert nearest=={'0-63':1} and earliest=={'512-2047':1}

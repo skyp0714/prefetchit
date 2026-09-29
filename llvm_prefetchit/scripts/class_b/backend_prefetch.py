@@ -132,12 +132,12 @@ def profile(spec):
     out=Path(spec['out']);out.mkdir(parents=True,exist_ok=False);b.space(out)
     services=spec.get('services',BACKENDS)
     assert services and len(set(services))==len(services) and all(s.endswith('-mongodb') for s in services)
-    b.save(out/'protocol.json',dict(spec,source_sha256=b.sha(__file__),
-        scope='Original unmodified MongoDBs in full Media C4; main-ELF retired L2 miss LBR training, no performance claim.'))
-    stack=client=None;captures=[]
+    b.save(out/'protocol.json',dict(spec,source_sha256=b.sha(__file__),sampling_period=257,
+        scope='Selected MongoDB ELF in full Media C4; main-ELF retired L2 miss LBR diagnostic, no performance claim. Original ELF unless mongo_binary is explicitly provided.'))
+    stack=client=None;captures=[];windows={}
     try:
-        stack=h.start(out,'media',spec['overrides'],8)
-        runtime=audit_backends(stack,out)
+        with bind_mongodb(out,spec.get('mongo_binary')):stack=h.start(out,'media',spec['overrides'],8)
+        runtime=audit_backends(stack,out,spec.get('mongo_binary'))
         reference=Path(spec['reference']);reference.parent.mkdir(parents=True,exist_ok=True)
         source=Path(f"/proc/{runtime[BACKENDS[0]]['pid']}/exe")
         if not reference.exists():
@@ -153,12 +153,15 @@ def profile(spec):
             event='cpu/event=0xc6,umask=0x3,config1=0x13,period=257,name=fe_l2/upp'
             command=['perf','record','--no-buildid','--no-buildid-cache','-a','-C','32-39','-m','8M',
                 '-e',event,'-j','any,u','-G',group,'-o',str(dest/'perf.data'),'--','sleep','8']
-            b.run(command,dest/'record.log')
+            begin=time.time();b.run(command,dest/'record.log');windows[str(dest)]=(begin,time.time())
             assert not re.search(r'\b(lost|truncated|throttled)\b',(dest/'record.log').read_text(),re.I)
             assert client.poll() is None;captures.append(dest)
         assert client.wait(timeout=90)==0;client=None;stack.check()
         info=json.loads((out/'load/load.json').read_text());assert not info['steady_errors'] and info['client_cpu_cores']<.8
         b.save(out/'load_validation.json',dict(valid=True,load=info))
+        from lean_timeline import request_window
+        with gzip.open(out/'load/requests.json.gz','rt') as stream:samples=json.load(stream)
+        for dest in captures:b.save(dest/'request_window.json',request_window(samples,*windows[str(dest)]))
     except BaseException as error:
         b.save(out/'failure.json',dict(error=repr(error)));raise
     finally:

@@ -123,7 +123,60 @@ def prepare(spec):
         extra_instruction_bytes=record['extra_instruction_bytes'],extra_mapped_bytes=record['extra_mapped_bytes']))
 
 
+def residual_counts(rows,hints):
+    lines={target//64 for target in hints.values()}
+    def band(age):return '0-63' if age<64 else '64-127' if age<128 else '128-511' if age<512 else '512-2047' if age<2048 else '2048-8192'
+    counts=collections.Counter();nearest=collections.Counter();earliest=collections.Counter()
+    for row in rows:
+        counts['main_samples']+=1;counts['on_selected_target_line']+=row['line'] in lines
+        ages=[age for site,values in row['ages'] if hints[site]//64==row['line'] for age in values]
+        if not ages:
+            counts['no_matching_hint_observed']+=1;continue
+        counts['matching_hint_observed']+=1
+        counts['matching_hint_age_ge64']+=max(ages)>=64
+        counts['matching_hint_age_ge512']+=max(ages)>=512
+        nearest[band(min(ages))]+=1;earliest[band(max(ages))]+=1
+    return dict(counts),dict(nearest),dict(earliest)
+
+
+def residual(spec):
+    """Distinguish uncovered lines from misses after an observed matching hint.
+
+    Added branches shorten the LBR's effective path span. Absence from the finite
+    history is not evidence that no hint ran; retirement age is not issue lead.
+    """
+    root=Path(spec['root']);binary=Path(spec['binary']);folder=root/'residual'
+    assert json.loads((folder/'complete.json').read_text())['valid'];b.space(root)
+    code=Code(binary);patches=json.loads(Path(str(binary)+'.json').read_text())
+    hints={row['va']:row['target'] for row in patches['hints']}
+    assert b.sha(binary)==patches['sha256'] and all(code.raw_targets[s]==t for s,t in hints.items())
+    lines={t//64 for t in hints.values()};results={}
+    for name in spec['services']:
+        source=folder/name
+        rows,quality=observed_rows(source,code,hints,minimum=0,maximum=8192)
+        recorded=json.loads((source/'record_types.json').read_text())['SAMPLE']
+        assert recorded==quality['all_samples'] and recorded>100
+        observations=root/'residual_observations'/(name+'.json.gz');observations.parent.mkdir(exist_ok=True)
+        with gzip.open(observations,'wt') as stream:json.dump(rows,stream,separators=(',',':'))
+        counts,nearest,earliest=residual_counts(rows,hints)
+        requests=json.loads((source/'request_window.json').read_text())
+        with gzip.open(root/'observations'/('heldout_'+name+'.json.gz'),'rt') as stream:baseline=json.load(stream)
+        base_requests=json.loads((root/'profiles/heldout'/name/'request_window.json').read_text())
+        baseline_counts=dict(main_samples=len(baseline),on_selected_target_line=sum(row['line'] in lines for row in baseline))
+        results[name]=dict(quality=quality,counts=dict(counts),nearest_retired_age=dict(nearest),earliest_retired_age=dict(earliest),
+            estimated_events_per_request={k:v*257/requests['completed_requests'] for k,v in counts.items()},
+            baseline_heldout=dict(counts=baseline_counts,request_window=base_requests,
+                estimated_events_per_request={k:v*257/base_requests['completed_requests'] for k,v in baseline_counts.items()}),
+            request_window=requests,observations_sha256=b.sha(observations),decoded_sha256=b.sha(source/'samples.txt'))
+        b.save(root/'residual_analysis.json',dict(binary_sha256=b.sha(binary),records=results,
+            source_sha256=b.sha(__file__),complete=len(results)==len(spec['services']),
+            limitation='Separate diagnostic seeds/windows, no E2E inference. Missing matching hints may lie beyond finite LBR history, whose span changes with added branches. Retired age is not issue-to-fetch time. A remaining target miss does not alone distinguish late issue, dropped hint, or eviction.'))
+        remove_generated([source/'samples.txt'],source/'residual_cleanup.json',
+            'Complete sparse residual observations, hint-age counts, request denominators and hashes retained; decoded trace no longer needed.')
+        print(json.dumps(dict(service=name,counts=dict(counts),estimated_events_per_request=results[name]['estimated_events_per_request'])),flush=True)
+
+
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('spec',type=Path);args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('spec',type=Path);parser.add_argument('--residual',action='store_true');args=parser.parse_args()
     def interrupted(sig,frame):raise KeyboardInterrupt(sig)
-    signal.signal(signal.SIGTERM,interrupted);prepare(json.loads(args.spec.read_text()))
+    signal.signal(signal.SIGTERM,interrupted);(residual if args.residual else prepare)(json.loads(args.spec.read_text()))
