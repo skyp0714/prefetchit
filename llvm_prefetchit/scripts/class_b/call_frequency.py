@@ -115,6 +115,8 @@ def run(parent):
     b.save(root/'protocol.json',dict(source_sha256=b.sha(__file__),seed=80501,event=EVENT,
         purpose='Price selected call sites by dynamic frequency, independently of miss-conditioned traces.',
         source='https://perfmon-events.intel.com/platforms/graniterapids/core-events/core/'))
+    runner="import sys;sys.path.insert(0,'/home/hnpark2/prefetchit/profiling/.venv/lib/python3.12/site-packages');import pytest;raise SystemExit(pytest.main(sys.argv[1:]))"
+    b.run(['python3','-c',runner,'-q',b.REPO/'llvm_prefetchit/tests/test_call_cost_selector.py'],root/'selector_tests.log')
     preflight(root/'preflight')
     reference=parent/'backend/reference/mongod'
     services=json.loads((parent/'callpath/protocol.json').read_text())['training_services']

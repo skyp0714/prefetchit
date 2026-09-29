@@ -17,7 +17,7 @@ from dense_cause_analysis import Code,category
 from e2e_lbr import remove_generated
 
 
-def prepare(source,out,minimum=64,goal=.75,max_sites=1024,build=False):
+def prepare(source,out,minimum=64,goal=.75,max_sites=1024,build=False,frequency_path=None):
     assert (source/'complete.json').exists(),'Finish active call-path measurements first'
     assert minimum in (64,128,512,1024) and .5<=goal<=.9 and 1<=max_sites<=2048
     out.mkdir(parents=True,exist_ok=False);b.space(out)
@@ -42,12 +42,28 @@ def prepare(source,out,minimum=64,goal=.75,max_sites=1024,build=False):
             path=source/'observations'/(phase+'_'+name+'.json.gz')
             assert b.sha(path)==quality['records'][phase+':'+name]['observations_sha256']
             with gzip.open(path,'rt') as stream:observed=json.load(stream)
+            requests=json.loads((source/'profiles'/phase/name/'request_window.json').read_text())['completed_requests']
             for row in observed:
                 row['sites']=[site for site,ages in row['ages'] if any(minimum<=age<=8192 for age in ages)]
+                row['miss_weight']=257/requests
             rows.extend(observed)
             input_records.append(dict(path=str(path),sha256=b.sha(path),samples=len(observed)))
         assert rows;phases[phase]=rows
-    chosen=select(phases['train'],max_sites=max_sites,max_hints=max_sites*4,goal=goal)
+    if frequency_path is None:
+        chosen=select(phases['train'],max_sites=max_sites,max_hints=max_sites*4,goal=goal)
+    else:
+        from call_cost_selector import select as cost_select
+        frequency=json.loads(Path(frequency_path).read_text())
+        assert frequency['valid'] and frequency['reference_sha256']==b.sha(reference)
+        assert set(frequency['records'])==set(services)
+        rates=collections.Counter();floor=0
+        for record in frequency['records'].values():
+            assert record['valid']
+            rates.update({int(site):value for site,value in record['direct_call_estimates'].items()})
+            floor+=record['zero_sample_cost_floor_per_request']
+        chosen=cost_select(phases['train'],rates,floor,max_sites=max_sites,max_hints=max_sites*4,goal=goal)
+        chosen['frequency_source']=dict(path=str(frequency_path),sha256=b.sha(frequency_path),
+            selector_sha256=b.sha(Path(__file__).with_name('call_cost_selector.py')))
     assert chosen['sites'] and chosen['hints']
     chosen['heldout']=coverage(phases['heldout'],chosen['choices'])
     chosen['inputs']=input_records
@@ -105,5 +121,6 @@ def prepare(source,out,minimum=64,goal=.75,max_sites=1024,build=False):
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('source',type=Path);p.add_argument('out',type=Path)
     p.add_argument('--minimum',type=int,default=64);p.add_argument('--goal',type=float,default=.75)
-    p.add_argument('--max-sites',type=int,default=1024);p.add_argument('--build',action='store_true');a=p.parse_args()
-    prepare(a.source,a.out,a.minimum,a.goal,a.max_sites,a.build)
+    p.add_argument('--max-sites',type=int,default=1024);p.add_argument('--build',action='store_true')
+    p.add_argument('--frequency',type=Path);a=p.parse_args()
+    prepare(a.source,a.out,a.minimum,a.goal,a.max_sites,a.build,a.frequency)
