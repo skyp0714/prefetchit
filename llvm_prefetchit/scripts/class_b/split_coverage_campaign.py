@@ -69,8 +69,9 @@ def trial(spec):
 
 def report(root):
     data=evaluate(root/'screen',root/'screen_evaluation.json')
+    protocol=json.loads((root/'screen/protocol.json').read_text())
     lines=['# Continuation-aware placement: fresh full Media C4','',
-        'Three exploratory paired blocks. Each arm uses a fresh full stack, 50 s warmup and 60 s clean ROI. Individual paired-log t95 intervals; no multiplicity correction.',
+        f'{protocol["blocks"]} exploratory paired blocks. Each arm uses a fresh full stack, 50 s warmup and 60 s clean ROI. Individual paired-log t95 intervals; no multiplicity correction.',
         '', '| Arm | RPS | Mean ms | p99 ms | Whole CPU us/request | Pool utilization |',
         '|---|---:|---:|---:|---:|---:|']
     for arm,values in data['absolute'].items():
@@ -97,7 +98,6 @@ def report(root):
         metrics={group+':'+event:sum(row['metrics']['cache:'+service+':'+event] for service in services)
             for group,services in groups.items() for event in ['FE_L2','L2I','ICACHE_DATA_STALL']}
         grouped.append(dict(row,metrics=metrics))
-    protocol=json.loads((root/'screen/protocol.json').read_text())
     group_result=dict(control='original',groups=groups,pmu=summarize(grouped,protocol['arms']),rows=grouped)
     b.save(root/'grouped_pmu.json',group_result)
     ages=[]
@@ -113,9 +113,18 @@ def report(root):
     return data
 
 
-def campaign(parent,blocks=3):
+def campaign(parent,blocks=4):
     assert blocks>=3 and (parent/'hybrid_switch/complete.json').exists()
     root=parent/'split_coverage';root.mkdir(exist_ok=False);b.space(root)
+    amendment=parent/'split_coverage_replication_amendment.json'
+    if amendment.exists():
+        record=json.loads(amendment.read_text())
+        assert record['before_any_split_e2e'] and record['new_blocks']==blocks
+        assert b.sha(__file__)==record['new_source_sha256']
+        assert b.sha(record['old_source'])==record['old_source_sha256']
+        assert b.sha(parent/'split_coverage_plan/selection.json')==record['selection_sha256']
+        b.save(root/'replication_amendment.json',record)
+        (root/'source_before_replication.py').write_bytes(Path(record['old_source']).read_bytes())
     prepared=prepare(parent,root/'prepared')
     fixed=json.loads((parent/'split_target_refine/prepared.json').read_text())
     overrides=json.loads((parent/'confirmation_spec.json').read_text())['arms']['base']['overrides']
@@ -148,7 +157,9 @@ def campaign(parent,blocks=3):
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('action',choices=['campaign','trial','report']);parser.add_argument('path',type=Path)
+    parser.add_argument('--blocks',type=int,default=4)
     args=parser.parse_args()
     def interrupted(sig,frame):raise KeyboardInterrupt(sig)
     signal.signal(signal.SIGTERM,interrupted)
-    globals()[args.action](json.loads(args.path.read_text()) if args.action=='trial' else args.path)
+    if args.action=='campaign':campaign(args.path,args.blocks)
+    else:globals()[args.action](json.loads(args.path.read_text()) if args.action=='trial' else args.path)

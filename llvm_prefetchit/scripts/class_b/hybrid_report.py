@@ -57,7 +57,7 @@ def report(root):
                    for event in events} for arm in protocol['arms']}
     result=dict(gates=gates,selection=selection,pmu_rows=pmu,pmu_absolute=absolute,
         source_sha256=b.sha(__file__),inputs={str(p):b.sha(p) for p in [full,sparse,root/'screen_evaluation.json',root/'protocol.json']},
-        gate_interpretation='Different-seed, counter-instrumented 35-second diagnostic runs, including startup. Attempted gates are not accepted prefetches. Sparse selection used full diagnostic only; its independent verification is not a reselection input. Mean age includes qualifying 0..10us bursts only, not all scheduler switches.',
+        gate_interpretation='Different-seed, counter-instrumented 35-second diagnostic runs, including startup. Counters record architectural path entries, not accepted or speculative hint requests; they do not prove that hardware prefetch activity is confined to the qualifying age. Sparse selection used full diagnostic only; its independent verification is not a reselection input. Mean age includes qualifying 0..10us bursts only, not all scheduler switches.',
         pmu_interpretation='Post-ROI, separate request-normalized windows. LATE_SWPF counts overlap of demand misses with instruction-prefetch-triggered fetch; no ratio to FE_L2 from a different window is an accuracy or lateness probability. Zero does not prove timely success, no execution, or an empty fetch queue.')
     b.save(root/'hybrid_diagnostics.json',result)
     lines=['# Switch-age hybrid: endpoint performance and gate mechanism','',
