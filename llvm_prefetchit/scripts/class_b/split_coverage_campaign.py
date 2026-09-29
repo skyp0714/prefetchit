@@ -91,6 +91,25 @@ def report(root):
             lines.append('| '+arm+' / '+control+' | '+' | '.join(pct(values['cache:sum:'+key]) for key in ['FE_L2','L2I','ICACHE_DATA_STALL'])+' |')
     lines += ['', 'PMU windows follow the clean ROI and cover three MongoDBs only; each window has its own request denominator. CPU and latency still cover the whole stack, including MovieId. No inference of maximum throughput, prefetch accuracy, or queue occupancy. Existing campaigns are not pooled.']
     (root/'report.md').write_text('\n'.join(lines)+'\n')
+    groups={'review_mongo2':['mongo_user','mongo_movie'],'mongo3':list(MONITORED)}
+    grouped=[]
+    for row in data['pmu_rows']:
+        metrics={group+':'+event:sum(row['metrics']['cache:'+service+':'+event] for service in services)
+            for group,services in groups.items() for event in ['FE_L2','L2I','ICACHE_DATA_STALL']}
+        grouped.append(dict(row,metrics=metrics))
+    protocol=json.loads((root/'screen/protocol.json').read_text())
+    group_result=dict(control='original',groups=groups,pmu=summarize(grouped,protocol['arms']),rows=grouped)
+    b.save(root/'grouped_pmu.json',group_result)
+    ages=[]
+    for row in json.loads((root/'screen/rows.json').read_text()):
+        measurement=json.loads((Path(row['output'])/'result.json').read_text());pool=measurement['pool']
+        ages.append(dict(arm=row['arm'],block=row['block'],roi_begin_epoch=pool['start'],roi_end_epoch=pool['end'],
+            completed_before_roi=measurement['completed_before_roi'],roi_completed=pool['completed'],
+            rps=row['achieved_rps'],cpu=row['metrics']['stack_cpu'],mean_ms=row['metrics']['mean_ms'],p99_ms=row['metrics']['p99_ms']))
+    b.save(root/'workload_age.json',dict(rows=ages,limitation='Identical initial data and warmup duration do not mean equal cumulative writes.'))
+    from backend_summary import plot
+    from cpu_attribution import analyze
+    plot(root,data,group_result);analyze(root,plot=True)
     return data
 
 
