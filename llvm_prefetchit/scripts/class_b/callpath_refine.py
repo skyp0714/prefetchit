@@ -17,7 +17,7 @@ from dense_cause_analysis import Code,category
 from e2e_lbr import remove_generated
 
 
-def prepare(source,out,minimum=64,goal=.75,max_sites=1024,build=False,frequency_path=None):
+def prepare(source,out,minimum=64,goal=.75,max_sites=1024,build=False,frequency_path=None,continuation_probe=None):
     assert (source/'complete.json').exists(),'Finish active call-path measurements first'
     assert minimum in (64,128,512,1024) and .5<=goal<=.9 and 1<=max_sites<=2048
     out.mkdir(parents=True,exist_ok=False);b.space(out)
@@ -31,6 +31,15 @@ def prepare(source,out,minimum=64,goal=.75,max_sites=1024,build=False,frequency_
         builder_sha256=b.sha(stubs.__file__),
         rule='Train-only greedy cover. Heldout is evaluated after freezing choices. This is a subsequent policy, not an amendment to completed screen arms.',
         limitation='Retired LBR age is not issue-to-fetch lead; selected cover is not measured miss elimination.')
+    code=None
+    if continuation_probe is not None:
+        probe=Path(continuation_probe)
+        assert json.loads((probe/'complete.json').read_text())['valid']
+        observed={row['kind']:row['split_start_samples'] for row in json.loads((probe/'samples.json').read_text())}
+        assert observed['nop']>100 and observed['first']>100 and observed['second']<.1*observed['first']
+        protocol['target_model']=dict(probe=str(probe),sha256=b.sha(probe/'samples.json'),
+            rule='For an instruction spanning 64-byte lines, use the next instruction start in its continuation line. Other targets unchanged. This is a modeled missing line, not a measured service fetch address. Train-only selection; heldout never selects targets.')
+        code=Code(reference)
     b.save(out/'protocol.json',protocol)
     phases={};input_records=[]
     services=json.loads((source/'protocol.json').read_text())['training_services']
@@ -44,6 +53,12 @@ def prepare(source,out,minimum=64,goal=.75,max_sites=1024,build=False,frequency_
             with gzip.open(path,'rt') as stream:observed=json.load(stream)
             requests=json.loads((source/'profiles'/phase/name/'request_window.json').read_text())['completed_requests']
             for row in observed:
+                if code is not None:
+                    length,_,_=code.get(row['ip']);assert length
+                    if row['ip']//64!=(row['ip']+length-1)//64:
+                        target=row['ip']+length;assert target in code.instructions
+                        assert target//64==(row['ip']+length-1)//64
+                        row.update(target=target,line=target//64)
                 row['sites']=[site for site,ages in row['ages'] if any(minimum<=age<=8192 for age in ages)]
                 row['miss_weight']=257/requests
             rows.extend(observed)
@@ -89,7 +104,9 @@ def prepare(source,out,minimum=64,goal=.75,max_sites=1024,build=False,frequency_
     print(json.dumps(summary),flush=True)
     if not build:
         b.save(out/'plan_complete.json',dict(summary,compiled=False));return summary
-    b.space(out);code=Code(reference);raw=reference.read_bytes();elf=stubs.Elf(raw)
+    b.space(out)
+    if code is None:code=Code(reference)
+    raw=reference.read_bytes();elf=stubs.Elf(raw)
     targets=collections.defaultdict(list)
     for choice in chosen['choices']:targets[choice['site']].append(choice['target'])
     calls=[]
@@ -122,5 +139,5 @@ if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('source',type=Path);p.add_argument('out',type=Path)
     p.add_argument('--minimum',type=int,default=64);p.add_argument('--goal',type=float,default=.75)
     p.add_argument('--max-sites',type=int,default=1024);p.add_argument('--build',action='store_true')
-    p.add_argument('--frequency',type=Path);a=p.parse_args()
-    prepare(a.source,a.out,a.minimum,a.goal,a.max_sites,a.build,a.frequency)
+    p.add_argument('--frequency',type=Path);p.add_argument('--continuation-probe',type=Path);a=p.parse_args()
+    prepare(a.source,a.out,a.minimum,a.goal,a.max_sites,a.build,a.frequency,a.continuation_probe)
