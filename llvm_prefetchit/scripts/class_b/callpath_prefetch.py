@@ -185,6 +185,35 @@ def residual_locations(rows,hints,code):
         'Misprediction labels do not identify BTB absence. Added-stub attribution uses the decoded .text.prefetch_calls section symbol.')
 
 
+def fetch_spans(rows,hints,code):
+    """Check whether sampled instruction bytes extend beyond the chosen line.
+
+    This is an address-attribution diagnostic, not evidence that a particular
+    byte's cache line triggered the PEBS event. An independent split-instruction
+    probe is required before retargeting based on this observation.
+    """
+    selected={target//64 for target in hints.values()};counts=collections.Counter();offsets=collections.Counter();crossing=collections.Counter()
+    for row in rows:
+        ip=row.get('ip',row['target']);length,asm,function=code.get(ip)
+        counts['samples']+=1;offsets[ip%64]+=1
+        if not length:counts['unknown_instruction_length']+=1;continue
+        counts['decoded_samples']+=1
+        for boundary in [32,64,4096]:counts['crosses_'+str(boundary)]+=ip//boundary!=(ip+length-1)//boundary
+        if ip//64!=(ip+length-1)//64:
+            crossing[ip]+=1
+            counts['crosses64_first_line_selected']+=ip//64 in selected
+            counts['crosses64_second_line_selected']+=(ip+length-1)//64 in selected
+            counts['crosses64_first_selected_second_unselected']+=ip//64 in selected and (ip+length-1)//64 not in selected
+    assert counts['decoded_samples']+counts['unknown_instruction_length']==len(rows)
+    examples=[]
+    for ip,n in crossing.most_common(25):
+        length,asm,function=code.get(ip)
+        examples.append(dict(ip=ip,samples=n,length=length,instruction=asm,function=function,
+            first_line=ip//64,last_line=(ip+length-1)//64))
+    return dict(counts=dict(counts),ip_offset64_histogram=dict(offsets),top_split_instructions=examples,
+        limitation='Instruction-byte spans only. A split instruction can need a following cache line, but the PEBS event does not identify which of its lines missed. Global selected-line membership does not establish a matching hint execution. Original instruction lengths are unchanged in the patched main text.')
+
+
 def residual(spec):
     """Distinguish uncovered lines from misses after an observed matching hint.
 
@@ -212,8 +241,10 @@ def residual(spec):
         baseline_counts=dict(main_samples=len(baseline),on_selected_target_line=sum(row['line'] in lines for row in baseline))
         results[name]=dict(quality=quality,counts=dict(counts),nearest_retired_age=dict(nearest),earliest_retired_age=dict(earliest),
             locations=residual_locations(rows,hints,code),
+            fetch_spans=fetch_spans(rows,hints,code),
             estimated_events_per_request={k:v*257/requests['completed_requests'] for k,v in counts.items()},
             baseline_heldout=dict(counts=baseline_counts,request_window=base_requests,
+                fetch_spans=fetch_spans(baseline,hints,code),
                 estimated_events_per_request={k:v*257/base_requests['completed_requests'] for k,v in baseline_counts.items()}),
             request_window=requests,observations_sha256=b.sha(observations),decoded_sha256=b.sha(source/'samples.txt'))
         b.save(root/'residual_analysis.json',dict(binary_sha256=b.sha(binary),records=results,

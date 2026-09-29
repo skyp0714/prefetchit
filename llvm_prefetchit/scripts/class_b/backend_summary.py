@@ -23,6 +23,9 @@ def report(root):
         for group,services in GROUPS.items():
             for event in ['FE_L2','L2I','ICACHE_DATA_STALL']:
                 metrics[group+':'+event]=sum(row['metrics']['cache:'+service+':'+event] for service in services)
+            for event in ['T1_T2_EXECUTED','SWPF_MISS','SWPF_HIT','L1D_FB_FULL']:
+                keys=['prefetch:'+service+':'+event for service in services]
+                if all(key in row['metrics'] for key in keys):metrics[group+':'+event]=sum(row['metrics'][key] for key in keys)
         grouped.append(dict(row,metrics=metrics))
     comparison=summarize(grouped,protocol['arms'])
     result=dict(control=control,trials=data['trials'],groups=GROUPS,pmu=comparison,rows=grouped,
@@ -66,6 +69,14 @@ def report(root):
         for against,metrics in controls.items():
             fields=['mongo3:'+event for event in ['FE_L2','L2I','ICACHE_DATA_STALL']]
             lines.append('| '+arm+' / '+against+' | '+' | '.join(pct(metrics[k]) for k in fields)+' |')
+    fields=['mongo3:'+event for event in ['T1_T2_EXECUTED','SWPF_MISS','SWPF_HIT','L1D_FB_FULL']]
+    if all(all(key in row['metrics'] for key in fields) for row in grouped):
+        lines += ['', '| Arm / Mongo-3 | T1/T2 executions/request | SWPF L2 miss/request | SWPF L2 hit/request | L1D fill-buffer full cycles/request |',
+                  '|---|---:|---:|---:|---:|']
+        for arm in protocol['arms']:
+            records=[row for row in grouped if row['arm']==arm]
+            lines.append('| '+arm+' | '+' | '.join(f'{statistics.mean(row["metrics"][key] for row in records):,.2f}' for key in fields)+' |')
+        lines += ['', 'T1/T2 execution counts are speculative and include existing application instructions. SWPF hit/miss events describe cache-request classification, not subsequent useful use or prefetch accuracy. L1D fill-buffer cycles do not measure instruction-fetch queue occupancy.']
     (root/'screen_report.md').write_text('\n'.join(lines)+'\n')
     return data,result
 

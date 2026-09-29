@@ -1,0 +1,3356 @@
+{
+  "binary_sha256": "125a29f9a80d173fdc654ab3c276638f8d776c458fc98d3e6ae666eab08218db",
+  "records": {
+    "user-review-mongodb": {
+      "quality": {
+        "all_samples": 42178,
+        "main_samples": 40168,
+        "within_64B_of_target": 35254,
+        "nearest_branch_mispredicted": 11718,
+        "age_bound_reached": 9,
+        "eligible_samples": 33815,
+        "instruction_classes": {
+          "other": 32584,
+          "indirect_call": 147,
+          "prefetch": 2112,
+          "conditional_branch": 3091,
+          "return": 250,
+          "direct_call": 1237,
+          "direct_jump": 676,
+          "indirect_jump": 71
+        },
+        "preceding_branch_classes": {
+          "conditional_branch": 8873,
+          "direct_call": 14601,
+          "outside_main": 316,
+          "direct_jump": 9228,
+          "indirect_call": 4339,
+          "return": 2326,
+          "indirect_jump": 485
+        },
+        "top_functions": [
+          {
+            "name": ".text.prefetch_calls",
+            "samples": 2268
+          },
+          {
+            "name": "_ZZN5mongo12_GLOBAL__N_116receivedCommandsEPNS_16OperationContextERKNS_7MessageERKNS_23ServiceEntryPointCommon5HooksEENKUlvE_clEv",
+            "samples": 455
+          },
+          {
+            "name": "_ZN5mongo20FindAndModifyRequest13parseFromBSONENS_15NamespaceStringERKNS_7BSONObjE",
+            "samples": 426
+          },
+          {
+            "name": "_ZN5mongo5CurOpC1EPNS_16OperationContextEPNS0_10CurOpStackE",
+            "samples": 326
+          },
+          {
+            "name": "_ZN5mongo12QueryPlanner4planERKNS_14CanonicalQueryERKNS_18QueryPlannerParamsE",
+            "samples": 312
+          },
+          {
+            "name": "__wt_btcur_search_near",
+            "samples": 279
+          },
+          {
+            "name": "__wt_row_search",
+            "samples": 261
+          },
+          {
+            "name": "_ZNSt6vectorIN5mongo10IndexEntryESaIS1_EEaSERKS3_",
+            "samples": 241
+          },
+          {
+            "name": "__wt_cursor_set_keyv",
+            "samples": 238
+          },
+          {
+            "name": "_ZN5mongo12QueryRequest20parseFromFindCommandESt10unique_ptrIS0_St14default_deleteIS0_EERKNS_7BSONObjEb",
+            "samples": 238
+          },
+          {
+            "name": "_ZN5mongo12_GLOBAL__N_116prepareExecutionEPNS_16OperationContextEPNS_10CollectionEPNS_10WorkingSetESt10unique_ptrINS_14CanonicalQueryESt14default_deleteIS8_EEm",
+            "samples": 225
+          },
+          {
+            "name": "_ZN5mongo12validateBSONEPKcmNS_11BSONVersionE",
+            "samples": 223
+          },
+          {
+            "name": "__wt_btcur_next",
+            "samples": 213
+          },
+          {
+            "name": "_ZN5mongo12_GLOBAL__N_119computeSortsForScanERKNS_10IndexEntryEiRKNS_11IndexBoundsEPKNS_17CollatorInterfaceERKSt3setINS_10StringDataESt4lessISB_ESaISB_EEPSA_INS_7BSONObjENS_27BSONComparatorInterfaceBaseISI_E8LessThanESaISI_EE",
+            "samples": 209
+          },
+          {
+            "name": "__wt_struct_packv",
+            "samples": 186
+          },
+          {
+            "name": "_ZN5mongo20QueryPlannerAnalysis17analyzeDataAccessERKNS_14CanonicalQueryERKNS_18QueryPlannerParamsESt10unique_ptrINS_17QuerySolutionNodeESt14default_deleteIS8_EE",
+            "samples": 177
+          },
+          {
+            "name": "_ZN5mongo9KeyString11BuilderBaseINS_19StackBufBuilderBaseILm512EEEE12getValueCopyEv",
+            "samples": 171
+          },
+          {
+            "name": "__wt_cursor_cache_get",
+            "samples": 169
+          },
+          {
+            "name": "__libc_realloc",
+            "samples": 168
+          },
+          {
+            "name": "__wt_cursor_set_valuev",
+            "samples": 163
+          },
+          {
+            "name": "_ZN5mongo14PlanEnumerator8prepMemoEPNS_15MatchExpressionENS0_15PrepMemoContextE",
+            "samples": 151
+          },
+          {
+            "name": "_ZNK5mongo11BSONElement8toStringERNS_17StringBuilderImplINS_21SharedBufferAllocatorEEEbbbi",
+            "samples": 151
+          },
+          {
+            "name": "_ZN5mongo9IndexScan6doWorkEPm",
+            "samples": 151
+          },
+          {
+            "name": "_ZN5mongo14ServiceContext20makeOperationContextEPNS_6ClientE",
+            "samples": 148
+          },
+          {
+            "name": "__wt_cursor_get_keyv",
+            "samples": 145
+          },
+          {
+            "name": "_ZN5mongo9KeyString12_GLOBAL__N_122filterKeyFromKeyStringEhPNS_9BufReaderEbNS0_7VersionE",
+            "samples": 142
+          },
+          {
+            "name": "_ZNSt23_Sp_counted_ptr_inplaceIN5mongo22UncommittedCollections25UncommittedCollectionsMapESaIS2_ELN9__gnu_cxx12_Lock_policyE2EE10_M_disposeEv",
+            "samples": 135
+          },
+          {
+            "name": "_ZN5mongo31indexEntryFromIndexCatalogEntryEPNS_16OperationContextERKNS_17IndexCatalogEntryEPKNS_14CanonicalQueryE",
+            "samples": 134
+          },
+          {
+            "name": "_ZN5mongo15find_and_modify15serializeUpsertEmRKN5boost8optionalINS_7BSONObjEEEbRKS3_PNS_14BSONObjBuilderE",
+            "samples": 133
+          },
+          {
+            "name": "_ZN5mongo16WorkingSetCommon5fetchEPNS_16OperationContextEPNS_10WorkingSetEmNS_11unowned_ptrINS_20SeekableRecordCursorEEERKNS_15NamespaceStringE",
+            "samples": 133
+          },
+          {
+            "name": "_ZN5mongo17AutoGetCollectionC1EPNS_16OperationContextERKNS_21NamespaceStringOrUUIDENS_8LockModeENS0_8ViewModeENS_6Date_tE",
+            "samples": 133
+          },
+          {
+            "name": "_ZN5mongo14CommandHelpers18parseNsFromCommandB5cxx11ENS_10StringDataERKNS_7BSONObjE",
+            "samples": 133
+          },
+          {
+            "name": "_ZN5mongo9KeyString11BuilderBaseINS_19StackBufBuilderBaseILm512EEEE16_appendBsonValueERKNS_11BSONElementEbPKNS_10StringDataERKSt8functionIFNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES8_EE",
+            "samples": 132
+          },
+          {
+            "name": "_ZN5mongo12_GLOBAL__N_17FindCmd10Invocation3runEPNS_16OperationContextEPNS_3rpc21ReplyBuilderInterfaceE",
+            "samples": 129
+          },
+          {
+            "name": "_ZN5mongo3rpc16TrackingMetadata16readFromMetadataERKNS_11BSONElementE",
+            "samples": 129
+          },
+          {
+            "name": "_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE9_M_createERmm.isra.445",
+            "samples": 125
+          },
+          {
+            "name": "__wt_cursor_get_valuev",
+            "samples": 121
+          },
+          {
+            "name": "_ZN5mongo12PlanExecutor4makeESt10unique_ptrINS_14CanonicalQueryESt14default_deleteIS2_EES1_INS_10WorkingSetES3_IS6_EES1_INS_9PlanStageES3_IS9_EEPKNS_10CollectionENS0_11YieldPolicyENS_15NamespaceStringES1_INS_13QuerySolutionES3_ISH_EE",
+            "samples": 121
+          },
+          {
+            "name": "_ZN5mongo9transport18TransportLayerASIO9BatonASIO10detachImplEv",
+            "samples": 120
+          },
+          {
+            "name": "_ZN5mongo12_GLOBAL__N_15parseERKNS_7BSONObjERKN5boost13intrusive_ptrINS_17ExpressionContextEEEPKNS_18ExtensionsCallbackEyNS_18DocumentParseLevelE",
+            "samples": 119
+          }
+        ],
+        "attribution_limitation": "Retired IP/nearest taken-target association, not proof of BTB or FDIP causality. All main samples remain in the main-sample denominator."
+      },
+      "counts": {
+        "main_samples": 40168,
+        "on_selected_target_line": 16110,
+        "no_matching_hint_observed": 26074,
+        "matching_hint_observed": 14094,
+        "matching_hint_age_ge64": 13572,
+        "matching_hint_age_ge512": 5523
+      },
+      "nearest_retired_age": {
+        "128-511": 7280,
+        "512-2047": 5264,
+        "64-127": 796,
+        "2048-8192": 232,
+        "0-63": 522
+      },
+      "earliest_retired_age": {
+        "128-511": 7253,
+        "512-2047": 5291,
+        "64-127": 796,
+        "2048-8192": 232,
+        "0-63": 522
+      },
+      "locations": {
+        "groups": {
+          "selected_line": {
+            "samples": 16110,
+            "instructions": {
+              "other": 13464,
+              "indirect_call": 126,
+              "conditional_branch": 1485,
+              "return": 56,
+              "direct_call": 729,
+              "direct_jump": 241,
+              "indirect_jump": 9
+            },
+            "prior_branches": {
+              "conditional_branch": 2205,
+              "direct_call": 7625,
+              "direct_jump": 3538,
+              "indirect_call": 2197,
+              "return": 351,
+              "indirect_jump": 165,
+              "outside_main": 29
+            },
+            "nearest_branch_mispredicted": 4233,
+            "nearest_branch_observed": 16110,
+            "added_stub_samples": 0,
+            "top_functions": [
+              {
+                "name": "_ZN5mongo12QueryPlanner4planERKNS_14CanonicalQueryERKNS_18QueryPlannerParamsE",
+                "samples": 163
+              },
+              {
+                "name": "_ZN5mongo12_GLOBAL__N_119computeSortsForScanERKNS_10IndexEntryEiRKNS_11IndexBoundsEPKNS_17CollatorInterfaceERKSt3setINS_10StringDataESt4lessISB_ESaISB_EEPSA_INS_7BSONObjENS_27BSONComparatorInterfaceBaseISI_E8LessThanESaISI_EE",
+                "samples": 159
+              },
+              {
+                "name": "__wt_struct_packv",
+                "samples": 133
+              },
+              {
+                "name": "_ZN5mongo3rpc16TrackingMetadata16readFromMetadataERKNS_11BSONElementE",
+                "samples": 123
+              },
+              {
+                "name": "__wt_btcur_search_near",
+                "samples": 116
+              },
+              {
+                "name": "_ZN5mongo17CollationIndexKey28collationAwareIndexKeyAppendENS_11BSONElementEPKNS_17CollatorInterfaceEPNS_14BSONObjBuilderE",
+                "samples": 102
+              },
+              {
+                "name": "_ZN5mongo12validateBSONEPKcmNS_11BSONVersionE",
+                "samples": 100
+              },
+              {
+                "name": "_ZN5mongo12_GLOBAL__N_135computeSortsAndMultikeyPathsForScanERKNS_10IndexEntryEiRKNS_11IndexBoundsEPKNS_17CollatorInterfaceEPSt3setINS_7BSONObjENS_27BSONComparatorInterfaceBaseISB_E8LessThanESaISB_EEPSA_INS_10StringDataESt4lessISI_ESaISI_EE",
+                "samples": 92
+              },
+              {
+                "name": "_ZN5mongo18IndexBoundsBuilder19_translatePredicateEPKNS_15MatchExpressionERKNS_11BSONElementERKNS_10IndexEntryEPNS_19OrderedIntervalListEPNS0_15BoundsTightnessE",
+                "samples": 91
+              },
+              {
+                "name": "_ZN5mongo23canonical_query_encoder6encodeB5cxx11ERKNS_14CanonicalQueryE",
+                "samples": 89
+              },
+              {
+                "name": "_ZN5mongo3Top6recordEPNS_16OperationContextENS_10StringDataENS_9LogicalOpENS0_8LockTypeExbNS_7Command13ReadWriteTypeE",
+                "samples": 83
+              },
+              {
+                "name": "_ZN5mongo12QueryRequest20parseFromFindCommandESt10unique_ptrIS0_St14default_deleteIS0_EERKNS_7BSONObjEb",
+                "samples": 83
+              },
+              {
+                "name": "__session_begin_transaction",
+                "samples": 75
+              },
+              {
+                "name": "_ZN5mongo12_GLOBAL__N_116prepareExecutionEPNS_16OperationContextEPNS_10CollectionEPNS_10WorkingSetESt10unique_ptrINS_14CanonicalQueryESt14default_deleteIS8_EEm",
+                "samples": 69
+              },
+              {
+                "name": "_ZN5mongo12_GLOBAL__N_17FindCmd10Invocation3runEPNS_16OperationContextEPNS_3rpc21ReplyBuilderInterfaceE",
+                "samples": 69
+              },
+              {
+                "name": "_ZN5mongo13MirrorMaestro16tryMirrorRequestEPNS_16OperationContextE",
+                "samples": 68
+              },
+              {
+                "name": "_ZN5mongo3rpc20ConfigServerMetadata16readFromMetadataERKNS_11BSONElementE",
+                "samples": 68
+              },
+              {
+                "name": "__wt_btcur_next",
+                "samples": 67
+              },
+              {
+                "name": "_ZN5mongo12_GLOBAL__N_15parseERKNS_7BSONObjERKN5boost13intrusive_ptrINS_17ExpressionContextEEEPKNS_18ExtensionsCallbackEyNS_18DocumentParseLevelE",
+                "samples": 66
+              },
+              {
+                "name": "_ZN5mongo3rpc19readRequestMetadataEPNS_16OperationContextERKNS_7BSONObjEb",
+                "samples": 65
+              },
+              {
+                "name": "_ZN5mongo23ServiceEntryPointCommon13handleRequestEPNS_16OperationContextERKNS_7MessageERKNS0_5HooksE",
+                "samples": 65
+              },
+              {
+                "name": "_ZN5mongo14CommandHelpers20runCommandInvocationEPNS_16OperationContextERKNS_12OpMsgRequestEPNS_17CommandInvocationEPNS_3rpc21ReplyBuilderInterfaceE",
+                "samples": 65
+              },
+              {
+                "name": "_ZN5mongo17AutoGetCollectionC1EPNS_16OperationContextERKNS_21NamespaceStringOrUUIDENS_8LockModeENS0_8ViewModeENS_6Date_tE",
+                "samples": 64
+              },
+              {
+                "name": "_ZN5mongo10LockerImpl10lockGlobalEPNS_16OperationContextENS_8LockModeENS_6Date_tE",
+                "samples": 63
+              },
+              {
+                "name": "_ZN5mongo14CommandHelpers11findCommandENS_10StringDataE",
+                "samples": 63
+              }
+            ]
+          },
+          "unselected_line": {
+            "samples": 24058,
+            "instructions": {
+              "other": 19120,
+              "prefetch": 2112,
+              "conditional_branch": 1606,
+              "direct_call": 508,
+              "direct_jump": 435,
+              "indirect_jump": 62,
+              "return": 194,
+              "indirect_call": 21
+            },
+            "prior_branches": {
+              "conditional_branch": 6668,
+              "direct_call": 6976,
+              "outside_main": 287,
+              "direct_jump": 5690,
+              "indirect_call": 2142,
+              "return": 1975,
+              "indirect_jump": 320
+            },
+            "nearest_branch_mispredicted": 7485,
+            "nearest_branch_observed": 24058,
+            "added_stub_samples": 2268,
+            "top_functions": [
+              {
+                "name": ".text.prefetch_calls",
+                "samples": 2268
+              },
+              {
+                "name": "_ZZN5mongo12_GLOBAL__N_116receivedCommandsEPNS_16OperationContextERKNS_7MessageERKNS_23ServiceEntryPointCommon5HooksEENKUlvE_clEv",
+                "samples": 425
+              },
+              {
+                "name": "_ZN5mongo20FindAndModifyRequest13parseFromBSONENS_15NamespaceStringERKNS_7BSONObjE",
+                "samples": 378
+              },
+              {
+                "name": "_ZN5mongo5CurOpC1EPNS_16OperationContextEPNS0_10CurOpStackE",
+                "samples": 326
+              },
+              {
+                "name": "_ZNSt6vectorIN5mongo10IndexEntryESaIS1_EEaSERKS3_",
+                "samples": 241
+              },
+              {
+                "name": "__wt_row_search",
+                "samples": 212
+              },
+              {
+                "name": "__wt_cursor_set_keyv",
+                "samples": 206
+              },
+              {
+                "name": "_ZN5mongo20QueryPlannerAnalysis17analyzeDataAccessERKNS_14CanonicalQueryERKNS_18QueryPlannerParamsESt10unique_ptrINS_17QuerySolutionNodeESt14default_deleteIS8_EE",
+                "samples": 169
+              },
+              {
+                "name": "__libc_realloc",
+                "samples": 168
+              },
+              {
+                "name": "__wt_btcur_search_near",
+                "samples": 163
+              },
+              {
+                "name": "__wt_cursor_set_valuev",
+                "samples": 163
+              },
+              {
+                "name": "_ZN5mongo12_GLOBAL__N_116prepareExecutionEPNS_16OperationContextEPNS_10CollectionEPNS_10WorkingSetESt10unique_ptrINS_14CanonicalQueryESt14default_deleteIS8_EEm",
+                "samples": 156
+              },
+              {
+                "name": "_ZN5mongo12QueryRequest20parseFromFindCommandESt10unique_ptrIS0_St14default_deleteIS0_EERKNS_7BSONObjEb",
+                "samples": 155
+              },
+              {
+                "name": "_ZN5mongo12QueryPlanner4planERKNS_14CanonicalQueryERKNS_18QueryPlannerParamsE",
+                "samples": 149
+              },
+              {
+                "name": "__wt_btcur_next",
+                "samples": 146
+              },
+              {
+                "name": "_ZNSt23_Sp_counted_ptr_inplaceIN5mongo22UncommittedCollections25UncommittedCollectionsMapESaIS2_ELN9__gnu_cxx12_Lock_policyE2EE10_M_disposeEv",
+                "samples": 135
+              },
+              {
+                "name": "_ZN5mongo14CommandHelpers18parseNsFromCommandB5cxx11ENS_10StringDataERKNS_7BSONObjE",
+                "samples": 133
+              },
+              {
+                "name": "_ZN5mongo9KeyString11BuilderBaseINS_19StackBufBuilderBaseILm512EEEE12getValueCopyEv",
+                "samples": 130
+              },
+              {
+                "name": "__wt_cursor_cache_get",
+                "samples": 129
+              },
+              {
+                "name": "_ZNK5mongo11BSONElement8toStringERNS_17StringBuilderImplINS_21SharedBufferAllocatorEEEbbbi",
+                "samples": 128
+              },
+              {
+                "name": "_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE9_M_createERmm.isra.445",
+                "samples": 125
+              },
+              {
+                "name": "_ZN5mongo12validateBSONEPKcmNS_11BSONVersionE",
+                "samples": 123
+              },
+              {
+                "name": "__wt_cursor_get_valuev",
+                "samples": 121
+              },
+              {
+                "name": "_ZN5mongo9transport18TransportLayerASIO9BatonASIO10detachImplEv",
+                "samples": 120
+              },
+              {
+                "name": "_ZN5mongo14ServiceContext20makeOperationContextEPNS_6ClientE",
+                "samples": 115
+              }
+            ]
+          }
+        },
+        "limitation": "Retired IP and nearest visible taken-branch association. Selected-line membership does not establish a matching hint execution. Misprediction labels do not identify BTB absence. Added-stub attribution uses the decoded .text.prefetch_calls section symbol."
+      },
+      "fetch_spans": {
+        "counts": {
+          "samples": 40168,
+          "decoded_samples": 40168,
+          "crosses_32": 21341,
+          "crosses_64": 21217,
+          "crosses_4096": 561,
+          "crosses64_first_line_selected": 15309,
+          "crosses64_second_line_selected": 48,
+          "crosses64_first_selected_second_unselected": 15276
+        },
+        "ip_offset64_histogram": {
+          "32": 2641,
+          "40": 205,
+          "62": 5061,
+          "0": 7723,
+          "61": 4338,
+          "16": 2631,
+          "55": 125,
+          "48": 2511,
+          "38": 17,
+          "63": 5863,
+          "58": 1426,
+          "35": 92,
+          "54": 257,
+          "59": 1871,
+          "51": 57,
+          "60": 1836,
+          "24": 312,
+          "57": 523,
+          "10": 73,
+          "17": 82,
+          "56": 416,
+          "21": 49,
+          "36": 50,
+          "8": 237,
+          "2": 155,
+          "44": 14,
+          "31": 48,
+          "1": 156,
+          "42": 37,
+          "15": 37,
+          "29": 18,
+          "6": 36,
+          "53": 53,
+          "3": 257,
+          "25": 47,
+          "49": 34,
+          "7": 46,
+          "4": 58,
+          "37": 151,
+          "14": 96,
+          "30": 24,
+          "22": 39,
+          "34": 12,
+          "43": 27,
+          "28": 55,
+          "52": 13,
+          "12": 23,
+          "23": 55,
+          "20": 41,
+          "39": 17,
+          "11": 31,
+          "46": 16,
+          "9": 13,
+          "26": 42,
+          "27": 18,
+          "19": 16,
+          "41": 26,
+          "5": 16,
+          "50": 11,
+          "13": 28,
+          "47": 1,
+          "18": 2,
+          "45": 2,
+          "33": 1
+        },
+        "top_split_instructions": [
+          {
+            "ip": 30957565,
+            "samples": 69,
+            "length": 5,
+            "instruction": "mov    $0x48,%edi",
+            "function": "_ZN5mongo12QueryPlanner23cacheDataFromTaggedTreeEPKNS_15MatchExpressionERKSt6vectorINS_10IndexEntryESaIS5_EE",
+            "first_line": 483711,
+            "last_line": 483712
+          },
+          {
+            "ip": 44196860,
+            "samples": 68,
+            "length": 9,
+            "instruction": "xor    %fs:0x28,%rcx",
+            "function": "_ZN5mongo3rpc20ConfigServerMetadata16readFromMetadataERKNS_11BSONElementE",
+            "first_line": 690575,
+            "last_line": 690576
+          },
+          {
+            "ip": 31891645,
+            "samples": 65,
+            "length": 7,
+            "instruction": "mov    %rcx,-0x108(%rbp)",
+            "function": "_ZN5mongo12_GLOBAL__N_15parseERKNS_7BSONObjERKN5boost13intrusive_ptrINS_17ExpressionContextEEEPKNS_18ExtensionsCallbackEyNS_18DocumentParseLevelE",
+            "first_line": 498306,
+            "last_line": 498307
+          },
+          {
+            "ip": 30299070,
+            "samples": 63,
+            "length": 9,
+            "instruction": "mov    %fs:0x28,%rax",
+            "function": "_ZN5mongo14CommandHelpers11findCommandENS_10StringDataE",
+            "first_line": 473422,
+            "last_line": 473423
+          },
+          {
+            "ip": 27836794,
+            "samples": 62,
+            "length": 11,
+            "instruction": "movq   $0x0,-0x480(%rbp)",
+            "function": "_ZN5mongo12_GLOBAL__N_116prepareExecutionEPNS_16OperationContextEPNS_10CollectionEPNS_10WorkingSetESt10unique_ptrINS_14CanonicalQueryESt14default_deleteIS8_EEm",
+            "first_line": 434949,
+            "last_line": 434950
+          },
+          {
+            "ip": 30988863,
+            "samples": 61,
+            "length": 4,
+            "instruction": "imul   %rdi,%rsi",
+            "function": "_ZNSt6vectorIN5mongo10IndexEntryESaIS1_EEaSERKS3_",
+            "first_line": 484200,
+            "last_line": 484201
+          },
+          {
+            "ip": 27833150,
+            "samples": 60,
+            "length": 3,
+            "instruction": "mov    (%rdi),%rax",
+            "function": "_ZN5mongo20fillOutPlannerParamsEPNS_16OperationContextEPNS_10CollectionEPNS_14CanonicalQueryEPNS_18QueryPlannerParamsE",
+            "first_line": 434892,
+            "last_line": 434893
+          },
+          {
+            "ip": 31145727,
+            "samples": 59,
+            "length": 7,
+            "instruction": "lea    -0x2e0(%rbp),%r14",
+            "function": "_ZN5mongo12_GLOBAL__N_119computeSortsForScanERKNS_10IndexEntryEiRKNS_11IndexBoundsEPKNS_17CollatorInterfaceERKSt3setINS_10StringDataESt4lessISB_ESaISB_EEPSA_INS_7BSONObjENS_27BSONComparatorInterfaceBaseISI_E8LessThanESaISI_EE",
+            "first_line": 486651,
+            "last_line": 486652
+          },
+          {
+            "ip": 46431611,
+            "samples": 58,
+            "length": 7,
+            "instruction": "movzbl 0x13f2bae(%rip),%eax        # 403a930 <_ZGVZN5mongo9DecorableINS_16OperationContextEE11getRegistryEvE11theRegistry>",
+            "function": "_ZN5mongo16OperationContextC1EPNS_6ClientEONS_25UniqueOperationIdRegistry15OperationIdSlotE",
+            "first_line": 725493,
+            "last_line": 725494
+          },
+          {
+            "ip": 31160125,
+            "samples": 57,
+            "length": 4,
+            "instruction": "sub    $0x10,%rsp",
+            "function": "_ZNSt8_Rb_treeIN5mongo7BSONObjES1_St9_IdentityIS1_ENS0_27BSONComparatorInterfaceBaseIS1_E8LessThanESaIS1_EE16_M_insert_uniqueIRKS1_EESt4pairISt17_Rb_tree_iteratorIS1_EbEOT_",
+            "first_line": 486876,
+            "last_line": 486877
+          },
+          {
+            "ip": 47317883,
+            "samples": 57,
+            "length": 7,
+            "instruction": "lea    0x3cc637(%rip),%rax        # 30ec9b9 <_ZZN5mongo11BSONElementC4EvE11kEooElement>",
+            "function": "_ZN5mongo12validateBSONEPKcmNS_11BSONVersionE",
+            "first_line": 739341,
+            "last_line": 739342
+          },
+          {
+            "ip": 41215742,
+            "samples": 57,
+            "length": 3,
+            "instruction": "mov    %rdx,%rbx",
+            "function": "_ZN5mongo9transport26ServiceExecutorSynchronous8scheduleESt8functionIFvvEENS0_15ServiceExecutor13ScheduleFlagsENS0_23ServiceExecutorTaskNameE",
+            "first_line": 643995,
+            "last_line": 643996
+          },
+          {
+            "ip": 44230911,
+            "samples": 57,
+            "length": 5,
+            "instruction": "lea    0x10(%r12),%rsi",
+            "function": "_ZN5mongo3rpc16TrackingMetadata16readFromMetadataERKNS_11BSONElementE",
+            "first_line": 691107,
+            "last_line": 691108
+          },
+          {
+            "ip": 30886778,
+            "samples": 56,
+            "length": 8,
+            "instruction": "movq   $0x0,0x28(%rdi)",
+            "function": "_ZNSt3setIN5mongo7BSONObjENS0_27BSONComparatorInterfaceBaseIS1_E8LessThanESaIS1_EEC1ESt16initializer_listIS1_ERKS4_RKS5_",
+            "first_line": 482605,
+            "last_line": 482606
+          },
+          {
+            "ip": 27893951,
+            "samples": 56,
+            "length": 3,
+            "instruction": "mov    %rsi,%r12",
+            "function": "_ZN5mongo12PlanExecutor4makeESt10unique_ptrINS_14CanonicalQueryESt14default_deleteIS2_EES1_INS_10WorkingSetES3_IS6_EES1_INS_9PlanStageES3_IS9_EEPKNS_10CollectionENS0_11YieldPolicyENS_15NamespaceStringES1_INS_13QuerySolutionES3_ISH_EE",
+            "first_line": 435842,
+            "last_line": 435843
+          },
+          {
+            "ip": 30784381,
+            "samples": 56,
+            "length": 5,
+            "instruction": "call   2f18c80 <__dynamic_cast>",
+            "function": "_ZNSt17_Function_handlerIFbPKN5mongo15MatchExpressionEEZNS0_12_GLOBAL__N_129getCollatedIndexDiscriminatorEPKNS0_17CollatorInterfaceEEUlS3_E_E9_M_invokeERKSt9_Any_dataOS3_",
+            "first_line": 481005,
+            "last_line": 481006
+          },
+          {
+            "ip": 32602431,
+            "samples": 56,
+            "length": 2,
+            "instruction": "je     1f17980 <_ZN5mongo18DecorationRegistryINS_16OperationContextEE9destroyAtISt10unique_ptrINS_11JsExecutionESt14default_deleteIS5_EEEEvPv+0x50>",
+            "function": "_ZN5mongo18DecorationRegistryINS_16OperationContextEE9destroyAtISt10unique_ptrINS_11JsExecutionESt14default_deleteIS5_EEEEvPv",
+            "first_line": 509412,
+            "last_line": 509413
+          },
+          {
+            "ip": 27525755,
+            "samples": 55,
+            "length": 8,
+            "instruction": "movq   $0x0,0x8(%rbx)",
+            "function": "_ZNSt20__uninitialized_copyILb0EE13__uninit_copyIN9__gnu_cxx17__normal_iteratorIPKN5mongo19OrderedIntervalListESt6vectorIS5_SaIS5_EEEEPS5_EET0_T_SE_SD_",
+            "first_line": 430089,
+            "last_line": 430090
+          },
+          {
+            "ip": 46609599,
+            "samples": 54,
+            "length": 2,
+            "instruction": "push   %r13",
+            "function": "_ZN5mongo30OperationSessionInfoFromClient14parseProtectedERKNS_21IDLParserErrorContextERKNS_7BSONObjE",
+            "first_line": 728274,
+            "last_line": 728275
+          },
+          {
+            "ip": 30883839,
+            "samples": 54,
+            "length": 4,
+            "instruction": "lea    0x28(%rdi),%rdi",
+            "function": "_ZN5mongo9FetchNodeD0Ev",
+            "first_line": 482559,
+            "last_line": 482560
+          },
+          {
+            "ip": 31144698,
+            "samples": 54,
+            "length": 7,
+            "instruction": "lea    -0x280(%rbp),%r15",
+            "function": "_ZN5mongo12_GLOBAL__N_119computeSortsForScanERKNS_10IndexEntryEiRKNS_11IndexBoundsEPKNS_17CollatorInterfaceERKSt3setINS_10StringDataESt4lessISB_ESaISB_EEPSA_INS_7BSONObjENS_27BSONComparatorInterfaceBaseISI_E8LessThanESaISI_EE",
+            "first_line": 486635,
+            "last_line": 486636
+          },
+          {
+            "ip": 31146943,
+            "samples": 54,
+            "length": 3,
+            "instruction": "mov    %rbx,%r8",
+            "function": "_ZN5mongo12_GLOBAL__N_135computeSortsAndMultikeyPathsForScanERKNS_10IndexEntryEiRKNS_11IndexBoundsEPKNS_17CollatorInterfaceEPSt3setINS_7BSONObjENS_27BSONComparatorInterfaceBaseISB_E8LessThanESaISB_EEPSA_INS_10StringDataESt4lessISI_ESaISI_EE",
+            "first_line": 486670,
+            "last_line": 486671
+          },
+          {
+            "ip": 30191099,
+            "samples": 54,
+            "length": 8,
+            "instruction": "movq   $0x0,0x60(%rdi)",
+            "function": "_ZN5mongo5CurOpC1EPNS_16OperationContextEPNS0_10CurOpStackE",
+            "first_line": 471735,
+            "last_line": 471736
+          },
+          {
+            "ip": 46578812,
+            "samples": 54,
+            "length": 5,
+            "instruction": "call   434b140 <_end+0x5f30>",
+            "function": "_ZN5mongo9KeyString11BuilderBaseINS_19StackBufBuilderBaseILm512EEEE17_appendNumberLongExb",
+            "first_line": 727793,
+            "last_line": 727794
+          },
+          {
+            "ip": 30851197,
+            "samples": 53,
+            "length": 4,
+            "instruction": "sub    $0x28,%rsp",
+            "function": "_ZN4absl18container_internal12raw_hash_setINS0_17NodeHashMapPolicyIPN5mongo15MatchExpressionENS3_14PlanEnumerator16OutsidePredRouteEEENS0_6HashEqIS5_vE4HashENSA_2EqESaISt4pairIKS5_S7_EEEC1ERKSH_RKSG_",
+            "first_line": 482049,
+            "last_line": 482050
+          }
+        ],
+        "limitation": "Instruction-byte spans only. A split instruction can need a following cache line, but the PEBS event does not identify which of its lines missed. Global selected-line membership does not establish a matching hint execution. Original instruction lengths are unchanged in the patched main text."
+      },
+      "estimated_events_per_request": {
+        "main_samples": 932.8733056208206,
+        "on_selected_target_line": 374.14332188686063,
+        "no_matching_hint_observed": 605.5501536237123,
+        "matching_hint_observed": 327.32315199710825,
+        "matching_hint_age_ge64": 315.20007229351165,
+        "matching_hint_age_ge512": 128.26775709380084
+      },
+      "baseline_heldout": {
+        "counts": {
+          "main_samples": 82395,
+          "on_selected_target_line": 65427
+        },
+        "request_window": {
+          "begin_epoch": 1790673559.67295,
+          "end_epoch": 1790673569.032706,
+          "seconds": 9.359755992889404,
+          "completed_requests": 10671,
+          "limitation": "Requests bracket perf record startup/teardown as well as the capture interval. Approximate per-request normalization, not an E2E performance trial."
+        },
+        "fetch_spans": {
+          "counts": {
+            "samples": 82395,
+            "decoded_samples": 82395,
+            "crosses_32": 19496,
+            "crosses_64": 19080,
+            "crosses_4096": 248,
+            "crosses64_first_line_selected": 14624,
+            "crosses64_second_line_selected": 1369,
+            "crosses64_first_selected_second_unselected": 13309
+          },
+          "ip_offset64_histogram": {
+            "33": 223,
+            "16": 11627,
+            "48": 12076,
+            "57": 687,
+            "62": 4410,
+            "0": 20424,
+            "32": 11888,
+            "28": 84,
+            "63": 5138,
+            "61": 4293,
+            "60": 1936,
+            "58": 1316,
+            "59": 1521,
+            "4": 214,
+            "6": 100,
+            "10": 89,
+            "36": 61,
+            "8": 392,
+            "56": 602,
+            "53": 146,
+            "21": 100,
+            "20": 43,
+            "54": 257,
+            "3": 270,
+            "41": 77,
+            "47": 38,
+            "2": 251,
+            "40": 703,
+            "49": 10,
+            "31": 89,
+            "19": 203,
+            "24": 683,
+            "11": 59,
+            "44": 102,
+            "50": 85,
+            "55": 152,
+            "22": 49,
+            "26": 79,
+            "29": 110,
+            "13": 97,
+            "17": 131,
+            "15": 108,
+            "1": 252,
+            "46": 63,
+            "25": 104,
+            "35": 107,
+            "52": 20,
+            "38": 67,
+            "37": 121,
+            "30": 83,
+            "51": 115,
+            "5": 58,
+            "7": 109,
+            "27": 16,
+            "42": 103,
+            "23": 72,
+            "12": 25,
+            "45": 27,
+            "39": 26,
+            "43": 18,
+            "9": 34,
+            "14": 39,
+            "34": 9,
+            "18": 4
+          },
+          "top_split_instructions": [
+            {
+              "ip": 31145727,
+              "samples": 75,
+              "length": 7,
+              "instruction": "lea    -0x2e0(%rbp),%r14",
+              "function": "_ZN5mongo12_GLOBAL__N_119computeSortsForScanERKNS_10IndexEntryEiRKNS_11IndexBoundsEPKNS_17CollatorInterfaceERKSt3setINS_10StringDataESt4lessISB_ESaISB_EEPSA_INS_7BSONObjENS_27BSONComparatorInterfaceBaseISI_E8LessThanESaISI_EE",
+              "first_line": 486651,
+              "last_line": 486652
+            },
+            {
+              "ip": 44183356,
+              "samples": 72,
+              "length": 10,
+              "instruction": "movabs $0x100000000,%rax",
+              "function": "_ZN5mongo3rpc19readRequestMetadataEPNS_16OperationContextERKNS_7BSONObjEb",
+              "first_line": 690364,
+              "last_line": 690365
+            },
+            {
+              "ip": 17402876,
+              "samples": 71,
+              "length": 6,
+              "instruction": "je     1098e50 <__curfile_search+0x290>",
+              "function": "__curfile_search",
+              "first_line": 271919,
+              "last_line": 271920
+            },
+            {
+              "ip": 31146943,
+              "samples": 69,
+              "length": 3,
+              "instruction": "mov    %rbx,%r8",
+              "function": "_ZN5mongo12_GLOBAL__N_135computeSortsAndMultikeyPathsForScanERKNS_10IndexEntryEiRKNS_11IndexBoundsEPKNS_17CollatorInterfaceEPSt3setINS_7BSONObjENS_27BSONComparatorInterfaceBaseISB_E8LessThanESaISB_EEPSA_INS_10StringDataESt4lessISI_ESaISI_EE",
+              "first_line": 486670,
+              "last_line": 486671
+            },
+            {
+              "ip": 18520570,
+              "samples": 67,
+              "length": 7,
+              "instruction": "mov    %rdi,-0xa0(%rbp)",
+              "function": "__wt_search_insert",
+              "first_line": 289383,
+              "last_line": 289384
+            },
+            {
+              "ip": 47328062,
+              "samples": 67,
+              "length": 3,
+              "instruction": "mov    (%r14),%rdx",
+              "function": "_ZNK5mongo11BSONElement8toStringERNS_17StringBuilderImplINS_21SharedBufferAllocatorEEEbbbi",
+              "first_line": 739500,
+              "last_line": 739501
+            },
+            {
+              "ip": 41450811,
+              "samples": 67,
+              "length": 7,
+              "instruction": "lea    0x87286f(%rip),%rsi        # 2ffa5b1 <_IO_stdin_used+0x45db1>",
+              "function": "_ZZN5mongo9transport18TransportLayerASIO11ASIOSession17sourceMessageImplERKSt10shared_ptrINS_5BatonEEENUlvE_clEv",
+              "first_line": 647668,
+              "last_line": 647669
+            },
+            {
+              "ip": 46214014,
+              "samples": 67,
+              "length": 3,
+              "instruction": "mov    %rdx,%rsi",
+              "function": "_ZNK5mongo17CollectionCatalog27lookupCollectionByNamespaceEPNS_16OperationContextERKNS_15NamespaceStringE",
+              "first_line": 722093,
+              "last_line": 722094
+            },
+            {
+              "ip": 31084478,
+              "samples": 65,
+              "length": 8,
+              "instruction": "movq   $0x0,0x8(%rdi)",
+              "function": "_ZN5mongo8IntervalC1Ev",
+              "first_line": 485694,
+              "last_line": 485695
+            },
+            {
+              "ip": 30718138,
+              "samples": 65,
+              "length": 7,
+              "instruction": "mov    0x198(%rax),%rbx",
+              "function": "_ZN5mongo23canonical_query_encoder6encodeB5cxx11ERKNS_14CanonicalQueryE",
+              "first_line": 479970,
+              "last_line": 479971
+            },
+            {
+              "ip": 31893369,
+              "samples": 64,
+              "length": 9,
+              "instruction": "mov    %fs:0x28,%rax",
+              "function": "_ZN5mongo21MatchExpressionParser5parseERKNS_7BSONObjERKN5boost13intrusive_ptrINS_17ExpressionContextEEERKNS_18ExtensionsCallbackEy",
+              "first_line": 498333,
+              "last_line": 498334
+            },
+            {
+              "ip": 30599421,
+              "samples": 64,
+              "length": 4,
+              "instruction": "cmpb   $0x0,0x78(%rdi)",
+              "function": "_ZN5mongo22OperationShardingStateD1Ev",
+              "first_line": 478115,
+              "last_line": 478116
+            },
+            {
+              "ip": 27865149,
+              "samples": 64,
+              "length": 4,
+              "instruction": "sar    $0x3,%rax",
+              "function": "_ZNSt6vectorIPN5mongo17QuerySolutionNodeESaIS2_EE17_M_realloc_insertIJS2_EEEvN9__gnu_cxx17__normal_iteratorIPS2_S4_EEDpOT_",
+              "first_line": 435392,
+              "last_line": 435393
+            },
+            {
+              "ip": 17139903,
+              "samples": 63,
+              "length": 4,
+              "instruction": "sub    $0x8,%rsp",
+              "function": "_ZN5mongo35WiredTigerRecordStoreStandardCursorD0Ev",
+              "first_line": 267810,
+              "last_line": 267811
+            },
+            {
+              "ip": 17080827,
+              "samples": 62,
+              "length": 8,
+              "instruction": "movq   $0x0,0x58(%rdi)",
+              "function": "_ZN5mongo31WiredTigerRecordStoreCursorBaseC1EPNS_16OperationContextERKNS_21WiredTigerRecordStoreEb",
+              "first_line": 266887,
+              "last_line": 266888
+            },
+            {
+              "ip": 30719039,
+              "samples": 62,
+              "length": 7,
+              "instruction": "mov    -0x1b00(%rbp),%rdx",
+              "function": "_ZN5mongo23canonical_query_encoder6encodeB5cxx11ERKNS_14CanonicalQueryE",
+              "first_line": 479984,
+              "last_line": 479985
+            },
+            {
+              "ip": 30881727,
+              "samples": 59,
+              "length": 3,
+              "instruction": "mov    %rdx,%rcx",
+              "function": "_ZN5mongo18QueryPlannerAccess22buildIndexedDataAccessERKNS_14CanonicalQueryESt10unique_ptrINS_15MatchExpressionESt14default_deleteIS5_EERKSt6vectorINS_10IndexEntryESaISA_EERKNS_18QueryPlannerParamsE",
+              "first_line": 482526,
+              "last_line": 482527
+            },
+            {
+              "ip": 27725567,
+              "samples": 59,
+              "length": 4,
+              "instruction": "shl    $0x4,%r13",
+              "function": "_ZN5mongo16WorkingSetCommon5fetchEPNS_16OperationContextEPNS_10WorkingSetEmNS_11unowned_ptrINS_20SeekableRecordCursorEEERKNS_15NamespaceStringE",
+              "first_line": 433211,
+              "last_line": 433212
+            },
+            {
+              "ip": 46589051,
+              "samples": 58,
+              "length": 7,
+              "instruction": "sub    $0xa8,%rsp",
+              "function": "_ZN5mongo9KeyString11BuilderBaseINS_19StackBufBuilderBaseILm512EEEE16_appendBsonValueERKNS_11BSONElementEbPKNS_10StringDataERKSt8functionIFNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES8_EE",
+              "first_line": 727953,
+              "last_line": 727954
+            },
+            {
+              "ip": 30917821,
+              "samples": 58,
+              "length": 7,
+              "instruction": "mov    %rsi,-0x198(%rbp)",
+              "function": "_ZN5mongo20QueryPlannerAnalysis17analyzeDataAccessERKNS_14CanonicalQueryERKNS_18QueryPlannerParamsESt10unique_ptrINS_17QuerySolutionNodeESt14default_deleteIS8_EE",
+              "first_line": 483090,
+              "last_line": 483091
+            },
+            {
+              "ip": 30843517,
+              "samples": 58,
+              "length": 6,
+              "instruction": "je     1d6a368 <_ZN4absl18container_internal12raw_hash_setINS0_17NodeHashMapPolicyIPN5mongo15MatchExpressionENS3_14PlanEnumerator16OutsidePredRouteEEENS0_6HashEqIS5_vE4HashENSA_2EqESaISt4pairIKS5_S7_EEEC1EmRKSB_RKSC_RKSG_+0x118>",
+              "function": "_ZN4absl18container_internal12raw_hash_setINS0_17NodeHashMapPolicyIPN5mongo15MatchExpressionENS3_14PlanEnumerator16OutsidePredRouteEEENS0_6HashEqIS5_vE4HashENSA_2EqESaISt4pairIKS5_S7_EEEC1EmRKSB_RKSC_RKSG_",
+              "first_line": 481929,
+              "last_line": 481930
+            },
+            {
+              "ip": 31160125,
+              "samples": 57,
+              "length": 4,
+              "instruction": "sub    $0x10,%rsp",
+              "function": "_ZNSt8_Rb_treeIN5mongo7BSONObjES1_St9_IdentityIS1_ENS0_27BSONComparatorInterfaceBaseIS1_E8LessThanESaIS1_EE16_M_insert_uniqueIRKS1_EESt4pairISt17_Rb_tree_iteratorIS1_EbEOT_",
+              "first_line": 486876,
+              "last_line": 486877
+            },
+            {
+              "ip": 46131389,
+              "samples": 57,
+              "length": 6,
+              "instruction": "mov    0x5c4(%rdi),%edx",
+              "function": "_ZN5mongo10LockerImpl10lockGlobalEPNS_16OperationContextENS_8LockModeENS_6Date_tE",
+              "first_line": 720802,
+              "last_line": 720803
+            },
+            {
+              "ip": 30757183,
+              "samples": 57,
+              "length": 9,
+              "instruction": "mov    %fs:0x28,%rax",
+              "function": "_ZNK5mongo9PlanCache3getERKNS_12PlanCacheKeyE",
+              "first_line": 480580,
+              "last_line": 480581
+            },
+            {
+              "ip": 44196860,
+              "samples": 56,
+              "length": 9,
+              "instruction": "xor    %fs:0x28,%rcx",
+              "function": "_ZN5mongo3rpc20ConfigServerMetadata16readFromMetadataERKNS_11BSONElementE",
+              "first_line": 690575,
+              "last_line": 690576
+            }
+          ],
+          "limitation": "Instruction-byte spans only. A split instruction can need a following cache line, but the PEBS event does not identify which of its lines missed. Global selected-line membership does not establish a matching hint execution. Original instruction lengths are unchanged in the patched main text."
+        },
+        "estimated_events_per_request": {
+          "main_samples": 1984.3983694124263,
+          "on_selected_target_line": 1575.7416362102895
+        }
+      },
+      "request_window": {
+        "begin_epoch": 1790685319.7154872,
+        "end_epoch": 1790685329.0566423,
+        "seconds": 9.341155052185059,
+        "completed_requests": 11066,
+        "limitation": "Requests bracket perf record startup/teardown as well as the capture interval. Approximate per-request normalization, not an E2E performance trial."
+      },
+      "observations_sha256": "2f884c5e720e042a926c17d0fcfefe841618a8bc90efc9c83341f2416203d742",
+      "decoded_sha256": "c74a2e05039ebe2d56524f1a0754f4e0e88d2ffb79d271a2cafec6a100a4edc8"
+    },
+    "movie-review-mongodb": {
+      "quality": {
+        "all_samples": 41678,
+        "main_samples": 39619,
+        "within_64B_of_target": 34886,
+        "nearest_branch_mispredicted": 11187,
+        "age_bound_reached": 3,
+        "eligible_samples": 33208,
+        "instruction_classes": {
+          "other": 32018,
+          "direct_call": 1264,
+          "prefetch": 2123,
+          "direct_jump": 724,
+          "conditional_branch": 2984,
+          "indirect_jump": 75,
+          "indirect_call": 169,
+          "return": 262
+        },
+        "preceding_branch_classes": {
+          "indirect_call": 4202,
+          "conditional_branch": 8360,
+          "direct_jump": 9311,
+          "return": 2236,
+          "direct_call": 14707,
+          "indirect_jump": 477,
+          "outside_main": 326
+        },
+        "top_functions": [
+          {
+            "name": ".text.prefetch_calls",
+            "samples": 2353
+          },
+          {
+            "name": "_ZN5mongo12QueryPlanner4planERKNS_14CanonicalQueryERKNS_18QueryPlannerParamsE",
+            "samples": 425
+          },
+          {
+            "name": "_ZN5mongo5CurOpC1EPNS_16OperationContextEPNS0_10CurOpStackE",
+            "samples": 367
+          },
+          {
+            "name": "_ZN5mongo20FindAndModifyRequest13parseFromBSONENS_15NamespaceStringERKNS_7BSONObjE",
+            "samples": 361
+          },
+          {
+            "name": "_ZZN5mongo12_GLOBAL__N_116receivedCommandsEPNS_16OperationContextERKNS_7MessageERKNS_23ServiceEntryPointCommon5HooksEENKUlvE_clEv",
+            "samples": 298
+          },
+          {
+            "name": "__wt_row_search",
+            "samples": 290
+          },
+          {
+            "name": "__wt_btcur_search_near",
+            "samples": 261
+          },
+          {
+            "name": "_ZN5mongo12validateBSONEPKcmNS_11BSONVersionE",
+            "samples": 253
+          },
+          {
+            "name": "_ZN5mongo12QueryRequest20parseFromFindCommandESt10unique_ptrIS0_St14default_deleteIS0_EERKNS_7BSONObjEb",
+            "samples": 247
+          },
+          {
+            "name": "_ZN5mongo12_GLOBAL__N_119computeSortsForScanERKNS_10IndexEntryEiRKNS_11IndexBoundsEPKNS_17CollatorInterfaceERKSt3setINS_10StringDataESt4lessISB_ESaISB_EEPSA_INS_7BSONObjENS_27BSONComparatorInterfaceBaseISI_E8LessThanESaISI_EE",
+            "samples": 237
+          },
+          {
+            "name": "_ZN5mongo12_GLOBAL__N_116prepareExecutionEPNS_16OperationContextEPNS_10CollectionEPNS_10WorkingSetESt10unique_ptrINS_14CanonicalQueryESt14default_deleteIS8_EEm",
+            "samples": 227
+          },
+          {
+            "name": "_ZNSt6vectorIN5mongo10IndexEntryESaIS1_EEaSERKS3_",
+            "samples": 224
+          },
+          {
+            "name": "_ZN5mongo20QueryPlannerAnalysis17analyzeDataAccessERKNS_14CanonicalQueryERKNS_18QueryPlannerParamsESt10unique_ptrINS_17QuerySolutionNodeESt14default_deleteIS8_EE",
+            "samples": 219
+          },
+          {
+            "name": "_ZNK5mongo11BSONElement8toStringERNS_17StringBuilderImplINS_21SharedBufferAllocatorEEEbbbi",
+            "samples": 205
+          },
+          {
+            "name": "_ZN5mongo14PlanEnumerator8prepMemoEPNS_15MatchExpressionENS0_15PrepMemoContextE",
+            "samples": 193
+          },
+          {
+            "name": "__wt_btcur_next",
+            "samples": 177
+          },
+          {
+            "name": "_ZN5mongo17AutoGetCollectionC1EPNS_16OperationContextERKNS_21NamespaceStringOrUUIDENS_8LockModeENS0_8ViewModeENS_6Date_tE",
+            "samples": 161
+          },
+          {
+            "name": "__wt_struct_packv",
+            "samples": 160
+          },
+          {
+            "name": "_ZN5mongo12_GLOBAL__N_17FindCmd10Invocation3runEPNS_16OperationContextEPNS_3rpc21ReplyBuilderInterfaceE",
+            "samples": 149
+          },
+          {
+            "name": "__wt_cursor_cache_get",
+            "samples": 148
+          },
+          {
+            "name": "_ZN5mongo15find_and_modify15serializeUpsertEmRKN5boost8optionalINS_7BSONObjEEEbRKS3_PNS_14BSONObjBuilderE",
+            "samples": 141
+          },
+          {
+            "name": "_ZN5mongo9transport18TransportLayerASIO9BatonASIO10detachImplEv",
+            "samples": 138
+          },
+          {
+            "name": "__wt_btcur_search",
+            "samples": 135
+          },
+          {
+            "name": "_ZN5mongo3rpc16TrackingMetadata16readFromMetadataERKNS_11BSONElementE",
+            "samples": 132
+          },
+          {
+            "name": "_ZN5mongo10LockerImplC1Ev",
+            "samples": 132
+          },
+          {
+            "name": "_ZNSt23_Sp_counted_ptr_inplaceIN5mongo22UncommittedCollections25UncommittedCollectionsMapESaIS2_ELN9__gnu_cxx12_Lock_policyE2EE10_M_disposeEv",
+            "samples": 132
+          },
+          {
+            "name": "_ZN4absl18container_internal12raw_hash_setINS0_17NodeHashMapPolicyIPN5mongo15MatchExpressionENS3_14PlanEnumerator16OutsidePredRouteEEENS0_6HashEqIS5_vE4HashENSA_2EqESaISt4pairIKS5_S7_EEEC1ERKSH_RKSG_",
+            "samples": 132
+          },
+          {
+            "name": "_ZN5mongo14CommandHelpers18parseNsFromCommandB5cxx11ENS_10StringDataERKNS_7BSONObjE",
+            "samples": 131
+          },
+          {
+            "name": "_ZN5mongo17CollationIndexKey28collationAwareIndexKeyAppendENS_11BSONElementEPKNS_17CollatorInterfaceEPNS_14BSONObjBuilderE",
+            "samples": 131
+          },
+          {
+            "name": "_ZN5mongo18IndexBoundsBuilder19_translatePredicateEPKNS_15MatchExpressionERKNS_11BSONElementERKNS_10IndexEntryEPNS_19OrderedIntervalListEPNS0_15BoundsTightnessE",
+            "samples": 130
+          },
+          {
+            "name": "_ZN5mongo12QueryPlanner23cacheDataFromTaggedTreeEPKNS_15MatchExpressionERKSt6vectorINS_10IndexEntryESaIS5_EE",
+            "samples": 127
+          },
+          {
+            "name": "_ZN5mongo31indexEntryFromIndexCatalogEntryEPNS_16OperationContextERKNS_17IndexCatalogEntryEPKNS_14CanonicalQueryE",
+            "samples": 126
+          },
+          {
+            "name": "_ZN5mongo23canonical_query_encoder6encodeB5cxx11ERKNS_14CanonicalQueryE",
+            "samples": 124
+          },
+          {
+            "name": "__wt_cursor_set_keyv",
+            "samples": 123
+          },
+          {
+            "name": "__libc_realloc",
+            "samples": 123
+          },
+          {
+            "name": "_ZN5mongo14CommandHelpers20runCommandInvocationEPNS_16OperationContextERKNS_12OpMsgRequestEPNS_17CommandInvocationEPNS_3rpc21ReplyBuilderInterfaceE",
+            "samples": 120
+          },
+          {
+            "name": "_ZN5mongo16WorkingSetCommon5fetchEPNS_16OperationContextEPNS_10WorkingSetEmNS_11unowned_ptrINS_20SeekableRecordCursorEEERKNS_15NamespaceStringE",
+            "samples": 119
+          },
+          {
+            "name": "_ZN5mongo19ServiceStateMachine14_sourceMessageENS0_11ThreadGuardE",
+            "samples": 119
+          },
+          {
+            "name": "_ZN5mongolsERNS_17StringBuilderImplINS_21SharedBufferAllocatorEEERKNS_10KeyPatternE",
+            "samples": 119
+          },
+          {
+            "name": "_ZN5mongo23ServiceEntryPointCommon13handleRequestEPNS_16OperationContextERKNS_7MessageERKNS0_5HooksE",
+            "samples": 116
+          }
+        ],
+        "attribution_limitation": "Retired IP/nearest taken-target association, not proof of BTB or FDIP causality. All main samples remain in the main-sample denominator."
+      },
+      "counts": {
+        "main_samples": 39619,
+        "on_selected_target_line": 15967,
+        "no_matching_hint_observed": 25534,
+        "matching_hint_observed": 14085,
+        "matching_hint_age_ge64": 13639,
+        "matching_hint_age_ge512": 5688
+      },
+      "nearest_retired_age": {
+        "128-511": 7155,
+        "64-127": 819,
+        "512-2047": 5467,
+        "0-63": 446,
+        "2048-8192": 198
+      },
+      "earliest_retired_age": {
+        "128-511": 7133,
+        "64-127": 818,
+        "512-2047": 5490,
+        "0-63": 446,
+        "2048-8192": 198
+      },
+      "locations": {
+        "groups": {
+          "selected_line": {
+            "samples": 15967,
+            "instructions": {
+              "other": 13409,
+              "direct_jump": 252,
+              "direct_call": 707,
+              "conditional_branch": 1409,
+              "indirect_call": 142,
+              "return": 46,
+              "indirect_jump": 2
+            },
+            "prior_branches": {
+              "conditional_branch": 2275,
+              "direct_jump": 3605,
+              "direct_call": 7491,
+              "indirect_jump": 140,
+              "indirect_call": 2173,
+              "return": 271,
+              "outside_main": 12
+            },
+            "nearest_branch_mispredicted": 4262,
+            "nearest_branch_observed": 15967,
+            "added_stub_samples": 0,
+            "top_functions": [
+              {
+                "name": "_ZN5mongo12_GLOBAL__N_119computeSortsForScanERKNS_10IndexEntryEiRKNS_11IndexBoundsEPKNS_17CollatorInterfaceERKSt3setINS_10StringDataESt4lessISB_ESaISB_EEPSA_INS_7BSONObjENS_27BSONComparatorInterfaceBaseISI_E8LessThanESaISI_EE",
+                "samples": 161
+              },
+              {
+                "name": "__wt_btcur_search_near",
+                "samples": 145
+              },
+              {
+                "name": "_ZN5mongo12QueryPlanner4planERKNS_14CanonicalQueryERKNS_18QueryPlannerParamsE",
+                "samples": 144
+              },
+              {
+                "name": "__wt_struct_packv",
+                "samples": 132
+              },
+              {
+                "name": "_ZN5mongo12validateBSONEPKcmNS_11BSONVersionE",
+                "samples": 123
+              },
+              {
+                "name": "_ZN5mongo17CollationIndexKey28collationAwareIndexKeyAppendENS_11BSONElementEPKNS_17CollatorInterfaceEPNS_14BSONObjBuilderE",
+                "samples": 122
+              },
+              {
+                "name": "_ZN5mongo3rpc16TrackingMetadata16readFromMetadataERKNS_11BSONElementE",
+                "samples": 118
+              },
+              {
+                "name": "_ZN5mongo23canonical_query_encoder6encodeB5cxx11ERKNS_14CanonicalQueryE",
+                "samples": 107
+              },
+              {
+                "name": "_ZN5mongo12_GLOBAL__N_135computeSortsAndMultikeyPathsForScanERKNS_10IndexEntryEiRKNS_11IndexBoundsEPKNS_17CollatorInterfaceEPSt3setINS_7BSONObjENS_27BSONComparatorInterfaceBaseISB_E8LessThanESaISB_EEPSA_INS_10StringDataESt4lessISI_ESaISI_EE",
+                "samples": 90
+              },
+              {
+                "name": "_ZN5mongo12_GLOBAL__N_17FindCmd10Invocation3runEPNS_16OperationContextEPNS_3rpc21ReplyBuilderInterfaceE",
+                "samples": 86
+              },
+              {
+                "name": "_ZN5mongo18IndexBoundsBuilder19_translatePredicateEPKNS_15MatchExpressionERKNS_11BSONElementERKNS_10IndexEntryEPNS_19OrderedIntervalListEPNS0_15BoundsTightnessE",
+                "samples": 86
+              },
+              {
+                "name": "_ZN5mongo12QueryRequest20parseFromFindCommandESt10unique_ptrIS0_St14default_deleteIS0_EERKNS_7BSONObjEb",
+                "samples": 80
+              },
+              {
+                "name": "_ZN5mongo17AutoGetCollectionC1EPNS_16OperationContextERKNS_21NamespaceStringOrUUIDENS_8LockModeENS0_8ViewModeENS_6Date_tE",
+                "samples": 73
+              },
+              {
+                "name": "_ZNK5mongo8Ordering3getEi.isra.162",
+                "samples": 73
+              },
+              {
+                "name": "_ZN5mongo14CommandHelpers20runCommandInvocationEPNS_16OperationContextERKNS_12OpMsgRequestEPNS_17CommandInvocationEPNS_3rpc21ReplyBuilderInterfaceE",
+                "samples": 72
+              },
+              {
+                "name": "_ZNSt6vectorIN5mongo19OrderedIntervalListESaIS1_EEaSERKS3_",
+                "samples": 71
+              },
+              {
+                "name": "_ZN5mongo3rpc20ConfigServerMetadata16readFromMetadataERKNS_11BSONElementE",
+                "samples": 70
+              },
+              {
+                "name": "__session_begin_transaction",
+                "samples": 68
+              },
+              {
+                "name": "_ZN5mongo12_GLOBAL__N_117makeUpdateRequestEPNS_16OperationContextERKNS_20FindAndModifyRequestEbPNS_13UpdateRequestE.constprop.1207",
+                "samples": 68
+              },
+              {
+                "name": "_ZN5mongo18QueryPlannerAccess12makeLeafNodeERKNS_14CanonicalQueryERKNS_10IndexEntryEmPKNS_15MatchExpressionEPNS_18IndexBoundsBuilder15BoundsTightnessE",
+                "samples": 68
+              },
+              {
+                "name": "_ZN5mongo20QueryPlannerIXSelect11_compatibleERKNS_11BSONElementERKNS_10IndexEntryEmPNS_15MatchExpressionENS_10StringDataEPKNS_17CollatorInterfaceERKNS0_16ElemMatchContextE",
+                "samples": 66
+              },
+              {
+                "name": "_ZN5mongo13MirrorMaestro16tryMirrorRequestEPNS_16OperationContextE",
+                "samples": 66
+              },
+              {
+                "name": "_ZN5mongo16OperationContextC1EPNS_6ClientEONS_25UniqueOperationIdRegistry15OperationIdSlotE",
+                "samples": 66
+              },
+              {
+                "name": "_ZNK5mongo18WiredTigerKVEngine15haveDropsQueuedEv",
+                "samples": 65
+              },
+              {
+                "name": "_ZN5mongo20fillOutPlannerParamsEPNS_16OperationContextEPNS_10CollectionEPNS_14CanonicalQueryEPNS_18QueryPlannerParamsE",
+                "samples": 64
+              }
+            ]
+          },
+          "unselected_line": {
+            "samples": 23652,
+            "instructions": {
+              "other": 18609,
+              "direct_call": 557,
+              "prefetch": 2123,
+              "conditional_branch": 1575,
+              "indirect_jump": 73,
+              "direct_jump": 472,
+              "return": 216,
+              "indirect_call": 27
+            },
+            "prior_branches": {
+              "indirect_call": 2029,
+              "conditional_branch": 6085,
+              "return": 1965,
+              "direct_call": 7216,
+              "direct_jump": 5706,
+              "indirect_jump": 337,
+              "outside_main": 314
+            },
+            "nearest_branch_mispredicted": 6925,
+            "nearest_branch_observed": 23652,
+            "added_stub_samples": 2353,
+            "top_functions": [
+              {
+                "name": ".text.prefetch_calls",
+                "samples": 2353
+              },
+              {
+                "name": "_ZN5mongo5CurOpC1EPNS_16OperationContextEPNS0_10CurOpStackE",
+                "samples": 367
+              },
+              {
+                "name": "_ZN5mongo20FindAndModifyRequest13parseFromBSONENS_15NamespaceStringERKNS_7BSONObjE",
+                "samples": 316
+              },
+              {
+                "name": "_ZZN5mongo12_GLOBAL__N_116receivedCommandsEPNS_16OperationContextERKNS_7MessageERKNS_23ServiceEntryPointCommon5HooksEENKUlvE_clEv",
+                "samples": 285
+              },
+              {
+                "name": "_ZN5mongo12QueryPlanner4planERKNS_14CanonicalQueryERKNS_18QueryPlannerParamsE",
+                "samples": 281
+              },
+              {
+                "name": "__wt_row_search",
+                "samples": 241
+              },
+              {
+                "name": "_ZNSt6vectorIN5mongo10IndexEntryESaIS1_EEaSERKS3_",
+                "samples": 224
+              },
+              {
+                "name": "_ZN5mongo20QueryPlannerAnalysis17analyzeDataAccessERKNS_14CanonicalQueryERKNS_18QueryPlannerParamsESt10unique_ptrINS_17QuerySolutionNodeESt14default_deleteIS8_EE",
+                "samples": 198
+              },
+              {
+                "name": "_ZNK5mongo11BSONElement8toStringERNS_17StringBuilderImplINS_21SharedBufferAllocatorEEEbbbi",
+                "samples": 179
+              },
+              {
+                "name": "_ZN5mongo12_GLOBAL__N_116prepareExecutionEPNS_16OperationContextEPNS_10CollectionEPNS_10WorkingSetESt10unique_ptrINS_14CanonicalQueryESt14default_deleteIS8_EEm",
+                "samples": 179
+              },
+              {
+                "name": "_ZN5mongo12QueryRequest20parseFromFindCommandESt10unique_ptrIS0_St14default_deleteIS0_EERKNS_7BSONObjEb",
+                "samples": 167
+              },
+              {
+                "name": "_ZN5mongo9transport18TransportLayerASIO9BatonASIO10detachImplEv",
+                "samples": 138
+              },
+              {
+                "name": "_ZN5mongo14PlanEnumerator8prepMemoEPNS_15MatchExpressionENS0_15PrepMemoContextE",
+                "samples": 138
+              },
+              {
+                "name": "_ZNSt23_Sp_counted_ptr_inplaceIN5mongo22UncommittedCollections25UncommittedCollectionsMapESaIS2_ELN9__gnu_cxx12_Lock_policyE2EE10_M_disposeEv",
+                "samples": 132
+              },
+              {
+                "name": "_ZN5mongo14CommandHelpers18parseNsFromCommandB5cxx11ENS_10StringDataERKNS_7BSONObjE",
+                "samples": 131
+              },
+              {
+                "name": "_ZN5mongo12validateBSONEPKcmNS_11BSONVersionE",
+                "samples": 130
+              },
+              {
+                "name": "_ZN5mongo12QueryPlanner23cacheDataFromTaggedTreeEPKNS_15MatchExpressionERKSt6vectorINS_10IndexEntryESaIS5_EE",
+                "samples": 127
+              },
+              {
+                "name": "__libc_realloc",
+                "samples": 123
+              },
+              {
+                "name": "__wt_btcur_next",
+                "samples": 120
+              },
+              {
+                "name": "__wt_btcur_search_near",
+                "samples": 116
+              },
+              {
+                "name": "__wt_cursor_cache_get",
+                "samples": 113
+              },
+              {
+                "name": "_ZN5mongolsERNS_17StringBuilderImplINS_21SharedBufferAllocatorEEERKNS_10KeyPatternE",
+                "samples": 111
+              },
+              {
+                "name": "_ZN5mongo15find_and_modify15serializeUpsertEmRKN5boost8optionalINS_7BSONObjEEEbRKS3_PNS_14BSONObjBuilderE",
+                "samples": 110
+              },
+              {
+                "name": "_ZN5mongo18IndexBoundsBuilder16isSingleIntervalERKNS_11IndexBoundsEPNS_7BSONObjEPbS5_S6_",
+                "samples": 107
+              },
+              {
+                "name": "_ZN5mongo14CanonicalQuery12canonicalizeEPNS_16OperationContextESt10unique_ptrINS_12QueryRequestESt14default_deleteIS4_EERKN5boost13intrusive_ptrINS_17ExpressionContextEEERKNS_18ExtensionsCallbackEyRKNS_18ProjectionPoliciesE",
+                "samples": 104
+              }
+            ]
+          }
+        },
+        "limitation": "Retired IP and nearest visible taken-branch association. Selected-line membership does not establish a matching hint execution. Misprediction labels do not identify BTB absence. Added-stub attribution uses the decoded .text.prefetch_calls section symbol."
+      },
+      "fetch_spans": {
+        "counts": {
+          "samples": 39619,
+          "decoded_samples": 39619,
+          "crosses_32": 21226,
+          "crosses_64": 21074,
+          "crosses_4096": 484,
+          "crosses64_first_line_selected": 15240,
+          "crosses64_second_line_selected": 41,
+          "crosses64_first_selected_second_unselected": 15203
+        },
+        "ip_offset64_histogram": {
+          "48": 2468,
+          "63": 5731,
+          "61": 4093,
+          "59": 1949,
+          "60": 1803,
+          "62": 5269,
+          "32": 2693,
+          "0": 7395,
+          "38": 14,
+          "1": 185,
+          "56": 461,
+          "58": 1344,
+          "16": 2624,
+          "4": 76,
+          "54": 260,
+          "57": 475,
+          "7": 69,
+          "14": 85,
+          "40": 195,
+          "2": 128,
+          "28": 67,
+          "53": 59,
+          "24": 212,
+          "22": 71,
+          "11": 56,
+          "37": 127,
+          "51": 75,
+          "8": 178,
+          "31": 36,
+          "55": 135,
+          "12": 62,
+          "43": 12,
+          "17": 104,
+          "13": 41,
+          "52": 35,
+          "36": 89,
+          "3": 209,
+          "30": 19,
+          "41": 20,
+          "21": 59,
+          "49": 19,
+          "35": 114,
+          "23": 28,
+          "42": 30,
+          "25": 44,
+          "26": 30,
+          "15": 70,
+          "5": 11,
+          "29": 33,
+          "46": 33,
+          "10": 70,
+          "20": 29,
+          "33": 8,
+          "6": 26,
+          "50": 6,
+          "18": 15,
+          "39": 17,
+          "27": 10,
+          "19": 18,
+          "45": 2,
+          "34": 3,
+          "44": 13,
+          "9": 5,
+          "47": 2
+        },
+        "top_split_instructions": [
+          {
+            "ip": 47328062,
+            "samples": 75,
+            "length": 3,
+            "instruction": "mov    (%r14),%rdx",
+            "function": "_ZNK5mongo11BSONElement8toStringERNS_17StringBuilderImplINS_21SharedBufferAllocatorEEEbbbi",
+            "first_line": 739500,
+            "last_line": 739501
+          },
+          {
+            "ip": 46542843,
+            "samples": 73,
+            "length": 9,
+            "instruction": "mov    %fs:0x28,%rax",
+            "function": "_ZNK5mongo8Ordering3getEi.isra.162",
+            "first_line": 727231,
+            "last_line": 727232
+          },
+          {
+            "ip": 27527551,
+            "samples": 71,
+            "length": 4,
+            "instruction": "mov    %rax,-0x48(%rbp)",
+            "function": "_ZNSt6vectorIN5mongo19OrderedIntervalListESaIS1_EEaSERKS3_",
+            "first_line": 430117,
+            "last_line": 430118
+          },
+          {
+            "ip": 47317883,
+            "samples": 71,
+            "length": 7,
+            "instruction": "lea    0x3cc637(%rip),%rax        # 30ec9b9 <_ZZN5mongo11BSONElementC4EvE11kEooElement>",
+            "function": "_ZN5mongo12validateBSONEPKcmNS_11BSONVersionE",
+            "first_line": 739341,
+            "last_line": 739342
+          },
+          {
+            "ip": 44196860,
+            "samples": 70,
+            "length": 9,
+            "instruction": "xor    %fs:0x28,%rcx",
+            "function": "_ZN5mongo3rpc20ConfigServerMetadata16readFromMetadataERKNS_11BSONElementE",
+            "first_line": 690575,
+            "last_line": 690576
+          },
+          {
+            "ip": 30935806,
+            "samples": 66,
+            "length": 7,
+            "instruction": "sub    $0x1d8,%rsp",
+            "function": "_ZN5mongo20QueryPlannerIXSelect11_compatibleERKNS_11BSONElementERKNS_10IndexEntryEmPNS_15MatchExpressionENS_10StringDataEPKNS_17CollatorInterfaceERKNS0_16ElemMatchContextE",
+            "first_line": 483371,
+            "last_line": 483372
+          },
+          {
+            "ip": 46431611,
+            "samples": 66,
+            "length": 7,
+            "instruction": "movzbl 0x13f2bae(%rip),%eax        # 403a930 <_ZGVZN5mongo9DecorableINS_16OperationContextEE11getRegistryEvE11theRegistry>",
+            "function": "_ZN5mongo16OperationContextC1EPNS_6ClientEONS_25UniqueOperationIdRegistry15OperationIdSlotE",
+            "first_line": 725493,
+            "last_line": 725494
+          },
+          {
+            "ip": 16974334,
+            "samples": 65,
+            "length": 4,
+            "instruction": "sub    $0x20,%rsp",
+            "function": "_ZNK5mongo18WiredTigerKVEngine15haveDropsQueuedEv",
+            "first_line": 265223,
+            "last_line": 265224
+          },
+          {
+            "ip": 30191099,
+            "samples": 65,
+            "length": 8,
+            "instruction": "movq   $0x0,0x60(%rdi)",
+            "function": "_ZN5mongo5CurOpC1EPNS_16OperationContextEPNS0_10CurOpStackE",
+            "first_line": 471735,
+            "last_line": 471736
+          },
+          {
+            "ip": 27833150,
+            "samples": 64,
+            "length": 3,
+            "instruction": "mov    (%rdi),%rax",
+            "function": "_ZN5mongo20fillOutPlannerParamsEPNS_16OperationContextEPNS_10CollectionEPNS_14CanonicalQueryEPNS_18QueryPlannerParamsE",
+            "first_line": 434892,
+            "last_line": 434893
+          },
+          {
+            "ip": 30843517,
+            "samples": 63,
+            "length": 6,
+            "instruction": "je     1d6a368 <_ZN4absl18container_internal12raw_hash_setINS0_17NodeHashMapPolicyIPN5mongo15MatchExpressionENS3_14PlanEnumerator16OutsidePredRouteEEENS0_6HashEqIS5_vE4HashENSA_2EqESaISt4pairIKS5_S7_EEEC1EmRKSB_RKSC_RKSG_+0x118>",
+            "function": "_ZN4absl18container_internal12raw_hash_setINS0_17NodeHashMapPolicyIPN5mongo15MatchExpressionENS3_14PlanEnumerator16OutsidePredRouteEEENS0_6HashEqIS5_vE4HashENSA_2EqESaISt4pairIKS5_S7_EEEC1EmRKSB_RKSC_RKSG_",
+            "first_line": 481929,
+            "last_line": 481930
+          },
+          {
+            "ip": 22738750,
+            "samples": 63,
+            "length": 5,
+            "instruction": "jmp    15af820 <_ZNSt8_Rb_treeIN5mongo7BSONObjES1_St9_IdentityIS1_ENS0_27BSONComparatorInterfaceBaseIS1_E8LessThanESaIS1_EE24_M_get_insert_unique_posERKS1_+0x120>",
+            "function": "_ZNSt8_Rb_treeIN5mongo7BSONObjES1_St9_IdentityIS1_ENS0_27BSONComparatorInterfaceBaseIS1_E8LessThanESaIS1_EE24_M_get_insert_unique_posERKS1_",
+            "first_line": 355292,
+            "last_line": 355293
+          },
+          {
+            "ip": 70557502,
+            "samples": 62,
+            "length": 5,
+            "instruction": "jmp    fcfab0 <_ZN5mongo5logv210LogOptionsC1ENS0_12LogComponentE>",
+            "function": ".text.prefetch_calls",
+            "first_line": 1102460,
+            "last_line": 1102461
+          },
+          {
+            "ip": 30915640,
+            "samples": 61,
+            "length": 9,
+            "instruction": "xor    %fs:0x28,%rsi",
+            "function": "_ZN5mongo20QueryPlannerAnalysis11analyzeSortERKNS_14CanonicalQueryERKNS_18QueryPlannerParamsEPNS_17QuerySolutionNodeEPb",
+            "first_line": 483056,
+            "last_line": 483057
+          },
+          {
+            "ip": 30784381,
+            "samples": 59,
+            "length": 5,
+            "instruction": "call   2f18c80 <__dynamic_cast>",
+            "function": "_ZNSt17_Function_handlerIFbPKN5mongo15MatchExpressionEEZNS0_12_GLOBAL__N_129getCollatedIndexDiscriminatorEPKNS0_17CollatorInterfaceEEUlS3_E_E9_M_invokeERKSt9_Any_dataOS3_",
+            "first_line": 481005,
+            "last_line": 481006
+          },
+          {
+            "ip": 30883839,
+            "samples": 58,
+            "length": 4,
+            "instruction": "lea    0x28(%rdi),%rdi",
+            "function": "_ZN5mongo9FetchNodeD0Ev",
+            "first_line": 482559,
+            "last_line": 482560
+          },
+          {
+            "ip": 24407997,
+            "samples": 58,
+            "length": 9,
+            "instruction": "mov    %fs:0x28,%rax",
+            "function": "_ZN5mongo40setPrepareConflictBehaviorForReadConcernEPNS_16OperationContextERKNS_4repl15ReadConcernArgsENS_23PrepareConflictBehaviorE",
+            "first_line": 381374,
+            "last_line": 381375
+          },
+          {
+            "ip": 30869694,
+            "samples": 57,
+            "length": 4,
+            "instruction": "mov    0x8(%r8),%eax",
+            "function": "_ZN5mongo18QueryPlannerAccess12makeLeafNodeERKNS_14CanonicalQueryERKNS_10IndexEntryEmPKNS_15MatchExpressionEPNS_18IndexBoundsBuilder15BoundsTightnessE",
+            "first_line": 482338,
+            "last_line": 482339
+          },
+          {
+            "ip": 30208766,
+            "samples": 56,
+            "length": 3,
+            "instruction": "mov    %al,0x52(%rdi)",
+            "function": "_ZN5mongo7OpDebug21setPlanSummaryMetricsERKNS_16PlanSummaryStatsE",
+            "first_line": 472011,
+            "last_line": 472012
+          },
+          {
+            "ip": 30957565,
+            "samples": 56,
+            "length": 5,
+            "instruction": "mov    $0x48,%edi",
+            "function": "_ZN5mongo12QueryPlanner23cacheDataFromTaggedTreeEPKNS_15MatchExpressionERKSt6vectorINS_10IndexEntryESaIS5_EE",
+            "first_line": 483711,
+            "last_line": 483712
+          },
+          {
+            "ip": 19376511,
+            "samples": 56,
+            "length": 4,
+            "instruction": "mov    %rdx,-0x40(%rbp)",
+            "function": "_ZN5mongo15NamespaceStringC1ENS_10StringDataES1_",
+            "first_line": 302757,
+            "last_line": 302758
+          },
+          {
+            "ip": 41450811,
+            "samples": 56,
+            "length": 7,
+            "instruction": "lea    0x87286f(%rip),%rsi        # 2ffa5b1 <_IO_stdin_used+0x45db1>",
+            "function": "_ZZN5mongo9transport18TransportLayerASIO11ASIOSession17sourceMessageImplERKSt10shared_ptrINS_5BatonEEENUlvE_clEv",
+            "first_line": 647668,
+            "last_line": 647669
+          },
+          {
+            "ip": 30719039,
+            "samples": 56,
+            "length": 7,
+            "instruction": "mov    -0x1b00(%rbp),%rdx",
+            "function": "_ZN5mongo23canonical_query_encoder6encodeB5cxx11ERKNS_14CanonicalQueryE",
+            "first_line": 479984,
+            "last_line": 479985
+          },
+          {
+            "ip": 32603775,
+            "samples": 56,
+            "length": 2,
+            "instruction": "je     1f17ed8 <_ZN5mongo9Variables24generateRuntimeConstantsEPNS_16OperationContextE+0x68>",
+            "function": "_ZN5mongo9Variables24generateRuntimeConstantsEPNS_16OperationContextE",
+            "first_line": 509433,
+            "last_line": 509434
+          },
+          {
+            "ip": 31145727,
+            "samples": 56,
+            "length": 7,
+            "instruction": "lea    -0x2e0(%rbp),%r14",
+            "function": "_ZN5mongo12_GLOBAL__N_119computeSortsForScanERKNS_10IndexEntryEiRKNS_11IndexBoundsEPKNS_17CollatorInterfaceERKSt3setINS_10StringDataESt4lessISB_ESaISB_EEPSA_INS_7BSONObjENS_27BSONComparatorInterfaceBaseISI_E8LessThanESaISI_EE",
+            "first_line": 486651,
+            "last_line": 486652
+          }
+        ],
+        "limitation": "Instruction-byte spans only. A split instruction can need a following cache line, but the PEBS event does not identify which of its lines missed. Global selected-line membership does not establish a matching hint execution. Original instruction lengths are unchanged in the patched main text."
+      },
+      "estimated_events_per_request": {
+        "main_samples": 923.5449433106576,
+        "on_selected_target_line": 372.20126984126983,
+        "no_matching_hint_observed": 595.2143310657597,
+        "matching_hint_observed": 328.33061224489796,
+        "matching_hint_age_ge64": 317.9340589569161,
+        "matching_hint_age_ge512": 132.59102040816327
+      },
+      "baseline_heldout": {
+        "counts": {
+          "main_samples": 81020,
+          "on_selected_target_line": 64323
+        },
+        "request_window": {
+          "begin_epoch": 1790673569.0335252,
+          "end_epoch": 1790673578.358678,
+          "seconds": 9.32515287399292,
+          "completed_requests": 10507,
+          "limitation": "Requests bracket perf record startup/teardown as well as the capture interval. Approximate per-request normalization, not an E2E performance trial."
+        },
+        "fetch_spans": {
+          "counts": {
+            "samples": 81020,
+            "decoded_samples": 81020,
+            "crosses_32": 19364,
+            "crosses_64": 19006,
+            "crosses_4096": 259,
+            "crosses64_first_line_selected": 14637,
+            "crosses64_second_line_selected": 1366,
+            "crosses64_first_selected_second_unselected": 13309
+          },
+          "ip_offset64_histogram": {
+            "0": 20087,
+            "32": 11734,
+            "55": 176,
+            "57": 673,
+            "48": 12027,
+            "62": 4557,
+            "61": 4167,
+            "16": 11192,
+            "56": 624,
+            "63": 5119,
+            "58": 1260,
+            "59": 1600,
+            "24": 658,
+            "8": 441,
+            "51": 116,
+            "28": 47,
+            "15": 107,
+            "40": 654,
+            "60": 1757,
+            "1": 244,
+            "47": 43,
+            "11": 90,
+            "36": 57,
+            "54": 223,
+            "33": 202,
+            "31": 78,
+            "3": 251,
+            "19": 175,
+            "38": 61,
+            "22": 74,
+            "23": 46,
+            "25": 128,
+            "6": 61,
+            "39": 28,
+            "53": 152,
+            "21": 32,
+            "35": 127,
+            "27": 50,
+            "13": 136,
+            "2": 254,
+            "17": 121,
+            "4": 217,
+            "10": 116,
+            "42": 83,
+            "46": 61,
+            "29": 109,
+            "7": 103,
+            "50": 71,
+            "44": 82,
+            "41": 70,
+            "9": 19,
+            "20": 32,
+            "43": 15,
+            "5": 39,
+            "37": 188,
+            "12": 35,
+            "14": 40,
+            "26": 36,
+            "30": 11,
+            "52": 13,
+            "45": 32,
+            "18": 13,
+            "49": 3,
+            "34": 3
+          },
+          "top_split_instructions": [
+            {
+              "ip": 31145727,
+              "samples": 86,
+              "length": 7,
+              "instruction": "lea    -0x2e0(%rbp),%r14",
+              "function": "_ZN5mongo12_GLOBAL__N_119computeSortsForScanERKNS_10IndexEntryEiRKNS_11IndexBoundsEPKNS_17CollatorInterfaceERKSt3setINS_10StringDataESt4lessISB_ESaISB_EEPSA_INS_7BSONObjENS_27BSONComparatorInterfaceBaseISI_E8LessThanESaISI_EE",
+              "first_line": 486651,
+              "last_line": 486652
+            },
+            {
+              "ip": 44183356,
+              "samples": 85,
+              "length": 10,
+              "instruction": "movabs $0x100000000,%rax",
+              "function": "_ZN5mongo3rpc19readRequestMetadataEPNS_16OperationContextERKNS_7BSONObjEb",
+              "first_line": 690364,
+              "last_line": 690365
+            },
+            {
+              "ip": 41450811,
+              "samples": 75,
+              "length": 7,
+              "instruction": "lea    0x87286f(%rip),%rsi        # 2ffa5b1 <_IO_stdin_used+0x45db1>",
+              "function": "_ZZN5mongo9transport18TransportLayerASIO11ASIOSession17sourceMessageImplERKSt10shared_ptrINS_5BatonEEENUlvE_clEv",
+              "first_line": 647668,
+              "last_line": 647669
+            },
+            {
+              "ip": 31146943,
+              "samples": 74,
+              "length": 3,
+              "instruction": "mov    %rbx,%r8",
+              "function": "_ZN5mongo12_GLOBAL__N_135computeSortsAndMultikeyPathsForScanERKNS_10IndexEntryEiRKNS_11IndexBoundsEPKNS_17CollatorInterfaceEPSt3setINS_7BSONObjENS_27BSONComparatorInterfaceBaseISB_E8LessThanESaISB_EEPSA_INS_10StringDataESt4lessISI_ESaISI_EE",
+              "first_line": 486670,
+              "last_line": 486671
+            },
+            {
+              "ip": 31893369,
+              "samples": 71,
+              "length": 9,
+              "instruction": "mov    %fs:0x28,%rax",
+              "function": "_ZN5mongo21MatchExpressionParser5parseERKNS_7BSONObjERKN5boost13intrusive_ptrINS_17ExpressionContextEEERKNS_18ExtensionsCallbackEy",
+              "first_line": 498333,
+              "last_line": 498334
+            },
+            {
+              "ip": 27891839,
+              "samples": 64,
+              "length": 7,
+              "instruction": "movq   $0x0,(%r8)",
+              "function": "_ZN5mongo16PlanExecutorImpl4makeEPNS_16OperationContextESt10unique_ptrINS_10WorkingSetESt14default_deleteIS4_EES3_INS_9PlanStageES5_IS8_EES3_INS_13QuerySolutionES5_ISB_EES3_INS_14CanonicalQueryES5_ISE_EERKN5boost13intrusive_ptrINS_17ExpressionContextEEEPKNS_10CollectionENS_15NamespaceStringENS_12PlanExecutor11YieldPolicyE",
+              "first_line": 435809,
+              "last_line": 435810
+            },
+            {
+              "ip": 30883839,
+              "samples": 64,
+              "length": 4,
+              "instruction": "lea    0x28(%rdi),%rdi",
+              "function": "_ZN5mongo9FetchNodeD0Ev",
+              "first_line": 482559,
+              "last_line": 482560
+            },
+            {
+              "ip": 30917821,
+              "samples": 64,
+              "length": 7,
+              "instruction": "mov    %rsi,-0x198(%rbp)",
+              "function": "_ZN5mongo20QueryPlannerAnalysis17analyzeDataAccessERKNS_14CanonicalQueryERKNS_18QueryPlannerParamsESt10unique_ptrINS_17QuerySolutionNodeESt14default_deleteIS8_EE",
+              "first_line": 483090,
+              "last_line": 483091
+            },
+            {
+              "ip": 27891773,
+              "samples": 63,
+              "length": 7,
+              "instruction": "mov    %rax,-0xc0(%rbp)",
+              "function": "_ZN5mongo16PlanExecutorImpl4makeEPNS_16OperationContextESt10unique_ptrINS_10WorkingSetESt14default_deleteIS4_EES3_INS_9PlanStageES5_IS8_EES3_INS_13QuerySolutionES5_ISB_EES3_INS_14CanonicalQueryES5_ISE_EERKN5boost13intrusive_ptrINS_17ExpressionContextEEEPKNS_10CollectionENS_15NamespaceStringENS_12PlanExecutor11YieldPolicyE",
+              "first_line": 435808,
+              "last_line": 435809
+            },
+            {
+              "ip": 30843517,
+              "samples": 63,
+              "length": 6,
+              "instruction": "je     1d6a368 <_ZN4absl18container_internal12raw_hash_setINS0_17NodeHashMapPolicyIPN5mongo15MatchExpressionENS3_14PlanEnumerator16OutsidePredRouteEEENS0_6HashEqIS5_vE4HashENSA_2EqESaISt4pairIKS5_S7_EEEC1EmRKSB_RKSC_RKSG_+0x118>",
+              "function": "_ZN4absl18container_internal12raw_hash_setINS0_17NodeHashMapPolicyIPN5mongo15MatchExpressionENS3_14PlanEnumerator16OutsidePredRouteEEENS0_6HashEqIS5_vE4HashENSA_2EqESaISt4pairIKS5_S7_EEEC1EmRKSB_RKSC_RKSG_",
+              "first_line": 481929,
+              "last_line": 481930
+            },
+            {
+              "ip": 31146429,
+              "samples": 63,
+              "length": 8,
+              "instruction": "movq   $0x0,0x28(%rbx)",
+              "function": "_ZN5mongo12_GLOBAL__N_135computeSortsAndMultikeyPathsForScanERKNS_10IndexEntryEiRKNS_11IndexBoundsEPKNS_17CollatorInterfaceEPSt3setINS_7BSONObjENS_27BSONComparatorInterfaceBaseISB_E8LessThanESaISB_EEPSA_INS_10StringDataESt4lessISI_ESaISI_EE",
+              "first_line": 486662,
+              "last_line": 486663
+            },
+            {
+              "ip": 27865149,
+              "samples": 62,
+              "length": 4,
+              "instruction": "sar    $0x3,%rax",
+              "function": "_ZNSt6vectorIPN5mongo17QuerySolutionNodeESaIS2_EE17_M_realloc_insertIJS2_EEEvN9__gnu_cxx17__normal_iteratorIPS2_S4_EEDpOT_",
+              "first_line": 435392,
+              "last_line": 435393
+            },
+            {
+              "ip": 27836794,
+              "samples": 61,
+              "length": 11,
+              "instruction": "movq   $0x0,-0x480(%rbp)",
+              "function": "_ZN5mongo12_GLOBAL__N_116prepareExecutionEPNS_16OperationContextEPNS_10CollectionEPNS_10WorkingSetESt10unique_ptrINS_14CanonicalQueryESt14default_deleteIS8_EEm",
+              "first_line": 434949,
+              "last_line": 434950
+            },
+            {
+              "ip": 30606590,
+              "samples": 61,
+              "length": 3,
+              "instruction": "mov    %r14,%rdi",
+              "function": "_ZN5mongo22OperationShardingState42initializeClientRoutingVersionsFromCommandENS_15NamespaceStringERKNS_7BSONObjE",
+              "first_line": 478227,
+              "last_line": 478228
+            },
+            {
+              "ip": 47328062,
+              "samples": 60,
+              "length": 3,
+              "instruction": "mov    (%r14),%rdx",
+              "function": "_ZNK5mongo11BSONElement8toStringERNS_17StringBuilderImplINS_21SharedBufferAllocatorEEEbbbi",
+              "first_line": 739500,
+              "last_line": 739501
+            },
+            {
+              "ip": 17809530,
+              "samples": 60,
+              "length": 7,
+              "instruction": "mov    %r15,0x110(%rdi)",
+              "function": "__session_reset",
+              "first_line": 278273,
+              "last_line": 278274
+            },
+            {
+              "ip": 31891645,
+              "samples": 59,
+              "length": 7,
+              "instruction": "mov    %rcx,-0x108(%rbp)",
+              "function": "_ZN5mongo12_GLOBAL__N_15parseERKNS_7BSONObjERKN5boost13intrusive_ptrINS_17ExpressionContextEEEPKNS_18ExtensionsCallbackEyNS_18DocumentParseLevelE",
+              "first_line": 498306,
+              "last_line": 498307
+            },
+            {
+              "ip": 27725567,
+              "samples": 59,
+              "length": 4,
+              "instruction": "shl    $0x4,%r13",
+              "function": "_ZN5mongo16WorkingSetCommon5fetchEPNS_16OperationContextEPNS_10WorkingSetEmNS_11unowned_ptrINS_20SeekableRecordCursorEEERKNS_15NamespaceStringE",
+              "first_line": 433211,
+              "last_line": 433212
+            },
+            {
+              "ip": 47319869,
+              "samples": 59,
+              "length": 7,
+              "instruction": "cmp    %r13,-0x100(%rbp)",
+              "function": "_ZN5mongo12validateBSONEPKcmNS_11BSONVersionE",
+              "first_line": 739372,
+              "last_line": 739373
+            },
+            {
+              "ip": 30935806,
+              "samples": 58,
+              "length": 7,
+              "instruction": "sub    $0x1d8,%rsp",
+              "function": "_ZN5mongo20QueryPlannerIXSelect11_compatibleERKNS_11BSONElementERKNS_10IndexEntryEmPNS_15MatchExpressionENS_10StringDataEPKNS_17CollatorInterfaceERKNS0_16ElemMatchContextE",
+              "first_line": 483371,
+              "last_line": 483372
+            },
+            {
+              "ip": 30857343,
+              "samples": 58,
+              "length": 5,
+              "instruction": "call   4349c50 <_end+0x4a40>",
+              "function": "_ZN4absl18container_internal12raw_hash_setINS0_17NodeHashMapPolicyIPN5mongo15MatchExpressionEmEENS0_6HashEqIS5_vE4HashENS8_2EqESaISt4pairIKS5_mEEE6resizeEm",
+              "first_line": 482145,
+              "last_line": 482146
+            },
+            {
+              "ip": 46609599,
+              "samples": 58,
+              "length": 2,
+              "instruction": "push   %r13",
+              "function": "_ZN5mongo30OperationSessionInfoFromClient14parseProtectedERKNS_21IDLParserErrorContextERKNS_7BSONObjE",
+              "first_line": 728274,
+              "last_line": 728275
+            },
+            {
+              "ip": 45457279,
+              "samples": 58,
+              "length": 4,
+              "instruction": "lea    (%rax,%rdx,1),%rsi",
+              "function": "_ZN5mongo9BufReader4skipEj",
+              "first_line": 710269,
+              "last_line": 710270
+            },
+            {
+              "ip": 24407997,
+              "samples": 57,
+              "length": 9,
+              "instruction": "mov    %fs:0x28,%rax",
+              "function": "_ZN5mongo40setPrepareConflictBehaviorForReadConcernEPNS_16OperationContextERKNS_4repl15ReadConcernArgsENS_23PrepareConflictBehaviorE",
+              "first_line": 381374,
+              "last_line": 381375
+            },
+            {
+              "ip": 47319802,
+              "samples": 56,
+              "length": 7,
+              "instruction": "mov    -0x138(%rbp),%rax",
+              "function": "_ZN5mongo12validateBSONEPKcmNS_11BSONVersionE",
+              "first_line": 739371,
+              "last_line": 739372
+            }
+          ],
+          "limitation": "Instruction-byte spans only. A split instruction can need a following cache line, but the PEBS event does not identify which of its lines missed. Global selected-line membership does not establish a matching hint execution. Original instruction lengths are unchanged in the patched main text."
+        },
+        "estimated_events_per_request": {
+          "main_samples": 1981.739792519273,
+          "on_selected_target_line": 1573.3331112591607
+        }
+      },
+      "request_window": {
+        "begin_epoch": 1790685329.0574374,
+        "end_epoch": 1790685338.3791158,
+        "seconds": 9.321678400039673,
+        "completed_requests": 11025,
+        "limitation": "Requests bracket perf record startup/teardown as well as the capture interval. Approximate per-request normalization, not an E2E performance trial."
+      },
+      "observations_sha256": "80a9a39842c0832bb1facf07fcfa1e42c0c6aca1d34865fbfe20c46f42878ac6",
+      "decoded_sha256": "89ecd6ab248ac1de342dd12dbb4c83378c66669cecbfcb441a04d833e6069e5f"
+    },
+    "review-storage-mongodb": {
+      "quality": {
+        "all_samples": 18374,
+        "main_samples": 17170,
+        "within_64B_of_target": 15389,
+        "nearest_branch_mispredicted": 5954,
+        "eligible_samples": 13723,
+        "instruction_classes": {
+          "other": 14286,
+          "conditional_branch": 1164,
+          "prefetch": 872,
+          "direct_call": 296,
+          "return": 198,
+          "indirect_jump": 47,
+          "direct_jump": 251,
+          "indirect_call": 56
+        },
+        "preceding_branch_classes": {
+          "indirect_call": 2843,
+          "direct_call": 6424,
+          "conditional_branch": 3202,
+          "direct_jump": 3794,
+          "indirect_jump": 340,
+          "return": 493,
+          "outside_main": 74
+        },
+        "top_functions": [
+          {
+            "name": ".text.prefetch_calls",
+            "samples": 973
+          },
+          {
+            "name": "__wt_btcur_insert",
+            "samples": 403
+          },
+          {
+            "name": "_ZN5mongo5CurOpC1EPNS_16OperationContextEPNS0_10CurOpStackE",
+            "samples": 205
+          },
+          {
+            "name": "_ZN5mongo12_GLOBAL__N_114serializeReplyEPNS_16OperationContextENS0_10ReplyStyleEbmNS_11WriteResultEPNS_14BSONObjBuilderE",
+            "samples": 202
+          },
+          {
+            "name": "__wt_struct_pack",
+            "samples": 194
+          },
+          {
+            "name": "__wt_row_modify",
+            "samples": 183
+          },
+          {
+            "name": "_ZN5mongo12validateBSONEPKcmNS_11BSONVersionE",
+            "samples": 178
+          },
+          {
+            "name": "_ZN5mongo14performInsertsEPNS_16OperationContextERKNS_9write_ops6InsertEb",
+            "samples": 161
+          },
+          {
+            "name": "_ZZN5mongo12_GLOBAL__N_116receivedCommandsEPNS_16OperationContextERKNS_7MessageERKNS_23ServiceEntryPointCommon5HooksEENKUlvE_clEv",
+            "samples": 138
+          },
+          {
+            "name": "__wt_row_search",
+            "samples": 135
+          },
+          {
+            "name": "__wt_struct_packv",
+            "samples": 128
+          },
+          {
+            "name": "_ZN5mongo19userAllowedCreateNSENS_10StringDataES0_",
+            "samples": 120
+          },
+          {
+            "name": "_ZN5mongo19extractWriteConcernEPNS_16OperationContextERKNS_7BSONObjEb",
+            "samples": 120
+          },
+          {
+            "name": "__wt_struct_sizev",
+            "samples": 111
+          },
+          {
+            "name": "__cursor_reset",
+            "samples": 108
+          },
+          {
+            "name": "__libc_realloc",
+            "samples": 95
+          },
+          {
+            "name": "_ZN5mongo17AutoGetCollectionC1EPNS_16OperationContextERKNS_21NamespaceStringOrUUIDENS_8LockModeENS0_8ViewModeENS_6Date_tE",
+            "samples": 95
+          },
+          {
+            "name": "_ZZN5mongo12_GLOBAL__N_126insertBatchAndHandleErrorsEPNS_16OperationContextERKNS_9write_ops6InsertERSt6vectorINS_15InsertStatementESaIS8_EEPNS0_11LastOpFixerEPNS_11WriteResultEbENKUlvE1_clEv",
+            "samples": 91
+          },
+          {
+            "name": "_ZN5mongo23CollectionShardingState3getEPNS_16OperationContextERKNS_15NamespaceStringE",
+            "samples": 88
+          },
+          {
+            "name": "__wt_txn_commit",
+            "samples": 84
+          },
+          {
+            "name": "__wt_cursor_cache_get",
+            "samples": 83
+          },
+          {
+            "name": "_ZN5mongo14BSONObjBuilder6appendIivEERS0_NS_10StringDataERKT_",
+            "samples": 82
+          },
+          {
+            "name": "_ZN5mongo9KeyString11BuilderBaseINS_19StackBufBuilderBaseILm512EEEE16_appendBsonValueERKNS_11BSONElementEbPKNS_10StringDataERKSt8functionIFNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES8_EE",
+            "samples": 82
+          },
+          {
+            "name": "__session_commit_transaction",
+            "samples": 80
+          },
+          {
+            "name": "_ZN5mongo9transport18TransportLayerASIO9BatonASIO10detachImplEv",
+            "samples": 80
+          },
+          {
+            "name": "_ZN5mongo23ServiceEntryPointCommon13handleRequestEPNS_16OperationContextERKNS_7MessageERKNS0_5HooksE",
+            "samples": 77
+          },
+          {
+            "name": "__wt_txn_log_op",
+            "samples": 77
+          },
+          {
+            "name": "_ZNK5mongo17BtreeKeyGenerator7getKeysERKNS_7BSONObjEbPSt3setINS_9KeyString5ValueESt4lessIS6_ESaIS6_EEPSt6vectorIS4_ImS7_ImESaImEESaISF_EEN5boost8optionalINS_8RecordIdEEE",
+            "samples": 77
+          },
+          {
+            "name": "__wt_log_write",
+            "samples": 76
+          },
+          {
+            "name": "_ZNSt8_Rb_treeIN5mongo9KeyString5ValueES2_St9_IdentityIS2_ESt4lessIS2_ESaIS2_EE24_M_get_insert_unique_posERKS2_",
+            "samples": 76
+          },
+          {
+            "name": "_ZNSt6vectorIN5mongo5OpMsg16DocumentSequenceESaIS2_EE17_M_realloc_insertIJS2_EEEvN9__gnu_cxx17__normal_iteratorIPS2_S4_EEDpOT_",
+            "samples": 75
+          },
+          {
+            "name": "_ZN5mongo3rpc19readRequestMetadataEPNS_16OperationContextERKNS_7BSONObjEb",
+            "samples": 73
+          },
+          {
+            "name": "__session_transaction_pinned_range",
+            "samples": 73
+          },
+          {
+            "name": "_ZN5mongo16IndexCatalogImpl21_indexFilteredRecordsEPNS_16OperationContextEPNS_17IndexCatalogEntryERKSt6vectorINS_10BsonRecordESaIS6_EEPl",
+            "samples": 71
+          },
+          {
+            "name": "config_check",
+            "samples": 70
+          },
+          {
+            "name": "__curfile_insert",
+            "samples": 70
+          },
+          {
+            "name": "_ZNSt23_Sp_counted_ptr_inplaceIN5mongo22UncommittedCollections25UncommittedCollectionsMapESaIS2_ELN9__gnu_cxx12_Lock_policyE2EE10_M_disposeEv",
+            "samples": 69
+          },
+          {
+            "name": "__config_next",
+            "samples": 66
+          },
+          {
+            "name": "__wt_logop_row_put_pack",
+            "samples": 66
+          },
+          {
+            "name": "_ZNK5mongo11BSONElement3strB5cxx11Ev",
+            "samples": 65
+          }
+        ],
+        "attribution_limitation": "Retired IP/nearest taken-target association, not proof of BTB or FDIP causality. All main samples remain in the main-sample denominator."
+      },
+      "counts": {
+        "main_samples": 17170,
+        "on_selected_target_line": 6979,
+        "no_matching_hint_observed": 12292,
+        "matching_hint_observed": 4878,
+        "matching_hint_age_ge64": 4759,
+        "matching_hint_age_ge512": 2382
+      },
+      "nearest_retired_age": {
+        "512-2047": 2189,
+        "128-511": 2080,
+        "2048-8192": 193,
+        "0-63": 119,
+        "64-127": 297
+      },
+      "earliest_retired_age": {
+        "512-2047": 2189,
+        "128-511": 2080,
+        "2048-8192": 193,
+        "0-63": 119,
+        "64-127": 297
+      },
+      "locations": {
+        "groups": {
+          "selected_line": {
+            "samples": 6979,
+            "instructions": {
+              "other": 6243,
+              "conditional_branch": 456,
+              "return": 62,
+              "direct_call": 146,
+              "indirect_call": 48,
+              "direct_jump": 19,
+              "indirect_jump": 5
+            },
+            "prior_branches": {
+              "direct_call": 2931,
+              "indirect_call": 1461,
+              "conditional_branch": 754,
+              "direct_jump": 1620,
+              "indirect_jump": 159,
+              "return": 45,
+              "outside_main": 9
+            },
+            "nearest_branch_mispredicted": 2285,
+            "nearest_branch_observed": 6979,
+            "added_stub_samples": 0,
+            "top_functions": [
+              {
+                "name": "__wt_struct_sizev",
+                "samples": 101
+              },
+              {
+                "name": "__cursor_reset",
+                "samples": 91
+              },
+              {
+                "name": "__wt_struct_packv",
+                "samples": 79
+              },
+              {
+                "name": "_ZNSt6vectorIN5mongo5OpMsg16DocumentSequenceESaIS2_EE17_M_realloc_insertIJS2_EEEvN9__gnu_cxx17__normal_iteratorIPS2_S4_EEDpOT_",
+                "samples": 75
+              },
+              {
+                "name": "_ZN5mongo12validateBSONEPKcmNS_11BSONVersionE",
+                "samples": 70
+              },
+              {
+                "name": "_ZN5mongo17AutoGetCollectionC1EPNS_16OperationContextERKNS_21NamespaceStringOrUUIDENS_8LockModeENS0_8ViewModeENS_6Date_tE",
+                "samples": 63
+              },
+              {
+                "name": "_ZN5mongo12_GLOBAL__N_114serializeReplyEPNS_16OperationContextENS0_10ReplyStyleEbmNS_11WriteResultEPNS_14BSONObjBuilderE",
+                "samples": 61
+              },
+              {
+                "name": "__wt_log_write",
+                "samples": 57
+              },
+              {
+                "name": "_ZN5mongo23CollectionShardingState3getEPNS_16OperationContextERKNS_15NamespaceStringE",
+                "samples": 57
+              },
+              {
+                "name": "__wt_session_reset_cursors",
+                "samples": 56
+              },
+              {
+                "name": "__wt_cursor_set_value",
+                "samples": 56
+              },
+              {
+                "name": "_ZN5mongo10LockerImpl10lockGlobalEPNS_16OperationContextENS_8LockModeENS_6Date_tE",
+                "samples": 55
+              },
+              {
+                "name": "_ZNSt14__shared_countILN9__gnu_cxx12_Lock_policyE2EEC1IN5mongo17CommandInvocationESt14default_deleteIS5_EEEOSt10unique_ptrIT_T0_E",
+                "samples": 52
+              },
+              {
+                "name": "_ZN5mongo9KeyString19decodeRecordIdAtEndEPKvm",
+                "samples": 51
+              },
+              {
+                "name": "__session_begin_transaction",
+                "samples": 49
+              },
+              {
+                "name": "__wt_cursor_set_keyv",
+                "samples": 46
+              },
+              {
+                "name": "_ZN5mongo23ServiceEntryPointCommon13handleRequestEPNS_16OperationContextERKNS_7MessageERKNS0_5HooksE",
+                "samples": 46
+              },
+              {
+                "name": "_ZN5mongo3rpc19readRequestMetadataEPNS_16OperationContextERKNS_7BSONObjEb",
+                "samples": 46
+              },
+              {
+                "name": "__wt_txn_log_op",
+                "samples": 46
+              },
+              {
+                "name": "_ZN5mongo9write_ops6InsertC1ENS_15NamespaceStringE",
+                "samples": 44
+              },
+              {
+                "name": "_ZN5mongo14OpObserverImpl9onInsertsEPNS_16OperationContextERKNS_15NamespaceStringEN5boost8optionalINS_4UUIDEEEN9__gnu_cxx17__normal_iteratorIPKNS_15InsertStatementESt6vectorISC_SaISC_EEEESI_b",
+                "samples": 43
+              },
+              {
+                "name": "_ZN5mongo3rpc16TrackingMetadata16readFromMetadataERKNS_11BSONElementE",
+                "samples": 43
+              },
+              {
+                "name": "__curfile_insert",
+                "samples": 42
+              },
+              {
+                "name": "_ZN5mongo22validateSessionOptionsERKNS_30OperationSessionInfoFromClientENS_10StringDataERKNS_15NamespaceStringEb",
+                "samples": 41
+              },
+              {
+                "name": "_ZN5mongo12QueryRequest14parseMaxTimeMSENS_11BSONElementE",
+                "samples": 41
+              }
+            ]
+          },
+          "unselected_line": {
+            "samples": 10191,
+            "instructions": {
+              "other": 8043,
+              "conditional_branch": 708,
+              "prefetch": 872,
+              "direct_call": 150,
+              "return": 136,
+              "indirect_jump": 42,
+              "direct_jump": 232,
+              "indirect_call": 8
+            },
+            "prior_branches": {
+              "indirect_call": 1382,
+              "direct_call": 3493,
+              "conditional_branch": 2448,
+              "direct_jump": 2174,
+              "indirect_jump": 181,
+              "return": 448,
+              "outside_main": 65
+            },
+            "nearest_branch_mispredicted": 3669,
+            "nearest_branch_observed": 10191,
+            "added_stub_samples": 973,
+            "top_functions": [
+              {
+                "name": ".text.prefetch_calls",
+                "samples": 973
+              },
+              {
+                "name": "__wt_btcur_insert",
+                "samples": 403
+              },
+              {
+                "name": "_ZN5mongo5CurOpC1EPNS_16OperationContextEPNS0_10CurOpStackE",
+                "samples": 205
+              },
+              {
+                "name": "__wt_struct_pack",
+                "samples": 166
+              },
+              {
+                "name": "__wt_row_modify",
+                "samples": 156
+              },
+              {
+                "name": "_ZN5mongo12_GLOBAL__N_114serializeReplyEPNS_16OperationContextENS0_10ReplyStyleEbmNS_11WriteResultEPNS_14BSONObjBuilderE",
+                "samples": 141
+              },
+              {
+                "name": "_ZN5mongo14performInsertsEPNS_16OperationContextERKNS_9write_ops6InsertEb",
+                "samples": 137
+              },
+              {
+                "name": "_ZZN5mongo12_GLOBAL__N_116receivedCommandsEPNS_16OperationContextERKNS_7MessageERKNS_23ServiceEntryPointCommon5HooksEENKUlvE_clEv",
+                "samples": 127
+              },
+              {
+                "name": "_ZN5mongo19userAllowedCreateNSENS_10StringDataES0_",
+                "samples": 120
+              },
+              {
+                "name": "_ZN5mongo19extractWriteConcernEPNS_16OperationContextERKNS_7BSONObjEb",
+                "samples": 120
+              },
+              {
+                "name": "_ZN5mongo12validateBSONEPKcmNS_11BSONVersionE",
+                "samples": 108
+              },
+              {
+                "name": "__wt_row_search",
+                "samples": 104
+              },
+              {
+                "name": "__libc_realloc",
+                "samples": 95
+              },
+              {
+                "name": "_ZZN5mongo12_GLOBAL__N_126insertBatchAndHandleErrorsEPNS_16OperationContextERKNS_9write_ops6InsertERSt6vectorINS_15InsertStatementESaIS8_EEPNS0_11LastOpFixerEPNS_11WriteResultEbENKUlvE1_clEv",
+                "samples": 91
+              },
+              {
+                "name": "__wt_cursor_cache_get",
+                "samples": 83
+              },
+              {
+                "name": "_ZN5mongo14BSONObjBuilder6appendIivEERS0_NS_10StringDataERKT_",
+                "samples": 82
+              },
+              {
+                "name": "__wt_txn_commit",
+                "samples": 80
+              },
+              {
+                "name": "_ZN5mongo9transport18TransportLayerASIO9BatonASIO10detachImplEv",
+                "samples": 80
+              },
+              {
+                "name": "_ZNSt8_Rb_treeIN5mongo9KeyString5ValueES2_St9_IdentityIS2_ESt4lessIS2_ESaIS2_EE24_M_get_insert_unique_posERKS2_",
+                "samples": 76
+              },
+              {
+                "name": "_ZNK5mongo17BtreeKeyGenerator7getKeysERKNS_7BSONObjEbPSt3setINS_9KeyString5ValueESt4lessIS6_ESaIS6_EEPSt6vectorIS4_ImS7_ImESaImEESaISF_EEN5boost8optionalINS_8RecordIdEEE",
+                "samples": 74
+              },
+              {
+                "name": "config_check",
+                "samples": 70
+              },
+              {
+                "name": "_ZNSt23_Sp_counted_ptr_inplaceIN5mongo22UncommittedCollections25UncommittedCollectionsMapESaIS2_ELN9__gnu_cxx12_Lock_policyE2EE10_M_disposeEv",
+                "samples": 69
+              },
+              {
+                "name": "__wt_logop_row_put_pack",
+                "samples": 66
+              },
+              {
+                "name": "_ZNK5mongo11BSONElement3strB5cxx11Ev",
+                "samples": 65
+              },
+              {
+                "name": "_ZN5mongo10KeyPattern14isIdKeyPatternERKNS_7BSONObjE",
+                "samples": 65
+              }
+            ]
+          }
+        },
+        "limitation": "Retired IP and nearest visible taken-branch association. Selected-line membership does not establish a matching hint execution. Misprediction labels do not identify BTB absence. Added-stub attribution uses the decoded .text.prefetch_calls section symbol."
+      },
+      "fetch_spans": {
+        "counts": {
+          "samples": 17170,
+          "decoded_samples": 17170,
+          "crosses_32": 7574,
+          "crosses_64": 7552,
+          "crosses_4096": 158,
+          "crosses64_first_line_selected": 5381,
+          "crosses64_second_line_selected": 30,
+          "crosses64_first_selected_second_unselected": 5357
+        },
+        "ip_offset64_histogram": {
+          "16": 1407,
+          "63": 2163,
+          "3": 79,
+          "0": 3478,
+          "62": 1738,
+          "48": 1785,
+          "32": 1343,
+          "61": 1361,
+          "58": 465,
+          "60": 750,
+          "59": 817,
+          "8": 100,
+          "22": 46,
+          "4": 46,
+          "56": 181,
+          "37": 30,
+          "12": 9,
+          "24": 113,
+          "57": 172,
+          "46": 35,
+          "14": 34,
+          "47": 79,
+          "31": 18,
+          "2": 29,
+          "11": 23,
+          "38": 28,
+          "40": 112,
+          "35": 67,
+          "15": 60,
+          "55": 21,
+          "51": 69,
+          "23": 25,
+          "10": 13,
+          "42": 41,
+          "1": 78,
+          "54": 95,
+          "50": 5,
+          "53": 35,
+          "17": 38,
+          "44": 3,
+          "43": 18,
+          "20": 7,
+          "52": 2,
+          "34": 6,
+          "7": 31,
+          "5": 9,
+          "28": 37,
+          "25": 26,
+          "26": 7,
+          "27": 4,
+          "41": 3,
+          "19": 5,
+          "29": 2,
+          "45": 1,
+          "39": 3,
+          "49": 3,
+          "6": 6,
+          "21": 3,
+          "13": 5,
+          "36": 1
+        },
+        "top_split_instructions": [
+          {
+            "ip": 42319807,
+            "samples": 49,
+            "length": 3,
+            "instruction": "mov    %rbx,%rax",
+            "function": "_ZNSt6vectorIN5mongo5OpMsg16DocumentSequenceESaIS2_EE17_M_realloc_insertIJS2_EEEvN9__gnu_cxx17__normal_iteratorIPS2_S4_EEDpOT_",
+            "first_line": 661246,
+            "last_line": 661247
+          },
+          {
+            "ip": 44677567,
+            "samples": 44,
+            "length": 3,
+            "instruction": "mov    %r13,(%rdi)",
+            "function": "_ZN5mongo9write_ops6InsertC1ENS_15NamespaceStringE",
+            "first_line": 698086,
+            "last_line": 698087
+          },
+          {
+            "ip": 20510015,
+            "samples": 41,
+            "length": 4,
+            "instruction": "imul   %rdx,%rax",
+            "function": "_ZNSt6vectorIN5mongo15InsertStatementESaIS1_EE7reserveEm",
+            "first_line": 320468,
+            "last_line": 320469
+          },
+          {
+            "ip": 26542843,
+            "samples": 40,
+            "length": 7,
+            "instruction": "mov    %rsi,-0x480(%rbp)",
+            "function": "_ZN5mongo4repl12logInsertOpsEPNS_16OperationContextEPNS0_17MutableOplogEntryEN9__gnu_cxx17__normal_iteratorIPKNS_15InsertStatementESt6vectorIS7_SaIS7_EEEESD_",
+            "first_line": 414731,
+            "last_line": 414732
+          },
+          {
+            "ip": 45266814,
+            "samples": 39,
+            "length": 3,
+            "instruction": "movzbl (%rsi),%ecx",
+            "function": "_ZN5mongo12QueryRequest14parseMaxTimeMSENS_11BSONElementE",
+            "first_line": 707293,
+            "last_line": 707294
+          },
+          {
+            "ip": 44183422,
+            "samples": 39,
+            "length": 7,
+            "instruction": "mov    %rax,-0x178(%rbp)",
+            "function": "_ZN5mongo3rpc19readRequestMetadataEPNS_16OperationContextERKNS_7BSONObjEb",
+            "first_line": 690365,
+            "last_line": 690366
+          },
+          {
+            "ip": 44196860,
+            "samples": 39,
+            "length": 9,
+            "instruction": "xor    %fs:0x28,%rcx",
+            "function": "_ZN5mongo3rpc20ConfigServerMetadata16readFromMetadataERKNS_11BSONElementE",
+            "first_line": 690575,
+            "last_line": 690576
+          },
+          {
+            "ip": 41166783,
+            "samples": 39,
+            "length": 9,
+            "instruction": "mov    %fs:0x28,%rax",
+            "function": "_ZNK5mongo9transport21TransportLayerManager9makeBatonEPNS_16OperationContextE",
+            "first_line": 643230,
+            "last_line": 643231
+          },
+          {
+            "ip": 47319869,
+            "samples": 38,
+            "length": 7,
+            "instruction": "cmp    %r13,-0x100(%rbp)",
+            "function": "_ZN5mongo12validateBSONEPKcmNS_11BSONVersionE",
+            "first_line": 739372,
+            "last_line": 739373
+          },
+          {
+            "ip": 27353983,
+            "samples": 38,
+            "length": 4,
+            "instruction": "mov    0x8(%rsi),%rax",
+            "function": "_ZN5mongo18userAllowedWriteNSERKNS_15NamespaceStringE",
+            "first_line": 427405,
+            "last_line": 427406
+          },
+          {
+            "ip": 24275199,
+            "samples": 38,
+            "length": 2,
+            "instruction": "xor    %ecx,%ecx",
+            "function": "_ZN5mongo12_GLOBAL__N_114serializeReplyEPNS_16OperationContextENS0_10ReplyStyleEbmNS_11WriteResultEPNS_14BSONObjBuilderE",
+            "first_line": 379299,
+            "last_line": 379300
+          },
+          {
+            "ip": 30191099,
+            "samples": 37,
+            "length": 8,
+            "instruction": "movq   $0x0,0x60(%rdi)",
+            "function": "_ZN5mongo5CurOpC1EPNS_16OperationContextEPNS0_10CurOpStackE",
+            "first_line": 471735,
+            "last_line": 471736
+          },
+          {
+            "ip": 17199805,
+            "samples": 37,
+            "length": 4,
+            "instruction": "mov    %rax,-0x38(%rbp)",
+            "function": "_ZN5mongo20WiredTigerSizeStorer5storeENS_10StringDataESt10shared_ptrINS0_8SizeInfoEE",
+            "first_line": 268746,
+            "last_line": 268747
+          },
+          {
+            "ip": 18173438,
+            "samples": 37,
+            "length": 6,
+            "instruction": "js     1155568 <__wt_btcur_insert+0x1798>",
+            "function": "__wt_btcur_insert",
+            "first_line": 283959,
+            "last_line": 283960
+          },
+          {
+            "ip": 17458235,
+            "samples": 36,
+            "length": 7,
+            "instruction": "mov    %rsi,-0xa8(%rbp)",
+            "function": "__wt_cursor_set_value",
+            "first_line": 272784,
+            "last_line": 272785
+          },
+          {
+            "ip": 16959550,
+            "samples": 36,
+            "length": 4,
+            "instruction": "cmovne %rdx,%rax",
+            "function": "_ZNK5mongo9KeyString5Value11getTypeBitsEv",
+            "first_line": 264992,
+            "last_line": 264993
+          },
+          {
+            "ip": 26092923,
+            "samples": 36,
+            "length": 7,
+            "instruction": "lea    -0x210(%rbp),%r14",
+            "function": "_ZN5mongo14CollectionImpl15insertDocumentsEPNS_16OperationContextEN9__gnu_cxx17__normal_iteratorIPKNS_15InsertStatementESt6vectorIS5_SaIS5_EEEESB_PNS_7OpDebugEb",
+            "first_line": 407701,
+            "last_line": 407702
+          },
+          {
+            "ip": 17977343,
+            "samples": 34,
+            "length": 4,
+            "instruction": "mov    0x60(%r15),%eax",
+            "function": "__wt_txn_commit",
+            "first_line": 280895,
+            "last_line": 280896
+          },
+          {
+            "ip": 17543613,
+            "samples": 34,
+            "length": 6,
+            "instruction": "mov    0x2a0(%rbx),%eax",
+            "function": "__wt_log_write",
+            "first_line": 274118,
+            "last_line": 274119
+          },
+          {
+            "ip": 28925119,
+            "samples": 34,
+            "length": 3,
+            "instruction": "call   *0x10(%rax)",
+            "function": "_ZN5mongo24AuthorizationSessionImpl22isUsingLocalhostBypassEv",
+            "first_line": 451954,
+            "last_line": 451955
+          },
+          {
+            "ip": 17802750,
+            "samples": 33,
+            "length": 6,
+            "instruction": "mov    %eax,0x140(%rdi)",
+            "function": "__session_commit_transaction",
+            "first_line": 278167,
+            "last_line": 278168
+          },
+          {
+            "ip": 18173503,
+            "samples": 33,
+            "length": 4,
+            "instruction": "mulsd  %xmm2,%xmm0",
+            "function": "__wt_btcur_insert",
+            "first_line": 283960,
+            "last_line": 283961
+          },
+          {
+            "ip": 50017022,
+            "samples": 33,
+            "length": 6,
+            "instruction": "je     2fb33c0 <_ZdaPvm+0x100>",
+            "function": "_ZdaPvm",
+            "first_line": 781515,
+            "last_line": 781516
+          },
+          {
+            "ip": 24968636,
+            "samples": 33,
+            "length": 5,
+            "instruction": "call   4348320 <_end+0x3110>",
+            "function": "_ZN5mongo14performInsertsEPNS_16OperationContextERKNS_9write_ops6InsertEb",
+            "first_line": 390134,
+            "last_line": 390135
+          },
+          {
+            "ip": 41215742,
+            "samples": 33,
+            "length": 3,
+            "instruction": "mov    %rdx,%rbx",
+            "function": "_ZN5mongo9transport26ServiceExecutorSynchronous8scheduleESt8functionIFvvEENS0_15ServiceExecutor13ScheduleFlagsENS0_23ServiceExecutorTaskNameE",
+            "first_line": 643995,
+            "last_line": 643996
+          }
+        ],
+        "limitation": "Instruction-byte spans only. A split instruction can need a following cache line, but the PEBS event does not identify which of its lines missed. Global selected-line membership does not establish a matching hint execution. Original instruction lengths are unchanged in the patched main text."
+      },
+      "estimated_events_per_request": {
+        "main_samples": 399.2300732832715,
+        "on_selected_target_line": 162.27295756808107,
+        "no_matching_hint_observed": 285.8087397086764,
+        "matching_hint_observed": 113.42133357459514,
+        "matching_hint_age_ge64": 110.65439247263187,
+        "matching_hint_age_ge512": 55.38532525106306
+      },
+      "baseline_heldout": {
+        "counts": {
+          "main_samples": 28179,
+          "on_selected_target_line": 20510
+        },
+        "request_window": {
+          "begin_epoch": 1790673578.359325,
+          "end_epoch": 1790673587.6774073,
+          "seconds": 9.318082332611084,
+          "completed_requests": 10531,
+          "limitation": "Requests bracket perf record startup/teardown as well as the capture interval. Approximate per-request normalization, not an E2E performance trial."
+        },
+        "fetch_spans": {
+          "counts": {
+            "samples": 28179,
+            "decoded_samples": 28179,
+            "crosses_32": 6655,
+            "crosses_64": 6596,
+            "crosses_4096": 79,
+            "crosses64_first_line_selected": 5005,
+            "crosses64_second_line_selected": 403,
+            "crosses64_first_selected_second_unselected": 4611
+          },
+          "ip_offset64_histogram": {
+            "32": 4315,
+            "0": 6754,
+            "16": 3816,
+            "48": 4263,
+            "63": 1821,
+            "60": 668,
+            "61": 1410,
+            "23": 47,
+            "58": 449,
+            "62": 1338,
+            "7": 70,
+            "8": 175,
+            "1": 78,
+            "9": 5,
+            "28": 76,
+            "57": 221,
+            "56": 329,
+            "59": 678,
+            "54": 58,
+            "4": 69,
+            "40": 201,
+            "24": 229,
+            "19": 78,
+            "45": 29,
+            "6": 10,
+            "15": 73,
+            "52": 7,
+            "14": 37,
+            "35": 59,
+            "22": 31,
+            "21": 21,
+            "44": 10,
+            "38": 46,
+            "17": 34,
+            "26": 56,
+            "46": 34,
+            "42": 58,
+            "37": 30,
+            "11": 31,
+            "27": 12,
+            "51": 81,
+            "50": 36,
+            "3": 91,
+            "33": 19,
+            "31": 9,
+            "10": 10,
+            "47": 49,
+            "2": 25,
+            "34": 2,
+            "55": 33,
+            "53": 28,
+            "13": 7,
+            "18": 3,
+            "25": 7,
+            "43": 9,
+            "12": 7,
+            "5": 8,
+            "36": 3,
+            "41": 10,
+            "29": 6,
+            "39": 2,
+            "20": 5,
+            "49": 3
+          },
+          "top_split_instructions": [
+            {
+              "ip": 44183356,
+              "samples": 50,
+              "length": 10,
+              "instruction": "movabs $0x100000000,%rax",
+              "function": "_ZN5mongo3rpc19readRequestMetadataEPNS_16OperationContextERKNS_7BSONObjEb",
+              "first_line": 690364,
+              "last_line": 690365
+            },
+            {
+              "ip": 17669629,
+              "samples": 45,
+              "length": 4,
+              "instruction": "movsbl %sil,%eax",
+              "function": "__wt_struct_pack",
+              "first_line": 276087,
+              "last_line": 276088
+            },
+            {
+              "ip": 41450811,
+              "samples": 41,
+              "length": 7,
+              "instruction": "lea    0x87286f(%rip),%rsi        # 2ffa5b1 <_IO_stdin_used+0x45db1>",
+              "function": "_ZZN5mongo9transport18TransportLayerASIO11ASIOSession17sourceMessageImplERKSt10shared_ptrINS_5BatonEEENUlvE_clEv",
+              "first_line": 647668,
+              "last_line": 647669
+            },
+            {
+              "ip": 26092923,
+              "samples": 41,
+              "length": 7,
+              "instruction": "lea    -0x210(%rbp),%r14",
+              "function": "_ZN5mongo14CollectionImpl15insertDocumentsEPNS_16OperationContextEN9__gnu_cxx17__normal_iteratorIPKNS_15InsertStatementESt6vectorIS5_SaIS5_EEEESB_PNS_7OpDebugEb",
+              "first_line": 407701,
+              "last_line": 407702
+            },
+            {
+              "ip": 46609599,
+              "samples": 38,
+              "length": 2,
+              "instruction": "push   %r13",
+              "function": "_ZN5mongo30OperationSessionInfoFromClient14parseProtectedERKNS_21IDLParserErrorContextERKNS_7BSONObjE",
+              "first_line": 728274,
+              "last_line": 728275
+            },
+            {
+              "ip": 17541565,
+              "samples": 38,
+              "length": 4,
+              "instruction": "mov    0x8(%rsi),%rsi",
+              "function": "__wt_log_write",
+              "first_line": 274086,
+              "last_line": 274087
+            },
+            {
+              "ip": 26176253,
+              "samples": 38,
+              "length": 6,
+              "instruction": "je     18f6c41 <_ZN5mongo16IndexCatalogImpl13_indexRecordsEPNS_16OperationContextEPNS_17IndexCatalogEntryERKSt6vectorINS_10BsonRecordESaIS6_EEPl+0x1b1>",
+              "function": "_ZN5mongo16IndexCatalogImpl13_indexRecordsEPNS_16OperationContextEPNS_17IndexCatalogEntryERKSt6vectorINS_10BsonRecordESaIS6_EEPl",
+              "first_line": 409003,
+              "last_line": 409004
+            },
+            {
+              "ip": 23935741,
+              "samples": 37,
+              "length": 4,
+              "instruction": "mov    0x8(%rdi),%r8",
+              "function": "_ZNSt6vectorIiSaIiEE17_M_realloc_insertIJiEEEvN9__gnu_cxx17__normal_iteratorIPiS1_EEDpOT_",
+              "first_line": 373995,
+              "last_line": 373996
+            },
+            {
+              "ip": 17119998,
+              "samples": 37,
+              "length": 7,
+              "instruction": "mov    0x190(%rdi),%rax",
+              "function": "_ZN5mongo21WiredTigerRecordStore19_initNextIdIfNeededEPNS_16OperationContextE",
+              "first_line": 267499,
+              "last_line": 267500
+            },
+            {
+              "ip": 24946367,
+              "samples": 37,
+              "length": 2,
+              "instruction": "push   %r12",
+              "function": "_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEC2IS3_EEPKcRKS3_.constprop.1423",
+              "first_line": 389786,
+              "last_line": 389787
+            },
+            {
+              "ip": 16959550,
+              "samples": 36,
+              "length": 4,
+              "instruction": "cmovne %rdx,%rax",
+              "function": "_ZNK5mongo9KeyString5Value11getTypeBitsEv",
+              "first_line": 264992,
+              "last_line": 264993
+            },
+            {
+              "ip": 24280699,
+              "samples": 35,
+              "length": 9,
+              "instruction": "mov    %fs:0x28,%rax",
+              "function": "_ZNK5mongo12_GLOBAL__N_19CmdInsert10Invocation7runImplEPNS_16OperationContextERNS_14BSONObjBuilderE",
+              "first_line": 379385,
+              "last_line": 379386
+            },
+            {
+              "ip": 17809530,
+              "samples": 35,
+              "length": 7,
+              "instruction": "mov    %r15,0x110(%rdi)",
+              "function": "__session_reset",
+              "first_line": 278273,
+              "last_line": 278274
+            },
+            {
+              "ip": 16934591,
+              "samples": 35,
+              "length": 4,
+              "instruction": "movslq 0x4(%r8),%rsi",
+              "function": "_ZN5mongo21WiredTigerIndexUnique22_insertTimestampUnsafeEPNS_16OperationContextEP11__wt_cursorRKNS_9KeyString5ValueEb",
+              "first_line": 264602,
+              "last_line": 264603
+            },
+            {
+              "ip": 17541630,
+              "samples": 35,
+              "length": 3,
+              "instruction": "mov    %rdi,%rsi",
+              "function": "__wt_log_write",
+              "first_line": 274087,
+              "last_line": 274088
+            },
+            {
+              "ip": 27352255,
+              "samples": 34,
+              "length": 3,
+              "instruction": "mov    %rdi,%r12",
+              "function": "_ZN5mongo18userAllowedWriteNSENS_10StringDataES0_",
+              "first_line": 427378,
+              "last_line": 427379
+            },
+            {
+              "ip": 42033917,
+              "samples": 34,
+              "length": 9,
+              "instruction": "mov    %fs:0x28,%rax",
+              "function": "_ZN6snappy11RawCompressEPKcmPcPm",
+              "first_line": 656779,
+              "last_line": 656780
+            },
+            {
+              "ip": 17199805,
+              "samples": 34,
+              "length": 4,
+              "instruction": "mov    %rax,-0x38(%rbp)",
+              "function": "_ZN5mongo20WiredTigerSizeStorer5storeENS_10StringDataESt10shared_ptrINS0_8SizeInfoEE",
+              "first_line": 268746,
+              "last_line": 268747
+            },
+            {
+              "ip": 17164543,
+              "samples": 34,
+              "length": 6,
+              "instruction": "ja     105f090 <_ZN5mongo22WiredTigerRecoveryUnit9_txnCloseEb+0x7c0>",
+              "function": "_ZN5mongo22WiredTigerRecoveryUnit9_txnCloseEb",
+              "first_line": 268195,
+              "last_line": 268196
+            },
+            {
+              "ip": 24964157,
+              "samples": 33,
+              "length": 7,
+              "instruction": "lea    -0x90(%rbp),%r13",
+              "function": "_ZN5mongo12_GLOBAL__N_115insertDocumentsEPNS_16OperationContextEPNS_10CollectionEN9__gnu_cxx17__normal_iteratorIPNS_15InsertStatementESt6vectorIS7_SaIS7_EEEESC_b",
+              "first_line": 390064,
+              "last_line": 390065
+            },
+            {
+              "ip": 42032250,
+              "samples": 33,
+              "length": 9,
+              "instruction": "mov    %fs:0x28,%rax",
+              "function": "_ZN6snappy8CompressEPNS_6SourceEPNS_4SinkE",
+              "first_line": 656753,
+              "last_line": 656754
+            },
+            {
+              "ip": 44183293,
+              "samples": 33,
+              "length": 7,
+              "instruction": "lea    0x6c9ab5(%rip),%r13        # 30ec9b9 <_ZZN5mongo11BSONElementC4EvE11kEooElement>",
+              "function": "_ZN5mongo3rpc19readRequestMetadataEPNS_16OperationContextERKNS_7BSONObjEb",
+              "first_line": 690363,
+              "last_line": 690364
+            },
+            {
+              "ip": 41414013,
+              "samples": 32,
+              "length": 7,
+              "instruction": "movl   $0x0,-0x68(%rbp)",
+              "function": "_ZN5mongo9transport18TransportLayerASIO9BatonASIO10detachImplEv",
+              "first_line": 647093,
+              "last_line": 647094
+            },
+            {
+              "ip": 21594623,
+              "samples": 32,
+              "length": 2,
+              "instruction": "pop    %r14",
+              "function": "_ZN5mongo17FreeMonOpObserver9onInsertsEPNS_16OperationContextERKNS_15NamespaceStringEN5boost8optionalINS_4UUIDEEEN9__gnu_cxx17__normal_iteratorIPKNS_15InsertStatementESt6vectorISC_SaISC_EEEESI_b",
+              "first_line": 337415,
+              "last_line": 337416
+            },
+            {
+              "ip": 24277372,
+              "samples": 32,
+              "length": 6,
+              "instruction": "jne    1726f57 <_ZN5mongo12_GLOBAL__N_114serializeReplyEPNS_16OperationContextENS0_10ReplyStyleEbmNS_11WriteResultEPNS_14BSONObjBuilderE+0x697>",
+              "function": "_ZN5mongo12_GLOBAL__N_114serializeReplyEPNS_16OperationContextENS0_10ReplyStyleEbmNS_11WriteResultEPNS_14BSONObjBuilderE",
+              "first_line": 379333,
+              "last_line": 379334
+            }
+          ],
+          "limitation": "Instruction-byte spans only. A split instruction can need a following cache line, but the PEBS event does not identify which of its lines missed. Global selected-line membership does not establish a matching hint execution. Original instruction lengths are unchanged in the patched main text."
+        },
+        "estimated_events_per_request": {
+          "main_samples": 687.6842655018517,
+          "on_selected_target_line": 500.52891463298835
+        }
+      },
+      "request_window": {
+        "begin_epoch": 1790685338.3808289,
+        "end_epoch": 1790685347.6948512,
+        "seconds": 9.314022302627563,
+        "completed_requests": 11053,
+        "limitation": "Requests bracket perf record startup/teardown as well as the capture interval. Approximate per-request normalization, not an E2E performance trial."
+      },
+      "observations_sha256": "169d450010c10b48596e8d4471eee9d5518bffb779dce3400c385c2d5676dffc",
+      "decoded_sha256": "1ffdb8b6caa08a66661b18e73e9adc3e21f8f75bb6f7684462c22c4db0c9651b"
+    }
+  },
+  "source_sha256": "fbde40dbc2fdfb0a6b0b027f734f61cef1d9efbe288060b3c29c323ac1564b69",
+  "complete": true,
+  "limitation": "Separate diagnostic seeds/windows, no E2E inference. Missing matching hints may lie beyond finite LBR history, whose span changes with added branches. Retired age is not issue-to-fetch time. A remaining target miss does not alone distinguish late issue, dropped hint, or eviction."
+}

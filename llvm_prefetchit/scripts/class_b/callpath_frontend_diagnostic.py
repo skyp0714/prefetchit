@@ -16,7 +16,10 @@ from fullset_study import summarize
 EVENTS={
     'ant':'cycles:u,instructions:u,cpu/event=0xc6,umask=0x3,name=FE_ANY_ANT,config1=0x9/u,cpu/event=0xc6,umask=0x2,name=FE_MISP_ANT,config1=0x9/u,branches:u,branch-misses:u',
     'itlb':'cycles:u,instructions:u,cpu/event=0xc6,umask=0x3,name=FE_ITLB,config1=0x14/u,cpu/event=0x11,umask=0x10,name=ITLB_WALK_ACTIVE,cmask=1/u,cpu/event=0x80,umask=0x4,name=ICACHE_DATA_STALL/u',
-    'dsb':'cycles:u,instructions:u,cpu/event=0xc6,umask=0x3,name=FE_CRITICAL_DSB,config1=0x11/u,cpu/event=0x79,umask=0x8,name=DSB_UOPS/u,cpu/event=0x79,umask=0x4,name=MITE_UOPS/u,cpu/event=0xad,umask=0x40,name=UNKNOWN_BRANCH_CYCLES,config1=0x7/u'}
+    # UNKNOWN_BRANCH_CYCLES also uses MSR_PEBS_FRONTEND (selector 7),
+    # so it cannot share this selector-17 window without multiplexing.
+    # The separate decode group in the E2E campaigns measures it already.
+    'dsb':'cycles:u,instructions:u,cpu/event=0xc6,umask=0x3,name=FE_CRITICAL_DSB,config1=0x11/u,cpu/event=0x79,umask=0x8,name=DSB_UOPS/u,cpu/event=0x79,umask=0x4,name=MITE_UOPS/u'}
 SCOPES={'mongo_user':('user-review-mongodb','u'),
         'mongo_movie':('movie-review-mongodb','u'),
         'mongo_storage':('review-storage-mongodb','u'),
