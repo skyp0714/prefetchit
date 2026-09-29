@@ -5,6 +5,7 @@ import gzip
 import json
 from pathlib import Path
 import signal
+import statistics
 import time
 import dense_build as b
 import fullset as h
@@ -69,6 +70,8 @@ def trial(spec):
             h.old.attach(row['window'],requests);assert row['window']['completed']>0
             row['per_request']={k:v/row['window']['completed'] for k,v in row['counters'].items()}
         b.save(out/'result.json',dict(valid=True,windows=windows,load=info,limitation=LIMIT))
+        from request_path_trace import collect
+        collect(stack,out,info)
     except BaseException as error:b.save(out/'failure.json',dict(error=repr(error)));raise
     finally:
         h.c.stop(client)
@@ -112,6 +115,42 @@ def campaign(parent):
             print(json.dumps(dict(block=block,arm=arm,windows=len(result['windows']),valid=True)),flush=True)
     b.save(root/'complete.json',dict(valid=True,trials=len(rows),windows=len(rows)*len(SCOPES)*len(EVENTS),
         comparisons=summarize(rows,arms),limitation=LIMIT))
+    report(root)
+
+
+def report(root):
+    complete=json.loads((root/'complete.json').read_text());assert complete['valid']
+    rows=json.loads((root/'rows.json').read_text());arms=json.loads((root/'protocol.json').read_text())['arms']
+    fields=[('itlb','FE_ITLB'),('itlb','ITLB_WALK_ACTIVE'),('dsb','FE_CRITICAL_DSB'),
+            ('ant','FE_ANY_ANT'),('ant','FE_MISP_ANT')]
+    absolute={};lines=['# Call-path frontend diagnostic','',
+        'Request performance is measured separately in the [completed E2E comparison](../callpath_coverage75/screen_report.md).',
+        '',f'{len(rows)} fresh stacks and {complete["windows"]} fully scheduled windows. Each counter window has its own completed-request denominator.',
+        '', '| Scope / arm | Retired ITLB/request | Walk-active cycles/request | Critical DSB/request | ANY_ANT/request | MISP_ANT/request |',
+        '|---|---:|---:|---:|---:|---:|']
+    for scope in SCOPES:
+        for arm in arms:
+            records=[row for row in rows if row['arm']==arm];values=[]
+            for label,event in fields:
+                key=scope+':'+label+':'+event;v=[row['metrics'][key] for row in records]
+                absolute.setdefault(scope,{}).setdefault(arm,{})[event]=dict(mean=statistics.mean(v),range=[min(v),max(v)])
+                values.append(statistics.mean(v))
+            lines.append('| '+scope+' / '+arm+' | '+' | '.join(f'{v:,.2f}' for v in values)+' |')
+    lines+=['','| Scope / T1 versus its NOP | Retired ITLB reduction | Walk-active reduction | Critical DSB reduction | ANY_ANT reduction | MISP_ANT reduction |',
+            '|---|---:|---:|---:|---:|---:|']
+    for scope in SCOPES:
+        comparison=complete['comparisons']['cost75']['cost75_nop'];values=[]
+        for label,event in fields:
+            value=comparison.get(scope+':'+label+':'+event)
+            values.append(f'{value["cost_reduction_pct"]:+.2f}%' if value else 'undefined (zero count)')
+        lines.append('| '+scope+' | '+' | '.join(values)+' |')
+    lines+=['',LIMIT,'',
+        'Ranges in summary.json describe two repetitions, not confidence intervals. Individual paired-log intervals and zero-count absolute records are retained in complete.json and rows.json. No multiplicity correction.',
+        '', 'Event semantics follow the [Intel Granite Rapids PMU reference](https://perfmon-events.intel.com/platforms/graniterapids/core-events/core/).']
+    b.save(root/'summary.json',dict(absolute=absolute,complete=complete,source_sha256=b.sha(__file__),limitation=LIMIT))
+    (root/'report.md').write_text('\n'.join(lines)+'\n')
+    from request_path_trace import aggregate
+    aggregate(root)
 
 
 if __name__=='__main__':
