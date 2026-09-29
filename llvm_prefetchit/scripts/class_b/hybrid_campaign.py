@@ -219,7 +219,10 @@ def campaign(parent,blocks=3):
     reuse_preflight=json.loads(early.read_text()) if early.exists() else None
     if reuse_preflight:
         assert reuse_preflight['valid']
-        assert all(b.sha(path)==digest for path,digest in reuse_preflight['source_hashes'].items())
+        if not all(b.sha(path)==digest for path,digest in reuse_preflight['source_hashes'].items()):
+            from burst_opcode_policy import verify_campaign_compatibility
+            compatibility=verify_campaign_compatibility(reuse_preflight,Path(__file__).resolve(),parent/'hybrid_service_preflight/source_compatibility.json')
+            b.save(root/'service_preflight_source_compatibility.json',compatibility)
         assert all(b.sha(path)==digest for path,digest in reuse_preflight['binary_hashes'].items())
         assert b.sha(reuse_preflight['diagnostic_result'])==reuse_preflight['diagnostic_sha256']
         prepared=reuse_preflight['prepared']
@@ -272,9 +275,23 @@ def campaign(parent,blocks=3):
     remove_generated([Path(reduced['sparse_diag']['binary'])],root/'sparse_diagnostic_elf_cleanup.json','Sparse gate verification complete; preserve its independent-seed activity and age records. Counter code is excluded from timing.')
     arms['hybrid_sparse_nop']=dict(common,mongo_binary=reduced['sparse']['nop'],hybrid=True,controls=['original','hybrid_nop'])
     arms['hybrid_sparse']=dict(common,mongo_binary=reduced['sparse']['binary'],hybrid=True,controls=['original',base_name,'hybrid_sparse_nop','hybrid_it0'])
+    # Independent native calibration preceded every hybrid E2E trial: a
+    # contiguous eight-IT0 burst helped only two target positions consistently.
+    # Compare a byte-only mixed burst without moving any application/stub code.
+    from burst_opcode_policy import build as mixed_burst
+    probe=parent/'burst_hint_dependent_probe';assert json.loads((probe/'complete.json').read_text())['valid']
+    mixed_validation=json.loads((parent/'mixed_burst_preflight/complete.json').read_text())
+    assert mixed_validation['valid'] and all(b.sha(path)==digest for path,digest in mixed_validation['source_hashes'].items())
+    mixed_path=root/'mixed_burst/mongod';mixed=mixed_burst(reduced['sparse']['binary'],mixed_path)
+    assert mixed['nop_sha256']==reduced['sparse']['nop_sha256']
+    arms['hybrid_sparse_mixed']=dict(common,mongo_binary=str(mixed_path),hybrid=True,
+        controls=['original',base_name,'hybrid_sparse_nop','hybrid_sparse'])
     protocol=json.loads((root/'protocol.json').read_text());protocol.update(arms=arms,sparse_prepared=reduced,
+        mixed_burst=dict(probe=str(probe),probe_sha256=b.sha(probe/'summary.json'),binary=str(mixed_path),
+            sha256=mixed['sha256'],rule=mixed['mixed_burst']['rule']),
         finalized_before_timing_epoch=time.time());b.save(root/'protocol.json',protocol)
-    screen=root/'screen';screen.mkdir();b.save(screen/'protocol.json',dict(blocks=blocks,arms=arms,seedbase=85001))
+    screen=root/'screen';screen.mkdir();b.save(screen/'protocol.json',dict(blocks=blocks,arms=arms,seedbase=85001,
+        monitored=backend_study.MONITORED))
     names=list(arms);rows=[]
     for block in range(blocks):
         for arm in names if block%2==0 else list(reversed(names)):
