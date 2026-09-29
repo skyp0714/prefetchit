@@ -132,8 +132,13 @@ def profile(spec):
     out=Path(spec['out']);out.mkdir(parents=True,exist_ok=False);b.space(out)
     services=spec.get('services',BACKENDS)
     assert services and len(set(services))==len(services) and all(s.endswith('-mongodb') for s in services)
-    b.save(out/'protocol.json',dict(spec,source_sha256=b.sha(__file__),sampling_period=257,
-        scope='Selected MongoDB ELF in full Media C4; main-ELF retired L2 miss LBR diagnostic, no performance claim. Original ELF unless mongo_binary is explicitly provided.'))
+    kind=spec.get('capture_kind','miss');assert kind in ('miss','calls')
+    period=257 if kind=='miss' else 4093
+    event=('cpu/event=0xc6,umask=0x3,config1=0x13,period=257,name=fe_l2/upp' if kind=='miss' else
+           'cpu/event=0xc4,umask=0x2,period=4093,name=near_calls/upp')
+    b.save(out/'protocol.json',dict(spec,source_sha256=b.sha(__file__),sampling_period=period,event=event,
+        scope='Selected MongoDB ELF in full Media C4; '+('retired L2 miss' if kind=='miss' else 'retired near-call')+
+              ' LBR diagnostic, no performance claim. Original ELF unless mongo_binary is explicitly provided.'))
     stack=client=None;captures=[];windows={}
     try:
         with bind_mongodb(out,spec.get('mongo_binary')):stack=h.start(out,'media',spec['overrides'],8)
@@ -150,7 +155,6 @@ def profile(spec):
             b.space(out);dest=out/name;dest.mkdir();pid=runtime[name]['pid']
             (dest/'maps.txt').write_text(Path(f'/proc/{pid}/maps').read_text())
             group=str(Path(h.c.cpu(pid)['path']).parent.relative_to('/sys/fs/cgroup'))
-            event='cpu/event=0xc6,umask=0x3,config1=0x13,period=257,name=fe_l2/upp'
             command=['perf','record','--no-buildid','--no-buildid-cache','-a','-C','32-39','-m','8M',
                 '-e',event,'-j','any,u','-G',group,'-o',str(dest/'perf.data'),'--','sleep','8']
             begin=time.time();b.run(command,dest/'record.log');windows[str(dest)]=(begin,time.time())
