@@ -33,10 +33,13 @@ def prepare(source,out,minimum=64,goal=.75,max_sites=1024,build=False):
         limitation='Retired LBR age is not issue-to-fetch lead; selected cover is not measured miss elimination.')
     b.save(out/'protocol.json',protocol)
     phases={};input_records=[]
+    services=json.loads((source/'protocol.json').read_text())['training_services']
     for phase in ['train','heldout']:
         rows=[]
-        for path in sorted((source/'observations').glob(phase+'_*.json.gz')):
-            name=path.name[len(phase)+1:-len('.json.gz')]
+        # Keep the original sample ordering so each line's first valid target
+        # instruction remains the same when only the lead/budget changes.
+        for name in services:
+            path=source/'observations'/(phase+'_'+name+'.json.gz')
             assert b.sha(path)==quality['records'][phase+':'+name]['observations_sha256']
             with gzip.open(path,'rt') as stream:observed=json.load(stream)
             for row in observed:
