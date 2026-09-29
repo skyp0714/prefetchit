@@ -36,9 +36,9 @@ def campaign(spec):
     out=Path(spec['out']);out.mkdir(parents=True,exist_ok=False)
     arms=spec['arms'];names=list(arms);rows=[]
     orders=[names if block%2==0 else list(reversed(names)) for block in range(spec['blocks'])]
-    b.save(out/'protocol.json',dict(**spec,orders=orders,source_sha256=b.sha(__file__),
+    b.save(out/'protocol.json',dict(spec,orders=orders,source_sha256=b.sha(__file__),
         primary='Clean whole-stack RPS and average/p99 latency, CPU/request; L2I and FE_L2 reported separately, no proxy promotion',
-        exploratory=True,pmu='Separate selector windows, after clean ROI. No concurrent builds/decoding.'))
+        exploratory=spec.get('exploratory',True),pmu='Separate selector windows, after clean ROI. No concurrent builds/decoding.'))
     for block,order in enumerate(orders):
         for arm in order:
             b.space(out);dest=out/f'{block:02d}_{arm}'
