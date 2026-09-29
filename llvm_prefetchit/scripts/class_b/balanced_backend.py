@@ -2,6 +2,7 @@
 """Independent confirmation with controlled persistent-connection ownership."""
 import argparse
 import json
+import os
 from pathlib import Path
 import signal
 import subprocess
@@ -69,21 +70,41 @@ def campaign(parent,blocks=4):
     prepared=json.loads((source/'prepared.json').read_text());candidate=prepared['candidates']['cost75']
     native=json.loads((parent/'confirmation_spec.json').read_text())['arms']
     base=native['base']['overrides'];nop=native['selected_nop']['overrides'];t1=native['candidate']['overrides']
+    previous=json.loads((parent/'callpath/prepared.json').read_text())['candidates']['call256']['binary']
     test_work=root/'opcode_test_work'
     from e2e_lbr import remove_generated
     try:
-        b.run([b.REPO/'profiling/.venv/bin/python','-m','pytest','-q','--basetemp',test_work,
-            b.REPO/'llvm_prefetchit/tests/test_callpath_instruction_hint.py'],root/'opcode_tests.log')
+        prior=parent/'hybrid_native_preflight/native_test_sources.json'
+        reused=False
+        if prior.exists():
+            record=json.loads(prior.read_text())
+            if record['passed'] and all(b.sha(path)==digest for path,digest in record['sha256'].items()):
+                b.save(root/'native_tests_reused.json',dict(source=str(prior),sha256=b.sha(prior),reason='Exact unchanged sources passed between completed campaign trials; no redundant native execution.'))
+                reused=True
+        if not reused:
+            b.run(['taskset','-c','84',b.REPO/'profiling/.venv/bin/python','-m','pytest','-q','--basetemp',test_work,
+                b.REPO/'llvm_prefetchit/tests/test_callpath_instruction_hint.py',
+                b.REPO/'llvm_prefetchit/tests/test_call_stub_prefetch.py'],root/'opcode_tests.log')
+        b.save(root/'native_test_sources.json',dict(passed=True,sha256={str(path):b.sha(path) for path in [
+            b.REPO/'llvm_prefetchit/tools/call_stub_prefetch.py',b.REPO/'llvm_prefetchit/tools/hybrid_call_assembly.py',
+            b.REPO/'llvm_prefetchit/tests/test_call_stub_prefetch.py',b.REPO/'llvm_prefetchit/tests/test_callpath_instruction_hint.py',
+            b.REPO/'llvm_prefetchit/scripts/class_b/callpath_instruction_hint.py']}))
     finally:
         fixtures=[path for path in test_work.rglob('*') if path.is_file() and not path.is_symlink()]
         b.save(root/'opcode_fixture_sources.json',{str(path.relative_to(test_work)):path.read_text()
-            for path in fixtures if path.suffix in ['.c','.s','.ld','.json']})
+            for path in fixtures if path.suffix in ['.c','.cc','.s','.ld','.json']})
         remove_generated(fixtures,root/'opcode_test_cleanup.json','Native opcode validation attempt finished; retain outcome, source, commands, hashes and audit records before removing generated fixtures.')
+        links=[path for path in test_work.rglob('*') if path.is_symlink()]
+        b.save(root/'opcode_test_symlink_cleanup.json',[dict(path=str(path),target=os.readlink(path)) for path in links])
+        for path in links:path.unlink()
+        for path in sorted([p for p in test_work.rglob('*') if p.is_dir() and not p.is_symlink()],key=lambda p:len(p.parts),reverse=True):path.rmdir()
+        if test_work.exists():test_work.rmdir()
     from callpath_instruction_hint import build as hint_variant
     it0=hint_variant(candidate['binary'],root/'builds/cost75_it0/mongod','it0')
     assert b.sha(candidate['nop'])==it0['nop_sha256']
     arms={
         'original':dict(overrides=base,mongo_binary=prepared['reference']),
+        'call256':dict(overrides=base,mongo_binary=previous,controls=['original']),
         'cost75_nop':dict(overrides=base,mongo_binary=candidate['nop'],controls=['original']),
         'cost75':dict(overrides=base,mongo_binary=candidate['binary'],controls=['original','cost75_nop']),
         'cost75_it0':dict(overrides=base,mongo_binary=it0['binary'],controls=['original','cost75_nop','cost75']),
@@ -99,7 +120,7 @@ def campaign(parent,blocks=4):
     b.save(root/'protocol.json',dict(blocks=blocks,arms=arms,seedbase=84001,hashes=hashes,
         source_sha256=b.sha(__file__),client_sha256=b.sha(Path(__file__).with_name('balanced_load.py')),
         rationale='A post-clean-ROI snapshot observed 3/1/0/0 persistent connections across four Nginx workers. Control this nuisance factor in a separate campaign, never exclude or pool the existing unbalanced trials.',
-        policy='Freeze cost75 for its measured emission reduction with similar miss coverage. Compare a same-address IT0 opcode, and combine T1 with the existing native retarget T1. The single and combined layouts have matched NOP controls.',
+        policy='Freeze cost75 for its measured emission reduction with similar miss coverage. Retain call256 as the earlier, smaller deployment reference. Compare a same-address IT0 opcode, and combine T1 with existing native retarget T1. Cost75 and combined layouts have matched NOP controls; call256 versus original is a whole-change deployment comparison, not isolation of its hint opcode.',
         qualification='Functional full-stack smoke, four workers with one connection each, no reconnects, fresh stacks, 50s warmup, 60s clean ROI before PMU. No performance-based retries.',
         pmu='Three-second windows shorten post-ROI diagnostics and keep persistent connections below the unchanged 100,000-request server limit. The existing unbalanced campaign retains its default five-second windows.',
         scope='Full Media compose-review C4 at eight workload CPUs; not a maximum-throughput sweep.'))

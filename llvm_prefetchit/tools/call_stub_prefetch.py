@@ -89,13 +89,18 @@ def instruction_boundaries(binary, wanted):
     assert process.wait() == 0 and found == wanted, 'Site/target is not an original instruction boundary'
 
 
-def build(binary, plan, output, boundaries=None):
+def build(binary, plan, output, boundaries=None, hybrid=None):
     binary, output = Path(binary), Path(output)
     twin = Path(str(output) + '.nop')
     assert not output.exists() and not twin.exists()
     assert shutil.disk_usage('/').free > 7 * 2**30
     assert shutil.disk_usage(binary.parent).free > 2 * binary.stat().st_size + 2**30
     original = binary.read_bytes()
+    if hybrid is not None:
+        assert set(hybrid)<= {'diagnostic'}
+        import runpy
+        hybrid_source=Path(__file__).with_name('hybrid_call_assembly.py')
+        emit_hybrid=runpy.run_path(str(hybrid_source))['emit']
     assert sha(original) == plan['sha256'], 'Input fingerprint mismatch'
     elf = Elf(original)
     eh_ph = [p for p in elf.ph if p[0] == EH_FRAME]
@@ -108,6 +113,7 @@ def build(binary, plan, output, boundaries=None):
         # Sharing identical leaf stubs reduces appended instruction footprint
         # while each original call still pushes its own original return address.
         key = (row['callee'], tuple(row['targets']))
+        if hybrid is not None:key += (tuple(row['burst_targets']),)
         stub_indices.append(canonical.setdefault(key, index))
     wanted = set()
     for row in calls:
@@ -117,7 +123,12 @@ def build(binary, plan, output, boundaries=None):
         assert site + 5 + struct.unpack_from('<i', raw, 1)[0] == row['callee']
         assert 1 <= len(row['targets']) <= 8 and len(set(row['targets'])) == len(row['targets'])
         wanted.update([site, row['callee'], *row['targets']])
-        for target in row['targets']:
+        burst=row.get('burst_targets',[]) if hybrid is not None else []
+        if hybrid is not None:
+            assert 1<=len(burst)<=16 and len(set(burst))==len(burst)
+            assert set(row['targets'])<=set(burst)
+            wanted.update(burst)
+        for target in row['targets']+burst:
             elf.offset(target, 1, True)
     if boundaries is None:
         instruction_boundaries(binary, wanted)
@@ -135,20 +146,25 @@ def build(binary, plan, output, boundaries=None):
             assert index == len(patch_bytes) or patch_bytes[index] >= va + 8, 'Runtime relocation overlaps call patch'
     ph = [list(p) for p in elf.ph]
     assert sum(p[0] == 6 for p in ph) == 1, 'An existing PT_PHDR is required'
-    count = len(ph) + 1
+    count = len(ph) + (2 if hybrid is not None else 1)
     rxoff = align(len(original))
     rxva = align(max(p[3] + p[6] for p in ph if p[0] == 1))
     codeva = rxva + align(count * PH.size, 64)
-    lines = ['.text']; definitions = []
+    lines = ['.text']; definitions = [];hybrid_hints={};hybrid_jumps={}
     for i, row in enumerate(calls):
         if stub_indices[i] != i:
             continue
         lines += [f'.balign 16\n.global pf_call_{i}\n.type pf_call_{i},@function\npf_call_{i}:', '.cfi_startproc']
-        for j, target in enumerate(row['targets']):
-            definitions.append(f'pf_target_{i}_{j} = 0x{target:x};')
-            lines += [f'prefetcht1 pf_target_{i}_{j}(%rip)']
+        if hybrid is None:
+            for j, target in enumerate(row['targets']):
+                definitions.append(f'pf_target_{i}_{j} = 0x{target:x};')
+                lines += [f'prefetcht1 pf_target_{i}_{j}(%rip)']
+        else:
+            emitted,defs,hybrid_hints[i],hybrid_jumps[i]=emit_hybrid(i,row,hybrid.get('diagnostic',False))
+            lines+=emitted;definitions+=defs
         definitions.append(f'pf_callee_{i} = 0x{row["callee"]:x};')
-        lines += [f'jmp pf_callee_{i}', '.cfi_endproc', f'.size pf_call_{i},.-pf_call_{i}']
+        if hybrid is None:lines += [f'jmp pf_callee_{i}']
+        lines += ['.cfi_endproc', f'.size pf_call_{i},.-pf_call_{i}']
     lines += ['.section .note.GNU-stack,"",@progbits']
     output.parent.mkdir(parents=True, exist_ok=True)
     source = Path(str(output) + '.stubs.s')
@@ -156,7 +172,13 @@ def build(binary, plan, output, boundaries=None):
     script = Path(str(output) + '.stubs.ld')
     # Leave RIP operands undefined in assembly so they get PC-relative
     # relocations. An assembler .set absolute would encode a displacement.
-    script.write_text('\n'.join(definitions)+'\n'+('SECTIONS { . = 0x%x; .text : { *(.text) } . = ALIGN(8); .eh_frame : { *(.eh_frame) } . = ALIGN(4); .eh_frame_hdr : { *(.eh_frame_hdr) } /DISCARD/ : { *(.note*) *(.comment) } }\n' % codeva))
+    reservation=''
+    if hybrid is not None:
+        # Leave enough space for the merged, larger GNU unwind search table.
+        reservation=(f'. = ALIGN(. + {12+8*(len(old_entries)+len(canonical))},4096); '
+            '.prefetch_clock (NOLOAD) : { pf_clock_base = .; . += 262144; } '
+            '.prefetch_state (NOLOAD) : { pf_state_base = .; . += 262144; } ')
+    script.write_text('\n'.join(definitions)+'\n'+('SECTIONS { . = 0x%x; .text : { *(.text) } . = ALIGN(8); .eh_frame : { *(.eh_frame) } . = ALIGN(4); .eh_frame_hdr : { *(.eh_frame_hdr) } ' % codeva)+reservation+'/DISCARD/ : { *(.note*) *(.comment) } }\n')
     temporary = []
     commands = []
     generated = []
@@ -192,6 +214,11 @@ def build(binary, plan, output, boundaries=None):
             elif p[0] == EH_FRAME:
                 p[:] = [EH_FRAME, 4, rxoff + merged_va - rxva, merged_va, merged_va, len(merged), len(merged), 4]
         ph.append([1, 5, rxoff, rxva, rxva, rxsize, rxsize, 4096])
+        if hybrid is not None:
+            clockva=symbols['pf_clock_base'];stateva=symbols['pf_state_base']
+            assert clockva%4096==0 and stateva-clockva==262144 and rxva+rxsize<=clockva
+            rwoff=align(len(data));data.extend(b'\0'*(rwoff-len(data)))
+            ph.append([1,6,rwoff,clockva,clockva,0,524288,4096])
         for i, p in enumerate(ph):
             PH.pack_into(data, rxoff + i * PH.size, *p)
         for va, raw in [(text_s[3], code), (frame_s[3], frame), (merged_va, merged)]:
@@ -203,15 +230,21 @@ def build(binary, plan, output, boundaries=None):
             replacement = b'\xe8' + struct.pack('<i', stub - row['site'] - 5)
             data[off:off + 5] = replacement
             patches.append(dict(**row, offset=off, stub=stub, replacement=replacement.hex()))
-            for j, target in enumerate(row['targets']):
-                va = stub + j * 7; hintoff = rxoff + va - rxva
+            emitted_hints=([dict(va=stub+j*7,target=target,kind='t1') for j,target in enumerate(row['targets'])]
+                if hybrid is None else [dict(h,va=symbols[h['symbol']]) for h in hybrid_hints[stub_indices[i]]])
+            for h in emitted_hints:
+                va=h['va'];target=h['target'];hintoff = rxoff + va - rxva
                 raw = bytes(data[hintoff:hintoff + 7])
-                assert raw[:3] == bytes.fromhex('0f1815') and va + 7 + struct.unpack_from('<i', raw, 3)[0] == target
+                assert raw[:3] == bytes.fromhex('0f183d' if h['kind']=='it0' else '0f1815') and va + 7 + struct.unpack_from('<i', raw, 3)[0] == target
                 if hintoff not in seen_hints:
-                    hints.append(dict(va=va, offset=hintoff, target=target, original=raw.hex(), nop=NOP7.hex()))
+                    entry=dict(va=va, offset=hintoff, target=target, original=raw.hex(), nop=NOP7.hex())
+                    if hybrid is not None:entry['kind']=h['kind']
+                    hints.append(entry)
                     seen_hints.add(hintoff)
-            jumpva = stub + len(row['targets']) * 7; jumpoff = rxoff + jumpva - rxva
-            assert data[jumpoff] == 0xe9 and jumpva + 5 + struct.unpack_from('<i', data, jumpoff + 1)[0] == row['callee']
+            jumpvas=([stub+len(row['targets'])*7] if hybrid is None else [symbols[s] for s in hybrid_jumps[stub_indices[i]]])
+            for jumpva in jumpvas:
+                jumpoff = rxoff + jumpva - rxva
+                assert data[jumpoff] == 0xe9 and jumpva + 5 + struct.unpack_from('<i', data, jumpoff + 1)[0] == row['callee']
         # Expose stubs to offline disassembly and the merged unwind table to
         # ELF readers. Old allocated sections and symbol addresses stay fixed.
         sh = [list(s) for s in elf.sh]; strings = bytearray(elf.strings)
@@ -219,6 +252,9 @@ def build(binary, plan, output, boundaries=None):
             value = len(strings); strings.extend(text.encode() + b'\0'); return value
         sh.append([name('.text.prefetch_calls'), 1, 6, codeva, rxoff + codeva - rxva, len(code), 0, 0, 16, 0])
         sh.append([name('.eh_frame.prefetch_calls'), 1, 2, frame_s[3], rxoff + frame_s[3] - rxva, len(frame), 0, 0, 8, 0])
+        if hybrid is not None:
+            for label,va in [('.prefetch_clock',clockva),('.prefetch_state',stateva)]:
+                sh.append([name(label),8,3,va,rwoff,262144,0,0,4096,0])
         old_hdr = sh[elf.names.index('.eh_frame_hdr')]
         old_hdr[3:6] = [merged_va, rxoff + merged_va - rxva, len(merged)]
         sh[elf.shstr][4:6] = [len(data), len(strings)]
@@ -249,12 +285,18 @@ def build(binary, plan, output, boundaries=None):
                       source_tool_sha256=sha(Path(__file__).read_bytes()), source_assembly_sha256=sha(source.read_bytes()),
                       source_linker_script_sha256=sha(script.read_bytes()),
                       original_instruction_addresses_unchanged=True, original_bytes_reversible=True,
-                      original_return_addresses_preserved=True, registers_and_flags_untouched=True,
-                      extra_instruction_bytes=len(code), extra_mapped_bytes=rxsize, extra_file_bytes=len(data)-len(original),
+                      original_return_addresses_preserved=True, registers_and_flags_untouched=hybrid is None,
+                      registers_and_flags_preserved=True,
+                      extra_instruction_bytes=len(code), extra_mapped_bytes=rxsize+(524288 if hybrid is not None else 0), extra_file_bytes=len(data)-len(original),
                       old_fdes=len(old_entries), added_fdes=len(entries),
                       unique_stubs=len(canonical), call_sites=len(calls),
                       original_build_id_retained=True, perf_identity='Use SHA and runtime maps, not the unchanged original build ID.',
                       temporary_artifacts=temporary, temporary_bytes_removed=sum(r['bytes'] for r in temporary))
+        if hybrid is not None:
+            record['hybrid']=dict(hybrid,clock_va=clockva,state_va=stateva,array_bytes=262144,clock_abi=2,
+                assembly_generator_sha256=sha(hybrid_source.read_bytes()),
+                timing='First instrumented call in a newly observed CPU scheduler epoch, only before dense_us deadline. Not the first user instruction or a fetch-queue occupancy measurement.',
+                races='Per-CPU shared words are best effort under preemption/migration; RDTSCP identity and epoch checks reject observed races. Optional hint issuance is not atomic with scheduling.')
         Path(str(output) + '.json').write_text(json.dumps(record, indent=2) + '\n')
         return record
     except BaseException as error:

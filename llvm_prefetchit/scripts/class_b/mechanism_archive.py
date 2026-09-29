@@ -12,13 +12,13 @@ import dense_build as b
 PHASES=['probe','probe_serialized','probe_fixed','screen','retarget_screen','retarget_training',
     'refine_training','builds','crossover','crossover_preflight','crossover_startup_blocked',
     'confirmation_setup_rejected','stack_frontend','confirmation','wake_validation','backend',
-    'callpath_native_preflight','callpath','call_frequency','callpath_refinement','callpath_coverage75','callpath_frontend']
-BACKEND_PHASES={'backend','callpath_native_preflight','callpath','call_frequency','callpath_refinement','callpath_coverage75','callpath_frontend'}
+    'callpath_native_preflight','callpath','call_frequency','callpath_refinement','callpath_coverage75','callpath_frontend','balanced_callpath','hybrid_switch']
+BACKEND_PHASES={'backend','callpath_native_preflight','callpath','call_frequency','callpath_refinement','callpath_coverage75','callpath_frontend','balanced_callpath','hybrid_switch'}
 
 def pack(root,out,native_only=False):
     assert (root/'confirmation_followup_complete.json').exists(),'Archive completed native validation only'
     if not native_only:
-        for phase in ['backend','callpath','call_frequency','callpath_refinement','callpath_coverage75','callpath_frontend']:
+        for phase in ['backend','callpath','call_frequency','callpath_refinement','callpath_coverage75','callpath_frontend','balanced_callpath','hybrid_switch']:
             if (root/phase).exists():
                 assert (root/phase/'complete.json').exists(), 'Do not archive an active backend phase: '+phase
     out.mkdir(parents=True,exist_ok=True);manifest=[]

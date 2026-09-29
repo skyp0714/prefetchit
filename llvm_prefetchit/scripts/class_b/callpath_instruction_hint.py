@@ -4,13 +4,13 @@ import argparse
 import json
 from pathlib import Path
 import re
+import shutil
 import struct
 import subprocess
 import sys
 import dense_build as b
 sys.path.insert(0,str(b.REPO/'llvm_prefetchit/tools'))
 from call_stub_prefetch import Elf,sha
-from e2e_lbr import remove_generated
 
 
 def build(source,dest,kind='it0'):
@@ -58,7 +58,16 @@ def build(source,dest,kind='it0'):
         return dict(binary=str(dest),sha256=result['sha256'],sites=len(wanted),kind=kind,nop_sha256=audit['nop_sha256'])
     except BaseException as error:
         b.save(Path(str(dest)+'.failure.json'),dict(transform,error=repr(error)))
-        if dest.exists():remove_generated([dest],Path(str(dest)+'.cleanup.json'),'Instruction-hint transform rejected; source, patches, hashes and validation failure retained.')
+        if dest.exists():
+            # Keep this binary-only tool independent of the service harness
+            # (and its Docker/YAML imports), including its rejection cleanup.
+            cleanup=dict(reason='Instruction-hint transform rejected; source, patches, hashes and validation failure retained.',
+                files=[dict(path=str(dest),sha256=b.sha(dest),bytes=dest.stat().st_size)],
+                free_before=shutil.disk_usage(dest.parent).free,status='prepared',bytes_removed=0)
+            record=Path(str(dest)+'.cleanup.json');b.save(record,cleanup)
+            assert dest.is_file() and not dest.is_symlink();dest.unlink()
+            cleanup.update(status='complete',bytes_removed=cleanup['files'][0]['bytes'],free_after=shutil.disk_usage(dest.parent).free)
+            b.save(record,cleanup)
         raise
 
 
