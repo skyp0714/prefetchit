@@ -106,6 +106,12 @@ retarget 탐색의 clean ROI에서 세 수정 서비스의 사용자 CPU/request
 
 두 review MongoDB의 retired L2 이벤트 합계는 수정한 세 네이티브 서비스 합계의 약 2.31배다. 각 PMU 창의 시각·요청 분모가 다르므로 전체 미스의 동시 점유율로 환산하지 않는다. 그래도 프리패치 적용 범위를 넓힐 근거가 된다. MongoDB는 별도 두 seed의 PEBS/LBR에서 실제 실행된 선행 NOP를 고르고, 기존 7–15바이트 NOP를 같은 길이의 RIP-relative T1으로 바꾸는 실험을 준비했다. 원본 소프트웨어 프리패치와 명령어 경계, ELF 크기는 유지한다. 모든 MongoDB 컨테이너에 같은 선택 ELF를 장착해 코드 페이지 공유를 유지하며, 원본 이미지·원본 ELF 복사본 대조군을 포함한다. 이 문단은 구현 설명이며 MongoDB 성능 결과가 아니다.
 
+해당 MongoDB 학습·heldout 수집은 완료했다. 독립 heldout의 main-image 표본 164,363개 중 선택한 50개 NOP 위치가 관측 경로로 덮는 표본은 3,889개(**2.37%**, 전체 DSO 분모로는 2.31%)였다. 긴 NOP 115,469개가 존재해도, 제한된 LBR와 64..8192 retired-cycle 범위에서 적합한 실행 위치를 찾은 학습 표본은 약 7.6%다. 정적 NOP 개수와 실행 경로 커버리지는 다르다. 미스의 약 94%는 직전 taken 도착점에서 64바이트 이내였고, 직전 direct call은 main 표본의 약 57%, 오예측으로 표시된 직전 분기는 약 31%였다. 이는 주소·분기 연관이며 BTB 부재의 직접 증거는 아니다.
+
+이 한계를 넓히기 위해 앞선 direct call에 짧은 T1→원래 callee 점프 구간을 연결하는 후속 구현을 추가했다. 원래 call은 원래 반환 주소를 그대로 push하며, 기존 코드의 주소·명령어 길이는 바뀌지 않는다. 동일 callee·타깃 조합은 새 구간을 공유한다. 원본 대비 추가 점프와 코드 비용을 재기 위해 같은 배치의 NOP 쌍을 만든다. 목표는 **학습 표본 50% 커버리지**이고 상한은 256개 call 위치, 총 1,024개 힌트, 위치당 4개다. 이 목표를 실제 미스 50% 감소나 E2E 이득으로 부르지 않는다.
+
+PIE/일반 ELF의 인자·플래그·반환 주소 보존, C++ 예외 처리, 새 구간의 unwind 조회 및 커버리지 선택기 등 native/알고리즘 검사 5개가 통과했다. 최초 주소 변위 오류는 바이너리 검증에서 실행 전에 차단됐으며, 원인·소스·패치를 남기고 임시 ELF를 즉시 삭제했다. 검사는 완료된 workload/platform wrapper와 다음 fresh stack 사이에서만 수행했다. 기존 unwind 항목을 보존하고 새 leaf 항목을 더하는 구조는 [LSB의 unwind 표 정의](https://refspecs.linuxfoundation.org/LSB_5.0.0/LSB-Core-generic/LSB-Core-generic.html)와 [GNU assembler의 CFI 정의](https://www.sourceware.org/binutils/docs/as/CFI-directives.html)를 따른다. 이 후속 정책의 서비스 성능 측정은 아직 완료되지 않았다.
+
 ![전체 스택의 CPU와 코드 미스](figures/class_b_mechanism_20260929_whole_stack.png)
 
 **다음 수정과 독립 검증**

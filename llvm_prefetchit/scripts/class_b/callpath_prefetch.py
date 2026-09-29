@@ -1,0 +1,128 @@
+#!/usr/bin/env python3
+"""Learn future miss targets at earlier direct calls, without moving old code."""
+import argparse
+import collections
+import gzip
+import heapq
+import json
+from pathlib import Path
+import signal
+import struct
+import sys
+
+import dense_build as b
+from backend_prefetch import BACKENDS, observed_rows
+from dense_cause_analysis import Code, category
+from e2e_lbr import remove_generated
+sys.path.insert(0,str(b.REPO/'llvm_prefetchit/tools'))
+import call_stub_prefetch as stubs
+
+
+def select(rows, max_sites=256, max_hints=1024, per_site=4, min_gain=8, goal=.5):
+    """Lazy greedy sampled-miss cover; bound both dispatch sites and hint count.
+
+    Counts are conditional on sampled misses. They are not branch probabilities
+    or expected hardware hint accuracy. Fresh whole-stack timing prices both the
+    extra direct jump and hints against a same-layout NOP twin.
+    """
+    candidates=collections.defaultdict(set); anchors={}
+    for index,row in enumerate(rows):
+        anchors.setdefault(row['line'],row['target'])
+        for site in row['sites']:
+            candidates[site,row['line']].add(index)
+    candidates={pair:ids for pair,ids in candidates.items() if len(ids)>=min_gain}
+    heap=[(-len(ids),site,line) for (site,line),ids in candidates.items()]
+    heapq.heapify(heap); covered=set(); chosen=[]; sites=collections.Counter()
+    while heap and len(chosen)<max_hints and len(covered)<goal*len(rows):
+        _,site,line=heapq.heappop(heap)
+        if sites[site]>=per_site or (not sites[site] and len(sites)>=max_sites):continue
+        ids=candidates[site,line]; gain=len(ids-covered)
+        if gain<min_gain:continue
+        # Stale scores are upper bounds; refresh until the popped pair is best.
+        current=(-gain,site,line)
+        if heap and current>heap[0]:
+            heapq.heappush(heap,current);continue
+        chosen.append(dict(site=site,target=anchors[line],gain=gain,observations=len(ids)))
+        sites[site]+=1;covered.update(ids)
+    return dict(choices=chosen,sites=len(sites),hints=len(chosen),covered=len(covered),samples=len(rows),
+                settings=dict(max_sites=max_sites,max_hints=max_hints,per_site=per_site,min_gain=min_gain,goal=goal),
+                rule='Greedy independent line coverage, at most four targets per earlier executed call; stop at 50% sampled training cover or fixed budget.')
+
+
+def coverage(rows,choices):
+    selected=collections.defaultdict(set)
+    for c in choices:selected[c['site']].add(c['target']//64)
+    return dict(samples=len(rows),covered=sum(any(row['line'] in selected[s] for s in row['sites']) for row in rows),
+                eligible=sum(bool(row['sites']) for row in rows))
+
+
+def prepare(spec):
+    root=Path(spec['root']);binary=Path(spec['reference']);b.space(root)
+    b.save(root/'prepare_protocol.json',dict(spec,source_sha256=b.sha(__file__),builder_sha256=b.sha(stubs.__file__),
+        observations_sha256=b.sha(Path(__file__).with_name('backend_prefetch.py')),
+        rules='Training only: earlier direct calls 64..8192 retired-cycle proxy; 50% main-sample coverage goal; <=256 sites, <=1024 hints, <=4 per site; gain >=8. Heldout is reported, not used to select placements.',
+        costs='Original code unchanged except call displacement. New leaf stubs add hints and one direct jump. NOP twin retains this jump and full appended layout.'))
+    print(json.dumps(dict(stage='decode_original',binary=str(binary))),flush=True)
+    code=Code(binary);raw=binary.read_bytes();elf=stubs.Elf(raw);calls={}
+    for site,(length,asm,_) in code.instructions.items():
+        if length!=5 or category(asm)!='direct_call':continue
+        off=elf.offset(site,5,True)
+        if raw[off]!=0xe8:continue
+        callee=site+5+struct.unpack_from('<i',raw,off+1)[0]
+        if callee not in code.instructions:continue
+        calls[site]=dict(site=site,callee=callee,expected=raw[off:off+5].hex())
+    assert calls
+    print(json.dumps(dict(stage='call_inventory',sites=len(calls))),flush=True)
+    phases={};quality={};obsolete=[]
+    for phase in ['train','heldout']:
+        rows=[]
+        for name in BACKENDS:
+            folder=root/'profiles'/phase/name
+            observed,counts=observed_rows(folder,code,calls,minimum=64,maximum=8192)
+            recorded=json.loads((folder/'record_types.json').read_text())['SAMPLE']
+            assert counts['all_samples']==recorded and recorded>100
+            dest=root/'observations'/(phase+'_'+name+'.json.gz');dest.parent.mkdir(exist_ok=True)
+            with gzip.open(dest,'wt') as f:json.dump(observed,f,separators=(',',':'))
+            quality[phase+':'+name]=dict(counts,observations_sha256=b.sha(dest),decoded_sha256=b.sha(folder/'samples.txt'))
+            rows.extend(observed);obsolete.append(folder/'samples.txt')
+            print(json.dumps(dict(stage='observations',phase=phase,service=name,all_samples=recorded,
+                main_samples=counts['main_samples'],eligible=counts['eligible_samples'])),flush=True)
+        phases[phase]=rows
+    b.save(root/'profile_quality.json',dict(records=quality,call_sites=len(calls),reference_sha256=b.sha(binary)))
+    remove_generated(obsolete,root/'decoded_cleanup.json','Direct-call observations, ages, denominators and source hashes retained; decoded traces no longer needed.')
+    chosen=select(phases['train'])
+    chosen.update(heldout=coverage(phases['heldout'],chosen['choices']),
+        train_all_samples=sum(v['all_samples'] for k,v in quality.items() if k.startswith('train:')),
+        heldout_all_samples=sum(v['all_samples'] for k,v in quality.items() if k.startswith('heldout:')))
+    b.save(root/'selection.json',chosen)
+    assert chosen['sites'] and chosen['hints']
+    print(json.dumps(dict(stage='selected',sites=chosen['sites'],hints=chosen['hints'],train_covered=chosen['covered'],
+        train_samples=chosen['samples'],heldout=chosen['heldout'])),flush=True)
+    grouped=collections.defaultdict(list)
+    for row in chosen['choices']:grouped[row['site']].append(row['target'])
+    plan=dict(sha256=b.sha(binary),calls=[dict(calls[site],targets=targets) for site,targets in sorted(grouped.items())])
+    b.save(root/'build_plan.json',plan)
+    output=root/'builds/call256/mongod';b.space(root)
+    record=stubs.build(binary,plan,output,boundaries=code.instructions)
+    # Direct inspection validates new hint/call/jump operands and merged FDEs
+    # in the builder. Full post-build disassembly catches section/decoder issues.
+    del code
+    try:
+        verified=Code(output)
+        assert all(verified.raw_targets[h['va']]==h['target'] for h in record['hints'])
+    except BaseException as error:
+        b.save(root/'post_build_failure.json',dict(error=repr(error),binary_sha256=b.sha(output),
+            nop_sha256=b.sha(str(output)+'.nop'),patch_record=str(output)+'.json'))
+        remove_generated([output,Path(str(output)+'.nop')],root/'post_build_cleanup.json',
+            'Generated call-stub ELF did not pass full post-build decoding. Source, patches, hashes and error retained.')
+        raise
+    b.save(root/'prepared.json',dict(binary=str(output),nop=str(output)+'.nop',reference=str(binary),
+        sites=chosen['sites'],hints=chosen['hints'],train_coverage=100*chosen['covered']/chosen['samples'],
+        heldout_coverage=100*chosen['heldout']['covered']/chosen['heldout']['samples'],
+        extra_instruction_bytes=record['extra_instruction_bytes'],extra_mapped_bytes=record['extra_mapped_bytes']))
+
+
+if __name__=='__main__':
+    parser=argparse.ArgumentParser();parser.add_argument('spec',type=Path);args=parser.parse_args()
+    def interrupted(sig,frame):raise KeyboardInterrupt(sig)
+    signal.signal(signal.SIGTERM,interrupted);prepare(json.loads(args.spec.read_text()))
