@@ -72,7 +72,9 @@ def trial(spec):
                                 window=h.c.diff_cpu(before,h.c.cpu(pid)))
                             assert entry['fully_scheduled'] and client.poll() is None
                             pmu.append(entry);b.save(out/'pmu_pending.json',pmu)
-        assert client.wait(timeout=90)==0;client=None;stack.check()
+        # The client duration budgets slack for every perf window. With many
+        # arms that retained slack can exceed a fixed 90-second idle wait.
+        assert client.wait(timeout=seconds+60)==0;client=None;stack.check()
         info=json.loads((load/'load.json').read_text())
         with gzip.open(load/'requests.json.gz','rt') as f:samples=json.load(f)
         rows=[]
