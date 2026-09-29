@@ -9,7 +9,7 @@ import subprocess
 import sys
 import dense_build as b
 sys.path.insert(0,str(b.REPO/'llvm_prefetchit/tools'))
-from call_stub_prefetch import Elf
+from call_stub_prefetch import Elf,sha
 from e2e_lbr import remove_generated
 
 
@@ -17,7 +17,7 @@ def build(source,dest,kind='it0'):
     source,dest=Path(source),Path(dest)
     assert kind in ['it0','it1'] and not dest.exists()
     audit_path=Path(str(source)+'.json');audit=json.loads(audit_path.read_text())
-    original=source.read_bytes();assert b.sha(source)==audit['sha256'],'Source fingerprint mismatch'
+    original=source.read_bytes();assert sha(original)==audit['sha256'],'Source fingerprint mismatch'
     elf=Elf(original);section,_=elf.section('.text.prefetch_calls');changes=[];data=bytearray(original)
     wanted={row['va']:row for row in audit['hints']};assert len(wanted)==len(audit['hints'])>0
     for va,row in wanted.items():
