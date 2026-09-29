@@ -18,6 +18,13 @@ from mechanism_report import evaluate
 MONITORED={k:v for k,v in backend_study.MONITORED.items() if k.startswith('mongo_')}
 
 
+def trial_orders(names,blocks):
+    if len(names)==4 and blocks==4:
+        return [[names[i] for i in row] for row in
+                [[0,1,3,2],[1,2,0,3],[2,3,1,0],[3,0,2,1]]]
+    return [names if block%2==0 else list(reversed(names)) for block in range(blocks)]
+
+
 def prepare(parent,root):
     root.mkdir(exist_ok=False);b.space(root)
     source=parent/'split_coverage_plan'
@@ -71,7 +78,7 @@ def report(root):
     data=evaluate(root/'screen',root/'screen_evaluation.json')
     protocol=json.loads((root/'screen/protocol.json').read_text())
     lines=['# Continuation-aware placement: fresh full Media C4','',
-        f'{protocol["blocks"]} exploratory paired blocks. Each arm uses a fresh full stack, 50 s warmup and 60 s clean ROI. Individual paired-log t95 intervals; no multiplicity correction.',
+        f'{protocol["blocks"]} exploratory paired blocks. Each arm uses a fresh full stack, 50 s warmup and 60 s clean ROI. Individual paired-log t95 intervals; no multiplicity correction. Prespecified trial orders are retained in screen/protocol.json.',
         '', '| Arm | RPS | Mean ms | p99 ms | Whole CPU us/request | Pool utilization |',
         '|---|---:|---:|---:|---:|---:|']
     for arm,values in data['absolute'].items():
@@ -122,9 +129,11 @@ def campaign(parent,blocks=4):
         assert record['before_any_split_e2e'] and record['new_blocks']==blocks
         assert b.sha(__file__)==record['new_source_sha256']
         assert b.sha(record['old_source'])==record['old_source_sha256']
+        assert b.sha(record['replication_only_source'])==record['replication_only_source_sha256']
         assert b.sha(parent/'split_coverage_plan/selection.json')==record['selection_sha256']
         b.save(root/'replication_amendment.json',record)
         (root/'source_before_replication.py').write_bytes(Path(record['old_source']).read_bytes())
+        (root/'source_before_order.py').write_bytes(Path(record['replication_only_source']).read_bytes())
     prepared=prepare(parent,root/'prepared')
     fixed=json.loads((parent/'split_target_refine/prepared.json').read_text())
     overrides=json.loads((parent/'confirmation_spec.json').read_text())['arms']['base']['overrides']
@@ -134,14 +143,15 @@ def campaign(parent,blocks=4):
         'split75_nop':dict(mongo_binary=prepared['nop'],controls=['original']),
         'split75':dict(mongo_binary=prepared['binary'],controls=['original','split75_nop','fixed_split'])}
     for settings in arms.values():settings.update(overrides=overrides,stat_s=3)
+    orders=trial_orders(list(arms),blocks)
     screen=root/'screen';screen.mkdir()
-    b.save(screen/'protocol.json',dict(blocks=blocks,arms=arms,monitored=MONITORED,seedbase=86001,
+    b.save(screen/'protocol.json',dict(blocks=blocks,arms=arms,monitored=MONITORED,seedbase=86001,orders=orders,
         source_sha256=b.sha(__file__),client_sha256=b.sha(Path(balanced_backend.__file__).with_name('balanced_load.py')),
         hashes={settings['mongo_binary']:b.sha(settings['mongo_binary']) for settings in arms.values()},
         rule='Frozen follow-up to the independently calibrated split-instruction attribution issue. Three MongoDB cache and prefetch windows shorten post-ROI diagnostics, without changing clean endpoint conditions. No performance-based retries/exclusions.'))
-    rows=[];names=list(arms)
-    for block in range(blocks):
-        for arm in names if block%2==0 else list(reversed(names)):
+    rows=[]
+    for block,order in enumerate(orders):
+        for arm in order:
             b.space(root);out=screen/f'{block:02d}_{arm}';manifest=out.with_suffix('.json')
             b.save(manifest,dict(arms[arm],out=str(out),seed=86001+block))
             h.platform(out,['python3',Path(__file__),'trial',manifest])

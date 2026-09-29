@@ -168,7 +168,7 @@ def trial_order_plot(root):
         ax.set_ylabel(label);ax.grid(axis='y',alpha=.2);ax.spines[['top','right']].set_visible(False)
     axes[-1].set_xticks(range(len(ordered)),[f"{row['block']}: {row['arm']}" for row in ordered],rotation=45,ha='right',fontsize=8)
     fig.suptitle('Every clean trial in chronological order')
-    fig.supxlabel('Each point starts a fresh stack. Reversed arm order in block 1; no points removed based on performance.\n'
+    fig.supxlabel('Each point starts a fresh stack. Prespecified trial order; no points removed based on performance.\n'
         'Inspect run variation alongside paired estimates; plotted differences alone do not establish policy effects.',fontsize=9)
     for extension in ['png','svg']:fig.savefig(out/('trial_order.'+extension),dpi=180)
     plt.close(fig)
