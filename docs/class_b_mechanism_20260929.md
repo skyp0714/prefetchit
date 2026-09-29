@@ -4,6 +4,8 @@
 
 긴 동일 프로세스 교차 실험에서는 리뷰 데이터 누적으로 동일 NOP의 처리량이 12.7% 낮아졌다. 이 방식의 E2E 수치는 정책 효과 판정에서 제외하고, 초기 데이터 상태와 측정 시점을 맞춘 새 스택 비교로 전환했다. 아래 완료된 탐색과 후속 검증의 표본을 합치지 않는다.
 
+그 뒤 MongoDB 적용 범위를 넓힌 14회 탐색도 완료했다. 네이티브 T1+MongoDB 패딩 T1의 처리량은 원본 대비 **1.0213×**, 전체 CPU/request 절감은 **0.80%**지만, 2-block 처리량 구간은 **[0.8046, 1.2963]×**로 넓다. 현재 확정한 10% 이득은 없다. 패딩의 낮은 실행 경로 커버리지와 서비스별로 다른 미스 발생 시점을 확인해, 앞선 direct call에서 나중에 쓸 코드를 가져오는 후속 구현으로 진행했다.
+
 **E2E 먼저: 후속 4-block 검증**
 
 | 정책 / 원본 비교 | 처리량 speedup [개별 95% CI] | 평균 지연 절감 | p99 절감 | 전체 CPU/request 절감 |
@@ -113,6 +115,42 @@ retarget 탐색의 clean ROI에서 세 수정 서비스의 사용자 CPU/request
 PIE/일반 ELF의 인자·플래그·반환 주소 보존, C++ 예외 처리, 새 구간의 unwind 조회 및 커버리지 선택기 등 native/알고리즘 검사 5개가 통과했다. 최초 주소 변위 오류는 바이너리 검증에서 실행 전에 차단됐으며, 원인·소스·패치를 남기고 임시 ELF를 즉시 삭제했다. 검사는 완료된 workload/platform wrapper와 다음 fresh stack 사이에서만 수행했다. 기존 unwind 항목을 보존하고 새 leaf 항목을 더하는 구조는 [LSB의 unwind 표 정의](https://refspecs.linuxfoundation.org/LSB_5.0.0/LSB-Core-generic/LSB-Core-generic.html)와 [GNU assembler의 CFI 정의](https://www.sourceware.org/binutils/docs/as/CFI-directives.html)를 따른다. 이 후속 정책의 서비스 성능 측정은 아직 완료되지 않았다.
 
 ![전체 스택의 CPU와 코드 미스](figures/class_b_mechanism_20260929_whole_stack.png)
+
+**MongoDB·opcode 후속 탐색: 14회 완료**
+
+MovieId를 포함한 full Media의 compose-review 경로, C4, 8개 workload CPU에서 각 arm을 fresh stack으로 두 번 측정했다. 원본은 1,162.33 RPS, 평균 3.371ms, p99 5.806ms, CPU/request 5,911.43µs, CPU 풀 사용률 84.74%였다. 두 번째 block은 순서를 뒤집었으며 14개 모두 정상 완료했다. 이 결과는 최대 처리량 또는 DSB의 모든 API 검증이 아니다.
+
+| 정책 / 원본 비교 | 처리량 speedup [95% CI] | 평균 지연 절감 | p99 절감 | 전체 CPU/request 절감 |
+|---|---:|---:|---:|---:|
+| MongoDB 패딩 T1 50개 | 1.0141× [0.9019, 1.1402] | +1.410% | −0.452% | +0.536% |
+| 네이티브 retarget T1 | 1.0168× [0.8387, 1.2329] | +1.705% | +0.696% | +0.901% |
+| 위 두 정책 결합 | 1.0213× [0.8046, 1.2963] | +2.116% | +0.111% | +0.805% |
+| 같은 retarget 위치의 IT0 | 1.0155× [0.9721, 1.0608] | +1.555% | −0.306% | +0.288% |
+| 같은 retarget 위치의 IT1 | 1.0195× [0.8468, 1.2274] | +1.946% | −0.152% | +0.581% |
+
+두 반복의 탐색 구간은 넓고, 다중비교 보정은 없다. 결합/네이티브 단독의 처리량 차이는 +0.436%, CPU 절감은 −0.097%, p99 절감은 −0.589%다. 따라서 결합 정책의 점 추정치만으로 MongoDB 추가 이득을 확정하지 않는다. Copied-original MongoDB 대조군은 원본 이미지 대비 처리량 0.9991×였다. 성능에 따라 제외한 실행은 없다.
+
+![모든 backend 탐색 실행](figures/class_b_mechanism_20260929_backend_trial_order.png)
+
+| 정책 / copied-original MongoDB 대조군 | 네이티브 3개 retired L2 감소 | 네이티브 I-cache stall 감소 | MongoDB 3개 retired L2 감소 | MongoDB I-cache stall 감소 |
+|---|---:|---:|---:|---:|
+| MongoDB 패딩 T1 | 0.62% | −0.08% | 1.26% | 0.73% |
+| 네이티브 retarget T1 | 29.54% | 12.29% | −0.14% | −0.28% |
+| 결합 | 30.24% | 12.57% | 1.63% | 1.15% |
+| 네이티브 IT0 | 5.52% | 3.15% | 0.27% | 0.45% |
+| 네이티브 IT1 | 6.64% | 2.30% | 0.31% | −0.09% |
+
+합계는 별도 서비스 PMU 창을 각각 request로 정규화한 뒤 더한 값이다. MongoDB 3개는 UserReview/MovieReview/ReviewStorage이며, 패딩 T1의 speculative code-read miss 감소는 0.89%였다. 앞서 확인한 2.37% heldout 경로 커버리지와 함께 보면, 이 배치로 전체 미스를 절반 줄일 근거가 없다. 실제 선행 호출 경로로 발행 위치를 넓혀야 한다.
+
+별도 original MongoDB switch-age 진단 4개를 완료했고 모든 표본을 스케줄 구간에 연결했다. 두 review MongoDB 모두 10–20µs의 이벤트 비중은 **4.89–5.00%**, 50–200µs 비중은 **63.11–64.83%**였다. 이는 앞서 네이티브 서비스의 10–20µs 비중 40.8–43.7%와 다르다. MongoDB에는 동일한 초기 시간 창만 적용하지 않고 실행 중 뒤쪽 경로에서도 발행할 필요를 검증한다. 이 범위는 두 서비스·두 표본 주기 값이며 신뢰구간이 아니다.
+
+![MongoDB의 switch-in 이후 미스 분포](figures/class_b_mechanism_20260929_backend_wake.png)
+
+후속 call-path 구현은 기본 256개 위치·1,024개 힌트로 학습 커버리지 50%에 도달하지 못하면 1,024개 위치·4,096개 힌트까지 계산한다. 학습 커버리지가 5 percentage points 이상 늘어날 때만 별도 고밀도 arm과 동일 배치 NOP 쌍을 추가한다. Heldout·E2E 결과는 배치 선택에 사용하지 않는다. 새 학습에는 ReviewStorage MongoDB도 포함한다. 잔여 미스에서 선택한 타깃 줄인지, 같은 타깃의 힌트가 완료된 LBR 경로에 있는지, 관측한 retirement 나이가 얼마인지 구분한다.
+
+업데이트한 ABI·unwind·선택기·잔여 나이 집계 검사 **6개가 통과**했다. 사용자/커널 PMU의 privilege별 파싱도 구분해 전체 CPU 풀의 I-cache, ITLB, unknown-branch bubble, DSB/MITE 공급을 별도 진단한다. 이 카운터들을 서로 배타적인 원인 비중으로 합치지 않는다. Backend 종료 후 사용하지 않는 IT0/IT1 ELF 6개 **123,171,360바이트**를 해시·패치·결과 보존 후 정리했다. 결합 정책은 탐색 후보로만 남겼다.
+
+완료 자료: [E2E 요약](../llvm_prefetchit/migration/evidence/class_b_mechanism_20260928/backend_completed/e2e_compact.json), [PMU·E2E 전체 비교표](../llvm_prefetchit/migration/evidence/class_b_mechanism_20260928/backend_completed/screen_report.md), [해시 목록](../llvm_prefetchit/migration/evidence/class_b_mechanism_20260928/backend_completed/manifest.json).
 
 **다음 수정과 독립 검증**
 

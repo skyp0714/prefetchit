@@ -1,0 +1,84 @@
+{
+  "candidates": [
+    {
+      "name": "mongo256",
+      "speedup": 1.014981055657381,
+      "speedup_ci95": [
+        0.894366688668336,
+        1.151861486340982
+      ],
+      "cpu_reduction": 0.5045784806268272,
+      "p99_reduction": -0.0030561942476747816,
+      "eligible": true
+    },
+    {
+      "name": "native",
+      "speedup": 1.0177800555645455,
+      "speedup_ci95": [
+        0.8472518169826603,
+        1.222630888174501
+      ],
+      "cpu_reduction": 0.8695989568119344,
+      "p99_reduction": 1.1394658308504724,
+      "eligible": true
+    },
+    {
+      "name": "combined",
+      "speedup": 1.0222151795118768,
+      "speedup_ci95": [
+        0.812850085119785,
+        1.2855062604447092
+      ],
+      "cpu_reduction": 0.7734589353530774,
+      "p99_reduction": 0.5570093877044879,
+      "eligible": true
+    },
+    {
+      "name": "native_it0",
+      "speedup": 1.0164052265666024,
+      "speedup_ci95": [
+        0.9639925266824537,
+        1.0716676281165929
+      ],
+      "cpu_reduction": 0.25691451712556157,
+      "p99_reduction": 0.1424238296545144,
+      "eligible": true
+    },
+    {
+      "name": "native_it1",
+      "speedup": 1.020456308840051,
+      "speedup_ci95": [
+        0.8555008477665216,
+        1.217218055329918
+      ],
+      "cpu_reduction": 0.5498853053445107,
+      "p99_reduction": 0.29603089487978407,
+      "eligible": true
+    }
+  ],
+  "chosen": {
+    "name": "combined",
+    "speedup": 1.0222151795118768,
+    "speedup_ci95": [
+      0.812850085119785,
+      1.2855062604447092
+    ],
+    "cpu_reduction": 0.7734589353530774,
+    "p99_reduction": 0.5570093877044879,
+    "eligible": true
+  },
+  "retained_generated": [
+    "/storage/prefetchit/class_b_mechanism_20260928/backend/builds/mongo256/mongod"
+  ],
+  "discarded_generated": [
+    "/storage/prefetchit/class_b_mechanism_20260928/backend/builds/native_opcodes/movie/it0/MovieIdService",
+    "/storage/prefetchit/class_b_mechanism_20260928/backend/builds/native_opcodes/compose/it0/ComposeReviewService",
+    "/storage/prefetchit/class_b_mechanism_20260928/backend/builds/native_opcodes/rating/it0/RatingService",
+    "/storage/prefetchit/class_b_mechanism_20260928/backend/builds/native_opcodes/movie/it1/MovieIdService",
+    "/storage/prefetchit/class_b_mechanism_20260928/backend/builds/native_opcodes/compose/it1/ComposeReviewService",
+    "/storage/prefetchit/class_b_mechanism_20260928/backend/builds/native_opcodes/rating/it1/RatingService"
+  ],
+  "rule": "Exploratory artifact retention only: highest throughput point estimate versus copied original among policies with nonnegative CPU reduction and <=1% p99 regression. This post-hoc screen choice is not an independently confirmed winner.",
+  "original_references": "Original Mongo and existing native T1/NOP references remain untouched. Next call-path experiment uses original Mongo.",
+  "source_sha256": "79cd9b53f405fa07e51d146a90381127d15da4c4737849f2c75b14eda8ade62d"
+}

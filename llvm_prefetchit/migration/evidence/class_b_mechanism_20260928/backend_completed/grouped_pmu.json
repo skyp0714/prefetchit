@@ -1,0 +1,1371 @@
+{
+  "control": "base",
+  "trials": 14,
+  "groups": {
+    "native3": [
+      "movie",
+      "compose",
+      "rating"
+    ],
+    "review_mongo2": [
+      "mongo_user",
+      "mongo_movie"
+    ],
+    "mongo3": [
+      "mongo_user",
+      "mongo_movie",
+      "mongo_storage"
+    ]
+  },
+  "pmu": {
+    "mongo_nop": {
+      "base": {
+        "mongo3:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.8972902486588996,
+          "ci95_pct": [
+            -7.8652155492650255,
+            5.620517905769995
+          ]
+        },
+        "mongo3:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.6860028587872602,
+          "ci95_pct": [
+            -6.724326612262188,
+            5.010680381140576
+          ]
+        },
+        "mongo3:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.9418992362305811,
+          "ci95_pct": [
+            -1.649380741141604,
+            -0.2393418152258242
+          ]
+        },
+        "native3:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.6234435668281746,
+          "ci95_pct": [
+            -2.634971723161539,
+            3.7784119515010928
+          ]
+        },
+        "native3:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": 1.2253275999227653,
+          "ci95_pct": [
+            -7.514366338634071,
+            9.254583922179405
+          ]
+        },
+        "native3:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.38247074792761016,
+          "ci95_pct": [
+            -1.0763543168531342,
+            0.306649348764676
+          ]
+        },
+        "review_mongo2:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.9544856518144185,
+          "ci95_pct": [
+            -7.404136624178292,
+            5.107861823935799
+          ]
+        },
+        "review_mongo2:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.5966165722338657,
+          "ci95_pct": [
+            -6.860061087194547,
+            5.299705401406351
+          ]
+        },
+        "review_mongo2:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": -1.0922535362663632,
+          "ci95_pct": [
+            -2.355910975956821,
+            0.1558031422207895
+          ]
+        }
+      }
+    },
+    "mongo256": {
+      "base": {
+        "mongo3:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.3742949846849086,
+          "ci95_pct": [
+            -2.063972129419822,
+            2.7543128812088535
+          ]
+        },
+        "mongo3:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.04553607113247926,
+          "ci95_pct": [
+            -4.34875969852091,
+            4.254780908058143
+          ]
+        },
+        "mongo3:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.03954475976446492,
+          "ci95_pct": [
+            -1.9967927914939176,
+            1.8801450335845127
+          ]
+        },
+        "native3:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 1.2370708785499174,
+          "ci95_pct": [
+            -9.508657172343792,
+            10.92835561577905
+          ]
+        },
+        "native3:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": 1.1485989599695268,
+          "ci95_pct": [
+            -7.738199127447221,
+            9.302368456913069
+          ]
+        },
+        "native3:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.28544029658930103,
+          "ci95_pct": [
+            -17.510608104669558,
+            15.386418492630117
+          ]
+        },
+        "review_mongo2:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.30819207513805846,
+          "ci95_pct": [
+            -5.067249078656255,
+            5.408615391772919
+          ]
+        },
+        "review_mongo2:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.08583357593230367,
+          "ci95_pct": [
+            -5.925157571593287,
+            5.755715817849616
+          ]
+        },
+        "review_mongo2:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.17444048012641433,
+          "ci95_pct": [
+            -0.26718887651713263,
+            0.6141246691549807
+          ]
+        }
+      },
+      "mongo_nop": {
+        "mongo3:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 1.2602768916885942,
+          "ci95_pct": [
+            -8.142119308852958,
+            9.84518352501096
+          ]
+        },
+        "mongo3:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.7265547436079434,
+          "ci95_pct": [
+            -9.853149930135263,
+            10.28735234864343
+          ]
+        },
+        "mongo3:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.8939345141053545,
+          "ci95_pct": [
+            -1.7532547046324787,
+            3.472255068345498
+          ]
+        },
+        "native3:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.6174769319305051,
+          "ci95_pct": [
+            -6.69721570901054,
+            7.430706361522555
+          ]
+        },
+        "native3:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.07768048031833175,
+          "ci95_pct": [
+            -0.20818872531693788,
+            0.05265779451885111
+          ]
+        },
+        "native3:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.665366213384122,
+          "ci95_pct": [
+            -16.259246684242633,
+            15.126153394743469
+          ]
+        },
+        "review_mongo2:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 1.2507395969579393,
+          "ci95_pct": [
+            -10.722817609729596,
+            11.929477223754104
+          ]
+        },
+        "review_mongo2:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.6784026853190794,
+          "ci95_pct": [
+            -11.853039127891263,
+            11.805885919108771
+          ]
+        },
+        "review_mongo2:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": 1.2530079922873139,
+          "ci95_pct": [
+            0.459036720569006,
+            2.040646289524095
+          ]
+        }
+      }
+    },
+    "native": {
+      "base": {
+        "mongo3:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": -1.0402096833535879,
+          "ci95_pct": [
+            -4.138661426568957,
+            1.9660534041452626
+          ]
+        },
+        "mongo3:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.9686371955776263,
+          "ci95_pct": [
+            -3.8387309072879905,
+            1.8221273694643547
+          ]
+        },
+        "mongo3:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.13969614896940374,
+          "ci95_pct": [
+            -7.703927148904821,
+            6.893285971421637
+          ]
+        },
+        "native3:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 29.981230740751354,
+          "ci95_pct": [
+            22.888155171125447,
+            36.42185504108036
+          ]
+        },
+        "native3:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": 13.365297498841732,
+          "ci95_pct": [
+            6.480678301892107,
+            19.743091147590597
+          ]
+        },
+        "native3:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": 4.176904520417546,
+          "ci95_pct": [
+            -12.438926929696592,
+            18.337306500351612
+          ]
+        },
+        "review_mongo2:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": -1.1963267842239667,
+          "ci95_pct": [
+            -2.9726171877601626,
+            0.5493223897905741
+          ]
+        },
+        "review_mongo2:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.9907400710539083,
+          "ci95_pct": [
+            -4.9209573877086354,
+            2.7922558654235985
+          ]
+        },
+        "review_mongo2:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.13174247193667998,
+          "ci95_pct": [
+            -8.604104801737144,
+            7.679678693821568
+          ]
+        }
+      },
+      "mongo_nop": {
+        "mongo3:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.14164843708137642,
+          "ci95_pct": [
+            -3.8720963715143553,
+            3.454824712229876
+          ]
+        },
+        "mongo3:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.280708667307783,
+          "ci95_pct": [
+            -9.316217153608974,
+            8.007971802695513
+          ]
+        },
+        "mongo3:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.7947176478062867,
+          "ci95_pct": [
+            -7.446762118050088,
+            8.404051899064513
+          ]
+        },
+        "native3:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 29.541964652061104,
+          "ci95_pct": [
+            24.867865665838362,
+            33.92527992068254
+          ]
+        },
+        "native3:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": 12.290569640916848,
+          "ci95_pct": [
+            11.55816754029384,
+            13.016906593158383
+          ]
+        },
+        "native3:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": 4.542003433840858,
+          "ci95_pct": [
+            -11.24157345171366,
+            18.08611811500336
+          ]
+        },
+        "review_mongo2:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.23955461795293065,
+          "ci95_pct": [
+            -4.80391687000159,
+            4.126023052468231
+          ]
+        },
+        "review_mongo2:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.3917860383873206,
+          "ci95_pct": [
+            -10.792640965307786,
+            9.032670255299735
+          ]
+        },
+        "review_mongo2:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.9501332008441943,
+          "ci95_pct": [
+            -8.773577453315351,
+            9.804601975684324
+          ]
+        }
+      }
+    },
+    "combined": {
+      "base": {
+        "mongo3:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.7462819554621802,
+          "ci95_pct": [
+            -3.6108862274884412,
+            4.920217321227593
+          ]
+        },
+        "mongo3:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.47622658100879844,
+          "ci95_pct": [
+            -1.4217270055312259,
+            2.3386628486959937
+          ]
+        },
+        "mongo3:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.6583934397918823,
+          "ci95_pct": [
+            -2.950961342832259,
+            1.5831223164642916
+          ]
+        },
+        "native3:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 30.671885957305257,
+          "ci95_pct": [
+            20.654837441049946,
+            39.42431722733004
+          ]
+        },
+        "native3:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": 13.643237495965565,
+          "ci95_pct": [
+            -0.2884307362726046,
+            25.639574022360666
+          ]
+        },
+        "native3:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": 5.0587974820649695,
+          "ci95_pct": [
+            3.727421646772,
+            6.371761411858767
+          ]
+        },
+        "review_mongo2:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.7150182985346865,
+          "ci95_pct": [
+            -3.71016834043969,
+            4.951387610306613
+          ]
+        },
+        "review_mongo2:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.6336735613600042,
+          "ci95_pct": [
+            -1.2702292475649468,
+            2.5017825744896305
+          ]
+        },
+        "review_mongo2:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.5432337015722766,
+          "ci95_pct": [
+            -1.591027124143518,
+            0.4937529491071735
+          ]
+        }
+      },
+      "mongo_nop": {
+        "mongo3:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 1.6289557430834156,
+          "ci95_pct": [
+            -0.7420051148862461,
+            3.9441160898004646
+          ]
+        },
+        "mongo3:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": 1.154310834472294,
+          "ci95_pct": [
+            -2.81296628206833,
+            4.968501348334364
+          ]
+        },
+        "mongo3:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.28086037471438674,
+          "ci95_pct": [
+            -2.7051449844960773,
+            3.1800518941062283
+          ]
+        },
+        "native3:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 30.236952727058807,
+          "ci95_pct": [
+            22.691884426130493,
+            37.04564225011771
+          ]
+        },
+        "native3:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": 12.571957561899316,
+          "ci95_pct": [
+            6.720902376527271,
+            18.055997546068838
+          ]
+        },
+        "native3:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": 5.4205362644004556,
+          "ci95_pct": [
+            4.75262092315516,
+            6.083767897732795
+          ]
+        },
+        "review_mongo2:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 1.6537194356148976,
+          "ci95_pct": [
+            -0.16489692047916282,
+            3.439316584857699
+          ]
+        },
+        "review_mongo2:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": 1.222993551388929,
+          "ci95_pct": [
+            -2.9545027697921222,
+            5.2309831968638925
+          ]
+        },
+        "review_mongo2:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.5430879374917819,
+          "ci95_pct": [
+            -1.7495561297893536,
+            2.7840736288628154
+          ]
+        }
+      },
+      "native": {
+        "mongo3:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 1.768099694581382,
+          "ci95_pct": [
+            0.5068004445712759,
+            3.0134091502619698
+          ]
+        },
+        "mongo3:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": 1.431002553582772,
+          "ci95_pct": [
+            -3.3040585297696934,
+            5.949026631979448
+          ]
+        },
+        "mongo3:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.5179737015087671,
+          "ci95_pct": [
+            -5.703309058171202,
+            4.41299210891496
+          ]
+        },
+        "native3:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.9863858274867909,
+          "ci95_pct": [
+            -2.8962058099267107,
+            4.722475291139294
+          ]
+        },
+        "native3:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.3208183200261061,
+          "ci95_pct": [
+            -7.238193044231278,
+            7.347009695593398
+          ]
+        },
+        "native3:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.920334453018512,
+          "ci95_pct": [
+            -14.652400717770163,
+            14.377892975247653
+          ]
+        },
+        "review_mongo2:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 1.8887494669980742,
+          "ci95_pct": [
+            -0.7162594996829474,
+            4.426380318663703
+          ]
+        },
+        "review_mongo2:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": 1.6084777983318421,
+          "ci95_pct": [
+            -4.179178468913225,
+            7.0746018212256345
+          ]
+        },
+        "review_mongo2:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.41094983416563036,
+          "ci95_pct": [
+            -7.783687971451503,
+            6.457470176100999
+          ]
+        }
+      },
+      "mongo256": {
+        "mongo3:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.37338453034794217,
+          "ci95_pct": [
+            -6.545482167164796,
+            6.8429528117828875
+          ]
+        },
+        "mongo3:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.4308867187590715,
+          "ci95_pct": [
+            -5.928763824894823,
+            6.408722601531491
+          ]
+        },
+        "mongo3:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.6186040545401505,
+          "ci95_pct": [
+            -0.9354887788371569,
+            -0.302714182794106
+          ]
+        },
+        "native3:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 29.803505566910594,
+          "ci95_pct": [
+            27.544392737756407,
+            31.992180910717682
+          ]
+        },
+        "native3:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": 12.639819369819804,
+          "ci95_pct": [
+            6.914695485453548,
+            18.01282490787697
+          ]
+        },
+        "native3:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": 4.78702127319568,
+          "ci95_pct": [
+            -10.653912670020027,
+            18.073287249542936
+          ]
+        },
+        "review_mongo2:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.4080839056537777,
+          "ci95_pct": [
+            -9.64018421971522,
+            9.53545160534517
+          ]
+        },
+        "review_mongo2:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.5483106200400822,
+          "ci95_pct": [
+            -7.455035736528259,
+            7.95556064232168
+          ]
+        },
+        "review_mongo2:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.7189282836484567,
+          "ci95_pct": [
+            -2.218777855462828,
+            0.7589140915894355
+          ]
+        }
+      }
+    },
+    "native_it0": {
+      "base": {
+        "mongo3:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.6205586097439042,
+          "ci95_pct": [
+            -5.050091918097377,
+            3.622199371034318
+          ]
+        },
+        "mongo3:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.23801245259287285,
+          "ci95_pct": [
+            -5.844405850740841,
+            5.071420074716793
+          ]
+        },
+        "mongo3:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.8558518981494956,
+          "ci95_pct": [
+            -3.2213761108778716,
+            1.455461597653429
+          ]
+        },
+        "native3:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 6.111228321940265,
+          "ci95_pct": [
+            2.6139041741571556,
+            9.482956756177774
+          ]
+        },
+        "native3:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": 4.338838439545867,
+          "ci95_pct": [
+            1.4470454939865762,
+            7.145778866153263
+          ]
+        },
+        "native3:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": -1.0195171101391898,
+          "ci95_pct": [
+            -3.2825213586536117,
+            1.1939028702781185
+          ]
+        },
+        "review_mongo2:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.583209080282332,
+          "ci95_pct": [
+            -6.236140533287515,
+            4.768924227647542
+          ]
+        },
+        "review_mongo2:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.11731545130531096,
+          "ci95_pct": [
+            -4.696208490658038,
+            4.26131951024219
+          ]
+        },
+        "review_mongo2:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.7789505212537184,
+          "ci95_pct": [
+            -2.484294949468824,
+            0.8980168798248922
+          ]
+        }
+      },
+      "mongo_nop": {
+        "mongo3:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.2742706352499624,
+          "ci95_pct": [
+            -11.306069483633795,
+            10.64978627429034
+          ]
+        },
+        "mongo3:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.4449381179851719,
+          "ci95_pct": [
+            -11.427691318810297,
+            11.052537937141372
+          ]
+        },
+        "mongo3:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.08524442152580969,
+          "ci95_pct": [
+            -2.9749140822861175,
+            3.0544626205857406
+          ]
+        },
+        "native3:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 5.522212634528634,
+          "ci95_pct": [
+            5.114120274204881,
+            5.928549840397002
+          ]
+        },
+        "native3:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": 3.152134817529051,
+          "ci95_pct": [
+            -2.3238695100784135,
+            8.335083150093025
+          ]
+        },
+        "native3:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.6346191296797921,
+          "ci95_pct": [
+            -2.182673738790175,
+            0.8899826475061379
+          ]
+        },
+        "review_mongo2:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.3677662950139826,
+          "ci95_pct": [
+            -11.954628249787547,
+            11.333884554578121
+          ]
+        },
+        "review_mongo2:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.47645849061372925,
+          "ci95_pct": [
+            -10.555314462783972,
+            10.407424892226114
+          ]
+        },
+        "review_mongo2:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.3099179255116935,
+          "ci95_pct": [
+            -2.6442178662122506,
+            3.1790326760375964
+          ]
+        }
+      },
+      "native": {
+        "mongo3:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.4153307627971281,
+          "ci95_pct": [
+            -7.156852871757513,
+            7.452429953764783
+          ]
+        },
+        "mongo3:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.723615533771671,
+          "ci95_pct": [
+            -1.9315287522566837,
+            3.3095977924476827
+          ]
+        },
+        "mongo3:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.7151567028071515,
+          "ci95_pct": [
+            -5.840421317091238,
+            4.161919770882372
+          ]
+        },
+        "native3:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": -34.0908625949008,
+          "ci95_pct": [
+            -42.371318481073914,
+            -26.2920061657979
+          ]
+        },
+        "native3:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": -10.41898777129775,
+          "ci95_pct": [
+            -15.696234083228378,
+            -5.3824522211085135
+          ]
+        },
+        "native3:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": -5.422932336457409,
+          "ci95_pct": [
+            -20.992944140578928,
+            8.143448022025312
+          ]
+        },
+        "review_mongo2:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.6058695245420909,
+          "ci95_pct": [
+            -6.822942875938276,
+            7.518058321555321
+          ]
+        },
+        "review_mongo2:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.8648561433791668,
+          "ci95_pct": [
+            0.2142078214365406,
+            1.5112619451232323
+          ]
+        },
+        "review_mongo2:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.6463565232557755,
+          "ci95_pct": [
+            -7.345795289755763,
+            5.634971038562819
+          ]
+        }
+      }
+    },
+    "native_it1": {
+      "base": {
+        "mongo3:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.5799215657043222,
+          "ci95_pct": [
+            -3.2221441564512787,
+            1.9946668921140276
+          ]
+        },
+        "mongo3:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.7787469048552431,
+          "ci95_pct": [
+            -6.017768645639654,
+            4.2013809811437985
+          ]
+        },
+        "mongo3:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.2151173635917658,
+          "ci95_pct": [
+            -1.422988052320906,
+            0.9783685034248091
+          ]
+        },
+        "native3:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 7.225027393862504,
+          "ci95_pct": [
+            3.7557743070622096,
+            10.569226568143685
+          ]
+        },
+        "native3:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": 3.4956267474116953,
+          "ci95_pct": [
+            -3.3971190663242723,
+            9.928882535876271
+          ]
+        },
+        "native3:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.6470494378259417,
+          "ci95_pct": [
+            -18.71695605440933,
+            16.852578490255365
+          ]
+        },
+        "review_mongo2:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.7747062750190103,
+          "ci95_pct": [
+            -4.628770094910473,
+            2.937390780718352
+          ]
+        },
+        "review_mongo2:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.9597552258259645,
+          "ci95_pct": [
+            -6.91068366809009,
+            4.659928965537208
+          ]
+        },
+        "review_mongo2:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.09199734375993085,
+          "ci95_pct": [
+            -2.556313587325887,
+            2.3131040710365536
+          ]
+        }
+      },
+      "mongo_nop": {
+        "mongo3:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.3145462897689577,
+          "ci95_pct": [
+            -9.369263176706744,
+            9.1409286962169
+          ]
+        },
+        "mongo3:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.09211215405784401,
+          "ci95_pct": [
+            -11.61019898977218,
+            10.237316964388077
+          ]
+        },
+        "mongo3:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.7200001962891056,
+          "ci95_pct": [
+            -1.180820040974484,
+            2.585110922867484
+          ]
+        },
+        "native3:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 6.6429991780543425,
+          "ci95_pct": [
+            -0.023526575374699377,
+            12.865203808815895
+          ]
+        },
+        "native3:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": 2.2984628471287682,
+          "ci95_pct": [
+            -13.941974741351126,
+            16.224109826932363
+          ]
+        },
+        "native3:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": 1.0255975750375845,
+          "ci95_pct": [
+            -17.45274832752326,
+            16.596823191723654
+          ]
+        },
+        "review_mongo2:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.1780796322567113,
+          "ci95_pct": [
+            -10.260736143157278,
+            9.62861182999214
+          ]
+        },
+        "review_mongo2:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.3609849575122892,
+          "ci95_pct": [
+            -12.893718146551358,
+            10.780444944095457
+          ]
+        },
+        "review_mongo2:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.9894489018860253,
+          "ci95_pct": [
+            -2.716348886465303,
+            4.5615490131194925
+          ]
+        }
+      },
+      "native": {
+        "mongo3:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.4555494481768618,
+          "ci95_pct": [
+            -5.292245942096985,
+            5.889578600938583
+          ]
+        },
+        "mongo3:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.18806858842174146,
+          "ci95_pct": [
+            -2.0984826367891563,
+            2.4234112513652484
+          ]
+        },
+        "mongo3:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": -0.07531600106929215,
+          "ci95_pct": [
+            -6.352836666732009,
+            5.831671381768899
+          ]
+        },
+        "native3:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": -32.50014758561759,
+          "ci95_pct": [
+            -51.3794178095712,
+            -15.975403818077183
+          ]
+        },
+        "native3:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": -11.392283307371054,
+          "ci95_pct": [
+            -28.832670663243775,
+            3.6871570188623304
+          ]
+        },
+        "native3:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": -3.6837205737564105,
+          "ci95_pct": [
+            -5.583501458207718,
+            -1.8181227516119947
+          ]
+        },
+        "review_mongo2:FE_L2": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.4166361790027828,
+          "ci95_pct": [
+            -5.2066940207248,
+            5.739397647534039
+          ]
+        },
+        "review_mongo2:ICACHE_DATA_STALL": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.030680877480615543,
+          "ci95_pct": [
+            -1.8964049985065623,
+            1.9213213070019997
+          ]
+        },
+        "review_mongo2:L2I": {
+          "pairs": 2,
+          "cost_reduction_pct": 0.039692835853633035,
+          "ci95_pct": [
+            -5.812993874866335,
+            5.568658040551899
+          ]
+        }
+      }
+    }
+  },
+  "rows": [
+    {
+      "block": 0,
+      "arm": "base",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1992.328565323594,
+        "native3:L2I": 22628.694786026295,
+        "native3:ICACHE_DATA_STALL": 253973.34841658847,
+        "review_mongo2:FE_L2": 4674.424864417651,
+        "review_mongo2:L2I": 52341.627753196386,
+        "review_mongo2:ICACHE_DATA_STALL": 525118.7424941321,
+        "mongo3:FE_L2": 5495.2568727135385,
+        "mongo3:L2I": 61581.98896992643,
+        "mongo3:ICACHE_DATA_STALL": 614708.7163966554
+      }
+    },
+    {
+      "block": 0,
+      "arm": "mongo_nop",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1974.8866882838079,
+        "native3:L2I": 22702.931286247673,
+        "native3:ICACHE_DATA_STALL": 249193.02089351954,
+        "review_mongo2:FE_L2": 4696.097346850083,
+        "review_mongo2:L2I": 52965.088466887115,
+        "review_mongo2:ICACHE_DATA_STALL": 525746.4959041212,
+        "mongo3:FE_L2": 5515.50142066624,
+        "mongo3:L2I": 62196.20789585647,
+        "mongo3:ICACHE_DATA_STALL": 616095.1146367117
+      }
+    },
+    {
+      "block": 0,
+      "arm": "mongo256",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1951.7527435224472,
+        "native3:L2I": 22274.357881641863,
+        "native3:ICACHE_DATA_STALL": 249361.01804772764,
+        "review_mongo2:FE_L2": 4679.3192397936145,
+        "review_mongo2:L2I": 52268.47816786539,
+        "review_mongo2:ICACHE_DATA_STALL": 527085.916715156,
+        "mongo3:FE_L2": 5485.116512061673,
+        "mongo3:L2I": 61512.46890704707,
+        "mongo3:ICACHE_DATA_STALL": 616512.8239385943
+      }
+    },
+    {
+      "block": 0,
+      "arm": "native",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1384.4501158462504,
+        "native3:L2I": 21412.34061279196,
+        "native3:ICACHE_DATA_STALL": 218708.86762857885,
+        "review_mongo2:FE_L2": 4723.872674162503,
+        "review_mongo2:L2I": 52076.62583148242,
+        "review_mongo2:ICACHE_DATA_STALL": 531917.1619188222,
+        "mongo3:FE_L2": 5539.235728179125,
+        "mongo3:L2I": 61315.60505585916,
+        "mongo3:ICACHE_DATA_STALL": 622033.6683246394
+      }
+    },
+    {
+      "block": 0,
+      "arm": "combined",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1366.6507900593692,
+        "native3:L2I": 21460.42185633586,
+        "native3:ICACHE_DATA_STALL": 216756.66903273162,
+        "review_mongo2:FE_L2": 4625.101926174122,
+        "review_mongo2:L2I": 52583.043438090965,
+        "review_mongo2:ICACHE_DATA_STALL": 521012.38880576415,
+        "mongo3:FE_L2": 5435.835661921943,
+        "mongo3:L2I": 61877.67271374489,
+        "mongo3:ICACHE_DATA_STALL": 610872.4275381586
+      }
+    },
+    {
+      "block": 0,
+      "arm": "native_it0",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1865.196433831461,
+        "native3:L2I": 22819.575491188865,
+        "native3:ICACHE_DATA_STALL": 242385.0708803797,
+        "review_mongo2:FE_L2": 4721.96305121743,
+        "review_mongo2:L2I": 52679.72732124512,
+        "review_mongo2:ICACHE_DATA_STALL": 527588.403142665,
+        "mongo3:FE_L2": 5548.137407533311,
+        "mongo3:L2I": 61995.81907863237,
+        "mongo3:ICACHE_DATA_STALL": 618816.620008053
+      }
+    },
+    {
+      "block": 0,
+      "arm": "native_it1",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1853.7305385715451,
+        "native3:L2I": 22169.408958649732,
+        "native3:ICACHE_DATA_STALL": 246429.76115353088,
+        "review_mongo2:FE_L2": 4724.572623790249,
+        "review_mongo2:L2I": 52289.59167262639,
+        "review_mongo2:ICACHE_DATA_STALL": 532553.6205219638,
+        "mongo3:FE_L2": 5538.4162971165715,
+        "mongo3:L2I": 61656.29917350266,
+        "mongo3:ICACHE_DATA_STALL": 621971.5598840389
+      }
+    },
+    {
+      "block": 1,
+      "arm": "native_it1",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1837.0172241371772,
+        "native3:L2I": 22739.31433130121,
+        "native3:ICACHE_DATA_STALL": 242093.8578567577,
+        "review_mongo2:FE_L2": 4679.572674502348,
+        "review_mongo2:L2I": 52149.17252436365,
+        "review_mongo2:ICACHE_DATA_STALL": 526530.730252694,
+        "mongo3:FE_L2": 5494.324602092023,
+        "mongo3:L2I": 61355.662802607025,
+        "mongo3:ICACHE_DATA_STALL": 616098.6558309708
+      }
+    },
+    {
+      "block": 1,
+      "arm": "native_it0",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1869.8247395654903,
+        "native3:L2I": 22838.78293150205,
+        "native3:ICACHE_DATA_STALL": 241851.2693225359,
+        "review_mongo2:FE_L2": 4664.3811771764185,
+        "review_mongo2:L2I": 52475.92530972205,
+        "review_mongo2:ICACHE_DATA_STALL": 522653.2290508405,
+        "mongo3:FE_L2": 5489.130610875669,
+        "mongo3:L2I": 61802.4125026128,
+        "mongo3:ICACHE_DATA_STALL": 612612.429608429
+      }
+    },
+    {
+      "block": 1,
+      "arm": "combined",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1391.4236436515814,
+        "native3:L2I": 21450.68389533711,
+        "native3:ICACHE_DATA_STALL": 220395.72912530618,
+        "review_mongo2:FE_L2": 4639.930288707667,
+        "review_mongo2:L2I": 52326.771466930935,
+        "review_mongo2:ICACHE_DATA_STALL": 521339.82912973536,
+        "mongo3:FE_L2": 5451.35638770386,
+        "mongo3:L2I": 61678.19341224073,
+        "mongo3:ICACHE_DATA_STALL": 611766.9689705108
+      }
+    },
+    {
+      "block": 1,
+      "arm": "native",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1401.0376200934704,
+        "native3:L2I": 21900.10468288616,
+        "native3:ICACHE_DATA_STALL": 219836.76414922692,
+        "review_mongo2:FE_L2": 4719.510512652181,
+        "review_mongo2:L2I": 52404.02807641472,
+        "review_mongo2:ICACHE_DATA_STALL": 527484.3678029343,
+        "mongo3:FE_L2": 5543.9072424284295,
+        "mongo3:L2I": 61603.74959104467,
+        "mongo3:ICACHE_DATA_STALL": 618360.8378545693
+      }
+    },
+    {
+      "block": 1,
+      "arm": "mongo256",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1977.2486535211435,
+        "native3:L2I": 22797.220518922964,
+        "native3:ICACHE_DATA_STALL": 251026.7676196668,
+        "review_mongo2:FE_L2": 4623.830573373924,
+        "review_mongo2:L2I": 51892.8605348317,
+        "review_mongo2:ICACHE_DATA_STALL": 521030.57998934615,
+        "mongo3:FE_L2": 5442.949231725517,
+        "mongo3:L2I": 61283.82749926791,
+        "mongo3:ICACHE_DATA_STALL": 611427.7618534958
+      }
+    },
+    {
+      "block": 1,
+      "arm": "mongo_nop",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1978.4444834573858,
+        "native3:L2I": 22667.507529052484,
+        "native3:ICACHE_DATA_STALL": 250806.19476487717,
+        "review_mongo2:FE_L2": 4724.760441073842,
+        "review_mongo2:L2I": 52518.22197414916,
+        "review_mongo2:ICACHE_DATA_STALL": 529518.1469037728,
+        "mongo3:FE_L2": 5552.0239358835315,
+        "mongo3:L2I": 61708.45363504881,
+        "mongo3:ICACHE_DATA_STALL": 620830.8866961603
+      }
+    },
+    {
+      "block": 1,
+      "arm": "base",
+      "valid": true,
+      "metrics": {
+        "native3:FE_L2": 1985.807751470474,
+        "native3:L2I": 22568.90231413396,
+        "native3:ICACHE_DATA_STALL": 252228.8694848317,
+        "review_mongo2:FE_L2": 4657.33481093068,
+        "review_mongo2:L2I": 52001.60357593372,
+        "review_mongo2:ICACHE_DATA_STALL": 523881.3856247248,
+        "mongo3:FE_L2": 5473.805063438463,
+        "mongo3:L2I": 61166.25836666357,
+        "mongo3:ICACHE_DATA_STALL": 613781.0964514284
+      }
+    }
+  ],
+  "limitation": "Service sums combine separate PMU windows, normalized by each window's completed requests. They are not simultaneous global miss fractions."
+}
