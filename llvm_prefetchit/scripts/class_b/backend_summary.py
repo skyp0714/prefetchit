@@ -91,6 +91,23 @@ def plot(root,data,groups):
     out=root/'figures';out.mkdir(exist_ok=True)
     for extension in ['png','svg']:fig.savefig(out/('screen.'+extension),dpi=180)
     plt.close(fig)
+    trials=json.loads((root/'workload_age.json').read_text())['rows']
+    ordered=sorted(trials,key=lambda r:r['roi_begin_epoch'])
+    colors={name:plt.get_cmap('tab10')(i) for i,name in enumerate(dict.fromkeys(r['arm'] for r in ordered))}
+    fig,axes=plt.subplots(3,1,figsize=(12,8),sharex=True,constrained_layout=True)
+    for ax,key,label in zip(axes,['rps','cpu','p99_ms'],['Throughput (RPS)','Whole-stack CPU (µs/request)','p99 latency (ms)']):
+        for i,row in enumerate(ordered):
+            ax.scatter(i,row[key],color=colors[row['arm']],s=35,zorder=3)
+        for block in sorted({row['block'] for row in ordered}):
+            indices=[i for i,row in enumerate(ordered) if row['block']==block]
+            if block%2:ax.axvspan(min(indices)-.5,max(indices)+.5,color='#789',alpha=.08)
+        ax.set_ylabel(label);ax.grid(axis='y',alpha=.2);ax.spines[['top','right']].set_visible(False)
+    axes[-1].set_xticks(range(len(ordered)),[f"{row['block']}: {row['arm']}" for row in ordered],rotation=45,ha='right',fontsize=8)
+    fig.suptitle('Every clean trial in chronological order')
+    fig.supxlabel('Each point starts a fresh stack. Reversed arm order in block 1; no points removed based on performance.\n'
+        'Inspect run variation alongside paired estimates; plotted differences alone do not establish policy effects.',fontsize=9)
+    for extension in ['png','svg']:fig.savefig(out/('trial_order.'+extension),dpi=180)
+    plt.close(fig)
 
 
 if __name__=='__main__':
