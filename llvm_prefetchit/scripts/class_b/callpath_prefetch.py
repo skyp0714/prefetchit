@@ -158,6 +158,33 @@ def residual_counts(rows,hints):
     return dict(counts),dict(nearest),dict(earliest)
 
 
+def residual_locations(rows,hints,code):
+    """Locate remaining misses without inferring unobserved cache/BPU state."""
+    lines={target//64 for target in hints.values()}
+    groups={name:dict(samples=0,functions=collections.Counter(),
+        instructions=collections.Counter(),prior_branches=collections.Counter(),
+        nearest_branch_mispredicted=0,nearest_branch_observed=0,
+        added_stub_samples=0) for name in ['selected_line','unselected_line']}
+    for row in rows:
+        group=groups['selected_line' if row['line'] in lines else 'unselected_line']
+        _,asm,function=code.get(row['ip'])
+        group['samples']+=1;group['functions'][function]+=1
+        group['instructions'][category(asm)]+=1
+        group['added_stub_samples']+=function=='.text.prefetch_calls'
+        near=row['nearest']
+        if near is not None:
+            group['nearest_branch_observed']+=1
+            group['nearest_branch_mispredicted']+=near['mispredicted']
+            group['prior_branches'][near['branch_class']]+=1
+    assert sum(group['samples'] for group in groups.values())==len(rows)
+    for group in groups.values():
+        group['top_functions']=[dict(name=name,samples=n) for name,n in group.pop('functions').most_common(25)]
+        for key in ['instructions','prior_branches']:group[key]=dict(group[key])
+    return dict(groups=groups,limitation='Retired IP and nearest visible taken-branch association. '
+        'Selected-line membership does not establish a matching hint execution. '
+        'Misprediction labels do not identify BTB absence. Added-stub attribution uses the decoded .text.prefetch_calls section symbol.')
+
+
 def residual(spec):
     """Distinguish uncovered lines from misses after an observed matching hint.
 
@@ -184,6 +211,7 @@ def residual(spec):
         base_requests=json.loads((baseline_root/'profiles/heldout'/name/'request_window.json').read_text())
         baseline_counts=dict(main_samples=len(baseline),on_selected_target_line=sum(row['line'] in lines for row in baseline))
         results[name]=dict(quality=quality,counts=dict(counts),nearest_retired_age=dict(nearest),earliest_retired_age=dict(earliest),
+            locations=residual_locations(rows,hints,code),
             estimated_events_per_request={k:v*257/requests['completed_requests'] for k,v in counts.items()},
             baseline_heldout=dict(counts=baseline_counts,request_window=base_requests,
                 estimated_events_per_request={k:v*257/base_requests['completed_requests'] for k,v in baseline_counts.items()}),
