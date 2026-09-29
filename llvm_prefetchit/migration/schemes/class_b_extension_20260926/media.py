@@ -17,7 +17,12 @@ class Stack:
  def info(self,name):return json.loads(subprocess.check_output(['docker','inspect',self.cid(name)],text=True))[0]
  def start(self):
   space();assert not subprocess.check_output(['docker','ps','-aq','--filter','label=com.docker.compose.project='+self.project],text=True).strip()
-  with socket.socket() as p:p.bind(('127.0.0.1',18081))
+  # A completed connection-balancing smoke can leave proxy TIME_WAIT sockets.
+  # This checks for a conflicting live bind, not retired TCP connections; the
+  # actual Docker listener still performs its own exclusive bind at startup.
+  with socket.socket() as p:
+   p.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
+   p.bind(('127.0.0.1',18081))
   sampling=os.environ.get('CLASS_B_MEDIA_SAMPLE_RATE');config_dir,nginx_tracer=prepare_tracing(self.out,MM,float(sampling) if sampling is not None else None)
   config=yaml.safe_load((MM/'docker-compose.yml').read_text());config.pop('version',None);config['services'].pop('dns-media',None)
   for name,c in config['services'].items():

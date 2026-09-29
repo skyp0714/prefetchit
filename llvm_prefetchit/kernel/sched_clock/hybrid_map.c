@@ -5,7 +5,9 @@
 #define _GNU_SOURCE
 #include <cpuid.h>
 #include <elf.h>
+#include <errno.h>
 #include <fcntl.h>
+#include <stdio.h>
 #include <stdint.h>
 #include <string.h>
 #include <sys/auxv.h>
@@ -20,11 +22,13 @@ static void note(const char *text,size_t length) {
         text+=sent;length-=(size_t)sent;
     }
 }
-static void fail(void) {
-    static const char message[]="prefetchit hybrid clock mapping rejected\n";
-    note(message,sizeof(message)-1);
+static void fail_at(unsigned line) {
+    char message[128];int saved=errno;
+    int length=snprintf(message,sizeof(message),"prefetchit hybrid clock mapping rejected: line %u errno %d\n",line,saved);
+    if(length>0 && (size_t)length<sizeof(message))note(message,(size_t)length);
     _exit(126);
 }
+#define fail() fail_at(__LINE__)
 static void exact(int fd,void *to,size_t n,off_t offset) {
     if (pread(fd,to,n,offset)!=(ssize_t)n) fail();
 }

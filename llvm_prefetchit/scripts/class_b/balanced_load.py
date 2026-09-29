@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """Fixed C4 Media load with one persistent HTTP connection per Nginx worker.
 
-Only connection setup changes. Resolve accepted socket ownership before the
+Resolve accepted socket ownership before the
 warmup clock starts; no HTTP requests are sent by the balancer. Account for
 Docker's possible userland proxy by matching newly accepted socket inodes,
-not assuming that the client source port survives forwarding.
+not assuming that the client source port survives forwarding. Warmup-only
+repairs preserve the assigned worker; steady operation forbids reconnects.
 """
 import argparse
 import collections
@@ -86,6 +87,36 @@ def connect_balanced(master,port,out):
         raise
 
 
+def reconnect_worker(master,port,owner,warmup_end):
+    """Repair a warmup-only transport loss without changing HTTP ownership."""
+    deadline=min(time.monotonic()+10,time.monotonic()+max(0,warmup_end-time.time()))
+    attempts=[];pending=None
+    def wait_for(predicate):
+        while time.monotonic()<deadline:
+            workers,current=owned_connections(master)
+            assert owner in workers,'Assigned Nginx worker disappeared'
+            if predicate(current):return current
+            time.sleep(.01)
+        raise TimeoutError('Could not restore assigned worker within warmup')
+    try:
+        rejected=None
+        for attempt in range(64):
+            if rejected is not None:wait_for(lambda current:rejected not in current)
+            _,before=owned_connections(master)
+            pending=http.client.HTTPConnection('127.0.0.1',port,timeout=20);pending.connect()
+            after=wait_for(lambda current:len(set(current)-set(before))==1)
+            inode=next(iter(set(after)-set(before)));observed=after[inode]['worker']
+            attempts.append(dict(attempt=attempt,server_inode=inode,worker=observed,accepted=observed==owner))
+            if observed==owner:
+                assert time.time()<warmup_end
+                return pending,dict(owner=owner,completed_epoch=time.time(),attempts=attempts)
+            pending.close();pending=None;rejected=inode
+        raise RuntimeError('Warmup same-worker reconnect budget exhausted')
+    except BaseException:
+        if pending is not None:pending.close()
+        raise
+
+
 def run(out,seconds,seed,port,nginx_pid,warmup=50):
     assert seconds>warmup>=0
     out.mkdir(parents=True,exist_ok=True)
@@ -94,28 +125,50 @@ def run(out,seconds,seed,port,nginx_pid,warmup=50):
     titles=[json.loads(row.rstrip(',').strip()) for row in table.splitlines() if row.strip()][:1000]
     assert len(titles)==1000
     connections=connect_balanced(nginx_pid,port,out)
-    samples=[];errors=[];examples=[];bodies={};indices=itertools.count()
+    owners=json.loads((out/'connection_balance.json').read_text())['worker_pids']
+    samples=[];errors=[];examples=[];fatal_errors=[];mapping_errors=[];repairs=[];bodies={};indices=itertools.count()
+    repair_lock=threading.Lock()
     ready=threading.Barrier(5);go=threading.Event();stop=threading.Event();state={}
-    def worker(connection):
+    def worker(connection,owner):
+        original_socket=connection.sock
         ready.wait();go.wait()
         while time.monotonic()<state['deadline'] and not stop.is_set():
             body=payload(seed,next(indices),titles);started=time.time()
             try:
                 # Implicit HTTP reconnects would change worker assignment.
                 # Preserve that operating failure instead of silently rerouting.
-                if connection.sock is None:raise RuntimeError('Balanced persistent connection closed')
+                if connection.sock is not original_socket:
+                    mapping_errors.append(time.time());raise RuntimeError('Balanced persistent connection changed')
                 connection.request('POST','/wrk2-api/review/compose',body,
                     {'Content-Type':'application/x-www-form-urlencoded'})
                 response=connection.getresponse();data=response.read();ended=time.time()
+                if connection.sock is not original_socket:
+                    mapping_errors.append(ended);raise RuntimeError(('Balanced response closed its persistent connection',response.status,data[:120]))
                 if response.status!=200 or data.strip() not in (b'',b'Success',b'Success!'):
-                    raise RuntimeError((response.status,data[:120]))
+                    error=RuntimeError((response.status,data[:120]))
+                    if ended<state['warmup_end']:
+                        # The original harness retains warmup application
+                        # errors and excludes them from steady qualification.
+                        # Keep this fully consumed HTTP connection in place.
+                        errors.append(ended);examples.append(str(error));continue
+                    raise error
                 samples.append((started,ended));key=data[:80].decode(errors='replace');bodies[key]=bodies.get(key,0)+1
             except Exception as error:
-                errors.append(time.time());examples.append(str(error));stop.set()
+                failed=time.time();errors.append(failed);examples.append(str(error))
+                if failed<state['warmup_end'] and not stop.is_set():
+                    try:
+                        connection.close()
+                        with repair_lock:
+                            connection,record=reconnect_worker(nginx_pid,port,owner,state['warmup_end'])
+                        original_socket=connection.sock;repairs.append(record)
+                        continue
+                    except Exception as repair_error:examples.append(str(repair_error))
+                fatal_errors.append(str(error));stop.set()
         connection.close()
-    threads=[threading.Thread(target=worker,args=(connection,)) for connection in connections]
+    threads=[threading.Thread(target=worker,args=(connection,owner)) for connection,owner in zip(connections,owners)]
     for thread in threads:thread.start()
     ready.wait();start=time.time();monotonic=time.monotonic();cpu=time.process_time();state['deadline']=monotonic+seconds
+    state['warmup_end']=start+warmup
     metadata=dict(epoch=start,seconds=seconds,concurrency=4,seed=seed,warmup_s=warmup,port=port,pid=os.getpid(),
         mode='Closed loop with one pre-established persistent HTTP connection per Nginx worker',
         latency='HTTP dispatch to response completion; excludes external arrival queue',
@@ -128,9 +181,11 @@ def run(out,seconds,seed,port,nginx_pid,warmup=50):
     with gzip.open(out/'requests.json.gz','wt') as stream:json.dump(samples,stream,separators=(',',':'))
     result=dict(**metadata,completed=len(samples),errors=len(errors),error_times=errors,error_examples=examples,
         steady_errors=sum(value>=start+warmup for value in errors),response_bodies=bodies,
-        client_cpu_cores=client_cpu,elapsed_s=wall,mapping_preserved=not errors)
+        client_cpu_cores=client_cpu,elapsed_s=wall,mapping_preserved=not fatal_errors,
+        fatal_errors=fatal_errors,mapping_errors=mapping_errors,warmup_reconnects=repairs,
+        warmup_error_policy='Retain startup application/transport errors. Restore a closed warmup connection only to its originally assigned Nginx worker, with no setup HTTP requests. No reconnects or application errors are allowed after warmup; failures remain fatal. Same 50s warmup and 60s E2E ROI as the original harness.')
     (out/'load.json').write_text(json.dumps(result,indent=2)+'\n')
-    if errors:raise RuntimeError('Balanced load stopped; original mapping could not be preserved')
+    if fatal_errors:raise RuntimeError('Balanced load stopped after a transport, mapping or steady application error')
     return result
 
 

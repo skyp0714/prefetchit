@@ -3,6 +3,7 @@
 import argparse
 from contextlib import contextmanager
 import json
+import mmap
 import os
 from pathlib import Path
 import signal
@@ -20,7 +21,7 @@ from mechanism_report import evaluate
 from privilege_frontend import DECODE_EVENTS
 from hybrid_prepare import prepare,sparse
 
-MODULE=Path('/storage/prefetchit/class_b_dominator_20260927/kernel_build/prefetchit_sched_clock.ko')
+MODULE=Path('/storage/prefetchit/class_b_lean_20260928/kernel_v1/prefetchit_sched_clock.ko')
 LATE_EVENTS='cycles:u,instructions:u,cpu/event=0xc6,umask=0x3,name=FE_LATE_SWPF,config1=0xa/u,branches:u,branch-misses:u'
 
 
@@ -71,8 +72,17 @@ def environment(out,spec):
         if enabled:
             b.space(out.parent)
             subprocess.run(['insmod',str(module),'dense_us=10','medium_us=20','sparse_us=40'],check=True);loaded=True
+            # udev can apply the miscdevice's default 0600 after insmod returns.
+            # Set the intended read-only mode only after that event completes.
+            subprocess.run(['udevadm','settle','--timeout=10'],check=True)
             # Timestamps only, no task IDs/pointers. Keep MongoDB's original uid.
             os.chmod('/dev/prefetchit_sched_clock',0o444)
+            with open('/dev/prefetchit_sched_clock','rb',buffering=0) as device:
+                with mmap.mmap(device.fileno(),262144,flags=mmap.MAP_SHARED,prot=mmap.PROT_READ) as slots:
+                    assert all(struct.unpack_from('<Q',slots,i*64+56)[0]==2 for i in range(4096)), 'Kernel clock ABI mismatch before service startup'
+            b.save(out.parent/(out.name+'_clock_device_preflight.json'),dict(abi=2,slots=4096,
+                mode=oct(Path('/dev/prefetchit_sched_clock').stat().st_mode&0o777),module_sha256=b.sha(module),
+                rule='Wait for udev, grant read-only access to unchanged service uid, verify every slot before creating any service.'))
             def save(path,data):
                 if path==out/'compose.json':
                     for name,service in data['services'].items():
@@ -121,7 +131,7 @@ def diagnostic(spec):
             runtime=audit(stack,out,spec['mongo_binary'])
             settings=json.loads(Path(spec['mongo_binary']+'.json').read_text())['hybrid'];assert settings['diagnostic']
             before={name:mapped_clock(row['pid'],settings) for name,row in runtime.items()}
-            client=balanced_backend.start_client(out,25,spec['seed'],warmup=0)
+            client=balanced_backend.start_client(out,35,spec['seed'],warmup=10)
             assert client.wait(timeout=70)==0;client=None;stack.check()
             after={name:mapped_clock(row['pid'],settings) for name,row in runtime.items()}
             delta={name:{key:after[name]['counts'][key]-before[name]['counts'][key] for key in ['checks','bursts','late','observed_races','burst_age_ticks_sum','early_half_bursts']} for name in runtime}
@@ -130,6 +140,7 @@ def diagnostic(spec):
             assert all(delta[name]['checks']>100 and delta[name]['bursts']>10 for name in ['user-review-mongodb','movie-review-mongodb','review-storage-mongodb'])
             b.save(out/'result.json',dict(valid=True,before=before,after=after,delta=delta,site_delta=site_delta,
                 load=json.loads((out/'load/load.json').read_text()),window_us=10,
+                diagnostic_window='35 seconds including a 10-second startup allowance for retained HTTP application errors; no reconnects or steady errors. Gate deltas include that startup interval. No E2E inference.',
                 timing='Age starts at sched_switch selection, not at first user instruction. Slots use invariant TSC ticks; half-window split is <5us versus 5..10us.'))
         except BaseException as error:b.save(out/'failure.json',dict(error=repr(error)));raise
         finally:
@@ -163,15 +174,64 @@ def tests(root):
         if work.exists():work.rmdir()
 
 
+def service_preflight(parent,resume=False):
+    """Exercise real mapping and burst gates before the long timing screen."""
+    root=parent/'hybrid_service_preflight';root.mkdir(exist_ok=resume);b.space(root)
+    tests(root)
+    if resume:
+        assert not (root/'diagnostic').exists() and not (root/'complete.json').exists()
+        assert (root/'diagnostic_rejected_mapping/failure.json').exists()
+        prepared=json.loads((root/'prepared/prepared.json').read_text())
+        assert json.loads((root/'prepared/protocol.json').read_text())['source_sha256']==b.sha(Path(__file__).with_name('hybrid_prepare.py'))
+        for key in ['hybrid','early_t1','diagnostic']:
+            assert b.sha(prepared[key])==json.loads(Path(prepared[key]+'.json').read_text())['sha256']
+        assert b.sha(prepared['nop'])==json.loads(Path(prepared['hybrid']+'.json').read_text())['nop_sha256']
+    else:prepared=prepare(parent,root/'prepared')
+    prior=parent/'hybrid_mapping_debug/shim_build.json'
+    if not prior.exists():prior=parent/'hybrid_native_preflight/shim_build.json'
+    shim_record=json.loads(prior.read_text())
+    shim=Path(shim_record['binary']);source=b.REPO/'llvm_prefetchit/kernel/sched_clock/hybrid_map.c'
+    assert b.sha(source)==shim_record['source_sha256'] and b.sha(shim)==shim_record['sha256']
+    base=json.loads((parent/'confirmation_spec.json').read_text())['arms']['base']['overrides']
+    spec=dict(out=str(root/'diagnostic'),overrides=base,mongo_binary=prepared['diagnostic'],
+        hybrid=True,shim=str(shim),module=str(MODULE),seed=84901)
+    manifest=root/'diagnostic_spec.json';b.save(manifest,spec)
+    h.platform(root/'diagnostic',['python3',Path(__file__),'diagnostic',manifest])
+    result=root/'diagnostic/result.json';assert json.loads(result.read_text())['valid']
+    remove_generated([Path(prepared['diagnostic'])],root/'diagnostic_elf_cleanup.json',
+        'Real-module gate preflight complete; retain diagnostic counts, mapping audit, source, patches and hashes. Its counter-instrumented ELF is not used for timing.')
+    inputs=[Path(__file__),Path(__file__).with_name('hybrid_prepare.py'),
+        b.REPO/'llvm_prefetchit/tools/call_stub_prefetch.py',b.REPO/'llvm_prefetchit/tools/hybrid_call_assembly.py',
+        source,MODULE,parent/'split_target_refine/prepared.json',Path(balanced_backend.__file__),
+        Path(__file__).with_name('balanced_load.py'),Path(h.media.__file__)]
+    binaries=[Path(prepared[key]) for key in ['hybrid','nop','early_t1']]
+    b.save(root/'complete.json',dict(valid=True,prepared=prepared,diagnostic_result=str(result),
+        diagnostic_sha256=b.sha(result),source_hashes={str(p):b.sha(p) for p in inputs},
+        binary_hashes={str(p):b.sha(p) for p in binaries},shim=str(shim),shim_sha256=b.sha(shim),
+        scope='Independent module/mapping/gate diagnostic before performance comparison. Reuse only exact unchanged sources and binaries; no E2E performance inference.'))
+
+
 def campaign(parent,blocks=3):
     assert (parent/'balanced_callpath/complete.json').exists(),'Run serially after existing balanced confirmation'
     root=parent/'hybrid_switch';root.mkdir(exist_ok=False);b.space(root)
     tests(root)
-    prepared=prepare(parent,root/'prepared')
+    early=parent/'hybrid_service_preflight/complete.json'
+    reuse_preflight=json.loads(early.read_text()) if early.exists() else None
+    if reuse_preflight:
+        assert reuse_preflight['valid']
+        assert all(b.sha(path)==digest for path,digest in reuse_preflight['source_hashes'].items())
+        assert all(b.sha(path)==digest for path,digest in reuse_preflight['binary_hashes'].items())
+        assert b.sha(reuse_preflight['diagnostic_result'])==reuse_preflight['diagnostic_sha256']
+        prepared=reuse_preflight['prepared']
+        b.save(root/'service_preflight_reused.json',dict(source=str(early),sha256=b.sha(early)))
+    else:prepared=prepare(parent,root/'prepared')
     shim=root/'hybrid_map.so';source=b.REPO/'llvm_prefetchit/kernel/sched_clock/hybrid_map.c'
     shim_prior=parent/'hybrid_native_preflight/shim_build.json'
     reuse=json.loads(shim_prior.read_text()) if shim_prior.exists() else None
-    if reuse and b.sha(source)==reuse['source_sha256'] and b.sha(reuse['binary'])==reuse['sha256']:
+    if reuse_preflight:
+        shim=Path(reuse_preflight['shim']);assert b.sha(shim)==reuse_preflight['shim_sha256']
+        b.save(root/'shim_reused.json',dict(record=str(early),sha256=b.sha(early)))
+    elif reuse and b.sha(source)==reuse['source_sha256'] and b.sha(reuse['binary'])==reuse['sha256']:
         shim=Path(reuse['binary']);b.save(root/'shim_reused.json',dict(record=str(shim_prior),sha256=b.sha(shim_prior)))
     else:
         b.run(['gcc','-O2','-Wall','-Wextra','-Werror','-shared','-fPIC',source,'-o',shim],root/'shim_build.log')
@@ -197,11 +257,15 @@ def campaign(parent,blocks=3):
         late_event='FRONTEND_RETIRED.LATE_SWPF records demand instruction-cache misses overlapping an ongoing PREFETCHIT0/1-triggered fetch. Nonzero counts demonstrate some late overlap; zero does not establish absence of hint execution, timely success, or an empty fetch queue. Source: https://perfmon-events.intel.com/platforms/graniterapids/core-events/core/',
         gate_refinement='Before any E2E timing, use only first diagnostic gate counts to retain at most 64 canonical groups covering up to 90% of observed first bursts. Plain T1 remains at the other cost75 calls. A different-seed diagnostic checks this sparse policy; no reselection from the second diagnostic or timing results.',
         selection='Three exploratory paired blocks, fixed order and reverse order, no performance-based retries/exclusions. Assess E2E speedup, mean/p99 and whole/pool CPU cost with retired L2 and speculative L2I separately.'))
-    spec=dict(common,out=str(root/'diagnostic'),hybrid=True,mongo_binary=prepared['diagnostic'],seed=84901)
-    manifest=root/'diagnostic_spec.json';b.save(manifest,spec)
-    h.platform(root/'diagnostic',['python3',Path(__file__),'diagnostic',manifest])
-    remove_generated([Path(prepared['diagnostic'])],root/'diagnostic_elf_cleanup.json','Gate diagnostic complete; retain ages, counts, source, patches and hashes. No timing uses this counter-instrumented ELF.')
-    reduced=sparse(prepared,root/'diagnostic/result.json',root/'sparse')
+    if reuse_preflight:
+        diagnostic_result=Path(reuse_preflight['diagnostic_result'])
+    else:
+        spec=dict(common,out=str(root/'diagnostic'),hybrid=True,mongo_binary=prepared['diagnostic'],seed=84901)
+        manifest=root/'diagnostic_spec.json';b.save(manifest,spec)
+        h.platform(root/'diagnostic',['python3',Path(__file__),'diagnostic',manifest])
+        remove_generated([Path(prepared['diagnostic'])],root/'diagnostic_elf_cleanup.json','Gate diagnostic complete; retain ages, counts, source, patches and hashes. No timing uses this counter-instrumented ELF.')
+        diagnostic_result=root/'diagnostic/result.json'
+    reduced=sparse(prepared,diagnostic_result,root/'sparse')
     spec=dict(common,out=str(root/'sparse_diagnostic'),hybrid=True,mongo_binary=reduced['sparse_diag']['binary'],seed=84902)
     manifest=root/'sparse_diagnostic_spec.json';b.save(manifest,spec)
     h.platform(root/'sparse_diagnostic',['python3',Path(__file__),'diagnostic',manifest])
@@ -228,9 +292,11 @@ def campaign(parent,blocks=3):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('action',choices=['campaign','trial','diagnostic']);p.add_argument('path',type=Path)
+    p=argparse.ArgumentParser();p.add_argument('action',choices=['campaign','trial','diagnostic','preflight','preflight-resume']);p.add_argument('path',type=Path)
     p.add_argument('--blocks',type=int,default=3);a=p.parse_args()
     def interrupted(sig,frame):raise KeyboardInterrupt(sig)
     signal.signal(signal.SIGTERM,interrupted)
     if a.action=='campaign':campaign(a.path,a.blocks)
+    elif a.action=='preflight':service_preflight(a.path)
+    elif a.action=='preflight-resume':service_preflight(a.path,resume=True)
     else:globals()[a.action](json.loads(a.path.read_text()))

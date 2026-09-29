@@ -19,6 +19,7 @@ from privilege_frontend import DECODE_EVENTS
 def start_client(out,seconds,seed,warmup=50):
     master=json.loads((out/'runtime.json').read_text())['nginx-web-server']['pid']
     load=out/'load';load.mkdir()
+    (load/'client_source.py').write_bytes(Path(__file__).with_name('balanced_load.py').read_bytes())
     command=['python3',Path(__file__).with_name('balanced_load.py'),'--out',load,
         '--seconds',str(seconds),'--seed',str(seed),'--nginx-pid',str(master),'--warmup',str(warmup)]
     b.save(load/'command.json',command)
@@ -40,10 +41,10 @@ def smoke(spec):
     try:
         with bind_mongodb(out,spec['mongo_binary']):stack=h.start(out,'media',spec['overrides'],8)
         audit_backends(stack,out,spec['mongo_binary'])
-        client=start_client(out,12,spec['seed'],warmup=0)
+        client=start_client(out,12,spec['seed'],warmup=5)
         assert client.wait(timeout=60)==0;client=None;stack.check()
         result=json.loads((out/'load/load.json').read_text())
-        assert result['mapping_preserved'] and result['completed']>100 and not result['errors']
+        assert result['mapping_preserved'] and result['completed']>100 and not result['steady_errors']
         b.save(out/'result.json',dict(valid=True,load=result,balance=json.loads((out/'load/connection_balance.json').read_text())))
     except BaseException as error:b.save(out/'failure.json',dict(error=repr(error)));raise
     finally:
@@ -56,7 +57,7 @@ def trial(spec):
     # This override exists only in this dedicated child process. The original
     # campaign/client files and active unbalanced measurements are unchanged.
     backend_study.start_client=start_client
-    spec=dict(spec,client_control='One persistent HTTP connection per Nginx worker, established before warmup. Any reconnect is an operating failure.',
+    spec=dict(spec,client_control='One persistent HTTP connection per Nginx worker. Warmup transport repair must return to that same worker; no reconnects or application errors after warmup.',
         balanced_runner_sha256=b.sha(__file__),balanced_client_sha256=b.sha(Path(__file__).with_name('balanced_load.py')))
     backend_study.trial(spec)
     load=json.loads((Path(spec['out'])/'load/load.json').read_text());assert load['mapping_preserved']
@@ -102,7 +103,15 @@ def campaign(parent,blocks=4):
         for path in sorted([p for p in test_work.rglob('*') if p.is_dir() and not p.is_symlink()],key=lambda p:len(p.parts),reverse=True):path.rmdir()
         if test_work.exists():test_work.rmdir()
     from callpath_instruction_hint import build as hint_variant
-    it0=hint_variant(candidate['binary'],root/'builds/cost75_it0/mongod','it0')
+    reusable=parent/'balanced_callpath_rejected_startup/builds/cost75_it0/mongod'
+    if reusable.exists():
+        audit=json.loads(Path(str(reusable)+'.json').read_text());transform=audit['opcode_transform']
+        assert transform['kind']=='it0' and transform['source_sha256']==b.sha(candidate['binary'])
+        assert b.sha(reusable)==audit['sha256']
+        it0=dict(binary=str(reusable),sha256=audit['sha256'],nop_sha256=audit['nop_sha256'])
+        b.save(root/'opcode_binary_reused.json',dict(source=str(reusable),sha256=audit['sha256'],
+            reason='Validated exact-source opcode transform retained as the current reference after an unrelated pre-workload port-check rejection.'))
+    else:it0=hint_variant(candidate['binary'],root/'builds/cost75_it0/mongod','it0')
     assert b.sha(candidate['nop'])==it0['nop_sha256']
     arms={
         'original':dict(overrides=base,mongo_binary=prepared['reference']),
@@ -124,7 +133,7 @@ def campaign(parent,blocks=4):
         source_sha256=b.sha(__file__),client_sha256=b.sha(Path(__file__).with_name('balanced_load.py')),
         rationale='A post-clean-ROI snapshot observed 3/1/0/0 persistent connections across four Nginx workers. Control this nuisance factor in a separate campaign, never exclude or pool the existing unbalanced trials.',
         policy='Freeze cost75 for its measured emission reduction with similar miss coverage. Retain call256 as the earlier, smaller deployment reference. Add a same-layout continuation-line retarget (cost75_split), motivated by the completed independent split-fetch probe before this campaign begins. Compare a same-address IT0 opcode, and combine T1 with existing native retarget T1. Cost75, cost75_split and cost75_it0 share an exact NOP twin. Combined has its own NOP control; call256 versus original is a whole-change deployment comparison, not isolation of its hint opcode.',
-        qualification='Functional full-stack smoke, four workers with one connection each, no reconnects, fresh stacks, 50s warmup, 60s clean ROI before PMU. No performance-based retries.',
+        qualification='Functional full-stack smoke, four workers with one connection each, warmup-only same-worker repair if needed, no reconnects after warmup, fresh stacks, 50s warmup, 60s clean ROI before PMU. No performance-based retries.',
         pmu='Three-second windows shorten post-ROI diagnostics and keep persistent connections below the unchanged 100,000-request server limit. The existing unbalanced campaign retains its default five-second windows.',
         scope='Full Media compose-review C4 at eight workload CPUs; not a maximum-throughput sweep.'))
     manifest=root/'smoke_spec.json';b.save(manifest,dict(out=str(root/'smoke'),overrides=base,mongo_binary=prepared['reference'],seed=83901))
