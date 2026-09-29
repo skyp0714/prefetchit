@@ -15,7 +15,8 @@ PHASES=['probe','probe_serialized','probe_fixed','screen','retarget_screen','ret
     'callpath_native_preflight','callpath','call_frequency','callpath_refinement','callpath_coverage75','callpath_frontend','balanced_callpath','hybrid_switch',
     'hybrid_native_preflight','hybrid_native_preflight_initial','hybrid_native_preflight_rejected_dependency','hybrid_native_preflight_shim_warning',
     'callpath_frontend_rejected_msr_conflict','split_fetch_probe','split_fetch_intermission',
-    'split_target_refine','coverage75_finish_intermission']
+    'split_target_refine','coverage75_finish_intermission','resume_hint_probe',
+    'hybrid_service_preflight','hybrid_mapping_debug','balanced_callpath_rejected_startup']
 BACKEND_PHASES={'backend','callpath_native_preflight','callpath','call_frequency','callpath_refinement','callpath_coverage75','callpath_frontend','balanced_callpath','hybrid_switch',
     'hybrid_native_preflight','hybrid_native_preflight_initial','hybrid_native_preflight_rejected_dependency','hybrid_native_preflight_shim_warning'}
 

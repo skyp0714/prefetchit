@@ -1,0 +1,1535 @@
+{
+  "records": [
+    {
+      "block": 0,
+      "arm": "original",
+      "valid": true,
+      "protocol": {
+        "source_sha256": "fd60506b3aa62e33594ae10a1461d82c91d4320a42f3bdb36347dc84284cbbc5",
+        "query_limit": 200,
+        "window_seconds": 5,
+        "fetch_started_epoch": 1790685877.495366,
+        "load_end_epoch": 1790685872.3977735,
+        "source": "https://raw.githubusercontent.com/jaegertracing/jaeger/v1.57.0/cmd/query/app/http_handler.go",
+        "limitation": "Bounded late-window Jaeger sample from existing 100% tracing, fetched after load and PMU end. The query can return a recent subset and applies Jaeger UI clock adjustment. Span durations include waiting and child work; they are not CPU cost, independent E2E latency observations, or an exclusive critical-path decomposition. Span tags, logs and process environment are not collected.",
+        "query": {
+          "service": "nginx",
+          "start": 1790685867397773,
+          "end": 1790685872397773,
+          "limit": 200
+        },
+        "url": "http://172.19.0.2:16686/api/traces?service=nginx&start=1790685867397773&end=1790685872397773&limit=200",
+        "response_bytes": 1995314,
+        "response_sha256": "4b35d77cc63813ef43b6e835cb7ce47c89b19772f0a570d0f229ab078d4f5287",
+        "api_errors": null,
+        "fetch_completed_epoch": 1790685878.0336187
+      },
+      "quality": {
+        "traces": 200,
+        "spans": 4107,
+        "traces_with_missing_parent": 200,
+        "traces_without_root": 2,
+        "traces_with_multiple_roots": 0,
+        "spans_with_api_warnings": 483
+      },
+      "operations": [
+        {
+          "service": "compose-review-service",
+          "operation": "UploadMovieId",
+          "spans": 146,
+          "mean_us": 306.3767123287671,
+          "median_us": 150.0,
+          "min_us": 59,
+          "max_us": 2222
+        },
+        {
+          "service": "compose-review-service",
+          "operation": "UploadRating",
+          "spans": 144,
+          "mean_us": 1147.5972222222222,
+          "median_us": 1467.0,
+          "min_us": 65,
+          "max_us": 2619
+        },
+        {
+          "service": "compose-review-service",
+          "operation": "UploadText",
+          "spans": 146,
+          "mean_us": 327.3424657534247,
+          "median_us": 208.0,
+          "min_us": 66,
+          "max_us": 2467
+        },
+        {
+          "service": "compose-review-service",
+          "operation": "UploadUniqueId",
+          "spans": 146,
+          "mean_us": 407.6849315068493,
+          "median_us": 204.5,
+          "min_us": 61,
+          "max_us": 2702
+        },
+        {
+          "service": "compose-review-service",
+          "operation": "UploadUserId",
+          "spans": 146,
+          "mean_us": 360.986301369863,
+          "median_us": 229.0,
+          "min_us": 66,
+          "max_us": 2686
+        },
+        {
+          "service": "movie-id-service",
+          "operation": "MmcGetMovieId",
+          "spans": 200,
+          "mean_us": 79.21,
+          "median_us": 56.5,
+          "min_us": 22,
+          "max_us": 446
+        },
+        {
+          "service": "movie-id-service",
+          "operation": "MmcSetMovieId",
+          "spans": 200,
+          "mean_us": 88.125,
+          "median_us": 63.0,
+          "min_us": 24,
+          "max_us": 786
+        },
+        {
+          "service": "movie-id-service",
+          "operation": "UploadMovieId",
+          "spans": 200,
+          "mean_us": 1974.63,
+          "median_us": 2198.5,
+          "min_us": 507,
+          "max_us": 4530
+        },
+        {
+          "service": "movie-review-service",
+          "operation": "MongoFindMovie",
+          "spans": 169,
+          "mean_us": 989.8579881656805,
+          "median_us": 960,
+          "min_us": 655,
+          "max_us": 2070
+        },
+        {
+          "service": "movie-review-service",
+          "operation": "MongoUpdate.",
+          "spans": 170,
+          "mean_us": 427.4470588235294,
+          "median_us": 414.5,
+          "min_us": 297,
+          "max_us": 810
+        },
+        {
+          "service": "movie-review-service",
+          "operation": "RedisUpdate",
+          "spans": 170,
+          "mean_us": 201.37058823529412,
+          "median_us": 158.5,
+          "min_us": 83,
+          "max_us": 1258
+        },
+        {
+          "service": "movie-review-service",
+          "operation": "UploadMovieReview",
+          "spans": 170,
+          "mean_us": 999.5176470588235,
+          "median_us": 968.5,
+          "min_us": 665,
+          "max_us": 2072
+        },
+        {
+          "service": "nginx",
+          "operation": "/wrk2-api/review/compose",
+          "spans": 396,
+          "mean_us": 3048.752525252525,
+          "median_us": 2914.0,
+          "min_us": 2061,
+          "max_us": 5723
+        },
+        {
+          "service": "nginx",
+          "operation": "ComposeReview",
+          "spans": 200,
+          "mean_us": 2697.195,
+          "median_us": 2629.0,
+          "min_us": 1961,
+          "max_us": 4968
+        },
+        {
+          "service": "rating-service",
+          "operation": "RedisInsert",
+          "spans": 43,
+          "mean_us": 269.04651162790697,
+          "median_us": 212,
+          "min_us": 111,
+          "max_us": 774
+        },
+        {
+          "service": "rating-service",
+          "operation": "UploadRating",
+          "spans": 41,
+          "mean_us": 1320.4146341463415,
+          "median_us": 1516,
+          "min_us": 243,
+          "max_us": 2820
+        },
+        {
+          "service": "review-storage-service",
+          "operation": "MongoInsertReview",
+          "spans": 146,
+          "mean_us": 266.1164383561644,
+          "median_us": 235.5,
+          "min_us": 133,
+          "max_us": 1339
+        },
+        {
+          "service": "review-storage-service",
+          "operation": "StoreReview",
+          "spans": 146,
+          "mean_us": 290.67808219178085,
+          "median_us": 258.5,
+          "min_us": 144,
+          "max_us": 1375
+        },
+        {
+          "service": "user-review-service",
+          "operation": "MongoFindUser",
+          "spans": 200,
+          "mean_us": 1005.215,
+          "median_us": 975.0,
+          "min_us": 691,
+          "max_us": 1910
+        },
+        {
+          "service": "user-review-service",
+          "operation": "MongoUpdate",
+          "spans": 200,
+          "mean_us": 427.295,
+          "median_us": 413.0,
+          "min_us": 288,
+          "max_us": 873
+        },
+        {
+          "service": "user-review-service",
+          "operation": "RedisUpdate",
+          "spans": 200,
+          "mean_us": 196.54,
+          "median_us": 170.5,
+          "min_us": 85,
+          "max_us": 602
+        },
+        {
+          "service": "user-review-service",
+          "operation": "UploadUserReview",
+          "spans": 200,
+          "mean_us": 1017.01,
+          "median_us": 984.5,
+          "min_us": 700,
+          "max_us": 1922
+        },
+        {
+          "service": "user-service",
+          "operation": "MmcGetUserId",
+          "spans": 164,
+          "mean_us": 86.28658536585365,
+          "median_us": 54.0,
+          "min_us": 28,
+          "max_us": 1536
+        },
+        {
+          "service": "user-service",
+          "operation": "UploadUserWithUsername",
+          "spans": 164,
+          "mean_us": 589.3536585365854,
+          "median_us": 416.0,
+          "min_us": 160,
+          "max_us": 3762
+        }
+      ],
+      "limitation": "Bounded late-window Jaeger sample from existing 100% tracing, fetched after load and PMU end. The query can return a recent subset and applies Jaeger UI clock adjustment. Span durations include waiting and child work; they are not CPU cost, independent E2E latency observations, or an exclusive critical-path decomposition. Span tags, logs and process environment are not collected."
+    },
+    {
+      "block": 0,
+      "arm": "cost75_nop",
+      "valid": true,
+      "protocol": {
+        "source_sha256": "fd60506b3aa62e33594ae10a1461d82c91d4320a42f3bdb36347dc84284cbbc5",
+        "query_limit": 200,
+        "window_seconds": 5,
+        "fetch_started_epoch": 1790686072.5346508,
+        "load_end_epoch": 1790686067.5649357,
+        "source": "https://raw.githubusercontent.com/jaegertracing/jaeger/v1.57.0/cmd/query/app/http_handler.go",
+        "limitation": "Bounded late-window Jaeger sample from existing 100% tracing, fetched after load and PMU end. The query can return a recent subset and applies Jaeger UI clock adjustment. Span durations include waiting and child work; they are not CPU cost, independent E2E latency observations, or an exclusive critical-path decomposition. Span tags, logs and process environment are not collected.",
+        "query": {
+          "service": "nginx",
+          "start": 1790686062564935,
+          "end": 1790686067564935,
+          "limit": 200
+        },
+        "url": "http://172.19.0.2:16686/api/traces?service=nginx&start=1790686062564935&end=1790686067564935&limit=200",
+        "response_bytes": 2475982,
+        "response_sha256": "736c88c1545e1d52b2beae851c96464aab18ca7cd51fa8d8346f6c45be02de56",
+        "api_errors": null,
+        "fetch_completed_epoch": 1790686073.044303
+      },
+      "quality": {
+        "traces": 200,
+        "spans": 5194,
+        "traces_with_missing_parent": 200,
+        "traces_without_root": 4,
+        "traces_with_multiple_roots": 0,
+        "spans_with_api_warnings": 204
+      },
+      "operations": [
+        {
+          "service": "compose-review-service",
+          "operation": "UploadMovieId",
+          "spans": 200,
+          "mean_us": 380.985,
+          "median_us": 166.0,
+          "min_us": 58,
+          "max_us": 2574
+        },
+        {
+          "service": "compose-review-service",
+          "operation": "UploadRating",
+          "spans": 200,
+          "mean_us": 1099.23,
+          "median_us": 1488.5,
+          "min_us": 57,
+          "max_us": 2540
+        },
+        {
+          "service": "compose-review-service",
+          "operation": "UploadText",
+          "spans": 200,
+          "mean_us": 328.45,
+          "median_us": 226.0,
+          "min_us": 66,
+          "max_us": 2195
+        },
+        {
+          "service": "compose-review-service",
+          "operation": "UploadUniqueId",
+          "spans": 200,
+          "mean_us": 364.42,
+          "median_us": 186.0,
+          "min_us": 55,
+          "max_us": 2675
+        },
+        {
+          "service": "compose-review-service",
+          "operation": "UploadUserId",
+          "spans": 200,
+          "mean_us": 454.295,
+          "median_us": 238.5,
+          "min_us": 59,
+          "max_us": 2417
+        },
+        {
+          "service": "movie-id-service",
+          "operation": "MmcGetMovieId",
+          "spans": 200,
+          "mean_us": 81.28,
+          "median_us": 58.0,
+          "min_us": 27,
+          "max_us": 477
+        },
+        {
+          "service": "movie-id-service",
+          "operation": "MmcSetMovieId",
+          "spans": 200,
+          "mean_us": 88.33,
+          "median_us": 62.0,
+          "min_us": 27,
+          "max_us": 877
+        },
+        {
+          "service": "movie-id-service",
+          "operation": "UploadMovieId",
+          "spans": 200,
+          "mean_us": 1984.01,
+          "median_us": 2211.5,
+          "min_us": 531,
+          "max_us": 3603
+        },
+        {
+          "service": "movie-review-service",
+          "operation": "MongoFindMovie",
+          "spans": 200,
+          "mean_us": 1022.065,
+          "median_us": 987.0,
+          "min_us": 716,
+          "max_us": 1720
+        },
+        {
+          "service": "movie-review-service",
+          "operation": "MongoUpdate.",
+          "spans": 200,
+          "mean_us": 441.57,
+          "median_us": 432.5,
+          "min_us": 303,
+          "max_us": 945
+        },
+        {
+          "service": "movie-review-service",
+          "operation": "RedisUpdate",
+          "spans": 200,
+          "mean_us": 205.11,
+          "median_us": 177.5,
+          "min_us": 98,
+          "max_us": 635
+        },
+        {
+          "service": "movie-review-service",
+          "operation": "UploadMovieReview",
+          "spans": 200,
+          "mean_us": 1033.775,
+          "median_us": 997.0,
+          "min_us": 728,
+          "max_us": 1732
+        },
+        {
+          "service": "nginx",
+          "operation": "/wrk2-api/review/compose",
+          "spans": 394,
+          "mean_us": 3063.9263959390864,
+          "median_us": 2985.0,
+          "min_us": 2145,
+          "max_us": 4944
+        },
+        {
+          "service": "nginx",
+          "operation": "ComposeReview",
+          "spans": 200,
+          "mean_us": 2684.69,
+          "median_us": 2635.5,
+          "min_us": 2052,
+          "max_us": 3904
+        },
+        {
+          "service": "rating-service",
+          "operation": "RedisInsert",
+          "spans": 200,
+          "mean_us": 242.835,
+          "median_us": 192.0,
+          "min_us": 98,
+          "max_us": 1001
+        },
+        {
+          "service": "rating-service",
+          "operation": "UploadRating",
+          "spans": 200,
+          "mean_us": 1375.245,
+          "median_us": 1709.5,
+          "min_us": 218,
+          "max_us": 3197
+        },
+        {
+          "service": "review-storage-service",
+          "operation": "MongoInsertReview",
+          "spans": 200,
+          "mean_us": 263.77,
+          "median_us": 245.5,
+          "min_us": 123,
+          "max_us": 789
+        },
+        {
+          "service": "review-storage-service",
+          "operation": "StoreReview",
+          "spans": 200,
+          "mean_us": 293.98,
+          "median_us": 270.5,
+          "min_us": 137,
+          "max_us": 1553
+        },
+        {
+          "service": "text-service",
+          "operation": "UploadText",
+          "spans": 200,
+          "mean_us": 454.905,
+          "median_us": 336.0,
+          "min_us": 124,
+          "max_us": 2269
+        },
+        {
+          "service": "user-review-service",
+          "operation": "MongoFindUser",
+          "spans": 200,
+          "mean_us": 1031.2,
+          "median_us": 1011.0,
+          "min_us": 747,
+          "max_us": 1735
+        },
+        {
+          "service": "user-review-service",
+          "operation": "MongoUpdate",
+          "spans": 200,
+          "mean_us": 448.095,
+          "median_us": 431.0,
+          "min_us": 312,
+          "max_us": 1013
+        },
+        {
+          "service": "user-review-service",
+          "operation": "RedisUpdate",
+          "spans": 200,
+          "mean_us": 207.225,
+          "median_us": 178.0,
+          "min_us": 75,
+          "max_us": 627
+        },
+        {
+          "service": "user-review-service",
+          "operation": "UploadUserReview",
+          "spans": 200,
+          "mean_us": 1043.56,
+          "median_us": 1019.5,
+          "min_us": 760,
+          "max_us": 1746
+        },
+        {
+          "service": "user-service",
+          "operation": "MmcGetUserId",
+          "spans": 200,
+          "mean_us": 72.565,
+          "median_us": 54.0,
+          "min_us": 23,
+          "max_us": 876
+        },
+        {
+          "service": "user-service",
+          "operation": "UploadUserWithUsername",
+          "spans": 200,
+          "mean_us": 667.475,
+          "median_us": 427.0,
+          "min_us": 152,
+          "max_us": 3151
+        }
+      ],
+      "limitation": "Bounded late-window Jaeger sample from existing 100% tracing, fetched after load and PMU end. The query can return a recent subset and applies Jaeger UI clock adjustment. Span durations include waiting and child work; they are not CPU cost, independent E2E latency observations, or an exclusive critical-path decomposition. Span tags, logs and process environment are not collected."
+    },
+    {
+      "block": 0,
+      "arm": "cost75",
+      "valid": true,
+      "protocol": {
+        "source_sha256": "fd60506b3aa62e33594ae10a1461d82c91d4320a42f3bdb36347dc84284cbbc5",
+        "query_limit": 200,
+        "window_seconds": 5,
+        "fetch_started_epoch": 1790686275.459822,
+        "load_end_epoch": 1790686270.4754007,
+        "source": "https://raw.githubusercontent.com/jaegertracing/jaeger/v1.57.0/cmd/query/app/http_handler.go",
+        "limitation": "Bounded late-window Jaeger sample from existing 100% tracing, fetched after load and PMU end. The query can return a recent subset and applies Jaeger UI clock adjustment. Span durations include waiting and child work; they are not CPU cost, independent E2E latency observations, or an exclusive critical-path decomposition. Span tags, logs and process environment are not collected.",
+        "query": {
+          "service": "nginx",
+          "start": 1790686265475400,
+          "end": 1790686270475400,
+          "limit": 200
+        },
+        "url": "http://172.19.0.2:16686/api/traces?service=nginx&start=1790686265475400&end=1790686270475400&limit=200",
+        "response_bytes": 2030541,
+        "response_sha256": "6c5a0d398c6471a89176162a49eb0bab90c34d912fc063fcc0dc2401699d2abd",
+        "api_errors": null,
+        "fetch_completed_epoch": 1790686276.0406902
+      },
+      "quality": {
+        "traces": 200,
+        "spans": 4124,
+        "traces_with_missing_parent": 200,
+        "traces_without_root": 2,
+        "traces_with_multiple_roots": 0,
+        "spans_with_api_warnings": 518
+      },
+      "operations": [
+        {
+          "service": "compose-review-service",
+          "operation": "UploadMovieId",
+          "spans": 174,
+          "mean_us": 403.3390804597701,
+          "median_us": 172.0,
+          "min_us": 58,
+          "max_us": 2516
+        },
+        {
+          "service": "compose-review-service",
+          "operation": "UploadRating",
+          "spans": 174,
+          "mean_us": 1099.6436781609195,
+          "median_us": 1418.0,
+          "min_us": 61,
+          "max_us": 2745
+        },
+        {
+          "service": "compose-review-service",
+          "operation": "UploadText",
+          "spans": 175,
+          "mean_us": 370.6457142857143,
+          "median_us": 221,
+          "min_us": 63,
+          "max_us": 2594
+        },
+        {
+          "service": "compose-review-service",
+          "operation": "UploadUniqueId",
+          "spans": 174,
+          "mean_us": 356.14367816091954,
+          "median_us": 193.0,
+          "min_us": 66,
+          "max_us": 2260
+        },
+        {
+          "service": "compose-review-service",
+          "operation": "UploadUserId",
+          "spans": 175,
+          "mean_us": 385.14285714285717,
+          "median_us": 249,
+          "min_us": 68,
+          "max_us": 2457
+        },
+        {
+          "service": "movie-id-service",
+          "operation": "MmcGetMovieId",
+          "spans": 112,
+          "mean_us": 84.97321428571429,
+          "median_us": 55.5,
+          "min_us": 27,
+          "max_us": 455
+        },
+        {
+          "service": "movie-id-service",
+          "operation": "MmcSetMovieId",
+          "spans": 112,
+          "mean_us": 91.28571428571429,
+          "median_us": 61.5,
+          "min_us": 25,
+          "max_us": 691
+        },
+        {
+          "service": "movie-id-service",
+          "operation": "UploadMovieId",
+          "spans": 111,
+          "mean_us": 1989.117117117117,
+          "median_us": 2245,
+          "min_us": 527,
+          "max_us": 3481
+        },
+        {
+          "service": "movie-review-service",
+          "operation": "MongoFindMovie",
+          "spans": 166,
+          "mean_us": 1010.4879518072289,
+          "median_us": 963.0,
+          "min_us": 697,
+          "max_us": 2241
+        },
+        {
+          "service": "movie-review-service",
+          "operation": "MongoUpdate.",
+          "spans": 167,
+          "mean_us": 425.251497005988,
+          "median_us": 408,
+          "min_us": 277,
+          "max_us": 902
+        },
+        {
+          "service": "movie-review-service",
+          "operation": "RedisUpdate",
+          "spans": 167,
+          "mean_us": 219.46107784431138,
+          "median_us": 179,
+          "min_us": 112,
+          "max_us": 1430
+        },
+        {
+          "service": "movie-review-service",
+          "operation": "UploadMovieReview",
+          "spans": 166,
+          "mean_us": 1023.2530120481928,
+          "median_us": 976.0,
+          "min_us": 704,
+          "max_us": 2251
+        },
+        {
+          "service": "nginx",
+          "operation": "/wrk2-api/review/compose",
+          "spans": 397,
+          "mean_us": 3164.030226700252,
+          "median_us": 3105,
+          "min_us": 2129,
+          "max_us": 5235
+        },
+        {
+          "service": "nginx",
+          "operation": "ComposeReview",
+          "spans": 200,
+          "mean_us": 2742.83,
+          "median_us": 2645.5,
+          "min_us": 2040,
+          "max_us": 4235
+        },
+        {
+          "service": "review-storage-service",
+          "operation": "MongoInsertReview",
+          "spans": 200,
+          "mean_us": 246.755,
+          "median_us": 222.0,
+          "min_us": 124,
+          "max_us": 774
+        },
+        {
+          "service": "review-storage-service",
+          "operation": "StoreReview",
+          "spans": 199,
+          "mean_us": 270.2211055276382,
+          "median_us": 247,
+          "min_us": 138,
+          "max_us": 804
+        },
+        {
+          "service": "unique-id-service",
+          "operation": "UploadUniqueId",
+          "spans": 190,
+          "mean_us": 499.36315789473684,
+          "median_us": 327.5,
+          "min_us": 136,
+          "max_us": 2338
+        },
+        {
+          "service": "user-review-service",
+          "operation": "MongoFindUser",
+          "spans": 200,
+          "mean_us": 991.78,
+          "median_us": 950.0,
+          "min_us": 673,
+          "max_us": 2003
+        },
+        {
+          "service": "user-review-service",
+          "operation": "MongoUpdate",
+          "spans": 200,
+          "mean_us": 419.37,
+          "median_us": 395.0,
+          "min_us": 272,
+          "max_us": 1438
+        },
+        {
+          "service": "user-review-service",
+          "operation": "RedisUpdate",
+          "spans": 200,
+          "mean_us": 224.33,
+          "median_us": 186.0,
+          "min_us": 101,
+          "max_us": 1028
+        },
+        {
+          "service": "user-review-service",
+          "operation": "UploadUserReview",
+          "spans": 200,
+          "mean_us": 1002.365,
+          "median_us": 956.0,
+          "min_us": 679,
+          "max_us": 2015
+        },
+        {
+          "service": "user-service",
+          "operation": "MmcGetUserId",
+          "spans": 133,
+          "mean_us": 76.71428571428571,
+          "median_us": 53,
+          "min_us": 25,
+          "max_us": 656
+        },
+        {
+          "service": "user-service",
+          "operation": "UploadUserWithUsername",
+          "spans": 132,
+          "mean_us": 604.7424242424242,
+          "median_us": 442.0,
+          "min_us": 205,
+          "max_us": 3099
+        }
+      ],
+      "limitation": "Bounded late-window Jaeger sample from existing 100% tracing, fetched after load and PMU end. The query can return a recent subset and applies Jaeger UI clock adjustment. Span durations include waiting and child work; they are not CPU cost, independent E2E latency observations, or an exclusive critical-path decomposition. Span tags, logs and process environment are not collected."
+    },
+    {
+      "block": 1,
+      "arm": "cost75",
+      "valid": true,
+      "protocol": {
+        "source_sha256": "fd60506b3aa62e33594ae10a1461d82c91d4320a42f3bdb36347dc84284cbbc5",
+        "query_limit": 200,
+        "window_seconds": 5,
+        "fetch_started_epoch": 1790686513.3950636,
+        "load_end_epoch": 1790686508.3982863,
+        "source": "https://raw.githubusercontent.com/jaegertracing/jaeger/v1.57.0/cmd/query/app/http_handler.go",
+        "limitation": "Bounded late-window Jaeger sample from existing 100% tracing, fetched after load and PMU end. The query can return a recent subset and applies Jaeger UI clock adjustment. Span durations include waiting and child work; they are not CPU cost, independent E2E latency observations, or an exclusive critical-path decomposition. Span tags, logs and process environment are not collected.",
+        "query": {
+          "service": "nginx",
+          "start": 1790686503398286,
+          "end": 1790686508398286,
+          "limit": 200
+        },
+        "url": "http://172.19.0.2:16686/api/traces?service=nginx&start=1790686503398286&end=1790686508398286&limit=200",
+        "response_bytes": 2477010,
+        "response_sha256": "173f4666ca59fc6137a8e3b00fb892108c0aae3eed6614316dedf3bf50129b19",
+        "api_errors": null,
+        "fetch_completed_epoch": 1790686513.9372678
+      },
+      "quality": {
+        "traces": 200,
+        "spans": 5192,
+        "traces_with_missing_parent": 200,
+        "traces_without_root": 4,
+        "traces_with_multiple_roots": 0,
+        "spans_with_api_warnings": 204
+      },
+      "operations": [
+        {
+          "service": "compose-review-service",
+          "operation": "UploadMovieId",
+          "spans": 200,
+          "mean_us": 416.195,
+          "median_us": 162.5,
+          "min_us": 59,
+          "max_us": 3365
+        },
+        {
+          "service": "compose-review-service",
+          "operation": "UploadRating",
+          "spans": 200,
+          "mean_us": 1115.7,
+          "median_us": 1466.5,
+          "min_us": 62,
+          "max_us": 2678
+        },
+        {
+          "service": "compose-review-service",
+          "operation": "UploadText",
+          "spans": 200,
+          "mean_us": 340.15,
+          "median_us": 228.0,
+          "min_us": 56,
+          "max_us": 2926
+        },
+        {
+          "service": "compose-review-service",
+          "operation": "UploadUniqueId",
+          "spans": 200,
+          "mean_us": 435.725,
+          "median_us": 210.0,
+          "min_us": 62,
+          "max_us": 4102
+        },
+        {
+          "service": "compose-review-service",
+          "operation": "UploadUserId",
+          "spans": 200,
+          "mean_us": 342.85,
+          "median_us": 230.5,
+          "min_us": 70,
+          "max_us": 3140
+        },
+        {
+          "service": "movie-id-service",
+          "operation": "MmcGetMovieId",
+          "spans": 200,
+          "mean_us": 87.91,
+          "median_us": 58.0,
+          "min_us": 27,
+          "max_us": 358
+        },
+        {
+          "service": "movie-id-service",
+          "operation": "MmcSetMovieId",
+          "spans": 200,
+          "mean_us": 84.4,
+          "median_us": 61.0,
+          "min_us": 25,
+          "max_us": 379
+        },
+        {
+          "service": "movie-id-service",
+          "operation": "UploadMovieId",
+          "spans": 200,
+          "mean_us": 2086.27,
+          "median_us": 2299.5,
+          "min_us": 548,
+          "max_us": 4339
+        },
+        {
+          "service": "movie-review-service",
+          "operation": "MongoFindMovie",
+          "spans": 200,
+          "mean_us": 980.5,
+          "median_us": 934.5,
+          "min_us": 681,
+          "max_us": 1983
+        },
+        {
+          "service": "movie-review-service",
+          "operation": "MongoUpdate.",
+          "spans": 200,
+          "mean_us": 417.61,
+          "median_us": 408.0,
+          "min_us": 269,
+          "max_us": 1096
+        },
+        {
+          "service": "movie-review-service",
+          "operation": "RedisUpdate",
+          "spans": 200,
+          "mean_us": 204.34,
+          "median_us": 175.0,
+          "min_us": 99,
+          "max_us": 599
+        },
+        {
+          "service": "movie-review-service",
+          "operation": "UploadMovieReview",
+          "spans": 200,
+          "mean_us": 991.175,
+          "median_us": 947.5,
+          "min_us": 685,
+          "max_us": 1993
+        },
+        {
+          "service": "nginx",
+          "operation": "/wrk2-api/review/compose",
+          "spans": 392,
+          "mean_us": 3182.487244897959,
+          "median_us": 3099.0,
+          "min_us": 2137,
+          "max_us": 5744
+        },
+        {
+          "service": "nginx",
+          "operation": "ComposeReview",
+          "spans": 200,
+          "mean_us": 2773.795,
+          "median_us": 2705.5,
+          "min_us": 2046,
+          "max_us": 4837
+        },
+        {
+          "service": "rating-service",
+          "operation": "RedisInsert",
+          "spans": 200,
+          "mean_us": 259.675,
+          "median_us": 198.0,
+          "min_us": 98,
+          "max_us": 2922
+        },
+        {
+          "service": "rating-service",
+          "operation": "UploadRating",
+          "spans": 200,
+          "mean_us": 1410.245,
+          "median_us": 1692.5,
+          "min_us": 236,
+          "max_us": 3149
+        },
+        {
+          "service": "review-storage-service",
+          "operation": "MongoInsertReview",
+          "spans": 200,
+          "mean_us": 258.335,
+          "median_us": 225.5,
+          "min_us": 114,
+          "max_us": 2020
+        },
+        {
+          "service": "review-storage-service",
+          "operation": "StoreReview",
+          "spans": 200,
+          "mean_us": 288.07,
+          "median_us": 250.0,
+          "min_us": 129,
+          "max_us": 2042
+        },
+        {
+          "service": "unique-id-service",
+          "operation": "UploadUniqueId",
+          "spans": 200,
+          "mean_us": 570.515,
+          "median_us": 328.0,
+          "min_us": 120,
+          "max_us": 4197
+        },
+        {
+          "service": "user-review-service",
+          "operation": "MongoFindUser",
+          "spans": 200,
+          "mean_us": 987.215,
+          "median_us": 953.5,
+          "min_us": 707,
+          "max_us": 1493
+        },
+        {
+          "service": "user-review-service",
+          "operation": "MongoUpdate",
+          "spans": 200,
+          "mean_us": 418.31,
+          "median_us": 405.0,
+          "min_us": 267,
+          "max_us": 859
+        },
+        {
+          "service": "user-review-service",
+          "operation": "RedisUpdate",
+          "spans": 200,
+          "mean_us": 208.415,
+          "median_us": 184.0,
+          "min_us": 83,
+          "max_us": 730
+        },
+        {
+          "service": "user-review-service",
+          "operation": "UploadUserReview",
+          "spans": 200,
+          "mean_us": 998.85,
+          "median_us": 964.5,
+          "min_us": 719,
+          "max_us": 1506
+        },
+        {
+          "service": "user-service",
+          "operation": "MmcGetUserId",
+          "spans": 200,
+          "mean_us": 67.24,
+          "median_us": 54.0,
+          "min_us": 23,
+          "max_us": 344
+        },
+        {
+          "service": "user-service",
+          "operation": "UploadUserWithUsername",
+          "spans": 200,
+          "mean_us": 558.22,
+          "median_us": 436.0,
+          "min_us": 183,
+          "max_us": 3271
+        }
+      ],
+      "limitation": "Bounded late-window Jaeger sample from existing 100% tracing, fetched after load and PMU end. The query can return a recent subset and applies Jaeger UI clock adjustment. Span durations include waiting and child work; they are not CPU cost, independent E2E latency observations, or an exclusive critical-path decomposition. Span tags, logs and process environment are not collected."
+    },
+    {
+      "block": 1,
+      "arm": "cost75_nop",
+      "valid": true,
+      "protocol": {
+        "source_sha256": "fd60506b3aa62e33594ae10a1461d82c91d4320a42f3bdb36347dc84284cbbc5",
+        "query_limit": 200,
+        "window_seconds": 5,
+        "fetch_started_epoch": 1790686707.5031948,
+        "load_end_epoch": 1790686702.5551214,
+        "source": "https://raw.githubusercontent.com/jaegertracing/jaeger/v1.57.0/cmd/query/app/http_handler.go",
+        "limitation": "Bounded late-window Jaeger sample from existing 100% tracing, fetched after load and PMU end. The query can return a recent subset and applies Jaeger UI clock adjustment. Span durations include waiting and child work; they are not CPU cost, independent E2E latency observations, or an exclusive critical-path decomposition. Span tags, logs and process environment are not collected.",
+        "query": {
+          "service": "nginx",
+          "start": 1790686697555121,
+          "end": 1790686702555121,
+          "limit": 200
+        },
+        "url": "http://172.19.0.2:16686/api/traces?service=nginx&start=1790686697555121&end=1790686702555121&limit=200",
+        "response_bytes": 1852099,
+        "response_sha256": "d609f27095b4c018554bc68724fe1cc3a561fa3ef5e058a5113849ac61f6f41e",
+        "api_errors": null,
+        "fetch_completed_epoch": 1790686708.0185158
+      },
+      "quality": {
+        "traces": 200,
+        "spans": 3749,
+        "traces_with_missing_parent": 177,
+        "traces_without_root": 1,
+        "traces_with_multiple_roots": 0,
+        "spans_with_api_warnings": 398
+      },
+      "operations": [
+        {
+          "service": "compose-review-service",
+          "operation": "UploadMovieId",
+          "spans": 175,
+          "mean_us": 465.53714285714284,
+          "median_us": 181,
+          "min_us": 69,
+          "max_us": 4214
+        },
+        {
+          "service": "compose-review-service",
+          "operation": "UploadRating",
+          "spans": 175,
+          "mean_us": 1327.6228571428571,
+          "median_us": 1519,
+          "min_us": 61,
+          "max_us": 7850
+        },
+        {
+          "service": "compose-review-service",
+          "operation": "UploadText",
+          "spans": 176,
+          "mean_us": 325.8863636363636,
+          "median_us": 224.5,
+          "min_us": 54,
+          "max_us": 3943
+        },
+        {
+          "service": "compose-review-service",
+          "operation": "UploadUniqueId",
+          "spans": 175,
+          "mean_us": 428.45142857142855,
+          "median_us": 198,
+          "min_us": 54,
+          "max_us": 5708
+        },
+        {
+          "service": "compose-review-service",
+          "operation": "UploadUserId",
+          "spans": 176,
+          "mean_us": 421.54545454545456,
+          "median_us": 222.0,
+          "min_us": 63,
+          "max_us": 6213
+        },
+        {
+          "service": "movie-id-service",
+          "operation": "MmcGetMovieId",
+          "spans": 131,
+          "mean_us": 103.50381679389314,
+          "median_us": 58,
+          "min_us": 25,
+          "max_us": 969
+        },
+        {
+          "service": "movie-id-service",
+          "operation": "MmcSetMovieId",
+          "spans": 130,
+          "mean_us": 92.91538461538461,
+          "median_us": 62.5,
+          "min_us": 27,
+          "max_us": 532
+        },
+        {
+          "service": "movie-id-service",
+          "operation": "UploadMovieId",
+          "spans": 129,
+          "mean_us": 2501.937984496124,
+          "median_us": 2351,
+          "min_us": 604,
+          "max_us": 8727
+        },
+        {
+          "service": "movie-review-service",
+          "operation": "MongoFindMovie",
+          "spans": 153,
+          "mean_us": 1096.2091503267975,
+          "median_us": 994,
+          "min_us": 644,
+          "max_us": 3382
+        },
+        {
+          "service": "movie-review-service",
+          "operation": "MongoUpdate.",
+          "spans": 153,
+          "mean_us": 472.19607843137254,
+          "median_us": 425,
+          "min_us": 287,
+          "max_us": 2011
+        },
+        {
+          "service": "movie-review-service",
+          "operation": "RedisUpdate",
+          "spans": 153,
+          "mean_us": 201.640522875817,
+          "median_us": 165,
+          "min_us": 86,
+          "max_us": 932
+        },
+        {
+          "service": "movie-review-service",
+          "operation": "UploadMovieReview",
+          "spans": 153,
+          "mean_us": 1108.7124183006536,
+          "median_us": 1005,
+          "min_us": 655,
+          "max_us": 3392
+        },
+        {
+          "service": "nginx",
+          "operation": "/wrk2-api/review/compose",
+          "spans": 398,
+          "mean_us": 3464.030150753769,
+          "median_us": 3107.0,
+          "min_us": 2173,
+          "max_us": 10228
+        },
+        {
+          "service": "nginx",
+          "operation": "ComposeReview",
+          "spans": 200,
+          "mean_us": 3094.23,
+          "median_us": 2696.0,
+          "min_us": 2083,
+          "max_us": 9260
+        },
+        {
+          "service": "rating-service",
+          "operation": "RedisInsert",
+          "spans": 21,
+          "mean_us": 251.28571428571428,
+          "median_us": 214,
+          "min_us": 126,
+          "max_us": 549
+        },
+        {
+          "service": "rating-service",
+          "operation": "UploadRating",
+          "spans": 18,
+          "mean_us": 1612.7777777777778,
+          "median_us": 1818.0,
+          "min_us": 299,
+          "max_us": 2485
+        },
+        {
+          "service": "review-storage-service",
+          "operation": "MongoInsertReview",
+          "spans": 39,
+          "mean_us": 404.02564102564105,
+          "median_us": 236,
+          "min_us": 183,
+          "max_us": 3464
+        },
+        {
+          "service": "review-storage-service",
+          "operation": "StoreReview",
+          "spans": 39,
+          "mean_us": 427,
+          "median_us": 264,
+          "min_us": 200,
+          "max_us": 3491
+        },
+        {
+          "service": "unique-id-service",
+          "operation": "UploadUniqueId",
+          "spans": 169,
+          "mean_us": 564.0236686390532,
+          "median_us": 314,
+          "min_us": 117,
+          "max_us": 5808
+        },
+        {
+          "service": "user-review-service",
+          "operation": "MongoFindUser",
+          "spans": 160,
+          "mean_us": 1153.075,
+          "median_us": 1028.0,
+          "min_us": 657,
+          "max_us": 5127
+        },
+        {
+          "service": "user-review-service",
+          "operation": "MongoUpdate",
+          "spans": 161,
+          "mean_us": 494.12422360248445,
+          "median_us": 422,
+          "min_us": 288,
+          "max_us": 3407
+        },
+        {
+          "service": "user-review-service",
+          "operation": "RedisUpdate",
+          "spans": 161,
+          "mean_us": 235.24844720496895,
+          "median_us": 175,
+          "min_us": 79,
+          "max_us": 2439
+        },
+        {
+          "service": "user-review-service",
+          "operation": "UploadUserReview",
+          "spans": 161,
+          "mean_us": 1162.329192546584,
+          "median_us": 1030,
+          "min_us": 665,
+          "max_us": 5140
+        },
+        {
+          "service": "user-service",
+          "operation": "MmcGetUserId",
+          "spans": 172,
+          "mean_us": 82.37790697674419,
+          "median_us": 55.0,
+          "min_us": 25,
+          "max_us": 1268
+        },
+        {
+          "service": "user-service",
+          "operation": "UploadUserWithUsername",
+          "spans": 171,
+          "mean_us": 648.2105263157895,
+          "median_us": 416,
+          "min_us": 176,
+          "max_us": 7649
+        }
+      ],
+      "limitation": "Bounded late-window Jaeger sample from existing 100% tracing, fetched after load and PMU end. The query can return a recent subset and applies Jaeger UI clock adjustment. Span durations include waiting and child work; they are not CPU cost, independent E2E latency observations, or an exclusive critical-path decomposition. Span tags, logs and process environment are not collected."
+    },
+    {
+      "block": 1,
+      "arm": "original",
+      "valid": true,
+      "protocol": {
+        "source_sha256": "fd60506b3aa62e33594ae10a1461d82c91d4320a42f3bdb36347dc84284cbbc5",
+        "query_limit": 200,
+        "window_seconds": 5,
+        "fetch_started_epoch": 1790686901.7631838,
+        "load_end_epoch": 1790686896.6277463,
+        "source": "https://raw.githubusercontent.com/jaegertracing/jaeger/v1.57.0/cmd/query/app/http_handler.go",
+        "limitation": "Bounded late-window Jaeger sample from existing 100% tracing, fetched after load and PMU end. The query can return a recent subset and applies Jaeger UI clock adjustment. Span durations include waiting and child work; they are not CPU cost, independent E2E latency observations, or an exclusive critical-path decomposition. Span tags, logs and process environment are not collected.",
+        "query": {
+          "service": "nginx",
+          "start": 1790686891627746,
+          "end": 1790686896627746,
+          "limit": 200
+        },
+        "url": "http://172.19.0.2:16686/api/traces?service=nginx&start=1790686891627746&end=1790686896627746&limit=200",
+        "response_bytes": 2015334,
+        "response_sha256": "9599632adad9d622358046618ec2301982fdae0e0217e01f857e2ab005d85659",
+        "api_errors": null,
+        "fetch_completed_epoch": 1790686902.2981005
+      },
+      "quality": {
+        "traces": 200,
+        "spans": 4124,
+        "traces_with_missing_parent": 189,
+        "traces_without_root": 2,
+        "traces_with_multiple_roots": 0,
+        "spans_with_api_warnings": 567
+      },
+      "operations": [
+        {
+          "service": "compose-review-service",
+          "operation": "UploadMovieId",
+          "spans": 188,
+          "mean_us": 460.0744680851064,
+          "median_us": 182.5,
+          "min_us": 64,
+          "max_us": 2671
+        },
+        {
+          "service": "compose-review-service",
+          "operation": "UploadRating",
+          "spans": 187,
+          "mean_us": 1188.6310160427809,
+          "median_us": 1554,
+          "min_us": 68,
+          "max_us": 2958
+        },
+        {
+          "service": "compose-review-service",
+          "operation": "UploadText",
+          "spans": 188,
+          "mean_us": 369.2340425531915,
+          "median_us": 244.0,
+          "min_us": 59,
+          "max_us": 2771
+        },
+        {
+          "service": "compose-review-service",
+          "operation": "UploadUniqueId",
+          "spans": 188,
+          "mean_us": 357.71276595744683,
+          "median_us": 184.0,
+          "min_us": 59,
+          "max_us": 3625
+        },
+        {
+          "service": "compose-review-service",
+          "operation": "UploadUserId",
+          "spans": 188,
+          "mean_us": 352.46276595744683,
+          "median_us": 215.5,
+          "min_us": 73,
+          "max_us": 2646
+        },
+        {
+          "service": "movie-id-service",
+          "operation": "MmcGetMovieId",
+          "spans": 130,
+          "mean_us": 83.6076923076923,
+          "median_us": 56.0,
+          "min_us": 26,
+          "max_us": 897
+        },
+        {
+          "service": "movie-id-service",
+          "operation": "MmcSetMovieId",
+          "spans": 130,
+          "mean_us": 84.86923076923077,
+          "median_us": 64.0,
+          "min_us": 27,
+          "max_us": 339
+        },
+        {
+          "service": "movie-id-service",
+          "operation": "UploadMovieId",
+          "spans": 128,
+          "mean_us": 2129.109375,
+          "median_us": 2365.0,
+          "min_us": 554,
+          "max_us": 4439
+        },
+        {
+          "service": "movie-review-service",
+          "operation": "MongoFindMovie",
+          "spans": 147,
+          "mean_us": 1021.9319727891157,
+          "median_us": 965,
+          "min_us": 649,
+          "max_us": 2368
+        },
+        {
+          "service": "movie-review-service",
+          "operation": "MongoUpdate.",
+          "spans": 147,
+          "mean_us": 433.5442176870748,
+          "median_us": 409,
+          "min_us": 277,
+          "max_us": 1221
+        },
+        {
+          "service": "movie-review-service",
+          "operation": "RedisUpdate",
+          "spans": 147,
+          "mean_us": 203.80272108843536,
+          "median_us": 163,
+          "min_us": 69,
+          "max_us": 1073
+        },
+        {
+          "service": "movie-review-service",
+          "operation": "UploadMovieReview",
+          "spans": 147,
+          "mean_us": 1031.8231292517007,
+          "median_us": 977,
+          "min_us": 648,
+          "max_us": 2382
+        },
+        {
+          "service": "nginx",
+          "operation": "/wrk2-api/review/compose",
+          "spans": 397,
+          "mean_us": 3284.6297229219144,
+          "median_us": 3187,
+          "min_us": 2166,
+          "max_us": 5509
+        },
+        {
+          "service": "nginx",
+          "operation": "ComposeReview",
+          "spans": 200,
+          "mean_us": 2858.96,
+          "median_us": 2755.0,
+          "min_us": 2082,
+          "max_us": 4720
+        },
+        {
+          "service": "rating-service",
+          "operation": "RedisInsert",
+          "spans": 70,
+          "mean_us": 260,
+          "median_us": 187.5,
+          "min_us": 125,
+          "max_us": 834
+        },
+        {
+          "service": "rating-service",
+          "operation": "UploadRating",
+          "spans": 68,
+          "mean_us": 1278.0294117647059,
+          "median_us": 1516.5,
+          "min_us": 287,
+          "max_us": 2608
+        },
+        {
+          "service": "review-storage-service",
+          "operation": "MongoInsertReview",
+          "spans": 188,
+          "mean_us": 269.8351063829787,
+          "median_us": 239.0,
+          "min_us": 116,
+          "max_us": 739
+        },
+        {
+          "service": "review-storage-service",
+          "operation": "StoreReview",
+          "spans": 188,
+          "mean_us": 297.95212765957444,
+          "median_us": 263.0,
+          "min_us": 131,
+          "max_us": 765
+        },
+        {
+          "service": "user-review-service",
+          "operation": "MongoFindUser",
+          "spans": 174,
+          "mean_us": 1054.9655172413793,
+          "median_us": 1004.5,
+          "min_us": 691,
+          "max_us": 1909
+        },
+        {
+          "service": "user-review-service",
+          "operation": "MongoUpdate",
+          "spans": 175,
+          "mean_us": 446.0514285714286,
+          "median_us": 423,
+          "min_us": 283,
+          "max_us": 1149
+        },
+        {
+          "service": "user-review-service",
+          "operation": "RedisUpdate",
+          "spans": 175,
+          "mean_us": 211.45714285714286,
+          "median_us": 178,
+          "min_us": 114,
+          "max_us": 932
+        },
+        {
+          "service": "user-review-service",
+          "operation": "UploadUserReview",
+          "spans": 174,
+          "mean_us": 1066.1091954022988,
+          "median_us": 1016.0,
+          "min_us": 703,
+          "max_us": 1962
+        },
+        {
+          "service": "user-service",
+          "operation": "MmcGetUserId",
+          "spans": 200,
+          "mean_us": 71.11,
+          "median_us": 57.0,
+          "min_us": 23,
+          "max_us": 609
+        },
+        {
+          "service": "user-service",
+          "operation": "UploadUserWithUsername",
+          "spans": 200,
+          "mean_us": 563.145,
+          "median_us": 403.0,
+          "min_us": 185,
+          "max_us": 4387
+        }
+      ],
+      "limitation": "Bounded late-window Jaeger sample from existing 100% tracing, fetched after load and PMU end. The query can return a recent subset and applies Jaeger UI clock adjustment. Span durations include waiting and child work; they are not CPU cost, independent E2E latency observations, or an exclusive critical-path decomposition. Span tags, logs and process environment are not collected."
+    }
+  ],
+  "limitation": "Bounded late-window Jaeger sample from existing 100% tracing, fetched after load and PMU end. The query can return a recent subset and applies Jaeger UI clock adjustment. Span durations include waiting and child work; they are not CPU cost, independent E2E latency observations, or an exclusive critical-path decomposition. Span tags, logs and process environment are not collected."
+}
