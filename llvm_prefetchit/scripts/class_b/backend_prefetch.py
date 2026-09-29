@@ -62,9 +62,17 @@ def audit_backends(stack,out,reference=None):
         pid=state['State']['Pid'];exe=Path(f'/proc/{pid}/exe')
         assert os.readlink(exe)=='/usr/bin/mongod'
         digest=b.sha(exe);digests.add(digest);images.add(state['Image'])
-        records[name]=dict(pid=pid,path=os.readlink(exe),sha256=digest,image=state['Image'])
+        stat=exe.stat()
+        records[name]=dict(pid=pid,path=os.readlink(exe),sha256=digest,image=state['Image'],
+            file_device=stat.st_dev,file_inode=stat.st_ino)
     assert len(digests)==len(images)==1
-    if reference is not None:assert digests=={b.sha(reference)}
+    if reference is not None:
+        assert digests=={b.sha(reference)}
+        # Only bind-mounted trials must resolve to the same host-file inode.
+        # Original overlay mounts can report different device/inode identities.
+        if (out/'backend_bindings.json').exists():
+            stat=Path(reference).stat()
+            assert {(r['file_device'],r['file_inode']) for r in records.values()}=={(stat.st_dev,stat.st_ino)}
     b.save(out/'backend_runtime.json',records)
     return records
 

@@ -4,6 +4,65 @@ import argparse
 import json
 from pathlib import Path
 
+def confirmation(root,out):
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+    path=root/'confirmation_evaluation.json'
+    if not path.exists():return
+    data=json.loads(path.read_text());assert data['complete']
+    names={'candidate':'Retargeted T1','thin_by_age':'Age-preserving thinning','aggressive64':'Lower gain threshold'}
+    panels=[('e2e','inverse_rps','Throughput speedup',True),('e2e','mean_ms','Mean latency reduction',False),
+        ('e2e','p99_ms','p99 latency reduction',False),('e2e','stack_cpu','Whole-stack CPU reduction',False),
+        ('pmu','cache:sum:FE_L2','Retired L2 / request reduction',False),
+        ('pmu','frontend:sum:ICACHE_DATA_STALL','I-cache data stall / request reduction',False)]
+    fig,axes=plt.subplots(2,3,figsize=(14,7),constrained_layout=True)
+    for ax,(group,key,title,ratio) in zip(axes.flat,panels):
+        for i,arm in enumerate(names):
+            row=data[group][arm]['base'][key]
+            point=row['speedup'] if ratio else row['cost_reduction_pct']
+            ci=row['speedup_ci95'] if ratio else row['ci95_pct']
+            error=[[max(0,point-ci[0])],[max(0,ci[1]-point)]] if ci else None
+            ax.errorbar(point,i,xerr=error,fmt='o',capsize=3,color=f'C{i}')
+            ax.annotate(f'{point:.4f}×' if ratio else f'{point:+.2f}%',(point,i),xytext=(0,9),textcoords='offset points',ha='center',fontsize=8)
+        ax.set_yticks(range(len(names)),names.values());ax.set_ylim(len(names)-.5,-.7)
+        ax.axvline(1 if ratio else 0,color='#777',linewidth=.7)
+        ax.set_title(title,fontsize=10);ax.set_xlabel('versus original'+('' if ratio else ' (%)'))
+        ax.grid(axis='x',alpha=.2);ax.spines[['top','right']].set_visible(False)
+    fig.suptitle('Fresh-stack Media C4: four independent workload seeds, equal data age')
+    fig.supxlabel('Individual paired-log 95% t intervals; exploratory refinements, no multiplicity correction.\n'
+        '60-second clean ROI after 50-second warmup. Separate PMU windows; no performance-based run exclusions.',fontsize=9)
+    out.mkdir(parents=True,exist_ok=True)
+    for ext in ['png','svg']:fig.savefig(out/('fresh_confirmation.'+ext),dpi=180)
+    plt.close(fig)
+
+def whole_stack(root,out):
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+    path=root/'stack_frontend/result.json'
+    if not path.exists():return
+    data=json.loads(path.read_text());costs=data['costs']
+    names=sorted(costs,key=lambda n:costs[n]['cpu_us_per_request'],reverse=True)[:12]
+    labels=[n.removesuffix('-service').replace('compose-review','ComposeReview').replace('movie-id','MovieId') for n in names]
+    fig,axes=plt.subplots(1,2,figsize=(12,6),constrained_layout=True)
+    user=[costs[n]['user_us']/costs[n]['completed'] for n in names]
+    kernel=[costs[n]['system_us']/costs[n]['completed'] for n in names]
+    axes[0].barh(range(len(names)),user,color='#277da8',label='User CPU')
+    axes[0].barh(range(len(names)),kernel,left=user,color='#a7bdce',label='Kernel CPU')
+    fe={r['service']:r['per_request']['FE_L2'] for r in data['windows'] if r['label']=='cache'}
+    axes[1].barh(range(len(names)),[fe.get(n,0) for n in names],color=['#d47739' if n.endswith('-mongodb') else '#479483' for n in names])
+    for ax in axes:
+        ax.set_yticks(range(len(names)),labels);ax.invert_yaxis();ax.grid(axis='x',alpha=.2);ax.spines[['top','right']].set_visible(False)
+    axes[0].set_xlabel('CPU µs / request, clean ROI');axes[0].legend(frameon=False)
+    axes[1].set_xlabel('Retired L2 events / request, separate PMU windows')
+    fig.suptitle('Whole-stack attribution identifies additional instruction-prefetch targets')
+    fig.supxlabel('One original-baseline diagnostic; PMU services are sampled sequentially at different workload ages.\n'
+        'These bars do not establish causal speedup or a simultaneous global miss fraction.',fontsize=9)
+    out.mkdir(parents=True,exist_ok=True)
+    for ext in ['png','svg']:fig.savefig(out/('whole_stack.'+ext),dpi=180)
+    plt.close(fig)
+
 def plot(root,out):
     import matplotlib
     matplotlib.use('Agg')
@@ -96,4 +155,5 @@ def plot(root,out):
     plt.close(fig)
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('root',type=Path);p.add_argument('out',type=Path);a=p.parse_args();plot(a.root,a.out)
+    p=argparse.ArgumentParser();p.add_argument('root',type=Path);p.add_argument('out',type=Path);a=p.parse_args()
+    plot(a.root,a.out);confirmation(a.root,a.out);whole_stack(a.root,a.out)
