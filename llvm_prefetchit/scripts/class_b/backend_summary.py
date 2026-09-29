@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """E2E-first summaries of completed backend/opcode or call-path screens."""
 import argparse
+import gzip
 import json
 from pathlib import Path
 import statistics
@@ -25,6 +26,20 @@ def report(root):
     result=dict(control=control,trials=data['trials'],groups=GROUPS,pmu=comparison,rows=grouped,
         limitation='Service sums combine separate PMU windows, normalized by each window\'s completed requests. They are not simultaneous global miss fractions.')
     b.save(root/'grouped_pmu.json',result)
+    ages=[]
+    for row in json.loads((root/'screen/rows.json').read_text()):
+        folder=Path(row['output']);measurement=json.loads((folder/'result.json').read_text())
+        pool=measurement['pool']
+        before=measurement.get('completed_before_roi')
+        raw=folder/'load/requests.json.gz'
+        if before is None and raw.exists():
+            with gzip.open(raw,'rt') as stream:requests=json.load(stream)
+            before=sum(finished<pool['start'] for _,finished in requests)
+        ages.append(dict(arm=row['arm'],block=row['block'],roi_begin_epoch=pool['start'],roi_end_epoch=pool['end'],
+            completed_before_roi=before,roi_completed=pool['completed'],
+            rps=row['achieved_rps'],cpu=row['metrics']['stack_cpu'],mean_ms=row['metrics']['mean_ms'],p99_ms=row['metrics']['p99_ms']))
+    b.save(root/'workload_age.json',dict(rows=ages,
+        limitation='Fresh initial data and fixed warmup duration. Faster closed-loop arms can complete more writes before ROI; counts are retained when available. Null means older runs compacted raw timestamps before this field was added, not zero or equal writes.'))
     def pct(row):
         ci=row['ci95_pct']
         return f"{row['cost_reduction_pct']:+.3f}%"+(f" [{ci[0]:+.3f}, {ci[1]:+.3f}]" if ci else '')

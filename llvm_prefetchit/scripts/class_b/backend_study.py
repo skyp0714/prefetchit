@@ -61,6 +61,7 @@ def trial(spec):
         errors=sum(pool['start']<=t<pool['end'] for t in info['error_times'])
         result=dict(valid=not info['steady_errors'] and info['client_cpu_cores']<.8,pmu={},pmu_extra=pmu,
             pool=pool,load=info,roi_errors=errors,whole_stack_cpu_us_per_request=sum(v['cpu_us'] for v in costs.values())/pool['completed'],
+            completed_before_roi=sum(finished<pool['start'] for _,finished in samples),
             pool_util_pct=100*pool['cpu_us']/pool['wall_s']/8e6,all_services=costs,
             services={key:costs[name] for key,name in MONITORED.items()})
         b.save(out/'result.json',result);assert result['valid'],'Invalid operation retained, no performance-based retry'

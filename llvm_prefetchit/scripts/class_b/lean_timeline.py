@@ -74,7 +74,7 @@ def request_window(samples, begin, end):
     assert count>0
     return dict(begin_epoch=begin,end_epoch=end,seconds=end-begin,
         completed_requests=count,
-        limitation='Requests bracket perf record startup/teardown as well as its 15-second capture. Approximate per-request normalization, not an E2E performance trial.')
+        limitation='Requests bracket perf record startup/teardown as well as the capture interval. Approximate per-request normalization, not an E2E performance trial.')
 
 
 def remove_failed_captures(out, reason):
