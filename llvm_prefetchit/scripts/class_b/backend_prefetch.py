@@ -21,7 +21,7 @@ import time
 import dense_build as b
 import fullset as h
 from dense_causes import decode
-from dense_cause_analysis import Code,HEADER,EDGE,mapping_bias
+from dense_cause_analysis import Code,HEADER,EDGE,mapping_bias,category
 from e2e_lbr import remove_generated
 from index_executable_padding import is_padding_nop
 from residual_retarget import plan
@@ -172,6 +172,7 @@ def observed_rows(folder,code,slots,minimum=64,maximum=8192):
     bias=mapping_bias((folder/'maps.txt').read_text(),pattern,code.sections);assert bias is not None
     def ismain(dso):return dso[1:-1] in (main,'mongod')
     old_sites=code.pf_sites;code.pf_sites=sorted(slots);rows=[];quality=collections.Counter()
+    classes=collections.Counter();predecessors=collections.Counter();functions=collections.Counter()
     try:
         for line in (folder/'samples.txt').open():
             header=HEADER.match(line)
@@ -181,23 +182,41 @@ def observed_rows(folder,code,slots,minimum=64,maximum=8192):
             ip=int(header[2],16)-bias
             if ip not in code.instructions:quality['not_instruction_boundary']+=1;continue
             quality['main_samples']+=1
-            edges=[(int(fr,16)-bias,ismain(fd),int(to,16)-bias,ismain(td),int(cyc) if cyc.isdigit() else None)
+            classes[category(code.get(ip)[1])]+=1;functions[code.get(ip)[2]]+=1
+            edges=[(int(fr,16)-bias,ismain(fd),int(to,16)-bias,ismain(td),int(cyc) if cyc.isdigit() else None,pred)
                 for fr,fd,to,td,pred,cyc,typ in EDGE.findall(line)]
             if edges and edges[0][0]==ip and edges[0][1]:edges=edges[1:]
-            if not edges:continue
+            if not edges:
+                quality['without_prior_lbr']+=1
+                rows.append(dict(ip=ip,target=ip,line=ip//64,sites=[],nearest=None,ages=[]))
+                continue
             target=edges[0][2] if edges[0][3] and edges[0][2]//64==ip//64 and edges[0][2] in code.instructions else ip
-            sites=set();age=0
+            nearest=None
+            if edges[0][3] and 0<=ip-edges[0][2]<=65536 and code.straight(edges[0][2],ip):
+                nearest=dict(distance=ip-edges[0][2],source=edges[0][0] if edges[0][1] else None,
+                    branch_class=category(code.get(edges[0][0])[1]) if edges[0][1] else 'outside_main',
+                    mispredicted=edges[0][5]=='M')
+                predecessors[nearest['branch_class']]+=1
+                quality['within_64B_of_target']+=nearest['distance']<64
+                quality['nearest_branch_mispredicted']+=nearest['mispredicted']
+            ages=collections.defaultdict(set);age=0
             for newer,older in zip(edges,edges[1:]):
-                if minimum<=age<=maximum and newer[1] and older[3]:
+                if age<=maximum and newer[1] and older[3]:
                     lo,hi=older[2],newer[0]
                     if lo in code.instructions and hi in code.instructions and 0<=hi-lo<=65536 and code.straight(lo,hi):
-                        sites.update(s for s in code.sites(lo,hi) if s//64!=target//64)
-                if newer[4] is None or newer[4]>=65535:break
+                        for s in code.sites(lo,hi):
+                            if s//64!=target//64:ages[s].add(age)
+                if newer[4] is None or newer[4]>=65535:
+                    quality['age_missing_or_saturated']+=1;break
                 age+=newer[4]
-                if age>maximum:break
-            rows.append(dict(target=target,line=target//64,sites=sorted(sites)))
+                if age>maximum:quality['age_bound_reached']+=1;break
+            sites=sorted(s for s,a in ages.items() if any(minimum<=v<=maximum for v in a))
+            rows.append(dict(ip=ip,target=target,line=target//64,sites=sites,nearest=nearest,
+                ages=[(s,sorted(a)) for s,a in sorted(ages.items())]))
         quality['eligible_samples']=sum(bool(r['sites']) for r in rows)
-        return rows,dict(quality)
+        return rows,dict(quality,instruction_classes=dict(classes),preceding_branch_classes=dict(predecessors),
+            top_functions=[dict(name=n,samples=v) for n,v in functions.most_common(40)],
+            attribution_limitation='Retired IP/nearest taken-target association, not proof of BTB or FDIP causality. All main samples remain in the main-sample denominator.')
     finally:code.pf_sites=old_sites
 
 def padding_variant(source,dest,code,slots,changes):
@@ -253,11 +272,14 @@ def prepare(spec):
     selected={c['site']:c['target']//64 for c in result['changes']}
     result.update(heldout_samples=len(heldout),heldout_covered=sum(any(selected.get(s)==r['line'] for s in r['sites']) for r in heldout),
         quality=quality,nop_slots=len(slots),source_sha256=b.sha(source),minimum_age=64,maximum_age=8192,
+        train_all_samples=sum(v['all_samples'] for k,v in quality.items() if k.startswith('train:')),
+        heldout_all_samples=sum(v['all_samples'] for k,v in quality.items() if k.startswith('heldout:')),
         lead_limitation='Completed retired LBR age, no within-segment interpolation; not actual issue-to-fetch time.')
     dest=root/'builds/mongo256/mongod';b.save(dest.with_suffix('.plan.json'),result)
     padding_variant(source,dest,code,slots,result['changes'])
     b.save(root/'prepared.json',dict(binary=str(dest),reference=str(source),patches=len(result['changes']),
-        train_covered=result['final_covered'],train_samples=len(train),heldout_covered=result['heldout_covered'],heldout_samples=len(heldout)))
+        train_covered=result['final_covered'],train_main_samples=len(train),train_all_samples=result['train_all_samples'],
+        heldout_covered=result['heldout_covered'],heldout_main_samples=len(heldout),heldout_all_samples=result['heldout_all_samples']))
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('action',choices=['profile','prepare','timeline']);p.add_argument('spec',type=Path);a=p.parse_args()

@@ -39,3 +39,24 @@ int main(void){__asm__ volatile(".globl hint_site\nhint_site:\n.byte 0x66,0x0f,0
     assert record['instruction_boundaries_unchanged'] and record['fully_reversible']
     a=source.read_bytes();z=dest.read_bytes();assert len(a)==len(z)
     assert all(off<=i<off+length for i,(x,y) in enumerate(zip(a,z)) if x!=y)
+
+def test_observed_padding_requires_completed_path_and_retains_missing_history(tmp_path,monkeypatch):
+    code=object.__new__(m.Code)
+    code.sections=[];code.pf_sites=[];code.always_taken=[0x2100,0x4100,0x5100]
+    code.instructions={v:(4,'call 1000' if v in code.always_taken else 'mov %rax,%rbx','f')
+        for v in [0x1000,0x1008,0x2000,0x2100,0x4000,0x4100,0x5000,0x5100]}
+    monkeypatch.setattr(m,'mapping_bias',lambda *a:0)
+    (tmp_path/'maps.txt').write_text('mapping supplied by fixture')
+    edges=' '.join(f'0x{fr:x} (/usr/bin/mongod)/0x{to:x} (/usr/bin/mongod)/M/-/-/{age}/CALL/'
+        for fr,to,age in [(0x2100,0x1000,100),(0x4100,0x2000,200),(0x5100,0x4000,300)])
+    (tmp_path/'samples.txt').write_text('257 1008 (/usr/bin/mongod) '+edges+'\n257 1008 (/usr/bin/mongod)\n')
+    rows,quality=m.observed_rows(tmp_path,code,{0x2050:(0,7),0x4050:(0,7)})
+    assert len(rows)==quality['main_samples']==2
+    assert rows[0]['sites']==[0x4050]  # 100-cycle completed predecessor; newer block has age zero.
+    assert rows[0]['ages']==[(0x2050,[0]),(0x4050,[100])]
+    assert rows[1]['sites']==[] and quality['without_prior_lbr']==1
+    assert rows[0]['nearest']['branch_class']=='direct_call'
+    assert code.pf_sites==[]
+    code.always_taken.append(0x4008);code.always_taken.sort()
+    rows,_=m.observed_rows(tmp_path,code,{0x2050:(0,7),0x4050:(0,7)})
+    assert rows[0]['sites']==[]  # Reject a path that skipped an unconditional branch.
