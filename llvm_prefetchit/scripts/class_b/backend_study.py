@@ -24,6 +24,7 @@ def trial(spec):
     out=Path(spec['out']);out.mkdir(parents=True,exist_ok=False);b.space(out)
     extra=spec.get('extra_events',{});assert not set(extra)&set(EVENTS)
     event_sets=dict(EVENTS,**extra)
+    stat_s=spec.get('stat_s',5);assert stat_s in (3,5)
     b.save(out/'protocol.json',dict(spec,source_sha256=b.sha(__file__),
         backend_adapter_sha256=b.sha(Path(__file__).with_name('backend_prefetch.py')),monitored=MONITORED,events=event_sets,
         event_source='https://perfmon-events.intel.com/platforms/graniterapids/core-events/core/',
@@ -33,7 +34,7 @@ def trial(spec):
     try:
         with bind_mongodb(out,spec.get('mongo_binary')):stack=h.start(out,'media',spec['overrides'],8)
         audit_backends(stack,out,spec.get('mongo_binary'))
-        seconds=125+len(MONITORED)*len(event_sets)*6
+        seconds=125+len(MONITORED)*len(event_sets)*(stat_s+1)
         client=start_client(out,seconds,spec['seed']);time.sleep(50)
         a=stack.accounts();pb=h.old.pool_cpu(set(range(32,40)));time.sleep(60)
         pa=h.old.pool_cpu(set(range(32,40)));z=stack.accounts()
@@ -43,7 +44,7 @@ def trial(spec):
                 pid=stack.states[name]['State']['Pid'];before=h.c.cpu(pid)
                 group=str(Path(before['path']).parent.relative_to('/sys/fs/cgroup'))
                 stem=out/(key+'.'+label)
-                command=['perf','stat','-x,','-o',str(stem)+'.csv','-e',events,'-a','-C','32-39','-G',group,'--','sleep','5']
+                command=['perf','stat','-x,','-o',str(stem)+'.csv','-e',events,'-a','-C','32-39','-G',group,'--','sleep',str(stat_s)]
                 b.run(command,Path(str(stem)+'.log'))
                 row=dict(**counters(Path(str(stem)+'.csv')),window=h.c.diff_cpu(before,h.c.cpu(pid)))
                 assert row['fully_scheduled'] and client.poll() is None;pmu[label][key]=row

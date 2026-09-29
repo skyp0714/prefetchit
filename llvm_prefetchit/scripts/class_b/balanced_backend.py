@@ -92,6 +92,7 @@ def campaign(parent,blocks=4):
     hashes={}
     for settings in arms.values():
         settings['extra_events']={'decode':DECODE_EVENTS}
+        settings['stat_s']=3
         for path in [settings['mongo_binary'],*settings['overrides'].values()]:
             file=Path(path);assert file.is_file() and not file.is_symlink()
             hashes[path]=b.sha(file)
@@ -100,6 +101,7 @@ def campaign(parent,blocks=4):
         rationale='A post-clean-ROI snapshot observed 3/1/0/0 persistent connections across four Nginx workers. Control this nuisance factor in a separate campaign, never exclude or pool the existing unbalanced trials.',
         policy='Freeze cost75 for its measured emission reduction with similar miss coverage. Compare a same-address IT0 opcode, and combine T1 with the existing native retarget T1. The single and combined layouts have matched NOP controls.',
         qualification='Functional full-stack smoke, four workers with one connection each, no reconnects, fresh stacks, 50s warmup, 60s clean ROI before PMU. No performance-based retries.',
+        pmu='Three-second windows shorten post-ROI diagnostics and keep persistent connections below the unchanged 100,000-request server limit. The existing unbalanced campaign retains its default five-second windows.',
         scope='Full Media compose-review C4 at eight workload CPUs; not a maximum-throughput sweep.'))
     manifest=root/'smoke_spec.json';b.save(manifest,dict(out=str(root/'smoke'),overrides=base,mongo_binary=prepared['reference'],seed=83901))
     h.platform(root/'smoke',['python3',Path(__file__),'smoke',manifest])
