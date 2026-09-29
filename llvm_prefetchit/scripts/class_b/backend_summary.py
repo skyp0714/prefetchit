@@ -168,3 +168,6 @@ if __name__=='__main__':
     data,groups=report(args.root)
     if args.plot:plot(args.root,data,groups)
     wake_report(args.root,args.plot)
+    if (args.root/'residual_analysis.json').exists():
+        from callpath_report import report as callpath_report
+        callpath_report(args.root,args.plot)
