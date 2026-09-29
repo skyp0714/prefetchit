@@ -40,7 +40,8 @@ def report(root,make_plot=False):
         'The residual capture and heldout baseline use different diagnostic seeds/windows, and their request '
         'normalization brackets perf startup/teardown. No E2E claim or exclusive cause partition follows from '
         'these counters. An observed retired hint is not proof of early issue, accepted request, fill or residency. '
-        'Finite LBR history changes with added jumps; absence is not proof that no hint executed.')
+        'Finite LBR history changes with added jumps; absence is not proof that no hint executed. '
+        'T1_T2_EXECUTED is speculative and includes original software prefetches; it is not a count of accepted fills.')
     b.save(root/'cause_summary.json',dict(services=records,prepared=prepared,residual=residual,
         source_sha256=b.sha(__file__),evaluation_sha256=b.sha(root/'screen_evaluation.json'),limitation=limit))
     lines=['# Call-path implementation: request performance and remaining misses','',

@@ -69,6 +69,8 @@ CPU는 Xeon 6787P이며 PREFETCHI CPUID 비트가 켜져 있다. 실행 파일�
 
 64 KiB 조건의 IT0는 target의 retired miss와 대기를 거의 없앴지만 `L2_RQSTS.CODE_RD_MISS`는 그대로였다. 따라서 이 speculative 카운터 감소율만으로 선행 인출의 성공 여부를 판단할 수 없다. 데이터용 SWPF 카운터는 IT0/IT1의 총 발행 수가 아니며, `LATE_SWPF`는 진행 중인 instruction prefetch와 겹친 수요 미스를 세는 별도 조건이다. 이벤트 정의는 [Intel Granite Rapids PMU 목록](https://perfmon-events.intel.com/platforms/graniterapids/core-events/core/)을 따른다. 서로 다른 모집단을 빼서 wrong-path 비중을 만들지 않는다.
 
+같은 통제 실험의 software-prefetch 카운터도 보존돼 있다. Target만 flush한 NOP→T1에서 L2 code-read miss/iteration은 **1.0444→0.0444**, SWPF miss는 **0→1.0000**이었다. 64 KiB code pad 조건에서도 각각 **1.0577→0.0572**, **0→1.0000**이었다. 알려진 단일 cold target 실험에서 요청 종류가 바뀐다는 근거다. 이를 서비스 전체의 두 카운터가 언제나 서로 배타적이라는 주장으로 확장하지 않는다. Prefetch가 메모리 읽기 자체를 없애는 것이 아니라, 수요보다 먼저 완료하도록 하는 것이 핵심이므로 실제 stall과 E2E를 함께 비교한다.
+
 **명령어를 추가하지 않고 타깃 교체**
 
 정확히 같은 배치의 NOP 실행에서 새 FE_L2 PEBS/LBR 표본 71,547개를 수집했다. loss/throttle은 없었다. 관측한 선행 직선 경로에 있는 기존 힌트 사이트를 사용하고, miss의 실제 분기 도착점 또는 명령어 경계를 타깃으로 삼았다. 64..1024 retired-cycle 나이 범위에서 기존 커버리지 손실을 차감한 이득이 8표본 이상인 교체를 탐욕적으로 선택했다.
