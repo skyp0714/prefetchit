@@ -69,10 +69,24 @@ def campaign(parent,blocks=4):
     prepared=json.loads((source/'prepared.json').read_text());candidate=prepared['candidates']['cost75']
     native=json.loads((parent/'confirmation_spec.json').read_text())['arms']
     base=native['base']['overrides'];nop=native['selected_nop']['overrides'];t1=native['candidate']['overrides']
+    test_work=root/'opcode_test_work'
+    from e2e_lbr import remove_generated
+    try:
+        b.run([b.REPO/'profiling/.venv/bin/python','-m','pytest','-q','--basetemp',test_work,
+            b.REPO/'llvm_prefetchit/tests/test_callpath_instruction_hint.py'],root/'opcode_tests.log')
+    finally:
+        fixtures=[path for path in test_work.rglob('*') if path.is_file() and not path.is_symlink()]
+        b.save(root/'opcode_fixture_sources.json',{str(path.relative_to(test_work)):path.read_text()
+            for path in fixtures if path.suffix in ['.c','.s','.ld','.json']})
+        remove_generated(fixtures,root/'opcode_test_cleanup.json','Native opcode validation attempt finished; retain outcome, source, commands, hashes and audit records before removing generated fixtures.')
+    from callpath_instruction_hint import build as hint_variant
+    it0=hint_variant(candidate['binary'],root/'builds/cost75_it0/mongod','it0')
+    assert b.sha(candidate['nop'])==it0['nop_sha256']
     arms={
         'original':dict(overrides=base,mongo_binary=prepared['reference']),
         'cost75_nop':dict(overrides=base,mongo_binary=candidate['nop'],controls=['original']),
         'cost75':dict(overrides=base,mongo_binary=candidate['binary'],controls=['original','cost75_nop']),
+        'cost75_it0':dict(overrides=base,mongo_binary=it0['binary'],controls=['original','cost75_nop','cost75']),
         'combined_nop':dict(overrides=nop,mongo_binary=candidate['nop'],controls=['original','cost75_nop']),
         'combined':dict(overrides=t1,mongo_binary=candidate['binary'],controls=['original','combined_nop','cost75'])}
     hashes={}
@@ -84,7 +98,7 @@ def campaign(parent,blocks=4):
     b.save(root/'protocol.json',dict(blocks=blocks,arms=arms,seedbase=84001,hashes=hashes,
         source_sha256=b.sha(__file__),client_sha256=b.sha(Path(__file__).with_name('balanced_load.py')),
         rationale='A post-clean-ROI snapshot observed 3/1/0/0 persistent connections across four Nginx workers. Control this nuisance factor in a separate campaign, never exclude or pool the existing unbalanced trials.',
-        policy='Freeze cost75 for its measured emission reduction with similar miss coverage. Test it alone and combined with the existing native retarget T1; each has a layout-matched NOP.',
+        policy='Freeze cost75 for its measured emission reduction with similar miss coverage. Compare a same-address IT0 opcode, and combine T1 with the existing native retarget T1. The single and combined layouts have matched NOP controls.',
         qualification='Functional full-stack smoke, four workers with one connection each, no reconnects, fresh stacks, 50s warmup, 60s clean ROI before PMU. No performance-based retries.',
         scope='Full Media compose-review C4 at eight workload CPUs; not a maximum-throughput sweep.'))
     manifest=root/'smoke_spec.json';b.save(manifest,dict(out=str(root/'smoke'),overrides=base,mongo_binary=prepared['reference'],seed=83901))
@@ -108,7 +122,7 @@ def campaign(parent,blocks=4):
             print(json.dumps(row),flush=True)
     b.save(screen/'complete.json',dict(rows=len(rows),summary=summarize(rows,arms)))
     evaluate(screen,root/'screen_evaluation.json')
-    b.save(root/'complete.json',dict(clean_trials=len(rows),source_campaign=str(source),policies=['cost75','combined']))
+    b.save(root/'complete.json',dict(clean_trials=len(rows),source_campaign=str(source),policies=['cost75','cost75_it0','combined']))
     b.run(['python3',Path(__file__).with_name('backend_summary.py'),root,'--plot'],root/'summary.log')
 
 
