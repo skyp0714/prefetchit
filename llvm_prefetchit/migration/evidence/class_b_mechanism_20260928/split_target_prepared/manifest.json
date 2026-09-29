@@ -1,0 +1,92 @@
+{
+  "source_root": "/storage/prefetchit/class_b_mechanism_20260928",
+  "archiver_sha256": "62ad511722d57f5f06795f0bca1e0b95cfe5b510cc768be4958cca9a29a3abf8",
+  "git_commit": "4081b3056b52580015dd4ec6a221cd977d1e98d8",
+  "entries": [
+    {
+      "bundle": "split_target_refine.json.gz",
+      "sha256": "097ada27ae69b43ec6fe80340d20c907852b2153c952f11be5ed3f3c33bd978d",
+      "bytes": 240492,
+      "records": [
+        {
+          "path": "split_target_refine/complete.json",
+          "bytes": 87,
+          "sha256": "6f176ba32a57db660433de22aacbee433383322c0da238a97c2809d1055b03b3"
+        },
+        {
+          "path": "split_target_refine/mongod.json",
+          "bytes": 1021599,
+          "sha256": "63f477b7e8f26b36f6e647ed14b280048d3c8d78879d3e8c3bdef72c09a13410"
+        },
+        {
+          "path": "split_target_refine/prepared.json",
+          "bytes": 1709,
+          "sha256": "2b9f313815b71e3f2f9b7a0c71bebb2d462e66526457f7b172c0d4176f94bfe9"
+        },
+        {
+          "path": "split_target_refine/protocol.json",
+          "bytes": 1026,
+          "sha256": "710e9a31e3fc5cab1c8761ca0c2202b2f6a498b0ae3279d7da17a7c2c0d254f0"
+        },
+        {
+          "path": "split_target_refine/selection.json",
+          "bytes": 245163,
+          "sha256": "f1ed2a3a3130203bb26f8b092c6f738b5bcdf1f337b304aa8175a949a7da6665"
+        },
+        {
+          "path": "split_target_refine/source_audit_note.json",
+          "bytes": 597,
+          "sha256": "290f42f510d680e873617e908bb6b366e72a1bbb65d3ad5195aa567e18b3563c"
+        },
+        {
+          "path": "split_target_refine/source_used.py",
+          "bytes": 10094,
+          "sha256": "7124a92f35d964bbc8c5b4f1f55bde5eb143a3290f6e7191eae86da6f50d6217"
+        },
+        {
+          "path": "split_target_refine/stubs.asm",
+          "bytes": 486366,
+          "sha256": "f7d0002b442f78a1b7e855c0b142d7a2f23cfa3ea5755d339c65607dc0f91ca9"
+        },
+        {
+          "path": "split_target_refine/stubs.command.json",
+          "bytes": 158,
+          "sha256": "30b6e96fe035fc60f859444296489344155919ab393be05ba9857ef5a5c3f493"
+        }
+      ]
+    },
+    {
+      "bundle": "coverage75_finish_intermission.json.gz",
+      "sha256": "660cbfcf27c6364c404029f737bedc68c43618d8729e716165646f9b9b0df7c9",
+      "bytes": 561,
+      "records": [
+        {
+          "path": "coverage75_finish_intermission/complete.json",
+          "bytes": 20,
+          "sha256": "ff965d1b75e95c9b936295f68f0dbeb21fa38dce342feaed073ffa6bef3cfc9a"
+        },
+        {
+          "path": "coverage75_finish_intermission/intermission.json",
+          "bytes": 948,
+          "sha256": "3b224978a75a0a5b4780a48205b526813bc132ee7670eead90af0314bd0df9ca"
+        },
+        {
+          "path": "coverage75_finish_intermission/offline.command.json",
+          "bytes": 127,
+          "sha256": "87f5afeaa5536af002646b1b3cb92dcd418ae4eefa66c3f80c34a908ebca33c8"
+        },
+        {
+          "path": "coverage75_finish_intermission/offline.log",
+          "bytes": 44,
+          "sha256": "52d90b6c1e0f2bb9381c3c1a3179117a61458cdb9d6adbf1effdbd768cc2c10f"
+        }
+      ]
+    }
+  ],
+  "backend_included": true,
+  "selected_phases": [
+    "split_target_refine",
+    "coverage75_finish_intermission"
+  ],
+  "scope": "Compact measurements, settings, commands, quality, failure/exclusion, patch/hash and cleanup records. Executables, raw/decoded traces, original input datasets and full container environments remain outside Git."
+}

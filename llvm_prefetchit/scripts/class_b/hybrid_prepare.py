@@ -40,14 +40,26 @@ def prepare(parent,root,burst=8):
     assert burst in [8,16]
     root.mkdir(parents=True,exist_ok=False);b.space(root)
     prepared=json.loads((parent/'callpath_coverage75/prepared.json').read_text())
-    cost=prepared['candidates']['cost75'];prior=json.loads(Path(cost['binary']+'.json').read_text())
+    # Freeze the corrected continuation-line policy before hybrid timing.
+    # The old uncorrected policy stays in the preceding independent screen.
+    correction=parent/'split_target_refine';assert (correction/'complete.json').exists()
+    cost=json.loads((correction/'prepared.json').read_text());base_name='cost75_split'
+    assert b.sha(cost['binary'])==cost['sha256']
+    prior=json.loads(Path(cost['binary']+'.json').read_text())
+    from dense_cause_analysis import Code
+    code=Code(prepared['reference'])
     calls=prior['plan']['calls'];sites={row['site'] for row in calls};scores=collections.defaultdict(collections.Counter);anchors={}
     observation_files=sorted((parent/'callpath/observations').glob('train_*.json.gz'));assert len(observation_files)==3
     for path in observation_files:
         with gzip.open(path,'rt') as stream:rows=json.load(stream)
         for row in rows:
+            length,_,_=code.get(row['ip']);assert length
+            if row['ip']//64!=(row['ip']+length-1)//64:
+                target=row['ip']+length;assert target in code.instructions
+                row=dict(row,line=target//64,target=target)
             anchors.setdefault(row['line'],row['target'])
             for site in set(row['sites'])&sites:scores[site][row['line']]+=1
+    del code
     plan=dict(prior['plan'],calls=[])
     for old in calls:
         targets=list(old['targets']);lines={target//64 for target in targets}
@@ -58,7 +70,8 @@ def prepare(parent,root,burst=8):
     b.save(root/'plan.json',plan)
     b.save(root/'protocol.json',dict(burst_cap=burst,source_sha256=b.sha(__file__),
         training=[dict(path=str(p),sha256=b.sha(p)) for p in observation_files],
-        selection='Retain every cost75 T1 placement. At its first qualifying scheduler epoch, issue its T1 target set as IT0, then extend to at most eight unique target lines ranked by training miss observations at the same earlier call. Heldout and performance are not used to select targets.',
+        base_name=base_name,base_sha256=cost['sha256'],
+        selection='Retain every corrected cost75_split T1 placement. At its first qualifying scheduler epoch, issue its T1 target set as IT0, then extend to at most eight unique target lines ranked by training miss observations at the same earlier call. Split instructions use the next real instruction start in their continuation line. Heldout and performance are not used to select targets.',
         timing='Only the first observed instrumented call per CPU epoch before dense_us; remaining calls use T1. Shared seen-epoch state suppresses subsequent bursts. RDTSCP checks current CPU, epoch and deadline.',
         limitations='No fetch-queue occupancy observation. Saved scheduler time precedes architectural switch; first inserted call can be later than first user instruction. Preemption/migration races affect only hint quality.',
         controls='Exact-layout all-NOP and early-T1/later-T1 controls retain guards, shared mapping, timing logic, branches and unwind records. Original and unguarded cost75 are separate references.'))
@@ -71,7 +84,7 @@ def prepare(parent,root,burst=8):
         early_t1=opcode_control(main,root/'builds/early_t1/mongod',early='t1')
         # A burst-only arm can be activated as a follow-up without rebuilding.
         # Do not create its ELF until that comparison is actually scheduled.
-        result=dict(reference=prepared['reference'],cost75=cost,hybrid=str(main),nop=str(main)+'.nop',
+        result=dict(reference=prepared['reference'],cost75=cost,base_name=base_name,hybrid=str(main),nop=str(main)+'.nop',
             early_t1=early_t1,diagnostic=str(root/'builds/hybrid8_diag/mongod'),burst_cap=burst,
             sites=len(calls),burst_hints=sum(len(r['burst_targets']) for r in plan['calls']),
             records={name:{key:record[key] for key in ['sha256','nop_sha256','extra_instruction_bytes','extra_mapped_bytes','hybrid']} for name,record in records.items()})

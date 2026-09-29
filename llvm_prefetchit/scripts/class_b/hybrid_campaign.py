@@ -183,16 +183,17 @@ def campaign(parent,blocks=3):
     b.run(['perf','stat','-x,','-o',root/'late_preflight.csv','-e',LATE_EVENTS,'-a','-C','84','--','sleep','.2'],root/'late_preflight.log')
     assert counters(root/'late_preflight.csv')['fully_scheduled']
     common=dict(overrides=native,extra_events={'decode':DECODE_EVENTS,'late':LATE_EVENTS},stat_s=3,shim=str(shim),module=str(MODULE))
+    base_name=prepared['base_name']
     arms={
         'original':dict(common,mongo_binary=prepared['reference']),
-        'cost75':dict(common,mongo_binary=prepared['cost75']['binary'],controls=['original']),
+        base_name:dict(common,mongo_binary=prepared['cost75']['binary'],controls=['original']),
         'hybrid_nop':dict(common,mongo_binary=prepared['nop'],hybrid=True,controls=['original']),
-        'early_t1':dict(common,mongo_binary=prepared['early_t1'],hybrid=True,controls=['original','hybrid_nop','cost75']),
-        'hybrid_it0':dict(common,mongo_binary=prepared['hybrid'],hybrid=True,controls=['original','hybrid_nop','cost75','early_t1'])}
+        'early_t1':dict(common,mongo_binary=prepared['early_t1'],hybrid=True,controls=['original','hybrid_nop',base_name]),
+        'hybrid_it0':dict(common,mongo_binary=prepared['hybrid'],hybrid=True,controls=['original','hybrid_nop',base_name,'early_t1'])}
     b.save(root/'protocol.json',dict(blocks=blocks,seedbase=85001,arms=arms,source_sha256=b.sha(__file__),
         shim_sha256=b.sha(shim),module_sha256=b.sha(MODULE),prepared=prepared,
         qualification='Separate native ABI tests and real-module full-stack diagnostic precede fresh C4 timing. Same 50s warmup, 60s ROI, balanced persistent connections and three-second post-ROI PMU windows as the preceding controlled campaign.',
-        timing='First observed cost75 call within 0..10us from incoming-task selection, at most eight IT0 hints. Later ordinary calls issue the existing T1 list. No timer or scheduler code injection of IT0.',
+        timing='First observed call from the corrected cost75_split policy within 0..10us from incoming-task selection, at most eight IT0 hints. Later ordinary calls issue its existing T1 list. No timer or scheduler code injection of IT0. Corrected targets were frozen from training and independent split-fetch calibration before timing, not selected from preceding E2E outcomes.',
         late_event='FRONTEND_RETIRED.LATE_SWPF records demand instruction-cache misses overlapping an ongoing PREFETCHIT0/1-triggered fetch. Nonzero counts demonstrate some late overlap; zero does not establish absence of hint execution, timely success, or an empty fetch queue. Source: https://perfmon-events.intel.com/platforms/graniterapids/core-events/core/',
         gate_refinement='Before any E2E timing, use only first diagnostic gate counts to retain at most 64 canonical groups covering up to 90% of observed first bursts. Plain T1 remains at the other cost75 calls. A different-seed diagnostic checks this sparse policy; no reselection from the second diagnostic or timing results.',
         selection='Three exploratory paired blocks, fixed order and reverse order, no performance-based retries/exclusions. Assess E2E speedup, mean/p99 and whole/pool CPU cost with retired L2 and speculative L2I separately.'))
@@ -206,7 +207,7 @@ def campaign(parent,blocks=3):
     h.platform(root/'sparse_diagnostic',['python3',Path(__file__),'diagnostic',manifest])
     remove_generated([Path(reduced['sparse_diag']['binary'])],root/'sparse_diagnostic_elf_cleanup.json','Sparse gate verification complete; preserve its independent-seed activity and age records. Counter code is excluded from timing.')
     arms['hybrid_sparse_nop']=dict(common,mongo_binary=reduced['sparse']['nop'],hybrid=True,controls=['original','hybrid_nop'])
-    arms['hybrid_sparse']=dict(common,mongo_binary=reduced['sparse']['binary'],hybrid=True,controls=['original','cost75','hybrid_sparse_nop','hybrid_it0'])
+    arms['hybrid_sparse']=dict(common,mongo_binary=reduced['sparse']['binary'],hybrid=True,controls=['original',base_name,'hybrid_sparse_nop','hybrid_it0'])
     protocol=json.loads((root/'protocol.json').read_text());protocol.update(arms=arms,sparse_prepared=reduced,
         finalized_before_timing_epoch=time.time());b.save(root/'protocol.json',protocol)
     screen=root/'screen';screen.mkdir();b.save(screen/'protocol.json',dict(blocks=blocks,arms=arms,seedbase=85001))

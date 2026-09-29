@@ -1,0 +1,14 @@
+{
+  "command": [
+    "taskset",
+    "-c",
+    "84",
+    "python3",
+    "llvm_prefetchit/tests/test_split_target_refine.py"
+  ],
+  "result": "2 tests passed: shared-stub/global coverage, unchanged distinct slot capacity",
+  "sources": {
+    "llvm_prefetchit/tests/test_split_target_refine.py": "6b973fcf544a7504d4c1f3ba7ed8b932cb6ece54b44fa762dfcff7f77ef51887",
+    "llvm_prefetchit/scripts/class_b/split_target_refine.py": "5d6e93c10981cd5288a82e23e0bdc488e74bde9e9946b993fdc0b9e60e813911"
+  }
+}

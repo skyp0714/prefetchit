@@ -68,6 +68,8 @@ def campaign(parent,blocks=4):
     assert (source/'complete.json').exists() and (parent/'callpath_frontend/complete.json').exists()
     root=parent/'balanced_callpath';root.mkdir(exist_ok=False);b.space(root)
     prepared=json.loads((source/'prepared.json').read_text());candidate=prepared['candidates']['cost75']
+    split=json.loads((parent/'split_target_refine/prepared.json').read_text())
+    assert (parent/'split_target_refine/complete.json').exists() and b.sha(split['binary'])==split['sha256']
     native=json.loads((parent/'confirmation_spec.json').read_text())['arms']
     base=native['base']['overrides'];nop=native['selected_nop']['overrides'];t1=native['candidate']['overrides']
     previous=json.loads((parent/'callpath/prepared.json').read_text())['candidates']['call256']['binary']
@@ -107,6 +109,7 @@ def campaign(parent,blocks=4):
         'call256':dict(overrides=base,mongo_binary=previous,controls=['original']),
         'cost75_nop':dict(overrides=base,mongo_binary=candidate['nop'],controls=['original']),
         'cost75':dict(overrides=base,mongo_binary=candidate['binary'],controls=['original','cost75_nop']),
+        'cost75_split':dict(overrides=base,mongo_binary=split['binary'],controls=['original','cost75_nop','cost75']),
         'cost75_it0':dict(overrides=base,mongo_binary=it0['binary'],controls=['original','cost75_nop','cost75']),
         'combined_nop':dict(overrides=nop,mongo_binary=candidate['nop'],controls=['original','cost75_nop']),
         'combined':dict(overrides=t1,mongo_binary=candidate['binary'],controls=['original','combined_nop','cost75'])}
@@ -120,7 +123,7 @@ def campaign(parent,blocks=4):
     b.save(root/'protocol.json',dict(blocks=blocks,arms=arms,seedbase=84001,hashes=hashes,
         source_sha256=b.sha(__file__),client_sha256=b.sha(Path(__file__).with_name('balanced_load.py')),
         rationale='A post-clean-ROI snapshot observed 3/1/0/0 persistent connections across four Nginx workers. Control this nuisance factor in a separate campaign, never exclude or pool the existing unbalanced trials.',
-        policy='Freeze cost75 for its measured emission reduction with similar miss coverage. Retain call256 as the earlier, smaller deployment reference. Compare a same-address IT0 opcode, and combine T1 with existing native retarget T1. Cost75 and combined layouts have matched NOP controls; call256 versus original is a whole-change deployment comparison, not isolation of its hint opcode.',
+        policy='Freeze cost75 for its measured emission reduction with similar miss coverage. Retain call256 as the earlier, smaller deployment reference. Add a same-layout continuation-line retarget (cost75_split), motivated by the completed independent split-fetch probe before this campaign begins. Compare a same-address IT0 opcode, and combine T1 with existing native retarget T1. Cost75, cost75_split and cost75_it0 share an exact NOP twin. Combined has its own NOP control; call256 versus original is a whole-change deployment comparison, not isolation of its hint opcode.',
         qualification='Functional full-stack smoke, four workers with one connection each, no reconnects, fresh stacks, 50s warmup, 60s clean ROI before PMU. No performance-based retries.',
         pmu='Three-second windows shorten post-ROI diagnostics and keep persistent connections below the unchanged 100,000-request server limit. The existing unbalanced campaign retains its default five-second windows.',
         scope='Full Media compose-review C4 at eight workload CPUs; not a maximum-throughput sweep.'))
