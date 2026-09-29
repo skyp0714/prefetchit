@@ -1,0 +1,771 @@
+{
+  "records": {
+    "train:user-review-mongodb": {
+      "all_samples": 84236,
+      "main_samples": 82394,
+      "within_64B_of_target": 77324,
+      "nearest_branch_mispredicted": 25643,
+      "age_bound_reached": 17,
+      "without_prior_lbr": 1,
+      "eligible_samples": 6237,
+      "instruction_classes": {
+        "other": 75835,
+        "return": 743,
+        "direct_call": 1302,
+        "direct_jump": 781,
+        "conditional_branch": 3243,
+        "indirect_jump": 252,
+        "indirect_call": 238
+      },
+      "preceding_branch_classes": {
+        "conditional_branch": 14608,
+        "indirect_call": 12351,
+        "direct_call": 46696,
+        "return": 2285,
+        "direct_jump": 4644,
+        "indirect_jump": 1433,
+        "outside_main": 376
+      },
+      "top_functions": [
+        {
+          "name": "__wt_btcur_search_near",
+          "samples": 806
+        },
+        {
+          "name": "_ZN5mongo12QueryPlanner4planERKNS_14CanonicalQueryERKNS_18QueryPlannerParamsE",
+          "samples": 683
+        },
+        {
+          "name": "_ZN5mongo20FindAndModifyRequest13parseFromBSONENS_15NamespaceStringERKNS_7BSONObjE",
+          "samples": 547
+        },
+        {
+          "name": "_ZZN5mongo12_GLOBAL__N_116receivedCommandsEPNS_16OperationContextERKNS_7MessageERKNS_23ServiceEntryPointCommon5HooksEENKUlvE_clEv",
+          "samples": 502
+        },
+        {
+          "name": "_ZN5mongo23canonical_query_encoder6encodeB5cxx11ERKNS_14CanonicalQueryE",
+          "samples": 455
+        },
+        {
+          "name": "__wt_btcur_search",
+          "samples": 436
+        },
+        {
+          "name": "_ZN5mongo12_GLOBAL__N_119computeSortsForScanERKNS_10IndexEntryEiRKNS_11IndexBoundsEPKNS_17CollatorInterfaceERKSt3setINS_10StringDataESt4lessISB_ESaISB_EEPSA_INS_7BSONObjENS_27BSONComparatorInterfaceBaseISI_E8LessThanESaISI_EE",
+          "samples": 427
+        },
+        {
+          "name": "_ZN5mongo12_GLOBAL__N_116prepareExecutionEPNS_16OperationContextEPNS_10CollectionEPNS_10WorkingSetESt10unique_ptrINS_14CanonicalQueryESt14default_deleteIS8_EEm",
+          "samples": 417
+        },
+        {
+          "name": "_ZN5mongo23ServiceEntryPointCommon13handleRequestEPNS_16OperationContextERKNS_7MessageERKNS0_5HooksE",
+          "samples": 400
+        },
+        {
+          "name": "_ZN5mongo12validateBSONEPKcmNS_11BSONVersionE",
+          "samples": 384
+        },
+        {
+          "name": "_ZN5mongo11buildStagesEPNS_16OperationContextEPKNS_10CollectionERKNS_14CanonicalQueryERKNS_13QuerySolutionEPKNS_17QuerySolutionNodeEPNS_10WorkingSetE",
+          "samples": 354
+        },
+        {
+          "name": "__wt_row_modify",
+          "samples": 334
+        },
+        {
+          "name": "_ZN5mongo3rpc19readRequestMetadataEPNS_16OperationContextERKNS_7BSONObjEb",
+          "samples": 332
+        },
+        {
+          "name": "__wt_struct_packv",
+          "samples": 319
+        },
+        {
+          "name": "__wt_row_search",
+          "samples": 297
+        },
+        {
+          "name": "_ZN5mongo12QueryRequest20parseFromFindCommandESt10unique_ptrIS0_St14default_deleteIS0_EERKNS_7BSONObjEb",
+          "samples": 290
+        },
+        {
+          "name": "_ZN5mongo17AutoGetCollectionC1EPNS_16OperationContextERKNS_21NamespaceStringOrUUIDENS_8LockModeENS0_8ViewModeENS_6Date_tE",
+          "samples": 288
+        },
+        {
+          "name": "_ZN5mongo12_GLOBAL__N_17FindCmd10Invocation3runEPNS_16OperationContextEPNS_3rpc21ReplyBuilderInterfaceE",
+          "samples": 286
+        },
+        {
+          "name": "_ZN5mongo9KeyString12_GLOBAL__N_111toBsonValueEhPNS_9BufReaderEPNS0_8TypeBits6ReaderEbNS0_7VersionEPNS_25BSONObjBuilderValueStreamEj",
+          "samples": 286
+        },
+        {
+          "name": "_ZN5mongo12_GLOBAL__N_135computeSortsAndMultikeyPathsForScanERKNS_10IndexEntryEiRKNS_11IndexBoundsEPKNS_17CollatorInterfaceEPSt3setINS_7BSONObjENS_27BSONComparatorInterfaceBaseISB_E8LessThanESaISB_EEPSA_INS_10StringDataESt4lessISI_ESaISI_EE",
+          "samples": 285
+        },
+        {
+          "name": "__wt_btcur_next",
+          "samples": 281
+        },
+        {
+          "name": "_ZN5mongo14PlanEnumerator8prepMemoEPNS_15MatchExpressionENS0_15PrepMemoContextE",
+          "samples": 275
+        },
+        {
+          "name": "_ZN5mongo16WorkingSetCommon5fetchEPNS_16OperationContextEPNS_10WorkingSetEmNS_11unowned_ptrINS_20SeekableRecordCursorEEERKNS_15NamespaceStringE",
+          "samples": 272
+        },
+        {
+          "name": "_ZN5mongo8PushNode4initENS_11BSONElementERKN5boost13intrusive_ptrINS_17ExpressionContextEEE",
+          "samples": 269
+        },
+        {
+          "name": "_ZN5mongo12_GLOBAL__N_117encodeKeyForMatchEPKNS_15MatchExpressionEPNS_17StringBuilderImplINS_21SharedBufferAllocatorEEE",
+          "samples": 258
+        },
+        {
+          "name": "_ZN5mongo18QueryPlannerAccess12makeLeafNodeERKNS_14CanonicalQueryERKNS_10IndexEntryEmPKNS_15MatchExpressionEPNS_18IndexBoundsBuilder15BoundsTightnessE",
+          "samples": 254
+        },
+        {
+          "name": "_ZN5mongo9IndexScan6doWorkEPm",
+          "samples": 249
+        },
+        {
+          "name": "_ZN5mongo5OpMsg5parseERKNS_7MessageE",
+          "samples": 240
+        },
+        {
+          "name": "_ZN5mongo18IndexBoundsBuilder19_translatePredicateEPKNS_15MatchExpressionERKNS_11BSONElementERKNS_10IndexEntryEPNS_19OrderedIntervalListEPNS0_15BoundsTightnessE",
+          "samples": 238
+        },
+        {
+          "name": "_ZN5mongo31indexEntryFromIndexCatalogEntryEPNS_16OperationContextERKNS_17IndexCatalogEntryEPKNS_14CanonicalQueryE",
+          "samples": 234
+        },
+        {
+          "name": "_ZN5mongo16PlanExecutorImpl4makeEPNS_16OperationContextESt10unique_ptrINS_10WorkingSetESt14default_deleteIS4_EES3_INS_9PlanStageES5_IS8_EES3_INS_13QuerySolutionES5_ISB_EES3_INS_14CanonicalQueryES5_ISE_EERKN5boost13intrusive_ptrINS_17ExpressionContextEEEPKNS_10CollectionENS_15NamespaceStringENS_12PlanExecutor11YieldPolicyE",
+          "samples": 231
+        },
+        {
+          "name": "_ZN5mongo17CollationIndexKey28collationAwareIndexKeyAppendENS_11BSONElementEPKNS_17CollatorInterfaceEPNS_14BSONObjBuilderE",
+          "samples": 228
+        },
+        {
+          "name": "_ZN5mongo14PlanEnumerator17enumerateOneIndexESt3mapImSt6vectorIPNS_15MatchExpressionESaIS4_EENS0_12CmpByIndexIDESaISt4pairIKmS6_EEESC_RKS2_ImSaImEERKN4absl13node_hash_mapIS4_NS0_16OutsidePredRouteENSH_18container_internal6HashEqIS4_vE4HashENSM_2EqESaIS8_IKS4_SJ_EEEEPNS0_13AndAssignmentE",
+          "samples": 227
+        },
+        {
+          "name": "_ZN5mongo15find_and_modify15serializeUpsertEmRKN5boost8optionalINS_7BSONObjEEEbRKS3_PNS_14BSONObjBuilderE",
+          "samples": 219
+        },
+        {
+          "name": "_ZN5mongo20QueryPlannerIXSelect12_rateIndicesEPNS_15MatchExpressionENSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKSt6vectorINS_10IndexEntryESaISA_EEPKNS_17CollatorInterfaceERKNS0_16ElemMatchContextE",
+          "samples": 217
+        },
+        {
+          "name": "_ZN5mongo22OperationShardingState42initializeClientRoutingVersionsFromCommandENS_15NamespaceStringERKNS_7BSONObjE",
+          "samples": 215
+        },
+        {
+          "name": "_ZN5mongo9transport18TransportLayerASIO11ASIOSession4readIN4asio17mutable_buffers_1EEENS_6FutureIvEERKT_RKSt10shared_ptrINS_5BatonEE",
+          "samples": 215
+        },
+        {
+          "name": "_ZNK5mongo11BSONElement8toStringERNS_17StringBuilderImplINS_21SharedBufferAllocatorEEEbbbi",
+          "samples": 212
+        },
+        {
+          "name": "_ZN5mongo20QueryPlannerAnalysis17analyzeDataAccessERKNS_14CanonicalQueryERKNS_18QueryPlannerParamsESt10unique_ptrINS_17QuerySolutionNodeESt14default_deleteIS8_EE",
+          "samples": 211
+        },
+        {
+          "name": "__wt_struct_sizev",
+          "samples": 205
+        }
+      ],
+      "attribution_limitation": "Retired IP/nearest taken-target association, not proof of BTB or FDIP causality. All main samples remain in the main-sample denominator.",
+      "trace_sha256": "90ca06c8475b4673e503709661e91d9c017370057aa8d18d343e90aa357539b6",
+      "observations_sha256": "ec091bd1f48e147f4262270756c7c61d3f6fcac223e72170b2e18db3653e1be0"
+    },
+    "train:movie-review-mongodb": {
+      "all_samples": 84481,
+      "main_samples": 82512,
+      "within_64B_of_target": 77465,
+      "nearest_branch_mispredicted": 25306,
+      "age_bound_reached": 9,
+      "eligible_samples": 6290,
+      "instruction_classes": {
+        "other": 76168,
+        "conditional_branch": 3175,
+        "direct_call": 1238,
+        "return": 731,
+        "indirect_jump": 217,
+        "direct_jump": 743,
+        "indirect_call": 240
+      },
+      "preceding_branch_classes": {
+        "direct_call": 47778,
+        "conditional_branch": 14171,
+        "indirect_call": 12335,
+        "outside_main": 337,
+        "direct_jump": 4226,
+        "return": 2143,
+        "indirect_jump": 1522
+      },
+      "top_functions": [
+        {
+          "name": "__wt_btcur_search_near",
+          "samples": 819
+        },
+        {
+          "name": "_ZN5mongo12QueryPlanner4planERKNS_14CanonicalQueryERKNS_18QueryPlannerParamsE",
+          "samples": 649
+        },
+        {
+          "name": "_ZZN5mongo12_GLOBAL__N_116receivedCommandsEPNS_16OperationContextERKNS_7MessageERKNS_23ServiceEntryPointCommon5HooksEENKUlvE_clEv",
+          "samples": 519
+        },
+        {
+          "name": "_ZN5mongo23canonical_query_encoder6encodeB5cxx11ERKNS_14CanonicalQueryE",
+          "samples": 496
+        },
+        {
+          "name": "_ZN5mongo12_GLOBAL__N_119computeSortsForScanERKNS_10IndexEntryEiRKNS_11IndexBoundsEPKNS_17CollatorInterfaceERKSt3setINS_10StringDataESt4lessISB_ESaISB_EEPSA_INS_7BSONObjENS_27BSONComparatorInterfaceBaseISI_E8LessThanESaISI_EE",
+          "samples": 455
+        },
+        {
+          "name": "_ZN5mongo20FindAndModifyRequest13parseFromBSONENS_15NamespaceStringERKNS_7BSONObjE",
+          "samples": 437
+        },
+        {
+          "name": "__wt_struct_size",
+          "samples": 421
+        },
+        {
+          "name": "_ZN5mongo12validateBSONEPKcmNS_11BSONVersionE",
+          "samples": 413
+        },
+        {
+          "name": "_ZN5mongo3rpc19readRequestMetadataEPNS_16OperationContextERKNS_7BSONObjEb",
+          "samples": 402
+        },
+        {
+          "name": "_ZN5mongo12_GLOBAL__N_116prepareExecutionEPNS_16OperationContextEPNS_10CollectionEPNS_10WorkingSetESt10unique_ptrINS_14CanonicalQueryESt14default_deleteIS8_EEm",
+          "samples": 398
+        },
+        {
+          "name": "__wt_btcur_search",
+          "samples": 385
+        },
+        {
+          "name": "_ZN5mongo23ServiceEntryPointCommon13handleRequestEPNS_16OperationContextERKNS_7MessageERKNS0_5HooksE",
+          "samples": 357
+        },
+        {
+          "name": "_ZN5mongo14PlanEnumerator8prepMemoEPNS_15MatchExpressionENS0_15PrepMemoContextE",
+          "samples": 346
+        },
+        {
+          "name": "__wt_row_modify",
+          "samples": 326
+        },
+        {
+          "name": "_ZN5mongo8PushNode4initENS_11BSONElementERKN5boost13intrusive_ptrINS_17ExpressionContextEEE",
+          "samples": 320
+        },
+        {
+          "name": "__wt_btcur_next",
+          "samples": 318
+        },
+        {
+          "name": "_ZN5mongo12_GLOBAL__N_135computeSortsAndMultikeyPathsForScanERKNS_10IndexEntryEiRKNS_11IndexBoundsEPKNS_17CollatorInterfaceEPSt3setINS_7BSONObjENS_27BSONComparatorInterfaceBaseISB_E8LessThanESaISB_EEPSA_INS_10StringDataESt4lessISI_ESaISI_EE",
+          "samples": 316
+        },
+        {
+          "name": "_ZN5mongo12_GLOBAL__N_17FindCmd10Invocation3runEPNS_16OperationContextEPNS_3rpc21ReplyBuilderInterfaceE",
+          "samples": 293
+        },
+        {
+          "name": "__wt_row_search",
+          "samples": 285
+        },
+        {
+          "name": "_ZN5mongo17CollationIndexKey28collationAwareIndexKeyAppendENS_11BSONElementEPKNS_17CollatorInterfaceEPNS_14BSONObjBuilderE",
+          "samples": 259
+        },
+        {
+          "name": "_ZN5mongo16WorkingSetCommon5fetchEPNS_16OperationContextEPNS_10WorkingSetEmNS_11unowned_ptrINS_20SeekableRecordCursorEEERKNS_15NamespaceStringE",
+          "samples": 258
+        },
+        {
+          "name": "_ZN5mongo18QueryPlannerAccess12makeLeafNodeERKNS_14CanonicalQueryERKNS_10IndexEntryEmPKNS_15MatchExpressionEPNS_18IndexBoundsBuilder15BoundsTightnessE",
+          "samples": 257
+        },
+        {
+          "name": "_ZN5mongo14PlanEnumerator17enumerateOneIndexESt3mapImSt6vectorIPNS_15MatchExpressionESaIS4_EENS0_12CmpByIndexIDESaISt4pairIKmS6_EEESC_RKS2_ImSaImEERKN4absl13node_hash_mapIS4_NS0_16OutsidePredRouteENSH_18container_internal6HashEqIS4_vE4HashENSM_2EqESaIS8_IKS4_SJ_EEEEPNS0_13AndAssignmentE",
+          "samples": 256
+        },
+        {
+          "name": "_ZN5mongo9KeyString12_GLOBAL__N_111toBsonValueEhPNS_9BufReaderEPNS0_8TypeBits6ReaderEbNS0_7VersionEPNS_25BSONObjBuilderValueStreamEj",
+          "samples": 256
+        },
+        {
+          "name": "_ZN5mongo12QueryRequest20parseFromFindCommandESt10unique_ptrIS0_St14default_deleteIS0_EERKNS_7BSONObjEb",
+          "samples": 251
+        },
+        {
+          "name": "_ZN5mongo20IndexEntryComparison31makeKeyStringFromBSONKeyForSeekERKNS_7BSONObjENS_9KeyString7VersionENS_8OrderingEbb",
+          "samples": 249
+        },
+        {
+          "name": "__wt_struct_packv",
+          "samples": 249
+        },
+        {
+          "name": "_ZN5mongo11buildStagesEPNS_16OperationContextEPKNS_10CollectionERKNS_14CanonicalQueryERKNS_13QuerySolutionEPKNS_17QuerySolutionNodeEPNS_10WorkingSetE",
+          "samples": 246
+        },
+        {
+          "name": "_ZN5mongo17AutoGetCollectionC1EPNS_16OperationContextERKNS_21NamespaceStringOrUUIDENS_8LockModeENS0_8ViewModeENS_6Date_tE",
+          "samples": 242
+        },
+        {
+          "name": "_ZN5mongo9Variables19setRuntimeConstantsERKNS_16RuntimeConstantsE",
+          "samples": 240
+        },
+        {
+          "name": "_ZN5mongo5OpMsg5parseERKNS_7MessageE",
+          "samples": 238
+        },
+        {
+          "name": "_ZN5mongo20QueryPlannerAnalysis10analyzeGeoERKNS_18QueryPlannerParamsEPNS_17QuerySolutionNodeE",
+          "samples": 237
+        },
+        {
+          "name": "_ZN5mongo31indexEntryFromIndexCatalogEntryEPNS_16OperationContextERKNS_17IndexCatalogEntryEPKNS_14CanonicalQueryE",
+          "samples": 232
+        },
+        {
+          "name": "_ZN5mongo9KeyString12_GLOBAL__N_122filterKeyFromKeyStringEhPNS_9BufReaderEbNS0_7VersionE",
+          "samples": 230
+        },
+        {
+          "name": "_ZN5mongo16PlanExecutorImpl4makeEPNS_16OperationContextESt10unique_ptrINS_10WorkingSetESt14default_deleteIS4_EES3_INS_9PlanStageES5_IS8_EES3_INS_13QuerySolutionES5_ISB_EES3_INS_14CanonicalQueryES5_ISE_EERKN5boost13intrusive_ptrINS_17ExpressionContextEEEPKNS_10CollectionENS_15NamespaceStringENS_12PlanExecutor11YieldPolicyE",
+          "samples": 229
+        },
+        {
+          "name": "_ZN5mongo16UpdateObjectNode13parseAndMergeEPS0_NS_13modifiertable12ModifierTypeENS_11BSONElementERKN5boost13intrusive_ptrINS_17ExpressionContextEEERKSt3mapINS_10StringDataESt10unique_ptrINS_25ExpressionWithPlaceholderESt14default_deleteISE_EESt4lessISC_ESaISt4pairIKSC_SH_EEERSt3setINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESI_ISX_ESaISX_EE",
+          "samples": 226
+        },
+        {
+          "name": "_ZN5mongo18IndexBoundsBuilder19_translatePredicateEPKNS_15MatchExpressionERKNS_11BSONElementERKNS_10IndexEntryEPNS_19OrderedIntervalListEPNS0_15BoundsTightnessE",
+          "samples": 226
+        },
+        {
+          "name": "_ZN5mongo15find_and_modify15serializeUpsertEmRKN5boost8optionalINS_7BSONObjEEEbRKS3_PNS_14BSONObjBuilderE",
+          "samples": 224
+        },
+        {
+          "name": "_ZN5mongo12_GLOBAL__N_117encodeKeyForMatchEPKNS_15MatchExpressionEPNS_17StringBuilderImplINS_21SharedBufferAllocatorEEE",
+          "samples": 214
+        },
+        {
+          "name": "_ZN5mongo5CurOpC1EPNS_16OperationContextEPNS0_10CurOpStackE",
+          "samples": 212
+        }
+      ],
+      "attribution_limitation": "Retired IP/nearest taken-target association, not proof of BTB or FDIP causality. All main samples remain in the main-sample denominator.",
+      "trace_sha256": "1aeda142af27dffb9f798254cb6b56f38cf0da64e983477c658790eacc19b0d4",
+      "observations_sha256": "95f8da78ba2477e36a3b72bac69a69e0dabe8622bdb686722e86bc155e14151f"
+    },
+    "heldout:user-review-mongodb": {
+      "all_samples": 84841,
+      "main_samples": 82982,
+      "within_64B_of_target": 77660,
+      "nearest_branch_mispredicted": 25990,
+      "age_bound_reached": 17,
+      "eligible_samples": 6404,
+      "instruction_classes": {
+        "other": 76320,
+        "conditional_branch": 3380,
+        "direct_call": 1304,
+        "return": 729,
+        "direct_jump": 803,
+        "indirect_call": 224,
+        "indirect_jump": 222
+      },
+      "preceding_branch_classes": {
+        "conditional_branch": 15002,
+        "direct_call": 46851,
+        "indirect_call": 12229,
+        "direct_jump": 4658,
+        "return": 2276,
+        "outside_main": 317,
+        "indirect_jump": 1649
+      },
+      "top_functions": [
+        {
+          "name": "_ZN5mongo12QueryPlanner4planERKNS_14CanonicalQueryERKNS_18QueryPlannerParamsE",
+          "samples": 757
+        },
+        {
+          "name": "__wt_btcur_search_near",
+          "samples": 744
+        },
+        {
+          "name": "_ZZN5mongo12_GLOBAL__N_116receivedCommandsEPNS_16OperationContextERKNS_7MessageERKNS_23ServiceEntryPointCommon5HooksEENKUlvE_clEv",
+          "samples": 627
+        },
+        {
+          "name": "_ZN5mongo12_GLOBAL__N_119computeSortsForScanERKNS_10IndexEntryEiRKNS_11IndexBoundsEPKNS_17CollatorInterfaceERKSt3setINS_10StringDataESt4lessISB_ESaISB_EEPSA_INS_7BSONObjENS_27BSONComparatorInterfaceBaseISI_E8LessThanESaISI_EE",
+          "samples": 483
+        },
+        {
+          "name": "_ZN5mongo23canonical_query_encoder6encodeB5cxx11ERKNS_14CanonicalQueryE",
+          "samples": 471
+        },
+        {
+          "name": "_ZN5mongo20FindAndModifyRequest13parseFromBSONENS_15NamespaceStringERKNS_7BSONObjE",
+          "samples": 424
+        },
+        {
+          "name": "_ZN5mongo12QueryRequest20parseFromFindCommandESt10unique_ptrIS0_St14default_deleteIS0_EERKNS_7BSONObjEb",
+          "samples": 419
+        },
+        {
+          "name": "_ZN5mongo12_GLOBAL__N_116prepareExecutionEPNS_16OperationContextEPNS_10CollectionEPNS_10WorkingSetESt10unique_ptrINS_14CanonicalQueryESt14default_deleteIS8_EEm",
+          "samples": 417
+        },
+        {
+          "name": "_ZN5mongo23ServiceEntryPointCommon13handleRequestEPNS_16OperationContextERKNS_7MessageERKNS0_5HooksE",
+          "samples": 414
+        },
+        {
+          "name": "__wt_row_search",
+          "samples": 409
+        },
+        {
+          "name": "_ZN5mongo12validateBSONEPKcmNS_11BSONVersionE",
+          "samples": 385
+        },
+        {
+          "name": "__wt_btcur_search",
+          "samples": 359
+        },
+        {
+          "name": "_ZN5mongo3rpc19readRequestMetadataEPNS_16OperationContextERKNS_7BSONObjEb",
+          "samples": 359
+        },
+        {
+          "name": "__wt_row_modify",
+          "samples": 340
+        },
+        {
+          "name": "__wt_btcur_next",
+          "samples": 309
+        },
+        {
+          "name": "_ZN5mongo8PushNode4initENS_11BSONElementERKN5boost13intrusive_ptrINS_17ExpressionContextEEE",
+          "samples": 309
+        },
+        {
+          "name": "_ZN5mongo14PlanEnumerator8prepMemoEPNS_15MatchExpressionENS0_15PrepMemoContextE",
+          "samples": 306
+        },
+        {
+          "name": "_ZN5mongo31indexEntryFromIndexCatalogEntryEPNS_16OperationContextERKNS_17IndexCatalogEntryEPKNS_14CanonicalQueryE",
+          "samples": 284
+        },
+        {
+          "name": "_ZN5mongo9KeyString12_GLOBAL__N_111toBsonValueEhPNS_9BufReaderEPNS0_8TypeBits6ReaderEbNS0_7VersionEPNS_25BSONObjBuilderValueStreamEj",
+          "samples": 274
+        },
+        {
+          "name": "_ZN5mongo16WorkingSetCommon5fetchEPNS_16OperationContextEPNS_10WorkingSetEmNS_11unowned_ptrINS_20SeekableRecordCursorEEERKNS_15NamespaceStringE",
+          "samples": 273
+        },
+        {
+          "name": "_ZN5mongo5OpMsg5parseERKNS_7MessageE",
+          "samples": 267
+        },
+        {
+          "name": "_ZN5mongo11buildStagesEPNS_16OperationContextEPKNS_10CollectionERKNS_14CanonicalQueryERKNS_13QuerySolutionEPKNS_17QuerySolutionNodeEPNS_10WorkingSetE",
+          "samples": 265
+        },
+        {
+          "name": "_ZN5mongo18IndexBoundsBuilder19_translatePredicateEPKNS_15MatchExpressionERKNS_11BSONElementERKNS_10IndexEntryEPNS_19OrderedIntervalListEPNS0_15BoundsTightnessE",
+          "samples": 261
+        },
+        {
+          "name": "_ZN5mongo17CollationIndexKey28collationAwareIndexKeyAppendENS_11BSONElementEPKNS_17CollatorInterfaceEPNS_14BSONObjBuilderE",
+          "samples": 261
+        },
+        {
+          "name": "__wt_struct_packv",
+          "samples": 260
+        },
+        {
+          "name": "_ZN5mongo12_GLOBAL__N_17FindCmd10Invocation3runEPNS_16OperationContextEPNS_3rpc21ReplyBuilderInterfaceE",
+          "samples": 257
+        },
+        {
+          "name": "_ZN5mongo20QueryPlannerAnalysis17analyzeDataAccessERKNS_14CanonicalQueryERKNS_18QueryPlannerParamsESt10unique_ptrINS_17QuerySolutionNodeESt14default_deleteIS8_EE",
+          "samples": 255
+        },
+        {
+          "name": "_ZN5mongo12_GLOBAL__N_117encodeKeyForMatchEPKNS_15MatchExpressionEPNS_17StringBuilderImplINS_21SharedBufferAllocatorEEE",
+          "samples": 252
+        },
+        {
+          "name": "_ZN5mongo12_GLOBAL__N_135computeSortsAndMultikeyPathsForScanERKNS_10IndexEntryEiRKNS_11IndexBoundsEPKNS_17CollatorInterfaceEPSt3setINS_7BSONObjENS_27BSONComparatorInterfaceBaseISB_E8LessThanESaISB_EEPSA_INS_10StringDataESt4lessISI_ESaISI_EE",
+          "samples": 246
+        },
+        {
+          "name": "_ZN5mongo18QueryPlannerAccess12makeLeafNodeERKNS_14CanonicalQueryERKNS_10IndexEntryEmPKNS_15MatchExpressionEPNS_18IndexBoundsBuilder15BoundsTightnessE",
+          "samples": 238
+        },
+        {
+          "name": "_ZN5mongo9KeyString11BuilderBaseINS_19StackBufBuilderBaseILm512EEEE16_appendBsonValueERKNS_11BSONElementEbPKNS_10StringDataERKSt8functionIFNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES8_EE",
+          "samples": 235
+        },
+        {
+          "name": "_ZN5mongo5CurOpC1EPNS_16OperationContextEPNS0_10CurOpStackE",
+          "samples": 233
+        },
+        {
+          "name": "_ZN5mongo14PlanEnumerator17enumerateOneIndexESt3mapImSt6vectorIPNS_15MatchExpressionESaIS4_EENS0_12CmpByIndexIDESaISt4pairIKmS6_EEESC_RKS2_ImSaImEERKN4absl13node_hash_mapIS4_NS0_16OutsidePredRouteENSH_18container_internal6HashEqIS4_vE4HashENSM_2EqESaIS8_IKS4_SJ_EEEEPNS0_13AndAssignmentE",
+          "samples": 231
+        },
+        {
+          "name": "_ZN5mongo20QueryPlannerAnalysis10analyzeGeoERKNS_18QueryPlannerParamsEPNS_17QuerySolutionNodeE",
+          "samples": 228
+        },
+        {
+          "name": "_ZN5mongo9Variables19setRuntimeConstantsERKNS_16RuntimeConstantsE",
+          "samples": 216
+        },
+        {
+          "name": "_ZN5mongo9transport18TransportLayerASIO11ASIOSession4readIN4asio17mutable_buffers_1EEENS_6FutureIvEERKT_RKSt10shared_ptrINS_5BatonEE",
+          "samples": 215
+        },
+        {
+          "name": "_ZN5mongo15find_and_modify15serializeUpsertEmRKN5boost8optionalINS_7BSONObjEEEbRKS3_PNS_14BSONObjBuilderE",
+          "samples": 213
+        },
+        {
+          "name": "_ZN5mongo9transport18TransportLayerASIO9BatonASIO10detachImplEv",
+          "samples": 213
+        },
+        {
+          "name": "_ZN5mongo20IndexEntryComparison31makeKeyStringFromBSONKeyForSeekERKNS_7BSONObjENS_9KeyString7VersionENS_8OrderingEbb",
+          "samples": 210
+        },
+        {
+          "name": "_ZN5mongo16UpdateObjectNode13parseAndMergeEPS0_NS_13modifiertable12ModifierTypeENS_11BSONElementERKN5boost13intrusive_ptrINS_17ExpressionContextEEERKSt3mapINS_10StringDataESt10unique_ptrINS_25ExpressionWithPlaceholderESt14default_deleteISE_EESt4lessISC_ESaISt4pairIKSC_SH_EEERSt3setINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESI_ISX_ESaISX_EE",
+          "samples": 210
+        }
+      ],
+      "attribution_limitation": "Retired IP/nearest taken-target association, not proof of BTB or FDIP causality. All main samples remain in the main-sample denominator.",
+      "trace_sha256": "2933d65d946f9c70f9d53e37bdb6e96f0c771322fd6d9e5eda304c530e014aee",
+      "observations_sha256": "bd5b2296b2acdccca48d105c78c7d673abc6ce94e0c2d5749eb90924d3edf229"
+    },
+    "heldout:movie-review-mongodb": {
+      "all_samples": 83317,
+      "main_samples": 81381,
+      "within_64B_of_target": 76227,
+      "nearest_branch_mispredicted": 25045,
+      "age_bound_reached": 16,
+      "eligible_samples": 6065,
+      "instruction_classes": {
+        "other": 75087,
+        "direct_call": 1219,
+        "conditional_branch": 3203,
+        "direct_jump": 731,
+        "return": 701,
+        "indirect_jump": 207,
+        "indirect_call": 233
+      },
+      "preceding_branch_classes": {
+        "conditional_branch": 14405,
+        "return": 2414,
+        "direct_call": 46774,
+        "indirect_call": 11816,
+        "direct_jump": 4143,
+        "indirect_jump": 1509,
+        "outside_main": 320
+      },
+      "top_functions": [
+        {
+          "name": "_ZN5mongo12QueryPlanner4planERKNS_14CanonicalQueryERKNS_18QueryPlannerParamsE",
+          "samples": 884
+        },
+        {
+          "name": "__wt_btcur_search_near",
+          "samples": 760
+        },
+        {
+          "name": "_ZN5mongo20FindAndModifyRequest13parseFromBSONENS_15NamespaceStringERKNS_7BSONObjE",
+          "samples": 527
+        },
+        {
+          "name": "_ZZN5mongo12_GLOBAL__N_116receivedCommandsEPNS_16OperationContextERKNS_7MessageERKNS_23ServiceEntryPointCommon5HooksEENKUlvE_clEv",
+          "samples": 473
+        },
+        {
+          "name": "_ZN5mongo12_GLOBAL__N_119computeSortsForScanERKNS_10IndexEntryEiRKNS_11IndexBoundsEPKNS_17CollatorInterfaceERKSt3setINS_10StringDataESt4lessISB_ESaISB_EEPSA_INS_7BSONObjENS_27BSONComparatorInterfaceBaseISI_E8LessThanESaISI_EE",
+          "samples": 448
+        },
+        {
+          "name": "_ZN5mongo23canonical_query_encoder6encodeB5cxx11ERKNS_14CanonicalQueryE",
+          "samples": 444
+        },
+        {
+          "name": "_ZN5mongo14PlanEnumerator8prepMemoEPNS_15MatchExpressionENS0_15PrepMemoContextE",
+          "samples": 440
+        },
+        {
+          "name": "_ZN5mongo12_GLOBAL__N_116prepareExecutionEPNS_16OperationContextEPNS_10CollectionEPNS_10WorkingSetESt10unique_ptrINS_14CanonicalQueryESt14default_deleteIS8_EEm",
+          "samples": 396
+        },
+        {
+          "name": "_ZN5mongo23ServiceEntryPointCommon13handleRequestEPNS_16OperationContextERKNS_7MessageERKNS0_5HooksE",
+          "samples": 376
+        },
+        {
+          "name": "_ZN5mongo12validateBSONEPKcmNS_11BSONVersionE",
+          "samples": 356
+        },
+        {
+          "name": "__wt_btcur_search",
+          "samples": 351
+        },
+        {
+          "name": "_ZN5mongo3rpc19readRequestMetadataEPNS_16OperationContextERKNS_7BSONObjEb",
+          "samples": 346
+        },
+        {
+          "name": "__wt_btcur_next",
+          "samples": 332
+        },
+        {
+          "name": "_ZN5mongo9KeyString12_GLOBAL__N_111toBsonValueEhPNS_9BufReaderEPNS0_8TypeBits6ReaderEbNS0_7VersionEPNS_25BSONObjBuilderValueStreamEj",
+          "samples": 318
+        },
+        {
+          "name": "_ZN5mongo12_GLOBAL__N_17FindCmd10Invocation3runEPNS_16OperationContextEPNS_3rpc21ReplyBuilderInterfaceE",
+          "samples": 312
+        },
+        {
+          "name": "__wt_row_modify",
+          "samples": 307
+        },
+        {
+          "name": "__wt_row_search",
+          "samples": 300
+        },
+        {
+          "name": "_ZN5mongo12QueryRequest20parseFromFindCommandESt10unique_ptrIS0_St14default_deleteIS0_EERKNS_7BSONObjEb",
+          "samples": 298
+        },
+        {
+          "name": "_ZN5mongo8PushNode4initENS_11BSONElementERKN5boost13intrusive_ptrINS_17ExpressionContextEEE",
+          "samples": 297
+        },
+        {
+          "name": "_ZN5mongo14PlanEnumerator17enumerateOneIndexESt3mapImSt6vectorIPNS_15MatchExpressionESaIS4_EENS0_12CmpByIndexIDESaISt4pairIKmS6_EEESC_RKS2_ImSaImEERKN4absl13node_hash_mapIS4_NS0_16OutsidePredRouteENSH_18container_internal6HashEqIS4_vE4HashENSM_2EqESaIS8_IKS4_SJ_EEEEPNS0_13AndAssignmentE",
+          "samples": 287
+        },
+        {
+          "name": "_ZN5mongo12_GLOBAL__N_135computeSortsAndMultikeyPathsForScanERKNS_10IndexEntryEiRKNS_11IndexBoundsEPKNS_17CollatorInterfaceEPSt3setINS_7BSONObjENS_27BSONComparatorInterfaceBaseISB_E8LessThanESaISB_EEPSA_INS_10StringDataESt4lessISI_ESaISI_EE",
+          "samples": 275
+        },
+        {
+          "name": "_ZN5mongo16WorkingSetCommon5fetchEPNS_16OperationContextEPNS_10WorkingSetEmNS_11unowned_ptrINS_20SeekableRecordCursorEEERKNS_15NamespaceStringE",
+          "samples": 269
+        },
+        {
+          "name": "_ZN5mongo5OpMsg5parseERKNS_7MessageE",
+          "samples": 262
+        },
+        {
+          "name": "_ZN5mongo9KeyString12_GLOBAL__N_122filterKeyFromKeyStringEhPNS_9BufReaderEbNS0_7VersionE",
+          "samples": 261
+        },
+        {
+          "name": "__wt_struct_packv",
+          "samples": 255
+        },
+        {
+          "name": "_ZN5mongo11buildStagesEPNS_16OperationContextEPKNS_10CollectionERKNS_14CanonicalQueryERKNS_13QuerySolutionEPKNS_17QuerySolutionNodeEPNS_10WorkingSetE",
+          "samples": 249
+        },
+        {
+          "name": "_ZN5mongo9Variables19setRuntimeConstantsERKNS_16RuntimeConstantsE",
+          "samples": 247
+        },
+        {
+          "name": "_ZN5mongo16UpdateObjectNode13parseAndMergeEPS0_NS_13modifiertable12ModifierTypeENS_11BSONElementERKN5boost13intrusive_ptrINS_17ExpressionContextEEERKSt3mapINS_10StringDataESt10unique_ptrINS_25ExpressionWithPlaceholderESt14default_deleteISE_EESt4lessISC_ESaISt4pairIKSC_SH_EEERSt3setINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESI_ISX_ESaISX_EE",
+          "samples": 245
+        },
+        {
+          "name": "_ZN5mongo20QueryPlannerIXSelect12_rateIndicesEPNS_15MatchExpressionENSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKSt6vectorINS_10IndexEntryESaISA_EEPKNS_17CollatorInterfaceERKNS0_16ElemMatchContextE",
+          "samples": 242
+        },
+        {
+          "name": "_ZN5mongo18IndexBoundsBuilder19_translatePredicateEPKNS_15MatchExpressionERKNS_11BSONElementERKNS_10IndexEntryEPNS_19OrderedIntervalListEPNS0_15BoundsTightnessE",
+          "samples": 235
+        },
+        {
+          "name": "_ZN5mongo16PlanExecutorImpl4makeEPNS_16OperationContextESt10unique_ptrINS_10WorkingSetESt14default_deleteIS4_EES3_INS_9PlanStageES5_IS8_EES3_INS_13QuerySolutionES5_ISB_EES3_INS_14CanonicalQueryES5_ISE_EERKN5boost13intrusive_ptrINS_17ExpressionContextEEEPKNS_10CollectionENS_15NamespaceStringENS_12PlanExecutor11YieldPolicyE",
+          "samples": 234
+        },
+        {
+          "name": "_ZN5mongo17AutoGetCollectionC1EPNS_16OperationContextERKNS_21NamespaceStringOrUUIDENS_8LockModeENS0_8ViewModeENS_6Date_tE",
+          "samples": 226
+        },
+        {
+          "name": "_ZN5mongo20QueryPlannerAnalysis17analyzeDataAccessERKNS_14CanonicalQueryERKNS_18QueryPlannerParamsESt10unique_ptrINS_17QuerySolutionNodeESt14default_deleteIS8_EE",
+          "samples": 224
+        },
+        {
+          "name": "_ZN5mongo12_GLOBAL__N_117encodeKeyForMatchEPKNS_15MatchExpressionEPNS_17StringBuilderImplINS_21SharedBufferAllocatorEEE",
+          "samples": 223
+        },
+        {
+          "name": "_ZN5mongo20IndexEntryComparison31makeKeyStringFromBSONKeyForSeekERKNS_7BSONObjENS_9KeyString7VersionENS_8OrderingEbb",
+          "samples": 220
+        },
+        {
+          "name": "_ZN5mongo17CollationIndexKey28collationAwareIndexKeyAppendENS_11BSONElementEPKNS_17CollatorInterfaceEPNS_14BSONObjBuilderE",
+          "samples": 213
+        },
+        {
+          "name": "_ZN5mongo15find_and_modify15serializeUpsertEmRKN5boost8optionalINS_7BSONObjEEEbRKS3_PNS_14BSONObjBuilderE",
+          "samples": 212
+        },
+        {
+          "name": "_ZN5mongo20QueryPlannerAnalysis10analyzeGeoERKNS_18QueryPlannerParamsEPNS_17QuerySolutionNodeE",
+          "samples": 212
+        },
+        {
+          "name": "_ZN5mongo31indexEntryFromIndexCatalogEntryEPNS_16OperationContextERKNS_17IndexCatalogEntryEPKNS_14CanonicalQueryE",
+          "samples": 211
+        },
+        {
+          "name": "_ZN5mongo5CurOpC1EPNS_16OperationContextEPNS0_10CurOpStackE",
+          "samples": 208
+        }
+      ],
+      "attribution_limitation": "Retired IP/nearest taken-target association, not proof of BTB or FDIP causality. All main samples remain in the main-sample denominator.",
+      "trace_sha256": "84bdf8906b310b4974fc388955a04cc41b5a8a80fac531ad20724b9239451b1e",
+      "observations_sha256": "e695d55480f548fa18898fd901e5c18d5f9de1365203344a64bcb2ff2b3711d7"
+    }
+  },
+  "source_sha256": "3c6655036faf043c338d698ae1dda5ed4e19f23ea54eb8023ad32cf268e821cf",
+  "nop_slots": 115469
+}

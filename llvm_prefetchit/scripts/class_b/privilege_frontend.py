@@ -12,7 +12,10 @@ from backend_prefetch import start_client
 from dense_causes import counters
 from stack_frontend import EVENTS as ORIGINAL_EVENTS
 
-EVENTS=dict(ORIGINAL_EVENTS,branch='cycles:u,instructions:u,branches:u,branch-misses:u,cpu/event=0xc6,umask=0x3,name=FE_ITLB,config1=0x14/u')
+DECODE_EVENTS='cycles:u,instructions:u,cpu/event=0x79,umask=0x8,name=DSB_UOPS/u,cpu/event=0x79,umask=0x4,name=MITE_UOPS/u,cpu/event=0x75,umask=0x1,name=DECODED/u,cpu/event=0xad,umask=0x40,name=UNKNOWN_BRANCH_CYCLES,config1=0x7/u'
+EVENTS=dict(ORIGINAL_EVENTS,
+    branch='cycles:u,instructions:u,branches:u,branch-misses:u,cpu/event=0xc6,umask=0x3,name=FE_ITLB,config1=0x14/u',
+    decode=DECODE_EVENTS)
 
 
 def events(label,privilege):
@@ -34,7 +37,7 @@ def run(spec):
     stack=client=None;windows=[]
     try:
         stack=h.start(out,'media',spec['overrides'],8)
-        client=start_client(out,160,spec['seed']);time.sleep(50)
+        client=start_client(out,95+len(EVENTS)*2*2*5,spec['seed']);time.sleep(50)
         a=stack.accounts();time.sleep(30);z=stack.accounts()
         costs={name:h.c.diff_cpu(a[name],z[name]) for name in a}
         order=[(p,label) for p in ['u','k'] for label in EVENTS]

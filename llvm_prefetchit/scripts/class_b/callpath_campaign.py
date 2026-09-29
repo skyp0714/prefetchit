@@ -75,6 +75,8 @@ def run(parent):
     arms=dict(original=dict(overrides=base,mongo_binary=str(reference)),
         call_nop=dict(overrides=base,mongo_binary=prepared['nop'],controls=['original']),
         call_t1=dict(overrides=base,mongo_binary=prepared['binary'],controls=['original','call_nop']))
+    from privilege_frontend import DECODE_EVENTS
+    for settings in arms.values():settings['extra_events']={'decode':DECODE_EVENTS}
     manifest=root/'screen_spec.json';b.save(manifest,dict(out=str(root/'screen'),arms=arms,blocks=2,seedbase=79001,exploratory=True))
     b.run(['python3',Path(__file__).with_name('backend_study.py'),'campaign',manifest],root/'screen_driver.log')
     evaluate(root/'screen',root/'screen_evaluation.json')

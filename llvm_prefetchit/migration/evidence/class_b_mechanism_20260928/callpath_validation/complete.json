@@ -1,0 +1,19 @@
+{
+  "valid": true,
+  "tests": 5,
+  "finished_epoch": 1790669812.5325186,
+  "source_sha256": {
+    "llvm_prefetchit/tools/call_stub_prefetch.py": "8abb1c53744a2ab6c751fa0b58b2a2976dafa4fb5c95a7ec9ba04d73e8254649",
+    "llvm_prefetchit/tests/test_call_stub_prefetch.py": "dc23b9f74e0571f2a8088f42fc5696ec40f5611c1fccd550a64228a2df186c3a",
+    "llvm_prefetchit/scripts/class_b/callpath_prefetch.py": "8546831aae09ff68ba866cde73a58a66b98785f0cfaf72d76c2e1b3b8e4dc0e8",
+    "llvm_prefetchit/tests/test_callpath_prefetch.py": "d45cc2c7cc1a0224b2a7a7914f84968eec5f608c5aee2246034d7b16bb5d33bd"
+  },
+  "test_log": "/storage/prefetchit/class_b_mechanism_20260928/callpath_native_preflight/retry1/native_tests.log",
+  "initial_error": "Assembly .set made RIP memory operands literal displacements. Byte-target validation rejected both fixtures before execution. Define external target symbols in linker script to retain PC-relative relocation.",
+  "initial_failure": "failure.json",
+  "bulk_cleanup": [
+    "native_test_cleanup.json",
+    "retry1/native_test_cleanup.json"
+  ],
+  "scope": "No workload running; campaign controller paused after completed combined trial and exited platform wrapper."
+}

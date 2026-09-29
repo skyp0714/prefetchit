@@ -1,0 +1,454 @@
+FF...                                                                    [100%]
+=================================== FAILURES ===================================
+__________ test_native_call_arguments_flags_return_and_unwind[False] ___________
+
+tmp_path = PosixPath('/storage/prefetchit/class_b_mechanism_20260928/callpath_native_preflight/native_test_work/test_native_call_arguments_fla0')
+pie = False
+
+    @pytest.mark.parametrize('pie', [False, True])
+    def test_native_call_arguments_flags_return_and_unwind(tmp_path, pie):
+        source = tmp_path/'main.cc'; assembly = tmp_path/'calls.s'; base = tmp_path/'base'
+        source.write_text(r'''
+    #include <stdint.h>
+    #include <stdio.h>
+    #include <string.h>
+    extern "C" long invoke(long,long,long,long,long,long);
+    extern "C" long invoke_throw(long);
+    extern "C" char call_probe[], call_throw[], call_throw_again[];
+    struct bases { void *tbase, *dbase, *func; };
+    extern "C" void *_Unwind_Find_FDE(void *, struct bases *);
+    extern "C" __attribute__((noinline)) long thrower(long x) { if (x<0) throw x; return x+10; }
+    int main() {
+      if (invoke(1,2,3,4,5,6)!=22 || invoke_throw(9)!=29) return 1;
+      bool caught=false; try { invoke_throw(-7); } catch (long x) { caught=x==-7; }
+      if (!caught) return 2;
+      for (char *site : {call_probe, call_throw, call_throw_again}) {
+        int32_t displacement; memcpy(&displacement,site+1,4);
+        void *destination=site+5+displacement;
+        struct bases b={}; if (!_Unwind_Find_FDE(destination,&b)) return 3;
+      }
+      puts("abi-and-unwind-ok");
+    }
+    '''.replace('#include <stdint.h>', '#include <stdint.h>\n#include <initializer_list>'))
+        assembly.write_text(r'''
+    .text
+    .globl invoke
+    .type invoke,@function
+    invoke:
+    .cfi_startproc
+    sub $8,%rsp
+    .cfi_adjust_cfa_offset 8
+    stc
+    .globl call_probe
+    call_probe:
+    call probe
+    .globl return_probe
+    return_probe:
+    add $8,%rsp
+    .cfi_adjust_cfa_offset -8
+    ret
+    .cfi_endproc
+    .size invoke,.-invoke
+    .globl probe
+    .type probe,@function
+    probe:
+    .cfi_startproc
+    mov %rdi,%rax
+    adc %rsi,%rax
+    add %rdx,%rax
+    add %rcx,%rax
+    add %r8,%rax
+    add %r9,%rax
+    lea return_probe(%rip),%r10
+    cmp %r10,(%rsp)
+    je 1f
+    mov $-1,%rax
+    1: ret
+    .cfi_endproc
+    .size probe,.-probe
+    .globl invoke_throw
+    .type invoke_throw,@function
+    invoke_throw:
+    .cfi_startproc
+    sub $8,%rsp
+    .cfi_adjust_cfa_offset 8
+    .globl call_throw
+    call_throw:
+    call thrower
+    mov %rax,%rdi
+    .globl call_throw_again
+    call_throw_again:
+    call thrower
+    add $8,%rsp
+    .cfi_adjust_cfa_offset -8
+    ret
+    .cfi_endproc
+    .size invoke_throw,.-invoke_throw
+    .section .note.GNU-stack,"",@progbits
+    ''')
+        subprocess.run(['clang++-19', '-O2', '-fasynchronous-unwind-tables', '-pie' if pie else '-no-pie',
+                        str(source), str(assembly), '-o', str(base)], check=True)
+        symbols = {s[2]:int(s[0],16) for line in subprocess.check_output(['nm', str(base)],text=True).splitlines() if len(s:=line.split())==3}
+        raw = base.read_bytes(); elf = m.Elf(raw)
+        calls = []
+        for site, callee in [('call_probe','probe'), ('call_throw','thrower'), ('call_throw_again','thrower')]:
+            va = symbols[site]; off = elf.offset(va,5,True)
+            calls.append(dict(site=va, callee=symbols[callee], expected=raw[off:off+5].hex(), targets=[symbols['probe'], symbols['thrower']]))
+        plan = dict(sha256=m.sha(raw), calls=calls)
+>       output = tmp_path/'with_hints'; record = m.build(base,plan,output)
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+llvm_prefetchit/tests/test_call_stub_prefetch.py:103: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+binary = PosixPath('/storage/prefetchit/class_b_mechanism_20260928/callpath_native_preflight/native_test_work/test_native_call_arguments_fla0/base')
+plan = {'sha256': '9d86557ef2cae82115abfb17991b1a528f86a41ed90d27cb4ba7556e4c260911', 'calls': [{'site': 4199165, 'callee': 4...': [4199175, 4198800]}, {'site': 4199226, 'callee': 4198800, 'expected': 'e851feffff', 'targets': [4199175, 4198800]}]}
+output = PosixPath('/storage/prefetchit/class_b_mechanism_20260928/callpath_native_preflight/native_test_work/test_native_call_arguments_fla0/with_hints')
+boundaries = None
+
+    def build(binary, plan, output, boundaries=None):
+        binary, output = Path(binary), Path(output)
+        twin = Path(str(output) + '.nop')
+        assert not output.exists() and not twin.exists()
+        assert shutil.disk_usage('/').free > 7 * 2**30
+        assert shutil.disk_usage(binary.parent).free > 2 * binary.stat().st_size + 2**30
+        original = binary.read_bytes()
+        assert sha(original) == plan['sha256'], 'Input fingerprint mismatch'
+        elf = Elf(original)
+        eh_ph = [p for p in elf.ph if p[0] == EH_FRAME]
+        assert len(eh_ph) == 1, 'Exactly one original GNU EH header required'
+        old_eh, old_entries = decode_eh_header(original[eh_ph[0][2]:eh_ph[0][2] + eh_ph[0][5]], eh_ph[0][3])
+        calls = plan['calls']
+        assert calls and len({r['site'] for r in calls}) == len(calls)
+        canonical = {}; stub_indices = []
+        for index, row in enumerate(calls):
+            # Sharing identical leaf stubs reduces appended instruction footprint
+            # while each original call still pushes its own original return address.
+            key = (row['callee'], tuple(row['targets']))
+            stub_indices.append(canonical.setdefault(key, index))
+        wanted = set()
+        for row in calls:
+            site = row['site']; off = elf.offset(site, 5, True)
+            raw = original[off:off + 5]
+            assert raw[0] == 0xe8 and raw.hex() == row['expected'], 'Only fingerprinted E8 rel32 calls are supported'
+            assert site + 5 + struct.unpack_from('<i', raw, 1)[0] == row['callee']
+            assert 1 <= len(row['targets']) <= 8 and len(set(row['targets'])) == len(row['targets'])
+            wanted.update([site, row['callee'], *row['targets']])
+            for target in row['targets']:
+                elf.offset(target, 1, True)
+        if boundaries is None:
+            instruction_boundaries(binary, wanted)
+        else:
+            assert all(v in boundaries for v in wanted)
+        patch_bytes = sorted(r['site'] + i for r in calls for i in range(1, 5))
+        for s in elf.sh:
+            if s[1] not in (4, 9) or not s[2] & 2:
+                continue
+            size = 24 if s[1] == 4 else 16
+            assert s[9] == size and s[5] % size == 0
+            for pos in range(s[4], s[4] + s[5], size):
+                va = struct.unpack_from('<Q', original, pos)[0]
+                index = bisect.bisect_left(patch_bytes, va)
+                assert index == len(patch_bytes) or patch_bytes[index] >= va + 8, 'Runtime relocation overlaps call patch'
+        ph = [list(p) for p in elf.ph]
+        assert sum(p[0] == 6 for p in ph) == 1, 'An existing PT_PHDR is required'
+        count = len(ph) + 1
+        rxoff = align(len(original))
+        rxva = align(max(p[3] + p[6] for p in ph if p[0] == 1))
+        codeva = rxva + align(count * PH.size, 64)
+        lines = ['.text']
+        for i, row in enumerate(calls):
+            if stub_indices[i] != i:
+                continue
+            lines += [f'.balign 16\n.global pf_call_{i}\n.type pf_call_{i},@function\npf_call_{i}:', '.cfi_startproc']
+            for j, target in enumerate(row['targets']):
+                lines += [f'.set pf_target_{i}_{j}, 0x{target:x}', f'prefetcht1 pf_target_{i}_{j}(%rip)']
+            lines += [f'.set pf_callee_{i}, 0x{row["callee"]:x}', f'jmp pf_callee_{i}', '.cfi_endproc', f'.size pf_call_{i},.-pf_call_{i}']
+        lines += ['.section .note.GNU-stack,"",@progbits']
+        output.parent.mkdir(parents=True, exist_ok=True)
+        source = Path(str(output) + '.stubs.s')
+        source.write_text('\n'.join(lines) + '\n')
+        script = Path(str(output) + '.stubs.ld')
+        script.write_text('SECTIONS { . = 0x%x; .text : { *(.text) } . = ALIGN(8); .eh_frame : { *(.eh_frame) } . = ALIGN(4); .eh_frame_hdr : { *(.eh_frame_hdr) } /DISCARD/ : { *(.note*) *(.comment) } }\n' % codeva)
+        temporary = []
+        commands = []
+        generated = []
+        try:
+            with tempfile.TemporaryDirectory(prefix='call-stub-', dir=output.parent) as temp:
+                temp = Path(temp); obj = temp/'stubs.o'; linked = temp/'stubs.elf'
+                commands = [['clang-19', '-c', str(source), '-o', str(obj)],
+                            ['ld', '--build-id=none', '--eh-frame-hdr', '-T', str(script), '-e', 'pf_call_0', str(obj), '-o', str(linked)]]
+                try:
+                    for command in commands:
+                        subprocess.run(command, check=True)
+                finally:
+                    for path in (obj, linked):
+                        if path.exists():
+                            raw = path.read_bytes(); temporary.append(dict(path=str(path), bytes=len(raw), sha256=sha(raw)))
+                built = Elf(linked.read_bytes())
+                assert 'There are no relocations' in subprocess.check_output(['readelf', '-r', str(linked)], text=True)
+                text_s, code = built.section('.text')
+                frame_s, frame = built.section('.eh_frame')
+                hdr_s, hdr = built.section('.eh_frame_hdr')
+                _, entries = decode_eh_header(hdr, hdr_s[3])
+                assert len(entries) == len(canonical)
+                symbols = {s[2]:int(s[0], 16) for line in subprocess.check_output(['nm', str(linked)], text=True).splitlines() if len(s := line.split()) == 3}
+                Path(str(output) + '.stubs.asm').write_text(subprocess.check_output(['objdump', '-d', str(linked)], text=True))
+            merged_va = align(frame_s[3] + len(frame), 4)
+            merged = encode_eh_header(merged_va, old_eh, old_entries + entries)
+            rxsize = merged_va + len(merged) - rxva
+            data = bytearray(original)
+            data.extend(b'\0' * (rxoff + rxsize - len(data)))
+            for p in ph:
+                if p[0] == 6:
+                    p[:] = [6, 4, rxoff, rxva, rxva, count * PH.size, count * PH.size, 8]
+                elif p[0] == EH_FRAME:
+                    p[:] = [EH_FRAME, 4, rxoff + merged_va - rxva, merged_va, merged_va, len(merged), len(merged), 4]
+            ph.append([1, 5, rxoff, rxva, rxva, rxsize, rxsize, 4096])
+            for i, p in enumerate(ph):
+                PH.pack_into(data, rxoff + i * PH.size, *p)
+            for va, raw in [(text_s[3], code), (frame_s[3], frame), (merged_va, merged)]:
+                off = rxoff + va - rxva
+                data[off:off + len(raw)] = raw
+            patches = []; hints = []; seen_hints = set()
+            for i, row in enumerate(calls):
+                stub = symbols[f'pf_call_{stub_indices[i]}']; off = elf.offset(row['site'], 5, True)
+                replacement = b'\xe8' + struct.pack('<i', stub - row['site'] - 5)
+                data[off:off + 5] = replacement
+                patches.append(dict(**row, offset=off, stub=stub, replacement=replacement.hex()))
+                for j, target in enumerate(row['targets']):
+                    va = stub + j * 7; hintoff = rxoff + va - rxva
+                    raw = bytes(data[hintoff:hintoff + 7])
+>                   assert raw[:3] == bytes.fromhex('0f1815') and va + 7 + struct.unpack_from('<i', raw, 3)[0] == target
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E                   AssertionError
+
+llvm_prefetchit/tools/call_stub_prefetch.py:205: AssertionError
+___________ test_native_call_arguments_flags_return_and_unwind[True] ___________
+
+tmp_path = PosixPath('/storage/prefetchit/class_b_mechanism_20260928/callpath_native_preflight/native_test_work/test_native_call_arguments_fla1')
+pie = True
+
+    @pytest.mark.parametrize('pie', [False, True])
+    def test_native_call_arguments_flags_return_and_unwind(tmp_path, pie):
+        source = tmp_path/'main.cc'; assembly = tmp_path/'calls.s'; base = tmp_path/'base'
+        source.write_text(r'''
+    #include <stdint.h>
+    #include <stdio.h>
+    #include <string.h>
+    extern "C" long invoke(long,long,long,long,long,long);
+    extern "C" long invoke_throw(long);
+    extern "C" char call_probe[], call_throw[], call_throw_again[];
+    struct bases { void *tbase, *dbase, *func; };
+    extern "C" void *_Unwind_Find_FDE(void *, struct bases *);
+    extern "C" __attribute__((noinline)) long thrower(long x) { if (x<0) throw x; return x+10; }
+    int main() {
+      if (invoke(1,2,3,4,5,6)!=22 || invoke_throw(9)!=29) return 1;
+      bool caught=false; try { invoke_throw(-7); } catch (long x) { caught=x==-7; }
+      if (!caught) return 2;
+      for (char *site : {call_probe, call_throw, call_throw_again}) {
+        int32_t displacement; memcpy(&displacement,site+1,4);
+        void *destination=site+5+displacement;
+        struct bases b={}; if (!_Unwind_Find_FDE(destination,&b)) return 3;
+      }
+      puts("abi-and-unwind-ok");
+    }
+    '''.replace('#include <stdint.h>', '#include <stdint.h>\n#include <initializer_list>'))
+        assembly.write_text(r'''
+    .text
+    .globl invoke
+    .type invoke,@function
+    invoke:
+    .cfi_startproc
+    sub $8,%rsp
+    .cfi_adjust_cfa_offset 8
+    stc
+    .globl call_probe
+    call_probe:
+    call probe
+    .globl return_probe
+    return_probe:
+    add $8,%rsp
+    .cfi_adjust_cfa_offset -8
+    ret
+    .cfi_endproc
+    .size invoke,.-invoke
+    .globl probe
+    .type probe,@function
+    probe:
+    .cfi_startproc
+    mov %rdi,%rax
+    adc %rsi,%rax
+    add %rdx,%rax
+    add %rcx,%rax
+    add %r8,%rax
+    add %r9,%rax
+    lea return_probe(%rip),%r10
+    cmp %r10,(%rsp)
+    je 1f
+    mov $-1,%rax
+    1: ret
+    .cfi_endproc
+    .size probe,.-probe
+    .globl invoke_throw
+    .type invoke_throw,@function
+    invoke_throw:
+    .cfi_startproc
+    sub $8,%rsp
+    .cfi_adjust_cfa_offset 8
+    .globl call_throw
+    call_throw:
+    call thrower
+    mov %rax,%rdi
+    .globl call_throw_again
+    call_throw_again:
+    call thrower
+    add $8,%rsp
+    .cfi_adjust_cfa_offset -8
+    ret
+    .cfi_endproc
+    .size invoke_throw,.-invoke_throw
+    .section .note.GNU-stack,"",@progbits
+    ''')
+        subprocess.run(['clang++-19', '-O2', '-fasynchronous-unwind-tables', '-pie' if pie else '-no-pie',
+                        str(source), str(assembly), '-o', str(base)], check=True)
+        symbols = {s[2]:int(s[0],16) for line in subprocess.check_output(['nm', str(base)],text=True).splitlines() if len(s:=line.split())==3}
+        raw = base.read_bytes(); elf = m.Elf(raw)
+        calls = []
+        for site, callee in [('call_probe','probe'), ('call_throw','thrower'), ('call_throw_again','thrower')]:
+            va = symbols[site]; off = elf.offset(va,5,True)
+            calls.append(dict(site=va, callee=symbols[callee], expected=raw[off:off+5].hex(), targets=[symbols['probe'], symbols['thrower']]))
+        plan = dict(sha256=m.sha(raw), calls=calls)
+>       output = tmp_path/'with_hints'; record = m.build(base,plan,output)
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+llvm_prefetchit/tests/test_call_stub_prefetch.py:103: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+binary = PosixPath('/storage/prefetchit/class_b_mechanism_20260928/callpath_native_preflight/native_test_work/test_native_call_arguments_fla1/base')
+plan = {'sha256': '38d7c6cda736cef444ad40a349a48a3527cbcff4b11621fd37b0764dd3cbe2dd', 'calls': [{'site': 4877, 'callee': 4887...9feffff', 'targets': [4887, 4512]}, {'site': 4938, 'callee': 4512, 'expected': 'e851feffff', 'targets': [4887, 4512]}]}
+output = PosixPath('/storage/prefetchit/class_b_mechanism_20260928/callpath_native_preflight/native_test_work/test_native_call_arguments_fla1/with_hints')
+boundaries = None
+
+    def build(binary, plan, output, boundaries=None):
+        binary, output = Path(binary), Path(output)
+        twin = Path(str(output) + '.nop')
+        assert not output.exists() and not twin.exists()
+        assert shutil.disk_usage('/').free > 7 * 2**30
+        assert shutil.disk_usage(binary.parent).free > 2 * binary.stat().st_size + 2**30
+        original = binary.read_bytes()
+        assert sha(original) == plan['sha256'], 'Input fingerprint mismatch'
+        elf = Elf(original)
+        eh_ph = [p for p in elf.ph if p[0] == EH_FRAME]
+        assert len(eh_ph) == 1, 'Exactly one original GNU EH header required'
+        old_eh, old_entries = decode_eh_header(original[eh_ph[0][2]:eh_ph[0][2] + eh_ph[0][5]], eh_ph[0][3])
+        calls = plan['calls']
+        assert calls and len({r['site'] for r in calls}) == len(calls)
+        canonical = {}; stub_indices = []
+        for index, row in enumerate(calls):
+            # Sharing identical leaf stubs reduces appended instruction footprint
+            # while each original call still pushes its own original return address.
+            key = (row['callee'], tuple(row['targets']))
+            stub_indices.append(canonical.setdefault(key, index))
+        wanted = set()
+        for row in calls:
+            site = row['site']; off = elf.offset(site, 5, True)
+            raw = original[off:off + 5]
+            assert raw[0] == 0xe8 and raw.hex() == row['expected'], 'Only fingerprinted E8 rel32 calls are supported'
+            assert site + 5 + struct.unpack_from('<i', raw, 1)[0] == row['callee']
+            assert 1 <= len(row['targets']) <= 8 and len(set(row['targets'])) == len(row['targets'])
+            wanted.update([site, row['callee'], *row['targets']])
+            for target in row['targets']:
+                elf.offset(target, 1, True)
+        if boundaries is None:
+            instruction_boundaries(binary, wanted)
+        else:
+            assert all(v in boundaries for v in wanted)
+        patch_bytes = sorted(r['site'] + i for r in calls for i in range(1, 5))
+        for s in elf.sh:
+            if s[1] not in (4, 9) or not s[2] & 2:
+                continue
+            size = 24 if s[1] == 4 else 16
+            assert s[9] == size and s[5] % size == 0
+            for pos in range(s[4], s[4] + s[5], size):
+                va = struct.unpack_from('<Q', original, pos)[0]
+                index = bisect.bisect_left(patch_bytes, va)
+                assert index == len(patch_bytes) or patch_bytes[index] >= va + 8, 'Runtime relocation overlaps call patch'
+        ph = [list(p) for p in elf.ph]
+        assert sum(p[0] == 6 for p in ph) == 1, 'An existing PT_PHDR is required'
+        count = len(ph) + 1
+        rxoff = align(len(original))
+        rxva = align(max(p[3] + p[6] for p in ph if p[0] == 1))
+        codeva = rxva + align(count * PH.size, 64)
+        lines = ['.text']
+        for i, row in enumerate(calls):
+            if stub_indices[i] != i:
+                continue
+            lines += [f'.balign 16\n.global pf_call_{i}\n.type pf_call_{i},@function\npf_call_{i}:', '.cfi_startproc']
+            for j, target in enumerate(row['targets']):
+                lines += [f'.set pf_target_{i}_{j}, 0x{target:x}', f'prefetcht1 pf_target_{i}_{j}(%rip)']
+            lines += [f'.set pf_callee_{i}, 0x{row["callee"]:x}', f'jmp pf_callee_{i}', '.cfi_endproc', f'.size pf_call_{i},.-pf_call_{i}']
+        lines += ['.section .note.GNU-stack,"",@progbits']
+        output.parent.mkdir(parents=True, exist_ok=True)
+        source = Path(str(output) + '.stubs.s')
+        source.write_text('\n'.join(lines) + '\n')
+        script = Path(str(output) + '.stubs.ld')
+        script.write_text('SECTIONS { . = 0x%x; .text : { *(.text) } . = ALIGN(8); .eh_frame : { *(.eh_frame) } . = ALIGN(4); .eh_frame_hdr : { *(.eh_frame_hdr) } /DISCARD/ : { *(.note*) *(.comment) } }\n' % codeva)
+        temporary = []
+        commands = []
+        generated = []
+        try:
+            with tempfile.TemporaryDirectory(prefix='call-stub-', dir=output.parent) as temp:
+                temp = Path(temp); obj = temp/'stubs.o'; linked = temp/'stubs.elf'
+                commands = [['clang-19', '-c', str(source), '-o', str(obj)],
+                            ['ld', '--build-id=none', '--eh-frame-hdr', '-T', str(script), '-e', 'pf_call_0', str(obj), '-o', str(linked)]]
+                try:
+                    for command in commands:
+                        subprocess.run(command, check=True)
+                finally:
+                    for path in (obj, linked):
+                        if path.exists():
+                            raw = path.read_bytes(); temporary.append(dict(path=str(path), bytes=len(raw), sha256=sha(raw)))
+                built = Elf(linked.read_bytes())
+                assert 'There are no relocations' in subprocess.check_output(['readelf', '-r', str(linked)], text=True)
+                text_s, code = built.section('.text')
+                frame_s, frame = built.section('.eh_frame')
+                hdr_s, hdr = built.section('.eh_frame_hdr')
+                _, entries = decode_eh_header(hdr, hdr_s[3])
+                assert len(entries) == len(canonical)
+                symbols = {s[2]:int(s[0], 16) for line in subprocess.check_output(['nm', str(linked)], text=True).splitlines() if len(s := line.split()) == 3}
+                Path(str(output) + '.stubs.asm').write_text(subprocess.check_output(['objdump', '-d', str(linked)], text=True))
+            merged_va = align(frame_s[3] + len(frame), 4)
+            merged = encode_eh_header(merged_va, old_eh, old_entries + entries)
+            rxsize = merged_va + len(merged) - rxva
+            data = bytearray(original)
+            data.extend(b'\0' * (rxoff + rxsize - len(data)))
+            for p in ph:
+                if p[0] == 6:
+                    p[:] = [6, 4, rxoff, rxva, rxva, count * PH.size, count * PH.size, 8]
+                elif p[0] == EH_FRAME:
+                    p[:] = [EH_FRAME, 4, rxoff + merged_va - rxva, merged_va, merged_va, len(merged), len(merged), 4]
+            ph.append([1, 5, rxoff, rxva, rxva, rxsize, rxsize, 4096])
+            for i, p in enumerate(ph):
+                PH.pack_into(data, rxoff + i * PH.size, *p)
+            for va, raw in [(text_s[3], code), (frame_s[3], frame), (merged_va, merged)]:
+                off = rxoff + va - rxva
+                data[off:off + len(raw)] = raw
+            patches = []; hints = []; seen_hints = set()
+            for i, row in enumerate(calls):
+                stub = symbols[f'pf_call_{stub_indices[i]}']; off = elf.offset(row['site'], 5, True)
+                replacement = b'\xe8' + struct.pack('<i', stub - row['site'] - 5)
+                data[off:off + 5] = replacement
+                patches.append(dict(**row, offset=off, stub=stub, replacement=replacement.hex()))
+                for j, target in enumerate(row['targets']):
+                    va = stub + j * 7; hintoff = rxoff + va - rxva
+                    raw = bytes(data[hintoff:hintoff + 7])
+>                   assert raw[:3] == bytes.fromhex('0f1815') and va + 7 + struct.unpack_from('<i', raw, 3)[0] == target
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E                   AssertionError
+
+llvm_prefetchit/tools/call_stub_prefetch.py:205: AssertionError
+=========================== short test summary info ============================
+FAILED llvm_prefetchit/tests/test_call_stub_prefetch.py::test_native_call_arguments_flags_return_and_unwind[False]
+FAILED llvm_prefetchit/tests/test_call_stub_prefetch.py::test_native_call_arguments_flags_return_and_unwind[True]
+2 failed, 3 passed in 0.33s

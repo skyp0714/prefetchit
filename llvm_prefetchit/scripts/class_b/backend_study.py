@@ -22,8 +22,10 @@ EVENTS={
 
 def trial(spec):
     out=Path(spec['out']);out.mkdir(parents=True,exist_ok=False);b.space(out)
+    extra=spec.get('extra_events',{});assert not set(extra)&set(EVENTS)
+    event_sets=dict(EVENTS,**extra)
     b.save(out/'protocol.json',dict(spec,source_sha256=b.sha(__file__),
-        backend_adapter_sha256=b.sha(Path(__file__).with_name('backend_prefetch.py')),monitored=MONITORED,events=EVENTS,
+        backend_adapter_sha256=b.sha(Path(__file__).with_name('backend_prefetch.py')),monitored=MONITORED,events=event_sets,
         event_source='https://perfmon-events.intel.com/platforms/graniterapids/core-events/core/',
         event_limitation='At most four general events per window. L1D_FB_FULL measures data fill-buffer resource waits, not instruction-fetch queue occupancy. T1_T2_EXECUTED is speculative and includes original data-prefetch instructions.',
         scope='Fresh full Media stack for every arm; clean 60s ROI after 50s warmup, diagnostics afterwards. No long-crossover E2E.'))
@@ -31,11 +33,11 @@ def trial(spec):
     try:
         with bind_mongodb(out,spec.get('mongo_binary')):stack=h.start(out,'media',spec['overrides'],8)
         audit_backends(stack,out,spec.get('mongo_binary'))
-        seconds=125+len(MONITORED)*len(EVENTS)*6
+        seconds=125+len(MONITORED)*len(event_sets)*6
         client=start_client(out,seconds,spec['seed']);time.sleep(50)
         a=stack.accounts();pb=h.old.pool_cpu(set(range(32,40)));time.sleep(60)
         pa=h.old.pool_cpu(set(range(32,40)));z=stack.accounts()
-        for label,events in EVENTS.items():
+        for label,events in event_sets.items():
             pmu[label]={}
             for key,name in MONITORED.items():
                 pid=stack.states[name]['State']['Pid'];before=h.c.cpu(pid)

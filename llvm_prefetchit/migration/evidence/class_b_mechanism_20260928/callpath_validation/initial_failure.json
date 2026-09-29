@@ -1,0 +1,17 @@
+{
+  "started_epoch": 1790669711.3066864,
+  "finished_trial": "00_combined",
+  "exited_wrapper_pid": "616958",
+  "exited_wrapper_state": "Z",
+  "controller_pid": 3916508,
+  "source_sha256": {
+    "llvm_prefetchit/tools/call_stub_prefetch.py": "2fe55caf8f0ae8f5f8966be7546e346e04463ac8c5a4035d5ed5df736a484e65",
+    "llvm_prefetchit/tests/test_call_stub_prefetch.py": "dc23b9f74e0571f2a8088f42fc5696ec40f5611c1fccd550a64228a2df186c3a",
+    "llvm_prefetchit/scripts/class_b/callpath_prefetch.py": "8546831aae09ff68ba866cde73a58a66b98785f0cfaf72d76c2e1b3b8e4dc0e8",
+    "llvm_prefetchit/tests/test_callpath_prefetch.py": "d45cc2c7cc1a0224b2a7a7914f84968eec5f608c5aee2246034d7b16bb5d33bd"
+  },
+  "scope": "Active workload and platform wrapper finished; next-trial controller is stopped. Native tests cannot overlap a clean ROI or PMU capture.",
+  "valid": false,
+  "error": "CalledProcessError(1, ['python3', '-c', \"import sys;sys.path.insert(0,'/home/hnpark2/prefetchit/profiling/.venv/lib/python3.12/site-packages');import pytest;raise SystemExit(pytest.main(sys.argv[1:]))\", '-q', '/home/hnpark2/prefetchit/llvm_prefetchit/tests/test_call_stub_prefetch.py', '/home/hnpark2/prefetchit/llvm_prefetchit/tests/test_callpath_prefetch.py', '--basetemp', '/storage/prefetchit/class_b_mechanism_20260928/callpath_native_preflight/native_test_work'])",
+  "finished_epoch": 1790669712.1351814
+}
