@@ -130,6 +130,24 @@ def thin_plan(rows,targets,coverage=.98):
         original_covered=len(universe),retained_covered=len(universe)-len(remaining),coverage_goal=coverage,
         limitation='NOP thinning retains executable size and retired instruction count. Benefit/coverage on unsampled paths is not guaranteed.')
 
+def thin_by_age(rows,targets,coverage=.98):
+    """Preserve observed coverage separately for short and early occurrences.
+
+    Plain set cover can replace a useful early hint with a much later one that
+    reaches the same sampled miss. A union of per-age-band covers retains both
+    observed timing roles without adding an instruction or inventing a path.
+    """
+    bands=[];keep=set()
+    for lo,hi in [(0,63),(64,127),(128,511),(512,2047),(2048,8192)]:
+        selected=lead_rows(rows,lo,hi)
+        if not any(targets[s]//64==row['line'] for row in selected for s in row['sites']):continue
+        record=thin_plan(selected,targets,coverage);keep.update(record['keep'])
+        bands.append(dict(min_age=lo,max_age=hi,**record))
+    assert keep
+    return dict(keep=sorted(keep),drop=sorted(set(targets)-keep),bands=bands,
+        coverage_goal_per_band=coverage,
+        limitation='Preserves sampled timing roles, not real issue-to-fetch time or unsampled-path coverage. Code size stays unchanged.')
+
 def thin_patch(source,dest,drop,expected_sha):
     assert not dest.exists() and b.sha(source)==expected_sha
     original=source.read_bytes();data=bytearray(original);table=sections(original);image=read_image(source)

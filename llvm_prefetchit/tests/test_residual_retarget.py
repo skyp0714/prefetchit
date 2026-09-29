@@ -2,7 +2,7 @@
 from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts/class_b'))
-from residual_retarget import plan,lead_rows,thin_plan
+from residual_retarget import plan,lead_rows,thin_plan,thin_by_age
 
 def test_redundant_slot_reuse_without_instruction_growth():
     rows=[dict(target=64,line=1,sites=[10,20]) for _ in range(20)]
@@ -39,6 +39,13 @@ def test_thinning_preserves_observed_coverage():
     result=thin_plan(rows,{10:64,20:64,30:128,40:256})
     assert result['keep']==[10,30] and result['drop']==[20,40]
     assert result['retained_covered']==result['original_covered']==32
+
+def test_age_thinning_does_not_replace_early_with_late_coverage():
+    rows=[dict(target=64,line=1,sites=[10,20],ages=[(10,[0]),(20,[512])]) for _ in range(20)]
+    assert thin_plan(rows,{10:64,20:64})['keep']==[10]
+    result=thin_by_age(rows,{10:64,20:64,30:128})
+    assert result['keep']==[10,20] and result['drop']==[30]
+    assert all(b['original_covered']==b['retained_covered'] for b in result['bands'])
 
 def test_native_retarget_and_thin_metadata(tmp_path):
     import subprocess
