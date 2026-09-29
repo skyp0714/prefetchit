@@ -41,7 +41,8 @@ SAMPLES={'l2':fe('fe_l2',0x13)[:-2]+',period=257/upp',
          'instructions':'cpu/event=0xc0,umask=0,period=100003,name=inst/upp'}
 
 
-def counters(path):
+def counters(path, privilege='u'):
+    assert privilege in ('u','k')
     values={};percent={}
     for row in csv.reader(path.open()):
         if len(row)<5 or row[0].startswith('#'):continue
@@ -49,7 +50,7 @@ def counters(path):
         try:float(row[3]);index=4
         except ValueError:index=5
         values[name]=value;percent[name]=float(row[index])
-    assert values['instructions:u']>0 and values['cycles:u']>0
+    assert values['instructions:'+privilege]>0 and values['cycles:'+privilege]>0
     return dict(counters=values,scheduled_pct=percent,fully_scheduled=all(x>=99.99 for x in percent.values()))
 
 

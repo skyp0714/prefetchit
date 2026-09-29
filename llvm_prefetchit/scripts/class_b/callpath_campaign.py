@@ -71,6 +71,8 @@ def run(parent):
     attribution=root/'privilege';manifest=root/'privilege_spec.json'
     b.save(manifest,dict(out=str(attribution),overrides=base,seed=77501))
     h.platform(attribution,['python3',Path(__file__).with_name('privilege_frontend.py'),manifest])
+    from privilege_report import report as privilege_report
+    privilege_report(attribution)
     for phase,seed in [('train',78001),('heldout',78002)]:
         dest=root/'profiles'/phase;manifest=root/(phase+'_spec.json')
         b.save(manifest,dict(out=str(dest),reference=str(reference),overrides=base,seed=seed,services=services))

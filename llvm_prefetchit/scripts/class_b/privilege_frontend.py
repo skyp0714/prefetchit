@@ -25,6 +25,7 @@ def events(label,privilege):
 def run(spec):
     out=Path(spec['out']);out.mkdir(parents=True,exist_ok=False);b.space(out)
     b.save(out/'protocol.json',dict(spec,source_sha256=b.sha(__file__),events=EVENTS,
+        counter_parser_sha256=b.sha(Path(__file__).with_name('dense_causes.py')),
         scope='Original full Media C4. CPU-wide counters on 32-39, separately filtered to user/kernel. Includes scheduler/interrupt work on that pool; excludes work on other CPUs.',
         ordering='Two repeats, reversed privilege and group order in repeat 2; every PMU window has its own request denominator.',
         limitation='Diagnostic attribution, not a prefetch E2E trial or critical-path causal bound. Frontend events overlap; their counts cannot be subtracted into exclusive causes.',
@@ -33,7 +34,7 @@ def run(spec):
         for label in EVENTS:
             stem=out/('preflight_'+privilege+'_'+label)
             b.run(['perf','stat','-x,','-o',str(stem)+'.csv','-e',events(label,privilege),'-a','-C','84','--','sleep','.2'],Path(str(stem)+'.log'))
-            row=counters(Path(str(stem)+'.csv'));assert row['fully_scheduled']
+            row=counters(Path(str(stem)+'.csv'),privilege=privilege);assert row['fully_scheduled']
     stack=client=None;windows=[]
     try:
         stack=h.start(out,'media',spec['overrides'],8)
@@ -46,7 +47,7 @@ def run(spec):
                 before=h.old.pool_cpu(set(range(32,40)))
                 stem=out/f'{repeat}_{privilege}_{label}'
                 b.run(['perf','stat','-x,','-o',str(stem)+'.csv','-e',events(label,privilege),'-a','-C','32-39','--','sleep','4'],Path(str(stem)+'.log'))
-                after=h.old.pool_cpu(set(range(32,40)));row=counters(Path(str(stem)+'.csv'))
+                after=h.old.pool_cpu(set(range(32,40)));row=counters(Path(str(stem)+'.csv'),privilege=privilege)
                 assert row['fully_scheduled'] and client.poll() is None
                 windows.append(dict(repeat=repeat,privilege=privilege,label=label,**row,
                     window=dict(start=before['epoch'],end=after['epoch'],wall_s=after['monotonic']-before['monotonic'],
