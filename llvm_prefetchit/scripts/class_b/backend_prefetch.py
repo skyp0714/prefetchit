@@ -241,6 +241,7 @@ def padding_variant(source,dest,code,slots,changes):
     assert bytes(reverse)==original
     dest.parent.mkdir(parents=True,exist_ok=True);b.space(dest.parent);dest.write_bytes(data);dest.chmod(0o755)
     try:
+        print(json.dumps(dict(stage='verify_patched_instruction_boundaries',binary=str(dest),patches=len(patches))),flush=True)
         verified=Code(dest)
         for p in patches:
             assert verified.raw_targets[p['site']]==p['target']
@@ -255,7 +256,12 @@ def padding_variant(source,dest,code,slots,changes):
         original_software_prefetches_untouched=True,fully_reversible=True))
 
 def prepare(spec):
-    root=Path(spec['root']);source=Path(spec['reference']);b.space(root);code=Code(source);raw=source.read_bytes();slots={}
+    root=Path(spec['root']);source=Path(spec['reference']);b.space(root)
+    b.save(root/'prepare_protocol.json',dict(spec,source_sha256=b.sha(__file__),
+        decoder_sha256=b.sha(Path(__file__).with_name('dense_cause_analysis.py')),
+        selector_sha256=b.sha(Path(__file__).with_name('residual_retarget.py')),binary_sha256=b.sha(source)))
+    print(json.dumps(dict(stage='disassemble_original',binary=str(source),bytes=source.stat().st_size)),flush=True)
+    code=Code(source);raw=source.read_bytes();slots={}
     for site,(length,asm,_) in code.instructions.items():
         if not 7<=length<=15 or not re.search(r'\bnop[wl]?\b',asm):continue
         sec=next((s for s in code.sections if s[0]<=site and site+length<=s[0]+s[2]),None)
@@ -263,6 +269,7 @@ def prepare(spec):
         off=sec[1]+site-sec[0]
         if is_padding_nop(raw[off:off+length]):slots[site]=(off,length)
     assert slots
+    print(json.dumps(dict(stage='original_decoded',instructions=len(code.instructions),padding_slots=len(slots))),flush=True)
     train=[];heldout=[];quality={};obsolete=[]
     for phase in ['train','heldout']:
         for name in BACKENDS:
@@ -275,6 +282,7 @@ def prepare(spec):
             with gzip.open(path,'wt') as f:json.dump(rows,f,separators=(',',':'))
             quality[phase+':'+name].update(trace_sha256=b.sha(folder/'samples.txt'),observations_sha256=b.sha(path))
             obsolete.append(folder/'samples.txt')
+            print(json.dumps(dict(stage='observations',phase=phase,service=name,all_samples=counts['all_samples'],main_samples=counts['main_samples'],eligible_samples=counts['eligible_samples'])),flush=True)
     b.save(root/'profile_quality.json',dict(records=quality,source_sha256=b.sha(source),nop_slots=len(slots)))
     remove_generated(obsolete,root/'decoded_cleanup.json','All train/heldout compact observations and quality extracted; exact selector inputs retained, decoded copies no longer needed.')
     result=plan(train,{s:0 for s in slots},max_fraction=min(1,256/len(slots)),min_gain=3)
@@ -286,6 +294,7 @@ def prepare(spec):
         heldout_all_samples=sum(v['all_samples'] for k,v in quality.items() if k.startswith('heldout:')),
         lead_limitation='Completed retired LBR age, no within-segment interpolation; not actual issue-to-fetch time.')
     dest=root/'builds/mongo256/mongod';b.save(dest.with_suffix('.plan.json'),result)
+    print(json.dumps(dict(stage='plan',patches=len(result['changes']),train_covered=result['final_covered'],heldout_covered=result['heldout_covered'],heldout_samples=len(heldout))),flush=True)
     padding_variant(source,dest,code,slots,result['changes'])
     b.save(root/'prepared.json',dict(binary=str(dest),reference=str(source),patches=len(result['changes']),
         train_covered=result['final_covered'],train_main_samples=len(train),train_all_samples=result['train_all_samples'],
