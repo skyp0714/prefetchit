@@ -1,5 +1,7 @@
 # Type B: 발행 동작, 선행 경로, 중복 힌트를 분리한 실험
 
+진행 중인 75% 커버리지 후속 비교의 첫 block에서는 **wide75의 retired L2 감소 50.48%, 전체 CPU/request 절감 2.08%, 처리량 변화 −1.66%**를 측정했다. **cost75는 힌트 실행을 wide75 대비 74.6% 줄이면서 retired L2 감소 49.01%, CPU 절감 1.40%, 처리량 변화 −0.46%**였다. 아직 4-block 전체 결과가 아니며, 이 점 추정치로 E2E 이득을 확정하지 않는다.
+
 후속 call-path 6회에서는 MongoDB 세 서비스의 retired L2 이벤트가 **33.12%**, I-cache stall이 **11.72%** 줄었다. 전체 처리량은 **1.0077×**, CPU/request 절감은 **0.77%**이고, 두 반복의 넓은 처리량 구간 때문에 E2E 이득을 확정하지 않는다. 남은 main-image 미스의 약 **79%가 선택하지 않은 타깃 줄**에 있었다. 이에 독립 트레이스 커버리지를 49.40→약 74.3%로 넓히고, 호출 빈도를 비용으로 반영해 발행을 줄이는 후속 정책을 준비했다.
 
 후속 20회 fresh-stack 검증에서, 타깃을 바꾼 T1의 처리량은 원본 대비 **1.0055× [0.9893, 1.0219]**, 동일 배치 NOP 대비 **1.0026× [0.9889, 1.0165]**다. E2E 향상은 아직 확정하지 않는다. 원본 대비 retired L2 frontend event/request는 **28.84%**, I-cache data-stall/request는 **11.01%** 줄었다. 더 낮은 이득 문턱으로 타깃을 넓힌 정책은 retired L2를 **30.65%** 줄였지만 처리량은 **1.0032×**였다. 코드 미스 감소를 요청 성능 개선으로 대신 보고하지 않는다.
@@ -206,6 +208,28 @@ MongoDB 세 서비스 합계의 retired L2/request 감소는 원본 대비 **33.
 원본·기존 T1·두 새 T1·각 새 NOP를 4 block, 총 24회 비교하는 후속 구현을 추가했다. 두 배치 모두 75% 학습 목표, 최대 1,024개 위치·4,096개 힌트·위치당 4개, 최소 나이 64를 고정한다. 이 문단은 계획이며 실제 성능 결과가 아니다. 빈도 선택기 검사 2개도 통과했다.
 
 완료 자료: [E2E와 PMU](../llvm_prefetchit/migration/evidence/class_b_mechanism_20260928/callpath_completed/screen_report.md), [잔여 미스와 서비스별 비용](../llvm_prefetchit/migration/evidence/class_b_mechanism_20260928/callpath_completed/cause_report.md), [후속 배치 비교](../llvm_prefetchit/migration/evidence/class_b_mechanism_20260928/callpath_completed/next_plan_comparison.json), [해시 목록](../llvm_prefetchit/migration/evidence/class_b_mechanism_20260928/callpath_completed/manifest.json).
+
+**75% 커버리지: 첫 block 중간 기록, 반복 계속 진행**
+
+아래 값은 진행 중인 24회 비교에서 첫 6개 실행만 정리한 것이다. 성능에 따라 표본을 제외하거나 조기 종료하지 않는다. 1회라 신뢰구간은 계산하지 않는다.
+
+| 정책 / 원본 | 처리량 speedup | 평균 지연 절감 | p99 절감 | 전체 CPU/request 절감 | MongoDB retired L2 감소 | L2 code-read miss 감소 | I-cache stall 감소 |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| call256 | 1.01266× | +1.30% | +1.09% | +1.17% | 33.09% | 5.74% | 11.44% |
+| wide75 | 0.98343× | -1.72% | -1.22% | +2.08% | 50.48% | 7.58% | 17.54% |
+| cost75 | 0.99539× | -0.47% | +0.14% | +1.40% | 49.01% | 7.09% | 16.67% |
+
+원본은 1,193.60 RPS, 평균 3.281ms, p99 5.842ms, 전체 CPU/request 5,888.31µs, CPU 사용률 86.73%다. Wide75와 cost75의 T1/T2 실행 이벤트/request 합은 각각 26,729.6과 6,785.2였다. 이는 speculative 실행 이벤트이고 accepted fill 수가 아니다. Hint 수를 줄여도 비슷한 retired L2 감소를 유지하는 방향은 실측으로 확인했으나 E2E 향상은 별도로 검증해야 한다.
+
+첫 cost75 NOP의 전체 CPU 증가는 약 166.0µs/request였고, 이 중 수정한 MongoDB 세 개는 약 38.1µs, Nginx는 약 72.9µs였다. 전체 2.82% 증가를 모두 삽입 코드 비용으로 돌리지 않는다. Wide75 T1의 L1I 이벤트/request는 MongoDB 세 개 모두 원본보다 많았고, ITLB walk-active cycles는 줄었다. L2 미스 감소만큼 frontend-bound 전체가 줄지 않아, 다음 opcode 비교와 ITLB·critical DSB·ANT 진단을 준비했다.
+
+현재 클라이언트는 HTTP 연결 4개를 재사용하고 Nginx는 worker 4개와 `reuseport`를 사용한다. Clean ROI 이후의 소켓 소유권 관측에서 cost75의 첫 두 실행은 **[3,1,0,0]**, 두 번째 wide75는 **[1,1,1,1]**이었다. 후자의 CPU/request는 같은 block의 cost75와 거의 같았지만 처리량은 2.48% 높았다. 정책도 다르고 단일 시점 관측이므로 연결 분포의 인과적 효과로 확정하지 않는다. 기존 결과는 모두 보존하고, 별도 비교에서 측정 전 연결을 worker별 하나씩 배정한다. 연결 재생성은 정상 결과로 숨기지 않고 운영 오류로 보존한다.
+
+별도 비교 구현은 원본·cost75 NOP/T1/동일 주소 IT0·네이티브 T1 결합과 그 NOP를 4 block으로 평가한다. 먼저 실제 전체 스택에서 연결 배정 smoke를 수행하고, opcode 변경은 native 검증 뒤에만 사용한다. IT0는 검증된 T1 힌트의 ModRM 한 바이트만 바꾸며 위치·타깃·길이는 그대로 둔다. **이 문단은 구현과 예정된 검증이며, 아직 IT0 성능 또는 연결 통제 효과를 측정한 결과가 아니다.**
+
+추가 점프 없이 함수 앞 패딩을 사용하는 방안도 바이트 패턴으로 검토했다. Cost75에서 최대 102/747개 호출, 모델상 추가 점프의 약 14%를 줄일 여지가 있었다. 이는 unwind gap·분기 진입점·명령어 경계 검증 전 상한이며, 새 prefix 바이너리를 만들었다는 뜻이 아니다.
+
+중간 자료: [첫 block의 전체 지표와 결과 해시](../llvm_prefetchit/migration/evidence/class_b_mechanism_20260928/coverage75_first_block/summary.json). 완료된 4-block 결과로 대체 판정하기 전까지 이 기록은 중간 결과로만 사용한다.
 
 **앞선 네이티브 수정과 독립 검증**
 

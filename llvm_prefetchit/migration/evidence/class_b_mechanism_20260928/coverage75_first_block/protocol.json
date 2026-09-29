@@ -1,0 +1,12 @@
+{
+  "source_sha256": "c0ed80b34255e9f3261556d338c1ee0a7ef0ae0ebd2917ed2307c5d874627df1",
+  "screen_seedbase": 81001,
+  "blocks": 4,
+  "training_source": "/storage/prefetchit/class_b_mechanism_20260928/callpath",
+  "frequency_source": "/storage/prefetchit/class_b_mechanism_20260928/call_frequency/capture/frequency_summary.json",
+  "frequency_sha256": "254cd69ee26907390c64bde9e5c937f1b71e7935bcb531dffb9b7d9fb9a75148",
+  "hypothesis": "The first policy covers about half of heldout miss paths, eliminates about a third of measured Mongo retired L2 events, and emits many hints. Target 75% train coverage and price sites by independent retired-call frequency.",
+  "policies": "Both new policies use 64..8192 retired-age proxy, <=1024 sites/4096 hints, <=4/site, gain>=8, 75% coverage goal. Plain marginal cover versus marginal misses per regularized call-rate cost. Heldout is not used to choose placements.",
+  "controls": "Original, prior call256 T1, and a separate same-layout NOP twin for each new policy. Fresh Media C4, fixed initial data, 50s warmup then 60s clean ROI. PMU follows clean E2E.",
+  "residual_policy": "Frequency-aware candidate, frozen before performance outcomes; original heldout comparison is diagnostic only."
+}

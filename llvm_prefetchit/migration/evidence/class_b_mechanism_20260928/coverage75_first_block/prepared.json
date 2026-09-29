@@ -1,0 +1,30 @@
+{
+  "reference": "/storage/prefetchit/class_b_mechanism_20260928/backend/reference/mongod",
+  "candidates": {
+    "wide75": {
+      "sites": 686,
+      "hints": 1380,
+      "train_coverage": 75.02020339836903,
+      "heldout_coverage": 74.32487447414846,
+      "binary": "/storage/prefetchit/class_b_mechanism_20260928/callpath_coverage75/builds/wide75/build/mongod",
+      "nop": "/storage/prefetchit/class_b_mechanism_20260928/callpath_coverage75/builds/wide75/build/mongod.nop",
+      "reference": "/storage/prefetchit/class_b_mechanism_20260928/backend/reference/mongod",
+      "extra_instruction_bytes": 18828,
+      "extra_mapped_bytes": 831524
+    },
+    "cost75": {
+      "sites": 747,
+      "hints": 1528,
+      "train_coverage": 75.02597579790304,
+      "heldout_coverage": 74.34992745075525,
+      "binary": "/storage/prefetchit/class_b_mechanism_20260928/callpath_coverage75/builds/cost75/build/mongod",
+      "nop": "/storage/prefetchit/class_b_mechanism_20260928/callpath_coverage75/builds/cost75/build/mongod.nop",
+      "reference": "/storage/prefetchit/class_b_mechanism_20260928/backend/reference/mongod",
+      "extra_instruction_bytes": 20668,
+      "extra_mapped_bytes": 835072
+    }
+  },
+  "residual_candidate": "cost75",
+  "baseline_root": "/storage/prefetchit/class_b_mechanism_20260928/callpath",
+  "density_rule": "Same 75% training-cover goal and fixed budgets; compare coverage-first and dynamic-emission-cost priorities."
+}

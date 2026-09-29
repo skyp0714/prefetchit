@@ -1,0 +1,191 @@
+{
+  "complete": false,
+  "campaign_blocks": 4,
+  "reported_complete_blocks": 1,
+  "records": {
+    "original": {
+      "block": 0,
+      "arm": "original",
+      "valid": true,
+      "output": "/storage/prefetchit/class_b_mechanism_20260928/callpath_coverage75/screen/00_original",
+      "achieved_rps": 1193.604014340713,
+      "pool_util_pct": 86.72911963650587,
+      "metrics": {
+        "mean_ms": 3.280518321883905,
+        "p99_ms": 5.841970443725586,
+        "stack_cpu": 5888.305928677149,
+        "inverse_rps": 0.0008377987908765117
+      },
+      "result_sha256": "0e75e6b911abe23861074ec0b033e47849f7ea5ed829148c29c7de99cedbb4c6",
+      "mongo3": {
+        "FE_L2": 5547.697574114144,
+        "ICACHE_DATA_STALL": 619942.6838398927,
+        "L2I": 61810.236233237745,
+        "T1_T2_EXECUTED": 0.0
+      }
+    },
+    "call256": {
+      "block": 0,
+      "arm": "call256",
+      "valid": true,
+      "output": "/storage/prefetchit/class_b_mechanism_20260928/callpath_coverage75/screen/00_call256",
+      "achieved_rps": 1208.720238809772,
+      "pool_util_pct": 86.67911578103788,
+      "metrics": {
+        "mean_ms": 3.2378923888865607,
+        "p99_ms": 5.778312683105469,
+        "stack_cpu": 5819.324191658049,
+        "inverse_rps": 0.0008273213005721663
+      },
+      "result_sha256": "166edbf854a70b074b745a11f97864f84f8952bee5f46228402ccd780a1e5832",
+      "mongo3": {
+        "FE_L2": 3712.0942808750815,
+        "ICACHE_DATA_STALL": 548991.0175236325,
+        "L2I": 58264.550196371674,
+        "T1_T2_EXECUTED": 19114.142557378345
+      }
+    },
+    "wide75_nop": {
+      "block": 0,
+      "arm": "wide75_nop",
+      "valid": true,
+      "output": "/storage/prefetchit/class_b_mechanism_20260928/callpath_coverage75/screen/00_wide75_nop",
+      "achieved_rps": 1158.9049978161754,
+      "pool_util_pct": 84.6000148418033,
+      "metrics": {
+        "mean_ms": 3.381022949455742,
+        "p99_ms": 5.828619003295898,
+        "stack_cpu": 5927.641523815002,
+        "inverse_rps": 0.0008628834994105524
+      },
+      "result_sha256": "def9c272edc67e0e4934c93e20e08bf0cc0565fc3d39c16fc7381090876fd010",
+      "mongo3": {
+        "FE_L2": 5627.752826098587,
+        "ICACHE_DATA_STALL": 638093.991551236,
+        "L2I": 62801.296769921995,
+        "T1_T2_EXECUTED": 0.0
+      }
+    },
+    "wide75": {
+      "block": 0,
+      "arm": "wide75",
+      "valid": true,
+      "output": "/storage/prefetchit/class_b_mechanism_20260928/callpath_coverage75/screen/00_wide75",
+      "achieved_rps": 1173.821846958833,
+      "pool_util_pct": 83.10634010393464,
+      "metrics": {
+        "mean_ms": 3.3370667565756,
+        "p99_ms": 5.913019180297852,
+        "stack_cpu": 5765.677301188397,
+        "inverse_rps": 0.0008519180338914504
+      },
+      "result_sha256": "4d8419087f24e90748a9a3ac4ee1554195577df680365f460895e3a5d6a38b58",
+      "mongo3": {
+        "FE_L2": 2747.2089717885715,
+        "ICACHE_DATA_STALL": 511179.24642827886,
+        "L2I": 57123.208884023654,
+        "T1_T2_EXECUTED": 26729.623386876192
+      }
+    },
+    "cost75_nop": {
+      "block": 0,
+      "arm": "cost75_nop",
+      "valid": true,
+      "output": "/storage/prefetchit/class_b_mechanism_20260928/callpath_coverage75/screen/00_cost75_nop",
+      "achieved_rps": 1137.2713786895752,
+      "pool_util_pct": 84.92702933786751,
+      "metrics": {
+        "mean_ms": 3.446194623083277,
+        "p99_ms": 5.867481231689453,
+        "stack_cpu": 6054.319235616519,
+        "inverse_rps": 0.0008792976054248841
+      },
+      "result_sha256": "fb814cae87e6d0410ccd0138f1d17b00544822ddad1d201d0cbaa11a7414bda1",
+      "mongo3": {
+        "FE_L2": 5848.807979999494,
+        "ICACHE_DATA_STALL": 654078.5840775993,
+        "L2I": 63497.421881515984,
+        "T1_T2_EXECUTED": 0.0
+      }
+    },
+    "cost75": {
+      "block": 0,
+      "arm": "cost75",
+      "valid": true,
+      "output": "/storage/prefetchit/class_b_mechanism_20260928/callpath_coverage75/screen/00_cost75",
+      "achieved_rps": 1188.103737965998,
+      "pool_util_pct": 84.95413381374746,
+      "metrics": {
+        "mean_ms": 3.2959337180183335,
+        "p99_ms": 5.833864212036133,
+        "stack_cpu": 5806.142127707328,
+        "inverse_rps": 0.0008416773452055401
+      },
+      "result_sha256": "f8de79fa878b03430548ade0748115ce667dd07d8e4ce002c5a4c2056fe8d91f",
+      "mongo3": {
+        "FE_L2": 2828.755460916109,
+        "ICACHE_DATA_STALL": 516628.6060232596,
+        "L2I": 57429.36031882403,
+        "T1_T2_EXECUTED": 6785.1830180904235
+      }
+    }
+  },
+  "relative": {
+    "call256": {
+      "speedup": 1.0126643545827954,
+      "mean_reduction_pct": 1.2993657957339422,
+      "p99_reduction_pct": 1.0896624903073082,
+      "cpu_reduction_pct": 1.1715039580933673,
+      "mongo3_reduction_pct": {
+        "FE_L2": 33.08765967712599,
+        "ICACHE_DATA_STALL": 11.444875174070823,
+        "L2I": 5.736405898024088
+      }
+    },
+    "wide75_nop": {
+      "speedup": 0.9709292059111382,
+      "mean_reduction_pct": -3.063681336616342,
+      "p99_reduction_pct": 0.2285434436599565,
+      "cpu_reduction_pct": -0.6680290666672306,
+      "mongo3_reduction_pct": {
+        "FE_L2": -1.443035618199251,
+        "ICACHE_DATA_STALL": -2.927900947054507,
+        "L2I": -1.603392248728075
+      }
+    },
+    "wide75": {
+      "speedup": 0.9834265240865441,
+      "mean_reduction_pct": -1.7237652450976304,
+      "p99_reduction_pct": -1.2161776109047784,
+      "cpu_reduction_pct": 2.0825790808783773,
+      "mongo3_reduction_pct": {
+        "FE_L2": 50.48019588149151,
+        "ICACHE_DATA_STALL": 17.544111777872562,
+        "L2I": 7.582930651693087
+      }
+    },
+    "cost75_nop": {
+      "speedup": 0.9528045859645896,
+      "mean_reduction_pct": -5.05030866903462,
+      "p99_reduction_pct": -0.4366812227074135,
+      "cpu_reduction_pct": -2.8193729903002174,
+      "mongo3_reduction_pct": {
+        "FE_L2": -5.427664393429588,
+        "ICACHE_DATA_STALL": -5.506299393077851,
+        "L2I": -2.7296217440615056
+      }
+    },
+    "cost75": {
+      "speedup": 0.9953918751037771,
+      "mean_reduction_pct": -0.4699073323747083,
+      "p99_reduction_pct": 0.13875851936497874,
+      "cpu_reduction_pct": 1.3953724885398366,
+      "mongo3_reduction_pct": {
+        "FE_L2": 49.010279974250324,
+        "ICACHE_DATA_STALL": 16.66510155047095,
+        "L2I": 7.087622020861895
+      }
+    }
+  },
+  "limitation": "First block only. No confidence intervals, policy promotion or stopping decision. All remaining frozen trials continue; service PMU sums have separate window/request denominators."
+}
