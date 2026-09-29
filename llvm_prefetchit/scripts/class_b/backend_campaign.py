@@ -12,6 +12,18 @@ import dense_build as b
 import fullset as h
 from mechanism_report import evaluate
 
+def pmu_preflight(root):
+    from backend_study import EVENTS
+    from dense_causes import counters
+    records={}
+    for label,events in EVENTS.items():
+        stem=root/('pmu_preflight.'+label)
+        b.run(['perf','stat','-x,','-o',str(stem)+'.csv','-e',events,'-a','-C','84','--','sleep','0.3'],
+            Path(str(stem)+'.log'))
+        records[label]=counters(Path(str(stem)+'.csv'))
+        b.save(root/'pmu_preflight.json',dict(records=records,scope='Controller CPU 84 event scheduling only, before any backend workload. No performance interpretation.'))
+        assert records[label]['fully_scheduled'],(label,records[label])
+
 def run(parent):
     assert (parent/'confirmation_followup_complete.json').exists(),'Finish native measurements before backend work'
     root=parent/'backend';root.mkdir(exist_ok=False);b.space(root)
@@ -34,6 +46,7 @@ def run(parent):
         training_seeds=[75001,75002],screen_seedbase=76001,timeline_seed=77001,
         hypothesis='Two review MongoDBs have more retired L2 misses and user CPU than the three modified native services. Use observed earlier executed NOP padding, without code growth or changed benchmark semantics.',
         controls='Fresh stack and equal workload age for every arm; all MongoDBs share one identical selected ELF; include original image and byte-identical copied ELF control.'))
+    pmu_preflight(root)
     for phase,seed in [('train',75001),('heldout',75002)]:
         dest=root/'profiles'/phase;manifest=root/(phase+'_spec.json')
         b.save(manifest,dict(out=str(dest),reference=str(reference),overrides=base,seed=seed))

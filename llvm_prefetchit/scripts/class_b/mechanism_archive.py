@@ -42,13 +42,14 @@ def pack(root,out):
     for name in PHASES:
         folder=root/name
         if folder.exists():bundle(name,folder.rglob('*'))
+    for folder in sorted(root.glob('*_platform')):
+        if folder.is_dir() and not folder.is_symlink():bundle(folder.name,folder.rglob('*'))
     # Compact training inputs support retarget/thinning reproduction after the
     # much larger decoded traces have been removed.
-    for name in ['refine_observations','retarget_observations','backend/observations']:
-        folder=root/name
-        if not folder.exists():continue
-        for source in sorted(folder.glob('*.gz')):
-            dest=out/name/source.name;dest.parent.mkdir(parents=True,exist_ok=True)
+    for pattern in ['refine_observations/*.gz','builds/**/*.observations.json.gz','backend/observations/*.gz']:
+        for source in sorted(root.glob(pattern)):
+            assert source.is_file() and not source.is_symlink()
+            dest=out/source.relative_to(root);dest.parent.mkdir(parents=True,exist_ok=True)
             shutil.copyfile(source,dest)
             assert b.sha(source)==b.sha(dest)
             manifest.append(dict(file=str(dest.relative_to(out)),sha256=b.sha(dest),bytes=dest.stat().st_size,source=str(source)))

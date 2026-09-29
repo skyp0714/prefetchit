@@ -268,6 +268,8 @@ def prepare(spec):
         for name in BACKENDS:
             folder=root/'profiles'/phase/name
             rows,counts=observed_rows(folder,code,slots)
+            recorded=json.loads((folder/'record_types.json').read_text()).get('SAMPLE',0)
+            assert counts.get('all_samples',0)==recorded and recorded>100,(folder,counts.get('all_samples',0),recorded)
             (train if phase=='train' else heldout).extend(rows);quality[phase+':'+name]=counts
             path=root/'observations'/(phase+'_'+name+'.json.gz');path.parent.mkdir(exist_ok=True)
             with gzip.open(path,'wt') as f:json.dump(rows,f,separators=(',',':'))

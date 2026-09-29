@@ -16,13 +16,16 @@ MONITORED={**{k:v[0] for k,v in h.TARGETS['media'].items()},
     'mongo_user':'user-review-mongodb','mongo_movie':'movie-review-mongodb',
     'mongo_storage':'review-storage-mongodb','nginx':'nginx-web-server'}
 EVENTS={
- 'cache':'cycles:u,instructions:u,cpu/event=0x24,umask=0x24,name=L2I/u,cpu/event=0xc6,umask=0x3,name=FE_L2,config1=0x13/u,cpu/event=0x80,umask=0x4,name=ICACHE_DATA_STALL/u,cpu/event=0x24,umask=0x28,name=SWPF_MISS/u,cpu/event=0x24,umask=0xc8,name=SWPF_HIT/u',
- 'frontend':'cycles:u,instructions:u,cpu/event=0xc6,umask=0x3,name=FE_L1,config1=0x12/u,cpu/event=0x11,umask=0x10,name=ITLB_WALK_ACTIVE,cmask=1/u,cpu/event=0x9c,umask=0x1,name=FE_BUBBLES/u,cpu/event=0xa4,umask=0x1,name=SLOTS/u'}
+ 'cache':'cycles:u,instructions:u,cpu/event=0x24,umask=0x24,name=L2I/u,cpu/event=0xc6,umask=0x3,name=FE_L2,config1=0x13/u,cpu/event=0x80,umask=0x4,name=ICACHE_DATA_STALL/u',
+ 'frontend':'cycles:u,instructions:u,cpu/event=0xc6,umask=0x3,name=FE_L1,config1=0x12/u,cpu/event=0x11,umask=0x10,name=ITLB_WALK_ACTIVE,cmask=1/u,cpu/event=0x9c,umask=0x1,name=FE_BUBBLES/u,cpu/event=0xa4,umask=0x1,name=SLOTS/u',
+ 'prefetch':'cycles:u,instructions:u,cpu/event=0x24,umask=0x28,name=SWPF_MISS/u,cpu/event=0x24,umask=0xc8,name=SWPF_HIT/u,cpu/event=0x40,umask=0x4,name=T1_T2_EXECUTED/u,cpu/event=0x48,umask=0x2,name=L1D_FB_FULL/u'}
 
 def trial(spec):
     out=Path(spec['out']);out.mkdir(parents=True,exist_ok=False);b.space(out)
     b.save(out/'protocol.json',dict(spec,source_sha256=b.sha(__file__),
         backend_adapter_sha256=b.sha(Path(__file__).with_name('backend_prefetch.py')),monitored=MONITORED,events=EVENTS,
+        event_source='https://perfmon-events.intel.com/platforms/graniterapids/core-events/core/',
+        event_limitation='At most four general events per window. L1D_FB_FULL measures data fill-buffer resource waits, not instruction-fetch queue occupancy. T1_T2_EXECUTED is speculative and includes original data-prefetch instructions.',
         scope='Fresh full Media stack for every arm; clean 60s ROI after 50s warmup, diagnostics afterwards. No long-crossover E2E.'))
     stack=client=None;pmu={}
     try:
