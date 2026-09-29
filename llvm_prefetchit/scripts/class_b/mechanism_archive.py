@@ -31,7 +31,8 @@ def pack(root,out,native_only=False):
         # Runtime snapshots can contain full container environments; specific
         # binary/dataset/platform checks are sufficient for this public archive.
         if path.name in ['runtime.json','service-config.json','compose.json','nginx_jaeger.json']:return False
-        return path.suffix in ('.json','.csv','.log','.maps','.c','.py') or path.name=='maps.txt'
+        return path.suffix in ('.json','.csv','.log','.maps','.c','.cc','.cpp','.py',
+                               '.s','.S','.ld','.asm','.md') or path.name=='maps.txt'
     def bundle(name,paths):
         records={};entries=[]
         for path in sorted(set(paths)):
