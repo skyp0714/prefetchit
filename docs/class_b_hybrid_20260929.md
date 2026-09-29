@@ -1,5 +1,36 @@
 # Type B: split-instruction 주소 수정과 switch 직후 IT0/T1 혼합
 
+**후속 커버리지 정책의 16회 비교까지 완료했다.** 새 `split75` T1은 원본 대비 처리량 **1.01917× [0.97275, 1.06781]**, 평균 지연 **1.908%**, p99 **1.632%**, 전체 CPU/request **1.725% 절감**이다. 처리량 구간은 1을 포함하므로 1.92%는 점 추정이며 10% 향상을 달성한 것은 아니다. MongoDB retired L2 이벤트는 **62.87%**, speculative L2 code-read miss는 **9.39%**, I-cache 대기는 **25.45%** 줄었다. 앞선 hybrid 결과와 합산하지 않는다.
+
+| 후속 정책 / 대조군 | 처리량 speedup [95% CI] | 평균 지연 절감 | p99 절감 [95% CI] | 전체 CPU/request 절감 [95% CI] |
+|---|---:|---:|---:|---:|
+| 기존 위치 T1 / 원본 | 1.01743× [1.00300, 1.03208] | 1.735% | 1.011% [−0.303, 2.307] | 1.229% [0.889, 1.568] |
+| 새 split75 T1 / 원본 | 1.01917× [0.97275, 1.06781] | 1.908% | 1.632% [0.307, 2.939] | 1.725% [0.414, 3.019] |
+| 새 split75 / 기존 위치 T1 | 1.00171× [0.96599, 1.03875] | 0.176% | 0.627% [0.323, 0.931] | 0.502% [−0.480, 1.475] |
+| 새 split75 / 같은 배치 NOP | 1.02428× [1.01678, 1.03184] | 2.416% | 1.855% [−0.071, 3.744] | 2.312% [1.821, 2.801] |
+
+원본은 **1,167.11 RPS, 평균 3.3566ms, p99 5.8813ms, CPU 5,933.53µs/request**다. 새 정책은 **1,189.55 RPS, 3.2927ms, 5.7853ms, 5,831.23µs/request**이며 CPU 풀 사용률은 원본 85.45%, 새 정책 85.55%다. 원본 처리량의 표본 변동계수는 **1.481%**, CPU/request는 **0.336%**였다. 개별 paired-log t95 구간이며 다중비교 보정은 없다. 새 정책의 기존 T1 대비 추가 처리량·CPU 절감은 불확실하고, p99의 추가 절감은 이번 개별 비교 구간에서 양수다.
+
+| 후속 정책 / 대조군, MongoDB 3개 | retired L2/request 감소 | speculative L2 code-read miss 감소 | I-cache data stall 감소 |
+|---|---:|---:|---:|
+| 기존 위치 T1 / 원본 | 49.499% | 7.362% | 17.169% |
+| 새 split75 T1 / 원본 | 62.866% | 9.391% | 25.453% |
+| 새 split75 / 기존 위치 T1 | 26.468% | 2.190% | 10.001% |
+
+이번 수정은 split 명령어의 시작 줄 대신 뒷줄의 실제 명령어 주소를 모델링하고, 그 타깃을 가져올 call 위치도 다시 선택했다. 747개 위치·1,528개 힌트에서 **849개 위치·2,030개 힌트**로 바뀌었다. 추가 명령어 크기는 원본 대비 20,668→26,588바이트, 즉 기존 T1 대비 **5,920바이트 증가**다. Train-only 선택을 성능 측정 전에 고정했으며 heldout 모델 커버리지는 60.91→74.02%다. 모델 커버리지와 실제 미스 감소율은 별도 지표다. 주소와 위치를 함께 보정해 미스와 대기는 더 줄였지만, 그 감소율을 전체 speedup으로 옮겨 표현하지 않는다.
+
+4개 정책을 각 순서 위치에 한 번씩 배치하고 block 안의 직전 정책 쌍을 모두 한 번씩 포함한 4-block 비교다. **Full Media compose-review C4, workload CPU 8개, MovieId 포함**, fresh stack마다 50초 warmup·60초 clean ROI를 사용했다. PMU는 그 뒤 MongoDB 3개에서 별도 측정했다. 16회 모두 유효하고 플랫폼 원복 검사 **576개가 일치**했으며 성능에 따른 제외는 없다. Warmup 오류는 보존하고 steady-state 오류·연결 변경은 허용하지 않았다. 동일 초기 데이터와 warmup 시간은 동일 누적 쓰기 요청 수를 뜻하지 않는다. 최대 처리량 sweep이나 모든 DSB API 검증은 아니다.
+
+새 ELF와 같은 배치 NOP는 다음 비교의 기준으로 유지한다. 이는 통계적으로 우승 정책을 확정했다는 뜻이 아니다. 정확한 선택 목록·패치·해시·프로토콜·검사 기록을 함께 보존했다.
+
+![후속 16회 E2E와 코드 미스 감소](figures/class_b_hybrid_20260929_split_coverage_screen.png)
+
+![후속 비교의 전체 CPU 비용과 처리량](figures/class_b_hybrid_20260929_split_coverage_cpu_attribution.png)
+
+자료: [16회 전체 비교와 신뢰구간](../llvm_prefetchit/migration/evidence/class_b_mechanism_20260928/split_coverage_completed/report.md), [모든 반복 그래프](figures/class_b_hybrid_20260929_split_coverage_trial_order.png), [원본 변동](../llvm_prefetchit/migration/evidence/class_b_mechanism_20260928/split_coverage_completed/baseline_variation.md), [고정 프로토콜](../llvm_prefetchit/migration/evidence/class_b_mechanism_20260928/split_coverage_completed/protocol.json), [원자료·선택·소스·검사 archive](../llvm_prefetchit/migration/evidence/class_b_mechanism_20260928/split_coverage_completed/artifacts/manifest.json).
+
+## Switch 직후 IT0/T1: 24회 비교
+
 **Switch 직후 IT0, 이후 T1의 24회 비교를 완료했다.** Gate를 57개 지점으로 줄인 정책은 원본 대비 처리량 **1.00243×**, 평균 지연 **0.228%**, p99 **1.539%**, 전체 CPU/request **0.801% 절감**이었다. MongoDB retired L2 이벤트는 **50.43%**, I-cache 대기는 **17.00%** 줄었지만, 일반 T1 대비 추가 처리량 향상은 확인하지 못했다. 아래는 fresh full Media compose-review C4, workload CPU 8개, MovieId 포함 결과다. 최대 처리량 sweep 또는 모든 DSB API 결과는 아니다.
 
 | Hybrid 정책 / 원본 | 처리량 speedup [95% CI] | 평균 지연 절감 | p99 절감 | 전체 CPU/request 절감 |
@@ -21,6 +52,10 @@
 
 전체 gate에서 축소 gate로 바꾸면 처리량은 **1.01551× [1.00143, 1.02980]**, 전체 CPU/request는 **1.813% [0.800, 2.816] 절감**이다. Full NOP의 원본 대비 CPU 증가는 3.182%, sparse NOP는 1.218%였다. 따라서 guard와 코드 배치 비용을 줄인 개선은 관측되지만, sparse IT0와 일반 T1의 처리량 차이는 **0.99775× [0.98900, 1.00657]**로 불확실하다. Sparse IT0의 자신의 NOP 대비 **1.02046× [1.01634, 1.02460]**를 IT0 자체의 추가 효과로 해석하면 안 된다. 이 비교는 보통 경로의 T1까지 포함한다.
 
+Clean ROI의 MongoDB 3개 CPU/request는 원본 **1,242.27→sparse IT0 1,173.23µs**였다. 전체 CPU는 **5,933.22→5,885.67µs**이므로 서비스 내부 절감과 전체 절감의 크기는 다르다. 이는 CPU 사용량 집계이며 요청 critical path나 code-miss 대기의 배타적 분해가 아니다.
+
+별도 계측 진단의 sparse burst 진입은 요청당 6.427회다. 최대 8개씩 발행하므로 그 진단의 정상 실행 경로에서는 요청당 최대 약 51.4개 초기 IT0 슬롯을 방문하는 규모다. Clean ROI 뒤 별도 PMU의 보통 경로 T1/T2 speculative 실행은 약 6,435회/request였다. 초기 IT0 변경의 적용 범위가 제한적이라는 단서이지만, 다른 seed·구간·계측 방식의 값이므로 둘의 비율을 하드웨어 수락률이나 성능 상한으로 사용하지 않는다. Full gate에는 같은 배치의 early-T1 대조군이 있고, sparse에는 NOP와 혼합 opcode 대조군이 있다. Sparse의 모든 초기 슬롯까지 T1인 대조군은 이번 비교에 없으므로 sparse IT0만의 순수 이득을 확정하지 않는다.
+
 원본 세 반복 중 세 번째가 1,196.32 RPS로 앞선 1,155.47 / 1,154.30 RPS보다 높았다. 원본 RPS의 표본 변동계수는 **2.05%**, CPU/request는 **0.346%**다. 앞선 32회 비교에서도 같은 block 경계에 높은 원본이 있었지만, 순서·누적 요청 수·프로세스 배치 등 원인은 분리되지 않았다. 이 값도 제외하지 않는다. 후속 coverage 비교는 결과를 보기 전에 4개 정책을 각 순서 위치에 한 번씩 배치하고, block 안의 모든 직전 정책 쌍을 한 번씩 포함하는 4-block 순서로 고정했다. 앞선 자료를 새 순서로 재해석하거나 서로 합쳐 계산하지 않는다.
 
 Frontend-bound 비율 하나로 성능을 판단하기도 어렵다. MongoDB 3개의 요청당 bubbles/slots 평균 합계로 계산하면 원본은 **70.35%**, full-gate IT0는 **61.83%**지만, full-gate의 전체 CPU는 위 표처럼 늘었다. Full NOP도 비율은 **65.77%**로 낮아지면서 bubbles/request는 **9.61M→10.07M**로 늘었다. 실행량과 분모가 바뀌므로 절대 비용을 함께 봐야 한다. Sparse IT0의 branch-misses/request는 원본 **20,004→20,287**로 줄지 않았다. 이 값들은 별도 post-ROI PMU 창이며 미스 원인의 배타적 분해는 아니다.
@@ -35,7 +70,7 @@ LATE_SWPF/request는 일반 T1에서 0, full-gate IT0에서 **15.477**, sparse I
 
 ## 32회 비교: 일반 T1과 Native-3 결합
 
-Nginx worker마다 persistent connection 하나를 배정한 **32회·4-block 비교를 완료**했다. 현재의 가장 큰 처리량 점 추정은 cost75의 **1.01219× [0.97560, 1.05016]**로, 10% 향상을 달성하지 못했고 이 비교에서 원본 대비 처리량 개선도 확정되지 않았다. 반면 전체 CPU/request 절감은 T1 정책들에서 반복됐다. 개별 paired-log t95 구간이며 다중비교 보정은 없다.
+Nginx worker마다 persistent connection 하나를 배정한 **32회·4-block 비교를 완료**했다. 이 32회 비교의 가장 큰 처리량 점 추정은 cost75의 **1.01219× [0.97560, 1.05016]**로, 10% 향상을 달성하지 못했고 이 비교에서 원본 대비 처리량 개선도 확정되지 않았다. 반면 전체 CPU/request 절감은 T1 정책들에서 반복됐다. 개별 paired-log t95 구간이며 다중비교 보정은 없다.
 
 | 정책 / 원본 | 처리량 speedup [95% CI] | 평균 지연 절감 | p99 절감 | 전체 CPU/request 절감 |
 |---|---:|---:|---:|---:|
@@ -110,19 +145,19 @@ UserReview 잔여 split 표본 21,217개 중 15,276개는 시작 줄만 선택�
 
 `cost75_split`은 기존 747개 call 위치, 1,528개 힌트, 원래 코드·stub 주소를 고정한다. Train 표본에서 split 명령어는 뒷줄의 다음 실제 명령어 시작을 타깃으로 삼고, 기존 stub의 슬롯 수 안에서 타깃을 다시 배정했다. **783개 힌트의 변위만 변경, 추가 명령어 0바이트**다. 모든 변경을 되돌리면 원래 cost75와 byte-for-byte 일치하며, 힌트를 NOP로 바꾸면 이미 측정한 NOP twin의 SHA-256과 일치한다.
 
-같은 heldout을 뒷줄 기준으로 다시 평가하면 기존의 74.35% 커버리지는 **58.85%**였다. 주소만 교체한 후보는 **60.91%**다. 이는 뒷줄 모델에 따른 관측 경로 커버리지이며 실제 미스 감소율은 아니다. 기존 위치를 유지하는 제한 때문에 재배치 여지도 남아 있다. Heldout·E2E로 타깃을 선택하지 않았다. 바이너리 검증은 통과했으며 서비스 측정은 별도로 진행한다.
+같은 heldout을 뒷줄 기준으로 다시 평가하면 기존의 74.35% 커버리지는 **58.85%**였다. 주소만 교체한 후보는 **60.91%**다. 이는 뒷줄 모델에 따른 관측 경로 커버리지이며 실제 미스 감소율은 아니다. 기존 위치를 유지하는 제한 때문에 재배치 여지도 남아 있다. Heldout·E2E로 타깃을 선택하지 않았다. 바이너리 검증과 별도 서비스 비교를 완료했으며, 위치까지 다시 선택한 후속 결과는 문서 첫 표에 정리했다.
 
 ## Switch 직후 IT0, 그 뒤 T1
 
 커널의 기존 scheduler-clock 모듈이 **다음 CPU 실행 태스크가 선택된 시각**을 공유한다. 사용자 코드가 새 epoch를 0–10µs 안에 처음 관측한 계측 call에서 최대 8개 IT0를 발행하고, 나머지 호출에는 T1을 사용한다. 커널에서 physical alias에 IT0를 실행하는 구현이 아니다. IT0는 사용자 주소의 RIP-relative 명령으로 실행한다. 첫 계측 call이 첫 사용자 명령어와 같지는 않으며, migration/preemption에 따른 누락·중복 가능성이 있다.
 
-후속 hybrid는 위의 corrected T1 주소를 기준으로 한다. Burst 확장 타깃도 train-only이며 split 명령어의 뒷줄을 반영한다. 초반도 T1인 같은 배치 대조군, all-NOP 대조군, 무조건 T1 기준을 함께 비교한다. 별도 진단에서 초기 burst를 담당하는 최대 64개 stub group만 골라 gate 검사를 줄인 정책도 검증한다. 진단용 카운터가 들어간 실행 파일을 E2E에 사용하지 않는다.
+Hybrid는 **747개 위치를 유지한 cost75_split**의 corrected T1 주소를 기준으로 한다. 맨 앞 표의 849개 위치 split75와 결합한 정책을 측정한 것은 아니다. Burst 확장 타깃도 train-only이며 split 명령어의 뒷줄을 반영한다. 초반도 T1인 같은 배치 대조군, all-NOP 대조군, 무조건 T1 기준을 함께 비교한다. 별도 진단에서 초기 burst를 담당하는 최대 64개 stub group만 골라 gate 검사를 줄인 정책도 검증한다. 진단용 카운터가 들어간 실행 파일을 E2E에 사용하지 않는다.
 
 PIE/일반 ELF, full/sparse gate의 인자·플래그·반환 주소, 예외 unwind, opcode 검사 **8개가 통과**했다. 실제 서비스 진단도 **40,675건, 오류·연결 복구 0건**으로 통과했다. MongoDB의 UID/GID 999를 유지하면서 모든 clock slot의 ABI 2와 read-only 매핑을 검사했다. 진단 35초 동안 UserReview/MovieReview/ReviewStorage의 burst 진입은 각각 107,961 / 108,203 / 53,031회였다. 그중 0–5µs 진입은 각각 87.7% / 86.4% / 86.5%였다. 이는 분기 진입 횟수이며 하드웨어가 받아들인 prefetch 수가 아니다. 진단에는 첫 10초 초기화 구간도 포함되며 E2E 비교에 사용하지 않는다.
 
 운영 사전 검사에서 이전 ABI의 모듈 경로와 udev의 device mode 갱신 경합을 찾아 수정했다. 초기 빈 DB에서 동시 사용자 생성이 duplicate-key HTTP 500으로 연결을 닫는 사례도 보존했다. 클라이언트는 warmup 중에만 같은 Nginx worker로 연결을 복구하며 오류와 복구 시도를 모두 남긴다. 성능 구간의 오류나 연결 변경은 정상 결과로 사용하지 않는다. 실제 mapping/gate 검증 및 warmup 복구 단위 검사 2개를 통과한 소스와 바이너리를 고정해 후속 비교에 사용한다.
 
-첫 진단의 burst 90.00%를 담당한 **57개 call 위치**만 gate 검사 대상으로 남겼다. 다른 seed의 독립 진단에서는 MongoDB 3개 합계 요청당 검사가 **2,842.32→370.35회(86.97% 감소)**, burst 진입이 **6.618→6.427회**였다. Qualifying burst의 평균 진입 시각은 UserReview/MovieReview/ReviewStorage 각각 3.51/3.48/3.85µs였다. 추가 명령어 바이트는 153,736→30,780으로 줄었다. 서로 다른 카운터 계측 진단에서 얻은 값으로 E2E 성능 또는 accepted prefetch 비율이 아니다. 57개 위치는 첫 진단으로만 선택했으며 두 번째 진단이나 성능 결과로 다시 선택하지 않았다. 별도로 완료한 24회 hybrid 성능 결과는 문서 첫 표에 정리했다.
+첫 진단의 burst 90.00%를 담당한 **57개 call 위치**만 gate 검사 대상으로 남겼다. 다른 seed의 독립 진단에서는 MongoDB 3개 합계 요청당 검사가 **2,842.32→370.35회(86.97% 감소)**, burst 진입이 **6.618→6.427회**였다. Qualifying burst의 평균 진입 시각은 UserReview/MovieReview/ReviewStorage 각각 3.51/3.48/3.85µs였다. 추가 명령어 바이트는 153,736→30,780으로 줄었다. 서로 다른 카운터 계측 진단에서 얻은 값으로 E2E 성능 또는 accepted prefetch 비율이 아니다. 57개 위치는 첫 진단으로만 선택했으며 두 번째 진단이나 성능 결과로 다시 선택하지 않았다. 별도로 완료한 24회 성능 결과는 위 hybrid 비교표에 정리했다.
 
 ## 실제 태스크 복귀 뒤 IT0 단독 검증
 

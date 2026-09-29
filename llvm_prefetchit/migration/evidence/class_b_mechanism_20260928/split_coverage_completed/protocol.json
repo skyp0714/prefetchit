@@ -1,0 +1,93 @@
+{
+  "blocks": 4,
+  "arms": {
+    "original": {
+      "mongo_binary": "/storage/prefetchit/class_b_mechanism_20260928/backend/reference/mongod",
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+      },
+      "stat_s": 3
+    },
+    "fixed_split": {
+      "mongo_binary": "/storage/prefetchit/class_b_mechanism_20260928/split_target_refine/mongod",
+      "controls": [
+        "original"
+      ],
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+      },
+      "stat_s": 3
+    },
+    "split75_nop": {
+      "mongo_binary": "/storage/prefetchit/class_b_mechanism_20260928/split_coverage/prepared/build/mongod.nop",
+      "controls": [
+        "original"
+      ],
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+      },
+      "stat_s": 3
+    },
+    "split75": {
+      "mongo_binary": "/storage/prefetchit/class_b_mechanism_20260928/split_coverage/prepared/build/mongod",
+      "controls": [
+        "original",
+        "split75_nop",
+        "fixed_split"
+      ],
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+      },
+      "stat_s": 3
+    }
+  },
+  "monitored": {
+    "mongo_user": "user-review-mongodb",
+    "mongo_movie": "movie-review-mongodb",
+    "mongo_storage": "review-storage-mongodb"
+  },
+  "seedbase": 86001,
+  "orders": [
+    [
+      "original",
+      "fixed_split",
+      "split75",
+      "split75_nop"
+    ],
+    [
+      "fixed_split",
+      "split75_nop",
+      "original",
+      "split75"
+    ],
+    [
+      "split75_nop",
+      "split75",
+      "fixed_split",
+      "original"
+    ],
+    [
+      "split75",
+      "original",
+      "split75_nop",
+      "fixed_split"
+    ]
+  ],
+  "source_sha256": "c49e16bbd313e72c1221f55c9a77412aa57faf610668a40d608d2542c5ed9dde",
+  "client_sha256": "a4c7ef2057e9e346188e73d61661eed40dc9a242f03c3f68fda0e775cf909dd4",
+  "hashes": {
+    "/storage/prefetchit/class_b_mechanism_20260928/backend/reference/mongod": "3c6655036faf043c338d698ae1dda5ed4e19f23ea54eb8023ad32cf268e821cf",
+    "/storage/prefetchit/class_b_mechanism_20260928/split_target_refine/mongod": "1fdc4a134b34783e0e5ceca1cec56c21bcd5540f8b6cd701b3b2325d06ab8d1c",
+    "/storage/prefetchit/class_b_mechanism_20260928/split_coverage/prepared/build/mongod.nop": "f5ecdb7771e4c69e90034a90d9092b28fe55a9febedaa1f68082560840ca5407",
+    "/storage/prefetchit/class_b_mechanism_20260928/split_coverage/prepared/build/mongod": "d79cdde377038c5269be0b6c8bbcd1068c4ec4b541abb69775ee0b18b971963b"
+  },
+  "rule": "Frozen follow-up to the independently calibrated split-instruction attribution issue. Three MongoDB cache and prefetch windows shorten post-ROI diagnostics, without changing clean endpoint conditions. No performance-based retries/exclusions."
+}
