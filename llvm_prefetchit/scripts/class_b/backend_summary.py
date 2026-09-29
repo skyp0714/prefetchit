@@ -166,6 +166,8 @@ def trial_order_plot(root):
 if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('root',type=Path);parser.add_argument('--plot',action='store_true');args=parser.parse_args()
     data,groups=report(args.root)
+    from cpu_attribution import analyze as cpu_attribution
+    cpu_attribution(args.root,args.plot)
     if args.plot:plot(args.root,data,groups)
     wake_report(args.root,args.plot)
     if (args.root/'residual_analysis.json').exists():
