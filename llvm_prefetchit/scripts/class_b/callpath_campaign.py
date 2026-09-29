@@ -48,7 +48,8 @@ def run(parent):
     root=parent/'callpath';root.mkdir(exist_ok=False);b.space(root)
     base=json.loads((parent/'confirmation_spec.json').read_text())['arms']['base']['overrides']
     reference=parent/'backend/reference/mongod'
-    b.save(root/'protocol.json',dict(source_sha256=b.sha(__file__),training_seeds=[78001,78002],screen_seedbase=79001,
+    services=['user-review-mongodb','movie-review-mongodb','review-storage-mongodb']
+    b.save(root/'protocol.json',dict(source_sha256=b.sha(__file__),training_seeds=[78001,78002],screen_seedbase=79001,training_services=services,
         hypothesis='Long NOPs cover only about 2.4% of heldout Mongo main-image misses. Retain original call/return addresses and issue future-line prefetches at earlier observed direct calls.',
         selection='Train-only 50% sampled miss coverage goal, fixed <=256 call sites, <=1024 hints, <=4 hints/site, gain >=8. This coverage is not promised hardware miss reduction.',
         measurement='Fresh full Media C4 stacks, matched 50s warmup +60s clean ROI, original copied Mongo control, same-layout call-stub NOP, T1. All MongoDBs share the same chosen ELF.',
@@ -67,9 +68,9 @@ def run(parent):
     h.platform(attribution,['python3',Path(__file__).with_name('privilege_frontend.py'),manifest])
     for phase,seed in [('train',78001),('heldout',78002)]:
         dest=root/'profiles'/phase;manifest=root/(phase+'_spec.json')
-        b.save(manifest,dict(out=str(dest),reference=str(reference),overrides=base,seed=seed))
+        b.save(manifest,dict(out=str(dest),reference=str(reference),overrides=base,seed=seed,services=services))
         h.platform(dest,['python3',Path(__file__).with_name('backend_prefetch.py'),'profile',manifest])
-    manifest=root/'prepare_spec.json';b.save(manifest,dict(root=str(root),reference=str(reference)))
+    manifest=root/'prepare_spec.json';b.save(manifest,dict(root=str(root),reference=str(reference),services=services))
     b.run(['python3',Path(__file__).with_name('callpath_prefetch.py'),manifest],root/'prepare.log')
     prepared=json.loads((root/'prepared.json').read_text());smoke(root,prepared)
     arms=dict(original=dict(overrides=base,mongo_binary=str(reference)),

@@ -130,6 +130,8 @@ def timeline(spec):
 
 def profile(spec):
     out=Path(spec['out']);out.mkdir(parents=True,exist_ok=False);b.space(out)
+    services=spec.get('services',BACKENDS)
+    assert services and len(set(services))==len(services) and all(s.endswith('-mongodb') for s in services)
     b.save(out/'protocol.json',dict(spec,source_sha256=b.sha(__file__),
         scope='Original unmodified MongoDBs in full Media C4; main-ELF retired L2 miss LBR training, no performance claim.'))
     stack=client=None;captures=[]
@@ -144,7 +146,7 @@ def profile(spec):
         b.save(reference.with_suffix('.source.json'),dict(path=str(reference),sha256=b.sha(reference),
             bytes=reference.stat().st_size,source_image=runtime[BACKENDS[0]]['image'],source_path='/usr/bin/mongod'))
         client=start_client(out,90,spec['seed']);time.sleep(50)
-        for name in BACKENDS:
+        for name in services:
             b.space(out);dest=out/name;dest.mkdir();pid=runtime[name]['pid']
             (dest/'maps.txt').write_text(Path(f'/proc/{pid}/maps').read_text())
             group=str(Path(h.c.cpu(pid)['path']).parent.relative_to('/sys/fs/cgroup'))
@@ -164,7 +166,7 @@ def profile(spec):
         if stack is not None:stack.close()
         h.old.compact(out)
         if (out/'failure.json').exists():
-            unused=[out/name/file for name in BACKENDS for file in ['perf.data','samples.txt'] if (out/name/file).exists()]
+            unused=[out/name/file for name in services for file in ['perf.data','samples.txt'] if (out/name/file).exists()]
             if unused:remove_generated(unused,out/'failed_capture_cleanup.json','Invalid capture; quality, commands, failure and binary/source hashes retained.')
     try:
         for dest in captures:decode(dest)

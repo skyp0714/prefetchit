@@ -70,13 +70,14 @@ def prepare(spec):
         if raw[off]!=0xe8:continue
         callee=site+5+struct.unpack_from('<i',raw,off+1)[0]
         if callee not in code.instructions:continue
-        calls[site]=dict(site=site,callee=callee,expected=raw[off:off+5].hex())
+        calls[site]=dict(site=site,callee=callee,expected=raw[off:off+5].hex(),
+            function=code.get(site)[2],callee_function=code.get(callee)[2])
     assert calls
     print(json.dumps(dict(stage='call_inventory',sites=len(calls))),flush=True)
     phases={};quality={};obsolete=[]
     for phase in ['train','heldout']:
         rows=[]
-        for name in BACKENDS:
+        for name in spec.get('services',BACKENDS):
             folder=root/'profiles'/phase/name
             observed,counts=observed_rows(folder,code,calls,minimum=64,maximum=8192)
             recorded=json.loads((folder/'record_types.json').read_text())['SAMPLE']
