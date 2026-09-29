@@ -47,6 +47,17 @@ def run(parent,pid):
             b.REPO/'llvm_prefetchit/tests/test_call_stub_prefetch.py',b.REPO/'llvm_prefetchit/tests/test_callpath_instruction_hint.py',
             b.REPO/'llvm_prefetchit/scripts/class_b/callpath_instruction_hint.py']
         b.save(root/'native_test_sources.json',dict(passed=True,sha256={str(path):b.sha(path) for path in paths}))
+        shim=root/'hybrid_map.so';shim_source=b.REPO/'llvm_prefetchit/kernel/sched_clock/hybrid_map.c'
+        try:
+            b.run(['gcc','-O2','-Wall','-Wextra','-Werror','-shared','-fPIC',shim_source,'-o',shim],root/'shim_build.log')
+            b.run(['readelf','--version-info',shim],root/'shim_versions.log')
+            b.run(['/usr/bin/env','LD_PRELOAD='+str(shim),'/bin/true'],root/'shim_passthrough.log')
+            b.save(root/'shim_build.json',dict(binary=str(shim),sha256=b.sha(shim),source_sha256=b.sha(shim_source),
+                validation='Warning-clean shared-library build and passthrough for an unmodified executable. Real clock-device mapping remains pending.'))
+        except BaseException:
+            from e2e_lbr import remove_generated
+            if shim.exists():remove_generated([shim],root/'shim_rejected_cleanup.json','Shim preflight rejected; preserve source, commands and output.')
+            raise
         b.save(root/'complete.json',dict(valid=True,native_tests_passed=True))
     except BaseException as error:b.save(root/'failure.json',dict(error=repr(error)));raise
     finally:

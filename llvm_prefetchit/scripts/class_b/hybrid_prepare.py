@@ -87,5 +87,51 @@ def prepare(parent,root,burst=8):
         raise
 
 
+def sparse(prepared,diagnostic,root,max_groups=64,coverage=.9):
+    """Use independent gate diagnostics, never E2E results, to reduce guards."""
+    root.mkdir(parents=True,exist_ok=False);b.space(root)
+    main=Path(prepared['hybrid']);audit=json.loads(Path(str(main)+'.json').read_text())
+    observed=json.loads(Path(diagnostic).read_text());assert observed['valid']
+    scores=collections.defaultdict(lambda:[0]*4)
+    for service in ['user-review-mongodb','movie-review-mongodb','review-storage-mongodb']:
+        for index,counts in observed['site_delta'][service].items():
+            assert all(n>=0 for n in counts)
+            for i,value in enumerate(counts):scores[int(index)][i]+=value
+    total=sum(values[1] for values in scores.values());assert total>0
+    chosen=[];covered=0
+    for index,values in sorted(scores.items(),key=lambda item:(-item[1][1],item[0])):
+        if not values[1] or len(chosen)>=max_groups or covered>=coverage*total:break
+        chosen.append(index);covered+=values[1]
+    assert chosen
+    groups=audit['hybrid']['site_groups'];wanted={site for group in groups if group['index'] in chosen for site in group['sites']}
+    plan=dict(audit['plan'],calls=[dict(row,hybrid_gate=row['site'] in wanted) for row in audit['plan']['calls']])
+    b.save(root/'plan.json',plan)
+    b.save(root/'selection.json',dict(diagnostic=str(diagnostic),diagnostic_sha256=b.sha(diagnostic),
+        max_groups=max_groups,coverage_goal=coverage,selected_groups=chosen,selected_calls=len(wanted),
+        observed_bursts=total,retained_observed_bursts=covered,retained_burst_fraction=covered/total,
+        checks_all=sum(observed['delta'][service]['checks'] for service in ['user-review-mongodb','movie-review-mongodb','review-storage-mongodb']),
+        per_site_checks='Not collected. Atomic per-site counters record infrequent first-epoch outcomes only; the total hot-path check counter is per CPU.',
+        site_counts=dict(scores),source_sha256=b.sha(__file__),
+        rule='At most 64 canonical stub groups, ranked by observed first-epoch burst count, stopping at 90% of those bursts. All other selected calls keep plain T1 with no RDPID, clock read or gate.',
+        limitation='Counts come from a separate intrusive diagnostic. Removing gates can move the first retained gate later; a second diagnostic checks actual activity, without reselection. Original application addresses and all ordinary T1 target lists remain unchanged.'))
+    try:
+        result={}
+        for name,diagnostic_mode in [('sparse',False),('sparse_diag',True)]:
+            output=root/'builds'/name/'mongod'
+            record=stubs.build(prepared['reference'],plan,output,hybrid=dict(diagnostic=diagnostic_mode))
+            result[name]=dict(binary=str(output),nop=str(output)+'.nop',sha256=record['sha256'],nop_sha256=record['nop_sha256'],
+                extra_instruction_bytes=record['extra_instruction_bytes'],extra_mapped_bytes=record['extra_mapped_bytes'],
+                gated_groups=sum(g['gated'] for g in record['hybrid']['site_groups']))
+        b.save(root/'prepared.json',result)
+        remove_generated([Path(result['sparse_diag']['nop'])],root/'unused_diagnostic_nop_cleanup.json',
+            'Sparse gate diagnostic has no E2E role; retain source and audit before removing its unused NOP executable.')
+        return result
+    except BaseException as error:
+        b.save(root/'failure.json',dict(error=repr(error)))
+        paths=[p for p in (root/'builds').rglob('*') if p.is_file() and not p.is_symlink() and p.name in ['mongod','mongod.nop']]
+        remove_generated(paths,root/'failed_sparse_cleanup.json','Sparse hybrid preparation rejected; plans, source, patches and failure retained.')
+        raise
+
+
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('parent',type=Path);p.add_argument('root',type=Path);a=p.parse_args();prepare(a.parent,a.root)

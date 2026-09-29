@@ -113,7 +113,7 @@ def build(binary, plan, output, boundaries=None, hybrid=None):
         # Sharing identical leaf stubs reduces appended instruction footprint
         # while each original call still pushes its own original return address.
         key = (row['callee'], tuple(row['targets']))
-        if hybrid is not None:key += (tuple(row['burst_targets']),)
+        if hybrid is not None:key += (tuple(row['burst_targets']),bool(row.get('hybrid_gate',True)))
         stub_indices.append(canonical.setdefault(key, index))
     wanted = set()
     for row in calls:
@@ -177,7 +177,8 @@ def build(binary, plan, output, boundaries=None, hybrid=None):
         # Leave enough space for the merged, larger GNU unwind search table.
         reservation=(f'. = ALIGN(. + {12+8*(len(old_entries)+len(canonical))},4096); '
             '.prefetch_clock (NOLOAD) : { pf_clock_base = .; . += 262144; } '
-            '.prefetch_state (NOLOAD) : { pf_state_base = .; . += 262144; } ')
+            '.prefetch_state (NOLOAD) : { pf_state_base = .; . += 262144; } '
+            f'.prefetch_sites (NOLOAD) : {{ pf_site_stats = .; . += {align(len(calls)*32)}; }} ')
     script.write_text('\n'.join(definitions)+'\n'+('SECTIONS { . = 0x%x; .text : { *(.text) } . = ALIGN(8); .eh_frame : { *(.eh_frame) } . = ALIGN(4); .eh_frame_hdr : { *(.eh_frame_hdr) } ' % codeva)+reservation+'/DISCARD/ : { *(.note*) *(.comment) } }\n')
     temporary = []
     commands = []
@@ -217,8 +218,10 @@ def build(binary, plan, output, boundaries=None, hybrid=None):
         if hybrid is not None:
             clockva=symbols['pf_clock_base'];stateva=symbols['pf_state_base']
             assert clockva%4096==0 and stateva-clockva==262144 and rxva+rxsize<=clockva
+            sitesva=symbols['pf_site_stats'];sitesbytes=align(len(calls)*32)
+            assert sitesva==clockva+524288
             rwoff=align(len(data));data.extend(b'\0'*(rwoff-len(data)))
-            ph.append([1,6,rwoff,clockva,clockva,0,524288,4096])
+            ph.append([1,6,rwoff,clockva,clockva,0,524288+sitesbytes,4096])
         for i, p in enumerate(ph):
             PH.pack_into(data, rxoff + i * PH.size, *p)
         for va, raw in [(text_s[3], code), (frame_s[3], frame), (merged_va, merged)]:
@@ -255,6 +258,7 @@ def build(binary, plan, output, boundaries=None, hybrid=None):
         if hybrid is not None:
             for label,va in [('.prefetch_clock',clockva),('.prefetch_state',stateva)]:
                 sh.append([name(label),8,3,va,rwoff,262144,0,0,4096,0])
+            sh.append([name('.prefetch_sites'),8,3,sitesva,rwoff,sitesbytes,0,0,4096,0])
         old_hdr = sh[elf.names.index('.eh_frame_hdr')]
         old_hdr[3:6] = [merged_va, rxoff + merged_va - rxva, len(merged)]
         sh[elf.shstr][4:6] = [len(data), len(strings)]
@@ -287,13 +291,16 @@ def build(binary, plan, output, boundaries=None, hybrid=None):
                       original_instruction_addresses_unchanged=True, original_bytes_reversible=True,
                       original_return_addresses_preserved=True, registers_and_flags_untouched=hybrid is None,
                       registers_and_flags_preserved=True,
-                      extra_instruction_bytes=len(code), extra_mapped_bytes=rxsize+(524288 if hybrid is not None else 0), extra_file_bytes=len(data)-len(original),
+                      extra_instruction_bytes=len(code), extra_mapped_bytes=rxsize+(524288+sitesbytes if hybrid is not None else 0), extra_file_bytes=len(data)-len(original),
                       old_fdes=len(old_entries), added_fdes=len(entries),
                       unique_stubs=len(canonical), call_sites=len(calls),
                       original_build_id_retained=True, perf_identity='Use SHA and runtime maps, not the unchanged original build ID.',
                       temporary_artifacts=temporary, temporary_bytes_removed=sum(r['bytes'] for r in temporary))
         if hybrid is not None:
             record['hybrid']=dict(hybrid,clock_va=clockva,state_va=stateva,array_bytes=262144,clock_abi=2,
+                site_stats_va=sitesva,site_stats_bytes=sitesbytes,site_stride=32,
+                site_groups=[dict(index=i,sites=[row['site'] for j,row in enumerate(calls) if stub_indices[j]==i],
+                    gated=bool(calls[i].get('hybrid_gate',True))) for i in sorted(set(stub_indices))],
                 assembly_generator_sha256=sha(hybrid_source.read_bytes()),
                 timing='First instrumented call in a newly observed CPU scheduler epoch, only before dense_us deadline. Not the first user instruction or a fetch-queue occupancy measurement.',
                 races='Per-CPU shared words are best effort under preemption/migration; RDTSCP identity and epoch checks reject observed races. Optional hint issuance is not atomic with scheduling.')

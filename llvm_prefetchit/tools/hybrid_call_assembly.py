@@ -39,6 +39,13 @@ def emit(index,row,diagnostic=False):
     def tail(name):
         name=label(name);jumps.append(name)
         return [f'.global {name}',name+':',f'jmp pf_callee_{index}']
+    if not row.get('hybrid_gate',True):
+        lines=hints_for('t1',row['targets'])+tail('normal_tail')
+        return lines,defs,hints,jumps
+    # Multiple application CPUs can enter the same stub concurrently. Count
+    # only infrequent first-epoch outcomes globally, with atomic updates.
+    # Per-site hot-path check counts would create needless diagnostic contention.
+    def site_count(field):return f'lock incq pf_site_stats+{index*32+field*8}(%rip)'
     lines=['pushfq','.cfi_adjust_cfa_offset 8']+push('r10',-24)+push('r11',-32)+push('rax',-40)
     lines += ['rdpid %r10','and $4095,%r10d','shl $6,%r10',
               'lea pf_clock_base(%rip),%r11','mov 24(%r11,%r10),%rax']
@@ -57,15 +64,15 @@ def emit(index,row,diagnostic=False):
               'cmp (%r11,%r10),%rax',f'jae {label("late")}']
     if diagnostic:
         # Only qualifying burst ages contribute; all units are TSC ticks.
-        lines += [f'incq {word(2)}','sub %rdx,%rax',f'add %rax,{word(5)}',
+        lines += [f'incq {word(2)}',site_count(1),'sub %rdx,%rax',f'add %rax,{word(5)}',
                   f'cmp %rax,{word(6)}',f'jae {label("max_done")}',f'mov %rax,{word(6)}',label('max_done')+':',
                   'mov (%r11,%r10),%rcx','sub %rdx,%rcx','shr $1,%rcx','cmp %rcx,%rax',
                   f'jae {label("half_done")}',f'incq {word(7)}',label('half_done')+':']
     lines += pop('rcx')+pop('rdx')+restore()+hints_for('it0',row['burst_targets'])+tail('burst_tail')
     lines += [label('race')+':']+saved_state(extra=True)
-    if diagnostic:lines += [f'incq {word(4)}']
+    if diagnostic:lines += [f'incq {word(4)}',site_count(3)]
     lines += [f'jmp {label("epoch_normal")}',label('late')+':']
-    if diagnostic:lines += [f'incq {word(3)}']
+    if diagnostic:lines += [f'incq {word(3)}',site_count(2)]
     lines += [label('epoch_normal')+':']+pop('rcx')+pop('rdx')
     lines += [label('normal')+':']+saved_state()+restore()+hints_for('t1',row['targets'])+tail('normal_tail')
     return lines,defs,hints,jumps

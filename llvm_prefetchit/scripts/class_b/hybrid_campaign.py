@@ -18,7 +18,7 @@ from e2e_lbr import remove_generated
 from fullset_study import summarize
 from mechanism_report import evaluate
 from privilege_frontend import DECODE_EVENTS
-from hybrid_prepare import prepare
+from hybrid_prepare import prepare,sparse
 
 MODULE=Path('/storage/prefetchit/class_b_dominator_20260927/kernel_build/prefetchit_sched_clock.ko')
 LATE_EVENTS='cycles:u,instructions:u,cpu/event=0xc6,umask=0x3,name=FE_LATE_SWPF,config1=0xa/u,branches:u,branch-misses:u'
@@ -39,16 +39,22 @@ def mapped_clock(pid,settings):
     with Path(f'/proc/{pid}/mem').open('rb',buffering=0) as mem:
         mem.seek(start);clock=mem.read(settings['array_bytes'])
         mem.seek(bias+settings['state_va']);state=mem.read(settings['array_bytes'])
+        mem.seek(bias+settings['site_stats_va']);sites=mem.read(settings['site_stats_bytes'])
     assert len(clock)==len(state)==262144 and all(struct.unpack_from('<Q',clock,i*64+56)[0]==2 for i in range(4096))
     status={line.split(':')[0]:line.split(':',1)[1].strip() for line in Path(f'/proc/{pid}/status').read_text().splitlines() if line.startswith(('Uid:','Gid:'))}
     counts=[0]*8;active=[]
+    assert len(sites)==settings['site_stats_bytes']
+    site_counts={}
+    for group in settings['site_groups']:
+        values=struct.unpack_from('<4Q',sites,group['index']*settings['site_stride'])
+        if any(values):site_counts[str(group['index'])]=values
     for cpu in range(4096):
         values=struct.unpack_from('<8Q',state,cpu*64)
         if any(values):
             slot=struct.unpack_from('<8Q',clock,cpu*64)
             active.append(dict(cpu=cpu,state=values,clock=slot))
             for i in range(1,8):counts[i]+=values[i]
-    return dict(pid=pid,bias=bias,mapping=matching[0],identity=status,active=active,
+    return dict(pid=pid,bias=bias,mapping=matching[0],identity=status,active=active,sites=site_counts,
         diagnostic=bool(settings.get('diagnostic')),counts=dict(checks=counts[1],bursts=counts[2],late=counts[3],
             observed_races=counts[4],burst_age_ticks_sum=counts[5],
             burst_age_ticks_max=max((v['state'][6] for v in active),default=0),early_half_bursts=counts[7]),
@@ -119,8 +125,10 @@ def diagnostic(spec):
             assert client.wait(timeout=70)==0;client=None;stack.check()
             after={name:mapped_clock(row['pid'],settings) for name,row in runtime.items()}
             delta={name:{key:after[name]['counts'][key]-before[name]['counts'][key] for key in ['checks','bursts','late','observed_races','burst_age_ticks_sum','early_half_bursts']} for name in runtime}
+            site_delta={name:{index:[after[name]['sites'].get(index,[0]*4)[i]-before[name]['sites'].get(index,[0]*4)[i] for i in range(4)]
+                for index in set(before[name]['sites'])|set(after[name]['sites'])} for name in runtime}
             assert all(delta[name]['checks']>100 and delta[name]['bursts']>10 for name in ['user-review-mongodb','movie-review-mongodb','review-storage-mongodb'])
-            b.save(out/'result.json',dict(valid=True,before=before,after=after,delta=delta,
+            b.save(out/'result.json',dict(valid=True,before=before,after=after,delta=delta,site_delta=site_delta,
                 load=json.loads((out/'load/load.json').read_text()),window_us=10,
                 timing='Age starts at sched_switch selection, not at first user instruction. Slots use invariant TSC ticks; half-window split is <5us versus 5..10us.'))
         except BaseException as error:b.save(out/'failure.json',dict(error=repr(error)));raise
@@ -131,12 +139,13 @@ def diagnostic(spec):
 
 
 def tests(root):
-    prior=root.parent/'balanced_callpath/native_test_sources.json'
-    if prior.exists():
+    prior_paths=[root.parent/'balanced_callpath/native_test_sources.json',*sorted(root.parent.glob('hybrid_native_preflight*/native_test_sources.json'))]
+    for prior in prior_paths:
+        if not prior.exists():continue
         record=json.loads(prior.read_text())
         if record['passed'] and all(b.sha(path)==digest for path,digest in record['sha256'].items()):
             b.save(root/'native_tests_reused.json',dict(source=str(prior),sha256=b.sha(prior),
-                result='Reused passing native tests of the exact unchanged source images from the immediately preceding serial campaign.'))
+                result='Reused passing native tests of the exact unchanged source images from a completed serial preflight.'))
             return
     work=root/'native_test_work';b.space(root)
     try:
@@ -160,11 +169,15 @@ def campaign(parent,blocks=3):
     tests(root)
     prepared=prepare(parent,root/'prepared')
     shim=root/'hybrid_map.so';source=b.REPO/'llvm_prefetchit/kernel/sched_clock/hybrid_map.c'
-    b.run(['gcc','-O2','-Wall','-Wextra','-Werror','-shared','-fPIC',source,'-o',shim],root/'shim_build.log')
-    b.run(['readelf','--version-info',shim],root/'shim_versions.log')
-    # The entrypoint and Mongo shell inherit the shim, but have no reserved
-    # sections. Confirm the constructor leaves ordinary executables usable.
-    b.run(['/usr/bin/env','LD_PRELOAD='+str(shim),'/bin/true'],root/'shim_passthrough.log')
+    shim_prior=parent/'hybrid_native_preflight/shim_build.json'
+    reuse=json.loads(shim_prior.read_text()) if shim_prior.exists() else None
+    if reuse and b.sha(source)==reuse['source_sha256'] and b.sha(reuse['binary'])==reuse['sha256']:
+        shim=Path(reuse['binary']);b.save(root/'shim_reused.json',dict(record=str(shim_prior),sha256=b.sha(shim_prior)))
+    else:
+        b.run(['gcc','-O2','-Wall','-Wextra','-Werror','-shared','-fPIC',source,'-o',shim],root/'shim_build.log')
+        b.run(['readelf','--version-info',shim],root/'shim_versions.log')
+        # Entrypoint and shell inherit the shim but have no reserved sections.
+        b.run(['/usr/bin/env','LD_PRELOAD='+str(shim),'/bin/true'],root/'shim_passthrough.log')
     native=json.loads((parent/'confirmation_spec.json').read_text())['arms']['base']['overrides']
     from dense_causes import counters
     b.run(['perf','stat','-x,','-o',root/'late_preflight.csv','-e',LATE_EVENTS,'-a','-C','84','--','sleep','.2'],root/'late_preflight.log')
@@ -181,11 +194,21 @@ def campaign(parent,blocks=3):
         qualification='Separate native ABI tests and real-module full-stack diagnostic precede fresh C4 timing. Same 50s warmup, 60s ROI, balanced persistent connections and three-second post-ROI PMU windows as the preceding controlled campaign.',
         timing='First observed cost75 call within 0..10us from incoming-task selection, at most eight IT0 hints. Later ordinary calls issue the existing T1 list. No timer or scheduler code injection of IT0.',
         late_event='FRONTEND_RETIRED.LATE_SWPF records demand instruction-cache misses overlapping an ongoing PREFETCHIT0/1-triggered fetch. Nonzero counts demonstrate some late overlap; zero does not establish absence of hint execution, timely success, or an empty fetch queue. Source: https://perfmon-events.intel.com/platforms/graniterapids/core-events/core/',
+        gate_refinement='Before any E2E timing, use only first diagnostic gate counts to retain at most 64 canonical groups covering up to 90% of observed first bursts. Plain T1 remains at the other cost75 calls. A different-seed diagnostic checks this sparse policy; no reselection from the second diagnostic or timing results.',
         selection='Three exploratory paired blocks, fixed order and reverse order, no performance-based retries/exclusions. Assess E2E speedup, mean/p99 and whole/pool CPU cost with retired L2 and speculative L2I separately.'))
     spec=dict(common,out=str(root/'diagnostic'),hybrid=True,mongo_binary=prepared['diagnostic'],seed=84901)
     manifest=root/'diagnostic_spec.json';b.save(manifest,spec)
     h.platform(root/'diagnostic',['python3',Path(__file__),'diagnostic',manifest])
     remove_generated([Path(prepared['diagnostic'])],root/'diagnostic_elf_cleanup.json','Gate diagnostic complete; retain ages, counts, source, patches and hashes. No timing uses this counter-instrumented ELF.')
+    reduced=sparse(prepared,root/'diagnostic/result.json',root/'sparse')
+    spec=dict(common,out=str(root/'sparse_diagnostic'),hybrid=True,mongo_binary=reduced['sparse_diag']['binary'],seed=84902)
+    manifest=root/'sparse_diagnostic_spec.json';b.save(manifest,spec)
+    h.platform(root/'sparse_diagnostic',['python3',Path(__file__),'diagnostic',manifest])
+    remove_generated([Path(reduced['sparse_diag']['binary'])],root/'sparse_diagnostic_elf_cleanup.json','Sparse gate verification complete; preserve its independent-seed activity and age records. Counter code is excluded from timing.')
+    arms['hybrid_sparse_nop']=dict(common,mongo_binary=reduced['sparse']['nop'],hybrid=True,controls=['original','hybrid_nop'])
+    arms['hybrid_sparse']=dict(common,mongo_binary=reduced['sparse']['binary'],hybrid=True,controls=['original','cost75','hybrid_sparse_nop','hybrid_it0'])
+    protocol=json.loads((root/'protocol.json').read_text());protocol.update(arms=arms,sparse_prepared=reduced,
+        finalized_before_timing_epoch=time.time());b.save(root/'protocol.json',protocol)
     screen=root/'screen';screen.mkdir();b.save(screen/'protocol.json',dict(blocks=blocks,arms=arms,seedbase=85001))
     names=list(arms);rows=[]
     for block in range(blocks):

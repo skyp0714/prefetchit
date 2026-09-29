@@ -12,8 +12,10 @@ import dense_build as b
 PHASES=['probe','probe_serialized','probe_fixed','screen','retarget_screen','retarget_training',
     'refine_training','builds','crossover','crossover_preflight','crossover_startup_blocked',
     'confirmation_setup_rejected','stack_frontend','confirmation','wake_validation','backend',
-    'callpath_native_preflight','callpath','call_frequency','callpath_refinement','callpath_coverage75','callpath_frontend','balanced_callpath','hybrid_switch']
-BACKEND_PHASES={'backend','callpath_native_preflight','callpath','call_frequency','callpath_refinement','callpath_coverage75','callpath_frontend','balanced_callpath','hybrid_switch'}
+    'callpath_native_preflight','callpath','call_frequency','callpath_refinement','callpath_coverage75','callpath_frontend','balanced_callpath','hybrid_switch',
+    'hybrid_native_preflight','hybrid_native_preflight_initial','hybrid_native_preflight_rejected_dependency','hybrid_native_preflight_shim_warning']
+BACKEND_PHASES={'backend','callpath_native_preflight','callpath','call_frequency','callpath_refinement','callpath_coverage75','callpath_frontend','balanced_callpath','hybrid_switch',
+    'hybrid_native_preflight','hybrid_native_preflight_initial','hybrid_native_preflight_rejected_dependency','hybrid_native_preflight_shim_warning'}
 
 def pack(root,out,native_only=False):
     assert (root/'confirmation_followup_complete.json').exists(),'Archive completed native validation only'

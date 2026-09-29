@@ -11,7 +11,7 @@ m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
 
 
 @pytest.mark.parametrize('pie', [False, True])
-@pytest.mark.parametrize('hybrid', [False, True])
+@pytest.mark.parametrize('hybrid', [False, 'all', 'one'])
 def test_native_call_arguments_flags_return_and_unwind(tmp_path, pie, hybrid):
     source = tmp_path/'main.cc'; assembly = tmp_path/'calls.s'; base = tmp_path/'base'
     source.write_text(r'''
@@ -50,7 +50,8 @@ int main(int argc,char **argv) {
 #include <sys/auxv.h>
 #include <unistd.h>
 #include <x86intrin.h>
-static uint64_t *clock_words,*state_words;
+static uint64_t *clock_words,*state_words,*site_words;
+static size_t site_bytes;
 static void exact(int f,void *p,size_t n,off_t o){if(pread(f,p,n,o)!=(ssize_t)n)abort();}
 void clock_setup(const char *mode){
   int f=open("/proc/self/exe",O_RDONLY);Elf64_Ehdr e;exact(f,&e,sizeof(e),0);
@@ -63,6 +64,7 @@ void clock_setup(const char *mode){
   for(int i=0;i<e.e_shnum;i++){
     if(!strcmp(names+sh[i].sh_name,".prefetch_clock"))clock_words=(uint64_t *)(bias+sh[i].sh_addr);
     if(!strcmp(names+sh[i].sh_name,".prefetch_state"))state_words=(uint64_t *)(bias+sh[i].sh_addr);
+    if(!strcmp(names+sh[i].sh_name,".prefetch_sites")){site_words=(uint64_t *)(bias+sh[i].sh_addr);site_bytes=sh[i].sh_size;}
   }
   if(!clock_words)return;
   unsigned aux;uint64_t now=__rdtscp(&aux);
@@ -79,12 +81,16 @@ bool clock_check(const char *mode){
     checks+=state_words[8*cpu+1];bursts+=state_words[8*cpu+2];
     late+=state_words[8*cpu+3];race+=state_words[8*cpu+4];
   }
-  if(checks!=4)return false;
+  uint64_t site_checks=0,site_bursts=0,site_late=0,site_race=0;
+  if(!site_words)return false;
+  for(size_t i=0;i<site_bytes/8;i+=4){site_checks+=site_words[i];site_bursts+=site_words[i+1];site_late+=site_words[i+2];site_race+=site_words[i+3];}
+  if(site_checks!=0||site_bursts!=bursts||site_late!=late||site_race!=race)return false;
+  if(checks!=EXPECTED_CHECKS)return false;
   if(!strcmp(mode,"early"))return bursts>=1 && bursts<=4 && late==0 && race==0;
   if(!strcmp(mode,"late"))return bursts==0 && late>=1 && late<=4 && race==0;
   return bursts==0 && late==0 && race==0;
 }
-''')
+'''.replace('EXPECTED_CHECKS','1' if hybrid=='one' else '4'))
     assembly.write_text(r'''
 .text
 .globl invoke
@@ -152,6 +158,8 @@ ret
     plan = dict(sha256=m.sha(raw), calls=calls)
     if hybrid:
         for row in calls:row['burst_targets']=row['targets']
+        if hybrid=='one':
+            for index,row in enumerate(calls):row['hybrid_gate']=index==0
     output = tmp_path/'with_hints'; record = m.build(base,plan,output,hybrid={'diagnostic':True} if hybrid else None)
     for path in (base, output, Path(str(output)+'.nop')):
         for mode in (['early','late','zero'] if hybrid else ['zero']):

@@ -20,11 +20,11 @@ have CFA rules for each stack-changing path and a merged GNU unwind table.
 Executable and writable regions are separate.
 
 `hybrid_map.c` is a preload constructor. It finds the specially named, zero-file
-ELF BSS reservation and replaces only its clock half with the module's read-only
+ELF BSS reservation and replaces only its clock region with the module's read-only
 mapping. It checks CPU features, slot ABI and mapping bounds, and fails startup
 when the selected executable cannot obtain its clock. Ordinary container
 entrypoint/privilege-drop/Mongo-shell executables have no such sections and are
-left alone. The process-private seen-epoch half remains writable. The experiment
+left alone. The process-private seen-epoch and diagnostic regions remain writable. The experiment
 temporarily permits read-only access to the timestamp-only device for MongoDB's
 unchanged uid; module unload removes the device after all containers exit.
 
@@ -42,6 +42,16 @@ gate outcomes, not cache fills or all speculative hint execution. A separate
 post-ROI `FRONTEND_RETIRED.LATE_SWPF` window counts demand misses overlapping
 ongoing PREFETCHIT0/1 fetches. Zero counts do not prove successful delivery or
 an empty fetch queue.
+
+The separate diagnostic also has atomic per-stub counters for first-epoch burst,
+expired and observed-race outcomes. Its frequent total gate-check counter stays
+per CPU; no shared counter is updated at every call. The refinement keeps at
+most 64 canonical stub groups, ranked by the first diagnostic's burst counts,
+stopping at 90% observed burst coverage if possible. Other selected calls become
+plain T1 leaf stubs, with no clock gate. A different-seed diagnostic checks actual
+sparse-policy activity without reselection. Its own exact-layout NOP control and
+the all-gated policy are compared in fresh E2E runs. Both diagnostics are intrusive
+and are excluded from performance comparisons.
 
 The shared clock starts before the architectural context switch. Consequently,
 the gate's age includes remaining kernel work, and the first inserted call may
