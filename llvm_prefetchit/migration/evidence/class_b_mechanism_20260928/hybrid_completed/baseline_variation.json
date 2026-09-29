@@ -1,0 +1,75 @@
+{
+  "control": "original",
+  "n": 3,
+  "rows": [
+    {
+      "block": 0,
+      "rps": 1155.4699940036842,
+      "pool_util_pct": 84.49572242679112,
+      "mean_ms": 3.390279167678197,
+      "p99_ms": 5.94639778137207,
+      "stack_cpu": 5946.459685561806
+    },
+    {
+      "block": 1,
+      "rps": 1154.3024933911754,
+      "pool_util_pct": 84.56440732698273,
+      "mean_ms": 3.3944689225778735,
+      "p99_ms": 5.871295928955078,
+      "stack_cpu": 5943.60925498123
+    },
+    {
+      "block": 2,
+      "rps": 1196.3205925052273,
+      "pool_util_pct": 87.09785899377715,
+      "mean_ms": 3.272293207895556,
+      "p99_ms": 5.828857421875,
+      "stack_cpu": 5909.582271074519
+    }
+  ],
+  "summary": {
+    "rps": {
+      "mean": 1168.697693300029,
+      "sample_sd": 23.929253745059878,
+      "sample_cv_pct": 2.04751441559633,
+      "minimum": 1154.3024933911754,
+      "maximum": 1196.3205925052273,
+      "full_range_over_mean_pct": 3.59529238013692
+    },
+    "pool_util_pct": {
+      "mean": 85.38599624918366,
+      "sample_sd": 1.4829143421398068,
+      "sample_cv_pct": 1.736718440120073,
+      "minimum": 84.49572242679112,
+      "maximum": 87.09785899377715,
+      "full_range_over_mean_pct": 3.047498045689091
+    },
+    "mean_ms": {
+      "mean": 3.3523470993838758,
+      "sample_sd": 0.06936034651259719,
+      "sample_cv_pct": 2.069008502292166,
+      "minimum": 3.272293207895556,
+      "maximum": 3.3944689225778735,
+      "full_range_over_mean_pct": 3.644482837256673
+    },
+    "p99_ms": {
+      "mean": 5.88218371073405,
+      "sample_sd": 0.059521776449674345,
+      "sample_cv_pct": 1.011899311153043,
+      "minimum": 5.828857421875,
+      "maximum": 5.94639778137207,
+      "full_range_over_mean_pct": 1.998243599270418
+    },
+    "stack_cpu": {
+      "mean": 5933.2170705391845,
+      "sample_sd": 20.517895796716214,
+      "sample_cv_pct": 0.3458140087035724,
+      "minimum": 5909.582271074519,
+      "maximum": 5946.459685561806,
+      "full_range_over_mean_pct": 0.6215416366678724
+    }
+  },
+  "source_sha256": "c0f074480f295a32a1c0b6c721ab1fd0a3798f29e16d0a5bec34e70217ab51a4",
+  "rows_sha256": "3899b6875e2df1bdbd581fc2c52f0ca72d89b648dc6af40c46a6a7962d1c7aa1",
+  "interpretation": "Sample variation across fresh-stack baseline repeats, including workload seed, time and system variation. Small n; not a confidence interval, a pure hardware-noise estimate, or an exclusion rule. Policy comparisons use their prespecified paired blocks, not this descriptive range."
+}
