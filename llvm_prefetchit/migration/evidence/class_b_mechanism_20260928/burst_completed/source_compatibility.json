@@ -1,0 +1,19 @@
+{
+  "preflight_source_hashes": {
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/hybrid_campaign.py": "49686f220ea1e42570bcdc7af0bf1c3025ea0b1ac600a9fba92c053a5cbf9419",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/hybrid_prepare.py": "0042515f2575778e65f5f66572e247ae851e4be3c709fd3f5d82cc7a43192b75",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/tools/call_stub_prefetch.py": "a5291f51e12f0a154cf2a695279f5403d5e9591f42d32e45d9698f46412df5a6",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/tools/hybrid_call_assembly.py": "7e8bbc2ede647987612a415744efd2d6fa3deab4b565261f636c8413a5026128",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/kernel/sched_clock/hybrid_map.c": "ead36b2e1a85759bdafe6736dd391f9fb6d0e9c5d1e13ed985277a4957b8ec68",
+    "/storage/prefetchit/class_b_lean_20260928/kernel_v1/prefetchit_sched_clock.ko": "0ad7baf34f256c83ccca62223a9c814716e1995ece3fd6b9315a82c55510c7cc",
+    "/storage/prefetchit/class_b_mechanism_20260928/split_target_refine/prepared.json": "2b9f313815b71e3f2f9b7a0c71bebb2d462e66526457f7b172c0d4176f94bfe9",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/balanced_backend.py": "65faf913ed06b55e82e7b6ec53a994c5bbbd8fa793be11efdbeaeaf30fb55983",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/balanced_load.py": "a4c7ef2057e9e346188e73d61661eed40dc9a242f03c3f68fda0e775cf909dd4",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/migration/schemes/class_b_extension_20260926/media.py": "bb9d7422af6eeeba907015fc1faf1b667ddcccad8d132ce2c52bac4566818f6a"
+  },
+  "original_campaign_source": "/storage/prefetchit/class_b_mechanism_20260928/hybrid_service_preflight/campaign_source_before_amendment.py",
+  "current_campaign_sha256": "f6363a2ffbbf6ea56bca3fc1a8ceb1d944f4cd8c9ff27d938ba279fbc8d3653d",
+  "amendment_before_hybrid_timing": true,
+  "hybrid_screen": "/storage/prefetchit/class_b_mechanism_20260928/hybrid_switch/screen",
+  "reason": "Add a byte-only first-IT0/later-T1 early-burst arm after independent native calibration; preserve all gate, mapping, diagnostic and timing implementations. Also declare all seven monitored scopes in the screen report protocol to match existing PMU windows. No hybrid E2E results exist or were used."
+}

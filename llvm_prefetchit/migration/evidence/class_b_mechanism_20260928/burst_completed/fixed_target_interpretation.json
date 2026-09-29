@@ -1,0 +1,6 @@
+{
+  "measurements_valid": true,
+  "use_for_burst_capacity": false,
+  "reason": "NOP has approximately 8.30 speculative L2 code-read misses per iteration but only 0.030 retired L2 events after handoff, with target calls approximately 40 TSC each. Fixed targets and long independent lead hide the cold fetch from the demand timing. Preserve these measurements, but do not infer a useful burst size or queue capacity from them.",
+  "next": "Dependency-delayed random target selection after the hint body; all eight possible target lines flushed. Same byte-layout and target checks."
+}
