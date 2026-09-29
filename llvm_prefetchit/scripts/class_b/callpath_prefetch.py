@@ -165,6 +165,7 @@ def residual(spec):
     history is not evidence that no hint ran; retirement age is not issue lead.
     """
     root=Path(spec['root']);binary=Path(spec['binary']);folder=root/'residual'
+    baseline_root=Path(spec.get('baseline_root',root))
     assert json.loads((folder/'complete.json').read_text())['valid'];b.space(root)
     code=Code(binary);patches=json.loads(Path(str(binary)+'.json').read_text())
     hints={row['va']:row['target'] for row in patches['hints']}
@@ -179,8 +180,8 @@ def residual(spec):
         with gzip.open(observations,'wt') as stream:json.dump(rows,stream,separators=(',',':'))
         counts,nearest,earliest=residual_counts(rows,hints)
         requests=json.loads((source/'request_window.json').read_text())
-        with gzip.open(root/'observations'/('heldout_'+name+'.json.gz'),'rt') as stream:baseline=json.load(stream)
-        base_requests=json.loads((root/'profiles/heldout'/name/'request_window.json').read_text())
+        with gzip.open(baseline_root/'observations'/('heldout_'+name+'.json.gz'),'rt') as stream:baseline=json.load(stream)
+        base_requests=json.loads((baseline_root/'profiles/heldout'/name/'request_window.json').read_text())
         baseline_counts=dict(main_samples=len(baseline),on_selected_target_line=sum(row['line'] in lines for row in baseline))
         results[name]=dict(quality=quality,counts=dict(counts),nearest_retired_age=dict(nearest),earliest_retired_age=dict(earliest),
             estimated_events_per_request={k:v*257/requests['completed_requests'] for k,v in counts.items()},
