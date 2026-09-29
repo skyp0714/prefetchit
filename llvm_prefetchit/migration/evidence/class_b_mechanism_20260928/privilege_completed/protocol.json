@@ -1,0 +1,21 @@
+{
+  "out": "/storage/prefetchit/class_b_mechanism_20260928/callpath/privilege",
+  "overrides": {
+    "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+    "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+    "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+  },
+  "seed": 77501,
+  "source_sha256": "10dbb321991e546f8da6a549ae04658adf78189205ccd2f31a88fccfc137cb0b",
+  "events": {
+    "cache": "cycles:u,instructions:u,cpu/event=0x24,umask=0x24,name=L2I/u,cpu/event=0xc6,umask=0x3,name=FE_L2,config1=0x13/u,cpu/event=0x80,umask=0x4,name=ICACHE_DATA_STALL/u",
+    "frontend": "cycles:u,instructions:u,cpu/event=0xc6,umask=0x3,name=FE_L1,config1=0x12/u,cpu/event=0x11,umask=0x10,name=ITLB_WALK_ACTIVE,cmask=1/u,cpu/event=0x9c,umask=0x1,name=FE_BUBBLES/u,cpu/event=0xa4,umask=0x1,name=SLOTS/u",
+    "branch": "cycles:u,instructions:u,branches:u,branch-misses:u,cpu/event=0xc6,umask=0x3,name=FE_ITLB,config1=0x14/u",
+    "decode": "cycles:u,instructions:u,cpu/event=0x79,umask=0x8,name=DSB_UOPS/u,cpu/event=0x79,umask=0x4,name=MITE_UOPS/u,cpu/event=0x75,umask=0x1,name=DECODED/u,cpu/event=0xad,umask=0x40,name=UNKNOWN_BRANCH_CYCLES,config1=0x7/u"
+  },
+  "counter_parser_sha256": "5f7a1cc7273d3a276e231788d208d723f14733a00ed9707467b3034054e5ec7f",
+  "scope": "Original full Media C4. CPU-wide counters on 32-39, separately filtered to user/kernel. Includes scheduler/interrupt work on that pool; excludes work on other CPUs.",
+  "ordering": "Two repeats, reversed privilege and group order in repeat 2; every PMU window has its own request denominator.",
+  "limitation": "Diagnostic attribution, not a prefetch E2E trial or critical-path causal bound. Frontend events overlap; their counts cannot be subtracted into exclusive causes.",
+  "event_source": "https://perfmon-events.intel.com/platforms/graniterapids/core-events/core/"
+}

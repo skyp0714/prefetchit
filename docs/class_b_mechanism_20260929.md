@@ -152,6 +152,25 @@ MovieId를 포함한 full Media의 compose-review 경로, C4, 8개 workload CPU�
 
 완료 자료: [E2E 요약](../llvm_prefetchit/migration/evidence/class_b_mechanism_20260928/backend_completed/e2e_compact.json), [PMU·E2E 전체 비교표](../llvm_prefetchit/migration/evidence/class_b_mechanism_20260928/backend_completed/screen_report.md), [해시 목록](../llvm_prefetchit/migration/evidence/class_b_mechanism_20260928/backend_completed/manifest.json).
 
+**사용자/커널 프런트엔드 비용 분리**
+
+이어 원본 full Media C4에서 workload CPU 32–39 전체를 사용자/커널로 나눠 16개 PMU 창을 수집했다. 모든 창은 multiplexing 없이 정상 완료했고, 각 창의 완료 요청 수로 정규화했다. 순서를 뒤집은 2회 진단의 평균이며 정책 간 E2E 비교가 아니다.
+
+| 지표 | 사용자 모드 | 커널 모드 |
+|---|---:|---:|
+| cycles/request | 6,599,678 | 5,212,834 |
+| retired L2 이벤트/request | 12,191 | 2,617 |
+| speculative code-read miss/request | 135,161 | 45,301 |
+| I-cache data stall / cycles | 22.08% | 10.95% |
+| instruction page-walk active / cycles | 8.02% | 0.57% |
+| frontend-bound | 67.66% | 32.47% |
+| retired ITLB 이벤트/request | 8,558 | 1,207 |
+| retired branch misprediction | 5.05% | 2.06% |
+| unknown-branch bubble / cycles | 29.22% | 7.68% |
+| DSB / (DSB + MITE) uops | 55.87% | 12.21% |
+
+이 값들은 서로 겹치므로 원인 비중으로 합산하거나 차감하지 않는다. Unknown-branch bubble은 BTB 부재 또는 FDIP 실패 횟수를 직접 센 값이 아니다. 그래도 I-cache 대기 감소만으로 frontend-bound 전체가 같은 비율로 줄지 않는 이유를 조사할 근거다. Call-path의 추가 점프가 이 비용을 늘리는지 별도 NOP 대조군과 decoder PMU 창에서 비교한다. CPU 풀 밖의 실행은 포함되지 않고, DSB 비율에는 다른 uop 공급원이 빠져 있다. [개별 창·분모·범위](../llvm_prefetchit/migration/evidence/class_b_mechanism_20260928/privilege_completed/summary.md)를 보존했다.
+
 **다음 수정과 독립 검증**
 
 추가 NOP 학습 73,063개 표본에서 0..8192-cycle 관측을 남겼다. 새 두 정책은 최소 나이 128 또는 512인 타깃을 선택하되, 기존 힌트의 짧은 선행 거리 커버리지까지 손실 비용에 넣었다. 한 사이트가 최근과 과거에 모두 나왔을 때 오래된 발생을 버리지 않는다. 앞선 정책과는 학습 자료·보호 조건도 다르므로 단순히 나이 하나만 바꾼 비교라고 부르지 않는다.
