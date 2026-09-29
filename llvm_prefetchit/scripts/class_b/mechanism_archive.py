@@ -11,10 +11,16 @@ import dense_build as b
 
 PHASES=['probe','probe_serialized','probe_fixed','screen','retarget_screen','retarget_training',
     'refine_training','builds','crossover','crossover_preflight','crossover_startup_blocked',
-    'confirmation_setup_rejected','stack_frontend','confirmation','wake_validation','backend']
+    'confirmation_setup_rejected','stack_frontend','confirmation','wake_validation','backend',
+    'callpath_native_preflight','callpath']
+BACKEND_PHASES={'backend','callpath_native_preflight','callpath'}
 
 def pack(root,out,native_only=False):
     assert (root/'confirmation_followup_complete.json').exists(),'Archive completed native validation only'
+    if not native_only:
+        for phase in ['backend','callpath']:
+            if (root/phase).exists():
+                assert (root/phase/'complete.json').exists(), 'Do not archive an active backend phase: '+phase
     out.mkdir(parents=True,exist_ok=True);manifest=[]
     def eligible(path):
         if path.is_symlink() or not path.is_file():return False
@@ -39,17 +45,17 @@ def pack(root,out,native_only=False):
         with gzip.GzipFile(filename=str(dest),mode='wb',mtime=0) as f:
             f.write(json.dumps(records,separators=(',',':'),sort_keys=True).encode())
         manifest.append(dict(bundle=dest.name,sha256=b.sha(dest),bytes=dest.stat().st_size,records=entries))
-    bundle('campaign',[p for p in root.iterdir() if p.is_file() and not (native_only and p.name.startswith('backend'))])
+    bundle('campaign',[p for p in root.iterdir() if p.is_file() and not (native_only and p.name.startswith(('backend','callpath')))])
     for name in PHASES:
-        if native_only and name=='backend':continue
+        if native_only and name in BACKEND_PHASES:continue
         folder=root/name
         if folder.exists():bundle(name,folder.rglob('*'))
     for folder in sorted(root.glob('*_platform')):
         if folder.is_dir() and not folder.is_symlink():bundle(folder.name,folder.rglob('*'))
     # Compact training inputs support retarget/thinning reproduction after the
     # much larger decoded traces have been removed.
-    for pattern in ['refine_observations/*.gz','builds/**/*.observations.json.gz','backend/observations/*.gz']:
-        if native_only and pattern.startswith('backend/'):continue
+    for pattern in ['refine_observations/*.gz','builds/**/*.observations.json.gz','backend/observations/*.gz','callpath/observations/*.gz']:
+        if native_only and pattern.startswith(('backend/','callpath/')):continue
         for source in sorted(root.glob(pattern)):
             assert source.is_file() and not source.is_symlink()
             dest=out/source.relative_to(root);dest.parent.mkdir(parents=True,exist_ok=True)

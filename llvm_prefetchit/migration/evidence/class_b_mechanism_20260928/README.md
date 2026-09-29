@@ -9,6 +9,9 @@ control drifted as review arrays grew. Completed and partial observations, the
 exclusion reason, and restoration records are retained.
 
 `completed_native_manifest.json` covers the completed 20-run native validation
-and earlier screens. Full compact phase bundles are added after the wake and
-backend follow-ups finish; those phases are not claimed complete here. No executable, original input package, decoded trace, or NAS artifact
-is stored in this evidence directory.
+and earlier screens. `completed_records/manifest.json` adds 28 verified compact
+bundles/files (7,988 measurement, settings, quality, patch, exclusion and cleanup
+records, plus compressed selector inputs), including all 12 completed native
+wake captures. The native-only archive excludes active backend/call-path work;
+those phases are not claimed complete here. No executable, original input
+package, decoded trace, or NAS artifact is stored in this evidence directory.

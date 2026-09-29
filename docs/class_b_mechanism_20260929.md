@@ -137,3 +137,5 @@ retarget 탐색의 clean ROI에서 세 수정 서비스의 사용자 CPU/request
 그림: [동일 주소 opcode 검증](figures/class_b_mechanism_20260929_calibration.png), [초기 탐색](figures/class_b_mechanism_20260929_service_effects.png), [교차 실험의 데이터 누적](figures/class_b_mechanism_20260929_write_state_drift.png). 각 PNG와 같은 이름의 SVG도 보존한다.
 
 완료된 네이티브 검증의 [원자료 요약](../llvm_prefetchit/migration/evidence/class_b_mechanism_20260928/confirmation_evaluation.json)과 [파일 해시 목록](../llvm_prefetchit/migration/evidence/class_b_mechanism_20260928/completed_native_manifest.json)을 저장했다.
+
+이후 native wake 12개까지 포함한 [완료 단계 압축 기록](../llvm_prefetchit/migration/evidence/class_b_mechanism_20260928/completed_records/manifest.json)을 추가했다. 28개 묶음/파일의 해시와 7,988개 compact 기록을 검증했다. 진행 중인 backend/call-path 결과는 이 native-only 묶음에서 제외한다.
