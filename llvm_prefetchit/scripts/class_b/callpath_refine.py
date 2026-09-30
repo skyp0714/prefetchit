@@ -17,16 +17,18 @@ from dense_cause_analysis import Code,category
 from e2e_lbr import remove_generated
 
 
-def prepare(source,out,minimum=64,goal=.75,max_sites=1024,build=False,frequency_path=None,continuation_probe=None):
+def prepare(source,out,minimum=64,goal=.75,max_sites=1024,build=False,frequency_path=None,continuation_probe=None,max_hints=None):
     assert (source/'complete.json').exists(),'Finish active call-path measurements first'
     assert minimum in (64,128,512,1024) and .5<=goal<=.9 and 1<=max_sites<=2048
+    max_hints=max_sites*4 if max_hints is None else max_hints
+    assert 1<=max_hints<=max_sites*4
     out.mkdir(parents=True,exist_ok=False);b.space(out)
     prior=json.loads((source/'prepared.json').read_text());reference=Path(prior['reference'])
     quality=json.loads((source/'profile_quality.json').read_text())
     assert b.sha(reference)==quality['reference_sha256']
     protocol=dict(source=str(source),reference=str(reference),reference_sha256=b.sha(reference),
         minimum_retired_age=minimum,maximum_retired_age=8192,coverage_goal=goal,max_sites=max_sites,
-        max_hints=max_sites*4,per_site=4,min_gain=8,source_sha256=b.sha(__file__),
+        max_hints=max_hints,per_site=4,min_gain=8,source_sha256=b.sha(__file__),
         selector_sha256=b.sha(Path(__file__).with_name('callpath_prefetch.py')),
         builder_sha256=b.sha(stubs.__file__),
         rule='Train-only greedy cover. Heldout is evaluated after freezing choices. This is a subsequent policy, not an amendment to completed screen arms.',
@@ -65,7 +67,7 @@ def prepare(source,out,minimum=64,goal=.75,max_sites=1024,build=False,frequency_
             input_records.append(dict(path=str(path),sha256=b.sha(path),samples=len(observed)))
         assert rows;phases[phase]=rows
     if frequency_path is None:
-        chosen=select(phases['train'],max_sites=max_sites,max_hints=max_sites*4,goal=goal)
+        chosen=select(phases['train'],max_sites=max_sites,max_hints=max_hints,goal=goal)
     else:
         from call_cost_selector import select as cost_select
         frequency=json.loads(Path(frequency_path).read_text())
@@ -76,7 +78,7 @@ def prepare(source,out,minimum=64,goal=.75,max_sites=1024,build=False,frequency_
             assert record['valid']
             rates.update({int(site):value for site,value in record['direct_call_estimates'].items()})
             floor+=record['zero_sample_cost_floor_per_request']
-        chosen=cost_select(phases['train'],rates,floor,max_sites=max_sites,max_hints=max_sites*4,goal=goal)
+        chosen=cost_select(phases['train'],rates,floor,max_sites=max_sites,max_hints=max_hints,goal=goal)
         chosen['frequency_source']=dict(path=str(frequency_path),sha256=b.sha(frequency_path),
             selector_sha256=b.sha(Path(__file__).with_name('call_cost_selector.py')))
     assert chosen['sites'] and chosen['hints']
@@ -139,5 +141,6 @@ if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('source',type=Path);p.add_argument('out',type=Path)
     p.add_argument('--minimum',type=int,default=64);p.add_argument('--goal',type=float,default=.75)
     p.add_argument('--max-sites',type=int,default=1024);p.add_argument('--build',action='store_true')
+    p.add_argument('--max-hints',type=int)
     p.add_argument('--frequency',type=Path);p.add_argument('--continuation-probe',type=Path);a=p.parse_args()
-    prepare(a.source,a.out,a.minimum,a.goal,a.max_sites,a.build,a.frequency,a.continuation_probe)
+    prepare(a.source,a.out,a.minimum,a.goal,a.max_sites,a.build,a.frequency,a.continuation_probe,a.max_hints)

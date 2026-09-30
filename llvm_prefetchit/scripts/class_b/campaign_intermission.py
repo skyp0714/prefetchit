@@ -17,7 +17,7 @@ def run(spec):
     assert command==spec['expected_command'],(command,spec['expected_command'])
     assert command[2]=='campaign' and Path(command[1]).name in [
         'callpath_frontend_diagnostic.py','balanced_backend.py','hybrid_campaign.py',
-        'split_coverage_campaign.py']
+        'split_coverage_campaign.py','split_hybrid_study.py']
     identity=proc.joinpath('stat').read_text().rsplit(')',1)[1].split()[19]
     child_ids=proc.joinpath('task',str(pid),'children').read_text().split();assert len(child_ids)==1
     child=Path('/proc')/child_ids[0]
