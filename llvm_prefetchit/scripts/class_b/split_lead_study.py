@@ -15,7 +15,7 @@ from split_topdown_report import report as topdown_report
 L1_EVENTS = ('cycles:u,instructions:u,'
     'cpu/event=0xc6,umask=0x3,config1=0x12,name=FE_L1I/u,'
     'cpu/event=0x61,umask=0x2,name=DSB_SWITCH_STALL/u,'
-    'cpu/event=0x80,umask=0x4,cmask=1,name=ICACHE_STALL_PERIODS/u,'
+    'cpu/event=0x80,umask=0x4,cmask=1,edge=1,name=ICACHE_STALL_PERIODS/u,'
     'cpu/event=0x80,umask=0x4,name=ICACHE_DATA_STALL/u')
 
 
