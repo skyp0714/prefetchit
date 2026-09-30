@@ -12,6 +12,12 @@ import dense_build as b
 def publish(root):
     for stage in ['hybrid_screen','lead_screen','residual_diagnostics']:
         assert json.loads((root/stage/'complete.json').read_text())['valid']
+    stages=['hybrid_screen','lead_screen']
+    if (root/'padding_residual').exists():
+        qualification=json.loads((root/'padding_residual/complete.json').read_text());assert qualification['valid']
+        if qualification['compiled']:
+            assert json.loads((root/'padding_screen/complete.json').read_text())['valid']
+            stages.append('padding_screen')
     b.space(root)
     out=b.REPO/'llvm_prefetchit/migration/evidence'/root.name
     assert not out.exists();out.mkdir(parents=True)
@@ -40,7 +46,9 @@ def publish(root):
         assert set(verified)==set(records)
         for entry in entries:assert hashlib.sha256(verified[entry['path']].encode()).hexdigest()==entry['sha256']
         manifest.append(dict(bundle=str(destination.relative_to(out)),sha256=b.sha(destination),bytes=destination.stat().st_size,records=entries))
-    for source in sorted((root/'residual_diagnostics').rglob('*_observations.json.gz')):
+    observations=list((root/'residual_diagnostics').rglob('*_observations.json.gz'))
+    observations+=list((root/'padding_residual/observations').glob('*.json.gz'))
+    for source in sorted(observations):
         assert source.is_file() and not source.is_symlink()
         destination=artifacts/source.relative_to(root);destination.parent.mkdir(parents=True,exist_ok=True)
         destination.write_bytes(source.read_bytes());assert b.sha(source)==b.sha(destination)
@@ -56,7 +64,7 @@ def publish(root):
     assert checks and all(row['restored'] for row in checks)
     b.save(out/'platform_restoration.json',dict(valid=True,checks=len(checks),records=checks))
     figures=[]
-    for stage in ['hybrid_screen','lead_screen']:
+    for stage in stages:
         destination=out/stage;destination.mkdir()
         for name in ['complete.json','report.md','screen_evaluation.json','topdown.json','topdown.md',
             'cpu_attribution.json','cpu_attribution.md','baseline_variation.json','baseline_variation.md','workload_age.json','protocol.json']:

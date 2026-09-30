@@ -63,7 +63,7 @@ def prepare(root):
 def report(stage):
     data = evaluate(stage/'screen', stage/'screen_evaluation.json')
     protocol = json.loads((stage/'protocol.json').read_text())
-    lines = ['# Residual targets and earlier placement: fresh full Media C4', '', protocol['scope'], '', protocol['hypotheses'], '',
+    lines = ['# '+protocol.get('title','Residual targets and earlier placement: fresh full Media C4'), '', protocol['scope'], '', protocol['hypotheses'], '',
         '| Arm | RPS | Mean ms | p99 ms | Whole CPU us/request | Pool utilization |',
         '|---|---:|---:|---:|---:|---:|']
     for name, v in data['absolute'].items():
@@ -110,7 +110,8 @@ def plot(stage, data):
         axis.set_yticks(range(len(names)), names); axis.invert_yaxis()
         axis.axvline(1 if ratio else 0, color='#888', linewidth=.8); axis.grid(axis='x', alpha=.2)
         axis.set_title(title); axis.spines[['top','right']].set_visible(False)
-    fig.suptitle('Residual targets and earlier placement versus split75: full Media C4')
+    protocol=json.loads((stage/'protocol.json').read_text())
+    fig.suptitle(protocol.get('plot_title','Residual targets and earlier placement versus split75: full Media C4'))
     fig.supxlabel('Four fresh-stack paired blocks; individual 95% intervals, no multiplicity correction. Endpoint timing precedes PMU.', fontsize=9)
     dest = stage/'figures'; dest.mkdir(exist_ok=True)
     for ext in ['png','svg']: fig.savefig(dest/('lead.'+ext), dpi=180)
