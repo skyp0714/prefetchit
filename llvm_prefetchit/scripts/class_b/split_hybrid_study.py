@@ -26,7 +26,7 @@ EVENTS = dict(cache=backend_study.EVENTS['cache'],
     memory='cycles:u,instructions:u,cpu/event=0xa3,umask=0x4,cmask=4,name=EXE_STALL/u,cpu/event=0x47,umask=0x3,cmask=3,name=LOAD_L1D_STALL/u,cpu/event=0x47,umask=0x9,cmask=9,name=LOAD_L3_STALL/u,cpu/event=0xa6,umask=0x40,cmask=2,name=STORE_STALL/u',
     front='cycles:u,instructions:u,cpu/event=0x79,umask=0x8,name=DSB_UOPS/u,cpu/event=0x79,umask=0x4,name=MITE_UOPS/u,cpu/event=0x11,umask=0x10,cmask=1,name=ITLB_WALK_ACTIVE/u,cpu/event=0xad,umask=0x40,config1=0x7,name=UNKNOWN_BRANCH_CYCLES/u',
     late=hybrid.LATE_EVENTS, prefetch=backend_study.EVENTS['prefetch'])
-LIMIT = ('Top-down level-1 metrics share one slots-led hardware group. Ratios describe slots, not CPU-time fractions or request critical-path bounds. Fetch latency also includes branch/translation effects. Memory stall events overlap and must not be added. Pool user/kernel scopes overlap service attribution and include work outside the target MongoDBs. Post-ROI windows are independent of clean endpoint timing.')
+LIMIT = ('Top-down level-1 metrics share one slots-led hardware group. Ratios describe slots, not CPU-time fractions or request critical-path bounds. Fetch latency also includes branch/translation effects. Memory stall events overlap and must not be added. Pool user/kernel scopes overlap service attribution and include work outside the target MongoDBs. Raw metric fractions retain up to 2% closure error from 8-bit metric accounting; no normalization is applied. Post-ROI windows are independent of clean endpoint timing.')
 
 
 def event_string(label, privilege='u'):
@@ -37,9 +37,12 @@ def check_td(row, privilege='u'):
     c = row['counters']; slots = c['slots:'+privilege]; assert slots > 0
     get = lambda name: c['topdown-'+name+':'+privilege]
     total = sum(get(n) for n in ['retiring', 'bad-spec', 'fe-bound', 'be-bound'])
-    assert abs(total/slots-1) < .002, (slots, total)
-    assert get('fetch-lat') <= get('fe-bound')+.002*slots
-    assert get('mem-bound') <= get('be-bound')+.002*slots
+    # PERF_METRICS uses 8-bit fractions; kernel clamps negative deltas.
+    # Preserve raw closure error; 2% is a diagnostic sanity limit, not precision.
+    row['topdown_closure_error_pct'] = 100*(total/slots-1)
+    assert abs(total/slots-1) < .02, (slots, total)
+    assert get('fetch-lat') <= get('fe-bound')+.02*slots
+    assert get('mem-bound') <= get('be-bound')+.02*slots
 
 
 def preflight(root):
@@ -186,7 +189,7 @@ def campaign(root):
     from split_coverage_campaign import report
     report(stage)
     (stage/'report.md').write_text((stage/'report.md').read_text().replace('Continuation-aware placement: fresh full Media C4',
-        'Split75 plus early IT0: fresh full Media C4'))
+        'Split75 plus early IT0: fresh full Media C4').replace('PMU windows follow the clean ROI and cover three MongoDBs only;', 'Cache/prefetch PMU windows follow the clean ROI and cover three MongoDBs; separate top-down/memory windows additionally cover pool user and kernel execution;'))
     b.save(stage/'complete.json', dict(valid=True, clean_trials=len(rows)))
 
 

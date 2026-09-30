@@ -15,7 +15,8 @@ def td(c, privilege):
         ['retiring', 'bad-spec', 'fe-bound', 'be-bound', 'fetch-lat', 'mem-bound']}
     values['fetch-bw'] = max(0, values['fe-bound']-values['fetch-lat'])
     values['core-bound'] = max(0, values['be-bound']-values['mem-bound'])
-    return dict(slots_per_request=slots,
+    closure = sum(values[key] for key in ['retiring','bad-spec','fe-bound','be-bound'])/slots-1
+    return dict(slots_per_request=slots, closure_error_pct=100*closure,
         **{key+'_slots_per_request': value for key, value in values.items()},
         **{key+'_pct': 100*value/slots for key, value in values.items()})
 
@@ -55,12 +56,14 @@ def report(root, partial=False):
             absolute[scope][arm] = {key: statistics.mean(row['metrics'][key] for row in matching)
                 for key in matching[0]['metrics']}
     result = dict(complete=not partial, records=records, absolute=absolute, comparisons=comparisons,
+        max_abs_closure_error_pct=max(abs(row['metrics']['closure_error_pct']) for row in records),
         inputs=inputs, source_sha256=b.sha(__file__), limitation=LIMIT,
         weighting='Each record is normalized by its own completed-request window. Mongo3 sums separately observed request-normalized counters before taking slot ratios. Reported percentages average per-block ratios. CPU-pool and service values overlap; do not add them.')
     name = 'topdown_partial' if partial else 'topdown'
     b.save(root/(name+'.json'), result)
     lines = ['# Split75: frontend versus backend diagnosis', '', LIMIT, '', result['weighting'], '',
         'Clean throughput, mean/p99 latency and whole CPU/request are in report.md. These are separate post-ROI diagnostics.', '',
+        f'Maximum absolute raw level-1 closure error: {result["max_abs_closure_error_pct"]:.3f}% of slots. Raw values are retained, without forcing the sum to 100%. Hardware metrics use 8-bit fractions and kernel accounting clamps negative fraction-derived deltas; tiny differences below this precision should not be interpreted.', '',
         '| Scope / policy | Retiring | Bad speculation | Frontend | Fetch latency | Fetch bandwidth | Backend | Memory bound | Core bound |',
         '|---|---:|---:|---:|---:|---:|---:|---:|---:|']
     fields = ['retiring', 'bad-spec', 'fe-bound', 'fetch-lat', 'fetch-bw', 'be-bound', 'mem-bound', 'core-bound']
