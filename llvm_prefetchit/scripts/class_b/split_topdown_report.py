@@ -26,7 +26,7 @@ def aggregate(groups):
     return {key: sum(value['per_request'][key] for value in groups.values()) for key in keys}
 
 
-def report(root, partial=False):
+def report(root, partial=False, plot=False):
     screen = root/'screen'; protocol = json.loads((screen/'protocol.json').read_text())
     if not partial: assert (root/'complete.json').exists()
     records = []; inputs = {}
@@ -80,9 +80,43 @@ def report(root, partial=False):
     lines += ['', 'Level-2 percentages are subsets: do not add them to their level-1 parent. Fetch latency is not a measurement of prefetch lead time. Memory stall counters may overlap frontend starvation. A changing percentage alone does not establish that absolute backend cost grew. Controlled timing/placement changes are required to test insufficient lead.', '',
         'Definitions: [Intel Granite Rapids PMU](https://perfmon-events.intel.com/platforms/graniterapids/core-events/core/) and [Intel top-down method](https://www.intel.com/content/www/us/en/docs/vtune-profiler/cookbook/2024-0/top-down-microarchitecture-analysis-method.html).']
     (root/(name+'.md')).write_text('\n'.join(lines)+'\n')
+    if plot:
+        assert not partial
+        figure(root,result)
     print(json.dumps(dict(complete=not partial, trials=len(inputs), output=str(root/(name+'.json')))))
+
+
+def figure(root,data):
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+    fig,axes=plt.subplots(2,3,figsize=(15,8),constrained_layout=True)
+    for column,scope in enumerate(['mongo3','pool_u','pool_k']):
+        arms=data['absolute'][scope];names=list(arms);left=[0]*len(names)
+        for key,color,label in [('retiring','#228833','Retiring'),('bad-spec','#ccbb44','Bad speculation'),
+            ('fe-bound','#4477aa','Frontend'),('be-bound','#ee6677','Backend')]:
+            values=[arms[name][key+'_pct'] for name in names]
+            axes[0,column].barh(range(len(names)),values,left=left,color=color,label=label)
+            left=[a+z for a,z in zip(left,values)]
+        axes[0,column].set_xlim(0,102);axes[0,column].set_title(scope)
+        axes[0,column].set_xlabel('Raw slot fraction (%)')
+        for key,offset,color,label in [('fe-bound',-.17,'#4477aa','Frontend'),('be-bound',.17,'#ee6677','Backend')]:
+            axes[1,column].barh([i+offset for i in range(len(names))],
+                [arms[name][key+'_slots_per_request']/1e6 for name in names],height=.32,color=color,label=label)
+        axes[1,column].set_xlabel('Million slots / request')
+        for axis in axes[:,column]:
+            axis.set_yticks(range(len(names)),names);axis.invert_yaxis();axis.spines[['top','right']].set_visible(False)
+            axis.grid(axis='x',alpha=.15)
+    axes[0,0].legend(ncol=2,fontsize=8,loc='lower left',bbox_to_anchor=(0,1.02))
+    fig.suptitle('Slot fractions and absolute frontend/backend work')
+    fig.supxlabel('Post-ROI diagnostics; four trial means. Scopes overlap and must not be added.\n'
+        'Raw 8-bit metric accounting is not forced to 100%; slots are not request critical-path time.',fontsize=9)
+    dest=root/'figures';dest.mkdir(exist_ok=True)
+    for extension in ['png','svg']:fig.savefig(dest/('topdown.'+extension),dpi=180)
+    plt.close(fig)
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(); parser.add_argument('root', type=Path); parser.add_argument('--partial', action='store_true')
-    args = parser.parse_args(); report(args.root, args.partial)
+    parser.add_argument('--plot',action='store_true')
+    args = parser.parse_args(); report(args.root, args.partial, args.plot)

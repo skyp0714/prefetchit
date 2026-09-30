@@ -61,7 +61,8 @@ def run(root):
     out = root/'residual_diagnostics'; out.mkdir(exist_ok=False)
     b.save(out/'protocol.json', dict(source_sha256=b.sha(__file__),
         client_sha256=b.sha(Path(balanced_backend.__file__).with_name('balanced_load.py')),
-        seed=89101, rule='Fresh full Media C4 with balanced persistent connections; 50s warmup then separate 8s PEBS/LBR windows for Mongo3. Training choices already frozen. Serial diagnostics only.'))
+        seed=89101, services=capture.BACKENDS,
+        rule='Fresh full Media C4 with balanced persistent connections; 50s warmup then separate 8s PEBS/LBR windows for the two review MongoDBs. Training choices already frozen. Serial diagnostics only.'))
     for name,binary in [('split75',Path(base['mongo_binary'])),('lead512',Path(lead['binary']))]:
         folder = out/name; manifest = out/(name+'.json'); b.space(out)
         b.save(manifest,dict(out=str(folder),mongo_binary=str(binary),reference=str(binary),

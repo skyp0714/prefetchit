@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Frozen follow-up: layout-matched target swaps and a budgeted earlier policy."""
+"""Frozen follow-up: residual targets versus budgeted earlier placement."""
 import argparse
 import json
 from pathlib import Path
@@ -27,13 +27,13 @@ def trial(spec):
 def prepare(root):
     assert (root/'hybrid_screen/complete.json').exists()
     initial = json.loads((root/'prepared_complete.json').read_text())
-    swap = json.loads((root/'lead_swap/complete.json').read_text()); assert swap['compiled']
+    residual = json.loads((root/'residual_retarget/complete.json').read_text()); assert residual['valid']
     lead = json.loads((root/'lead512/prepared.json').read_text())
     source = initial['arms']['split75']; base = json.loads(Path(source['mongo_binary']+'.json').read_text())
     assert lead['extra_instruction_bytes'] <= base['extra_instruction_bytes']
-    arms = dict(split75=dict(source), lead_swap=dict(source, mongo_binary=swap['binary'], controls=['split75']),
+    arms = dict(split75=dict(source), residual_t1=dict(source, mongo_binary=residual['binary'], controls=['split75']),
         lead512_nop=dict(source, mongo_binary=lead['nop'], controls=['split75']),
-        lead512=dict(source, mongo_binary=lead['binary'], controls=['split75','lead512_nop','lead_swap']))
+        lead512=dict(source, mongo_binary=lead['binary'], controls=['split75','lead512_nop','residual_t1']))
     arms['split75'].pop('controls', None)
     for value in arms.values(): assert not value.get('hybrid')
     files = [Path(__file__), Path(study.__file__), Path(study.hybrid.__file__),
@@ -44,7 +44,8 @@ def prepare(root):
         source_hashes={str(p):b.sha(p) for p in files},
         binary_hashes={v['mongo_binary']:b.sha(v['mongo_binary']) for v in arms.values()},
         scope='Fresh full Media compose-review C4 including MovieId. 8 workload CPUs, 50s warmup, 60s clean ROI; all PMU follows. Four balanced blocks; no performance-based exclusions or retries. Compare within this campaign only.',
-        hypotheses='lead_swap changes 42 target displacements only: fixed global target multiset, code addresses, per-site hint counts and exact NOP. lead512 selects >=512 accumulated retired LBR cycles under split75 site/hint budgets; different paths/coverage/emission may confound timing, so its own NOP is included. Neither measures instruction-fetch issue lead directly.',
+        hypotheses='residual_t1 replaces target displacements using first-half residual observations, with fixed code addresses, per-site hint counts and exact NOP. It changes target coverage rather than layout or total hint emission. lead512 selects >=512 accumulated retired LBR cycles under split75 site/hint budgets; different paths/coverage/emission may confound timing, so its own NOP is included. Neither measures instruction-fetch issue lead directly.',
+        selection_sha256=b.sha(root/'residual_retarget/selection_frozen.json'),
         limitation=study.LIMIT)
     stage = root/'lead_screen'; stage.mkdir(exist_ok=False); (stage/'screen').mkdir(); b.space(root)
     protocol['additional_events'] = dict(l1=L1_EVENTS)
@@ -59,7 +60,7 @@ def prepare(root):
 def report(stage):
     data = evaluate(stage/'screen', stage/'screen_evaluation.json')
     protocol = json.loads((stage/'protocol.json').read_text())
-    lines = ['# Earlier-placement follow-up: fresh full Media C4', '', protocol['scope'], '', protocol['hypotheses'], '',
+    lines = ['# Residual targets and earlier placement: fresh full Media C4', '', protocol['scope'], '', protocol['hypotheses'], '',
         '| Arm | RPS | Mean ms | p99 ms | Whole CPU us/request | Pool utilization |',
         '|---|---:|---:|---:|---:|---:|']
     for name, v in data['absolute'].items():
@@ -106,7 +107,7 @@ def plot(stage, data):
         axis.set_yticks(range(len(names)), names); axis.invert_yaxis()
         axis.axvline(1 if ratio else 0, color='#888', linewidth=.8); axis.grid(axis='x', alpha=.2)
         axis.set_title(title); axis.spines[['top','right']].set_visible(False)
-    fig.suptitle('Earlier placement versus split75: full Media C4')
+    fig.suptitle('Residual targets and earlier placement versus split75: full Media C4')
     fig.supxlabel('Four fresh-stack paired blocks; individual 95% intervals, no multiplicity correction. Endpoint timing precedes PMU.', fontsize=9)
     dest = stage/'figures'; dest.mkdir(exist_ok=True)
     for ext in ['png','svg']: fig.savefig(dest/('lead.'+ext), dpi=180)
