@@ -26,9 +26,10 @@ def archive(root):
     path=root/'l1_topdown_quality_amendment.json'
     if path.exists():require(b.REPO/'llvm_prefetchit/scripts/class_b/split_l1_continue.py',
         json.loads(path.read_text())['source_sha256'],path)
-    for path in [*root.glob('*_screen/topdown.json'),root/'diagnosis/summary.json']:
+    for path in [*root.glob('*_screen/topdown.json'),root/'diagnosis/summary.json',root/'policy_overview.json']:
         if path.exists():
-            script='split_topdown_report.py' if path.name=='topdown.json' else 'split_diagnosis_summary.py'
+            script={'topdown.json':'split_topdown_report.py','summary.json':'split_diagnosis_summary.py',
+                'policy_overview.json':'split_policy_overview.py'}[path.name]
             require(b.REPO/'llvm_prefetchit/scripts/class_b'/script,json.loads(path.read_text())['source_sha256'],path)
     for folder,script in [('l1_supplement','split_l1_supplement.py'),('latency_retarget','split_latency_retarget.py')]:
         path=root/folder/'protocol.json'
