@@ -1,5 +1,179 @@
 # Type B: split-instruction 주소 수정과 switch 직후 IT0/T1 혼합
 
+## 최종 상태: 초반 IT0 결합과 원인별 정책 수정 64회 완료
+
+**현재 기준 정책은 일반 T1 `split75`로 유지한다.** 새 split75에 초반 IT0를 결합한 뒤, 잔여 타깃·더 이른 배치·gate 없는 L1I 보강·긴 frontend 대기 타깃으로 수정하며 **4개 독립 campaign, 정상 완료 64회**를 측정했다. 추가 처리량 이득은 확인되지 않았고 10% 목표에는 도달하지 못했다. 각 campaign은 자체 대조군과 비교하며 서로 합산하지 않는다.
+
+마지막 독립 비교에서 split75의 원본 대비 처리량은 **1.01720× [0.99845, 1.03630]**, 평균 지연 절감 **1.729% [−0.172, 3.594]**, p99 절감 **1.749% [0.631, 2.855]**, 전체 CPU/request 절감 **1.895% [0.595, 3.179]**였다. 처리량 점 추정은 +1.72%지만 구간은 1을 포함한다. 초기 IT0 추가 효과는 아래 별도 campaign에서 split75 대비 **0.99848×**였다.
+
+![구현별 split75 대비 추가 효과](figures/class_b_split_hybrid_20260929_latency_screen_policy_overview.png)
+
+그래프의 A는 초반 버스트, B는 타깃·배치 변경, D는 L1I 보강, E는 긴 대기 타깃 변경이다. C로 계획한 원본 재확인은 사전 조건을 충족하지 않아 실행하지 않았다. 각 점은 해당 campaign의 split75 대비 네 짝 비교다. 양수는 개선, 막대는 개별 paired-log t95 구간이며 다중비교 보정은 없다.
+
+### 긴 frontend 대기 타깃으로 교체한 마지막 16회
+
+미스 횟수 대신 **128사이클 이상 frontend uop 공급 중단 뒤의 retired instruction**을 trace로 수집했다. 이 이벤트는 backend stall로 중단된 구간을 제외하지만 code-cache miss 전용 이벤트는 아니다. 분기·주소 변환도 영향을 줄 수 있다. [Intel 이벤트 정의](https://perfmon-events.intel.com/platforms/graniterapids/core-events/core/).
+
+기존 L1I 보강 T1의 256개 추가 슬롯을 고정하고 **21개 변위만 교체**했다. 그 대조군 대비 추가 call·hint·jump·opcode·코드 바이트는 0개이며, 기존 split75 T1 타깃은 모두 보존했다. split75 자체와 비교하면 추가 hint는 여전히 256개, 코드 순증가는 1,424바이트다. 바이트 역변환·실제 disassembly·같은 incremental-NOP SHA-256·서비스 smoke를 검증했다. 정적 명령 수를 고정한 것이 동적 방문 수까지 같다는 뜻은 아니다.
+
+Train-only 선택은 경로 커버리지를 **5.245→11.877%**, 독립 heldout은 **4.458→10.531%**로 높였다. Heldout은 선택에 쓰지 않았다. 이 커버리지 개선이 실제 긴 대기나 성능 개선으로 이어지는지를 별도로 측정했다.
+
+| 정책 / 대조군 | 처리량 speedup [95% CI] | 평균 지연 절감 [95% CI] | p99 절감 [95% CI] | 전체 CPU/request 절감 [95% CI] |
+|---|---:|---:|---:|---:|
+| split75 / 원본 | 1.01720× [0.99845, 1.03630] | +1.729% [−0.172, +3.594] | +1.749% [+0.631, +2.855] | +1.895% [+0.595, +3.179] |
+| 긴 대기 타깃 T1 / 원본 | 1.02049× [0.98795, 1.05411] | +2.058% [−1.233, +5.241] | +0.859% [−0.089, +1.798] | +1.889% [+0.902, +2.865] |
+| 긴 대기 타깃 T1 / split75 | 1.00324× [0.97110, 1.03645] | +0.335% [−3.011, +3.572] | −0.906% [−1.349, −0.465] | −0.007% [−0.584, +0.567] |
+| 긴 대기 타깃 T1 / 같은 배치 기존 T1 | 1.00200× [0.96434, 1.04114] | +0.203% [−3.773, +4.026] | −0.567% [−1.878, +0.728] | −0.002% [−0.682, +0.674] |
+
+원본은 **1,166.18 RPS / 평균 3.3598ms / p99 5.8813ms / CPU 5,946.99µs/request**, split75는 **1,186.20 / 3.3016 / 5.7784 / 5,834.15**, 긴 대기 타깃 T1은 **1,190.07 / 3.2906 / 5.8308 / 5,834.54**였다. 마지막 수정안은 split75 대비 CPU 비용이 같고 p99는 증가했다. 원본 대비의 개선을 타깃 교체의 추가 이득으로 가져오지 않는다. 원본 RPS/CPU 표본 CV는 **1.496% / 0.835%**, split75는 **1.201% / 0.329%**였다. 원본의 느린 반복도 그대로 포함했다.
+
+| MongoDB 3개, 정책 / 대조군 | Retired L2 감소 [95% CI] | Code-read miss 감소 [95% CI] | I-cache stall 감소 [95% CI] | ≥128-cycle frontend 이벤트 감소 [95% CI] |
+|---|---:|---:|---:|---:|
+| split75 / 원본 | +62.385% [62.030, 62.737] | +9.136% [8.415, 9.851] | +25.020% [24.093, 25.936] | +57.782% [56.974, 58.574] |
+| 긴 대기 타깃 T1 / split75 | −0.222% [−2.258, +1.773] | +0.108% [−0.714, +0.923] | −0.461% [−1.558, +0.623] | −0.165% [−1.530, +1.181] |
+| 긴 대기 타깃 T1 / 같은 배치 기존 T1 | +0.866% [−0.402, +2.119] | +0.298% [−1.075, +1.651] | +0.884% [−0.078, +1.837] | +2.012% [−1.057, +4.988] |
+
+긴 대기 이벤트는 요청당 원본 **2,543.93**, split75 **1,074.00**, 기존 추가 T1 **1,097.94**, 긴 대기 타깃 T1 **1,075.75**였다. 모델 커버리지가 늘어도 split75에서 실제 대기를 더 줄이지는 못했다. Retired L1I는 원본 14,797.27→split75 16,029.05/request로 **8.324% [7.936, 8.713] 증가**했다. L2·긴 대기 감소와 L1I 횟수 증가가 함께 관측되므로 이 카운터들을 같은 미스 모집단이나 배타적인 대기 시간으로 취급하지 않는다.
+
+### Lead-time 부족인가, backend 병목인가
+
+**대상 MongoDB가 backend 병목으로 전환됐다는 설명은 지지되지 않는다.** 마지막 비교에서도 split75의 frontend/backend는 **66.555% / 9.777%**, 긴 대기 타깃 T1은 **66.447% / 9.905%**였다. 원본→split75의 절대 FE slots/request는 **9.440M→8.213M**, BE는 **1.214M→1.211M**였다. 기존 코드 미스 감소가 backend 비용 증가로 사라진 모양이 아니다. 전체 CPU 풀의 kernel scope와 대상 MongoDB user scope는 별도로 본다.
+
+실제 절감은 MongoDB의 CPU/request **1,238.90→1,133.61µs, 약 8.50% 감소**에 반영됐다. 그러나 원본 MongoDB 3개의 CPU는 전체 스택의 약 **20.83%**였고, 전체 CPU 절감은 위의 **1.895%**다. 이는 요청당 CPU 회계상의 적용 범위를 설명하며 요청 critical path나 latency speedup 상한은 아니다.
+
+남은 긴 대기는 분기 경로와 강하게 연관됐다. 기존 추가 T1 바이너리의 별도 train/heldout에서 main-image 긴 대기 표본의 **55–58%는 직전 taken branch가 mispredict**, 약 **99%는 분기 도착점 64바이트 안**, **11–12%는 추가 prefetch stub**이었다. 반면 split75의 branch-misses/request 감소는 **−0.125% [−1.009, +0.751]**로 확인되지 않았다. ITLB walk-active cycles는 **50.812% [48.623, 52.908] 감소**했으므로 TLB 개선과 분기 관련 잔여 비용을 구분한다. 이 연관성만으로 BTB 부재·FDIP 실패 또는 분기 복구가 긴 구간 전체의 원인임을 확정하지 않는다.
+
+**실제 issue-to-fetch lead 부족은 아직 직접 분리해 측정하지 않았다.** 아래의 lead512는 더 이른 retired-LBR 위치와 함께 경로 커버리지도 바뀌었으므로 순수한 timing 실험이 아니다. 다만 단순 조기 발행, 초기 IT0 버스트, gate 없는 IT0 보강, 코드 크기를 고정한 긴 대기 타깃 교체까지 추가 성능 개선으로 이어지지 않았다는 결과는 확보했다. 남은 frontend-bound를 전부 L2 miss나 부족한 lead-time 하나로 환산하지 않는다.
+
+Full Media compose-review C4·MovieId 포함, workload CPU 8개, 평균 사용률 **85.27–85.61%**, fresh stack마다 50초 warmup·60초 clean ROI다. 최대 처리량 sweep이나 모든 DSB API 검증은 아니다. PMU는 ROI 뒤 별도 **448개 창 모두 fully scheduled**였고, top-down 제외 창 0개·최대 raw 합계 오차 **1.110%**, 설정 원복 **576개 일치**, 중단/재실행 0회였다. 새 타깃과 추가 T1 실행 파일 **167,715,936바이트**를 결과·선택·패치·해시 보존 후 제거했다. 원본·split75·그 NOP 대조군은 유지한다. 이는 전역 최적 정책을 확정했다는 뜻이 아니다.
+
+자료: [마지막 16회 전체 결과](../llvm_prefetchit/migration/evidence/class_b_split_hybrid_20260929/latency_screen/report.md), [frontend/backend](../llvm_prefetchit/migration/evidence/class_b_split_hybrid_20260929/latency_screen/topdown.md), [CPU 회계](../llvm_prefetchit/migration/evidence/class_b_split_hybrid_20260929/latency_screen/cpu_attribution.md), [상세 PMU·trace 진단](../llvm_prefetchit/migration/evidence/class_b_split_hybrid_20260929/diagnosis/report.md), [원자료·소스·정리 기록 manifest](../llvm_prefetchit/migration/evidence/class_b_split_hybrid_20260929/manifest.json).
+
+## Gate 없는 L1I 보강: 독립 16회 비교
+
+**기존 split75 T1을 모두 유지하고 L1I 경로에 한 개씩 보강해도 추가 speedup을 확인하지 못했다.** IT0 보강은 split75 대비 **0.98839× [0.96932, 1.00783]**, T1 보강은 **0.99168× [0.94063, 1.04550]**였다. 초기 버스트·lead512 비교와 합산하지 않은 새 4-block 결과다.
+
+| 보강 정책 / split75 | 처리량 speedup [95% CI] | 평균 지연 절감 [95% CI] | p99 절감 [95% CI] | 전체 CPU/request 절감 [95% CI] |
+|---|---:|---:|---:|---:|
+| 같은 배치의 추가 슬롯 NOP | 0.98788× [0.95064, 1.02657] | −1.254% [−5.324, +2.658] | −0.362% [−1.663, +0.923] | −0.560% [−2.310, +1.161] |
+| 추가 T1 | 0.99168× [0.94063, 1.04550] | −0.859% [−6.457, +4.444] | +0.696% [−0.379, +1.758] | −0.682% [−2.671, +1.269] |
+| 추가 IT0 | 0.98839× [0.96932, 1.00783] | −1.201% [−3.233, +0.792] | +0.185% [−0.807, +1.167] | −0.222% [−0.452, +0.007] |
+
+기준 split75는 **1,191.93 RPS, 평균 3.2852ms, p99 5.8236ms, 전체 CPU 5,834.12µs/request**였다. 추가 T1은 **1,182.13 RPS, 3.3138ms, 5.7832ms, 5,874.17µs/request**, IT0는 **1,178.00 RPS, 3.3244ms, 5.8128ms, 5,847.06µs/request**다. 기준 RPS 표본 CV는 **1.367%**, CPU/request CV는 **0.189%**다. T1의 첫 실행에서 보인 처리량 +2.97%는 전체 반복에서 재현되지 않았다. 모든 정상 완료 실행을 포함하며 개별 paired-log t95 구간에 다중비교 보정은 없다.
+
+새 L1I PEBS/LBR train/heldout capture로 기존 call 중 256개를 골랐다. **기존 T1 타깃은 유지**, 새 call·jump·시간/epoch guard는 0개다. 추가 hint 명령은 1,792바이트이며 padding 변화까지 포함한 코드 순증가는 **1,424바이트**다. 같은 배치의 NOP/T1/IT0에서 새 슬롯 opcode만 바꿨다. 각각의 정적 32바이트 구간에는 추가 IT0가 한 개뿐이지만 실제 fetch-queue 상태나 수락은 관측하지 않았다. 경로 모델 커버리지는 train **8.524%**, 독립 heldout **7.393%**였고 실제 미스 감소율과 구분한다.
+
+| 보강 정책 / split75, MongoDB 3개 | Retired L2 감소 [95% CI] | I-cache stall 감소 [95% CI] | Retired L1I 감소 [95% CI] |
+|---|---:|---:|---:|
+| 추가 T1 | −0.902% [−2.569, +0.737] | −1.223% [−1.522, −0.925] | +0.085% [−0.088, +0.258] |
+| 추가 IT0 | −2.508% [−3.826, −1.207] | −1.359% [−2.151, −0.572] | −0.408% [−1.334, +0.509] |
+
+IT0는 같은 배치 NOP 대비로도 retired L2가 **1.788% [0.434, 3.161] 증가**했고, L1I 미스 감소는 확인되지 않았다. LATE_SWPF는 IT0에서 **25.32회/request**, 나머지 세 정책은 0이었다. 일부 진행 중 instruction prefetch와 수요 미스가 겹쳤다는 관측이며 전체 수락률을 뜻하지 않는다. T1은 L2 이상을 겨냥하므로 L1I 개수만으로 판단하지 않는다. 이번에는 실제 stall·E2E 추가 개선도 없었다.
+
+Mongo3의 split75 frontend/backend는 **66.774% / 9.768%**, 추가 T1은 **66.896% / 9.769%**, 추가 IT0는 **67.094% / 9.618%**였다. FE slots/request는 각각 **8.222M / 8.247M / 8.274M**로 더 줄지 않았다. 추가 버스트의 gate를 제거해도 유용한 frontend 개선은 생기지 않았다. 이것이 IT0의 수락 실패, 부족한 실제 issue lead, cache 오염 중 무엇인지 이 자료만으로 배타적으로 확정하지 않는다.
+
+Full Media compose-review C4·MovieId 포함, workload CPU 8개, fresh stack의 50초 warmup·60초 clean ROI다. 완료 16회의 PMU **400개 창은 fully scheduled**, 완료분 top-down 품질 제외는 0개, 최대 raw 합계 오차는 **1.243%**였다. 별도 한 시도는 ROI 뒤 top-down 합계 오차 **2.753%**로 중단됐다. 그 기록·정리 해시·원복 36개를 보존하고 같은 seed에서 한 번 재실행했다. 2% 기준을 완화하지 않았으며, 이후에는 범위 초과 창만 표시·보존하고 해당 top-down 평균에서 제외하도록 검사만 감쌌다. 원래 요청 측정 함수·바이너리와 네 묶음의 순서는 유지했다. 부적합 창 하나가 E2E·다른 PMU 통계를 바꾸지 않는지 검증 코드도 통과했다.
+
+두 보강안 모두 사전에 고정한 원본 재확인 조건을 통과하지 못했다. IT0/NOP 실행 파일 **167,715,936바이트**를 결과·패치·해시 보존 후 즉시 제거했다. 추가 T1은 긴 frontend 대기를 기준으로 **동일 슬롯의 변위만 교체**하는 후속 준비의 소스/대조군으로 한시 유지했다.
+
+![L1I 보강의 처리량·p99·CPU 비교](figures/class_b_split_hybrid_20260929_l1_screen_lead.png)
+
+자료: [16회 전체 결과](../llvm_prefetchit/migration/evidence/class_b_split_hybrid_20260929/l1_screen/report.md), [frontend/backend](../llvm_prefetchit/migration/evidence/class_b_split_hybrid_20260929/l1_screen/topdown.md), [기준 변동](../llvm_prefetchit/migration/evidence/class_b_split_hybrid_20260929/l1_screen/baseline_variation.md), [상세 PMU·학습 커버리지](../llvm_prefetchit/migration/evidence/class_b_split_hybrid_20260929/diagnosis/report.md).
+
+## Lead-time과 잔여 타깃 수정: 새 16회 비교
+
+**단순히 더 일찍 발행한 `lead512`는 split75 대비 1.00147× [0.99618, 1.00678]였고, 추가 이득을 확인하지 못했다.** 코드 크기를 유지한 `residual_t1`의 처리량 점 추정은 **1.01893×**였지만 구간 **[0.99306, 1.04547]**이 1을 포함했다. 초반 두 짝의 약 3.2% 이득은 네 짝 전체에서 확정되지 않았다. 모든 반복을 포함하며 이전 원본 비교와 합산하지 않는다.
+
+| 수정 정책 / split75 | 처리량 speedup [95% CI] | 평균 지연 절감 [95% CI] | p99 절감 [95% CI] | 전체 CPU/request 절감 [95% CI] |
+|---|---:|---:|---:|---:|
+| 잔여 타깃 116개 교체 | 1.01893× [0.99306, 1.04547] | +1.905% [−0.708, +4.451] | −1.354% [−3.130, +0.392] | +0.264% [−0.219, +0.745] |
+| 최소 retired age 512 | 1.00147× [0.99618, 1.00678] | +0.149% [−0.423, +0.719] | +0.107% [−0.933, +1.136] | −0.100% [−0.217, +0.017] |
+
+split75는 **1,178.75 RPS, 평균 3.3225ms, p99 5.7974ms, 전체 CPU 5,842.80µs/request**, 잔여 타깃 교체안은 **1,201.15 RPS, 3.2594ms, 5.8762ms, 5,827.36µs/request**였다. lead512는 **1,180.48 RPS, 3.3175ms, 5.7913ms, 5,848.65µs/request**다. split75 기준 RPS의 표본 CV는 **0.241%**, CPU/request는 **0.169%**였다. 정책 쪽 변동도 있으므로 기준의 CV만으로 이득을 확정하지 않는다.
+
+| 수정 정책 / split75, MongoDB 3개 | Retired L2 감소 [95% CI] | L2 code-read miss 감소 [95% CI] | I-cache stall 감소 [95% CI] |
+|---|---:|---:|---:|
+| 잔여 타깃 116개 교체 | +3.501% [+2.248, +4.738] | −0.333% [−0.963, +0.292] | +0.311% [−0.819, +1.429] |
+| 최소 retired age 512 | −19.734% [−21.638, −17.860] | −0.989% [−1.873, −0.114] | −2.133% [−3.408, −0.874] |
+
+잔여 타깃 교체안은 **힌트 116개의 변위만 수정**한다. 원래 명령어·stub 주소, 849개 call, 2,030개 힌트, 코드 크기를 유지하며 같은 all-NOP 해시로 복원된다. 기존 학습 커버리지 손실은 1%p 이내로 제한하고, 새 잔여 미스 커버리지 대비 기존 커버리지 손실을 비용으로 사용했다. 잔여 표본의 후반 검사에서는 모델 커버리지가 0.82→12.71%였지만 이는 같은 capture 안의 검사로 독립 heldout이 아니다. 독립 E2E가 위 표다. 원래 heldout 커버리지는 74.02→72.98%였다. 실제 추가 retired L2 감소는 3.50%에 그쳤고 stall·L1I·frontend slots는 뚜렷하게 줄지 않았다.
+
+lead512는 기존 call/hint 예산 안에서 최소 LBR retired age를 512로 높였다. 846개 위치·2,030개 힌트, 추가 코드 26,419바이트로 split75의 26,588바이트보다 작다. 그러나 모델 heldout 커버리지가 **74.02→55.76%**로 줄었다. 자신의 같은 배치 NOP 대비 CPU는 **2.690% [1.373, 3.989] 절감**, p99는 **1.792% [0.714, 2.858] 절감**이므로 hint 자체가 모두 무효인 것은 아니다. split75 대비로는 이득이 없다. 더 앞선 위치를 선택하는 과정에서 경로·커버리지·실행 빈도가 바뀌므로, 이 결과로 모든 lead-time 부족 가능성을 배제하지 않는다. Retired age는 실제 issue-to-fetch 시간을 직접 잰 값이 아니다.
+
+### 남아 있는 frontend 비용
+
+| 정책 | Retired L1I/request | I-cache stall cycles/request | DSB→MITE penalty cycles/request | Mongo3 FE / BE slots 비율 |
+|---|---:|---:|---:|---:|
+| split75 | 16,011.82 | 459,861.81 | 47,811.16 | 66.778% / 9.614% |
+| 잔여 타깃 교체 | 16,038.52 | 458,271.19 | 48,120.85 | 66.870% / 9.699% |
+| lead512 | 15,854.30 | 470,194.34 | 47,939.65 | 67.077% / 9.651% |
+
+**큰 backend 전환이 관측된 것이 아니라, L2 개선 뒤에도 L1I·분기/코드 공급 비용이 남았다.** 이는 관측을 종합한 해석이며 배타적 인과 분해는 아니다. split75의 frontend 66.778% 중 fetch-latency 항목은 58.370%p, fetch-bandwidth는 8.409%p였다. Fetch latency에는 분기·주소 변환 등의 영향도 포함되므로 prefetch lead-time 부족과 같은 뜻이 아니다. 요청당 FE/BE slots는 8.202M/1.184M, 잔여 타깃 교체는 8.239M/1.198M였다. 미스 수의 작은 추가 감소가 frontend 전체 비용이나 전체 요청의 확정적인 speedup으로 이어지지는 않았다. Retired L1I/L2 이벤트는 별도 창의 다른 모집단이며, 둘을 빼서 L2-hit 지연을 계산하거나 DSB penalty와 ITLB/분기 지표를 더해 총 지연을 만들지 않는다.
+
+별도 split75 잔여 L2 진단에서 기존 선택 타깃 줄에 있는 표본은 두 review MongoDB 각각 **5.17%, 4.83%**였다. 나머지를 전부 “발행했는데 늦은 prefetch”로 해석할 수 없다. 다만 유한한 LBR 안에서 matching hint가 안 보인다는 사실만으로 실행되지 않았다고 단정하지 않는다. 독립된 L1 보강 준비 전의 추가 L2 프로파일에서는 main 표본의 약 **89%**가 직전 taken-branch 도착점 64바이트 이내, **11–13%**가 추가 stub 안에 있었다. 분기 자체의 표본과 분기 직후의 표본은 다르며, 이 연관성으로 BTB 엔트리 부재나 FDIP 실패를 증명하지 않는다.
+
+기존 7–15바이트 NOP 공간에만 T1을 보강하는 별도 train/heldout 검사도 수행했다. 34개 타깃의 모델 커버리지는 **train 2.601%, heldout 2.228%**로 사전 train 기준 5%에 못 미쳐 실행 파일을 만들지 않았다. 21쌍의 고정 배치 lead swap과 단순 잔여 타깃 22개 교체안도 각각 제한적인 모델 변화·낮은 학습 이득 때문에 E2E 전에 교체됐다. 이 안들에 실제 speedup 수치를 부여하지 않는다.
+
+이번 16회는 같은 full Media C4·MovieId 포함 전체 스택에서 수행했고, 모두 유효했다. 400개 post-ROI PMU 창은 fully scheduled였으며 플랫폼 원복 576개가 일치했다. 측정 소스 7개는 캠페인 동안 변경하지 않았다. 여섯 실행을 본 시점에 “최종 throughput 또는 CPU 절감의 개별 95% 하한이 양수면 원본과 독립 8회 비교”라는 후속 조건을 기록했으나, 완성된 결과는 이를 통과하지 못했다. 조건을 낮춰 추가 반복을 붙이지 않았다. 두 비채택 정책과 lead512 NOP의 **251,569,072바이트**를 결과·소스·패치·해시 보존 후 즉시 제거했다. split75와 그 대조군은 다음 실험의 기준으로 유지한다.
+
+![타깃 교체와 긴 lead-time의 E2E 비교](figures/class_b_split_hybrid_20260929_lead_screen_lead.png)
+
+자료: [16회 비교](../llvm_prefetchit/migration/evidence/class_b_split_hybrid_20260929/lead_screen/report.md), [frontend/backend](../llvm_prefetchit/migration/evidence/class_b_split_hybrid_20260929/lead_screen/topdown.md), [세부 PMU와 잔여 표본](../llvm_prefetchit/migration/evidence/class_b_split_hybrid_20260929/diagnosis/report.md), [기준 변동](../llvm_prefetchit/migration/evidence/class_b_split_hybrid_20260929/lead_screen/baseline_variation.md).
+
+## 새 split75 + 초반 IT0: 추가 16회 비교
+
+**새 849-call split75에 초반 IT0를 결합해도 추가 speedup은 확인되지 않았다.** split75 대비 처리량은 **0.99848× [0.97553, 1.02198]**, 평균 지연 절감은 **−0.151%**, p99 절감은 **+0.424%**, 전체 CPU/request 절감은 **−0.287% [−0.479, −0.094]**였다. 평균·p99 차이의 구간은 0을 포함하고 CPU 비용은 증가했다. 이 결과에 따라 일반 split75 T1을 후속 타깃·배치 비교의 기준으로 사용했다. 아래는 이전 비교와 합치지 않은 독립적인 4-block 결과다.
+
+| 정책 / 대조군 | 처리량 speedup [95% CI] | 평균 지연 절감 [95% CI] | p99 절감 [95% CI] | 전체 CPU/request 절감 [95% CI] |
+|---|---:|---:|---:|---:|
+| split75 / 원본 | 1.01340× [0.99623, 1.03087] | +1.351% [−0.393, +3.065] | +0.742% [−0.004, +1.482] | +1.408% [+1.213, +1.603] |
+| 초반 IT0 + split75 / 원본 | 1.01186× [0.99835, 1.02556] | +1.203% [−0.166, +2.553] | +1.163% [−1.284, +3.551] | +1.125% [+0.894, +1.356] |
+| 초반 IT0 + split75 / split75 | 0.99848× [0.97553, 1.02198] | −0.151% [−2.574, +2.216] | +0.424% [−1.996, +2.787] | −0.287% [−0.479, −0.094] |
+| 초반 IT0 / 같은 배치 초반 T1 | 0.99537× [0.98347, 1.00741] | −0.479% [−1.728, +0.755] | +0.602% [−1.986, +3.123] | +0.054% [−0.441, +0.546] |
+
+원본은 **1,171.48 RPS, 평균 3.3440ms, p99 5.8637ms, CPU 5,921.61µs/request**였다. split75는 **1,187.17 RPS, 3.2988ms, 5.8202ms, 5,838.24µs/request**, 초반 IT0 조합은 **1,185.37 RPS, 3.3038ms, 5.7957ms, 5,854.97µs/request**다. CPU 사용률은 85.46–86.04% 범위다. 원본 RPS 표본 CV는 0.977%, CPU/request CV는 0.158%였다. 4개 정책이 각 순서 위치와 block 내 직전 정책 쌍을 균형 있게 방문하도록 사전에 고정했다. 개별 paired-log t95 구간이며 다중비교 보정은 없다.
+
+MongoDB 3개에서 split75는 원본 대비 **retired L2 62.268%, L2 code-read miss 9.134%, I-cache stall 24.757%**를 줄였다. 초반 IT0를 더하면 split75 대비 각각 **0.810%, 1.586%, 1.677% 증가**했다. IT0와 같은 배치의 초반 T1 사이에서는 L2 code-read miss가 0.673% 감소했지만, 전체 CPU와 처리량의 추가 이득으로 이어졌다는 근거는 없다. 서로 다른 이벤트 모집단을 합쳐 “L2 미스 62% 감소”로 표현하지 않는다.
+
+Full Media compose-review C4, MovieId 포함 전체 스택, workload CPU 8개, fresh stack마다 50초 warmup·60초 clean ROI다. PMU는 ROI 뒤 별도 창에서 측정했다. 16회 모두 유효하며 성능에 따른 제외는 없다. 최대 처리량 sweep이나 모든 DSB API 검증은 아니다. 최초 원본-only 시도에서 top-down category 합의 정밀도 검사로 중단된 기록은 별도 보존했다. 8-bit metric의 커널 누적 처리를 확인한 뒤 합계 오차 sanity 기준을 0.2→2%로 고정하고 완성된 비교를 시작했다. 실제 최대 raw 합계 오차는 1.445%이며 합을 100%로 재정규화하지 않았다.
+
+### Backend가 가려 버렸는가
+
+**대상 MongoDB가 backend 병목으로 전환됐다는 가설은 지지되지 않았다.** split75의 frontend는 약 67.0%, backend는 9.6%였다. 원본 대비 backend의 비율은 올라갔지만 요청당 절대 backend slots는 거의 그대로였다. Frontend slots는 약 13.0% 감소했다. Retired L2 이벤트 62% 감소가 frontend의 모든 지연 62% 감소를 뜻하지 않는다.
+
+Frontend latency에는 instruction cache·ITLB뿐 아니라 잘못 예측한 분기 뒤의 경로 재지정 비용도 포함될 수 있다. [Intel의 TMA 설명](https://www.intel.com/content/www/us/en/docs/vtune-profiler/cookbook/2024-2/top-down-microarchitecture-analysis-method.html)도 이를 별도 branch resteers 항목으로 구분한다. 따라서 높은 frontend 비율만으로 부족한 prefetch lead-time을 확정할 수 없다. 아래의 PMU와 후속 trace는 원인별 단서를 제공하지만 각 대기 시간을 배타적으로 분해한 결과는 아니다.
+
+| MongoDB 3개 | Frontend slots 비율 | Backend slots 비율 | FE slots/request | BE slots/request |
+|---|---:|---:|---:|---:|
+| 원본 | 70.095% | 8.721% | 9,414,342 | 1,173,165 |
+| split75 | 67.015% | 9.570% | 8,193,961 | 1,172,396 |
+| 초반 T1 + split75 | 65.721% | 11.289% | 8,216,847 | 1,413,299 |
+| 초반 IT0 + split75 | 65.793% | 11.261% | 8,208,085 | 1,406,630 |
+
+초반 gate를 추가한 두 정책은 frontend 절대 작업이 더 줄지 않으면서 backend slots가 늘었다. 이는 공통 gate·배치 비용과 일치하는 관측이며 특정 명령 하나의 인과적 비용 분해는 아니다. 전체 CPU 풀의 kernel 실행은 별도로 backend 약 42%였지만, 이를 MongoDB 사용자 코드의 backend 비율로 가져오지 않는다. Scope가 겹치므로 서로 합산하지 않는다. Top-down은 실행 중 slots를 분류하며 off-CPU 대기나 요청 critical path를 재는 자료가 아니다.
+
+Clean ROI에서 MongoDB 3개 CPU/request는 **1,236.66→1,132.20µs**, 약 **8.45% 감소**했다. 전체 스택은 **5,921.61→5,838.24µs**, 약 1.41% 감소였다. 대상 서비스 안의 개선이 다른 서비스·커널 작업까지 포함한 전체 요청에서는 작아진다. 이 CPU 회계 비중을 달성 가능한 latency speedup 상한으로 해석하지 않는다.
+
+높은 MPKI도 이벤트별로 구분해야 한다. 같은 PMU 창의 retired user instructions로 나눈 ReviewStorage의 **speculative code-read MPKI는 96.17→87.99**, **retired L2 MPKI는 8.39→3.87**이었다. 두 review MongoDB의 code-read MPKI는 약 35→31, retired L2는 약 3.15→1.12였다. 전자는 speculative fetch 요청을 포함하는 모집단이며 retired 이벤트와 같은 수요 대기 횟수가 아니다. ReviewStorage의 clean CPU는 **173.16→157.57µs/request**로 원본 전체 CPU의 **2.92%**였다. 따라서 “MPKI 80 이상”을 전체 요청의 blocking miss 비중으로 읽을 수 없다. MPKI 분모에는 실행 명령어 변화도 반영되므로 정책 평가는 위의 request당 카운터와 E2E를 우선한다.
+
+split75의 ITLB walk-active cycles/request는 원본 대비 **51.794% [49.971, 53.551] 감소**, unknown-branch bubble cycles는 **17.144% [16.690, 17.595] 감소**했다. 반면 branch-misses/request 변화는 감소율 **−0.974% [−3.759, +1.737]**로 불확실하다. TLB 대기는 개선됐지만 분기 관련 비용까지 모두 사라진 것은 아니다. Unknown-branch 이벤트는 BAClear bubble을 세며 BTB 엔트리 부재를 직접 관측하지 않는다. IT0 조합의 LATE_SWPF는 약 **1.37회/request**로 0보다 컸지만, 이 값으로 IT0 수락률을 계산하거나 나머지가 성공·무시·지연 중 무엇인지 확정하지 않는다.
+
+### 초반 IT0의 실제 발행 위치
+
+64개 gate가 최초 진단 burst의 **89.33%**를 담당했고, 같은 gate·타깃·코드 배치에서 초기 opcode만 T1/IT0로 바꿨다. 커널은 **CPU에 들어올 태스크가 선택된 시각을 공유**하며, 사용자 코드가 epoch를 처음 관측하는 0–10µs call에서 최대 8개를 발행한다. **커널 자체에서 IT0를 실행한 구현은 아니다.** Native ABI/flags/return/unwind 8개 검사와 독립 서비스 진단을 통과했다.
+
+별도 sparse 계측 진단에서 초기 burst는 약 6.46회/request, 평균 진입 시각은 약 **3.5µs**였다. 85.49%가 0–5µs에 있었지만 첫 사용자 명령어 또는 빈 fetch queue를 관측한 것은 아니다. 진단의 gate 검사 수는 약 452.9회/request였다. 계측의 초기화 구간을 포함하므로 clean E2E 또는 accepted-prefetch 비율로 사용하지 않는다. 추가 명령어는 split75의 26,588바이트에서 hybrid 37,900바이트로 늘었다. 두 hybrid 실행 파일은 결과·소스·패치·해시를 보존한 뒤 제거했다.
+
+[기존 switch-age 자료](../llvm_prefetchit/migration/evidence/class_b_mechanism_20260928/backend_completed/wake_summary.json)에서 review MongoDB는 10–20µs 구간이 전체 이벤트의 약 5%, 50–200µs 구간이 약 63–65%였다. 넓은 구간의 이벤트 비중과 단위 시간당 밀도 peak는 다르다. 이전 Native 서비스의 10–20µs peak를 MongoDB 전체에 그대로 적용할 수 없으므로, 초반 burst만 강화하는 대신 남은 실행 경로의 타깃과 배치를 수정해 후속 비교한다.
+
+![새 split75와 초반 IT0의 E2E 비교](figures/class_b_split_hybrid_20260929_hybrid_screen_screen.png)
+
+![비율과 절대 frontend/backend 비용](figures/class_b_split_hybrid_20260929_hybrid_screen_topdown.png)
+
+자료: [16회 E2E·미스 비교](../llvm_prefetchit/migration/evidence/class_b_split_hybrid_20260929/hybrid_screen/report.md), [top-down 진단](../llvm_prefetchit/migration/evidence/class_b_split_hybrid_20260929/hybrid_screen/topdown.md), [CPU 회계](../llvm_prefetchit/migration/evidence/class_b_split_hybrid_20260929/hybrid_screen/cpu_attribution.md), [원본 변동](../llvm_prefetchit/migration/evidence/class_b_split_hybrid_20260929/hybrid_screen/baseline_variation.md).
+
+## 이전 독립 비교: split75 커버리지 수정 16회
+
 **후속 커버리지 정책의 16회 비교까지 완료했다.** 새 `split75` T1은 원본 대비 처리량 **1.01917× [0.97275, 1.06781]**, 평균 지연 **1.908%**, p99 **1.632%**, 전체 CPU/request **1.725% 절감**이다. 처리량 구간은 1을 포함하므로 1.92%는 점 추정이며 10% 향상을 달성한 것은 아니다. MongoDB retired L2 이벤트는 **62.87%**, speculative L2 code-read miss는 **9.39%**, I-cache 대기는 **25.45%** 줄었다. 앞선 hybrid 결과와 합산하지 않는다.
 
 | 후속 정책 / 대조군 | 처리량 speedup [95% CI] | 평균 지연 절감 | p99 절감 [95% CI] | 전체 CPU/request 절감 [95% CI] |
@@ -151,7 +325,7 @@ UserReview 잔여 split 표본 21,217개 중 15,276개는 시작 줄만 선택�
 
 커널의 기존 scheduler-clock 모듈이 **다음 CPU 실행 태스크가 선택된 시각**을 공유한다. 사용자 코드가 새 epoch를 0–10µs 안에 처음 관측한 계측 call에서 최대 8개 IT0를 발행하고, 나머지 호출에는 T1을 사용한다. 커널에서 physical alias에 IT0를 실행하는 구현이 아니다. IT0는 사용자 주소의 RIP-relative 명령으로 실행한다. 첫 계측 call이 첫 사용자 명령어와 같지는 않으며, migration/preemption에 따른 누락·중복 가능성이 있다.
 
-Hybrid는 **747개 위치를 유지한 cost75_split**의 corrected T1 주소를 기준으로 한다. 맨 앞 표의 849개 위치 split75와 결합한 정책을 측정한 것은 아니다. Burst 확장 타깃도 train-only이며 split 명령어의 뒷줄을 반영한다. 초반도 T1인 같은 배치 대조군, all-NOP 대조군, 무조건 T1 기준을 함께 비교한다. 별도 진단에서 초기 burst를 담당하는 최대 64개 stub group만 골라 gate 검사를 줄인 정책도 검증한다. 진단용 카운터가 들어간 실행 파일을 E2E에 사용하지 않는다.
+이 절의 이전 hybrid는 **747개 위치를 유지한 cost75_split**의 corrected T1 주소를 기준으로 한다. 849개 위치 split75와 결합한 새 정책은 위의 추가 16회 비교에서 별도로 측정했다. Burst 확장 타깃도 train-only이며 split 명령어의 뒷줄을 반영한다. 초반도 T1인 같은 배치 대조군, all-NOP 대조군, 무조건 T1 기준을 함께 비교한다. 별도 진단에서 초기 burst를 담당하는 최대 64개 stub group만 골라 gate 검사를 줄인 정책도 검증한다. 진단용 카운터가 들어간 실행 파일을 E2E에 사용하지 않는다.
 
 PIE/일반 ELF, full/sparse gate의 인자·플래그·반환 주소, 예외 unwind, opcode 검사 **8개가 통과**했다. 실제 서비스 진단도 **40,675건, 오류·연결 복구 0건**으로 통과했다. MongoDB의 UID/GID 999를 유지하면서 모든 clock slot의 ABI 2와 read-only 매핑을 검사했다. 진단 35초 동안 UserReview/MovieReview/ReviewStorage의 burst 진입은 각각 107,961 / 108,203 / 53,031회였다. 그중 0–5µs 진입은 각각 87.7% / 86.4% / 86.5%였다. 이는 분기 진입 횟수이며 하드웨어가 받아들인 prefetch 수가 아니다. 진단에는 첫 10초 초기화 구간도 포함되며 E2E 비교에 사용하지 않는다.
 

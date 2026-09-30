@@ -1,0 +1,5025 @@
+{
+  "complete": true,
+  "stages": {
+    "hybrid_screen": {
+      "absolute": {
+        "Retired L2": {
+          "original": 5457.542763614076,
+          "split75": 2059.4828731492835,
+          "early_t1": 2078.104292301336,
+          "early_it0": 2075.927832113662
+        },
+        "L2 code-read miss": {
+          "original": 61068.46840578008,
+          "split75": 55491.41562248501,
+          "early_t1": 56754.084868355756,
+          "early_it0": 56371.36633214301
+        },
+        "I-cache stall cycles": {
+          "original": 610038.5997898711,
+          "split75": 459031.68060337566,
+          "early_t1": 472366.08853860496,
+          "early_it0": 466708.76171069394
+        },
+        "ITLB walk-active cycles": {
+          "original": 192242.36027446657,
+          "split75": 92683.46832239855,
+          "early_t1": 95262.99550042185,
+          "early_it0": 97471.99709090279
+        },
+        "Unknown-branch bubble cycles": {
+          "original": 732249.7278607362,
+          "split75": 606707.8765741114,
+          "early_t1": 602423.7727330507,
+          "early_it0": 603760.8180597334
+        },
+        "Branch mispredictions": {
+          "original": 19514.02450274173,
+          "split75": 19701.9667557336,
+          "early_t1": 19876.767659432146,
+          "early_it0": 20023.186310614772
+        },
+        "DSB uops": {
+          "original": 1338713.6909617982,
+          "split75": 1343373.9740324253,
+          "early_t1": 1344585.1289139208,
+          "early_it0": 1352731.598348615
+        },
+        "MITE uops": {
+          "original": 1057973.0874776682,
+          "split75": 1071414.8746228754,
+          "early_t1": 1091116.2798875556,
+          "early_it0": 1094608.1549579042
+        },
+        "Late instruction prefetch": {
+          "original": 0.0,
+          "split75": 0.0,
+          "early_t1": 0.0,
+          "early_it0": 1.3721382594274563
+        },
+        "Speculative T1/T2 executions": {
+          "original": 0.0,
+          "split75": 8627.737040941063,
+          "early_t1": 8427.777002869785,
+          "early_it0": 8407.19317118378
+        },
+        "L1D fill-buffer-full cycles": {
+          "original": 12982.994765984311,
+          "split75": 13685.889526681061,
+          "early_t1": 13762.627106662869,
+          "early_it0": 13630.779157158859
+        }
+      },
+      "comparisons": {
+        "split75/original": {
+          "Retired L2": {
+            "pairs": 4,
+            "cost_reduction_pct": 62.26765274224633,
+            "ci95_pct": [
+              61.37014618456283,
+              63.1443070848287
+            ]
+          },
+          "L2 code-read miss": {
+            "pairs": 4,
+            "cost_reduction_pct": 9.133739408530172,
+            "ci95_pct": [
+              8.367107069819458,
+              9.893957837083045
+            ]
+          },
+          "I-cache stall cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 24.756930949944877,
+            "ci95_pct": [
+              23.78345873389143,
+              25.71796953755383
+            ]
+          },
+          "ITLB walk-active cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 51.79431947616033,
+            "ci95_pct": [
+              49.97146893964347,
+              53.55075223050263
+            ]
+          },
+          "Unknown-branch bubble cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 17.14414136640413,
+            "ci95_pct": [
+              16.69048984506286,
+              17.59532258510609
+            ]
+          },
+          "Branch mispredictions": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.9737400796726359,
+            "ci95_pct": [
+              -3.7590132287904643,
+              1.736766104400056
+            ]
+          },
+          "DSB uops": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.34279147627096496,
+            "ci95_pct": [
+              -1.5882809352100846,
+              0.8874280718275673
+            ]
+          },
+          "MITE uops": {
+            "pairs": 4,
+            "cost_reduction_pct": -1.2723696288710284,
+            "ci95_pct": [
+              -2.6667960585792017,
+              0.10311761949990395
+            ]
+          },
+          "L1D fill-buffer-full cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -5.542678517132105,
+            "ci95_pct": [
+              -14.860669572533869,
+              3.0193970657961366
+            ]
+          }
+        },
+        "early_t1/original": {
+          "Retired L2": {
+            "pairs": 4,
+            "cost_reduction_pct": 61.92522453013042,
+            "ci95_pct": [
+              61.20865795602233,
+              62.62855444811698
+            ]
+          },
+          "L2 code-read miss": {
+            "pairs": 4,
+            "cost_reduction_pct": 7.066630201133806,
+            "ci95_pct": [
+              6.2117793544376525,
+              7.913689344724095
+            ]
+          },
+          "I-cache stall cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 22.56969007254348,
+            "ci95_pct": [
+              21.916145997146074,
+              23.21776413286618
+            ]
+          },
+          "ITLB walk-active cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 50.45469969847407,
+            "ci95_pct": [
+              49.35226429019608,
+              51.53313869679626
+            ]
+          },
+          "Unknown-branch bubble cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 17.734070423921555,
+            "ci95_pct": [
+              16.563915357454604,
+              18.88781457075529
+            ]
+          },
+          "Branch mispredictions": {
+            "pairs": 4,
+            "cost_reduction_pct": -1.8555699708729056,
+            "ci95_pct": [
+              -2.4254881635622283,
+              -1.2888229297414844
+            ]
+          },
+          "DSB uops": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.44165936242297477,
+            "ci95_pct": [
+              -1.048519844301854,
+              0.16155653717963014
+            ]
+          },
+          "MITE uops": {
+            "pairs": 4,
+            "cost_reduction_pct": -3.133771405575292,
+            "ci95_pct": [
+              -3.996029033846127,
+              -2.278662975446144
+            ]
+          },
+          "L1D fill-buffer-full cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -6.071299853828771,
+            "ci95_pct": [
+              -12.906707362955384,
+              0.3502899388212799
+            ]
+          }
+        },
+        "early_t1/split75": {
+          "Retired L2": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.907518977753341,
+            "ci95_pct": [
+              -2.097769017950979,
+              0.2688551945206452
+            ]
+          },
+          "L2 code-read miss": {
+            "pairs": 4,
+            "cost_reduction_pct": -2.2748919059077277,
+            "ci95_pct": [
+              -2.5576454286099226,
+              -1.992917940441541
+            ]
+          },
+          "I-cache stall cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -2.906900137136015,
+            "ci95_pct": [
+              -4.18794221012404,
+              -1.6416091074832773
+            ]
+          },
+          "ITLB walk-active cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -2.778966634489821,
+            "ci95_pct": [
+              -8.879587937777522,
+              2.9798313666432485
+            ]
+          },
+          "Unknown-branch bubble cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.7119943806583318,
+            "ci95_pct": [
+              -1.238516801440026,
+              2.624926052589116
+            ]
+          },
+          "Branch mispredictions": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.8733259662408122,
+            "ci95_pct": [
+              -3.9970300483447962,
+              2.15655305962823
+            ]
+          },
+          "DSB uops": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.09853013325364923,
+            "ci95_pct": [
+              -1.8835018683041937,
+              1.6551693738453221
+            ]
+          },
+          "MITE uops": {
+            "pairs": 4,
+            "cost_reduction_pct": -1.838015426641726,
+            "ci95_pct": [
+              -3.189054712754924,
+              -0.5046651014139591
+            ]
+          },
+          "Speculative T1/T2 executions": {
+            "pairs": 4,
+            "cost_reduction_pct": 2.3187844962789472,
+            "ci95_pct": [
+              1.587136685001056,
+              3.0449928913899416
+            ]
+          },
+          "L1D fill-buffer-full cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.5008602625248715,
+            "ci95_pct": [
+              -6.605605515232549,
+              5.25429817042472
+            ]
+          }
+        },
+        "early_it0/original": {
+          "Retired L2": {
+            "pairs": 4,
+            "cost_reduction_pct": 61.96214502541493,
+            "ci95_pct": [
+              61.706855557685245,
+              62.21573255110554
+            ]
+          },
+          "L2 code-read miss": {
+            "pairs": 4,
+            "cost_reduction_pct": 7.692172285619225,
+            "ci95_pct": [
+              7.200414049796111,
+              8.181324624443743
+            ]
+          },
+          "I-cache stall cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 23.495020577290127,
+            "ci95_pct": [
+              23.192327611988894,
+              23.79652065354273
+            ]
+          },
+          "ITLB walk-active cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 49.301778589692205,
+            "ci95_pct": [
+              46.92546404293696,
+              51.5716980314636
+            ]
+          },
+          "Unknown-branch bubble cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 17.546729375998904,
+            "ci95_pct": [
+              16.536478709199052,
+              18.54475186941251
+            ]
+          },
+          "Branch mispredictions": {
+            "pairs": 4,
+            "cost_reduction_pct": -2.620349128583821,
+            "ci95_pct": [
+              -5.206097681633937,
+              -0.09815293349524357
+            ]
+          },
+          "DSB uops": {
+            "pairs": 4,
+            "cost_reduction_pct": -1.052753579023502,
+            "ci95_pct": [
+              -1.9479626688899687,
+              -0.16540535555986668
+            ]
+          },
+          "MITE uops": {
+            "pairs": 4,
+            "cost_reduction_pct": -3.465007673922549,
+            "ci95_pct": [
+              -4.615696266019587,
+              -2.3269757316709994
+            ]
+          },
+          "L1D fill-buffer-full cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -5.181991796902441,
+            "ci95_pct": [
+              -12.642139577028932,
+              1.7840797422159382
+            ]
+          }
+        },
+        "early_it0/split75": {
+          "Retired L2": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.8096705851466268,
+            "ci95_pct": [
+              -3.062668688820369,
+              1.3940759270465786
+            ]
+          },
+          "L2 code-read miss": {
+            "pairs": 4,
+            "cost_reduction_pct": -1.58647127495668,
+            "ci95_pct": [
+              -2.101131108685772,
+              -1.0744056803077662
+            ]
+          },
+          "I-cache stall cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -1.677111777319018,
+            "ci95_pct": [
+              -3.09232977069156,
+              -0.2813214365489758
+            ]
+          },
+          "ITLB walk-active cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -5.170637276317391,
+            "ci95_pct": [
+              -12.276821010612672,
+              1.4857844607016224
+            ]
+          },
+          "Unknown-branch bubble cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.48588961146983634,
+            "ci95_pct": [
+              -0.20612503549795047,
+              1.1731252664204272
+            ]
+          },
+          "Branch mispredictions": {
+            "pairs": 4,
+            "cost_reduction_pct": -1.6307299775287554,
+            "ci95_pct": [
+              -2.1410095550589814,
+              -1.1229996723072677
+            ]
+          },
+          "DSB uops": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.7075367271603294,
+            "ci95_pct": [
+              -2.2619230139476976,
+              0.8232228112015738
+            ]
+          },
+          "MITE uops": {
+            "pairs": 4,
+            "cost_reduction_pct": -2.165090096229405,
+            "ci95_pct": [
+              -2.6092754906204663,
+              -1.7228275364324475
+            ]
+          },
+          "Speculative T1/T2 executions": {
+            "pairs": 4,
+            "cost_reduction_pct": 2.5565610846360443,
+            "ci95_pct": [
+              1.960396261437647,
+              3.1491007147199768
+            ]
+          },
+          "L1D fill-buffer-full cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.3417448991225758,
+            "ci95_pct": [
+              -1.6739516671933963,
+              2.3174800733530287
+            ]
+          }
+        },
+        "early_it0/early_t1": {
+          "Retired L2": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.09696838610044889,
+            "ci95_pct": [
+              -1.8246174234156642,
+              1.982290941044429
+            ]
+          },
+          "L2 code-read miss": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.6731081481703205,
+            "ci95_pct": [
+              0.21501607919677257,
+              1.1290972119078924
+            ]
+          },
+          "I-cache stall cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 1.1950494652721466,
+            "ci95_pct": [
+              -0.009981199512631989,
+              2.3855605902504573
+            ]
+          },
+          "ITLB walk-active cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -2.327003977703912,
+            "ci95_pct": [
+              -8.104555840543416,
+              3.1417717630909503
+            ]
+          },
+          "Unknown-branch bubble cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.22772616669868295,
+            "ci95_pct": [
+              -2.826404587741993,
+              2.3052772016859957
+            ]
+          },
+          "Branch mispredictions": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.7508466723318286,
+            "ci95_pct": [
+              -3.618350400684034,
+              2.037302601907598
+            ]
+          },
+          "DSB uops": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.6084071295512139,
+            "ci95_pct": [
+              -1.3478258282480837,
+              0.1256168800389701
+            ]
+          },
+          "MITE uops": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.32117148809061025,
+            "ci95_pct": [
+              -1.220621726402893,
+              0.5702862016935151
+            ]
+          },
+          "Speculative T1/T2 executions": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.2434209966890033,
+            "ci95_pct": [
+              -0.11814461264569864,
+              0.6036808518034231
+            ]
+          },
+          "L1D fill-buffer-full cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.8384059195577165,
+            "ci95_pct": [
+              -3.5242317158686864,
+              5.017196673702495
+            ]
+          }
+        }
+      },
+      "populations": {
+        "mongo_user/original": {
+          "retired_l2_mpki": 3.1613079115456593,
+          "code_read_mpki": 35.24942788292664,
+          "cpu_us_per_request": 531.6497914732231,
+          "whole_cpu_share_pct": 8.978128874051476
+        },
+        "mongo_movie/original": {
+          "retired_l2_mpki": 3.131546100640041,
+          "code_read_mpki": 34.86636534211416,
+          "cpu_us_per_request": 531.6769891164494,
+          "whole_cpu_share_pct": 8.978588168778705
+        },
+        "mongo_storage/original": {
+          "retired_l2_mpki": 8.388095904142007,
+          "code_read_mpki": 96.17137485532014,
+          "cpu_us_per_request": 173.16228329023383,
+          "whole_cpu_share_pct": 2.9242432150620563
+        },
+        "mongo_user/split75": {
+          "retired_l2_mpki": 1.1176326446807945,
+          "code_read_mpki": 31.38958086948828,
+          "cpu_us_per_request": 487.34851225595594,
+          "whole_cpu_share_pct": 8.347527380308708
+        },
+        "mongo_movie/split75": {
+          "retired_l2_mpki": 1.1214106898968816,
+          "code_read_mpki": 31.1100607553265,
+          "cpu_us_per_request": 487.1481973997843,
+          "whole_cpu_share_pct": 8.344096296177897
+        },
+        "mongo_storage/split75": {
+          "retired_l2_mpki": 3.8679381067761156,
+          "code_read_mpki": 87.99389427459371,
+          "cpu_us_per_request": 157.57261809739217,
+          "whole_cpu_share_pct": 2.698975601394859
+        },
+        "mongo_user/early_t1": {
+          "retired_l2_mpki": 1.134060590895341,
+          "code_read_mpki": 32.03861541385971,
+          "cpu_us_per_request": 496.57695205559315,
+          "whole_cpu_share_pct": 8.47673675670551
+        },
+        "mongo_movie/early_t1": {
+          "retired_l2_mpki": 1.1173579821363637,
+          "code_read_mpki": 31.738432632322482,
+          "cpu_us_per_request": 496.51923439363867,
+          "whole_cpu_share_pct": 8.475751496667614
+        },
+        "mongo_storage/early_t1": {
+          "retired_l2_mpki": 3.829621569028398,
+          "code_read_mpki": 87.50794819373921,
+          "cpu_us_per_request": 160.58193914461953,
+          "whole_cpu_share_pct": 2.741188088523795
+        },
+        "mongo_user/early_it0": {
+          "retired_l2_mpki": 1.1215910018663984,
+          "code_read_mpki": 31.808625160813314,
+          "cpu_us_per_request": 496.24184357553787,
+          "whole_cpu_share_pct": 8.475558893015748
+        },
+        "mongo_movie/early_it0": {
+          "retired_l2_mpki": 1.1186844579867172,
+          "code_read_mpki": 31.347749587848945,
+          "cpu_us_per_request": 496.0766363301022,
+          "whole_cpu_share_pct": 8.472737237090575
+        },
+        "mongo_storage/early_it0": {
+          "retired_l2_mpki": 3.9342538535063287,
+          "code_read_mpki": 88.80452948738886,
+          "cpu_us_per_request": 160.68511287509597,
+          "whole_cpu_share_pct": 2.7444201955864513
+        }
+      },
+      "mongo_topdown": {
+        "original": {
+          "slots_per_request": 13435124.19787755,
+          "closure_error_pct": 0.3868108402584558,
+          "retiring_slots_per_request": 1624623.4511553685,
+          "bad-spec_slots_per_request": 1274977.3110030794,
+          "fe-bound_slots_per_request": 9414342.19672082,
+          "be-bound_slots_per_request": 1173165.284952267,
+          "fetch-lat_slots_per_request": 8420301.131973723,
+          "mem-bound_slots_per_request": 540856.5815723765,
+          "fetch-bw_slots_per_request": 994041.0647470956,
+          "core-bound_slots_per_request": 632308.7033798904,
+          "retiring_pct": 12.079114500927847,
+          "bad-spec_pct": 9.49116553687446,
+          "fe-bound_pct": 70.09523414274665,
+          "be-bound_pct": 8.721296659709491,
+          "fetch-lat_pct": 62.6946892419689,
+          "mem-bound_pct": 4.019039752729743,
+          "fetch-bw_pct": 7.40054490077775,
+          "core-bound_pct": 4.702256906979748,
+          "EXE_STALL_cycles_per_request": 1541940.0981248193,
+          "LOAD_L1D_STALL_cycles_per_request": 451876.9676952547,
+          "LOAD_L3_STALL_cycles_per_request": 1565.5756264906681,
+          "STORE_STALL_cycles_per_request": 11040.912868635829,
+          "memory_window_cycles_per_request": 2243935.557523116
+        },
+        "split75": {
+          "slots_per_request": 12232657.706770642,
+          "closure_error_pct": 0.5195730898539308,
+          "retiring_slots_per_request": 1653412.875521417,
+          "bad-spec_slots_per_request": 1276374.9237182636,
+          "fe-bound_slots_per_request": 8193961.069963815,
+          "be-bound_slots_per_request": 1172396.4272856275,
+          "fetch-lat_slots_per_request": 7160344.543799554,
+          "mem-bound_slots_per_request": 536554.8359305834,
+          "fetch-bw_slots_per_request": 1033616.5261642605,
+          "core-bound_slots_per_request": 635841.591355044,
+          "retiring_pct": 13.498297973478964,
+          "bad-spec_pct": 10.436146007384036,
+          "fe-bound_pct": 67.01490712389769,
+          "be-bound_pct": 9.570221985093252,
+          "fetch-lat_pct": 58.56326053629594,
+          "mem-bound_pct": 4.378889927357006,
+          "fetch-bw_pct": 8.45164658760174,
+          "core-bound_pct": 5.191332057736246,
+          "EXE_STALL_cycles_per_request": 1331981.8712221102,
+          "LOAD_L1D_STALL_cycles_per_request": 426834.34224426816,
+          "LOAD_L3_STALL_cycles_per_request": 1994.7656853600145,
+          "STORE_STALL_cycles_per_request": 11583.441968428939,
+          "memory_window_cycles_per_request": 2053171.3249975117
+        },
+        "early_t1": {
+          "slots_per_request": 12506780.847347394,
+          "closure_error_pct": 0.5268784572710572,
+          "retiring_slots_per_request": 1661596.3768442757,
+          "bad-spec_slots_per_request": 1281420.0728171982,
+          "fe-bound_slots_per_request": 8216846.643359108,
+          "be-bound_slots_per_request": 1413299.2730095703,
+          "fetch-lat_slots_per_request": 7189124.187703254,
+          "mem-bound_slots_per_request": 691737.1060901438,
+          "fetch-bw_slots_per_request": 1027722.4556558537,
+          "core-bound_slots_per_request": 721562.1669194265,
+          "retiring_pct": 13.270226187764479,
+          "bad-spec_pct": 10.246701828242957,
+          "fe-bound_pct": 65.72057933091419,
+          "be-bound_pct": 11.289371110349434,
+          "fetch-lat_pct": 57.50009576209854,
+          "mem-bound_pct": 5.52433914810047,
+          "fetch-bw_pct": 8.220483568815641,
+          "core-bound_pct": 5.7650319622489645,
+          "EXE_STALL_cycles_per_request": 1366489.3836352825,
+          "LOAD_L1D_STALL_cycles_per_request": 435585.60867438006,
+          "LOAD_L3_STALL_cycles_per_request": 1691.4529216896722,
+          "STORE_STALL_cycles_per_request": 11420.804055698238,
+          "memory_window_cycles_per_request": 2084550.3761254617
+        },
+        "early_it0": {
+          "slots_per_request": 12479695.009668015,
+          "closure_error_pct": 0.6174327935963453,
+          "retiring_slots_per_request": 1658177.2318304442,
+          "bad-spec_slots_per_request": 1284129.5654735302,
+          "fe-bound_slots_per_request": 8208084.787813829,
+          "be-bound_slots_per_request": 1406630.2399633084,
+          "fetch-lat_slots_per_request": 7166729.81282501,
+          "mem-bound_slots_per_request": 681346.5708098506,
+          "fetch-bw_slots_per_request": 1041354.9749888191,
+          "core-bound_slots_per_request": 725283.6691534579,
+          "retiring_pct": 13.274276528239398,
+          "bad-spec_pct": 10.289277777379553,
+          "fe-bound_pct": 65.79290470483645,
+          "be-bound_pct": 11.26097378314094,
+          "fetch-lat_pct": 57.44689394514107,
+          "mem-bound_pct": 5.452656194915872,
+          "fetch-bw_pct": 8.346010759695377,
+          "core-bound_pct": 5.808317588225069,
+          "EXE_STALL_cycles_per_request": 1367524.0582115476,
+          "LOAD_L1D_STALL_cycles_per_request": 438122.07070083113,
+          "LOAD_L3_STALL_cycles_per_request": 1583.5981306053582,
+          "STORE_STALL_cycles_per_request": 11384.694386613164,
+          "memory_window_cycles_per_request": 2088274.698438371
+        }
+      },
+      "e2e": {
+        "split75": {
+          "original": {
+            "inverse_rps": {
+              "pairs": 4,
+              "cost_reduction_pct": 1.322331766191398,
+              "ci95_pct": [
+                -0.3789194710938748,
+                2.994749700751209
+              ],
+              "speedup": 1.0134005169544364,
+              "speedup_ci95": [
+                0.9962251090857479,
+                1.030872037250693
+              ]
+            },
+            "mean_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": 1.3512936786108987,
+              "ci95_pct": [
+                -0.3928310065132834,
+                3.065117685023644
+              ],
+              "speedup": 1.0136980375009532,
+              "speedup_ci95": [
+                0.9960870611718501,
+                1.031620378668888
+              ]
+            },
+            "p99_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": 0.7419947762009382,
+              "ci95_pct": [
+                -0.0037224579462424856,
+                1.4821512754111144
+              ],
+              "speedup": 1.007475414950441,
+              "speedup_ci95": [
+                0.9999627768061553,
+                1.0150444949275592
+              ]
+            },
+            "stack_cpu": {
+              "pairs": 4,
+              "cost_reduction_pct": 1.4080256042722228,
+              "ci95_pct": [
+                1.2127323119648037,
+                1.6029328198016057
+              ],
+              "speedup": 1.014281340980359,
+              "speedup_ci95": [
+                1.0122762005706498,
+                1.0162904532191603
+              ]
+            }
+          }
+        },
+        "early_t1": {
+          "original": {
+            "inverse_rps": {
+              "pairs": 4,
+              "cost_reduction_pct": 1.6298851157340422,
+              "ci95_pct": [
+                -0.6619700482068058,
+                3.8695596985679814
+              ],
+              "speedup": 1.0165689052783118,
+              "speedup_ci95": [
+                0.9934238317818558,
+                1.0402532193385818
+              ]
+            },
+            "mean_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": 1.6732609512527197,
+              "ci95_pct": [
+                -0.6713885855005097,
+                3.9633032999315643
+              ],
+              "speedup": 1.017017354256233,
+              "speedup_ci95": [
+                0.9933308897897013,
+                1.0412686341379414
+              ]
+            },
+            "p99_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": 0.5649581654039726,
+              "ci95_pct": [
+                -0.5381636569233628,
+                1.655976347574839
+              ],
+              "speedup": 1.0056816807735018,
+              "speedup_ci95": [
+                0.9946471704142141,
+                1.0168386068219815
+              ]
+            },
+            "stack_cpu": {
+              "pairs": 4,
+              "cost_reduction_pct": 1.072263574985255,
+              "ci95_pct": [
+                0.7859303658543149,
+                1.3577704224221998
+              ],
+              "speedup": 1.0108388568639495,
+              "speedup_ci95": [
+                1.007921561616739,
+                1.0137645958352388
+              ]
+            }
+          },
+          "split75": {
+            "inverse_rps": {
+              "pairs": 4,
+              "cost_reduction_pct": 0.3116747234175876,
+              "ci95_pct": [
+                -2.450288771761433,
+                2.9991782786573773
+              ],
+              "speedup": 1.0031264917185925,
+              "speedup_ci95": [
+                0.9760831443118703,
+                1.0309191017708408
+              ]
+            },
+            "mean_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": 0.32637759241654907,
+              "ci95_pct": [
+                -2.509973420840095,
+                3.0842495386913193
+              ],
+              "speedup": 1.0032744630377928,
+              "speedup_ci95": [
+                0.9755148368780103,
+                1.0318240278180855
+              ]
+            },
+            "p99_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": -0.17836003292410751,
+              "ci95_pct": [
+                -0.6750705497880816,
+                0.3158998143131586
+              ],
+              "speedup": 0.9982195752369525,
+              "speedup_ci95": [
+                0.993294560946404,
+                1.0031690090367944
+              ]
+            },
+            "stack_cpu": {
+              "pairs": 4,
+              "cost_reduction_pct": -0.340557161315469,
+              "ci95_pct": [
+                -0.7357412152261933,
+                0.053076594413259404
+              ],
+              "speedup": 0.9966059869413725,
+              "speedup_ci95": [
+                0.9926963240022799,
+                1.0005310478062228
+              ]
+            }
+          }
+        },
+        "early_it0": {
+          "original": {
+            "inverse_rps": {
+              "pairs": 4,
+              "cost_reduction_pct": 1.1724195195232712,
+              "ci95_pct": [
+                -0.16499625389312378,
+                2.4919779473810633
+              ],
+              "speedup": 1.0118632826365195,
+              "speedup_ci95": [
+                0.9983527553530287,
+                1.0255566454423237
+              ]
+            },
+            "mean_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": 1.2026214527956824,
+              "ci95_pct": [
+                -0.16648680277049355,
+                2.553016289579879
+              ],
+              "speedup": 1.012172604885676,
+              "speedup_ci95": [
+                0.9983378991508576,
+                1.026199028357477
+              ]
+            },
+            "p99_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": 1.163074805224651,
+              "ci95_pct": [
+                -1.283950081947327,
+                3.550979458701209
+              ],
+              "speedup": 1.011767614208279,
+              "speedup_ci95": [
+                0.9873232621663304,
+                1.036817164536997
+              ]
+            },
+            "stack_cpu": {
+              "pairs": 4,
+              "cost_reduction_pct": 1.1253931391210559,
+              "ci95_pct": [
+                0.8944384323980481,
+                1.3558096310787748
+              ],
+              "speedup": 1.011382023907357,
+              "speedup_ci95": [
+                1.0090251083617334,
+                1.0137444448173598
+              ]
+            }
+          },
+          "split75": {
+            "inverse_rps": {
+              "pairs": 4,
+              "cost_reduction_pct": -0.15192114827127234,
+              "ci95_pct": [
+                -2.5086632114775798,
+                2.1506378539284943
+              ],
+              "speedup": 0.9984830930197898,
+              "speedup_ci95": [
+                0.9755273053722089,
+                1.021979068710923
+              ]
+            },
+            "mean_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": -0.1507087435397958,
+              "ci95_pct": [
+                -2.574454786998359,
+                2.2157662679120227
+              ],
+              "speedup": 0.9984951804592245,
+              "speedup_ci95": [
+                0.974901599113109,
+                1.022659749770938
+              ]
+            },
+            "p99_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": 0.4242277769680114,
+              "ci95_pct": [
+                -1.9961714647423578,
+                2.7871902305603213
+              ],
+              "speedup": 1.0042603513635608,
+              "speedup_ci95": [
+                0.9804289569296982,
+                1.0286710181216931
+              ]
+            },
+            "stack_cpu": {
+              "pairs": 4,
+              "cost_reduction_pct": -0.2866688357581193,
+              "ci95_pct": [
+                -0.4794192895324123,
+                -0.09428813668279634
+              ],
+              "speedup": 0.9971415060537347,
+              "speedup_ci95": [
+                0.9952286817248519,
+                0.9990580068209882
+              ]
+            }
+          },
+          "early_t1": {
+            "inverse_rps": {
+              "pairs": 4,
+              "cost_reduction_pct": -0.4650453003424815,
+              "ci95_pct": [
+                -1.6803364364158746,
+                0.7357205833844138
+              ],
+              "speedup": 0.9953710736012489,
+              "speedup_ci95": [
+                0.9834743226143174,
+                1.0074117354974852
+              ]
+            },
+            "mean_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": -0.4786485375292582,
+              "ci95_pct": [
+                -1.7277253009908788,
+                0.7550912786409403
+              ],
+              "speedup": 0.9952363159288465,
+              "speedup_ci95": [
+                0.9830161807326478,
+                1.007608362870895
+              ]
+            },
+            "p99_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": 0.6015149476334636,
+              "ci95_pct": [
+                -1.9859672414543228,
+                3.1233502221511777
+              ],
+              "speedup": 1.0060515504568965,
+              "speedup_ci95": [
+                0.9805270539156382,
+                1.0322404854969018
+              ]
+            },
+            "stack_cpu": {
+              "pairs": 4,
+              "cost_reduction_pct": 0.05370542787671573,
+              "ci95_pct": [
+                -0.44069925901419893,
+                0.5456764798345337
+              ],
+              "speedup": 1.0005373428610498,
+              "speedup_ci95": [
+                0.9956123437783151,
+                1.0054867044540692
+              ]
+            }
+          }
+        }
+      },
+      "invalid_pmu_windows": [],
+      "topdown_valid_trials": {
+        "mongo_user": {
+          "original": 4,
+          "split75": 4,
+          "early_t1": 4,
+          "early_it0": 4
+        },
+        "mongo_movie": {
+          "original": 4,
+          "split75": 4,
+          "early_t1": 4,
+          "early_it0": 4
+        },
+        "mongo_storage": {
+          "original": 4,
+          "split75": 4,
+          "early_t1": 4,
+          "early_it0": 4
+        },
+        "mongo3": {
+          "original": 4,
+          "split75": 4,
+          "early_t1": 4,
+          "early_it0": 4
+        },
+        "pool_u": {
+          "original": 4,
+          "split75": 4,
+          "early_t1": 4,
+          "early_it0": 4
+        },
+        "pool_k": {
+          "original": 4,
+          "split75": 4,
+          "early_t1": 4,
+          "early_it0": 4
+        }
+      },
+      "invalid_topdown_records": []
+    },
+    "lead_screen": {
+      "absolute": {
+        "Retired L2": {
+          "split75": 2067.829670391835,
+          "residual_t1": 1995.6247195961114,
+          "lead512_nop": 5678.15127038023,
+          "lead512": 2476.1289631108957
+        },
+        "L2 code-read miss": {
+          "split75": 55412.937956692316,
+          "residual_t1": 55598.478084877555,
+          "lead512_nop": 62991.344895848815,
+          "lead512": 55963.60456782824
+        },
+        "I-cache stall cycles": {
+          "split75": 459263.48519823817,
+          "residual_t1": 457861.5539793603,
+          "lead512_nop": 640762.9643183979,
+          "lead512": 469089.50430186454
+        },
+        "ITLB walk-active cycles": {
+          "split75": 96197.81664163808,
+          "residual_t1": 94860.44310608467,
+          "lead512_nop": 192197.9841070426,
+          "lead512": 101612.53803993168
+        },
+        "Unknown-branch bubble cycles": {
+          "split75": 606912.123310209,
+          "residual_t1": 608874.2026581109,
+          "lead512_nop": 800183.8981833289,
+          "lead512": 629936.8035464555
+        },
+        "Branch mispredictions": {
+          "split75": 19819.74233159835,
+          "residual_t1": 19805.15641803972,
+          "lead512_nop": 19870.430676413423,
+          "lead512": 19760.810043219124
+        },
+        "DSB uops": {
+          "split75": 1374607.5817215256,
+          "residual_t1": 1416078.599089462,
+          "lead512_nop": 1359639.658175035,
+          "lead512": 1375463.5539757668
+        },
+        "MITE uops": {
+          "split75": 1070032.4659053271,
+          "residual_t1": 1076098.1564705095,
+          "lead512_nop": 1078591.1077066867,
+          "lead512": 1073308.5226170344
+        },
+        "Retired L1I": {
+          "split75": 16011.824476852926,
+          "residual_t1": 16038.517028014228,
+          "lead512_nop": 15983.56581422175,
+          "lead512": 15854.295928255153
+        },
+        "DSB-to-MITE penalty cycles": {
+          "split75": 47811.159555937404,
+          "residual_t1": 48120.848987510326,
+          "lead512_nop": 48101.189002953084,
+          "lead512": 47939.646072144744
+        },
+        "I-cache stall periods": {
+          "split75": 28698.890121938402,
+          "residual_t1": 28861.395194797515,
+          "lead512_nop": 26240.496571097625,
+          "lead512": 28238.944470467344
+        },
+        "Late instruction prefetch": {
+          "split75": 0.0,
+          "residual_t1": 0.0,
+          "lead512_nop": 0.0,
+          "lead512": 0.0
+        },
+        "Speculative T1/T2 executions": {
+          "split75": 8615.099410529872,
+          "residual_t1": 8637.794453656408,
+          "lead512_nop": 0.0,
+          "lead512": 8938.646934322498
+        },
+        "L1D fill-buffer-full cycles": {
+          "split75": 14399.595223972072,
+          "residual_t1": 14764.39786280663,
+          "lead512_nop": 13359.46905843298,
+          "lead512": 14923.341882843673
+        }
+      },
+      "comparisons": {
+        "residual_t1/split75": {
+          "Retired L2": {
+            "pairs": 4,
+            "cost_reduction_pct": 3.501067936150404,
+            "ci95_pct": [
+              2.2480091027308857,
+              4.738064115238294
+            ]
+          },
+          "L2 code-read miss": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.33348736097162934,
+            "ci95_pct": [
+              -0.9631328834226904,
+              0.2922314461267783
+            ]
+          },
+          "I-cache stall cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.3109680792110936,
+            "ci95_pct": [
+              -0.8193889186790093,
+              1.428651850687268
+            ]
+          },
+          "ITLB walk-active cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 1.4065565412247127,
+            "ci95_pct": [
+              -1.9235248109150893,
+              4.6278363008720795
+            ]
+          },
+          "Unknown-branch bubble cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.3232362949550094,
+            "ci95_pct": [
+              -0.8798639276576203,
+              0.23032001796758905
+            ]
+          },
+          "Branch mispredictions": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.07311102423304128,
+            "ci95_pct": [
+              -0.821340796160408,
+              0.9596275796053488
+            ]
+          },
+          "DSB uops": {
+            "pairs": 4,
+            "cost_reduction_pct": -2.9605033082706456,
+            "ci95_pct": [
+              -9.523170522603742,
+              3.2089265594756555
+            ]
+          },
+          "MITE uops": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.5669937046776541,
+            "ci95_pct": [
+              -0.9759985426984752,
+              -0.15964554705554246
+            ]
+          },
+          "Retired L1I": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.16700262848312608,
+            "ci95_pct": [
+              -0.363890883638307,
+              0.029499382329811752
+            ]
+          },
+          "DSB-to-MITE penalty cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.6453318402889652,
+            "ci95_pct": [
+              -1.5646170185761754,
+              0.2656326721617752
+            ]
+          },
+          "I-cache stall periods": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.5661842044462739,
+            "ci95_pct": [
+              -0.7211040234074817,
+              -0.41150266871816665
+            ]
+          },
+          "Speculative T1/T2 executions": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.2637189323375644,
+            "ci95_pct": [
+              -1.0828894548784218,
+              0.5488130745393893
+            ]
+          },
+          "L1D fill-buffer-full cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -2.467950071828784,
+            "ci95_pct": [
+              -9.02016661168834,
+              3.690471971842524
+            ]
+          }
+        },
+        "lead512_nop/split75": {
+          "Retired L2": {
+            "pairs": 4,
+            "cost_reduction_pct": -174.6092749226632,
+            "ci95_pct": [
+              -177.81855864273172,
+              -171.4370639670861
+            ]
+          },
+          "L2 code-read miss": {
+            "pairs": 4,
+            "cost_reduction_pct": -13.676276679016098,
+            "ci95_pct": [
+              -13.716509883983585,
+              -13.636057708664007
+            ]
+          },
+          "I-cache stall cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -39.51805528040708,
+            "ci95_pct": [
+              -40.11094785574165,
+              -38.927671585436755
+            ]
+          },
+          "ITLB walk-active cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -99.78543175932045,
+            "ci95_pct": [
+              -102.6001059689098,
+              -97.00986113690959
+            ]
+          },
+          "Unknown-branch bubble cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -31.844677972170054,
+            "ci95_pct": [
+              -33.32303251329982,
+              -30.3827161886012
+            ]
+          },
+          "Branch mispredictions": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.2556887925766915,
+            "ci95_pct": [
+              -1.1824150188913363,
+              0.6625495804051473
+            ]
+          },
+          "DSB uops": {
+            "pairs": 4,
+            "cost_reduction_pct": 1.0724642457835998,
+            "ci95_pct": [
+              -7.7860570678757846,
+              9.202937776647302
+            ]
+          },
+          "MITE uops": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.800149067395739,
+            "ci95_pct": [
+              -1.1220185397806226,
+              -0.4793040994536035
+            ]
+          },
+          "Retired L1I": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.175787164012009,
+            "ci95_pct": [
+              -0.5006435345117355,
+              0.8476650708936884
+            ]
+          },
+          "DSB-to-MITE penalty cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.6057081202238246,
+            "ci95_pct": [
+              -1.5068315120022602,
+              0.2874155797593314
+            ]
+          },
+          "I-cache stall periods": {
+            "pairs": 4,
+            "cost_reduction_pct": 8.566313698660055,
+            "ci95_pct": [
+              8.06369844725613,
+              9.06618115526826
+            ]
+          },
+          "L1D fill-buffer-full cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 7.586030545530575,
+            "ci95_pct": [
+              0.689520462987192,
+              14.003619858177796
+            ]
+          }
+        },
+        "lead512/split75": {
+          "Retired L2": {
+            "pairs": 4,
+            "cost_reduction_pct": -19.733919687743185,
+            "ci95_pct": [
+              -21.637606399998855,
+              -17.860026582955424
+            ]
+          },
+          "L2 code-read miss": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.9894948291465644,
+            "ci95_pct": [
+              -1.8730809438350926,
+              -0.11357241143112873
+            ]
+          },
+          "I-cache stall cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -2.133016739181115,
+            "ci95_pct": [
+              -3.407598890244956,
+              -0.87414484226922
+            ]
+          },
+          "ITLB walk-active cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -5.621323132952916,
+            "ci95_pct": [
+              -7.417146770321259,
+              -3.855522472674311
+            ]
+          },
+          "Unknown-branch bubble cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -3.7935389264286634,
+            "ci95_pct": [
+              -4.124384538432824,
+              -3.4637445457903926
+            ]
+          },
+          "Branch mispredictions": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.2966845279352759,
+            "ci95_pct": [
+              -0.8745824996420071,
+              1.4543518318170912
+            ]
+          },
+          "DSB uops": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.0640837598893107,
+            "ci95_pct": [
+              -0.777700636236589,
+              0.6444799247003141
+            ]
+          },
+          "MITE uops": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.3053377508598132,
+            "ci95_pct": [
+              -1.2179206180763291,
+              0.5990172503380076
+            ]
+          },
+          "Retired L1I": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.9845622230442164,
+            "ci95_pct": [
+              0.3322519449224126,
+              1.6326032294382342
+            ]
+          },
+          "DSB-to-MITE penalty cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.2678416171532749,
+            "ci95_pct": [
+              -1.3570031819485573,
+              0.8096160408867958
+            ]
+          },
+          "I-cache stall periods": {
+            "pairs": 4,
+            "cost_reduction_pct": 1.603190040678204,
+            "ci95_pct": [
+              1.2319196045965652,
+              1.9730648665975736
+            ]
+          },
+          "Speculative T1/T2 executions": {
+            "pairs": 4,
+            "cost_reduction_pct": -3.7557120347921025,
+            "ci95_pct": [
+              -4.16280990489768,
+              -3.350205218883273
+            ]
+          },
+          "L1D fill-buffer-full cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -3.518432415152084,
+            "ci95_pct": [
+              -7.441551484751674,
+              0.261437948322496
+            ]
+          }
+        },
+        "lead512/lead512_nop": {
+          "Retired L2": {
+            "pairs": 4,
+            "cost_reduction_pct": 56.39844294353742,
+            "ci95_pct": [
+              55.3103616401045,
+              57.46003217931596
+            ]
+          },
+          "L2 code-read miss": {
+            "pairs": 4,
+            "cost_reduction_pct": 11.16044809040745,
+            "ci95_pct": [
+              10.377759250151952,
+              11.936301553467121
+            ]
+          },
+          "I-cache stall cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 26.79584263562772,
+            "ci95_pct": [
+              25.85402911684509,
+              27.725693094333092
+            ]
+          },
+          "ITLB walk-active cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 47.1326201300834,
+            "ci95_pct": [
+              46.49868613237438,
+              47.759042680233485
+            ]
+          },
+          "Unknown-branch bubble cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 21.275897880127147,
+            "ci95_pct": [
+              20.36714509256228,
+              22.174280178904848
+            ]
+          },
+          "Branch mispredictions": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.5509645658659745,
+            "ci95_pct": [
+              -0.36830551880495666,
+              1.4618150853743517
+            ]
+          },
+          "DSB uops": {
+            "pairs": 4,
+            "cost_reduction_pct": -1.14886921725883,
+            "ci95_pct": [
+              -10.517019537763383,
+              7.425174993665163
+            ]
+          },
+          "MITE uops": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.49088351665540486,
+            "ci95_pct": [
+              -0.4074409332988971,
+              1.3811708449593008
+            ]
+          },
+          "Retired L1I": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.8101992853787987,
+            "ci95_pct": [
+              0.05785209952203774,
+              1.5568829318784894
+            ]
+          },
+          "DSB-to-MITE penalty cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.3358323393209517,
+            "ci95_pct": [
+              -1.0369506830932629,
+              1.6899634406915331
+            ]
+          },
+          "I-cache stall periods": {
+            "pairs": 4,
+            "cost_reduction_pct": -7.615490460521679,
+            "ci95_pct": [
+              -8.174295329454084,
+              -7.059572255935831
+            ]
+          },
+          "L1D fill-buffer-full cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -12.016000423132557,
+            "ci95_pct": [
+              -18.531491042848035,
+              -5.858656129276207
+            ]
+          }
+        },
+        "lead512/residual_t1": {
+          "Retired L2": {
+            "pairs": 4,
+            "cost_reduction_pct": -24.07797384588659,
+            "ci95_pct": [
+              -26.33876749845898,
+              -21.857636405138294
+            ]
+          },
+          "L2 code-read miss": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.6538270376417632,
+            "ci95_pct": [
+              -1.5141373968339478,
+              0.1991923773222215
+            ]
+          },
+          "I-cache stall cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -2.451608538373762,
+            "ci95_pct": [
+              -3.296649285954212,
+              -1.6134808307612714
+            ]
+          },
+          "ITLB walk-active cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -7.128141007790423,
+            "ci95_pct": [
+              -11.25534421607355,
+              -3.154043310460386
+            ]
+          },
+          "Unknown-branch bubble cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -3.459121495314199,
+            "ci95_pct": [
+              -4.260824109219241,
+              -2.6635834891286514
+            ]
+          },
+          "Branch mispredictions": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.22373708017313643,
+            "ci95_pct": [
+              -0.5209514494925127,
+              0.962908739990076
+            ]
+          },
+          "DSB uops": {
+            "pairs": 4,
+            "cost_reduction_pct": 2.81313654781703,
+            "ci95_pct": [
+              -3.8602913003290107,
+              9.057770689659739
+            ]
+          },
+          "MITE uops": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.26018074537080826,
+            "ci95_pct": [
+              -0.610348751904044,
+              1.1231779995411695
+            ]
+          },
+          "Retired L1I": {
+            "pairs": 4,
+            "cost_reduction_pct": 1.149644914302228,
+            "ci95_pct": [
+              0.5185922687355959,
+              1.7766945260301092
+            ]
+          },
+          "DSB-to-MITE penalty cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.3750697784321688,
+            "ci95_pct": [
+              -0.5734917165618025,
+              1.3146848910899012
+            ]
+          },
+          "I-cache stall periods": {
+            "pairs": 4,
+            "cost_reduction_pct": 2.1571607417402383,
+            "ci95_pct": [
+              1.7803810741954695,
+              2.5324950471523833
+            ]
+          },
+          "Speculative T1/T2 executions": {
+            "pairs": 4,
+            "cost_reduction_pct": -3.482808277649374,
+            "ci95_pct": [
+              -4.06821265685362,
+              -2.9006969144241834
+            ]
+          },
+          "L1D fill-buffer-full cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -1.0251813787500508,
+            "ci95_pct": [
+              -4.235403931125625,
+              2.0861733374861746
+            ]
+          }
+        }
+      },
+      "populations": {
+        "mongo_user/split75": {
+          "retired_l2_mpki": 1.1187216745455075,
+          "code_read_mpki": 30.995856431751466,
+          "cpu_us_per_request": 489.338163683987,
+          "whole_cpu_share_pct": 8.375061168284903
+        },
+        "mongo_movie/split75": {
+          "retired_l2_mpki": 1.106503716569006,
+          "code_read_mpki": 30.935204491363013,
+          "cpu_us_per_request": 486.89442044356304,
+          "whole_cpu_share_pct": 8.333236310472769
+        },
+        "mongo_storage/split75": {
+          "retired_l2_mpki": 3.9165202075309904,
+          "code_read_mpki": 87.37116485167097,
+          "cpu_us_per_request": 157.6151160008168,
+          "whole_cpu_share_pct": 2.697595110128456
+        },
+        "mongo_user/residual_t1": {
+          "retired_l2_mpki": 1.058867502033563,
+          "code_read_mpki": 30.753948904787684,
+          "cpu_us_per_request": 488.187858846194,
+          "whole_cpu_share_pct": 8.377516443305145
+        },
+        "mongo_movie/residual_t1": {
+          "retired_l2_mpki": 1.053192500450118,
+          "code_read_mpki": 30.675789259351333,
+          "cpu_us_per_request": 488.3323918027666,
+          "whole_cpu_share_pct": 8.379996691837233
+        },
+        "mongo_storage/residual_t1": {
+          "retired_l2_mpki": 3.848610067103709,
+          "code_read_mpki": 87.58885721788235,
+          "cpu_us_per_request": 157.7993697883792,
+          "whole_cpu_share_pct": 2.7079059652768382
+        },
+        "mongo_user/lead512_nop": {
+          "retired_l2_mpki": 3.2404876670085105,
+          "code_read_mpki": 35.9171038541283,
+          "cpu_us_per_request": 548.6400038057789,
+          "whole_cpu_share_pct": 9.127975467511181
+        },
+        "mongo_movie/lead512_nop": {
+          "retired_l2_mpki": 3.21395134555135,
+          "code_read_mpki": 35.58233289633604,
+          "cpu_us_per_request": 547.9678576168933,
+          "whole_cpu_share_pct": 9.116792662976023
+        },
+        "mongo_storage/lead512_nop": {
+          "retired_l2_mpki": 8.679506718769472,
+          "code_read_mpki": 97.14361607144903,
+          "cpu_us_per_request": 179.5211852557993,
+          "whole_cpu_share_pct": 2.9867763260907987
+        },
+        "mongo_user/lead512": {
+          "retired_l2_mpki": 1.3841126671619273,
+          "code_read_mpki": 31.435290640694024,
+          "cpu_us_per_request": 492.49960211605304,
+          "whole_cpu_share_pct": 8.420734166457358
+        },
+        "mongo_movie/lead512": {
+          "retired_l2_mpki": 1.38767939953978,
+          "code_read_mpki": 31.229583349047893,
+          "cpu_us_per_request": 493.21428270690274,
+          "whole_cpu_share_pct": 8.43295374032831
+        },
+        "mongo_storage/lead512": {
+          "retired_l2_mpki": 3.824480567787405,
+          "code_read_mpki": 86.6698308616183,
+          "cpu_us_per_request": 156.83233857550002,
+          "whole_cpu_share_pct": 2.681511672646841
+        }
+      },
+      "mongo_topdown": {
+        "split75": {
+          "slots_per_request": 12289294.050464299,
+          "closure_error_pct": 0.3495057307461247,
+          "retiring_slots_per_request": 1665493.8632050634,
+          "bad-spec_slots_per_request": 1280732.8239761698,
+          "fe-bound_slots_per_request": 8202351.199372606,
+          "be-bound_slots_per_request": 1183652.4000285428,
+          "fetch-lat_slots_per_request": 7169387.174082053,
+          "mem-bound_slots_per_request": 549664.518954293,
+          "fetch-bw_slots_per_request": 1032964.0252905535,
+          "core-bound_slots_per_request": 633987.8810742499,
+          "retiring_pct": 13.531174027996691,
+          "bad-spec_pct": 10.425540915126097,
+          "fe-bound_pct": 66.77845303381278,
+          "be-bound_pct": 9.614337753810569,
+          "fetch-lat_pct": 58.369668639184475,
+          "mem-bound_pct": 4.462854185468766,
+          "fetch-bw_pct": 8.408784394628302,
+          "core-bound_pct": 5.151483568341803,
+          "EXE_STALL_cycles_per_request": 1332376.1548162003,
+          "LOAD_L1D_STALL_cycles_per_request": 425828.899376399,
+          "LOAD_L3_STALL_cycles_per_request": 1648.349214172606,
+          "STORE_STALL_cycles_per_request": 12097.323891156051,
+          "memory_window_cycles_per_request": 2051729.4592219624
+        },
+        "residual_t1": {
+          "slots_per_request": 12327507.937234852,
+          "closure_error_pct": 0.5774695482292924,
+          "retiring_slots_per_request": 1675972.111893485,
+          "bad-spec_slots_per_request": 1286297.596221588,
+          "fe-bound_slots_per_request": 8238745.776397736,
+          "be-bound_slots_per_request": 1197878.102489145,
+          "fetch-lat_slots_per_request": 7191718.806090529,
+          "mem-bound_slots_per_request": 549544.9827913914,
+          "fetch-bw_slots_per_request": 1047026.9703072065,
+          "core-bound_slots_per_request": 648333.1196977535,
+          "retiring_pct": 13.570944300349385,
+          "bad-spec_pct": 10.437938623861804,
+          "fe-bound_pct": 66.87001099098299,
+          "be-bound_pct": 9.69857563303511,
+          "fetch-lat_pct": 58.37185401038839,
+          "mem-bound_pct": 4.447456733839544,
+          "fetch-bw_pct": 8.498156980594606,
+          "core-bound_pct": 5.251118899195566,
+          "EXE_STALL_cycles_per_request": 1337195.501478224,
+          "LOAD_L1D_STALL_cycles_per_request": 430744.8364488825,
+          "LOAD_L3_STALL_cycles_per_request": 1694.945307278694,
+          "STORE_STALL_cycles_per_request": 12469.881387578227,
+          "memory_window_cycles_per_request": 2062251.411256046
+        },
+        "lead512_nop": {
+          "slots_per_request": 13932359.141974842,
+          "closure_error_pct": 0.4049411708222539,
+          "retiring_slots_per_request": 1648068.2335981205,
+          "bad-spec_slots_per_request": 1287574.101242946,
+          "fe-bound_slots_per_request": 9868183.842939261,
+          "be-bound_slots_per_request": 1185048.7526673586,
+          "fetch-lat_slots_per_request": 8844069.435183987,
+          "mem-bound_slots_per_request": 542798.7051330068,
+          "fetch-bw_slots_per_request": 1024114.4077552729,
+          "core-bound_slots_per_request": 642250.0475343519,
+          "retiring_pct": 11.812223613633382,
+          "bad-spec_pct": 9.243416997824447,
+          "fe-bound_pct": 70.85674242043254,
+          "be-bound_pct": 8.492558138931884,
+          "fetch-lat_pct": 63.50161513788481,
+          "mem-bound_pct": 3.8893058261684477,
+          "fetch-bw_pct": 7.355127282547732,
+          "core-bound_pct": 4.603252312763436,
+          "EXE_STALL_cycles_per_request": 1616440.900465682,
+          "LOAD_L1D_STALL_cycles_per_request": 458448.332699725,
+          "LOAD_L3_STALL_cycles_per_request": 1623.8284708714211,
+          "STORE_STALL_cycles_per_request": 11299.851326432154,
+          "memory_window_cycles_per_request": 2324960.328441236
+        },
+        "lead512": {
+          "slots_per_request": 12412126.450420445,
+          "closure_error_pct": 0.5855645825856237,
+          "retiring_slots_per_request": 1675375.46109192,
+          "bad-spec_slots_per_request": 1288455.3389759825,
+          "fe-bound_slots_per_request": 8320963.740042394,
+          "be-bound_slots_per_request": 1200191.6879907323,
+          "fetch-lat_slots_per_request": 7285117.809346454,
+          "mem-bound_slots_per_request": 556139.9489967221,
+          "fetch-bw_slots_per_request": 1035845.9306959391,
+          "core-bound_slots_per_request": 644051.73899401,
+          "retiring_pct": 13.4759999890215,
+          "bad-spec_pct": 10.381704511540537,
+          "fe-bound_pct": 67.07664975732564,
+          "be-bound_pct": 9.65121032469794,
+          "fetch-lat_pct": 58.72674447762806,
+          "mem-bound_pct": 4.470303402146085,
+          "fetch-bw_pct": 8.349905279697595,
+          "core-bound_pct": 5.1809069225518565,
+          "EXE_STALL_cycles_per_request": 1350167.131772027,
+          "LOAD_L1D_STALL_cycles_per_request": 427386.5030562598,
+          "LOAD_L3_STALL_cycles_per_request": 1611.4291384172643,
+          "STORE_STALL_cycles_per_request": 12217.226769358962,
+          "memory_window_cycles_per_request": 2069500.6046482958
+        }
+      },
+      "e2e": {
+        "residual_t1": {
+          "split75": {
+            "inverse_rps": {
+              "pairs": 4,
+              "cost_reduction_pct": 1.857765952657997,
+              "ci95_pct": [
+                -0.6984610793477009,
+                4.349103247828423
+              ],
+              "speedup": 1.0189293220262527,
+              "speedup_ci95": [
+                0.9930638356151508,
+                1.0454685046926095
+              ]
+            },
+            "mean_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": 1.9052684566148281,
+              "ci95_pct": [
+                -0.7080668560690784,
+                4.450788730546373
+              ],
+              "speedup": 1.0194227399029292,
+              "speedup_ci95": [
+                0.9929691148070487,
+                1.0465811142908854
+              ]
+            },
+            "p99_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": -1.3539504163599725,
+              "ci95_pct": [
+                -3.1301588494805577,
+                0.3916664184048346
+              ],
+              "speedup": 0.9866413651288581,
+              "speedup_ci95": [
+                0.9696484628318177,
+                1.0039320647612682
+              ]
+            },
+            "stack_cpu": {
+              "pairs": 4,
+              "cost_reduction_pct": 0.2644672822177285,
+              "ci95_pct": [
+                -0.21860580300325783,
+                0.74521186163089
+              ],
+              "speedup": 1.0026516856631837,
+              "speedup_ci95": [
+                0.9978187103956229,
+                1.0075080696418595
+              ]
+            }
+          }
+        },
+        "lead512_nop": {
+          "split75": {
+            "inverse_rps": {
+              "pairs": 4,
+              "cost_reduction_pct": -1.9717763031862567,
+              "ci95_pct": [
+                -4.744002747993137,
+                0.7270784997159718
+              ],
+              "speedup": 0.9806635093094417,
+              "speedup_ci95": [
+                0.9547085978811897,
+                1.007324036491803
+              ]
+            },
+            "mean_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": -2.0092581475156024,
+              "ci95_pct": [
+                -4.846078362497841,
+                0.750806226353451
+              ],
+              "speedup": 0.9803031785153263,
+              "speedup_ci95": [
+                0.9537791166042199,
+                1.007564859701186
+              ]
+            },
+            "p99_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": -1.7160899658901885,
+              "ci95_pct": [
+                -3.87002959645526,
+                0.3931836917263287
+              ],
+              "speedup": 0.9831286282586593,
+              "speedup_ci95": [
+                0.9627416145784238,
+                1.0039473572823516
+              ]
+            },
+            "stack_cpu": {
+              "pairs": 4,
+              "cost_reduction_pct": -2.86703915595794,
+              "ci95_pct": [
+                -4.271297253266804,
+                -1.4816926945047992
+              ],
+              "speedup": 0.9721286898166556,
+              "speedup_ci95": [
+                0.9590366921119994,
+                0.9853994089459543
+              ]
+            }
+          }
+        },
+        "lead512": {
+          "split75": {
+            "inverse_rps": {
+              "pairs": 4,
+              "cost_reduction_pct": 0.1463511218252167,
+              "ci95_pct": [
+                -0.3833329709998612,
+                0.6732402761890133
+              ],
+              "speedup": 1.001465656222576,
+              "speedup_ci95": [
+                0.9961813085932243,
+                1.006778035224959
+              ]
+            },
+            "mean_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": 0.14945244119757284,
+              "ci95_pct": [
+                -0.4229358768306879,
+                0.718578273581949
+              ],
+              "speedup": 1.0014967613583647,
+              "speedup_ci95": [
+                0.9957884533733466,
+                1.0072377919361597
+              ]
+            },
+            "p99_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": 0.10689300601688378,
+              "ci95_pct": [
+                -0.9333946588652831,
+                1.136458764345083
+              ],
+              "speedup": 1.001070073894321,
+              "speedup_ci95": [
+                0.990752370293103,
+                1.0114952261484966
+              ]
+            },
+            "stack_cpu": {
+              "pairs": 4,
+              "cost_reduction_pct": -0.10017246305085159,
+              "ci95_pct": [
+                -0.21732260307953943,
+                0.016840733034906297
+              ],
+              "speedup": 0.9989992778175499,
+              "speedup_ci95": [
+                0.9978314866388891,
+                1.0001684356961549
+              ]
+            }
+          },
+          "lead512_nop": {
+            "inverse_rps": {
+              "pairs": 4,
+              "cost_reduction_pct": 2.0771702737763187,
+              "ci95_pct": [
+                -0.09986607153191773,
+                4.206859030773025
+              ],
+              "speedup": 1.0212123187165214,
+              "speedup_ci95": [
+                0.9990023356129113,
+                1.043916077792297
+              ]
+            },
+            "mean_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": 2.1161908516102224,
+              "ci95_pct": [
+                -0.07548943731618962,
+                4.259872749363369
+              ],
+              "speedup": 1.0216194166330625,
+              "speedup_ci95": [
+                0.999245675062489,
+                1.0444941204037834
+              ]
+            },
+            "p99_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": 1.7922267485099064,
+              "ci95_pct": [
+                0.714385477156021,
+                2.8583670114969983
+              ],
+              "speedup": 1.0182493369839511,
+              "speedup_ci95": [
+                1.0071952566400408,
+                1.0294247370932637
+              ]
+            },
+            "stack_cpu": {
+              "pairs": 4,
+              "cost_reduction_pct": 2.6897504930731175,
+              "ci95_pct": [
+                1.3733042445955967,
+                3.988625122509193
+              ],
+              "speedup": 1.0276409782803162,
+              "speedup_ci95": [
+                1.0139242649677873,
+                1.0415432559693956
+              ]
+            }
+          },
+          "residual_t1": {
+            "inverse_rps": {
+              "pairs": 4,
+              "cost_reduction_pct": -1.7438107532861347,
+              "ci95_pct": [
+                -4.44148698038449,
+                0.8841857207116388
+              ],
+              "speedup": 0.9828607682337098,
+              "speedup_ci95": [
+                0.9574739204812484,
+                1.0089207330549712
+              ]
+            },
+            "mean_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": -1.7899187732020927,
+              "ci95_pct": [
+                -4.5395557130485376,
+                0.8873962283177383
+              ],
+              "speedup": 0.9824155594701848,
+              "speedup_ci95": [
+                0.9565757125895082,
+                1.0089534145461656
+              ]
+            },
+            "p99_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": 1.4413285484934257,
+              "ci95_pct": [
+                0.042649408554173984,
+                2.82043630798966
+              ],
+              "speedup": 1.0146240663278685,
+              "speedup_ci95": [
+                1.000426676060358,
+                1.0290229365191268
+              ]
+            },
+            "stack_cpu": {
+              "pairs": 4,
+              "cost_reduction_pct": -0.36560665525331437,
+              "ci95_pct": [
+                -0.7934960851598172,
+                0.06046629470815024
+              ],
+              "speedup": 0.9963572515781314,
+              "speedup_ci95": [
+                0.9921275070715933,
+                1.0006050287855701
+              ]
+            }
+          }
+        }
+      },
+      "invalid_pmu_windows": [],
+      "topdown_valid_trials": {
+        "mongo_user": {
+          "split75": 4,
+          "residual_t1": 4,
+          "lead512_nop": 4,
+          "lead512": 4
+        },
+        "mongo_movie": {
+          "split75": 4,
+          "residual_t1": 4,
+          "lead512_nop": 4,
+          "lead512": 4
+        },
+        "mongo_storage": {
+          "split75": 4,
+          "residual_t1": 4,
+          "lead512_nop": 4,
+          "lead512": 4
+        },
+        "mongo3": {
+          "split75": 4,
+          "residual_t1": 4,
+          "lead512_nop": 4,
+          "lead512": 4
+        },
+        "pool_u": {
+          "split75": 4,
+          "residual_t1": 4,
+          "lead512_nop": 4,
+          "lead512": 4
+        },
+        "pool_k": {
+          "split75": 4,
+          "residual_t1": 4,
+          "lead512_nop": 4,
+          "lead512": 4
+        }
+      },
+      "invalid_topdown_records": []
+    },
+    "l1_screen": {
+      "absolute": {
+        "Retired L2": {
+          "split75": 2051.607477908189,
+          "extra_nop": 2066.0259988233497,
+          "extra_t1": 2069.966587663179,
+          "extra_it0": 2102.802945726315
+        },
+        "L2 code-read miss": {
+          "split75": 55519.599264916054,
+          "extra_nop": 55757.987787087215,
+          "extra_t1": 55630.04322130639,
+          "extra_it0": 55414.31645005222
+        },
+        "I-cache stall cycles": {
+          "split75": 458747.9589575069,
+          "extra_nop": 463486.38728221756,
+          "extra_t1": 464352.27329009614,
+          "extra_it0": 464960.7275336301
+        },
+        "ITLB walk-active cycles": {
+          "split75": 93721.29177226237,
+          "extra_nop": 95252.27797941022,
+          "extra_t1": 95698.86190816556,
+          "extra_it0": 94458.60743711889
+        },
+        "Unknown-branch bubble cycles": {
+          "split75": 608338.129870869,
+          "extra_nop": 613617.5971074825,
+          "extra_t1": 607342.2879526507,
+          "extra_it0": 610256.6213543268
+        },
+        "Branch mispredictions": {
+          "split75": 19760.746660659595,
+          "extra_nop": 19855.677101676425,
+          "extra_t1": 19838.030567323654,
+          "extra_it0": 19851.759030753477
+        },
+        "DSB uops": {
+          "split75": 1414076.357663279,
+          "extra_nop": 1354725.5037602857,
+          "extra_t1": 1356006.5051229687,
+          "extra_it0": 1363210.9810362651
+        },
+        "MITE uops": {
+          "split75": 1072245.6138730498,
+          "extra_nop": 1074776.234115823,
+          "extra_t1": 1076705.2444638466,
+          "extra_it0": 1072738.6581330514
+        },
+        "Retired L1I": {
+          "split75": 15986.298350291372,
+          "extra_nop": 15966.521305976701,
+          "extra_t1": 15972.702260916456,
+          "extra_it0": 16051.861640653457
+        },
+        "DSB-to-MITE penalty cycles": {
+          "split75": 48213.54214593753,
+          "extra_nop": 47778.93858280315,
+          "extra_t1": 47613.067596468325,
+          "extra_it0": 48100.958090791304
+        },
+        "I-cache stall periods": {
+          "split75": 28658.540435931922,
+          "extra_nop": 28680.10065937462,
+          "extra_t1": 28662.506160112112,
+          "extra_it0": 28955.689245420388
+        },
+        "Late instruction prefetch": {
+          "split75": 0.0,
+          "extra_nop": 0.0,
+          "extra_t1": 0.0,
+          "extra_it0": 25.31928090571338
+        },
+        "Speculative T1/T2 executions": {
+          "split75": 8634.679635489803,
+          "extra_nop": 8613.943448146609,
+          "extra_t1": 9835.834541161763,
+          "extra_it0": 8604.156493638966
+        },
+        "L1D fill-buffer-full cycles": {
+          "split75": 14771.949890007958,
+          "extra_nop": 14387.50770777826,
+          "extra_t1": 14368.499632578434,
+          "extra_it0": 14737.333635284958
+        }
+      },
+      "comparisons": {
+        "extra_nop/split75": {
+          "Retired L2": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.7070806356890946,
+            "ci95_pct": [
+              -2.142107797982762,
+              0.7077853707314952
+            ]
+          },
+          "L2 code-read miss": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.42723317445609865,
+            "ci95_pct": [
+              -1.5815287247402,
+              0.7139458355068129
+            ]
+          },
+          "I-cache stall cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -1.030167577176777,
+            "ci95_pct": [
+              -1.5277155488722105,
+              -0.5350578951916596
+            ]
+          },
+          "ITLB walk-active cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -1.6167609041019437,
+            "ci95_pct": [
+              -9.897081229912285,
+              6.039669288042438
+            ]
+          },
+          "Unknown-branch bubble cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.868404951964119,
+            "ci95_pct": [
+              -1.5940578619670909,
+              -0.14793514180850842
+            ]
+          },
+          "Branch mispredictions": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.48124299261105286,
+            "ci95_pct": [
+              -1.1158902474419863,
+              0.1494209403396174
+            ]
+          },
+          "DSB uops": {
+            "pairs": 4,
+            "cost_reduction_pct": 4.001968404890544,
+            "ci95_pct": [
+              -3.407950506733348,
+              10.880913653389113
+            ]
+          },
+          "MITE uops": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.23637626524302124,
+            "ci95_pct": [
+              -0.6611301294247918,
+              0.18658528998188872
+            ]
+          },
+          "Retired L1I": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.12458296941096902,
+            "ci95_pct": [
+              -0.5558911137874212,
+              0.8004522007923565
+            ]
+          },
+          "DSB-to-MITE penalty cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.8986755370219868,
+            "ci95_pct": [
+              -0.5556612053679189,
+              2.331978204006191
+            ]
+          },
+          "I-cache stall periods": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.07469899473457886,
+            "ci95_pct": [
+              -0.4321466308723654,
+              0.2814764510053691
+            ]
+          },
+          "Speculative T1/T2 executions": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.24077092584364745,
+            "ci95_pct": [
+              -0.44686163162697135,
+              0.9236961333143556
+            ]
+          },
+          "L1D fill-buffer-full cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 2.9859016162832486,
+            "ci95_pct": [
+              -4.906155804289192,
+              10.284242015656208
+            ]
+          }
+        },
+        "extra_t1/split75": {
+          "Retired L2": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.9023431976644458,
+            "ci95_pct": [
+              -2.5687622850407488,
+              0.7370018321439797
+            ]
+          },
+          "L2 code-read miss": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.195359577134524,
+            "ci95_pct": [
+              -1.5777470793299164,
+              1.1682147965836776
+            ]
+          },
+          "I-cache stall cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -1.2233482445159316,
+            "ci95_pct": [
+              -1.5223549011817994,
+              -0.925222231141043
+            ]
+          },
+          "ITLB walk-active cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -2.0896717641440965,
+            "ci95_pct": [
+              -11.032481666889238,
+              6.132863785042342
+            ]
+          },
+          "Unknown-branch bubble cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.164199944928356,
+            "ci95_pct": [
+              -0.7538315138640561,
+              1.0738666423348198
+            ]
+          },
+          "Branch mispredictions": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.3917083683770528,
+            "ci95_pct": [
+              -1.6569147387596184,
+              0.8577514375561757
+            ]
+          },
+          "DSB uops": {
+            "pairs": 4,
+            "cost_reduction_pct": 3.9167747379884266,
+            "ci95_pct": [
+              -3.5115557160645627,
+              10.8120237118831
+            ]
+          },
+          "MITE uops": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.4149575870044053,
+            "ci95_pct": [
+              -1.4283301196805986,
+              0.5882903198520362
+            ]
+          },
+          "Retired L1I": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.08510613064612871,
+            "ci95_pct": [
+              -0.08849823514964772,
+              0.258409378168023
+            ]
+          },
+          "DSB-to-MITE penalty cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 1.2431038994814791,
+            "ci95_pct": [
+              -0.46443590492939446,
+              2.9216215712602023
+            ]
+          },
+          "I-cache stall periods": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.013484973842436965,
+            "ci95_pct": [
+              -0.3733409434725443,
+              0.3450808492441615
+            ]
+          },
+          "Speculative T1/T2 executions": {
+            "pairs": 4,
+            "cost_reduction_pct": -13.910581874415628,
+            "ci95_pct": [
+              -14.522257335938837,
+              -13.302173436080134
+            ]
+          },
+          "L1D fill-buffer-full cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 3.038240572815165,
+            "ci95_pct": [
+              -2.558450767563425,
+              8.329516282155625
+            ]
+          }
+        },
+        "extra_t1/extra_nop": {
+          "Retired L2": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.19389159207356954,
+            "ci95_pct": [
+              -0.5590683627609616,
+              0.1699590518306371
+            ]
+          },
+          "L2 code-read miss": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.23088717073265208,
+            "ci95_pct": [
+              -0.10018710699342126,
+              0.5608664437385502
+            ]
+          },
+          "I-cache stall cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.1912108749018815,
+            "ci95_pct": [
+              -0.965861982780214,
+              0.577496794995036
+            ]
+          },
+          "ITLB walk-active cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.4653866703037801,
+            "ci95_pct": [
+              -2.5250028537527003,
+              1.552854056378039
+            ]
+          },
+          "Unknown-branch bubble cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 1.0237149059551642,
+            "ci95_pct": [
+              0.30590400788576,
+              1.7363574690267947
+            ]
+          },
+          "Branch mispredictions": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.08910580877328211,
+            "ci95_pct": [
+              -0.6916503863380941,
+              0.8638080735551057
+            ]
+          },
+          "DSB uops": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.08874522267439122,
+            "ci95_pct": [
+              -2.279941919804984,
+              2.05550832142547
+            ]
+          },
+          "MITE uops": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.1781601933501964,
+            "ci95_pct": [
+              -1.1166415616856495,
+              0.7516109640337443
+            ]
+          },
+          "Retired L1I": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.03952608153090509,
+            "ci95_pct": [
+              -0.6253619981486436,
+              0.5428991271461792
+            ]
+          },
+          "DSB-to-MITE penalty cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.347551724788675,
+            "ci95_pct": [
+              -0.6591994570047222,
+              1.3442338026401601
+            ]
+          },
+          "I-cache stall periods": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.06116832876544853,
+            "ci95_pct": [
+              -0.3625464415724533,
+              0.48309424247338084
+            ]
+          },
+          "Speculative T1/T2 executions": {
+            "pairs": 4,
+            "cost_reduction_pct": -14.185507377708205,
+            "ci95_pct": [
+              -14.688151055524678,
+              -13.685066635979926
+            ]
+          },
+          "L1D fill-buffer-full cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.053949845851153366,
+            "ci95_pct": [
+              -2.937132846629198,
+              2.958119532054315
+            ]
+          }
+        },
+        "extra_it0/split75": {
+          "Retired L2": {
+            "pairs": 4,
+            "cost_reduction_pct": -2.507874044894476,
+            "ci95_pct": [
+              -3.8259225789502027,
+              -1.2065578633666751
+            ]
+          },
+          "L2 code-read miss": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.1910184503640444,
+            "ci95_pct": [
+              -0.9223683390266579,
+              1.2921222328932336
+            ]
+          },
+          "I-cache stall cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -1.3585493897747325,
+            "ci95_pct": [
+              -2.1514049502866506,
+              -0.5718476353719026
+            ]
+          },
+          "ITLB walk-active cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.7922066804375794,
+            "ci95_pct": [
+              -6.951937217918336,
+              5.0127637537543235
+            ]
+          },
+          "Unknown-branch bubble cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.3153728537296896,
+            "ci95_pct": [
+              -0.7050911266786253,
+              0.0728372498648433
+            ]
+          },
+          "Branch mispredictions": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.46147719379532326,
+            "ci95_pct": [
+              -1.6332621503871492,
+              0.696797619016376
+            ]
+          },
+          "DSB uops": {
+            "pairs": 4,
+            "cost_reduction_pct": 3.45113776914463,
+            "ci95_pct": [
+              -1.963937253964576,
+              8.57863035580021
+            ]
+          },
+          "MITE uops": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.04572314978692482,
+            "ci95_pct": [
+              -0.3368253712286773,
+              0.2445345113150199
+            ]
+          },
+          "Retired L1I": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.40842696115772625,
+            "ci95_pct": [
+              -1.3338322907184397,
+              0.5085273406995938
+            ]
+          },
+          "DSB-to-MITE penalty cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.23291896912051024,
+            "ci95_pct": [
+              -0.805459865413205,
+              1.2606016508322715
+            ]
+          },
+          "I-cache stall periods": {
+            "pairs": 4,
+            "cost_reduction_pct": -1.0364905196428298,
+            "ci95_pct": [
+              -1.4090922685523255,
+              -0.6652578004740395
+            ]
+          },
+          "Speculative T1/T2 executions": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.3542246217657308,
+            "ci95_pct": [
+              -0.46495815153002606,
+              1.1667278479994048
+            ]
+          },
+          "L1D fill-buffer-full cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.30482062980429214,
+            "ci95_pct": [
+              -1.846413152432147,
+              2.410615337235933
+            ]
+          }
+        },
+        "extra_it0/extra_nop": {
+          "Retired L2": {
+            "pairs": 4,
+            "cost_reduction_pct": -1.7881497485959574,
+            "ci95_pct": [
+              -3.161051274678006,
+              -0.4335192519094866
+            ]
+          },
+          "L2 code-read miss": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.6156214856045783,
+            "ci95_pct": [
+              0.4836955628900408,
+              0.7473725178910318
+            ]
+          },
+          "I-cache stall cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.32503342365250987,
+            "ci95_pct": [
+              -1.5565473311557998,
+              0.8915466706774233
+            ]
+          },
+          "ITLB walk-active cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.8114352556883087,
+            "ci95_pct": [
+              -4.7392398232684485,
+              6.0679512985079125
+            ]
+          },
+          "Unknown-branch bubble cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.5482708867041164,
+            "ci95_pct": [
+              -0.25226364517449973,
+              1.3424129889913483
+            ]
+          },
+          "Branch mispredictions": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.019671132867238317,
+            "ci95_pct": [
+              -0.8525943233918865,
+              0.8843924398529879
+            ]
+          },
+          "DSB uops": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.573793677425738,
+            "ci95_pct": [
+              -3.596267186797175,
+              2.3604976380990683
+            ]
+          },
+          "MITE uops": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.19020351948039194,
+            "ci95_pct": [
+              -0.26384085366111254,
+              0.6421917546261091
+            ]
+          },
+          "Retired L1I": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.5336747984796331,
+            "ci95_pct": [
+              -0.8420774301641565,
+              -0.22621534632547569
+            ]
+          },
+          "DSB-to-MITE penalty cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.6717938145722524,
+            "ci95_pct": [
+              -1.8161860987716771,
+              0.45973574366661163
+            ]
+          },
+          "I-cache stall periods": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.9610736125809982,
+            "ci95_pct": [
+              -1.376051447684734,
+              -0.5477944686490765
+            ]
+          },
+          "Speculative T1/T2 executions": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.11372751872184006,
+            "ci95_pct": [
+              -0.23283485718887942,
+              0.45909162980678486
+            ]
+          },
+          "L1D fill-buffer-full cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -2.763599343957779,
+            "ci95_pct": [
+              -10.296779808776236,
+              4.255071014455836
+            ]
+          }
+        },
+        "extra_it0/extra_t1": {
+          "Retired L2": {
+            "pairs": 4,
+            "cost_reduction_pct": -1.5911730058487006,
+            "ci95_pct": [
+              -2.864689781466523,
+              -0.33342301066083824
+            ]
+          },
+          "L2 code-read miss": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.3856246727685253,
+            "ci95_pct": [
+              -0.019557949399562347,
+              0.789165886389398
+            ]
+          },
+          "I-cache stall cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.13356715382721873,
+            "ci95_pct": [
+              -0.6464771951072201,
+              0.37672901841555584
+            ]
+          },
+          "ITLB walk-active cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 1.2709072928591914,
+            "ci95_pct": [
+              -3.3028616719000814,
+              5.642171097505511
+            ]
+          },
+          "Unknown-branch bubble cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.48036155206199194,
+            "ci95_pct": [
+              -1.6329572004026405,
+              0.6591627780255349
+            ]
+          },
+          "Branch mispredictions": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.06949660141479796,
+            "ci95_pct": [
+              -1.1032020233570305,
+              0.9536399475543966
+            ]
+          },
+          "DSB uops": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.4846183790917058,
+            "ci95_pct": [
+              -4.294983034887978,
+              3.186536523870287
+            ]
+          },
+          "MITE uops": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.36770860247344883,
+            "ci95_pct": [
+              -0.5227999390893023,
+              1.25032833211417
+            ]
+          },
+          "Retired L1I": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.4939534764949016,
+            "ci95_pct": [
+              -1.2921828623830844,
+              0.2979854915694302
+            ]
+          },
+          "DSB-to-MITE penalty cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -1.0229006482066483,
+            "ci95_pct": [
+              -2.1905172985353216,
+              0.131374953674801
+            ]
+          },
+          "I-cache stall periods": {
+            "pairs": 4,
+            "cost_reduction_pct": -1.0228676123704261,
+            "ci95_pct": [
+              -1.7102480421410382,
+              -0.3401326521009329
+            ]
+          },
+          "Speculative T1/T2 executions": {
+            "pairs": 4,
+            "cost_reduction_pct": 12.522810665569285,
+            "ci95_pct": [
+              12.231349453068741,
+              12.813303996737913
+            ]
+          },
+          "L1D fill-buffer-full cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -2.8190700737681818,
+            "ci95_pct": [
+              -7.645301120902204,
+              1.7907789680411512
+            ]
+          }
+        }
+      },
+      "populations": {
+        "mongo_user/split75": {
+          "retired_l2_mpki": 1.0946849315242182,
+          "code_read_mpki": 30.849882702959956,
+          "cpu_us_per_request": 488.0475081664042,
+          "whole_cpu_share_pct": 8.365407428187837
+        },
+        "mongo_movie/split75": {
+          "retired_l2_mpki": 1.0957633255316575,
+          "code_read_mpki": 30.621521897707904,
+          "cpu_us_per_request": 487.5631257923924,
+          "whole_cpu_share_pct": 8.35710484321027
+        },
+        "mongo_storage/split75": {
+          "retired_l2_mpki": 3.839514770326928,
+          "code_read_mpki": 87.74373561784067,
+          "cpu_us_per_request": 157.49959395640533,
+          "whole_cpu_share_pct": 2.6996311858440043
+        },
+        "mongo_user/extra_nop": {
+          "retired_l2_mpki": 1.1127731993576118,
+          "code_read_mpki": 31.162998821374053,
+          "cpu_us_per_request": 489.5814551941316,
+          "whole_cpu_share_pct": 8.344738324579902
+        },
+        "mongo_movie/extra_nop": {
+          "retired_l2_mpki": 1.1035643804789212,
+          "code_read_mpki": 31.042637133848846,
+          "cpu_us_per_request": 488.2666433068084,
+          "whole_cpu_share_pct": 8.322327832864262
+        },
+        "mongo_storage/extra_nop": {
+          "retired_l2_mpki": 3.9221926738829107,
+          "code_read_mpki": 87.77084707664298,
+          "cpu_us_per_request": 158.24836725796723,
+          "whole_cpu_share_pct": 2.6972860206400715
+        },
+        "mongo_user/extra_t1": {
+          "retired_l2_mpki": 1.119131908373826,
+          "code_read_mpki": 31.19013206697637,
+          "cpu_us_per_request": 488.6467350621517,
+          "whole_cpu_share_pct": 8.318569697239278
+        },
+        "mongo_movie/extra_t1": {
+          "retired_l2_mpki": 1.1078012599113645,
+          "code_read_mpki": 30.934846321970127,
+          "cpu_us_per_request": 488.4063493388904,
+          "whole_cpu_share_pct": 8.314477445619268
+        },
+        "mongo_storage/extra_t1": {
+          "retired_l2_mpki": 3.89576721623229,
+          "code_read_mpki": 87.3560387251643,
+          "cpu_us_per_request": 158.21621563130714,
+          "whole_cpu_share_pct": 2.693423535911001
+        },
+        "mongo_user/extra_it0": {
+          "retired_l2_mpki": 1.142079194832713,
+          "code_read_mpki": 30.96000498142043,
+          "cpu_us_per_request": 490.3844819859413,
+          "whole_cpu_share_pct": 8.386861892512412
+        },
+        "mongo_movie/extra_it0": {
+          "retired_l2_mpki": 1.116057340672601,
+          "code_read_mpki": 30.704049394053243,
+          "cpu_us_per_request": 489.1430346182609,
+          "whole_cpu_share_pct": 8.365629883747793
+        },
+        "mongo_storage/extra_it0": {
+          "retired_l2_mpki": 3.933871351221609,
+          "code_read_mpki": 87.11454537846262,
+          "cpu_us_per_request": 158.50952778366596,
+          "whole_cpu_share_pct": 2.7109290097949663
+        }
+      },
+      "mongo_topdown": {
+        "split75": {
+          "slots_per_request": 12321122.568734273,
+          "closure_error_pct": 0.4920476123298767,
+          "retiring_slots_per_request": 1672359.3394520201,
+          "bad-spec_slots_per_request": 1281386.5785899954,
+          "fe-bound_slots_per_request": 8222206.158334078,
+          "be-bound_slots_per_request": 1205954.5190190556,
+          "fetch-lat_slots_per_request": 7182377.42164322,
+          "mem-bound_slots_per_request": 550531.7054779263,
+          "fetch-bw_slots_per_request": 1039828.7366908579,
+          "core-bound_slots_per_request": 655422.8135411292,
+          "retiring_pct": 13.548263782506524,
+          "bad-spec_pct": 10.401821822961878,
+          "fe-bound_pct": 66.77401751456028,
+          "be-bound_pct": 9.767944492301183,
+          "fetch-lat_pct": 58.33136617106519,
+          "mem-bound_pct": 4.455996222173913,
+          "fetch-bw_pct": 8.442651343495102,
+          "core-bound_pct": 5.31194827012727,
+          "EXE_STALL_cycles_per_request": 1333941.0895108087,
+          "LOAD_L1D_STALL_cycles_per_request": 429756.1716804975,
+          "LOAD_L3_STALL_cycles_per_request": 1677.1901486163508,
+          "STORE_STALL_cycles_per_request": 12569.71193023733,
+          "memory_window_cycles_per_request": 2056640.355570041
+        },
+        "extra_nop": {
+          "slots_per_request": 12316793.475473376,
+          "closure_error_pct": 0.5752541475802564,
+          "retiring_slots_per_request": 1673192.8353717953,
+          "bad-spec_slots_per_request": 1290495.60703818,
+          "fe-bound_slots_per_request": 8224038.527649631,
+          "be-bound_slots_per_request": 1199881.7996094348,
+          "fetch-lat_slots_per_request": 7179413.362058518,
+          "mem-bound_slots_per_request": 551510.8116613332,
+          "fetch-bw_slots_per_request": 1044625.1655911121,
+          "core-bound_slots_per_request": 648370.9879481017,
+          "retiring_pct": 13.565177662381132,
+          "bad-spec_pct": 10.481176412346485,
+          "fe-bound_pct": 66.80562586652736,
+          "be-bound_pct": 9.723274206325272,
+          "fetch-lat_pct": 58.31938172434493,
+          "mem-bound_pct": 4.465305683887365,
+          "fetch-bw_pct": 8.486244142182437,
+          "core-bound_pct": 5.257968522437906,
+          "EXE_STALL_cycles_per_request": 1339241.371319387,
+          "LOAD_L1D_STALL_cycles_per_request": 427576.65165721613,
+          "LOAD_L3_STALL_cycles_per_request": 1615.5982352705162,
+          "STORE_STALL_cycles_per_request": 12108.312509676787,
+          "memory_window_cycles_per_request": 2058694.400481804
+        },
+        "extra_t1": {
+          "slots_per_request": 12334224.134375682,
+          "closure_error_pct": 0.6126159261541364,
+          "retiring_slots_per_request": 1663611.9811603352,
+          "bad-spec_slots_per_request": 1292063.1002230328,
+          "fe-bound_slots_per_request": 8246990.408832404,
+          "be-bound_slots_per_request": 1206829.8542541105,
+          "fetch-lat_slots_per_request": 7199507.632943202,
+          "mem-bound_slots_per_request": 564211.6651041633,
+          "fetch-bw_slots_per_request": 1047482.7758892016,
+          "core-bound_slots_per_request": 642618.1891499471,
+          "retiring_pct": 13.468466815640424,
+          "bad-spec_pct": 10.479681137474206,
+          "fe-bound_pct": 66.89552215275437,
+          "be-bound_pct": 9.768945820285134,
+          "fetch-lat_pct": 58.39802734937565,
+          "mem-bound_pct": 4.564834159044503,
+          "fetch-bw_pct": 8.49749480337871,
+          "core-bound_pct": 5.204111661240632,
+          "EXE_STALL_cycles_per_request": 1338748.3500237956,
+          "LOAD_L1D_STALL_cycles_per_request": 430297.9670764502,
+          "LOAD_L3_STALL_cycles_per_request": 1661.9202025266848,
+          "STORE_STALL_cycles_per_request": 12108.655936211071,
+          "memory_window_cycles_per_request": 2059593.4768040802
+        },
+        "extra_it0": {
+          "slots_per_request": 12340421.02790124,
+          "closure_error_pct": 0.6767791649821719,
+          "retiring_slots_per_request": 1677439.4780242569,
+          "bad-spec_slots_per_request": 1283082.8258333057,
+          "fe-bound_slots_per_request": 8274406.279344974,
+          "be-bound_slots_per_request": 1189430.70832161,
+          "fetch-lat_slots_per_request": 7225355.579672832,
+          "mem-bound_slots_per_request": 552211.8283338728,
+          "fetch-bw_slots_per_request": 1049050.6996721416,
+          "core-bound_slots_per_request": 637218.8799877374,
+          "retiring_pct": 13.568058368944135,
+          "bad-spec_pct": 10.396792817630478,
+          "fe-bound_pct": 67.09415960385672,
+          "be-bound_pct": 9.61776837455083,
+          "fetch-lat_pct": 58.590895340270706,
+          "mem-bound_pct": 4.46323330814082,
+          "fetch-bw_pct": 8.503264263586019,
+          "core-bound_pct": 5.154535066410009,
+          "EXE_STALL_cycles_per_request": 1341045.8639686564,
+          "LOAD_L1D_STALL_cycles_per_request": 429717.076984991,
+          "LOAD_L3_STALL_cycles_per_request": 1643.3920123197079,
+          "STORE_STALL_cycles_per_request": 12081.933927139364,
+          "memory_window_cycles_per_request": 2061827.91206809
+        }
+      },
+      "e2e": {
+        "extra_nop": {
+          "split75": {
+            "inverse_rps": {
+              "pairs": 4,
+              "cost_reduction_pct": -1.227077116126507,
+              "ci95_pct": [
+                -5.191956799802044,
+                2.5883589086964975
+              ],
+              "speedup": 0.9878779754282659,
+              "speedup_ci95": [
+                0.9506430248304706,
+                1.0265713510182057
+              ]
+            },
+            "mean_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": -1.2542456505386212,
+              "ci95_pct": [
+                -5.32411803342161,
+                2.6583611266860707
+              ],
+              "speedup": 0.9876129080565428,
+              "speedup_ci95": [
+                0.9494501531763869,
+                1.0273095990313643
+              ]
+            },
+            "p99_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": -0.3619199077355528,
+              "ci95_pct": [
+                -1.6633194468788082,
+                0.9228203213468511
+              ],
+              "speedup": 0.9963938522891125,
+              "speedup_ci95": [
+                0.9836389421875219,
+                1.009314156139082
+              ]
+            },
+            "stack_cpu": {
+              "pairs": 4,
+              "cost_reduction_pct": -0.5597277610940532,
+              "ci95_pct": [
+                -2.3104112286760126,
+                1.1609989057394854
+              ],
+              "speedup": 0.9944338775217866,
+              "speedup_ci95": [
+                0.9774176332503252,
+                1.0117463642174234
+              ]
+            }
+          }
+        },
+        "extra_t1": {
+          "split75": {
+            "inverse_rps": {
+              "pairs": 4,
+              "cost_reduction_pct": -0.8392717673233019,
+              "ci95_pct": [
+                -6.312165000366399,
+                4.3518798575022615
+              ],
+              "speedup": 0.9916771337930738,
+              "speedup_ci95": [
+                0.9406261268374636,
+                1.0454988540393557
+              ]
+            },
+            "mean_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": -0.8590131564088166,
+              "ci95_pct": [
+                -6.456605297326412,
+                4.444252130026117
+              ],
+              "speedup": 0.9914830303259393,
+              "speedup_ci95": [
+                0.9393498855304138,
+                1.0465095217095006
+              ]
+            },
+            "p99_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": 0.6955943464429626,
+              "ci95_pct": [
+                -0.3786879512595931,
+                1.7583793584296736
+              ],
+              "speedup": 1.0070046675357958,
+              "speedup_ci95": [
+                0.9962274068431392,
+                1.0178985174200763
+              ]
+            },
+            "stack_cpu": {
+              "pairs": 4,
+              "cost_reduction_pct": -0.6817326204254126,
+              "ci95_pct": [
+                -2.670537060029088,
+                1.2685472023577948
+              ],
+              "speedup": 0.9932288350360877,
+              "speedup_ci95": [
+                0.9739892559589156,
+                1.012848460813777
+              ]
+            }
+          },
+          "extra_nop": {
+            "inverse_rps": {
+              "pairs": 4,
+              "cost_reduction_pct": 0.38310436283595095,
+              "ci95_pct": [
+                -2.3104208830235784,
+                3.0057172012645905
+              ],
+              "speedup": 1.0038457769677078,
+              "speedup_ci95": [
+                0.977417541017985,
+                1.0309886017457492
+              ]
+            },
+            "mean_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": 0.3903367128859636,
+              "ci95_pct": [
+                -2.343661285044263,
+                3.0512989706557136
+              ],
+              "speedup": 1.0039186631096308,
+              "speedup_ci95": [
+                0.9771000836239699,
+                1.0314733352614198
+              ]
+            },
+            "p99_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": 1.0537007015715583,
+              "ci95_pct": [
+                -0.47716664403463227,
+                2.5612437944333877
+              ],
+              "speedup": 1.0106492178994337,
+              "speedup_ci95": [
+                0.9952509942311061,
+                1.0262856782472667
+              ]
+            },
+            "stack_cpu": {
+              "pairs": 4,
+              "cost_reduction_pct": -0.12132576534138462,
+              "ci95_pct": [
+                -1.6970126549975761,
+                1.4299475342848145
+              ],
+              "speedup": 0.9987882125569757,
+              "speedup_ci95": [
+                0.9833130530514734,
+                1.0145069166396374
+              ]
+            }
+          }
+        },
+        "extra_it0": {
+          "split75": {
+            "inverse_rps": {
+              "pairs": 4,
+              "cost_reduction_pct": -1.1748883435720892,
+              "ci95_pct": [
+                -3.1647904490683665,
+                0.7766313799872693
+              ],
+              "speedup": 0.9883875498870591,
+              "speedup_ci95": [
+                0.969322959555365,
+                1.0078271015264708
+              ]
+            },
+            "mean_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": -1.2005051347039775,
+              "ci95_pct": [
+                -3.2328689834667967,
+                0.7918472055690406
+              ],
+              "speedup": 0.9881373602522435,
+              "speedup_ci95": [
+                0.9686837243282994,
+                1.0079816747239496
+              ]
+            },
+            "p99_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": 0.18475716754661198,
+              "ci95_pct": [
+                -0.8069504109301073,
+                1.1667086337989407
+              ],
+              "speedup": 1.0018509915149607,
+              "speedup_ci95": [
+                0.9919950915324722,
+                1.0118048141235731
+              ]
+            },
+            "stack_cpu": {
+              "pairs": 4,
+              "cost_reduction_pct": -0.2218733444305565,
+              "ci95_pct": [
+                -0.4516288961411874,
+                0.007356704467209596
+              ],
+              "speedup": 0.997786178435639,
+              "speedup_ci95": [
+                0.995504016200592,
+                1.0000735724571803
+              ]
+            }
+          },
+          "extra_nop": {
+            "inverse_rps": {
+              "pairs": 4,
+              "cost_reduction_pct": 0.05155613897113165,
+              "ci95_pct": [
+                -2.0098723861650125,
+                2.0713270532815464
+              ],
+              "speedup": 1.0005158273303667,
+              "speedup_ci95": [
+                0.9802972757523261,
+                1.0211513848901896
+              ]
+            },
+            "mean_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": 0.053074827123889,
+              "ci95_pct": [
+                -2.0744515989707057,
+                2.1362574568735027
+              ],
+              "speedup": 1.0005310301145542,
+              "speedup_ci95": [
+                0.979677073288419,
+                1.0218288959870108
+              ]
+            },
+            "p99_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": 0.5447056769985248,
+              "ci95_pct": [
+                -1.1047043699280223,
+                2.167207445820163
+              ],
+              "speedup": 1.005476889699099,
+              "speedup_ci95": [
+                0.9890736600555592,
+                1.0221521576686055
+              ]
+            },
+            "stack_cpu": {
+              "pairs": 4,
+              "cost_reduction_pct": 0.3359738776005483,
+              "ci95_pct": [
+                -1.319356170758046,
+                1.964259561757098
+              ],
+              "speedup": 1.0033710646727028,
+              "speedup_ci95": [
+                0.9869782416645594,
+                1.0200361577622241
+              ]
+            }
+          },
+          "extra_t1": {
+            "inverse_rps": {
+              "pairs": 4,
+              "cost_reduction_pct": -0.3328232843878398,
+              "ci95_pct": [
+                -4.024578253827582,
+                3.2279140449598787
+              ],
+              "speedup": 0.9966828075449998,
+              "speedup_ci95": [
+                0.9613112754563896,
+                1.0333558382368606
+              ]
+            },
+            "mean_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": -0.3385835014720895,
+              "ci95_pct": [
+                -4.11112652357577,
+                3.2972586575360396
+              ],
+              "speedup": 0.996625590180201,
+              "speedup_ci95": [
+                0.9605121310194947,
+                1.034096847842804
+              ]
+            },
+            "p99_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": -0.5144154234994369,
+              "ci95_pct": [
+                -2.4802138532594498,
+                1.4136746202107586
+              ],
+              "speedup": 0.9948821726581999,
+              "speedup_ci95": [
+                0.9757981198515955,
+                1.0143394595017594
+              ]
+            },
+            "stack_cpu": {
+              "pairs": 4,
+              "cost_reduction_pct": 0.4567454929769177,
+              "ci95_pct": [
+                -1.560018348621539,
+                2.433460736131665
+              ],
+              "speedup": 1.004588412296131,
+              "speedup_ci95": [
+                0.9846394440057453,
+                1.024941550192227
+              ]
+            }
+          }
+        }
+      },
+      "invalid_pmu_windows": [],
+      "topdown_valid_trials": {
+        "mongo_user": {
+          "split75": 4,
+          "extra_nop": 4,
+          "extra_t1": 4,
+          "extra_it0": 4
+        },
+        "mongo_movie": {
+          "split75": 4,
+          "extra_nop": 4,
+          "extra_t1": 4,
+          "extra_it0": 4
+        },
+        "mongo_storage": {
+          "split75": 4,
+          "extra_nop": 4,
+          "extra_t1": 4,
+          "extra_it0": 4
+        },
+        "mongo3": {
+          "split75": 4,
+          "extra_nop": 4,
+          "extra_t1": 4,
+          "extra_it0": 4
+        },
+        "pool_u": {
+          "split75": 4,
+          "extra_nop": 4,
+          "extra_t1": 4,
+          "extra_it0": 4
+        },
+        "pool_k": {
+          "split75": 4,
+          "extra_nop": 4,
+          "extra_t1": 4,
+          "extra_it0": 4
+        }
+      },
+      "invalid_topdown_records": []
+    },
+    "latency_screen": {
+      "absolute": {
+        "Retired L2": {
+          "original": 5472.722032711293,
+          "split75": 2058.5211893302626,
+          "extra_t1": 2081.411784389741,
+          "latency_t1": 2063.406089836914
+        },
+        "L2 code-read miss": {
+          "original": 61169.15366228678,
+          "split75": 55580.051263468646,
+          "extra_t1": 55684.62117493419,
+          "latency_t1": 55522.344045553284
+        },
+        "I-cache stall cycles": {
+          "original": 613603.3793744791,
+          "split75": 460052.6917648793,
+          "extra_t1": 466309.45084375987,
+          "latency_t1": 462198.05316978873
+        },
+        "ITLB walk-active cycles": {
+          "original": 192627.7191838635,
+          "split75": 94753.81486133373,
+          "extra_t1": 94085.80656805995,
+          "latency_t1": 95181.72360269095
+        },
+        "Unknown-branch bubble cycles": {
+          "original": 732423.1871524525,
+          "split75": 606831.6409743384,
+          "extra_t1": 610128.0378868975,
+          "latency_t1": 607958.1572753105
+        },
+        "Branch mispredictions": {
+          "original": 19804.511860600505,
+          "split75": 19829.21941827362,
+          "extra_t1": 19848.42410974044,
+          "latency_t1": 19788.764264459638
+        },
+        "DSB uops": {
+          "original": 1382681.6269205147,
+          "split75": 1387341.1600061876,
+          "extra_t1": 1388880.9079357598,
+          "latency_t1": 1393793.350123658
+        },
+        "MITE uops": {
+          "original": 1063082.881161016,
+          "split75": 1069607.146507422,
+          "extra_t1": 1074615.7848549222,
+          "latency_t1": 1074630.8258984692
+        },
+        "Retired L1I": {
+          "original": 14797.271367430438,
+          "split75": 16029.04898582247,
+          "extra_t1": 15979.210013763817,
+          "latency_t1": 16033.15824943737
+        },
+        "DSB-to-MITE penalty cycles": {
+          "original": 49761.15154186986,
+          "split75": 48012.23171087615,
+          "extra_t1": 47640.194088230826,
+          "latency_t1": 48244.82429862071
+        },
+        "I-cache stall periods": {
+          "original": 24380.352054311228,
+          "split75": 28724.73255085422,
+          "extra_t1": 28686.51948915639,
+          "latency_t1": 28780.386788920252
+        },
+        "Late instruction prefetch": {
+          "original": 0.0,
+          "split75": 0.0,
+          "extra_t1": 0.0,
+          "latency_t1": 0.0
+        },
+        "Speculative T1/T2 executions": {
+          "original": 0.0,
+          "split75": 8635.185402677209,
+          "extra_t1": 9849.826113083453,
+          "latency_t1": 9866.002410172066
+        },
+        "L1D fill-buffer-full cycles": {
+          "original": 14733.900800163738,
+          "split75": 15399.410459036386,
+          "extra_t1": 15306.183745758695,
+          "latency_t1": 15456.822493610087
+        },
+        "Frontend gaps >=128 cycles": {
+          "original": 2543.928601572656,
+          "split75": 1073.998862503331,
+          "extra_t1": 1097.935299742519,
+          "latency_t1": 1075.7497567618457
+        }
+      },
+      "comparisons": {
+        "split75/original": {
+          "Retired L2": {
+            "pairs": 4,
+            "cost_reduction_pct": 62.385053580814066,
+            "ci95_pct": [
+              62.02981742860776,
+              62.73696626404318
+            ]
+          },
+          "L2 code-read miss": {
+            "pairs": 4,
+            "cost_reduction_pct": 9.135840954577624,
+            "ci95_pct": [
+              8.414529651550161,
+              9.851471334704376
+            ]
+          },
+          "I-cache stall cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 25.020353891461223,
+            "ci95_pct": [
+              24.093413261195952,
+              25.9359750965099
+            ]
+          },
+          "ITLB walk-active cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 50.812270457304166,
+            "ci95_pct": [
+              48.62322888224124,
+              52.90804219634779
+            ]
+          },
+          "Unknown-branch bubble cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 17.146882519063965,
+            "ci95_pct": [
+              16.779191619548563,
+              17.512948865775602
+            ]
+          },
+          "Branch mispredictions": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.12516423342632255,
+            "ci95_pct": [
+              -1.009101292199266,
+              0.751037436021551
+            ]
+          },
+          "DSB uops": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.322705104504295,
+            "ci95_pct": [
+              -1.8815046002241154,
+              1.2122445680568195
+            ]
+          },
+          "MITE uops": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.6140020470492225,
+            "ci95_pct": [
+              -1.1769072283513982,
+              -0.05422863021602442
+            ]
+          },
+          "Retired L1I": {
+            "pairs": 4,
+            "cost_reduction_pct": -8.323629284833679,
+            "ci95_pct": [
+              -8.712574071093716,
+              -7.936076039966622
+            ]
+          },
+          "DSB-to-MITE penalty cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 3.5141957863701223,
+            "ci95_pct": [
+              3.1313530781337473,
+              3.895525429813018
+            ]
+          },
+          "I-cache stall periods": {
+            "pairs": 4,
+            "cost_reduction_pct": -17.820359915365458,
+            "ci95_pct": [
+              -18.479799284047573,
+              -17.164590879377982
+            ]
+          },
+          "L1D fill-buffer-full cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -4.5227153711640655,
+            "ci95_pct": [
+              -8.13444462940831,
+              -1.0316191663337193
+            ]
+          },
+          "Frontend gaps >=128 cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 57.781623957682484,
+            "ci95_pct": [
+              56.97388705799125,
+              58.57419706835094
+            ]
+          }
+        },
+        "extra_t1/original": {
+          "Retired L2": {
+            "pairs": 4,
+            "cost_reduction_pct": 61.97202895238617,
+            "ci95_pct": [
+              61.23036569977383,
+              62.69950418413621
+            ]
+          },
+          "L2 code-read miss": {
+            "pairs": 4,
+            "cost_reduction_pct": 8.962922061629907,
+            "ci95_pct": [
+              7.994590856567385,
+              9.92106185151993
+            ]
+          },
+          "I-cache stall cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 24.00225070117393,
+            "ci95_pct": [
+              22.966407795321864,
+              25.0241650014022
+            ]
+          },
+          "ITLB walk-active cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 51.1592780493209,
+            "ci95_pct": [
+              50.12093854768188,
+              52.176002290181735
+            ]
+          },
+          "Unknown-branch bubble cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 16.69698868394579,
+            "ci95_pct": [
+              16.216261459099023,
+              17.174957632917874
+            ]
+          },
+          "Branch mispredictions": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.22271076848177085,
+            "ci95_pct": [
+              -1.1082915284952088,
+              0.6551134240865286
+            ]
+          },
+          "DSB uops": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.4334755996634909,
+            "ci95_pct": [
+              -2.8566914700009827,
+              1.9326513728071038
+            ]
+          },
+          "MITE uops": {
+            "pairs": 4,
+            "cost_reduction_pct": -1.0851382851865932,
+            "ci95_pct": [
+              -1.9726953172084505,
+              -0.2053064337402155
+            ]
+          },
+          "Retired L1I": {
+            "pairs": 4,
+            "cost_reduction_pct": -7.989018845653484,
+            "ci95_pct": [
+              -8.579991029973044,
+              -7.4012631666893425
+            ]
+          },
+          "DSB-to-MITE penalty cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 4.263121415792648,
+            "ci95_pct": [
+              3.8824350491653115,
+              4.642300023564361
+            ]
+          },
+          "I-cache stall periods": {
+            "pairs": 4,
+            "cost_reduction_pct": -17.664521785548224,
+            "ci95_pct": [
+              -18.7890470235194,
+              -16.550641948331734
+            ]
+          },
+          "L1D fill-buffer-full cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -3.9828134923220793,
+            "ci95_pct": [
+              -9.1872232525132,
+              0.9735280402401347
+            ]
+          },
+          "Frontend gaps >=128 cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 56.84336600727011,
+            "ci95_pct": [
+              55.890566287493556,
+              57.77558447651594
+            ]
+          }
+        },
+        "extra_t1/split75": {
+          "Retired L2": {
+            "pairs": 4,
+            "cost_reduction_pct": -1.0980332759884748,
+            "ci95_pct": [
+              -3.1932731162535477,
+              0.9546647410001219
+            ]
+          },
+          "L2 code-read miss": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.19030484050512886,
+            "ci95_pct": [
+              -0.8079662477242566,
+              0.42357208788591505
+            ]
+          },
+          "I-cache stall cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -1.3578394179315056,
+            "ci95_pct": [
+              -2.3053702917325003,
+              -0.41908437627153905
+            ]
+          },
+          "ITLB walk-active cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.7054759291451718,
+            "ci95_pct": [
+              -4.933765304974869,
+              6.041658928347471
+            ]
+          },
+          "Unknown-branch bubble cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.5430016984233621,
+            "ci95_pct": [
+              -0.8656274871061909,
+              -0.22140785096882443
+            ]
+          },
+          "Branch mispredictions": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.09742459430881478,
+            "ci95_pct": [
+              -0.6649681437006949,
+              0.46691917579148035
+            ]
+          },
+          "DSB uops": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.11041418295472116,
+            "ci95_pct": [
+              -1.2442145124119008,
+              1.0106890932114143
+            ]
+          },
+          "MITE uops": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.46826110536490884,
+            "ci95_pct": [
+              -0.8380569187369957,
+              -0.0998214163347999
+            ]
+          },
+          "Retired L1I": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.30889884449896154,
+            "ci95_pct": [
+              -0.38329254827420556,
+              0.9963172425628941
+            ]
+          },
+          "DSB-to-MITE penalty cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.7762029197210585,
+            "ci95_pct": [
+              0.14473189304190504,
+              1.4036806101937693
+            ]
+          },
+          "I-cache stall periods": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.1322675723696598,
+            "ci95_pct": [
+              -0.421981068366839,
+              0.6834572059795097
+            ]
+          },
+          "Speculative T1/T2 executions": {
+            "pairs": 4,
+            "cost_reduction_pct": -14.066057170234947,
+            "ci95_pct": [
+              -15.131087173907076,
+              -13.01087931802396
+            ]
+          },
+          "L1D fill-buffer-full cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.5165402342684922,
+            "ci95_pct": [
+              -3.110825830567032,
+              4.016298121569461
+            ]
+          },
+          "Frontend gaps >=128 cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -2.222392328572509,
+            "ci95_pct": [
+              -4.573534710073379,
+              0.07588896801411504
+            ]
+          }
+        },
+        "latency_t1/original": {
+          "Retired L2": {
+            "pairs": 4,
+            "cost_reduction_pct": 62.30148255440149,
+            "ci95_pct": [
+              61.66324891253447,
+              62.929090825832645
+            ]
+          },
+          "L2 code-read miss": {
+            "pairs": 4,
+            "cost_reduction_pct": 9.23388342665229,
+            "ci95_pct": [
+              8.441286751966947,
+              10.019618826572662
+            ]
+          },
+          "I-cache stall cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 24.674422112228534,
+            "ci95_pct": [
+              24.32554973434765,
+              25.021686127767538
+            ]
+          },
+          "ITLB walk-active cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 50.58710863405895,
+            "ci95_pct": [
+              49.3478234714521,
+              51.796072736061575
+            ]
+          },
+          "Unknown-branch bubble cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 16.994504228468088,
+            "ci95_pct": [
+              16.552611984115973,
+              17.434056450438916
+            ]
+          },
+          "Branch mispredictions": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.08033681369807866,
+            "ci95_pct": [
+              -0.866967721079348,
+              1.0187446214112716
+            ]
+          },
+          "DSB uops": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.794135239864735,
+            "ci95_pct": [
+              -3.3551950725475344,
+              1.7034635596114067
+            ]
+          },
+          "MITE uops": {
+            "pairs": 4,
+            "cost_reduction_pct": -1.0862173349696302,
+            "ci95_pct": [
+              -1.9923143533479681,
+              -0.18817005849509627
+            ]
+          },
+          "Retired L1I": {
+            "pairs": 4,
+            "cost_reduction_pct": -8.353845394604509,
+            "ci95_pct": [
+              -9.249843372558718,
+              -7.465195824224313
+            ]
+          },
+          "DSB-to-MITE penalty cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 3.047153243450329,
+            "ci95_pct": [
+              2.509478257242992,
+              3.5818628707117495
+            ]
+          },
+          "I-cache stall periods": {
+            "pairs": 4,
+            "cost_reduction_pct": -18.049103506581798,
+            "ci95_pct": [
+              -19.200483860360194,
+              -16.908844556644496
+            ]
+          },
+          "L1D fill-buffer-full cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -4.880255004576406,
+            "ci95_pct": [
+              -6.732569525556986,
+              -3.060086894947922
+            ]
+          },
+          "Frontend gaps >=128 cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 57.71181145610391,
+            "ci95_pct": [
+              56.82997084188074,
+              58.57563858078218
+            ]
+          }
+        },
+        "latency_t1/split75": {
+          "Retired L2": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.22217505105883717,
+            "ci95_pct": [
+              -2.2577387526938386,
+              1.7728682984350375
+            ]
+          },
+          "L2 code-read miss": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.10790004893531657,
+            "ci95_pct": [
+              -0.7137079171983141,
+              0.9228054552687492
+            ]
+          },
+          "I-cache stall cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.46136758065240535,
+            "ci95_pct": [
+              -1.5577816801192856,
+              0.6232096722664227
+            ]
+          },
+          "ITLB walk-active cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.4577601473753079,
+            "ci95_pct": [
+              -3.303969232153303,
+              2.3100307874082127
+            ]
+          },
+          "Unknown-branch bubble cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.18391376839976825,
+            "ci95_pct": [
+              -1.0265648706729857,
+              0.6517088767436618
+            ]
+          },
+          "Branch mispredictions": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.20524415485132508,
+            "ci95_pct": [
+              -0.32774858860988854,
+              0.7354053659739845
+            ]
+          },
+          "DSB uops": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.4699136998641995,
+            "ci95_pct": [
+              -2.6125935057636163,
+              1.6280242610651863
+            ]
+          },
+          "MITE uops": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.4693335701919432,
+            "ci95_pct": [
+              -0.8129565341164602,
+              -0.12688185196236823
+            ]
+          },
+          "Retired L1I": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.027894292289065703,
+            "ci95_pct": [
+              -1.1114090135529997,
+              1.0440094331174543
+            ]
+          },
+          "DSB-to-MITE penalty cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.48405311716706034,
+            "ci95_pct": [
+              -1.371667810066568,
+              0.39578958322140645
+            ]
+          },
+          "I-cache stall periods": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.19414606387271327,
+            "ci95_pct": [
+              -0.6284708813314888,
+              0.23830415442533948
+            ]
+          },
+          "Speculative T1/T2 executions": {
+            "pairs": 4,
+            "cost_reduction_pct": -14.253857370066058,
+            "ci95_pct": [
+              -14.588829083390564,
+              -13.919864862564912
+            ]
+          },
+          "L1D fill-buffer-full cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.3420688336910116,
+            "ci95_pct": [
+              -4.680235131318855,
+              3.816314844970936
+            ]
+          },
+          "Frontend gaps >=128 cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.16536046177757502,
+            "ci95_pct": [
+              -1.5301411975672252,
+              1.1810747222890994
+            ]
+          }
+        },
+        "latency_t1/extra_t1": {
+          "Retired L2": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.8663454634558643,
+            "ci95_pct": [
+              -0.4024698485672662,
+              2.1191263861014
+            ]
+          },
+          "L2 code-read miss": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.2976384690266731,
+            "ci95_pct": [
+              -1.074742362191028,
+              1.651385276532047
+            ]
+          },
+          "I-cache stall cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.8844622600750918,
+            "ci95_pct": [
+              -0.07769394956169684,
+              1.8373682108858702
+            ]
+          },
+          "ITLB walk-active cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -1.1715007321958737,
+            "ci95_pct": [
+              -5.671861217641827,
+              3.1371980917104136
+            ]
+          },
+          "Unknown-branch bubble cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.35714860702156237,
+            "ci95_pct": [
+              -0.41506640069397527,
+              1.1234251033212739
+            ]
+          },
+          "Branch mispredictions": {
+            "pairs": 4,
+            "cost_reduction_pct": 0.3023741623591536,
+            "ci95_pct": [
+              -0.762913317438918,
+              1.3563991907527106
+            ]
+          },
+          "DSB uops": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.3591030162481301,
+            "ci95_pct": [
+              -1.857630575903002,
+              1.1173782339221283
+            ]
+          },
+          "MITE uops": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.001067466297555164,
+            "ci95_pct": [
+              -0.3143800104057348,
+              0.31126650673949374
+            ]
+          },
+          "Retired L1I": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.3378367104829971,
+            "ci95_pct": [
+              -0.9076369048862887,
+              0.22874596469675268
+            ]
+          },
+          "DSB-to-MITE penalty cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -1.2701147043067573,
+            "ci95_pct": [
+              -1.9683756601916569,
+              -0.5766353128956903
+            ]
+          },
+          "I-cache stall periods": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.32684594744243345,
+            "ci95_pct": [
+              -0.8426422754651997,
+              0.1863121528822287
+            ]
+          },
+          "Speculative T1/T2 executions": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.1646416159987396,
+            "ci95_pct": [
+              -0.8358296125265507,
+              0.5020787887175859
+            ]
+          },
+          "L1D fill-buffer-full cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": -0.8630671570745596,
+            "ci95_pct": [
+              -7.337787721931344,
+              5.221091916971721
+            ]
+          },
+          "Frontend gaps >=128 cycles": {
+            "pairs": 4,
+            "cost_reduction_pct": 2.012310434080866,
+            "ci95_pct": [
+              -1.0569209990018091,
+              4.98832527698152
+            ]
+          }
+        }
+      },
+      "populations": {
+        "mongo_user/original": {
+          "retired_l2_mpki": 3.080618211212184,
+          "code_read_mpki": 34.5685659755994,
+          "cpu_us_per_request": 532.4523996230773,
+          "whole_cpu_share_pct": 8.953315490117433
+        },
+        "mongo_movie/original": {
+          "retired_l2_mpki": 3.0556895727273745,
+          "code_read_mpki": 33.872719182265485,
+          "cpu_us_per_request": 532.3406165342869,
+          "whole_cpu_share_pct": 8.951435830525122
+        },
+        "mongo_storage/original": {
+          "retired_l2_mpki": 8.424959164595247,
+          "code_read_mpki": 95.44308285378119,
+          "cpu_us_per_request": 173.91731599204118,
+          "whole_cpu_share_pct": 2.924461605156605
+        },
+        "mongo_user/split75": {
+          "retired_l2_mpki": 1.1000075850396607,
+          "code_read_mpki": 30.710632428393662,
+          "cpu_us_per_request": 487.7620893771948,
+          "whole_cpu_share_pct": 8.360459517661836
+        },
+        "mongo_movie/split75": {
+          "retired_l2_mpki": 1.080856549766119,
+          "code_read_mpki": 30.465286470112563,
+          "cpu_us_per_request": 487.60913063122587,
+          "whole_cpu_share_pct": 8.357837736610385
+        },
+        "mongo_storage/split75": {
+          "retired_l2_mpki": 3.9050308585771805,
+          "code_read_mpki": 87.48197421613885,
+          "cpu_us_per_request": 158.10571213650374,
+          "whole_cpu_share_pct": 2.7100023446187436
+        },
+        "mongo_user/extra_t1": {
+          "retired_l2_mpki": 1.10178460581834,
+          "code_read_mpki": 30.688226663107493,
+          "cpu_us_per_request": 488.51632716527496,
+          "whole_cpu_share_pct": 8.3730043103735
+        },
+        "mongo_movie/extra_t1": {
+          "retired_l2_mpki": 1.0929173985279064,
+          "code_read_mpki": 30.511090561136633,
+          "cpu_us_per_request": 488.3188768978245,
+          "whole_cpu_share_pct": 8.36962007969683
+        },
+        "mongo_storage/extra_t1": {
+          "retired_l2_mpki": 3.9567752012706734,
+          "code_read_mpki": 87.24655161296461,
+          "cpu_us_per_request": 158.59644747283534,
+          "whole_cpu_share_pct": 2.7182893681477904
+        },
+        "mongo_user/latency_t1": {
+          "retired_l2_mpki": 1.1025707883681548,
+          "code_read_mpki": 30.386414440520944,
+          "cpu_us_per_request": 489.23703442249086,
+          "whole_cpu_share_pct": 8.385187208016081
+        },
+        "mongo_movie/latency_t1": {
+          "retired_l2_mpki": 1.0691701066590105,
+          "code_read_mpki": 30.28145447238457,
+          "cpu_us_per_request": 488.0636364038073,
+          "whole_cpu_share_pct": 8.365075970795884
+        },
+        "mongo_storage/latency_t1": {
+          "retired_l2_mpki": 3.883437413820065,
+          "code_read_mpki": 87.22245183815247,
+          "cpu_us_per_request": 157.38786196083777,
+          "whole_cpu_share_pct": 2.6975200035068077
+        }
+      },
+      "mongo_topdown": {
+        "original": {
+          "slots_per_request": 13594553.713296145,
+          "closure_error_pct": 0.4729804646193103,
+          "retiring_slots_per_request": 1697472.4482440506,
+          "bad-spec_slots_per_request": 1307038.9108542064,
+          "fe-bound_slots_per_request": 9439957.30942224,
+          "be-bound_slots_per_request": 1214185.896087373,
+          "fetch-lat_slots_per_request": 8427613.743786527,
+          "mem-bound_slots_per_request": 564299.8508533807,
+          "fetch-bw_slots_per_request": 1012343.5656357135,
+          "core-bound_slots_per_request": 649886.0452339922,
+          "retiring_pct": 12.462111770554557,
+          "bad-spec_pct": 9.618615015109148,
+          "fe-bound_pct": 69.4765778276566,
+          "be-bound_pct": 8.915675851299007,
+          "fetch-lat_pct": 62.02767493200391,
+          "mem-bound_pct": 4.140618964157117,
+          "fetch-bw_pct": 7.44890289565269,
+          "core-bound_pct": 4.77505688714189,
+          "EXE_STALL_cycles_per_request": 1550361.3153222352,
+          "LOAD_L1D_STALL_cycles_per_request": 451719.63133732637,
+          "LOAD_L3_STALL_cycles_per_request": 1675.769925910647,
+          "STORE_STALL_cycles_per_request": 12298.996651079487,
+          "memory_window_cycles_per_request": 2267450.361287783
+        },
+        "split75": {
+          "slots_per_request": 12350235.901537955,
+          "closure_error_pct": 0.563541293711034,
+          "retiring_slots_per_request": 1715395.0774333538,
+          "bad-spec_slots_per_request": 1280663.007888348,
+          "fe-bound_slots_per_request": 8212955.923375508,
+          "be-bound_slots_per_request": 1210772.1973766144,
+          "fetch-lat_slots_per_request": 7167662.565522272,
+          "mem-bound_slots_per_request": 562833.9699668242,
+          "fetch-bw_slots_per_request": 1045293.3578532354,
+          "core-bound_slots_per_request": 647938.2274097903,
+          "retiring_pct": 13.859683353903662,
+          "bad-spec_pct": 10.372197234868601,
+          "fe-bound_pct": 66.55468279041457,
+          "be-bound_pct": 9.77697791452421,
+          "fetch-lat_pct": 58.08449464371208,
+          "mem-bound_pct": 4.543854717355712,
+          "fetch-bw_pct": 8.470188146702489,
+          "core-bound_pct": 5.2331231971684975,
+          "EXE_STALL_cycles_per_request": 1335142.1650672883,
+          "LOAD_L1D_STALL_cycles_per_request": 427719.9583912438,
+          "LOAD_L3_STALL_cycles_per_request": 1704.1184330446217,
+          "STORE_STALL_cycles_per_request": 12853.200653410026,
+          "memory_window_cycles_per_request": 2061774.4489669306
+        },
+        "extra_t1": {
+          "slots_per_request": 12403113.562461687,
+          "closure_error_pct": 0.6384899280664547,
+          "retiring_slots_per_request": 1704922.0982989543,
+          "bad-spec_slots_per_request": 1292758.4804121018,
+          "fe-bound_slots_per_request": 8261196.777386671,
+          "be-bound_slots_per_request": 1223666.064148079,
+          "fetch-lat_slots_per_request": 7209278.140758788,
+          "mem-bound_slots_per_request": 558894.2524260936,
+          "fetch-bw_slots_per_request": 1051918.6366278823,
+          "core-bound_slots_per_request": 664771.8117219853,
+          "retiring_pct": 13.712345589634692,
+          "bad-spec_pct": 10.42787723213291,
+          "fe-bound_pct": 66.65950294379883,
+          "be-bound_pct": 9.838764162500024,
+          "fetch-lat_pct": 58.173255604997216,
+          "mem-bound_pct": 4.491614900219359,
+          "fetch-bw_pct": 8.486247338801618,
+          "core-bound_pct": 5.347149262280663,
+          "EXE_STALL_cycles_per_request": 1340835.6832443634,
+          "LOAD_L1D_STALL_cycles_per_request": 428651.5101835274,
+          "LOAD_L3_STALL_cycles_per_request": 1720.640631956255,
+          "STORE_STALL_cycles_per_request": 12972.452266267584,
+          "memory_window_cycles_per_request": 2069567.2979564737
+        },
+        "latency_t1": {
+          "slots_per_request": 12379540.724956997,
+          "closure_error_pct": 0.6051629648023416,
+          "retiring_slots_per_request": 1717638.150343312,
+          "bad-spec_slots_per_request": 1288550.8954244712,
+          "fe-bound_slots_per_request": 8219290.261719799,
+          "be-bound_slots_per_request": 1229317.034406493,
+          "fetch-lat_slots_per_request": 7175141.296125319,
+          "mem-bound_slots_per_request": 577068.3776626282,
+          "fetch-bw_slots_per_request": 1044148.9655944798,
+          "core-bound_slots_per_request": 652248.6567438646,
+          "retiring_pct": 13.843016600886038,
+          "bad-spec_pct": 10.410949239122017,
+          "fe-bound_pct": 66.4465575103852,
+          "be-bound_pct": 9.904639614409083,
+          "fetch-lat_pct": 58.0060981663679,
+          "mem-bound_pct": 4.646845586910789,
+          "fetch-bw_pct": 8.440459344017302,
+          "core-bound_pct": 5.257794027498293,
+          "EXE_STALL_cycles_per_request": 1336619.2545029987,
+          "LOAD_L1D_STALL_cycles_per_request": 429953.9306578163,
+          "LOAD_L3_STALL_cycles_per_request": 1727.572346672589,
+          "STORE_STALL_cycles_per_request": 13061.712867989165,
+          "memory_window_cycles_per_request": 2066685.132886679
+        }
+      },
+      "e2e": {
+        "split75": {
+          "original": {
+            "inverse_rps": {
+              "pairs": 4,
+              "cost_reduction_pct": 1.6906849354652809,
+              "ci95_pct": [
+                -0.15509967355908927,
+                3.5024530956616395
+              ],
+              "speedup": 1.017197606700397,
+              "speedup_ci95": [
+                0.9984514051299972,
+                1.0362957733955014
+              ]
+            },
+            "mean_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": 1.7287103961875494,
+              "ci95_pct": [
+                -0.17235243081210605,
+                3.5936950061492667
+              ],
+              "speedup": 1.0175912049506723,
+              "speedup_ci95": [
+                0.9982794411169374,
+                1.0372765557852102
+              ]
+            },
+            "p99_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": 1.749110446121327,
+              "ci95_pct": [
+                0.6306516491065284,
+                2.854980350269465
+              ],
+              "speedup": 1.01780248966766,
+              "speedup_ci95": [
+                1.006346541056902,
+                1.0293888493775953
+              ]
+            },
+            "stack_cpu": {
+              "pairs": 4,
+              "cost_reduction_pct": 1.8951365776703866,
+              "ci95_pct": [
+                0.5946752268038757,
+                3.1785847581764837
+              ],
+              "speedup": 1.0193174579889281,
+              "speedup_ci95": [
+                1.0059823276887903,
+                1.032829356503802
+              ]
+            }
+          }
+        },
+        "extra_t1": {
+          "original": {
+            "inverse_rps": {
+              "pairs": 4,
+              "cost_reduction_pct": 1.811875312053124,
+              "ci95_pct": [
+                -2.2310387415857003,
+                5.694904909402432
+              ],
+              "speedup": 1.0184531002889756,
+              "speedup_ci95": [
+                0.9781765032513735,
+                1.0603880936012144
+              ]
+            },
+            "mean_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": 1.8584329039069147,
+              "ci95_pct": [
+                -2.257720730253321,
+                5.80890006843906
+              ],
+              "speedup": 1.0189362464743126,
+              "speedup_ci95": [
+                0.9779212687889945,
+                1.0616714325733514
+              ]
+            },
+            "p99_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": 1.4173433535599966,
+              "ci95_pct": [
+                0.5659730399040885,
+                2.2614240960989074
+              ],
+              "speedup": 1.0143772079367186,
+              "speedup_ci95": [
+                1.005691945274742,
+                1.0231374774513022
+              ]
+            },
+            "stack_cpu": {
+              "pairs": 4,
+              "cost_reduction_pct": 1.8903580337625514,
+              "ci95_pct": [
+                0.33689464768269506,
+                3.419607359048693
+              ],
+              "speedup": 1.019267810949846,
+              "speedup_ci95": [
+                1.003380334643314,
+                1.035406848797576
+              ]
+            }
+          },
+          "split75": {
+            "inverse_rps": {
+              "pairs": 4,
+              "cost_reduction_pct": 0.12327456102027012,
+              "ci95_pct": [
+                -2.958784571860229,
+                3.1130726154695254
+              ],
+              "speedup": 1.0012342671476107,
+              "speedup_ci95": [
+                0.9712624368657428,
+                1.0321309871156734
+              ]
+            },
+            "mean_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": 0.13200448293936295,
+              "ci95_pct": [
+                -2.9747468137205857,
+                3.145024996878776
+              ],
+              "speedup": 1.001321789650988,
+              "speedup_ci95": [
+                0.9711118802836015,
+                1.0324714863307478
+              ]
+            },
+            "p99_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": -0.3376733727987302,
+              "ci95_pct": [
+                -1.8369951869152912,
+                1.1395742835114242
+              ],
+              "speedup": 0.9966346302296235,
+              "speedup_ci95": [
+                0.9819614160497999,
+                1.011527102733499
+              ]
+            },
+            "stack_cpu": {
+              "pairs": 4,
+              "cost_reduction_pct": -0.004870853229022032,
+              "ci95_pct": [
+                -0.6183046269362391,
+                0.6048230344194772
+              ],
+              "speedup": 0.9999512938401154,
+              "speedup_ci95": [
+                0.9938549488661259,
+                1.0060850340316705
+              ]
+            }
+          }
+        },
+        "latency_t1": {
+          "original": {
+            "inverse_rps": {
+              "pairs": 4,
+              "cost_reduction_pct": 2.0082818557370374,
+              "ci95_pct": [
+                -1.2194429624275749,
+                5.133079734206247
+              ],
+              "speedup": 1.020494403953408,
+              "speedup_ci95": [
+                0.9879524829742421,
+                1.0541082151694672
+              ]
+            },
+            "mean_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": 2.0576415316392316,
+              "ci95_pct": [
+                -1.2326445832700372,
+                5.2409860294196475
+              ],
+              "speedup": 1.0210086990329514,
+              "speedup_ci95": [
+                0.9878236453434138,
+                1.0553085749820783
+              ]
+            },
+            "p99_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": 0.8587237442503226,
+              "ci95_pct": [
+                -0.0893731851110191,
+                1.7978398222099679
+              ],
+              "speedup": 1.0086616168026232,
+              "speedup_ci95": [
+                0.9991070661922747,
+                1.0183075384386155
+              ]
+            },
+            "stack_cpu": {
+              "pairs": 4,
+              "cost_reduction_pct": 1.8885032847149374,
+              "ci95_pct": [
+                0.9021782224917119,
+                2.8650114093817125
+              ],
+              "speedup": 1.0192485421988342,
+              "speedup_ci95": [
+                1.0091039157703916,
+                1.029495153609957
+              ]
+            }
+          },
+          "split75": {
+            "inverse_rps": {
+              "pairs": 4,
+              "cost_reduction_pct": 0.32305882719586565,
+              "ci95_pct": [
+                -2.976387193685426,
+                3.5167879517926326
+              ],
+              "speedup": 1.003241058798502,
+              "speedup_ci95": [
+                0.9710964107908814,
+                1.0364497395674959
+              ]
+            },
+            "mean_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": 0.3347174304700551,
+              "ci95_pct": [
+                -3.0110471864488897,
+                3.571812723296375
+              ],
+              "speedup": 1.0033584155067894,
+              "speedup_ci95": [
+                0.9707696672474465,
+                1.0370411683986855
+              ]
+            },
+            "p99_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": -0.9062378019312867,
+              "ci95_pct": [
+                -1.3489644973651682,
+                -0.4654450870548166
+              ],
+              "speedup": 0.9910190110971123,
+              "speedup_ci95": [
+                0.9866899035026624,
+                0.9953671126758907
+              ]
+            },
+            "stack_cpu": {
+              "pairs": 4,
+              "cost_reduction_pct": -0.006761431313440092,
+              "ci95_pct": [
+                -0.5837575742176915,
+                0.5669247880310313
+              ],
+              "speedup": 0.9999323902582519,
+              "speedup_ci95": [
+                0.9941963037741262,
+                1.005701571502465
+              ]
+            }
+          },
+          "extra_t1": {
+            "inverse_rps": {
+              "pairs": 4,
+              "cost_reduction_pct": 0.20003085333193393,
+              "ci95_pct": [
+                -3.6976426779135707,
+                3.951202896560424
+              ],
+              "speedup": 1.0020043177872928,
+              "speedup_ci95": [
+                0.9643420758425676,
+                1.0411374532083435
+              ]
+            },
+            "mean_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": 0.2029808914068676,
+              "ci95_pct": [
+                -3.7726913160593734,
+                4.026339717570515
+              ],
+              "speedup": 1.002033937418371,
+              "speedup_ci95": [
+                0.9636446615365412,
+                1.0419525493319926
+              ]
+            },
+            "p99_ms": {
+              "pairs": 4,
+              "cost_reduction_pct": -0.5666509995902569,
+              "ci95_pct": [
+                -1.877724343742071,
+                0.7275500270376156
+              ],
+              "speedup": 0.9943654184169605,
+              "speedup_ci95": [
+                0.9815688428865322,
+                1.007328821110346
+              ]
+            },
+            "stack_cpu": {
+              "pairs": 4,
+              "cost_reduction_pct": -0.0018904860016100145,
+              "ci95_pct": [
+                -0.6823071436745431,
+                0.6739278778779778
+              ],
+              "speedup": 0.9999810954973709,
+              "speedup_ci95": [
+                0.9932231673763605,
+                1.006785004817762
+              ]
+            }
+          }
+        }
+      },
+      "invalid_pmu_windows": [],
+      "topdown_valid_trials": {
+        "mongo_user": {
+          "original": 4,
+          "split75": 4,
+          "extra_t1": 4,
+          "latency_t1": 4
+        },
+        "mongo_movie": {
+          "original": 4,
+          "split75": 4,
+          "extra_t1": 4,
+          "latency_t1": 4
+        },
+        "mongo_storage": {
+          "original": 4,
+          "split75": 4,
+          "extra_t1": 4,
+          "latency_t1": 4
+        },
+        "mongo3": {
+          "original": 4,
+          "split75": 4,
+          "extra_t1": 4,
+          "latency_t1": 4
+        },
+        "pool_u": {
+          "original": 4,
+          "split75": 4,
+          "extra_t1": 4,
+          "latency_t1": 4
+        },
+        "pool_k": {
+          "original": 4,
+          "split75": 4,
+          "extra_t1": 4,
+          "latency_t1": 4
+        }
+      },
+      "invalid_topdown_records": []
+    }
+  },
+  "modeled_residual": {
+    "split75/user-review-mongodb": {
+      "main_samples": 27287,
+      "selected_line_pct": 5.174625279437095,
+      "matching_hint_pct": 0.9235166929306996,
+      "matching_age_ge512_pct": 0.22721442445120388,
+      "split_instruction_pct": 34.89940264594862,
+      "added_stub_pct": 11.59892989335581
+    },
+    "split75/movie-review-mongodb": {
+      "main_samples": 27296,
+      "selected_line_pct": 4.832209847596718,
+      "matching_hint_pct": 0.8389507620164126,
+      "matching_age_ge512_pct": 0.23080304806565063,
+      "split_instruction_pct": 35.323856975381005,
+      "added_stub_pct": 11.987104337631887
+    },
+    "lead512/user-review-mongodb": {
+      "main_samples": 36036,
+      "selected_line_pct": 5.516705516705517,
+      "matching_hint_pct": 0.5217005217005217,
+      "matching_age_ge512_pct": 0.4245754245754246,
+      "split_instruction_pct": 28.3993783993784,
+      "added_stub_pct": 8.016983016983017
+    },
+    "lead512/movie-review-mongodb": {
+      "main_samples": 36359,
+      "selected_line_pct": 5.379685909953519,
+      "matching_hint_pct": 0.4593085618416348,
+      "matching_age_ge512_pct": 0.35479523639264005,
+      "split_instruction_pct": 28.518386094227015,
+      "added_stub_pct": 8.176792541048984
+    }
+  },
+  "residual": {
+    "train:user-review-mongodb": {
+      "main_samples": 28011,
+      "within_64B_pct": 88.6865874120881,
+      "prior_mispredicted_pct": 27.524900931776802,
+      "stub_pct": 12.545071579022526,
+      "branch_instruction_pct": 13.341187390667951
+    },
+    "train:movie-review-mongodb": {
+      "main_samples": 26848,
+      "within_64B_pct": 89.55229439809297,
+      "prior_mispredicted_pct": 25.75238379022646,
+      "stub_pct": 12.161054827175208,
+      "branch_instruction_pct": 12.9246126340882
+    },
+    "heldout:user-review-mongodb": {
+      "main_samples": 28524,
+      "within_64B_pct": 89.78404150890478,
+      "prior_mispredicted_pct": 28.61800588977703,
+      "stub_pct": 11.043331931005469,
+      "branch_instruction_pct": 13.174870284672556
+    },
+    "heldout:movie-review-mongodb": {
+      "main_samples": 28205,
+      "within_64B_pct": 89.08349583407197,
+      "prior_mispredicted_pct": 27.51994327246942,
+      "stub_pct": 11.093777698989541,
+      "branch_instruction_pct": 12.462329374224428
+    }
+  },
+  "padding": {
+    "valid": true,
+    "compiled": false,
+    "train_coverage_pct": 2.601214021400317,
+    "reason": "Train-only minimum 5% residual path coverage not reached; no generated ELF or E2E claim.",
+    "selected_hints": 34,
+    "heldout_coverage_pct": 2.228137284281408
+  },
+  "l1_supplement": {
+    "preparation": {
+      "valid": true,
+      "compiled": true,
+      "variants": {
+        "extra_t1": {
+          "binary": "/storage/prefetchit/class_b_split_hybrid_20260929/l1_supplement/build/extra_t1/mongod",
+          "sha256": "4cf69b82850b2189615b35ce5d0e0383687975771a07918dafcea655ee82571d"
+        },
+        "extra_it0": {
+          "binary": "/storage/prefetchit/class_b_split_hybrid_20260929/l1_supplement/build/extra_it0/mongod",
+          "sha256": "56a25052c8ae6b773c7489067f6fc76eee5b579462c683399c2305f30d4e42bc"
+        },
+        "extra_nop": {
+          "binary": "/storage/prefetchit/class_b_split_hybrid_20260929/l1_supplement/build/extra_nop/mongod",
+          "sha256": "79fd326f657f6414158c631d249cf04cb846d4586fbf6745f0a42856ecc5e7b0"
+        }
+      },
+      "new_slots": 256,
+      "train_coverage_pct": 8.523531272370107,
+      "heldout_coverage_pct": 7.392844059103676,
+      "added_hint_instruction_bytes": 1792,
+      "added_code_section_bytes": 1424,
+      "extra_code_section_bytes": 28012,
+      "additional_calls": 0,
+      "additional_jumps": 0,
+      "all_old_t1_preserved": true,
+      "one_new_it0_per_static_32B_region": true
+    },
+    "captures": {
+      "train:user-review-mongodb": {
+        "main_samples": 59833,
+        "within_64B_pct": 93.6657028729965,
+        "prior_mispredicted_pct": 21.105410057994753,
+        "selection_eligible_pct": 52.1267527952802,
+        "split_instruction_excluded_pct": 26.39513312051878
+      },
+      "train:movie-review-mongodb": {
+        "main_samples": 60305,
+        "within_64B_pct": 93.78161014841224,
+        "prior_mispredicted_pct": 21.03142359671669,
+        "selection_eligible_pct": 52.065334549374015,
+        "split_instruction_excluded_pct": 26.583202056214244
+      },
+      "heldout:user-review-mongodb": {
+        "main_samples": 61750,
+        "within_64B_pct": 93.58866396761134,
+        "prior_mispredicted_pct": 21.217813765182186,
+        "selection_eligible_pct": 51.723076923076924,
+        "split_instruction_excluded_pct": 26.824291497975707
+      },
+      "heldout:movie-review-mongodb": {
+        "main_samples": 61085,
+        "within_64B_pct": 93.7595154293198,
+        "prior_mispredicted_pct": 21.486453302774823,
+        "selection_eligible_pct": 52.179749529344356,
+        "split_instruction_excluded_pct": 26.536792993369893
+      }
+    }
+  },
+  "latency_retarget": {
+    "preparation": {
+      "valid": true,
+      "compiled": true,
+      "binary": "/storage/prefetchit/class_b_split_hybrid_20260929/latency_retarget/build/mongod",
+      "sha256": "c517a3d9bc0782456ef6827ed1efce0474c218a4b0ba2e88ef82e19749c98f4a",
+      "modified_displacements": 21,
+      "extra_calls": 0,
+      "extra_hints": 0,
+      "extra_code_bytes": 0,
+      "train_coverage_pct": 11.876703117811516,
+      "train_gain_pp": 6.631984994868528,
+      "heldout_coverage_pct": 10.53125
+    },
+    "train_before": {
+      "samples": 28257,
+      "covered": 1482,
+      "eligible": 9167
+    },
+    "train_after": {
+      "samples": 28257,
+      "covered": 3356,
+      "eligible": 9167
+    },
+    "heldout_before": {
+      "samples": 28800,
+      "covered": 1284,
+      "eligible": 9249
+    },
+    "heldout_after": {
+      "samples": 28800,
+      "covered": 3033,
+      "eligible": 9249
+    },
+    "captures": {
+      "train:user-review-mongodb": {
+        "main_samples": 13832,
+        "within_64B_pct": 99.42163100057837,
+        "prior_mispredicted_pct": 55.335454019664546,
+        "stub_pct": 11.617987275882014,
+        "preceding_branch_classes": {
+          "direct_call": 3385,
+          "direct_jump": 2023,
+          "indirect_call": 4174,
+          "indirect_jump": 1035,
+          "conditional_branch": 2682,
+          "return": 449,
+          "outside_main": 84
+        }
+      },
+      "train:movie-review-mongodb": {
+        "main_samples": 14425,
+        "within_64B_pct": 99.1473136915078,
+        "prior_mispredicted_pct": 58.197573656845755,
+        "stub_pct": 11.500866551126517,
+        "preceding_branch_classes": {
+          "conditional_branch": 2845,
+          "direct_jump": 1892,
+          "return": 426,
+          "indirect_call": 4779,
+          "direct_call": 3389,
+          "indirect_jump": 1017,
+          "outside_main": 77
+        }
+      },
+      "heldout:user-review-mongodb": {
+        "main_samples": 14430,
+        "within_64B_pct": 99.29313929313929,
+        "prior_mispredicted_pct": 56.34095634095634,
+        "stub_pct": 11.905751905751906,
+        "preceding_branch_classes": {
+          "conditional_branch": 2828,
+          "indirect_jump": 956,
+          "indirect_call": 4630,
+          "direct_call": 3541,
+          "direct_jump": 1929,
+          "return": 471,
+          "outside_main": 75
+        }
+      },
+      "heldout:movie-review-mongodb": {
+        "main_samples": 14370,
+        "within_64B_pct": 99.10229645093946,
+        "prior_mispredicted_pct": 57.021572720946416,
+        "stub_pct": 10.974251913709116,
+        "preceding_branch_classes": {
+          "indirect_call": 4800,
+          "direct_jump": 1876,
+          "return": 557,
+          "indirect_jump": 989,
+          "direct_call": 3447,
+          "conditional_branch": 2589,
+          "outside_main": 112
+        }
+      }
+    }
+  },
+  "inputs": {
+    "hybrid_screen/complete.json": "4b6c3f10dc1011f1cb1ef111211fb770b1eff9035c74a982ae79f88013ef6ee2",
+    "hybrid_screen/screen_evaluation.json": "de51efec2edb0d9f8c21792bd56d2b54b581f7dcbd25e2f82e8d1e3a0e372242",
+    "hybrid_screen/topdown.json": "43880514c764025f221f3b38ce80a1db276b6819f9d10779c48aa2e3e67056ac",
+    "lead_screen/complete.json": "4b6c3f10dc1011f1cb1ef111211fb770b1eff9035c74a982ae79f88013ef6ee2",
+    "lead_screen/screen_evaluation.json": "b6feb8ba9159b582a9529c399a2a59a78442174951805b42b154982b11914f92",
+    "lead_screen/topdown.json": "d0c5c90adc011f103cdffc1b5b3a8351e771118f5472e80d7582642185fc1a06",
+    "l1_screen/complete.json": "c80772efae636c64387d1a2452266635adcae6cf63f3cf405ef13c0e3e58a8d2",
+    "l1_screen/screen_evaluation.json": "9283504a7b70ac8a336c356aca5b045e953fb34ed11ac8b76d7fbb6d5552072d",
+    "l1_screen/topdown.json": "e3946ae5c95373f40c1de0313ddec6109d5ef428386763abb0952c2c3ae7358d",
+    "latency_screen/complete.json": "4b6c3f10dc1011f1cb1ef111211fb770b1eff9035c74a982ae79f88013ef6ee2",
+    "latency_screen/screen_evaluation.json": "396e6d58db170d60906de924d2ad274da0b22aa25a533bc49610c1e922e01cf3",
+    "latency_screen/topdown.json": "6a7acf8f1ec80c6e2d4b2fc781e5ec1775dc47d2cdf6cbdc83e1bd01ef52281e",
+    "residual_diagnostics/split75/analysis.json": "85c2b5558ce354ade3c555b188c54c498e4c5c2cbd40f902021ebfbd24f58f84",
+    "residual_diagnostics/lead512/analysis.json": "3df4ee7242adfffa41b8af62725096eeacd86b2de2a7ba41930b80e970d20556",
+    "padding_residual/profile_quality.json": "d2676525591aee78f4666bca48f21d2709d112f9c49cd8443c4362e3e59f6ce2",
+    "padding_residual/selection.json": "cbc36a1e01afa1f3b9ec691064bf823b132922fd928406a980b429f1ed4033cd",
+    "padding_residual/complete.json": "34a8ddcfd7113077a5f254d6af128b8cdced497e7d2ca095901199b9035ad5ff",
+    "l1_supplement/complete.json": "2a9a8afa965bf6562e9134c72ca85a8399066cc7ffe61980e5edcbac42fff0d7",
+    "l1_supplement/profile_quality.json": "804a7606cef1d7e37bb3c43733240ffac96908f87357b2447ced2554954c42fd",
+    "l1_supplement/selection.json": "f86610c99dc3e4158f4240a559d730c353e4c9def8dfa837b6dda5e98c2d8aba",
+    "latency_retarget/complete.json": "43c318992eac1e7af8d727c4dc5bb1ef205200d0f96173d9da41e1793ac0c46c",
+    "latency_retarget/selection.json": "6831c8cb4b4e143bf04e152845b42133907062567664d6edf3e8b1cc2feaf011",
+    "latency_retarget/profile_quality.json": "9eac161ff0bef57f5045eadeb22e42e776b8d015edb9ff9bd3f746c64956db25"
+  },
+  "source_sha256": "7502354738a49aa50759b78f44483054e56040d78eb8a40a72fca300e4eda726",
+  "limitation": "Completed campaigns remain separate. PMU windows follow clean endpoint timing; each has its own request denominator. Different event populations and overlapping stall counts are not an exclusive causal partition. Retired LBR ages do not measure prefetch issue-to-fetch lead. Branch-target association does not establish BTB/FDIP state. Top-down slots are not request critical-path time or an Amdahl bound."
+}

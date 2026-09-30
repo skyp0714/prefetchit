@@ -1,0 +1,83 @@
+{
+  "control": "split75",
+  "n": 4,
+  "rows": [
+    {
+      "block": 0,
+      "rps": 1207.3209850986816,
+      "pool_util_pct": 86.40209021131459,
+      "mean_ms": 3.242619377511481,
+      "p99_ms": 5.766153335571289,
+      "stack_cpu": 5806.829889151171
+    },
+    {
+      "block": 1,
+      "rps": 1179.0391697587613,
+      "pool_util_pct": 84.86588711832425,
+      "mean_ms": 3.3212851950926914,
+      "p99_ms": 5.789518356323242,
+      "stack_cpu": 5840.085082623015
+    },
+    {
+      "block": 2,
+      "rps": 1181.8713830126642,
+      "pool_util_pct": 84.92294373665327,
+      "mean_ms": 3.3134524012713356,
+      "p99_ms": 5.7582855224609375,
+      "stack_cpu": 5838.056335843416
+    },
+    {
+      "block": 3,
+      "rps": 1176.5708347305078,
+      "pool_util_pct": 84.89164567474337,
+      "mean_ms": 3.3289452836266173,
+      "p99_ms": 5.799531936645508,
+      "stack_cpu": 5851.644979885546
+    }
+  ],
+  "summary": {
+    "rps": {
+      "mean": 1186.2005931501537,
+      "sample_sd": 14.245832708614667,
+      "sample_cv_pct": 1.2009632089950721,
+      "minimum": 1176.5708347305078,
+      "maximum": 1207.3209850986816,
+      "full_range_over_mean_pct": 2.5923229633962332
+    },
+    "pool_util_pct": {
+      "mean": 85.27064168525887,
+      "sample_sd": 0.7546597171395178,
+      "sample_cv_pct": 0.8850170495081187,
+      "minimum": 84.86588711832425,
+      "maximum": 86.40209021131459,
+      "full_range_over_mean_pct": 1.8015615487691408
+    },
+    "mean_ms": {
+      "mean": 3.3015755643755313,
+      "sample_sd": 0.03980980741428939,
+      "sample_cv_pct": 1.2057821073018244,
+      "minimum": 3.242619377511481,
+      "maximum": 3.3289452836266173,
+      "full_range_over_mean_pct": 2.61468818241221
+    },
+    "p99_ms": {
+      "mean": 5.778372287750244,
+      "sample_sd": 0.01936273498367498,
+      "sample_cv_pct": 0.33508977994932343,
+      "minimum": 5.7582855224609375,
+      "maximum": 5.799531936645508,
+      "full_range_over_mean_pct": 0.7138067976687813
+    },
+    "stack_cpu": {
+      "mean": 5834.154071875787,
+      "sample_sd": 19.174178618920585,
+      "sample_cv_pct": 0.32865396392858265,
+      "minimum": 5806.829889151171,
+      "maximum": 5851.644979885546,
+      "full_range_over_mean_pct": 0.7681506210199452
+    }
+  },
+  "source_sha256": "36c504fc916d1c723e4db168442264363ca932f39c18751016c6fe5a92e80f4e",
+  "rows_sha256": "f388e7b36b998660887ac6782d44297365236d9970e4969db98ae99bd196436c",
+  "interpretation": "Sample variation across fresh-stack baseline repeats, including workload seed, time and system variation. Small n; not a confidence interval, a pure hardware-noise estimate, or an exclusion rule. Policy comparisons use their prespecified paired blocks, not this descriptive range."
+}

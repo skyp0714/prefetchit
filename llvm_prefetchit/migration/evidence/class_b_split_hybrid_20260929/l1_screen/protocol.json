@@ -1,0 +1,112 @@
+{
+  "arms": {
+    "split75": {
+      "mongo_binary": "/storage/prefetchit/class_b_mechanism_20260928/split_coverage/prepared/build/mongod",
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+      },
+      "shim": "/storage/prefetchit/class_b_mechanism_20260928/hybrid_mapping_debug/hybrid_map.so",
+      "module": "/storage/prefetchit/class_b_lean_20260928/kernel_v1/prefetchit_sched_clock.ko"
+    },
+    "extra_nop": {
+      "mongo_binary": "/storage/prefetchit/class_b_split_hybrid_20260929/l1_supplement/build/extra_nop/mongod",
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+      },
+      "shim": "/storage/prefetchit/class_b_mechanism_20260928/hybrid_mapping_debug/hybrid_map.so",
+      "module": "/storage/prefetchit/class_b_lean_20260928/kernel_v1/prefetchit_sched_clock.ko",
+      "controls": [
+        "split75"
+      ]
+    },
+    "extra_t1": {
+      "mongo_binary": "/storage/prefetchit/class_b_split_hybrid_20260929/l1_supplement/build/extra_t1/mongod",
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+      },
+      "shim": "/storage/prefetchit/class_b_mechanism_20260928/hybrid_mapping_debug/hybrid_map.so",
+      "module": "/storage/prefetchit/class_b_lean_20260928/kernel_v1/prefetchit_sched_clock.ko",
+      "controls": [
+        "split75",
+        "extra_nop"
+      ]
+    },
+    "extra_it0": {
+      "mongo_binary": "/storage/prefetchit/class_b_split_hybrid_20260929/l1_supplement/build/extra_it0/mongod",
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+      },
+      "shim": "/storage/prefetchit/class_b_mechanism_20260928/hybrid_mapping_debug/hybrid_map.so",
+      "module": "/storage/prefetchit/class_b_lean_20260928/kernel_v1/prefetchit_sched_clock.ko",
+      "controls": [
+        "split75",
+        "extra_nop",
+        "extra_t1"
+      ]
+    }
+  },
+  "control": "split75",
+  "blocks": 4,
+  "orders": [
+    [
+      "split75",
+      "extra_nop",
+      "extra_it0",
+      "extra_t1"
+    ],
+    [
+      "extra_nop",
+      "extra_t1",
+      "split75",
+      "extra_it0"
+    ],
+    [
+      "extra_t1",
+      "extra_it0",
+      "extra_nop",
+      "split75"
+    ],
+    [
+      "extra_it0",
+      "split75",
+      "extra_t1",
+      "extra_nop"
+    ]
+  ],
+  "seedbase": 89601,
+  "prepared_sha256": "2a9a8afa965bf6562e9134c72ca85a8399066cc7ffe61980e5edcbac42fff0d7",
+  "selection_sha256": "becbfb49357077e6f16f528531b4628541111deadc79fb2b52259142d6c681d0",
+  "monitored": {
+    "mongo_user": "user-review-mongodb",
+    "mongo_movie": "movie-review-mongodb",
+    "mongo_storage": "review-storage-mongodb"
+  },
+  "source_hashes": {
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/split_l1_supplement.py": "ef957b4269d77c21b88a3ab09a8693275df4191ccdb507c4398f1a2f0e33cd34",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/backend_prefetch.py": "fa022689836a03c6d37d6bcfeb30da4d1869cfddaba343559b344bbf90f8e27c",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/split_lead_study.py": "af940603d44e542d37265f25a1d3859ef0651bcd14124767fdfb88098f77c65b",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/split_hybrid_study.py": "740da02cdde40bbf6a31928294b7918dd5d7749372e79b93446d3cf846cae4c4",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/hybrid_campaign.py": "f6363a2ffbbf6ea56bca3fc1a8ceb1d944f4cd8c9ff27d938ba279fbc8d3653d",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/balanced_backend.py": "65faf913ed06b55e82e7b6ec53a994c5bbbd8fa793be11efdbeaeaf30fb55983",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/balanced_load.py": "a4c7ef2057e9e346188e73d61661eed40dc9a242f03c3f68fda0e775cf909dd4",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/backend_study.py": "a2ec2c6eefe10aab2e72fd935611b854edc5e738433746abf07e80b8cc5ec285"
+  },
+  "binary_hashes": {
+    "/storage/prefetchit/class_b_mechanism_20260928/split_coverage/prepared/build/mongod": "d79cdde377038c5269be0b6c8bbcd1068c4ec4b541abb69775ee0b18b971963b",
+    "/storage/prefetchit/class_b_split_hybrid_20260929/l1_supplement/build/extra_nop/mongod": "79fd326f657f6414158c631d249cf04cb846d4586fbf6745f0a42856ecc5e7b0",
+    "/storage/prefetchit/class_b_split_hybrid_20260929/l1_supplement/build/extra_t1/mongod": "4cf69b82850b2189615b35ce5d0e0383687975771a07918dafcea655ee82571d",
+    "/storage/prefetchit/class_b_split_hybrid_20260929/l1_supplement/build/extra_it0/mongod": "56a25052c8ae6b773c7489067f6fc76eee5b579462c683399c2305f30d4e42bc"
+  },
+  "scope": "Four balanced blocks, fresh full Media compose-review C4 including MovieId. Eight workload CPUs, 50s warmup and 60s clean ROI. Same 25 post-ROI PMU windows; no performance-based retries/exclusions. Do not pool with previous campaigns.",
+  "hypotheses": "Add at most one L1I-trained hint at each selected existing stub, retaining all original split75 T1 hints and original call sites. extra_it0/extra_t1/extra_nop have identical layout and targets; only new-slot bytes differ. Split75 versus incremental NOP measures layout/instruction overhead. No timestamp/epoch gate. The single IT0 at each selected stub is also the only added IT0 in its static 32B region; fetch-queue occupancy is not observed.",
+  "title": "L1I-guided supplement with old T1 retained: fresh full Media C4",
+  "plot_title": "L1I-guided supplement versus split75: full Media C4"
+}

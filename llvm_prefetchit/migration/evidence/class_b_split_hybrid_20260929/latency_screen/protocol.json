@@ -1,0 +1,113 @@
+{
+  "arms": {
+    "original": {
+      "mongo_binary": "/storage/prefetchit/class_b_mechanism_20260928/backend/reference/mongod",
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+      },
+      "shim": "/storage/prefetchit/class_b_mechanism_20260928/hybrid_mapping_debug/hybrid_map.so",
+      "module": "/storage/prefetchit/class_b_lean_20260928/kernel_v1/prefetchit_sched_clock.ko"
+    },
+    "split75": {
+      "mongo_binary": "/storage/prefetchit/class_b_mechanism_20260928/split_coverage/prepared/build/mongod",
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+      },
+      "shim": "/storage/prefetchit/class_b_mechanism_20260928/hybrid_mapping_debug/hybrid_map.so",
+      "module": "/storage/prefetchit/class_b_lean_20260928/kernel_v1/prefetchit_sched_clock.ko",
+      "controls": [
+        "original"
+      ]
+    },
+    "extra_t1": {
+      "mongo_binary": "/storage/prefetchit/class_b_split_hybrid_20260929/l1_supplement/build/extra_t1/mongod",
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+      },
+      "shim": "/storage/prefetchit/class_b_mechanism_20260928/hybrid_mapping_debug/hybrid_map.so",
+      "module": "/storage/prefetchit/class_b_lean_20260928/kernel_v1/prefetchit_sched_clock.ko",
+      "controls": [
+        "original",
+        "split75"
+      ]
+    },
+    "latency_t1": {
+      "mongo_binary": "/storage/prefetchit/class_b_split_hybrid_20260929/latency_retarget/build/mongod",
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService"
+      },
+      "shim": "/storage/prefetchit/class_b_mechanism_20260928/hybrid_mapping_debug/hybrid_map.so",
+      "module": "/storage/prefetchit/class_b_lean_20260928/kernel_v1/prefetchit_sched_clock.ko",
+      "controls": [
+        "original",
+        "split75",
+        "extra_t1"
+      ]
+    }
+  },
+  "control": "split75",
+  "orders": [
+    [
+      "original",
+      "split75",
+      "latency_t1",
+      "extra_t1"
+    ],
+    [
+      "split75",
+      "extra_t1",
+      "original",
+      "latency_t1"
+    ],
+    [
+      "extra_t1",
+      "latency_t1",
+      "split75",
+      "original"
+    ],
+    [
+      "latency_t1",
+      "original",
+      "extra_t1",
+      "split75"
+    ]
+  ],
+  "blocks": 4,
+  "seedbase": 89901,
+  "source_hashes": {
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/split_latency_retarget.py": "d5f0cfcb1d8a9c4a13ad505edfb025bfa6dad6e1e17354f00cbdeb71a6c54fb6",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/backend_prefetch.py": "4dd3f08008dc61b6e1d95d6d4cfcb36bb80907306f970e1e595eb6d8af007ff1",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/split_lead_study.py": "af940603d44e542d37265f25a1d3859ef0651bcd14124767fdfb88098f77c65b",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/split_hybrid_study.py": "740da02cdde40bbf6a31928294b7918dd5d7749372e79b93446d3cf846cae4c4",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/hybrid_campaign.py": "f6363a2ffbbf6ea56bca3fc1a8ceb1d944f4cd8c9ff27d938ba279fbc8d3653d",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/balanced_backend.py": "65faf913ed06b55e82e7b6ec53a994c5bbbd8fa793be11efdbeaeaf30fb55983",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/backend_study.py": "a2ec2c6eefe10aab2e72fd935611b854edc5e738433746abf07e80b8cc5ec285",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/split_l1_continue.py": "faa0533ccf29861e70f9c1f4c5d68ed64c4fb0bb1ea8207307b43ee4c724a6f6",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/balanced_load.py": "a4c7ef2057e9e346188e73d61661eed40dc9a242f03c3f68fda0e775cf909dd4",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/dense_causes.py": "5f7a1cc7273d3a276e231788d208d723f14733a00ed9707467b3034054e5ec7f"
+  },
+  "binary_hashes": {
+    "/storage/prefetchit/class_b_mechanism_20260928/backend/reference/mongod": "3c6655036faf043c338d698ae1dda5ed4e19f23ea54eb8023ad32cf268e821cf",
+    "/storage/prefetchit/class_b_mechanism_20260928/split_coverage/prepared/build/mongod": "d79cdde377038c5269be0b6c8bbcd1068c4ec4b541abb69775ee0b18b971963b",
+    "/storage/prefetchit/class_b_split_hybrid_20260929/l1_supplement/build/extra_t1/mongod": "4cf69b82850b2189615b35ce5d0e0383687975771a07918dafcea655ee82571d",
+    "/storage/prefetchit/class_b_split_hybrid_20260929/latency_retarget/build/mongod": "c517a3d9bc0782456ef6827ed1efce0474c218a4b0ba2e88ef82e19749c98f4a"
+  },
+  "monitored": {
+    "mongo_user": "user-review-mongodb",
+    "mongo_movie": "movie-review-mongodb",
+    "mongo_storage": "review-storage-mongodb"
+  },
+  "selection_sha256": "d4dc30949773847ba673a07e0ffdf9091631050c0950a99e32e1694a58528a4e",
+  "scope": "Four balanced blocks: fresh full Media compose-review C4 including MovieId, eight workload CPUs, 50s warmup, 60s clean ROI. 28 separate post-ROI PMU windows include long frontend stalls. No performance-based retry/exclusion; no pooling with earlier campaigns.",
+  "hypotheses": "Retarget only existing supplemental T1 displacements using long frontend-stall samples, preserving code size, call sites, hint count and every original split75 T1 hint. latency_t1 and extra_t1 have identical layout/opcodes outside the changed displacements and restore to the same recorded incremental-NOP hash. Directly compare the full policy to original and split75; isolate target selection versus extra_t1. Do not infer E2E benefit by multiplying previous ratios.",
+  "title": "Long frontend-stall targets with fixed supplemental slots: fresh full Media C4",
+  "plot_title": "Long frontend-stall targets versus split75: full Media C4"
+}
