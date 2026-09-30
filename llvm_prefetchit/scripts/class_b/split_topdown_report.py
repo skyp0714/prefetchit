@@ -33,10 +33,14 @@ def report(root, partial=False, plot=False):
     for row in json.loads((screen/'rows.json').read_text()):
         path = Path(row['output'])/'result.json'; inputs[str(path)] = b.sha(path)
         result = json.loads(path.read_text()); assert result['valid']
+        quality = {name: value.get('topdown_valid', True)
+            for name, value in result['pmu_extra']['topdown'].items()}
+        quality['mongo3'] = all(quality.values())
         scope_data = {name: ('u', result['pmu_extra']['topdown'][name]['per_request'],
             result['pmu_extra']['memory'][name]['per_request']) for name in MONITORED}
         scope_data['mongo3'] = ('u', aggregate(result['pmu_extra']['topdown']), aggregate(result['pmu_extra']['memory']))
         for p in ['u', 'k']:
+            quality['pool_'+p] = result['pool_pmu']['topdown'][p].get('topdown_valid', True)
             scope_data['pool_'+p] = (p, result['pool_pmu']['topdown'][p]['per_request'],
                 result['pool_pmu']['memory'][p]['per_request'])
         for scope, (privilege, top, mem) in scope_data.items():
@@ -44,18 +48,24 @@ def report(root, partial=False, plot=False):
             values.update({name+'_cycles_per_request': mem[name] for name in
                 ['EXE_STALL', 'LOAD_L1D_STALL', 'LOAD_L3_STALL', 'STORE_STALL']})
             values['memory_window_cycles_per_request'] = mem['cycles:'+privilege]
-            records.append(dict(block=row['block'], arm=row['arm'], scope=scope, valid=True, metrics=values))
+            records.append(dict(block=row['block'], arm=row['arm'], scope=scope,
+                valid=quality[scope], metrics=values))
     absolute = {}; comparisons = {}
     for scope in [*MONITORED, 'mongo3', 'pool_u', 'pool_k']:
         scoped = [row for row in records if row['scope'] == scope]
         comparisons[scope] = summarize(scoped, protocol['arms'])
         absolute[scope] = {}
         for arm in protocol['arms']:
-            matching = [row for row in scoped if row['arm'] == arm]
+            matching = [row for row in scoped if row['arm'] == arm and row['valid']]
             if not matching: continue
             absolute[scope][arm] = {key: statistics.mean(row['metrics'][key] for row in matching)
                 for key in matching[0]['metrics']}
+    invalid = [dict(block=row['block'],arm=row['arm'],scope=row['scope'],
+        closure_error_pct=row['metrics']['closure_error_pct']) for row in records if not row['valid']]
     result = dict(complete=not partial, records=records, absolute=absolute, comparisons=comparisons,
+        invalid_topdown_records=invalid,
+        valid_trials={scope:{arm:sum(row['valid'] and row['scope']==scope and row['arm']==arm
+            for row in records) for arm in protocol['arms']} for scope in absolute},
         max_abs_closure_error_pct=max(abs(row['metrics']['closure_error_pct']) for row in records),
         inputs=inputs, source_sha256=b.sha(__file__), limitation=LIMIT,
         weighting='Each record is normalized by its own completed-request window. Mongo3 sums separately observed request-normalized counters before taking slot ratios. Reported percentages average per-block ratios. CPU-pool and service values overlap; do not add them.')
@@ -64,6 +74,7 @@ def report(root, partial=False, plot=False):
     lines = ['# Split75: frontend versus backend diagnosis', '', LIMIT, '', result['weighting'], '',
         'Clean throughput, mean/p99 latency and whole CPU/request are in report.md. These are separate post-ROI diagnostics.', '',
         f'Maximum absolute raw level-1 closure error: {result["max_abs_closure_error_pct"]:.3f}% of slots. Raw values are retained, without forcing the sum to 100%. Hardware metrics use 8-bit fractions and kernel accounting clamps negative fraction-derived deltas; tiny differences below this precision should not be interpreted.', '',
+        f'Top-down quality exclusions: {len(invalid)} scope/trial records (including aggregate scopes). Raw counters remain in records; invalid windows are excluded only from these top-down averages and paired comparisons, not from clean endpoint metrics or other PMU events. Valid trial counts are recorded in topdown.json.', '',
         '| Scope / policy | Retiring | Bad speculation | Frontend | Fetch latency | Fetch bandwidth | Backend | Memory bound | Core bound |',
         '|---|---:|---:|---:|---:|---:|---:|---:|---:|']
     fields = ['retiring', 'bad-spec', 'fe-bound', 'fetch-lat', 'fetch-bw', 'be-bound', 'mem-bound', 'core-bound']
@@ -109,7 +120,7 @@ def figure(root,data):
             axis.grid(axis='x',alpha=.15)
     axes[0,0].legend(ncol=4,fontsize=8,loc='lower left',bbox_to_anchor=(0,1.12))
     fig.suptitle('Slot fractions and absolute frontend/backend work')
-    fig.supxlabel('Post-ROI diagnostics; four trial means. Scopes overlap and must not be added.\n'
+    fig.supxlabel('Post-ROI diagnostics; valid-window means. Scopes overlap and must not be added.\n'
         'Raw 8-bit metric accounting is not forced to 100%; slots are not request critical-path time.',fontsize=9)
     dest=root/'figures';dest.mkdir(exist_ok=True)
     for extension in ['png','svg']:fig.savefig(dest/('topdown.'+extension),dpi=180)

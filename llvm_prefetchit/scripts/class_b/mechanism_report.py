@@ -23,7 +23,7 @@ def service_costs(accounts):
 def evaluate(root, out):
     protocol=json.loads((root/'protocol.json').read_text())
     rows=json.loads((root/'rows.json').read_text())
-    pmu=[];absolute={};cpu=[]
+    pmu=[];absolute={};cpu=[];invalid_pmu=[]
     for row in rows:
         r=json.loads((Path(row['output'])/'result.json').read_text())
         assert row['valid'] and r['valid']
@@ -33,8 +33,15 @@ def evaluate(root, out):
         if r['pmu']:sets['primary']=r['pmu']
         for label,services in sets.items():
             assert set(services)==set(protocol.get('monitored',b.SERVICES))
+            invalid_group=False
             for service,counts in services.items():
                 assert counts['fully_scheduled'] and counts['window']['completed']>0
+                if label=='topdown' and not counts.get('topdown_valid',True):
+                    invalid_group=True
+                    invalid_pmu.append(dict(block=row['block'],arm=row['arm'],label=label,service=service,
+                        reason=counts.get('topdown_quality_error','topdown quality flag'),
+                        raw_result=str(Path(row['output'])/'result.json')))
+                    continue
                 for event,value in counts['per_request'].items():
                     values[f'{label}:{service}:{event}']=value
                     key=f'{label}:sum:{event}';values[key]=values.get(key,0)+value
@@ -42,6 +49,8 @@ def evaluate(root, out):
                     values[f'{label}:{service}:{event}/ki']=1000*value/counts['counters']['instructions:u']
                 if 'FE_BUBBLES' in counts['counters']:
                     values[f'{label}:{service}:frontend_bound_pct']=100*counts['counters']['FE_BUBBLES']/counts['counters']['SLOTS']
+            if invalid_group:
+                for key in [key for key in values if key.startswith(label+':sum:')]:del values[key]
         pmu.append(dict(block=row['block'],arm=row['arm'],valid=True,metrics=values))
     for arm in protocol['arms']:
         a=[x for x in rows if x['arm']==arm]
@@ -50,7 +59,9 @@ def evaluate(root, out):
         absolute[arm]=dict(trials=len(a),e2e={k:statistics.mean(x['metrics'][k] for x in a) for k in a[0]['metrics']},
             rps=statistics.mean(x['achieved_rps'] for x in a),util_pct=statistics.mean(x['pool_util_pct'] for x in a),
             service_cpu={k:statistics.mean(x['metrics'][k] for x in cpu if x['arm']==arm) for k in cpu[0]['metrics']},
-            pmu={k:statistics.mean(x['metrics'][k] for x in p) for k in p[0]['metrics']})
+            pmu={k:statistics.mean(x['metrics'][k] for x in p if k in x['metrics'])
+                for k in sorted({key for x in p for key in x['metrics']})},
+            pmu_trials={k:sum(k in x['metrics'] for x in p) for k in sorted({key for x in p for key in x['metrics']})})
     e2e=summarize(rows,protocol['arms'])
     for controls in e2e.values():
         for metrics in controls.values():
@@ -58,7 +69,7 @@ def evaluate(root, out):
                 value['speedup']=1/(1-value['cost_reduction_pct']/100)
                 value['speedup_ci95']=[1/(1-x/100) for x in value['ci95_pct']] if value['ci95_pct'] else None
     result=dict(trials=len(rows),complete=(root/'complete.json').exists(),absolute=absolute,e2e=e2e,
-        pmu=summarize(pmu,protocol['arms']),pmu_rows=pmu,service_cpu=summarize(cpu,protocol['arms']),
+        pmu=summarize(pmu,protocol['arms']),pmu_rows=pmu,invalid_pmu_windows=invalid_pmu,service_cpu=summarize(cpu,protocol['arms']),
         interpretation='Individual paired-log t95 intervals, no multiplicity correction. Two-block screens are exploratory. E2E precedes PMU; no E2E inference from code misses. LATE_SWPF zero-control values are retained as absolute counts, not undefined percentage ratios. Service-summed PMU counts combine separate request-normalized windows.')
     b.save(out,result);return result
 
