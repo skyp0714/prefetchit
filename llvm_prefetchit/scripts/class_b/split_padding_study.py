@@ -22,6 +22,8 @@ import split_lead_study as lead
 def profile(spec):
     capture.start_client=balanced_backend.start_client
     capture.profile(spec)
+    validation=json.loads((Path(spec['out'])/'load_validation.json').read_text())
+    assert validation['valid'] and validation['load']['mapping_preserved']
 
 
 def prepare(root):
