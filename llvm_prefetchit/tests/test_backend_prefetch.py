@@ -60,3 +60,23 @@ def test_observed_padding_requires_completed_path_and_retains_missing_history(tm
     code.always_taken.append(0x4008);code.always_taken.sort()
     rows,_=m.observed_rows(tmp_path,code,{0x2050:(0,7),0x4050:(0,7)})
     assert rows[0]['sites']==[]  # Reject a path that skipped an unconditional branch.
+
+
+def test_service_identity_does_not_mix_equal_addresses_from_other_dsos(tmp_path,monkeypatch):
+    code=object.__new__(m.Code)
+    code.sections=[];code.pf_sites=[];code.always_taken=[]
+    code.instructions={0x1008:(4,'mov %rax,%rbx','service_function')}
+    def bias(maps,pattern,sections):
+        assert pattern.search('/custom/UserReviewService')
+        assert not pattern.search('/custom/MovieReviewService')
+        return 0x100000
+    monkeypatch.setattr(m,'mapping_bias',bias)
+    (tmp_path/'maps.txt').write_text('fixture')
+    (tmp_path/'samples.txt').write_text(
+        '1 101008 (/custom/UserReviewService)\n'
+        '1 101008 (UserReviewService)\n'
+        '1 101008 (/custom/MovieReviewService)\n'
+        '1 101008 (/usr/lib/libc.so.6)\n')
+    rows,quality=m.observed_rows(tmp_path,code,{},main='/custom/UserReviewService')
+    assert quality['all_samples']==4 and quality['main_samples']==2
+    assert [row['ip'] for row in rows]==[0x1008,0x1008]

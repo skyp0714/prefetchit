@@ -194,3 +194,63 @@ def test_unwind_header_rejects_unsupported_and_unsorted():
     raw=bytes.fromhex('011b033b')+struct.pack('<iIiiii',0,2,100,120,50,80)
     with pytest.raises(AssertionError,match='Unsorted'):
         m.decode_eh_header(raw,0)
+
+
+def test_dlopen_library_without_phdr_preserves_calls_and_exception_unwind(tmp_path):
+    library=tmp_path/'library.cc';assembly=tmp_path/'library.s';client=tmp_path/'client.cc'
+    library.write_text(r'''
+extern "C" __attribute__((visibility("hidden"),noinline)) long leaf(long x) {
+  if(x<0)throw x;return x+13;
+}
+''')
+    assembly.write_text(r'''
+.text
+.global entry,call_site
+.type entry,@function
+.hidden leaf
+entry:
+.cfi_startproc
+sub $8,%rsp
+.cfi_adjust_cfa_offset 8
+call_site:
+call leaf
+add $8,%rsp
+.cfi_adjust_cfa_offset -8
+ret
+.cfi_endproc
+.size entry,.-entry
+.section .note.GNU-stack,"",@progbits
+''')
+    client.write_text(r'''
+#include <dlfcn.h>
+#include <stdint.h>
+#include <string.h>
+#include <sys/auxv.h>
+#include <elf.h>
+struct bases { void *tbase,*dbase,*func; };
+extern "C" void *_Unwind_Find_FDE(void *,struct bases *);
+int main(int argc,char **argv) {
+  auto old=getauxval(AT_PHDR);
+  for(int i=0;i<3;i++) {
+    void *h=dlopen(argv[1],RTLD_NOW|RTLD_LOCAL);if(!h)return 1;
+    auto fn=(long(*)(long))dlsym(h,"entry");
+    if(!fn||fn(4)!=17)return 2;
+    bool caught=false;try{fn(-9);}catch(long x){caught=x==-9;}
+    if(!caught)return 3;
+    auto site=(char *)dlsym(h,"call_site");int32_t offset;memcpy(&offset,site+1,4);
+    struct bases b={};if(!_Unwind_Find_FDE(site+5+offset,&b))return 4;
+    if(getauxval(AT_PHDR)!=old)return 5;
+    if(dlclose(h))return 6;
+  }
+}
+''')
+    base=tmp_path/'libbase.so';runner=tmp_path/'runner'
+    subprocess.run(['clang++-19','-O2','-fPIC','-shared',str(library),str(assembly),'-o',str(base)],check=True)
+    subprocess.run(['clang++-19','-O2',str(client),'-ldl','-o',str(runner)],check=True)
+    raw=base.read_bytes();elf=m.Elf(raw);assert not any(p[0]==6 for p in elf.ph)
+    symbols={r[2]:int(r[0],16) for line in subprocess.check_output(['nm',base],text=True).splitlines() if len(r:=line.split())==3}
+    site=symbols['call_site'];off=elf.offset(site,5,True)
+    plan=dict(sha256=m.sha(raw),calls=[dict(site=site,callee=symbols['leaf'],expected=raw[off:off+5].hex(),targets=[symbols['leaf']])])
+    output=tmp_path/'libpatched.so';record=m.build(base,plan,output)
+    for path in [base,output,Path(str(output)+'.nop')]:subprocess.run([str(runner),str(path)],check=True)
+    assert record['original_return_addresses_preserved'] and record['added_fdes']==1

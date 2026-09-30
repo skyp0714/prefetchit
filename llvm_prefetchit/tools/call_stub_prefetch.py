@@ -145,7 +145,12 @@ def build(binary, plan, output, boundaries=None, hybrid=None):
             index = bisect.bisect_left(patch_bytes, va)
             assert index == len(patch_bytes) or patch_bytes[index] >= va + 8, 'Runtime relocation overlaps call patch'
     ph = [list(p) for p in elf.ph]
-    assert sum(p[0] == 6 for p in ph) == 1, 'An existing PT_PHDR is required'
+    phdr_count = sum(p[0] == 6 for p in ph)
+    # dlopen DSOs normally omit PT_PHDR. Their relocated table remains inside
+    # the appended LOAD and is discovered by the dynamic loader. Keep the
+    # executable/hybrid requirement: those paths depend on AT_PHDR explicitly.
+    is_dso = struct.unpack_from('<H', original, 16)[0] == 3 and not any(p[0] == 3 for p in ph)
+    assert phdr_count == 1 or (phdr_count == 0 and is_dso and hybrid is None), 'An existing PT_PHDR is required except for ordinary shared-library stubs'
     count = len(ph) + (2 if hybrid is not None else 1)
     rxoff = align(len(original))
     rxva = align(max(p[3] + p[6] for p in ph if p[0] == 1))

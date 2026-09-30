@@ -186,10 +186,12 @@ def profile(spec):
         raise
     b.save(out/'complete.json',dict(captures=list(map(str,captures)),valid=True))
 
-def observed_rows(folder,code,slots,minimum=64,maximum=8192):
-    main='/usr/bin/mongod';pattern=re.compile(r'(?:^|/)mongod$')
+def observed_rows(folder,code,slots,minimum=64,maximum=8192,main='/usr/bin/mongod'):
+    # Each caller supplies its own executable identity; never join equal VAs
+    # from different service address spaces. Preserve the MongoDB default.
+    basename=Path(main).name;pattern=re.compile(r'(?:^|/)'+re.escape(basename)+r'$')
     bias=mapping_bias((folder/'maps.txt').read_text(),pattern,code.sections);assert bias is not None
-    def ismain(dso):return dso[1:-1] in (main,'mongod')
+    def ismain(dso):return dso[1:-1] in (main,basename)
     old_sites=code.pf_sites;code.pf_sites=sorted(slots);rows=[];quality=collections.Counter()
     classes=collections.Counter();predecessors=collections.Counter();functions=collections.Counter()
     try:
