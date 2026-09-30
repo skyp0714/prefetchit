@@ -80,13 +80,15 @@ def patch(binary,audit,targets,out,code):
         extra_instruction_bytes=record['extra_instruction_bytes'],additional_instruction_bytes=0)
 
 
-def prepare(parent,root):
+def prepare(parent,root,cost_aware=False):
     assert json.loads((root/'residual_diagnostics/complete.json').read_text())['valid']
-    out=root/'residual_retarget';out.mkdir(exist_ok=False);b.space(out)
+    out=root/('residual_retarget_cost' if cost_aware else 'residual_retarget');out.mkdir(exist_ok=False);b.space(out)
     initial=json.loads((root/'prepared_complete.json').read_text());binary=Path(initial['arms']['split75']['mongo_binary'])
-    b.save(root/'followup_amendment.json',dict(before_any_followup_timing=True,
-        replaced_candidate='lead_swap',replacement='residual_t1',
-        reason='Coverage-preserving timing swaps changed only 0.4 percentage points of original heldout early coverage. Fresh split75 residual diagnostics place about 95% of modeled remaining misses outside selected target lines. Test targeted residual coverage, retaining the independent stronger lead512 arm and its NOP.',
+    b.save(root/('followup_cost_amendment.json' if cost_aware else 'followup_amendment.json'),dict(before_any_followup_timing=True,
+        replaced_candidate='residual_retarget' if cost_aware else 'lead_swap',
+        replacement='residual_retarget_cost' if cost_aware else 'residual_t1',
+        reason=('Refine train-only selection by new residual coverage per original-coverage cost under the identical one-percentage-point loss constraint. Require at least 25% greater incremental residual-train coverage before replacing the prior candidate; heldout and E2E do not choose.' if cost_aware else
+            'Coverage-preserving timing swaps changed only 0.4 percentage points of original heldout early coverage. Fresh split75 residual diagnostics place about 95% of modeled remaining misses outside selected target lines. Test targeted residual coverage, retaining the independent stronger lead512 arm and its NOP.'),
         scope_correction='Residual PEBS captures cover the two review MongoDBs, as explicit analysis records show. The diagnostic protocol prose incorrectly said Mongo3. Full endpoint load includes MovieId; the E2E PMU screen still covers all three MongoDBs.'))
     unused=root/'lead_swap/mongod'
     if unused.exists():
@@ -103,7 +105,8 @@ def prepare(parent,root):
     original={line:set(slots) for line,slots in assignments.items()}
     b.save(out/'protocol.json',dict(base=str(binary),base_sha256=audit['sha256'],source_sha256=b.sha(__file__),
         maximum_changed_slots=203,original_training_coverage_loss_limit_pp=1.0,minimum_new_residual_samples=8,
-        rule='Use the first half of retained split75 residual observations per review MongoDB to select target replacements. At most 10% of hint slots, no extra instructions, fixed slot count at every call, no duplicate target line at a call. Preserve original train coverage within 1 percentage point. Never lose currently covered residual-train samples. Greedy largest new residual-sample coverage; each slot changes at most once. Only ages 64..8192 qualify.',
+        cost_aware=cost_aware,priority='new residual sample gain / (1 + max(0, net lost original coverage)); fully recompute all priorities after every change' if cost_aware else 'largest new residual sample gain',
+        rule='Use the first half of retained split75 residual observations per review MongoDB to select target replacements. At most 10% of hint slots, no extra instructions, fixed slot count at every call, no duplicate target line at a call. Preserve original train coverage within 1 percentage point. Never lose currently covered residual-train samples. Greedy selection uses the recorded priority; each slot changes at most once. Only ages 64..8192 qualify.',
         validation='Second residual halves are a within-capture check, not independent heldout: aggregate residual diagnostics were already inspected. Original heldout is evaluated after choices freeze. Fresh E2E seeds and PMU provide separate validation.',
         limitation='Residual miss counts do not prove a missing fetch address; split continuation lines use the calibrated model. Retired age is not issue lead. Per-target dynamic frequency changes although total hint slots/executions and code layout are fixed.'))
     code=Code(binary);old_rows,old_inputs=original_rows(parent,'train',code)
@@ -126,21 +129,37 @@ def prepare(parent,root):
             assert slot in targets
             gain=(bits&~already).bit_count()
             if gain>=8:heap.append((-gain,slot,line))
-    heapq.heapify(heap);changes=[];changed=set();current_old=old_count
-    while heap and len(changed)<203:
-        _,slot,line=heapq.heappop(heap)
-        if slot in changed or line==targets[slot]//64:continue
-        if any(targets[s]//64==line for s in slot_groups[slot]):continue
+    heapq.heapify(heap);candidates=[(slot,line) for _,slot,line in heap]
+    changes=[];changed=set();current_old=old_count
+    def proposal(slot,line):
+        if slot in changed or line==targets[slot]//64:return None
+        if any(targets[s]//64==line for s in slot_groups[slot]):return None
         previous=targets[slot]//64
         before=union(residual,previous,assignments[previous])
         after=union(residual,previous,assignments[previous]-{slot})
-        if before&~after:continue
+        if before&~after:return None
         gain=(residual[line][slot]&~union(residual,line,assignments[line])).bit_count()
-        if gain<8:continue
-        if heap and (-gain,slot,line)>heap[0]:heapq.heappush(heap,(-gain,slot,line));continue
+        if gain<8:return None
         lost=(union(old_masks,previous,assignments[previous])&~union(old_masks,previous,assignments[previous]-{slot})).bit_count()
         added=(old_masks.get(line,{}).get(slot,0)&~union(old_masks,line,assignments[line])).bit_count()
-        if current_old-lost+added<minimum:continue
+        if current_old-lost+added<minimum:return None
+        return gain,lost,added
+    while heap and len(changed)<203:
+        if cost_aware:
+            best=None
+            for candidate_slot,candidate_line in candidates:
+                values=proposal(candidate_slot,candidate_line)
+                if values is None:continue
+                g,l,a=values;key=(-g/(1+max(0,l-a)),-g,candidate_slot,candidate_line)
+                if best is None or key<best[0]:best=(key,candidate_slot,candidate_line,values)
+            if best is None:break
+            _,slot,line,(gain,lost,added)=best
+        else:
+            _,slot,line=heapq.heappop(heap);values=proposal(slot,line)
+            if values is None:continue
+            gain,lost,added=values
+            if heap and (-gain,slot,line)>heap[0]:heapq.heappush(heap,(-gain,slot,line));continue
+        previous=targets[slot]//64
         changes.append(dict(slot=slot,previous=targets[slot],target=anchors[line],residual_gain=gain,original_lost=lost,original_added=added))
         assignments[previous].remove(slot);assignments[line].add(slot);targets[slot]=anchors[line]
         current_old+=added-lost;changed.add(slot)
@@ -149,6 +168,12 @@ def prepare(parent,root):
         original_train_after=current_old,residual_train_samples=len(training),residual_train_before=residual_before,
         residual_train_after=coverage(residual,assignments),inputs=inputs,original_inputs=old_inputs)
     b.save(out/'selection_frozen.json',frozen)
+    if cost_aware:
+        prior=json.loads((root/'residual_retarget/selection_frozen.json').read_text())
+        required=1.25*(prior['residual_train_after']-prior['residual_train_before'])
+        if frozen['residual_train_after']-frozen['residual_train_before']<required:
+            b.save(out/'complete.json',dict(valid=True,compiled=False,reason='Prespecified train-only improvement threshold not reached; no ELF generated. Prior candidate retained.'))
+            return
     check_masks=mask_rows(validation)
     heldout,heldout_inputs=original_rows(parent,'heldout',code);heldout_masks=mask_rows(heldout,site_slots)
     selected=dict(frozen,residual_check_samples=len(validation),residual_check_before=coverage(check_masks,original),
@@ -158,8 +183,15 @@ def prepare(parent,root):
     b.save(out/'selection.json',selected)
     result=patch(binary,audit,targets,out,code)
     b.save(out/'complete.json',dict(result,valid=True));print(json.dumps(dict(result,selection={k:v for k,v in selected.items() if isinstance(v,int)})),flush=True)
+    b.save(root/'residual_choice.json',dict(selected=str(out),selection_sha256=b.sha(out/'selection_frozen.json'),
+        rule='Train-only cost-aware replacement if incremental residual coverage improves by at least 25% under the same original-coverage constraint. No heldout/E2E selection.'))
+    if cost_aware:
+        unused=root/'residual_retarget/mongod'
+        remove_generated([unused],root/'residual_retarget/superseded_cleanup.json',
+            'Superseded before E2E by greater train-only residual coverage under the same code and original-coverage constraints. Measurements, selection, source, patches and hashes retained.')
 
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('parent',type=Path);parser.add_argument('root',type=Path)
-    args=parser.parse_args();prepare(args.parent,args.root)
+    parser.add_argument('--cost-aware',action='store_true')
+    args=parser.parse_args();prepare(args.parent,args.root,args.cost_aware)

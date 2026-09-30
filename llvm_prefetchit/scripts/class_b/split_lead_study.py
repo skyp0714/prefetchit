@@ -27,7 +27,9 @@ def trial(spec):
 def prepare(root):
     assert (root/'hybrid_screen/complete.json').exists()
     initial = json.loads((root/'prepared_complete.json').read_text())
-    residual = json.loads((root/'residual_retarget/complete.json').read_text()); assert residual['valid']
+    choice = root/'residual_choice.json'
+    residual_root = Path(json.loads(choice.read_text())['selected']) if choice.exists() else root/'residual_retarget'
+    residual = json.loads((residual_root/'complete.json').read_text()); assert residual['valid']
     lead = json.loads((root/'lead512/prepared.json').read_text())
     source = initial['arms']['split75']; base = json.loads(Path(source['mongo_binary']+'.json').read_text())
     assert lead['extra_instruction_bytes'] <= base['extra_instruction_bytes']
@@ -45,7 +47,8 @@ def prepare(root):
         binary_hashes={v['mongo_binary']:b.sha(v['mongo_binary']) for v in arms.values()},
         scope='Fresh full Media compose-review C4 including MovieId. 8 workload CPUs, 50s warmup, 60s clean ROI; all PMU follows. Four balanced blocks; no performance-based exclusions or retries. Compare within this campaign only.',
         hypotheses='residual_t1 replaces target displacements using first-half residual observations, with fixed code addresses, per-site hint counts and exact NOP. It changes target coverage rather than layout or total hint emission. lead512 selects >=512 accumulated retired LBR cycles under split75 site/hint budgets; different paths/coverage/emission may confound timing, so its own NOP is included. Neither measures instruction-fetch issue lead directly.',
-        selection_sha256=b.sha(root/'residual_retarget/selection_frozen.json'),
+        residual_selection=str(residual_root/'selection_frozen.json'),
+        selection_sha256=b.sha(residual_root/'selection_frozen.json'),
         limitation=study.LIMIT)
     stage = root/'lead_screen'; stage.mkdir(exist_ok=False); (stage/'screen').mkdir(); b.space(root)
     protocol['additional_events'] = dict(l1=L1_EVENTS)
