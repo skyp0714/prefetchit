@@ -173,7 +173,7 @@ def report(root):
         prepared=read(root/'latency_retarget/complete.json');assert prepared['valid']
         selected=read(root/'latency_retarget/selection.json')
         latency=dict(preparation=prepared,train_before=selected['train_before'],train_after=selected['train_after'],
-            heldout_before=selected['heldout_before'],heldout_after=selected['heldout_after'])
+            heldout_before=selected['heldout_before'],heldout_after=selected['heldout_after'],captures={})
         lines += ['', '## Long frontend-stall retargeting', '',
             'The training event selects retired instructions after frontend delivery gaps of '
             'at least 128 cycles, not interrupted by a backend stall. It can include branch '
@@ -187,6 +187,20 @@ def report(root):
         lines += ['', f'Changed displacements: {len(selected["changed_choices"])}. '
             f'Compiled: {prepared["compiled"]}. Frozen train-only thresholds: coverage >=5% '
             'and improvement >=1.5 percentage points. No endpoint improvement is inferred from modeled coverage.']
+        quality=read(root/'latency_retarget/profile_quality.json')
+        lines += ['', 'Both captures used the existing extra_t1 binary. Denominator: all main-image '
+            'long-stall samples. Association with the preceding taken branch does not prove BTB '
+            'absence, FDIP failure, or that branch recovery exclusively caused the entire interval.', '',
+            '| Capture / service | Main samples | Within 64 B of taken target | Prior taken branch mispredicted | Added stub |',
+            '|---|---:|---:|---:|---:|']
+        for key,value in quality['records'].items():
+            n=value['main_samples'];stub=sum(row['samples'] for row in value['top_functions'] if row['name']=='.text.prefetch_calls')
+            item=dict(main_samples=n,within_64B_pct=100*value['within_64B_of_target']/n,
+                prior_mispredicted_pct=100*value['nearest_branch_mispredicted']/n,stub_pct=100*stub/n,
+                preceding_branch_classes=value['preceding_branch_classes'])
+            latency['captures'][key]=item
+            lines.append('| '+key+f' | {n:,} | '+' | '.join(f'{item[name]:.3f}%' for name in
+                ['within_64B_pct','prior_mispredicted_pct','stub_pct'])+' |')
     result = dict(complete=True, stages=summaries, modeled_residual=modeled, residual=residual, padding=padding, l1_supplement=l1, latency_retarget=latency,
         inputs=inputs, source_sha256=b.sha(__file__), limitation=LIMIT)
     b.save(out/'summary.json', result)
