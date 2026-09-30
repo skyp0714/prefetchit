@@ -132,12 +132,13 @@ def profile(spec):
     out=Path(spec['out']);out.mkdir(parents=True,exist_ok=False);b.space(out)
     services=spec.get('services',BACKENDS)
     assert services and len(set(services))==len(services) and all(s.endswith('-mongodb') for s in services)
-    kind=spec.get('capture_kind','miss');assert kind in ('miss','calls')
-    period=257 if kind=='miss' else 4093
-    event=('cpu/event=0xc6,umask=0x3,config1=0x13,period=257,name=fe_l2/upp' if kind=='miss' else
-           'cpu/event=0xc4,umask=0x2,period=4093,name=near_calls/upp')
+    kind=spec.get('capture_kind','miss');assert kind in ('miss','l1','calls')
+    period={'miss':257,'l1':1021,'calls':4093}[kind]
+    event={'miss':'cpu/event=0xc6,umask=0x3,config1=0x13,period=257,name=fe_l2/upp',
+           'l1':'cpu/event=0xc6,umask=0x3,config1=0x12,period=1021,name=fe_l1i/upp',
+           'calls':'cpu/event=0xc4,umask=0x2,period=4093,name=near_calls/upp'}[kind]
     b.save(out/'protocol.json',dict(spec,source_sha256=b.sha(__file__),sampling_period=period,event=event,
-        scope='Selected MongoDB ELF in full Media C4; '+('retired L2 miss' if kind=='miss' else 'retired near-call')+
+        scope='Selected MongoDB ELF in full Media C4; '+{'miss':'retired L2 miss','l1':'retired L1I miss','calls':'retired near-call'}[kind]+
               ' LBR diagnostic, no performance claim. Original ELF unless mongo_binary is explicitly provided.'))
     stack=client=None;captures=[];windows={}
     try:
