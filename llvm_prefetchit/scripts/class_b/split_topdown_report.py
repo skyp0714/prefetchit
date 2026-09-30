@@ -107,7 +107,7 @@ def figure(root,data):
         for axis in axes[:,column]:
             axis.set_yticks(range(len(names)),names);axis.invert_yaxis();axis.spines[['top','right']].set_visible(False)
             axis.grid(axis='x',alpha=.15)
-    axes[0,0].legend(ncol=2,fontsize=8,loc='lower left',bbox_to_anchor=(0,1.02))
+    axes[0,0].legend(ncol=4,fontsize=8,loc='lower left',bbox_to_anchor=(0,1.12))
     fig.suptitle('Slot fractions and absolute frontend/backend work')
     fig.supxlabel('Post-ROI diagnostics; four trial means. Scopes overlap and must not be added.\n'
         'Raw 8-bit metric accounting is not forced to 100%; slots are not request critical-path time.',fontsize=9)

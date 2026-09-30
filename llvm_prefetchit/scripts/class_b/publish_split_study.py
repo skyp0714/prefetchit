@@ -13,11 +13,21 @@ def publish(root):
     for stage in ['hybrid_screen','lead_screen','residual_diagnostics']:
         assert json.loads((root/stage/'complete.json').read_text())['valid']
     stages=['hybrid_screen','lead_screen']
+    if (root/'confirmation_plan.json').exists():
+        qualification=json.loads((root/'confirmation_qualification.json').read_text())
+        if qualification['qualified']:
+            assert json.loads((root/'confirmation_screen/complete.json').read_text())['valid']
+            stages.append('confirmation_screen')
     if (root/'padding_residual').exists():
         qualification=json.loads((root/'padding_residual/complete.json').read_text());assert qualification['valid']
         if qualification['compiled']:
             assert json.loads((root/'padding_screen/complete.json').read_text())['valid']
             stages.append('padding_screen')
+    if (root/'l1_supplement').exists():
+        qualification=json.loads((root/'l1_supplement/complete.json').read_text());assert qualification['valid']
+        if qualification['compiled']:
+            assert json.loads((root/'l1_screen/complete.json').read_text())['valid']
+            stages.append('l1_screen')
     b.space(root)
     out=b.REPO/'llvm_prefetchit/migration/evidence'/root.name
     assert not out.exists();out.mkdir(parents=True)
@@ -48,6 +58,7 @@ def publish(root):
         manifest.append(dict(bundle=str(destination.relative_to(out)),sha256=b.sha(destination),bytes=destination.stat().st_size,records=entries))
     observations=list((root/'residual_diagnostics').rglob('*_observations.json.gz'))
     observations+=list((root/'padding_residual/observations').glob('*.json.gz'))
+    observations+=list((root/'l1_supplement/observations').glob('*.json.gz'))
     for source in sorted(observations):
         assert source.is_file() and not source.is_symlink()
         destination=artifacts/source.relative_to(root);destination.parent.mkdir(parents=True,exist_ok=True)
@@ -63,6 +74,12 @@ def publish(root):
             checks.append(dict(before=str(before.relative_to(root)),restored=same))
     assert checks and all(row['restored'] for row in checks)
     b.save(out/'platform_restoration.json',dict(valid=True,checks=len(checks),records=checks))
+    diagnosis=root/'diagnosis'
+    if diagnosis.exists():
+        assert json.loads((diagnosis/'summary.json').read_text())['complete']
+        (out/'diagnosis').mkdir()
+        for name in ['report.md','summary.json']:
+            (out/'diagnosis'/name).write_bytes((diagnosis/name).read_bytes())
     figures=[]
     for stage in stages:
         destination=out/stage;destination.mkdir()
