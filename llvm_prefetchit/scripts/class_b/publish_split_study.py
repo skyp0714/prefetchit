@@ -33,6 +33,11 @@ def publish(root):
         if qualification['qualified']:
             assert json.loads((root/'l1_confirmation_screen/complete.json').read_text())['valid']
             stages.append('l1_confirmation_screen')
+    if (root/'latency_retarget').exists():
+        qualification=json.loads((root/'latency_retarget/complete.json').read_text());assert qualification['valid']
+        if qualification['compiled']:
+            assert json.loads((root/'latency_screen/complete.json').read_text())['valid']
+            stages.append('latency_screen')
     b.space(root)
     out=b.REPO/'llvm_prefetchit/migration/evidence'/root.name
     assert not out.exists();out.mkdir(parents=True)
@@ -64,6 +69,7 @@ def publish(root):
     observations=list((root/'residual_diagnostics').rglob('*_observations.json.gz'))
     observations+=list((root/'padding_residual/observations').glob('*.json.gz'))
     observations+=list((root/'l1_supplement/observations').glob('*.json.gz'))
+    observations+=list((root/'latency_retarget/observations').glob('*.json.gz'))
     for source in sorted(observations):
         assert source.is_file() and not source.is_symlink()
         destination=artifacts/source.relative_to(root);destination.parent.mkdir(parents=True,exist_ok=True)

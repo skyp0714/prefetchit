@@ -21,7 +21,10 @@ PMU = {
     'Late instruction prefetch': 'late:sum:FE_LATE_SWPF',
     'Speculative T1/T2 executions': 'prefetch:sum:T1_T2_EXECUTED',
     'L1D fill-buffer-full cycles': 'prefetch:sum:L1D_FB_FULL',
+    'Frontend gaps >=128 cycles': 'lat128:sum:FE_LAT128',
 }
+SERVICES = {'mongo_user':'user-review-mongodb', 'mongo_movie':'movie-review-mongodb',
+            'mongo_storage':'review-storage-mongodb'}
 LIMIT = ('Completed campaigns remain separate. PMU windows follow clean endpoint timing; '
          'each has its own request denominator. Different event populations and overlapping '
          'stall counts are not an exclusive causal partition. Retired LBR ages do not measure '
@@ -38,7 +41,7 @@ def report(root):
     lines = ['# Split75: measured frontend components and residual coverage', '', LIMIT]
     summaries = {}
     stages=['hybrid_screen', 'lead_screen']
-    for stage in ['confirmation_screen','l1_screen','l1_confirmation_screen']:
+    for stage in ['confirmation_screen','l1_screen','l1_confirmation_screen','latency_screen']:
         if (root/stage).exists(): stages.append(stage)
     for stage in stages:
         assert read(root/stage/'complete.json')['valid']
@@ -53,6 +56,24 @@ def report(root):
             if not all(key in data['absolute'][arm]['pmu'] for arm in arms): continue
             absolute[label] = {arm: data['absolute'][arm]['pmu'][key] for arm in arms}
             lines.append('| '+label+' | '+' | '.join(f'{absolute[label][arm]:,.3f}' for arm in arms)+' |')
+        populations = {}
+        lines += ['', 'Service MPKI uses retired user instructions from the same counter window. '
+            'Speculative code-read requests and retired frontend miss events have different '
+            'populations; neither is an exclusive measure of request waiting time. CPU shares '
+            'are clean-ROI accounting ratios, not request-critical-path or Amdahl bounds.', '',
+            '| Service / policy | Retired L2 MPKI | Code-read MPKI | Service CPU us/request | Share of whole CPU |',
+            '|---|---:|---:|---:|---:|']
+        for arm in arms:
+            values=data['absolute'][arm]
+            for short,name in SERVICES.items():
+                cpu=values['service_cpu'][name+':cpu_us/request']
+                item=dict(retired_l2_mpki=values['pmu']['cache:'+short+':FE_L2/ki'],
+                    code_read_mpki=values['pmu']['cache:'+short+':L2I/ki'],
+                    cpu_us_per_request=cpu,whole_cpu_share_pct=100*cpu/values['e2e']['stack_cpu'])
+                populations[short+'/'+arm]=item
+                lines.append('| '+short+' / '+arm+' | '+
+                    f'{item["retired_l2_mpki"]:.3f} | {item["code_read_mpki"]:.3f} | '+
+                    f'{cpu:.3f} | {item["whole_cpu_share_pct"]:.3f}% |')
         comparisons = {}
         lines += ['', 'Individual paired-log t95 reductions; negative means an increase. No multiplicity correction.', '',
                   '| Policy / control | Event | Reduction [95% CI] |', '|---|---|---:|']
@@ -64,8 +85,11 @@ def report(root):
                     value = metrics[key]; low, high = value['ci95_pct']
                     comparisons[arm+'/'+control][label] = value
                     lines.append(f'| {arm} / {control} | {label} | {value["cost_reduction_pct"]:+.3f}% [{low:+.3f}, {high:+.3f}] |')
-        summaries[stage] = dict(absolute=absolute, comparisons=comparisons,
-            mongo_topdown=top['absolute']['mongo3'], e2e=data['e2e'])
+        summaries[stage] = dict(absolute=absolute, comparisons=comparisons, populations=populations,
+            mongo_topdown=top['absolute']['mongo3'], e2e=data['e2e'],
+            invalid_pmu_windows=data.get('invalid_pmu_windows',[]),
+            topdown_valid_trials=top.get('valid_trials'),
+            invalid_topdown_records=top.get('invalid_topdown_records',[]))
     modeled = {}
     lines += ['', '## Selected targets among remaining misses', '',
         'Separate PEBS/LBR diagnostics; split instructions use the calibrated continuation-line model. '
@@ -144,7 +168,26 @@ def report(root):
             'Incremental IT0/T1/NOP variants have identical layout and added target addresses; '
             'only the new-slot opcodes differ. There are no new call sites, jumps, or timing guards. '
             'The added instruction bytes can still change frontend work and cache layout versus split75.']
-    result = dict(complete=True, stages=summaries, modeled_residual=modeled, residual=residual, padding=padding, l1_supplement=l1,
+    latency = {}
+    if (root/'latency_retarget/complete.json').exists():
+        prepared=read(root/'latency_retarget/complete.json');assert prepared['valid']
+        selected=read(root/'latency_retarget/selection.json')
+        latency=dict(preparation=prepared,train_before=selected['train_before'],train_after=selected['train_after'],
+            heldout_before=selected['heldout_before'],heldout_after=selected['heldout_after'])
+        lines += ['', '## Long frontend-stall retargeting', '',
+            'The training event selects retired instructions after frontend delivery gaps of '
+            'at least 128 cycles, not interrupted by a backend stall. It can include branch '
+            'and translation effects; it is not a code-cache-miss event or a request critical-path measure. '
+            'Only supplemental target displacements may change. Static call sites, hint counts '
+            'per call, code layout and all original split75 T1 hints are preserved.', '',
+            '| Capture | Old supplemental target coverage | Retargeted coverage |', '|---|---:|---:|']
+        for phase in ['train','heldout']:
+            old=selected[phase+'_before'];new=selected[phase+'_after']
+            lines.append(f'| {phase} | {100*old["covered"]/old["samples"]:.3f}% | {100*new["covered"]/new["samples"]:.3f}% |')
+        lines += ['', f'Changed displacements: {len(selected["changed_choices"])}. '
+            f'Compiled: {prepared["compiled"]}. Frozen train-only thresholds: coverage >=5% '
+            'and improvement >=1.5 percentage points. No endpoint improvement is inferred from modeled coverage.']
+    result = dict(complete=True, stages=summaries, modeled_residual=modeled, residual=residual, padding=padding, l1_supplement=l1, latency_retarget=latency,
         inputs=inputs, source_sha256=b.sha(__file__), limitation=LIMIT)
     b.save(out/'summary.json', result)
     (out/'report.md').write_text('\n'.join(lines)+'\n')

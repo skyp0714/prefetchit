@@ -8,6 +8,10 @@ import dense_build as b
 from fullset_study import summarize
 from split_hybrid_study import MONITORED, LIMIT
 
+REPORT_LIMIT = LIMIT.replace(
+    'Raw metric fractions retain up to 2% closure error from 8-bit metric accounting; no normalization is applied.',
+    'Top-down summary windows must pass the 2% closure/subset quality limits. Rejected raw windows are retained separately; no normalization is applied.')
+
 
 def td(c, privilege):
     slots = c['slots:'+privilege]
@@ -67,11 +71,11 @@ def report(root, partial=False, plot=False):
         valid_trials={scope:{arm:sum(row['valid'] and row['scope']==scope and row['arm']==arm
             for row in records) for arm in protocol['arms']} for scope in absolute},
         max_abs_closure_error_pct=max(abs(row['metrics']['closure_error_pct']) for row in records),
-        inputs=inputs, source_sha256=b.sha(__file__), limitation=LIMIT,
+        inputs=inputs, source_sha256=b.sha(__file__), limitation=REPORT_LIMIT,
         weighting='Each record is normalized by its own completed-request window. Mongo3 sums separately observed request-normalized counters before taking slot ratios. Reported percentages average per-block ratios. CPU-pool and service values overlap; do not add them.')
     name = 'topdown_partial' if partial else 'topdown'
     b.save(root/(name+'.json'), result)
-    lines = ['# Split75: frontend versus backend diagnosis', '', LIMIT, '', result['weighting'], '',
+    lines = ['# Split75: frontend versus backend diagnosis', '', REPORT_LIMIT, '', result['weighting'], '',
         'Clean throughput, mean/p99 latency and whole CPU/request are in report.md. These are separate post-ROI diagnostics.', '',
         f'Maximum absolute raw level-1 closure error: {result["max_abs_closure_error_pct"]:.3f}% of slots. Raw values are retained, without forcing the sum to 100%. Hardware metrics use 8-bit fractions and kernel accounting clamps negative fraction-derived deltas; tiny differences below this precision should not be interpreted.', '',
         f'Top-down quality exclusions: {len(invalid)} scope/trial records (including aggregate scopes). Raw counters remain in records; invalid windows are excluded only from these top-down averages and paired comparisons, not from clean endpoint metrics or other PMU events. Valid trial counts are recorded in topdown.json.', '',
