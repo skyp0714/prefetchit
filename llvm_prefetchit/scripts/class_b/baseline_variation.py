@@ -10,7 +10,7 @@ import dense_build as b
 def report(root):
     assert (root/'complete.json').exists()
     protocol=json.loads((root/'screen/protocol.json').read_text())
-    control='original' if 'original' in protocol['arms'] else 'base'
+    control=protocol.get('control') or ('original' if 'original' in protocol['arms'] else 'base')
     records=json.loads((root/'screen/rows.json').read_text())
     rows=[dict(block=row['block'],rps=row['achieved_rps'],pool_util_pct=row['pool_util_pct'],
                **{k:v for k,v in row['metrics'].items() if k!='inverse_rps'})

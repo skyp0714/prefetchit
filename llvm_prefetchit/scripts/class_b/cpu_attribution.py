@@ -43,7 +43,8 @@ def analyze(root,plot=False,destination=None):
         aggregate[arm]=dict(trials=len(selected),groups={group:{key:describe([row['groups'][group][key] for row in selected])
             for key in ['cpu','user','kernel']} for group in groups},
             **{key:describe([row[key] for row in selected]) for key in ['whole','rps','mean_ms','p99_ms','pool_cpu','pool_util_pct']})
-    control='original' if 'original' in aggregate else 'base'
+    protocol=json.loads((root/'screen/protocol.json').read_text())
+    control=protocol.get('control') or ('original' if 'original' in aggregate else 'base')
     base=aggregate[control]
     share=100*sum(base['groups'][group]['user']['mean'] for group in ['MongoDB 3','Native 3'])/base['whole']['mean']
     output=dict(control=control,rows=records,arms=aggregate,native3_and_mongo3_baseline_user_time_share_pct=share,
@@ -58,7 +59,7 @@ def analyze(root,plot=False,destination=None):
     for arm,record in aggregate.items():
         for group,values in record['groups'].items():
             lines.append('| '+arm+' / '+group+' | '+' | '.join(f'{values[key]["mean"]:.3f}' for key in ['cpu','user','kernel'])+' |')
-    lines += ['',f'Original Native-3 plus Mongo-3 user time: {share:.2f}% of whole-stack CPU time. This includes all user work, not just frontend stalls.','',LIMIT]
+    lines += ['',f'{control} Native-3 plus Mongo-3 user time: {share:.2f}% of whole-stack CPU time. This includes all user work, not just frontend stalls.','',LIMIT]
     (destination/'cpu_attribution.md').write_text('\n'.join(lines)+'\n')
     if plot:figure(destination,output)
     return output
@@ -82,7 +83,7 @@ def figure(root,data):
     axes[1].errorbar(means,range(len(names)),xerr=[[mean-arms[name]['rps']['range'][0] for name,mean in zip(names,means)],
         [arms[name]['rps']['range'][1]-mean for name,mean in zip(names,means)]],fmt='o',color='#334455',capsize=3)
     axes[1].set_yticks(range(len(names)),['']*len(names));axes[1].invert_yaxis();axes[1].set_xlabel('Throughput (RPS), mean and trial range')
-    axes[1].axvline(arms[control]['rps']['mean'],color='#777777',linestyle=':',label='Original mean')
+    axes[1].axvline(arms[control]['rps']['mean'],color='#777777',linestyle=':',label=control+' mean')
     axes[1].legend(fontsize=8,loc='lower left',bbox_to_anchor=(0,1.01));axes[1].grid(axis='x',alpha=.2)
     for axis in axes:axis.spines[['top','right']].set_visible(False)
     fig.suptitle('CPU savings and request throughput are separate measurements')
