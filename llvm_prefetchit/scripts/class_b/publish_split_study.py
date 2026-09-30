@@ -10,6 +10,7 @@ import dense_build as b
 
 
 def publish(root):
+    assert json.loads((root/'source_snapshots/manifest.json').read_text())['complete']
     for stage in ['hybrid_screen','lead_screen','residual_diagnostics']:
         assert json.loads((root/stage/'complete.json').read_text())['valid']
     stages=['hybrid_screen','lead_screen']
