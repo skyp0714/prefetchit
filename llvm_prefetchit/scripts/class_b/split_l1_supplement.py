@@ -138,6 +138,8 @@ def prepare(root):
         assert record['valid'];rates.update({int(k):v for k,v in record['direct_call_estimates'].items()})
         floor+=record['zero_sample_cost_floor_per_request']
     chosen=select(phases['train'],rates,floor,max_sites=256,max_hints=256,per_site=1,min_gain=16,goal=.10)
+    chosen['estimated_selected_call_visits_per_request']=chosen.pop('estimated_extra_jumps_per_request')
+    chosen['estimated_extra_jumps_per_request']=0
     b.save(out/'selection_frozen.json',chosen)
     chosen['heldout']=coverage(phases['heldout'],chosen['choices'])
     b.save(out/'selection.json',chosen)
@@ -178,6 +180,7 @@ def prepare(root):
 
 def campaign(root):
     prepared=json.loads((root/'l1_supplement/complete.json').read_text());assert prepared['valid'] and prepared['compiled']
+    assert all(b.sha(value['binary'])==value['sha256'] for value in prepared['variants'].values())
     initial=json.loads((root/'prepared_complete.json').read_text());base=dict(initial['arms']['split75']);base.pop('controls',None)
     arms=dict(split75=base)
     for name in ['extra_nop','extra_t1','extra_it0']:
@@ -187,6 +190,7 @@ def campaign(root):
     files=[Path(__file__),Path(capture.__file__),Path(lead.__file__),Path(lead.study.__file__),Path(lead.study.hybrid.__file__),
         Path(balanced_backend.__file__),Path(balanced_backend.__file__).with_name('balanced_load.py'),Path(lead.study.backend_study.__file__)]
     protocol=dict(arms=arms,control='split75',blocks=4,orders=trial_orders(list(arms),4),seedbase=89601,
+        prepared_sha256=b.sha(root/'l1_supplement/complete.json'),selection_sha256=b.sha(root/'l1_supplement/selection_frozen.json'),
         monitored=lead.study.MONITORED,source_hashes={str(p):b.sha(p) for p in files},
         binary_hashes={v['mongo_binary']:b.sha(v['mongo_binary']) for v in arms.values()},
         scope='Four balanced blocks, fresh full Media compose-review C4 including MovieId. Eight workload CPUs, 50s warmup and 60s clean ROI. Same 25 post-ROI PMU windows; no performance-based retries/exclusions. Do not pool with previous campaigns.',
