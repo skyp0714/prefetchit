@@ -28,6 +28,11 @@ def publish(root):
         if qualification['compiled']:
             assert json.loads((root/'l1_screen/complete.json').read_text())['valid']
             stages.append('l1_screen')
+    if (root/'l1_confirmation_plan.json').exists():
+        qualification=json.loads((root/'l1_confirmation_qualification.json').read_text())
+        if qualification['qualified']:
+            assert json.loads((root/'l1_confirmation_screen/complete.json').read_text())['valid']
+            stages.append('l1_confirmation_screen')
     b.space(root)
     out=b.REPO/'llvm_prefetchit/migration/evidence'/root.name
     assert not out.exists();out.mkdir(parents=True)

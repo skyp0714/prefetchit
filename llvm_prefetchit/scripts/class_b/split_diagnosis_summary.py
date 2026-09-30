@@ -38,7 +38,7 @@ def report(root):
     lines = ['# Split75: measured frontend components and residual coverage', '', LIMIT]
     summaries = {}
     stages=['hybrid_screen', 'lead_screen']
-    for stage in ['confirmation_screen','l1_screen']:
+    for stage in ['confirmation_screen','l1_screen','l1_confirmation_screen']:
         if (root/stage).exists(): stages.append(stage)
     for stage in stages:
         assert read(root/stage/'complete.json')['valid']
@@ -113,7 +113,38 @@ def report(root):
         f'train coverage {padding["train_coverage_pct"]:.3f}%, heldout {padding["heldout_coverage_pct"]:.3f}%. '
         f'Compiled: {padding["compiled"]}. Train-only minimum was 5%; no endpoint measurement is inferred.', '',
         'Definitions: [Intel Granite Rapids PMU](https://perfmon-events.intel.com/platforms/graniterapids/core-events/core/).']
-    result = dict(complete=True, stages=summaries, modeled_residual=modeled, residual=residual, padding=padding,
+    l1 = {}
+    if (root/'l1_supplement/complete.json').exists():
+        prepared = read(root/'l1_supplement/complete.json'); assert prepared['valid']
+        quality = read(root/'l1_supplement/profile_quality.json')
+        selection = read(root/'l1_supplement/selection.json')
+        l1 = dict(preparation=prepared, captures={})
+        lines += ['', '## L1I-guided supplement: independent training and heldout captures', '',
+            'Both captures use the unchanged split75 binary. Retain all main-image samples in '
+            'the coverage denominator, including split instructions and added stubs that the '
+            'new selector cannot target. These are modeled paths, not observed prefetch acceptance '
+            'or a prediction of endpoint speedup.', '',
+            '| Capture / service | Main samples | Within 64 B of prior taken target | Prior branch mispredicted | Eligible after exclusions | Split instruction excluded |',
+            '|---|---:|---:|---:|---:|---:|']
+        for key, value in quality['records'].items():
+            n = value['main_samples']
+            item = dict(main_samples=n, within_64B_pct=100*value['within_64B_of_target']/n,
+                prior_mispredicted_pct=100*value['nearest_branch_mispredicted']/n,
+                selection_eligible_pct=100*value['selection_eligible']/n,
+                split_instruction_excluded_pct=100*value['exclusions'].get('split_instruction',0)/n)
+            l1['captures'][key] = item
+            lines.append('| '+key+f' | {n:,} | '+' | '.join(f'{item[name]:.3f}%' for name in
+                ['within_64B_pct','prior_mispredicted_pct','selection_eligible_pct','split_instruction_excluded_pct'])+' |')
+        assert abs(100*selection['covered']/selection['samples']-prepared['train_coverage_pct']) < 1e-9
+        assert abs(100*selection['heldout']['covered']/selection['heldout']['samples']-prepared['heldout_coverage_pct']) < 1e-9
+        lines += ['', f'Train-only selected hints: {len(selection["choices"])}; '
+            f'train coverage {prepared["train_coverage_pct"]:.3f}%, '
+            f'heldout coverage {prepared["heldout_coverage_pct"]:.3f}%. '
+            'The heldout capture did not select targets. Existing T1 targets remain unchanged. '
+            'Incremental IT0/T1/NOP variants have identical layout and added target addresses; '
+            'only the new-slot opcodes differ. There are no new call sites, jumps, or timing guards. '
+            'The added instruction bytes can still change frontend work and cache layout versus split75.']
+    result = dict(complete=True, stages=summaries, modeled_residual=modeled, residual=residual, padding=padding, l1_supplement=l1,
         inputs=inputs, source_sha256=b.sha(__file__), limitation=LIMIT)
     b.save(out/'summary.json', result)
     (out/'report.md').write_text('\n'.join(lines)+'\n')
