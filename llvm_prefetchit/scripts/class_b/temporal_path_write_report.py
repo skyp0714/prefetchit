@@ -110,6 +110,11 @@ def report(root):
         f'{100*cpu["all:system_us"]/cpu["all:cpu_us"]:.2f}%다. '
         '사용자 코드 PMU의 비율과 전체 요청의 CPU 구성은 분모가 다르다. '
         '커널 시간은 이번 사용자 코드 힌트로 직접 최적화한 대상이 아니다.', '',
+        f'요청당 frontend-bound slot 수 자체의 변화는 앱 '
+        f'{data["pmu"]["native"]["per_request"]["topdown:topdown-fe-bound:u"]["change_pct"]:+.2f}%, '
+        f'MongoDB {data["pmu"]["mongo"]["per_request"]["topdown:topdown-fe-bound:u"]["change_pct"]:+.2f}%다. '
+        '실행 시간이 줄면 전체 slot 수도 줄기 때문에, frontend-bound 비율이 여전히 높다는 사실과 '
+        '요청당 frontend 비용이 줄었다는 사실은 동시에 성립할 수 있다.', '',
         'IT0 교체 진단에서는 T1 중간 정책보다 앱의 ITLB page walk 완료가 약 51%, '
         'clear-to-first-uop cycle이 약 20% 늘었고 L1I 미스도 줄지 않았다. '
         '그때 MongoDB는 T1을 그대로 유지했으며 해당 수치가 거의 변하지 않았다. '

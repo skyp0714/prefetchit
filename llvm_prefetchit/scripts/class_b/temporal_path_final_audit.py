@@ -70,12 +70,25 @@ def audit(root):
     generated = [str(path) for path in root.rglob('*') if path.is_file() and not path.is_symlink()
                  and path.name in ('perf.data', 'events.txt', 'samples.txt')]
     assert not generated, generated
+    endpoint_quality = []
+    for campaign in ('screen1', 'screen2', 'screen3', 'confirmation'):
+        path = root / campaign / 'rows.json'
+        if not path.exists():
+            continue
+        for row in read(path):
+            load = read(Path(row['output']) / 'load/load.json')
+            item = dict(campaign=campaign, block=row['block'], arm=row['arm'],
+                steady_errors=load['steady_errors'], mapping_preserved=load['mapping_preserved'],
+                startup_and_warmup_errors=load['errors'], warmup_reconnects=len(load.get('warmup_reconnects', [])))
+            assert item['steady_errors'] == 0 and item['mapping_preserved']
+            endpoint_quality.append(item)
     result = dict(valid=True, epoch=time.time(), platform_comparisons=comparisons, current_sysfs=current,
         current_hwp_note='Each privileged wrapper checked exact HWP MSR restoration; this final unprivileged audit does not reread MSRs.',
         project=project, owned_resources=owned, modules=modules,
         retained_generated_elves=binary_checks,
         retention_reason='Keep the final policy, its same-layout NOP control, and the pathwide reference/NOP for the next iteration. Original inputs, packages and shared dependencies are untouched.',
         rejected_elf_residue=unexpected, raw_or_decoded_trace_residue=generated,
+        endpoint_quality=endpoint_quality,
         free_bytes={str(path):shutil.disk_usage(path).free for path in (Path('/'),root)},
         source_sha256=b.sha(__file__))
     b.save(root / 'final_restoration_audit.json', result)
