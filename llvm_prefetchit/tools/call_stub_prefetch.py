@@ -37,7 +37,9 @@ def align(value, size=4096):
 def ordinary_stub_size(row):
     targets=row.get('got_targets',[])
     loads=sum(i==0 or target['got']!=targets[i-1]['got'] for i,target in enumerate(targets))
-    return 7*len(row['targets'])+5+(4+7*loads+8*len(targets) if targets else 0)
+    runtime=row.get('runtime_target')
+    return (7*len(row['targets'])+5+(4+7*loads+8*len(targets) if targets else 0)
+            +(7+7*len(runtime['offsets'])+8*len(runtime['addends']) if runtime else 0))
 
 
 def sha(data):
@@ -127,6 +129,8 @@ def build(binary, plan, output, boundaries=None, hybrid=None):
         # while each original call still pushes its own original return address.
         key = (row['callee'], tuple(row['targets']))
         key += (tuple((t['got'],t['addend']) for t in row.get('got_targets',[])),)
+        runtime=row.get('runtime_target')
+        key += ((runtime['base'],tuple(runtime['offsets']),tuple(runtime['addends'])) if runtime else None,)
         if hybrid is not None:key += (tuple(row['burst_targets']),bool(row.get('hybrid_gate',True)))
         stub_indices.append(canonical.setdefault(key, index))
     dynamic_got=set()
@@ -144,7 +148,15 @@ def build(binary, plan, output, boundaries=None, hybrid=None):
         assert raw[0] == 0xe8 and raw.hex() == row['expected'], 'Only fingerprinted E8 rel32 calls are supported'
         assert site + 5 + struct.unpack_from('<i', raw, 1)[0] == row['callee']
         got_targets=row.get('got_targets',[])
-        assert 1 <= len(row['targets'])+len(got_targets) <= 8 and len(set(row['targets'])) == len(row['targets'])
+        runtime=row.get('runtime_target')
+        if runtime:
+            assert hybrid is None and not got_targets, 'Runtime chains are ordinary, same-process experiments'
+            assert runtime['base'] in ('rbx','rbp','r12','r13','r14','r15')
+            assert 1<=len(runtime['offsets'])<=4 and 1<=len(runtime['addends'])<=8
+            assert len(set(runtime['addends']))==len(runtime['addends'])
+            assert all(isinstance(v,int) and -(1<<31)<=v<1<<31 for v in runtime['offsets']+runtime['addends'])
+            assert runtime.get('live_immutable_chain_proof'), 'Dereferencing requires a call-site-specific live-object proof'
+        assert 1 <= len(row['targets'])+len(got_targets)+(len(runtime['addends']) if runtime else 0) <= 8 and len(set(row['targets'])) == len(row['targets'])
         assert hybrid is None or not got_targets, 'GOT targets and schedule gates are separate experiments'
         assert len({(t['got'],t['addend']) for t in got_targets})==len(got_targets)
         for target in got_targets:
@@ -205,6 +217,17 @@ def build(binary, plan, output, boundaries=None, hybrid=None):
                     # Fixed eight-byte T1 encoding makes the NOP control exact.
                     lines += [f'.global pf_got_hint_{i}_{j}\npf_got_hint_{i}_{j}:',
                         '.byte 0x41,0x0f,0x18,0x93',f'.long {target["addend"]}']
+                lines += ['pop %r11','.cfi_adjust_cfa_offset -8','.cfi_restore %r11']
+            runtime=row.get('runtime_target')
+            if runtime:
+                lines += ['push %r11','.cfi_adjust_cfa_offset 8','.cfi_offset %r11,-16',
+                          f'mov %{runtime["base"]},%r11']
+                # Force disp32 for auditable fixed lengths; MOV preserves flags.
+                for offset in runtime['offsets']:
+                    lines += ['.byte 0x4d,0x8b,0x9b',f'.long {offset}']
+                for j,addend in enumerate(runtime['addends']):
+                    lines += [f'.global pf_runtime_hint_{i}_{j}\npf_runtime_hint_{i}_{j}:',
+                              '.byte 0x41,0x0f,0x18,0x93',f'.long {addend}']
                 lines += ['pop %r11','.cfi_adjust_cfa_offset -8','.cfi_restore %r11']
         else:
             emitted,defs,hybrid_hints[i],hybrid_jumps[i]=emit_hybrid(i,row,hybrid.get('diagnostic',False))
@@ -285,17 +308,20 @@ def build(binary, plan, output, boundaries=None, hybrid=None):
             if hybrid is None:
                 emitted_hints += [dict(t,va=symbols[f'pf_got_hint_{stub_indices[i]}_{j}'],kind='t1_got')
                     for j,t in enumerate(row.get('got_targets',[]))]
+                emitted_hints += [dict(addend=addend,va=symbols[f'pf_runtime_hint_{stub_indices[i]}_{j}'],kind='t1_runtime')
+                    for j,addend in enumerate(row.get('runtime_target',{}).get('addends',[]))]
             for h in emitted_hints:
                 va=h['va'];hintoff = rxoff + va - rxva
-                length=8 if h['kind']=='t1_got' else 7
+                length=8 if h['kind'] in ('t1_got','t1_runtime') else 7
                 raw = bytes(data[hintoff:hintoff + length])
-                if h['kind']=='t1_got':
+                if h['kind'] in ('t1_got','t1_runtime'):
                     assert raw[:4]==bytes.fromhex('410f1893') and struct.unpack_from('<i',raw,4)[0]==h['addend']
                 else:
                     assert raw[:3] == bytes.fromhex('0f183d' if h['kind']=='it0' else '0f1815') and va + 7 + struct.unpack_from('<i', raw, 3)[0] == h['target']
                 if hintoff not in seen_hints:
                     entry=dict(va=va, offset=hintoff, original=raw.hex(), nop=(NOP8 if length==8 else NOP7).hex())
                     if h['kind']=='t1_got':entry.update(kind='t1_got',got=h['got'],addend=h['addend'],length=8)
+                    elif h['kind']=='t1_runtime':entry.update(kind='t1_runtime',addend=h['addend'],length=8)
                     else:entry['target']=h['target']
                     if hybrid is not None:entry['kind']=h['kind']
                     hints.append(entry)
@@ -351,7 +377,7 @@ def build(binary, plan, output, boundaries=None, hybrid=None):
                       source_tool_sha256=sha(Path(__file__).read_bytes()), source_assembly_sha256=sha(source.read_bytes()),
                       source_linker_script_sha256=sha(script.read_bytes()),
                       original_instruction_addresses_unchanged=True, original_bytes_reversible=True,
-                      original_return_addresses_preserved=True, registers_and_flags_untouched=hybrid is None and not any(r.get('got_targets') for r in calls),
+                      original_return_addresses_preserved=True, registers_and_flags_untouched=hybrid is None and not any(r.get('got_targets') or r.get('runtime_target') for r in calls),
                       registers_and_flags_preserved=True,
                       extra_instruction_bytes=len(code), extra_mapped_bytes=rxsize+(524288+sitesbytes if hybrid is not None else 0), extra_file_bytes=len(data)-len(original),
                       old_fdes=len(old_entries), added_fdes=len(entries),
