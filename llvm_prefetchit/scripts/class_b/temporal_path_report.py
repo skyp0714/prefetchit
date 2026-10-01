@@ -28,16 +28,23 @@ def summarize(root):
     return result
 
 
-def plot(root,data):
+def plot(root,data,phases=None,prefix=''):
     import matplotlib
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
     import numpy as np
+    if phases is not None:data=dict(data,rows=[row for row in data['rows'] if row['phase'] in phases])
+    assert data['rows'],'No profiles selected for plotting'
+    b.save(root/'analysis'/(prefix+'temporal_plot_protocol.json'),dict(phases=phases,
+        captures=[dict(run=row['run'],service=row['service'],kind=row['kind']) for row in data['rows']],
+        source_sha256=b.sha(__file__),limitation=data['limitation']))
     plt.rcParams.update({'font.size':9,'svg.hashsalt':'class-b-temporal-20261001'})
     services=['movie','compose','rating','unique','text','user','storage','userreview','moviereview','mongo_user','mongo_movie','mongo_storage']
-    arms=list(dict.fromkeys(row['arm'] for row in data['rows'] if row['kind'] in ('l2','lat128')))
+    kinds=[kind for kind in ('l2','lat128','l1') if any(row['kind']==kind for row in data['rows'])]
+    arms=sorted({row['arm'] for row in data['rows'] if row['kind'] in kinds},
+        key=lambda arm:({'original':0,'mongo':1,'combined':2,'pathwide':3}.get(arm,4),arm))
     colors={arm:plt.get_cmap('tab10')(i) for i,arm in enumerate(arms)}
-    for kind,mode in [(kind,mode) for kind in ('l2','lat128') for mode in ('per_request','exposure')]:
+    for kind,mode in [(kind,mode) for kind in kinds for mode in ('per_request','exposure')]:
         fig,axes=plt.subplots(4,3,figsize=(14,12))
         for service,ax in zip(services,axes.flat):
             limit=500 if service.startswith('mongo_') else 100
@@ -59,16 +66,19 @@ def plot(root,data):
             ax.axvspan(10,20,color='#999999',alpha=.12);ax.set_title(service);ax.grid(alpha=.2)
             ax.set_xlim(0,limit);ax.set_ylim(bottom=0)
         handles,labels=axes.flat[0].get_legend_handles_labels();fig.legend(handles,labels,loc='upper center',bbox_to_anchor=(.5,.968),ncol=len(labels))
-        fig.supxlabel('Sample retirement age after sched_switch selection (µs)')
-        event='Retired L2 misses' if kind=='l2' else 'Frontend delivery gaps ≥128 cycles'
+        fig.supxlabel('Sample retirement age after sched_switch selection (µs)',y=.025)
+        event={'l2':'Retired L2 misses','l1':'Retired L1I misses','lat128':'Frontend delivery gaps ≥128 cycles'}[kind]
         fig.supylabel(event+(' / request / age-bin µs' if mode=='per_request' else ' / scheduled µs'))
         fig.suptitle('Media before/after prefetch — diagnostic captures; bands show repeat ranges',y=.992)
-        fig.tight_layout(rect=(.025,.025,1,.95))
-        for suffix in ['png','svg']:fig.savefig(root/'analysis'/(('miss' if kind=='l2' else 'lat128')+'_age_'+mode+'.'+suffix),dpi=160)
+        fig.text(.5,.005,'Schedules include kernel time; LBR/sample retirement timing is not the instruction-fetch deadline.',ha='center',fontsize=8)
+        fig.tight_layout(rect=(.025,.05,1,.95))
+        for suffix in ['png','svg']:fig.savefig(root/'analysis'/(prefix+{'l2':'miss','l1':'l1','lat128':'lat128'}[kind]+'_age_'+mode+'.'+suffix),dpi=160)
         plt.close(fig)
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('root',type=Path);p.add_argument('--plot',action='store_true');a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('root',type=Path);p.add_argument('--plot',action='store_true')
+    p.add_argument('--phases',nargs='+');p.add_argument('--prefix',default='');a=p.parse_args()
+    assert '/' not in a.prefix and '..' not in a.prefix
     data=summarize(a.root)
-    if a.plot:plot(a.root,data)
+    if a.plot:plot(a.root,data,a.phases,a.prefix)
