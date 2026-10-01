@@ -106,8 +106,8 @@ def prepare(root):
             b.space(root)
             if key=='mongo' and name!='no_dso':
                 arm['mongo_binary']=prepared['no_dso']['arm']['mongo_binary']
-                # Incremental NOP disables only the new RPC hints, keeping
-                # the entire no-DSO policy enabled, including Mongo.
+                # Incremental NOP disables the RPC bundles. Non-RPC hints,
+                # including Mongo, stay enabled; displaced bundles are recorded.
                 nop['mongo_binary']=arm['mongo_binary'];continue
             plan=copy.deepcopy(record['plan'])
             plan['calls']=[dict(c,got_targets=[]) for c in plan['calls'] if c['targets']]
@@ -141,7 +141,7 @@ def prepare(root):
                         raw[hint['offset']:hint['offset']+len(bytes.fromhex(hint['nop']))]=bytes.fromhex(hint['nop']);disabled.append(hint)
                 incremental=Path(str(output)+'.rpc_nop');incremental.write_bytes(raw);incremental.chmod(0o755)
                 b.save(Path(str(incremental)+'.json'),dict(source=str(output),sha256=b.sha(incremental),disabled_hints=disabled,
-                    scope='Only RPC bundles disabled; existing main-ELF and Mongo hints remain enabled. Runtime pointer loads remain.'))
+                    scope='Only RPC bundles disabled; non-RPC main-ELF and Mongo hints remain enabled. Runtime pointer loads remain. Displaced original RPC bundles are recorded in the plan.'))
                 from e2e_lbr import remove_generated
                 remove_generated([Path(str(output)+'.nop')],root/'plans'/name/(key+'_unused_all_nop_cleanup.json'),
                     'Use incremental RPC NOP instead; all-hint NOP source/hash/patches retained in binary metadata.')
