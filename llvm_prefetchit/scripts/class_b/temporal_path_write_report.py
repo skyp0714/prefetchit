@@ -203,7 +203,9 @@ def report(root):
         f'별도로 전체 cgroup CPU/request 중 커널 시간은 '
         f'{100*cpu["all:system_us"]/cpu["all:cpu_us"]:.2f}%다. '
         '사용자 코드 PMU의 비율과 전체 요청의 CPU 구성은 분모가 다르다. '
-        '커널 시간은 이번 사용자 코드 힌트로 직접 최적화한 대상이 아니다.', '',
+        '커널 시간은 이번 사용자 코드 힌트로 직접 최적화한 대상이 아니다. '
+        '이 집계에서는 심한 사용자 코드 backend-bound가 주원인이라는 해석을 지지하지 않는다. '
+        '그렇다고 남은 frontend 시간을 전부 lead-time 부족으로 분류할 수는 없다.', '',
         f'요청당 frontend-bound slot 수 자체의 변화는 앱 '
         f'{data["pmu"]["native"]["per_request"]["topdown:topdown-fe-bound:u"]["change_pct"]:+.2f}%, '
         f'MongoDB {data["pmu"]["mongo"]["per_request"]["topdown:topdown-fe-bound:u"]["change_pct"]:+.2f}%다. '
