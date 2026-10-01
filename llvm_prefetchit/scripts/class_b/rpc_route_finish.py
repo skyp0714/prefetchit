@@ -43,10 +43,15 @@ def finish(root):
     blocks=4 if (now.hour,now.minute)<=(13,55) else 3
     names=['original','full_dso','no_dso',nominee,combined]
     controls={name:dict(copy.deepcopy(arms[name]),controls=[n for n in names if n!=name]) for name in names}
-    # Rotations and a fixed reversal balance order without responding to observed performance.
+    # Every policy has mean ordinal position two in either the three- or
+    # four-block schedule. Freeze this without inspecting confirmation data.
     base=['full_dso',nominee,'original',combined,'no_dso']
-    orders=[base[i:]+base[:i] for i in range(blocks)]
-    if blocks==3:orders[1]=list(reversed(orders[1]))
+    if blocks==3:
+        orders=[base,[base[i] for i in [3,4,0,1,2]],[base[i] for i in [2,4,1,3,0]]]
+    else:
+        rotated=base[2:]+base[:2]
+        orders=[base,list(reversed(base)),rotated,list(reversed(rotated))]
+    assert all(sum(order.index(name) for order in orders)==2*blocks for name in names)
     setting=dict(root=str(root),out=str(root/'confirmation'),arms=controls,blocks=blocks,orders=orders,
         seedbase=1040601,order_seed=1040600,trial_script=str(scripts/'temporal_path_trial.py'),
         scope='Fresh independent full-request confirmation; five arms include both DSO-free and full-incumbent RPC changes. No PMU.',
