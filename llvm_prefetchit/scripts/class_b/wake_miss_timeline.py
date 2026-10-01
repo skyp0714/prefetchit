@@ -20,8 +20,9 @@ SWITCH = re.compile(r'.*:(\d+) \[\d+\] (\S+) ==> .*:(\d+) \[\d+\]')
 TASK = re.compile(r'^.*?\[(\d+)\]\s+(\d+)\.(\d{9}): PERF_RECORD_(FORK|EXIT)\((\d+):(\d+)\):\((\d+):(\d+)\)')
 
 
-def parse(lines, target_pid=None):
+def parse(lines, target_pid=None, sample_events=('fe_l2',), retain_payload=False, filter_tids=None):
     events = []
+    active_cpus=set();last_switch_time={}
     for line in lines:
         if not line.strip() or line.startswith('#'):
             continue
@@ -48,16 +49,27 @@ def parse(lines, target_pid=None):
                 raise ValueError('invalid switch: '+line)
             prev, state, next_tid = switch.groups()
             row.update(prev=int(prev), state=state, next=int(next_tid))
-        elif event == 'fe_l2':
+            if filter_tids is not None:
+                cpu=row['cpu']
+                assert row['time']>=last_switch_time.get(cpu,0),'Schedule filtering requires time-ordered perf script output'
+                last_switch_time[cpu]=row['time']
+                keep=row['prev'] in filter_tids or row['next'] in filter_tids or cpu in active_cpus
+                if row['next'] in filter_tids:active_cpus.add(cpu)
+                else:active_cpus.discard(cpu)
+                if not keep:continue
+        elif event in sample_events:
             row['ip'] = int(tail.split()[0], 16)
+            if retain_payload:
+                row['payload'] = tail
         else:
             raise ValueError('unexpected event: '+event)
         events.append(row)
-    order = {'fork':0, 'sched:sched_switch':1, 'fe_l2':2, 'exit':3}
+    order = dict.fromkeys(sample_events, 2)
+    order.update({'fork':0, 'sched:sched_switch':1, 'exit':3})
     return sorted(events, key=lambda r: (r['time'], order[r['event']]))
 
 
-def analyze(events, tids, target_pid=None, sample_callback=None):
+def analyze(events, tids, target_pid=None, sample_callback=None, sample_detail_callback=None):
     active, last_out, runs = {}, {}, []
     live, known, births, scheduled = set(tids), set(tids), {}, set()
     last_switch, duplicate_examples = {}, []
@@ -110,7 +122,7 @@ def analyze(events, tids, target_pid=None, sample_callback=None):
                 quality['unmatched_samples'] += 1
             else:
                 quality['unknown_tid_resolved_by_cpu_interval'] += int(resolved)
-                run['samples'].append((timestamp, event['period'], resolved, event.get('ip')))
+                run['samples'].append((timestamp, event['period'], resolved, event.get('ip'), event))
         else:
             quality['foreign_samples'] += 1
     quality['right_censored_runs'] = len(active)
@@ -133,11 +145,13 @@ def analyze(events, tids, target_pid=None, sample_callback=None):
             b['exposure_us'] += exposure
             b['runs_reaching_bin'] += int(exposure > 0)
             thread['bins'][i]['exposure_us'] += exposure
-        for timestamp, period, resolved, ip in run['samples']:
+        for timestamp, period, resolved, ip, event in run['samples']:
             age = (timestamp-run['start'])/1000
             assert 0 <= age < elapsed_us
             if sample_callback is not None:
                 sample_callback(age, ip, period, run['origin'])
+            if sample_detail_callback is not None:
+                sample_detail_callback(age, event, run['origin'])
             index = bisect_right(EDGES_US, age)-1
             b = bins[index]
             b['samples'] += 1

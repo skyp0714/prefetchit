@@ -112,3 +112,14 @@ def test_address_callback_only_sees_complete_matched_intervals():
               switch(4000,0,0,7), dict(sample(4500,0),ip=0x5678)]
     m.analyze(events,{7},sample_callback=lambda *args:seen.append(args))
     assert seen == [(.5,0x1234,257,'boundary_or_initial')]
+
+
+def test_schedule_filter_preserves_an_unexpected_switch_on_target_cpu():
+    lines=[
+        'worker 7/7 [032] 10.000001000: 1 sched:sched_switch: idle:0 [120] S ==> worker:7 [120]',
+        'worker 7/7 [032] 10.000001500: 257 fe_l2: 1234',
+        'other 9/9 [033] 10.000002000: 1 sched:sched_switch: other:9 [120] S ==> idle:0 [120]',
+        'other 9/9 [032] 10.000003000: 1 sched:sched_switch: other:9 [120] S ==> idle:0 [120]']
+    events=m.parse(lines,7,filter_tids={7})
+    assert len(events)==3
+    with pytest.raises(ValueError,match='discontinuity'):m.analyze(events,{7},7)
