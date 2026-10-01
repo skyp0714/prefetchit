@@ -32,6 +32,13 @@ def description(source_sha, call, target_sha, target, anchors):
     return dict(kind='cross', target=target, got=anchor['got'], anchor=anchor['anchor'], addend=addend)
 
 
+def logical_targets(deployed):
+    return {(digest, call['site']): (call['callee'], call['expected'],
+                tuple(sorted(call['targets'])),
+                tuple(sorted((target['target_sha'], target['target']) for target in call.get('got_targets', []))))
+            for digest, record in deployed.items() for call in record['plan']['calls']}
+
+
 def prepare(root, base='pathwide', phase='best1'):
     name = base + '_repair'
     out = root / 'candidates' / name
@@ -40,6 +47,21 @@ def prepare(root, base='pathwide', phase='best1'):
     known = policies(root)
     original = base_arm(root, base)
     deployed = deployed_policies(original, known)
+    deployment = base
+    decision = root / 'screen2_decision.json'
+    transfer = dict(training_base=base, deployment_base=base, transferred=False)
+    if decision.exists():
+        incumbent = json.loads(decision.read_text())['selected']
+        current_arm = base_arm(root, incumbent)
+        current = deployed_policies(current_arm, known)
+        same_targets = logical_targets(current) == logical_targets(deployed)
+        same_hint_kind = not any(hint.get('kind') == 'it0' for record in current.values() for hint in record['hints'])
+        transfer.update(incumbent=incumbent, same_logical_targets=same_targets, all_t1=same_hint_kind)
+        if same_targets and same_hint_kind:
+            deployment, original, deployed = incumbent, current_arm, current
+            transfer.update(deployment_base=deployment, transferred=deployment != base)
+    transfer['rule'] = 'Carry forward a selected T1 implementation only after exact call-site/callee/original-byte/target-address equivalence. Residual training remains the recorded pathwide run; instruction addresses in original code are unchanged.'
+    b.save(out / 'transfer_validation.json', transfer)
     anchors = {(row['source'], row['target']): row['entries']
                for row in json.loads((root / 'analysis/got_anchors.json').read_text())['anchors']}
     calls = {(digest, call['site']): call for digest, record in deployed.items() for call in record['plan']['calls']}
@@ -79,7 +101,7 @@ def prepare(root, base='pathwide', phase='best1'):
     selected = choose(rows, rates, frequency['floor'], max_sites=768, max_hints=768,
                       per_site=1, min_gain=8, goal=.60, cross_cost=2.5)
     coverage = selected['covered'] / quality['all_samples']
-    selected.update(inputs=inputs, quality=dict(quality), base=base, phase=phase,
+    selected.update(inputs=inputs, quality=dict(quality), base=deployment, residual_training_base=base, phase=phase,
                     covered_all_sample_fraction=coverage,
                     rule='At most one added hint per existing call; eight total hints/site, 768 additions maximum, at least eight supporting residual samples. Earlier call observed at 64..8192 completed-branch cycles. Original training call rates and original audited GOT-anchor identities retained. No new call redirects.',
                     limitation='Residual diagnosis is adaptive training, not independent coverage validation. Existing static targets may be reissued from a different observed caller. Retired-branch cycles do not measure hint-to-fetch lead.')
@@ -127,9 +149,9 @@ def prepare(root, base='pathwide', phase='best1'):
             destination['libraries'] = {key: {path: remap[value] + suffix if value in remap else value
                                               for path, value in values.items()}
                                         for key, values in destination.get('libraries', {}).items()}
-        arm['controls'] = ['original', 'mongo', base, name + '_nop']
+        arm['controls'] = ['original', 'mongo', deployment, name + '_nop']
         nop['controls'] = ['original']
-        result = dict(arm=arm, nop=nop, builds=builds, excluded=[], base=base,
+        result = dict(arm=arm, nop=nop, builds=builds, excluded=[], base=deployment, residual_training_base=base,
                       selection_sha256=b.sha(out / 'selection.json'))
         prepared = json.loads((root / 'prepared_candidates.json').read_text())
         prepared[name] = result
