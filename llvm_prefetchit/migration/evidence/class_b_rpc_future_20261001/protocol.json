@@ -1,0 +1,17 @@
+{
+  "scope": "Full Media compose-review C4; nine app ELFs and same Mongo no-DSO policy. No kernel changes. Shared libraries remain original in all new arms.",
+  "objective": "Measure no-DSO ablation, actual live indirect targets and RPC-type/trace future code targets, with clean whole-stack endpoints.",
+  "training": "Previously completed 2026-10-01 baseline PEBS/LBR; never request outcomes from current clean evaluation.",
+  "controls": "Original, previously confirmed full DSO policy, no-DSO; incremental RPC NOP in independent confirmation as indicated by frozen protocol.",
+  "generated_output_root": "/storage/prefetchit/class_b_rpc_future_20261001",
+  "build_commands": [
+    "python3 llvm_prefetchit/scripts/class_b/rpc_future_study.py inventory /storage/prefetchit/class_b_rpc_future_20261001",
+    "python3 llvm_prefetchit/scripts/class_b/rpc_future_study.py prepare /storage/prefetchit/class_b_rpc_future_20261001",
+    "python3 llvm_prefetchit/scripts/class_b/rpc_future_study.py trace_path /storage/prefetchit/class_b_rpc_future_20261001"
+  ],
+  "screen": "Three exploratory paired blocks, randomized rotated orders, fresh stack per trial, 50s warmup +60s clean ROI; unprofiled E2E.",
+  "exclusions": "Only objective operational validity gates, never unfavorable performance; no multiplicity-adjusted inference from exploratory screens.",
+  "runtime_invariant": "Live immutable Processor iface; object and vtable loads are inspected and occur before arguments are read. No future handler execution or remote-address prefetch.",
+  "layout": "Original instruction and return addresses preserved; runtime loads preserve r11 and flags; exact-length hint NOP controls.",
+  "environment": "Shared host; controller84-85, load16-19, full stack32-39,2GHz restored per trial. Unrelated jobs untouched."
+}

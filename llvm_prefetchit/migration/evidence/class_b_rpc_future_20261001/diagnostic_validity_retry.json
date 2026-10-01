@@ -1,0 +1,50 @@
+{
+  "epoch": 1790859045.901888,
+  "status": "invalid_diagnostic_attempt",
+  "original_path": "/storage/prefetchit/class_b_rpc_future_20261001/diagnostics/01_no_dso",
+  "error": "AssertionError((18458621304.0, 18843501319.0))",
+  "topdown_closure_error_pct": 2.085096219600091,
+  "reason": "Top-down group sum exceeded frozen 2% closure gate; exclude entire incomplete diagnostic attempt. Keep partial counters, commands, binary hashes and restoration/cleanup records. No endpoint exclusion.",
+  "replay": {
+    "block": 1,
+    "arm": "no_dso",
+    "seed": 103002,
+    "reverse_pmu": true
+  },
+  "unchanged_source_hashes": {
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/rpc_future_diagnostics.py": "569648470b74f7ea81da61fd8e0ac2ab6b8f381684190684d15c01cbe9873b48",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/backend_study.py": "a2ec2c6eefe10aab2e72fd935611b854edc5e738433746abf07e80b8cc5ec285",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/media_system_study.py": "552cf7c6dc450084ecfe5921b816a1fce544a104056c571dbe8be2ec1d5dd390",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/split_hybrid_study.py": "dfd3b6d6974e8e49aebbf1275d4152d4eed6edb2ce997899efc7cdaa6f901bd7",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/fullset.py": "6e2b832d3aa518b3718c31c8f83f47dc69f1a5302ff1ac0e0cb350283355920f",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/balanced_backend.py": "65faf913ed06b55e82e7b6ec53a994c5bbbd8fa793be11efdbeaeaf30fb55983",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/balanced_load.py": "a4c7ef2057e9e346188e73d61661eed40dc9a242f03c3f68fda0e775cf909dd4",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/media_library_study.py": "3d147727f88c089ca2cd326546ba0a0b2c0a938e0de8310611bb41fc0181f799",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/backend_prefetch.py": "dfb8bfc353fa9ced8ab444f05695f221c5b92f56e133e23d9436251a86dfc0c5",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/hybrid_campaign.py": "f6363a2ffbbf6ea56bca3fc1a8ceb1d944f4cd8c9ff27d938ba279fbc8d3653d",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/dense_causes.py": "5f7a1cc7273d3a276e231788d208d723f14733a00ed9707467b3034054e5ec7f"
+  },
+  "resumer_sha256": "c8af66d2d4d2f61bf3d4d670b5eeed502a76356c43084f3e60d913f5fce56b2f",
+  "moved_local_records": [
+    {
+      "original": "/storage/prefetchit/class_b_rpc_future_20261001/diagnostics/01_no_dso",
+      "retained": "/storage/prefetchit/class_b_rpc_future_20261001/diagnostics/rejected/01_no_dso_attempt0/01_no_dso"
+    },
+    {
+      "original": "/storage/prefetchit/class_b_rpc_future_20261001/diagnostics/01_no_dso.command.json",
+      "retained": "/storage/prefetchit/class_b_rpc_future_20261001/diagnostics/rejected/01_no_dso_attempt0/01_no_dso.command.json"
+    },
+    {
+      "original": "/storage/prefetchit/class_b_rpc_future_20261001/diagnostics/01_no_dso.json",
+      "retained": "/storage/prefetchit/class_b_rpc_future_20261001/diagnostics/rejected/01_no_dso_attempt0/01_no_dso.json"
+    },
+    {
+      "original": "/storage/prefetchit/class_b_rpc_future_20261001/diagnostics/01_no_dso.log",
+      "retained": "/storage/prefetchit/class_b_rpc_future_20261001/diagnostics/rejected/01_no_dso_attempt0/01_no_dso.log"
+    },
+    {
+      "original": "/storage/prefetchit/class_b_rpc_future_20261001/diagnostics/01_no_dso_platform",
+      "retained": "/storage/prefetchit/class_b_rpc_future_20261001/diagnostics/rejected/01_no_dso_attempt0/01_no_dso_platform"
+    }
+  ]
+}

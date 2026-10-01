@@ -76,3 +76,26 @@ The final policy improves whole compose-review throughput by 2.42% versus origin
 (individual paired-log 95% CI 1.23–3.63%); its incremental throughput over the older
 Mongo-only policy is not established by that comparison's interval. The operating
 point has roughly 85% CPU utilization and is not a new maximum-throughput sweep.
+
+## October 1 DSO ablation and RPC future-path campaign
+
+[Report](../../../docs/class_b_rpc_future_20261001.md),
+[independent confirmation](class_b_rpc_future_20261001/confirmation.json),
+[PMU contrasts](class_b_rpc_future_20261001/pmu_contrasts.json),
+[RPC target footprint](class_b_rpc_future_20261001/rpc_target_footprint.json),
+[verified publication manifest](class_b_rpc_future_20261001/manifest.json).
+
+This campaign tests strict removal of DSO hints, live virtual-call target hints,
+RPC-type handler hints, and prior-trace downstream targets. A refined append pass
+preserves existing decoder hints and code layout; an exact NOP disables only the
+new RPC hints. The 25 independent confirmation runs are separate from 18 exploratory
+runs and 8 diagnostic runs. The existing full policy remains best: throughput
++2.53% versus original (individual paired-log 95% CI +1.20–+3.87%). The no-DSO
+and added-RPC throughput intervals versus original include zero. The operating
+point is compose-review with MovieId, balanced C4 and about 85–87% CPU utilization.
+
+The compact archives retain measurements, settings, commands, versioned source,
+emitted assembly/patch maps, binary hashes, and cleanup decisions. Each member is
+verified by SHA-256. Generated ELFs, datasets, full request lists and raw/decoded
+trace copies are excluded. Rejected RPC binaries were removed after diagnosis;
+the no-DSO ablation and previous winning/reference artifacts remain local.

@@ -1,0 +1,1012 @@
+{
+  "movie": {
+    "source": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+    "sha256": "1dbfa7f16b813e7a1a18eb57cf17538bf1d051e27aeccaec8ffadd8fce258b07",
+    "methods": [
+      {
+        "method": "UploadMovieId",
+        "processor": {
+          "va": 912976,
+          "size": 2236,
+          "symbol": "_ZN13media_service23MovieIdServiceProcessor21process_UploadMovieIdEiPN6apache6thrift8protocol9TProtocolES5_Pv",
+          "name": "media_service::MovieIdServiceProcessor::process_UploadMovieId(int, apache::thrift::protocol::TProtocol*, apache::thrift::protocol::TProtocol*, void*)"
+        },
+        "handler": {
+          "va": 660032,
+          "size": 10320,
+          "symbol": "_ZN13media_service14MovieIdHandler13UploadMovieIdElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiRKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE",
+          "name": "media_service::MovieIdHandler::UploadMovieId(long, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, int, std::map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::less<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > > const&)"
+        },
+        "args_site": 913256,
+        "args_callee": 899552,
+        "chain": {
+          "base": "r13",
+          "offsets": [
+            24,
+            0,
+            16
+          ],
+          "handler_call": 913685,
+          "this_assignment": 913003,
+          "iface_load": 913655
+        },
+        "static_targets": [
+          660032,
+          660102,
+          666624,
+          660997,
+          665665,
+          665537,
+          665600,
+          663490
+        ],
+        "handler_l2_samples": 55,
+        "target_sample_counts": {
+          "660032": 19,
+          "660102": 4,
+          "666624": 7,
+          "660997": 6,
+          "665665": 6,
+          "665537": 4,
+          "665600": 4,
+          "663490": 2
+        },
+        "training_sha256": "0ce7f944a9de9d9cf93e579636d40dad86173168b43c2172f0cb203e1b0f50f5",
+        "training": "/storage/prefetchit/class_b_temporal_20261001/profiles/train_native/movie/l2/observations.json.gz"
+      },
+      {
+        "method": "RegisterMovieId",
+        "processor": {
+          "va": 915216,
+          "size": 2291,
+          "symbol": "_ZN13media_service23MovieIdServiceProcessor23process_RegisterMovieIdEiPN6apache6thrift8protocol9TProtocolES5_Pv",
+          "name": "media_service::MovieIdServiceProcessor::process_RegisterMovieId(int, apache::thrift::protocol::TProtocol*, apache::thrift::protocol::TProtocol*, void*)"
+        },
+        "handler": {
+          "va": 670352,
+          "size": 4216,
+          "symbol": "_ZN13media_service14MovieIdHandler15RegisterMovieIdElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES8_RKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE",
+          "name": "media_service::MovieIdHandler::RegisterMovieId(long, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::less<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > > const&)"
+        },
+        "args_site": 915521,
+        "args_callee": 903520,
+        "chain": {
+          "base": "r13",
+          "offsets": [
+            24,
+            0,
+            24
+          ],
+          "handler_call": 915949,
+          "this_assignment": 915243,
+          "iface_load": 915926
+        },
+        "static_targets": [
+          670352,
+          670405
+        ],
+        "handler_l2_samples": 0,
+        "target_sample_counts": {
+          "670352": 0,
+          "670405": 0
+        },
+        "training_sha256": "0ce7f944a9de9d9cf93e579636d40dad86173168b43c2172f0cb203e1b0f50f5",
+        "training": "/storage/prefetchit/class_b_temporal_20261001/profiles/train_native/movie/l2/observations.json.gz"
+      }
+    ],
+    "omitted": []
+  },
+  "compose": {
+    "source": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+    "sha256": "fb16c1d304d6c0b56c24c422f5dfa7dde6ab3c368cec6a4fd9bcc0602a66c917",
+    "methods": [
+      {
+        "method": "UploadText",
+        "processor": {
+          "va": 952928,
+          "size": 2192,
+          "symbol": "_ZN13media_service29ComposeReviewServiceProcessor18process_UploadTextEiPN6apache6thrift8protocol9TProtocolES5_Pv",
+          "name": "media_service::ComposeReviewServiceProcessor::process_UploadText(int, apache::thrift::protocol::TProtocol*, apache::thrift::protocol::TProtocol*, void*)"
+        },
+        "handler": {
+          "va": 674304,
+          "size": 6142,
+          "symbol": "_ZN13media_service20ComposeReviewHandler10UploadTextElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE",
+          "name": "media_service::ComposeReviewHandler::UploadText(long, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::less<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > > const&)"
+        },
+        "args_site": 953197,
+        "args_callee": 922704,
+        "chain": {
+          "base": "r13",
+          "offsets": [
+            24,
+            0,
+            16
+          ],
+          "handler_call": 953610,
+          "this_assignment": 952955,
+          "iface_load": 953587
+        },
+        "static_targets": [
+          674304,
+          674371,
+          676994,
+          675521,
+          676545,
+          676033,
+          675328,
+          675969
+        ],
+        "handler_l2_samples": 32,
+        "target_sample_counts": {
+          "674304": 8,
+          "674371": 8,
+          "676994": 5,
+          "675521": 4,
+          "676545": 4,
+          "676033": 1,
+          "675328": 1,
+          "675969": 1
+        },
+        "training_sha256": "3d0205dceb6596ea7d5282125bae39847d0ee35ccde22b3ff30ea672a0a9ae3a",
+        "training": "/storage/prefetchit/class_b_temporal_20261001/profiles/train_native/compose/l2/observations.json.gz"
+      },
+      {
+        "method": "UploadRating",
+        "processor": {
+          "va": 955120,
+          "size": 2148,
+          "symbol": "_ZN13media_service29ComposeReviewServiceProcessor20process_UploadRatingEiPN6apache6thrift8protocol9TProtocolES5_Pv",
+          "name": "media_service::ComposeReviewServiceProcessor::process_UploadRating(int, apache::thrift::protocol::TProtocol*, apache::thrift::protocol::TProtocol*, void*)"
+        },
+        "handler": {
+          "va": 680448,
+          "size": 6568,
+          "symbol": "_ZN13media_service20ComposeReviewHandler12UploadRatingEliRKSt3mapINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES7_St4lessIS7_ESaISt4pairIKS7_S7_EEE",
+          "name": "media_service::ComposeReviewHandler::UploadRating(long, int, std::map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::less<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > > const&)"
+        },
+        "args_site": 955364,
+        "args_callee": 926416,
+        "chain": {
+          "base": "r13",
+          "offsets": [
+            24,
+            0,
+            24
+          ],
+          "handler_call": 955785,
+          "this_assignment": 955147,
+          "iface_load": 955755
+        },
+        "static_targets": [
+          680448,
+          680515,
+          683846,
+          683457,
+          681665,
+          682438,
+          683779,
+          683013
+        ],
+        "handler_l2_samples": 37,
+        "target_sample_counts": {
+          "680448": 6,
+          "680515": 4,
+          "683846": 8,
+          "683457": 5,
+          "681665": 4,
+          "682438": 3,
+          "683779": 3,
+          "683013": 2
+        },
+        "training_sha256": "3d0205dceb6596ea7d5282125bae39847d0ee35ccde22b3ff30ea672a0a9ae3a",
+        "training": "/storage/prefetchit/class_b_temporal_20261001/profiles/train_native/compose/l2/observations.json.gz"
+      },
+      {
+        "method": "UploadUserId",
+        "processor": {
+          "va": 961632,
+          "size": 2137,
+          "symbol": "_ZN13media_service29ComposeReviewServiceProcessor20process_UploadUserIdEiPN6apache6thrift8protocol9TProtocolES5_Pv",
+          "name": "media_service::ComposeReviewServiceProcessor::process_UploadUserId(int, apache::thrift::protocol::TProtocol*, apache::thrift::protocol::TProtocol*, void*)"
+        },
+        "handler": {
+          "va": 661120,
+          "size": 6619,
+          "symbol": "_ZN13media_service20ComposeReviewHandler12UploadUserIdEllRKSt3mapINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES7_St4lessIS7_ESaISt4pairIKS7_S7_EEE",
+          "name": "media_service::ComposeReviewHandler::UploadUserId(long, long, std::map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::less<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > > const&)"
+        },
+        "args_site": 961864,
+        "args_callee": 937616,
+        "chain": {
+          "base": "r13",
+          "offsets": [
+            24,
+            0,
+            48
+          ],
+          "handler_call": 962286,
+          "this_assignment": 961659,
+          "iface_load": 962255
+        },
+        "static_targets": [
+          661120,
+          661187,
+          662272,
+          663680,
+          663616,
+          663107,
+          662528
+        ],
+        "handler_l2_samples": 24,
+        "target_sample_counts": {
+          "661120": 10,
+          "661187": 0,
+          "662272": 7,
+          "663680": 3,
+          "663616": 2,
+          "663107": 1,
+          "662528": 1
+        },
+        "training_sha256": "3d0205dceb6596ea7d5282125bae39847d0ee35ccde22b3ff30ea672a0a9ae3a",
+        "training": "/storage/prefetchit/class_b_temporal_20261001/profiles/train_native/compose/l2/observations.json.gz"
+      },
+      {
+        "method": "UploadMovieId",
+        "processor": {
+          "va": 957280,
+          "size": 2200,
+          "symbol": "_ZN13media_service29ComposeReviewServiceProcessor21process_UploadMovieIdEiPN6apache6thrift8protocol9TProtocolES5_Pv",
+          "name": "media_service::ComposeReviewServiceProcessor::process_UploadMovieId(int, apache::thrift::protocol::TProtocol*, apache::thrift::protocol::TProtocol*, void*)"
+        },
+        "handler": {
+          "va": 654976,
+          "size": 6142,
+          "symbol": "_ZN13media_service20ComposeReviewHandler13UploadMovieIdElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE",
+          "name": "media_service::ComposeReviewHandler::UploadMovieId(long, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::less<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > > const&)"
+        },
+        "args_site": 957549,
+        "args_callee": 930176,
+        "chain": {
+          "base": "r13",
+          "offsets": [
+            24,
+            0,
+            32
+          ],
+          "handler_call": 957962,
+          "this_assignment": 957307,
+          "iface_load": 957939
+        },
+        "static_targets": [
+          654976,
+          655043,
+          657217,
+          656705,
+          655235,
+          655301,
+          657666,
+          655109
+        ],
+        "handler_l2_samples": 28,
+        "target_sample_counts": {
+          "654976": 10,
+          "655043": 3,
+          "657217": 5,
+          "656705": 3,
+          "655235": 3,
+          "655301": 2,
+          "657666": 1,
+          "655109": 1
+        },
+        "training_sha256": "3d0205dceb6596ea7d5282125bae39847d0ee35ccde22b3ff30ea672a0a9ae3a",
+        "training": "/storage/prefetchit/class_b_temporal_20261001/profiles/train_native/compose/l2/observations.json.gz"
+      },
+      {
+        "method": "UploadUniqueId",
+        "processor": {
+          "va": 959488,
+          "size": 2144,
+          "symbol": "_ZN13media_service29ComposeReviewServiceProcessor22process_UploadUniqueIdEiPN6apache6thrift8protocol9TProtocolES5_Pv",
+          "name": "media_service::ComposeReviewServiceProcessor::process_UploadUniqueId(int, apache::thrift::protocol::TProtocol*, apache::thrift::protocol::TProtocol*, void*)"
+        },
+        "handler": {
+          "va": 667744,
+          "size": 6546,
+          "symbol": "_ZN13media_service20ComposeReviewHandler14UploadUniqueIdEllRKSt3mapINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES7_St4lessIS7_ESaISt4pairIKS7_S7_EEE",
+          "name": "media_service::ComposeReviewHandler::UploadUniqueId(long, long, std::map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::less<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > > const&)"
+        },
+        "args_site": 959720,
+        "args_callee": 933888,
+        "chain": {
+          "base": "r13",
+          "offsets": [
+            24,
+            0,
+            40
+          ],
+          "handler_call": 960142,
+          "this_assignment": 959515,
+          "iface_load": 960111
+        },
+        "static_targets": [
+          667744,
+          667780,
+          669760,
+          670273,
+          668932,
+          670722,
+          668996,
+          668673
+        ],
+        "handler_l2_samples": 34,
+        "target_sample_counts": {
+          "667744": 9,
+          "667780": 1,
+          "669760": 6,
+          "670273": 5,
+          "668932": 4,
+          "670722": 3,
+          "668996": 2,
+          "668673": 1
+        },
+        "training_sha256": "3d0205dceb6596ea7d5282125bae39847d0ee35ccde22b3ff30ea672a0a9ae3a",
+        "training": "/storage/prefetchit/class_b_temporal_20261001/profiles/train_native/compose/l2/observations.json.gz"
+      }
+    ],
+    "omitted": []
+  },
+  "rating": {
+    "source": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService",
+    "sha256": "d2314e24f46b0fa6b2487f55dad565070adb9b6a920cd0a5f64c7e6d767ac3e3",
+    "methods": [
+      {
+        "method": "UploadRating",
+        "processor": {
+          "va": 572640,
+          "size": 2229,
+          "symbol": "_ZN13media_service22RatingServiceProcessor20process_UploadRatingEiPN6apache6thrift8protocol9TProtocolES5_Pv",
+          "name": "media_service::RatingServiceProcessor::process_UploadRating(int, apache::thrift::protocol::TProtocol*, apache::thrift::protocol::TProtocol*, void*)"
+        },
+        "handler": {
+          "va": 344592,
+          "size": 4211,
+          "symbol": "_ZN13media_service13RatingHandler12UploadRatingElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiRKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE",
+          "name": "media_service::RatingHandler::UploadRating(long, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, int, std::map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::less<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > > const&)"
+        },
+        "args_site": 572920,
+        "args_callee": 565264,
+        "chain": {
+          "base": "r13",
+          "offsets": [
+            24,
+            0,
+            16
+          ],
+          "handler_call": 573349,
+          "this_assignment": 572667,
+          "iface_load": 573319
+        },
+        "static_targets": [
+          344592,
+          344642,
+          346562,
+          345472,
+          346690,
+          347008
+        ],
+        "handler_l2_samples": 27,
+        "target_sample_counts": {
+          "344592": 4,
+          "344642": 8,
+          "346562": 12,
+          "345472": 1,
+          "346690": 1,
+          "347008": 1
+        },
+        "training_sha256": "78458ba1496fa962d003da1411e2e30608baaaa978cfd28ddf648e1e110d15e4",
+        "training": "/storage/prefetchit/class_b_temporal_20261001/profiles/train_native/rating/l2/observations.json.gz"
+      }
+    ],
+    "omitted": []
+  },
+  "unique": {
+    "source": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/UniqueIdService",
+    "sha256": "54771f7236ce5ab22b131b8381b31d23e0a8b2b45695d559a9c47f572e2c3859",
+    "methods": [
+      {
+        "method": "UploadUniqueId",
+        "processor": {
+          "va": 412032,
+          "size": 2119,
+          "symbol": "_ZN13media_service24UniqueIdServiceProcessor22process_UploadUniqueIdEiPN6apache6thrift8protocol9TProtocolES5_Pv",
+          "name": "media_service::UniqueIdServiceProcessor::process_UploadUniqueId(int, apache::thrift::protocol::TProtocol*, apache::thrift::protocol::TProtocol*, void*)"
+        },
+        "handler": {
+          "va": 192768,
+          "size": 4952,
+          "symbol": "_ZN13media_service15UniqueIdHandler14UploadUniqueIdElRKSt3mapINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES7_St4lessIS7_ESaISt4pairIKS7_S7_EEE",
+          "name": "media_service::UniqueIdHandler::UploadUniqueId(long, std::map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::less<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > > const&)"
+        },
+        "args_site": 412265,
+        "args_callee": 405104,
+        "chain": {
+          "base": "r13",
+          "offsets": [
+            24,
+            0,
+            16
+          ],
+          "handler_call": 412670,
+          "this_assignment": 412059,
+          "iface_load": 412647
+        },
+        "static_targets": [
+          192768,
+          192838,
+          195585,
+          194817,
+          194496
+        ],
+        "handler_l2_samples": 20,
+        "target_sample_counts": {
+          "192768": 14,
+          "192838": 0,
+          "195585": 4,
+          "194817": 1,
+          "194496": 1
+        },
+        "training_sha256": "adaf04c18124e2b4dda7ff0739fa85353d15ac605cad2e63b69ac76c14c0e2ac",
+        "training": "/storage/prefetchit/class_b_temporal_20261001/profiles/train_native/unique/l2/observations.json.gz"
+      }
+    ],
+    "omitted": []
+  },
+  "text": {
+    "source": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/TextService",
+    "sha256": "beee2b363cdd95391e3db419aeccb36e2dd16c7f8b7f4c3f560bd878fc4c6e7b",
+    "methods": [
+      {
+        "method": "UploadText",
+        "processor": {
+          "va": 400816,
+          "size": 2192,
+          "symbol": "_ZN13media_service20TextServiceProcessor18process_UploadTextEiPN6apache6thrift8protocol9TProtocolES5_Pv",
+          "name": "media_service::TextServiceProcessor::process_UploadText(int, apache::thrift::protocol::TProtocol*, apache::thrift::protocol::TProtocol*, void*)"
+        },
+        "handler": {
+          "va": 188464,
+          "size": 1688,
+          "symbol": "_ZN13media_service11TextHandler10UploadTextElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE",
+          "name": "media_service::TextHandler::UploadText(long, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::less<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > > const&)"
+        },
+        "args_site": 401085,
+        "args_callee": 393616,
+        "chain": {
+          "base": "r13",
+          "offsets": [
+            24,
+            0,
+            16
+          ],
+          "handler_call": 401498,
+          "this_assignment": 400843,
+          "iface_load": 401475
+        },
+        "static_targets": [
+          188464,
+          188481,
+          189120,
+          188608,
+          188544,
+          188736
+        ],
+        "handler_l2_samples": 29,
+        "target_sample_counts": {
+          "188464": 12,
+          "188481": 0,
+          "189120": 8,
+          "188608": 7,
+          "188544": 1,
+          "188736": 1
+        },
+        "training_sha256": "ebe08ff0fe8100730965309e439c0b221c6657c1f45de06757f01c454a9f0296",
+        "training": "/storage/prefetchit/class_b_temporal_20261001/profiles/train_native/text/l2/observations.json.gz"
+      }
+    ],
+    "omitted": []
+  },
+  "user": {
+    "source": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/UserService",
+    "sha256": "ea3f1c8938c351427483122bc24978df3ad62d0212cba5ea3a7138e6b120c8dd",
+    "methods": [
+      {
+        "method": "Login",
+        "processor": {
+          "va": 540864,
+          "size": 2377,
+          "symbol": "_ZN13media_service20UserServiceProcessor13process_LoginEiPN6apache6thrift8protocol9TProtocolES5_Pv",
+          "name": "media_service::UserServiceProcessor::process_Login(int, apache::thrift::protocol::TProtocol*, apache::thrift::protocol::TProtocol*, void*)"
+        },
+        "handler": {
+          "va": 236304,
+          "size": 20866,
+          "symbol": "_ZN13media_service11UserHandler5LoginERNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEElRKS6_S9_RKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS8_S6_EEE",
+          "name": "media_service::UserHandler::Login(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, long, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::less<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > > const&)"
+        },
+        "args_site": 541164,
+        "args_callee": 512528,
+        "chain": {
+          "base": "r12",
+          "offsets": [
+            24,
+            0,
+            32
+          ],
+          "handler_call": 541639,
+          "this_assignment": 540891,
+          "iface_load": 541612
+        },
+        "static_targets": [
+          236304,
+          236354
+        ],
+        "handler_l2_samples": 0,
+        "target_sample_counts": {
+          "236304": 0,
+          "236354": 0
+        },
+        "training_sha256": "b8b583aa35e9410234e8776b99dcdb940ca15b98b982506f98ee30c9fe7cb405",
+        "training": "/storage/prefetchit/class_b_temporal_20261001/profiles/train_native/user/l2/observations.json.gz"
+      },
+      {
+        "method": "RegisterUser",
+        "processor": {
+          "va": 536224,
+          "size": 2279,
+          "symbol": "_ZN13media_service20UserServiceProcessor20process_RegisterUserEiPN6apache6thrift8protocol9TProtocolES5_Pv",
+          "name": "media_service::UserServiceProcessor::process_RegisterUser(int, apache::thrift::protocol::TProtocol*, apache::thrift::protocol::TProtocol*, void*)"
+        },
+        "handler": {
+          "va": 208848,
+          "size": 9353,
+          "symbol": "_ZN13media_service11UserHandler12RegisterUserElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES8_S8_S8_RKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE",
+          "name": "media_service::UserHandler::RegisterUser(long, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::less<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > > const&)"
+        },
+        "args_site": 536608,
+        "args_callee": 503376,
+        "chain": {
+          "base": "r12",
+          "offsets": [
+            24,
+            0,
+            16
+          ],
+          "handler_call": 537058,
+          "this_assignment": 536251,
+          "iface_load": 537026
+        },
+        "static_targets": [
+          208848,
+          208898
+        ],
+        "handler_l2_samples": 0,
+        "target_sample_counts": {
+          "208848": 0,
+          "208898": 0
+        },
+        "training_sha256": "b8b583aa35e9410234e8776b99dcdb940ca15b98b982506f98ee30c9fe7cb405",
+        "training": "/storage/prefetchit/class_b_temporal_20261001/profiles/train_native/user/l2/observations.json.gz"
+      },
+      {
+        "method": "RegisterUserWithId",
+        "processor": {
+          "va": 538512,
+          "size": 2351,
+          "symbol": "_ZN13media_service20UserServiceProcessor26process_RegisterUserWithIdEiPN6apache6thrift8protocol9TProtocolES5_Pv",
+          "name": "media_service::UserServiceProcessor::process_RegisterUserWithId(int, apache::thrift::protocol::TProtocol*, apache::thrift::protocol::TProtocol*, void*)"
+        },
+        "handler": {
+          "va": 218208,
+          "size": 5618,
+          "symbol": "_ZN13media_service11UserHandler18RegisterUserWithIdElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES8_S8_S8_lRKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE",
+          "name": "media_service::UserHandler::RegisterUserWithId(long, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, long, std::map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::less<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > > const&)"
+        },
+        "args_site": 538902,
+        "args_callee": 507840,
+        "chain": {
+          "base": "r12",
+          "offsets": [
+            24,
+            0,
+            24
+          ],
+          "handler_call": 539364,
+          "this_assignment": 538539,
+          "iface_load": 539328
+        },
+        "static_targets": [
+          218208,
+          218247
+        ],
+        "handler_l2_samples": 0,
+        "target_sample_counts": {
+          "218208": 0,
+          "218247": 0
+        },
+        "training_sha256": "b8b583aa35e9410234e8776b99dcdb940ca15b98b982506f98ee30c9fe7cb405",
+        "training": "/storage/prefetchit/class_b_temporal_20261001/profiles/train_native/user/l2/observations.json.gz"
+      },
+      {
+        "method": "UploadUserWithUserId",
+        "processor": {
+          "va": 543248,
+          "size": 2177,
+          "symbol": "_ZN13media_service20UserServiceProcessor28process_UploadUserWithUserIdEiPN6apache6thrift8protocol9TProtocolES5_Pv",
+          "name": "media_service::UserServiceProcessor::process_UploadUserWithUserId(int, apache::thrift::protocol::TProtocol*, apache::thrift::protocol::TProtocol*, void*)"
+        },
+        "handler": {
+          "va": 234608,
+          "size": 1688,
+          "symbol": "_ZN13media_service11UserHandler20UploadUserWithUserIdEllRKSt3mapINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES7_St4lessIS7_ESaISt4pairIKS7_S7_EEE",
+          "name": "media_service::UserHandler::UploadUserWithUserId(long, long, std::map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::less<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > > const&)"
+        },
+        "args_site": 543480,
+        "args_callee": 516624,
+        "chain": {
+          "base": "r13",
+          "offsets": [
+            24,
+            0,
+            40
+          ],
+          "handler_call": 543902,
+          "this_assignment": 543275,
+          "iface_load": 543871
+        },
+        "static_targets": [
+          234608,
+          234625
+        ],
+        "handler_l2_samples": 0,
+        "target_sample_counts": {
+          "234608": 0,
+          "234625": 0
+        },
+        "training_sha256": "b8b583aa35e9410234e8776b99dcdb940ca15b98b982506f98ee30c9fe7cb405",
+        "training": "/storage/prefetchit/class_b_temporal_20261001/profiles/train_native/user/l2/observations.json.gz"
+      },
+      {
+        "method": "UploadUserWithUsername",
+        "processor": {
+          "va": 545440,
+          "size": 2240,
+          "symbol": "_ZN13media_service20UserServiceProcessor30process_UploadUserWithUsernameEiPN6apache6thrift8protocol9TProtocolES5_Pv",
+          "name": "media_service::UserServiceProcessor::process_UploadUserWithUsername(int, apache::thrift::protocol::TProtocol*, apache::thrift::protocol::TProtocol*, void*)"
+        },
+        "handler": {
+          "va": 223840,
+          "size": 10766,
+          "symbol": "_ZN13media_service11UserHandler22UploadUserWithUsernameElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE",
+          "name": "media_service::UserHandler::UploadUserWithUsername(long, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::less<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > > const&)"
+        },
+        "args_site": 545709,
+        "args_callee": 520384,
+        "chain": {
+          "base": "r13",
+          "offsets": [
+            24,
+            0,
+            48
+          ],
+          "handler_call": 546122,
+          "this_assignment": 545467,
+          "iface_load": 546099
+        },
+        "static_targets": [
+          223840,
+          223872,
+          225221,
+          227522,
+          229191,
+          225024,
+          223939
+        ],
+        "handler_l2_samples": 33,
+        "target_sample_counts": {
+          "223840": 8,
+          "223872": 5,
+          "225221": 7,
+          "227522": 7,
+          "229191": 4,
+          "225024": 1,
+          "223939": 1
+        },
+        "training_sha256": "b8b583aa35e9410234e8776b99dcdb940ca15b98b982506f98ee30c9fe7cb405",
+        "training": "/storage/prefetchit/class_b_temporal_20261001/profiles/train_native/user/l2/observations.json.gz"
+      }
+    ],
+    "omitted": []
+  },
+  "storage": {
+    "source": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/ReviewStorageService",
+    "sha256": "d2a2d732143c46b04f5ca16733387a5f5713ad8dc218c423def02e91e4025de9",
+    "methods": [
+      {
+        "method": "ReadReviews",
+        "processor": {
+          "va": 444704,
+          "size": 2189,
+          "symbol": "_ZN13media_service29ReviewStorageServiceProcessor19process_ReadReviewsEiPN6apache6thrift8protocol9TProtocolES5_Pv",
+          "name": "media_service::ReviewStorageServiceProcessor::process_ReadReviews(int, apache::thrift::protocol::TProtocol*, apache::thrift::protocol::TProtocol*, void*)"
+        },
+        "handler": {
+          "va": 202592,
+          "size": 19409,
+          "symbol": "_ZN13media_service20ReviewStorageHandler11ReadReviewsERSt6vectorINS_6ReviewESaIS2_EElRKS1_IlSaIlEERKSt3mapINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESG_St4lessISG_ESaISt4pairIKSG_SG_EEE",
+          "name": "media_service::ReviewStorageHandler::ReadReviews(std::vector<media_service::Review, std::allocator<media_service::Review> >&, long, std::vector<long, std::allocator<long> > const&, std::map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::less<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > > const&)"
+        },
+        "args_site": 444944,
+        "args_callee": 431552,
+        "chain": {
+          "base": "r13",
+          "offsets": [
+            24,
+            0,
+            24
+          ],
+          "handler_call": 445395,
+          "this_assignment": 444731,
+          "iface_load": 445364
+        },
+        "static_targets": [
+          202592,
+          202624
+        ],
+        "handler_l2_samples": 0,
+        "target_sample_counts": {
+          "202592": 0,
+          "202624": 0
+        },
+        "training_sha256": "78db66294bb5e32610f7e9fb8b81bfb64b2b0bb382e5a221ac1c906eb99b2509",
+        "training": "/storage/prefetchit/class_b_temporal_20261001/profiles/train_native/storage/l2/observations.json.gz"
+      },
+      {
+        "method": "StoreReview",
+        "processor": {
+          "va": 442368,
+          "size": 2326,
+          "symbol": "_ZN13media_service29ReviewStorageServiceProcessor19process_StoreReviewEiPN6apache6thrift8protocol9TProtocolES5_Pv",
+          "name": "media_service::ReviewStorageServiceProcessor::process_StoreReview(int, apache::thrift::protocol::TProtocol*, apache::thrift::protocol::TProtocol*, void*)"
+        },
+        "handler": {
+          "va": 199584,
+          "size": 2993,
+          "symbol": "_ZN13media_service20ReviewStorageHandler11StoreReviewElRKNS_6ReviewERKSt3mapINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESA_St4lessISA_ESaISt4pairIKSA_SA_EEE",
+          "name": "media_service::ReviewStorageHandler::StoreReview(long, media_service::Review const&, std::map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::less<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > > const&)"
+        },
+        "args_site": 442754,
+        "args_callee": 427760,
+        "chain": {
+          "base": "r13",
+          "offsets": [
+            24,
+            0,
+            16
+          ],
+          "handler_call": 443181,
+          "this_assignment": 442393,
+          "iface_load": 443155
+        },
+        "static_targets": [
+          199584,
+          199616,
+          200704
+        ],
+        "handler_l2_samples": 30,
+        "target_sample_counts": {
+          "199584": 8,
+          "199616": 7,
+          "200704": 15
+        },
+        "training_sha256": "78db66294bb5e32610f7e9fb8b81bfb64b2b0bb382e5a221ac1c906eb99b2509",
+        "training": "/storage/prefetchit/class_b_temporal_20261001/profiles/train_native/storage/l2/observations.json.gz"
+      }
+    ],
+    "omitted": []
+  },
+  "userreview": {
+    "source": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/UserReviewService",
+    "sha256": "317486ab030170061457bacd8d793ef2a68b3da84a619f34430ec865864426e5",
+    "methods": [
+      {
+        "method": "ReadUserReviews",
+        "processor": {
+          "va": 553472,
+          "size": 2197,
+          "symbol": "_ZN13media_service26UserReviewServiceProcessor23process_ReadUserReviewsEiPN6apache6thrift8protocol9TProtocolES5_Pv",
+          "name": "media_service::UserReviewServiceProcessor::process_ReadUserReviews(int, apache::thrift::protocol::TProtocol*, apache::thrift::protocol::TProtocol*, void*)"
+        },
+        "handler": {
+          "va": 292080,
+          "size": 14358,
+          "symbol": "_ZN13media_service17UserReviewHandler15ReadUserReviewsERSt6vectorINS_6ReviewESaIS2_EElliiRKSt3mapINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESC_St4lessISC_ESaISt4pairIKSC_SC_EEE",
+          "name": "media_service::UserReviewHandler::ReadUserReviews(std::vector<media_service::Review, std::allocator<media_service::Review> >&, long, long, int, int, std::map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::less<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > > const&)"
+        },
+        "args_site": 553722,
+        "args_callee": 540320,
+        "chain": {
+          "base": "r13",
+          "offsets": [
+            24,
+            0,
+            24
+          ],
+          "handler_call": 554198,
+          "this_assignment": 553499,
+          "iface_load": 554143
+        },
+        "static_targets": [
+          292080,
+          292097
+        ],
+        "handler_l2_samples": 0,
+        "target_sample_counts": {
+          "292080": 0,
+          "292097": 0
+        },
+        "training_sha256": "0c5f01b43063b9985b0abfcd914092203f65e67f67a3e44f3404638f774ceee6",
+        "training": "/storage/prefetchit/class_b_temporal_20261001/profiles/train_native/userreview/l2/observations.json.gz"
+      },
+      {
+        "method": "UploadUserReview",
+        "processor": {
+          "va": 551264,
+          "size": 2194,
+          "symbol": "_ZN13media_service26UserReviewServiceProcessor24process_UploadUserReviewEiPN6apache6thrift8protocol9TProtocolES5_Pv",
+          "name": "media_service::UserReviewServiceProcessor::process_UploadUserReview(int, apache::thrift::protocol::TProtocol*, apache::thrift::protocol::TProtocol*, void*)"
+        },
+        "handler": {
+          "va": 283280,
+          "size": 8789,
+          "symbol": "_ZN13media_service17UserReviewHandler16UploadUserReviewEllllRKSt3mapINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES7_St4lessIS7_ESaISt4pairIKS7_S7_EEE",
+          "name": "media_service::UserReviewHandler::UploadUserReview(long, long, long, long, std::map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::less<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > > const&)"
+        },
+        "args_site": 551504,
+        "args_callee": 536224,
+        "chain": {
+          "base": "r13",
+          "offsets": [
+            24,
+            0,
+            16
+          ],
+          "handler_call": 551942,
+          "this_assignment": 551291,
+          "iface_load": 551895
+        },
+        "static_targets": [
+          283280,
+          283334,
+          288259,
+          285185,
+          284352,
+          286722,
+          286212,
+          284288
+        ],
+        "handler_l2_samples": 44,
+        "target_sample_counts": {
+          "283280": 8,
+          "283334": 0,
+          "288259": 10,
+          "285185": 9,
+          "284352": 6,
+          "286722": 5,
+          "286212": 3,
+          "284288": 3
+        },
+        "training_sha256": "0c5f01b43063b9985b0abfcd914092203f65e67f67a3e44f3404638f774ceee6",
+        "training": "/storage/prefetchit/class_b_temporal_20261001/profiles/train_native/userreview/l2/observations.json.gz"
+      }
+    ],
+    "omitted": []
+  },
+  "moviereview": {
+    "source": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/MovieReviewService",
+    "sha256": "3a547e47cb945f83448ecdee31f23d2428e3c700ce96af34c177300d9909e209",
+    "methods": [
+      {
+        "method": "ReadMovieReviews",
+        "processor": {
+          "va": 552160,
+          "size": 2318,
+          "symbol": "_ZN13media_service27MovieReviewServiceProcessor24process_ReadMovieReviewsEiPN6apache6thrift8protocol9TProtocolES5_Pv",
+          "name": "media_service::MovieReviewServiceProcessor::process_ReadMovieReviews(int, apache::thrift::protocol::TProtocol*, apache::thrift::protocol::TProtocol*, void*)"
+        },
+        "handler": {
+          "va": 291584,
+          "size": 13346,
+          "symbol": "_ZN13media_service18MovieReviewHandler16ReadMovieReviewsERSt6vectorINS_6ReviewESaIS2_EElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiiRKSt3mapISB_SB_St4lessISB_ESaISt4pairISC_SB_EEE",
+          "name": "media_service::MovieReviewHandler::ReadMovieReviews(std::vector<media_service::Review, std::allocator<media_service::Review> >&, long, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, int, int, std::map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::less<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > > const&)"
+        },
+        "args_site": 552448,
+        "args_callee": 538896,
+        "chain": {
+          "base": "r12",
+          "offsets": [
+            24,
+            0,
+            24
+          ],
+          "handler_call": 552928,
+          "this_assignment": 552187,
+          "iface_load": 552875
+        },
+        "static_targets": [
+          291584,
+          291655
+        ],
+        "handler_l2_samples": 0,
+        "target_sample_counts": {
+          "291584": 0,
+          "291655": 0
+        },
+        "training_sha256": "b2b66b0a9342de3133d78ea30701d1275259b2c4b8fedb113a49288d15fc84f9",
+        "training": "/storage/prefetchit/class_b_temporal_20261001/profiles/train_native/moviereview/l2/observations.json.gz"
+      },
+      {
+        "method": "UploadMovieReview",
+        "processor": {
+          "va": 549888,
+          "size": 2267,
+          "symbol": "_ZN13media_service27MovieReviewServiceProcessor25process_UploadMovieReviewEiPN6apache6thrift8protocol9TProtocolES5_Pv",
+          "name": "media_service::MovieReviewServiceProcessor::process_UploadMovieReview(int, apache::thrift::protocol::TProtocol*, apache::thrift::protocol::TProtocol*, void*)"
+        },
+        "handler": {
+          "va": 283280,
+          "size": 8300,
+          "symbol": "_ZN13media_service18MovieReviewHandler17UploadMovieReviewElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEllRKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE",
+          "name": "media_service::MovieReviewHandler::UploadMovieReview(long, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, long, long, std::map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::less<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > > const&)"
+        },
+        "args_site": 550168,
+        "args_callee": 534784,
+        "chain": {
+          "base": "r13",
+          "offsets": [
+            24,
+            0,
+            16
+          ],
+          "handler_call": 550604,
+          "this_assignment": 549915,
+          "iface_load": 550565
+        },
+        "static_targets": [
+          283280,
+          283331,
+          285248,
+          287682,
+          285954,
+          284353,
+          285634,
+          283393
+        ],
+        "handler_l2_samples": 45,
+        "target_sample_counts": {
+          "283280": 6,
+          "283331": 0,
+          "285248": 15,
+          "287682": 10,
+          "285954": 6,
+          "284353": 5,
+          "285634": 1,
+          "283393": 1
+        },
+        "training_sha256": "b2b66b0a9342de3133d78ea30701d1275259b2c4b8fedb113a49288d15fc84f9",
+        "training": "/storage/prefetchit/class_b_temporal_20261001/profiles/train_native/moviereview/l2/observations.json.gz"
+      }
+    ],
+    "omitted": []
+  }
+}

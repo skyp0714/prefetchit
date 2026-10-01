@@ -1,0 +1,12 @@
+
+virtual memory:
+  dtlb_load_misses.walk_completed
+       [Load miss in all TLB levels causes a page walk that completes. (All
+        page sizes)]
+        default_core/event=0x12,period=0x186a3,umask=0xe/
+
+virtual memory:
+  dtlb_store_misses.walk_completed
+       [Store misses in all TLB levels causes a page walk that completes. (All
+        page sizes)]
+        default_core/event=0x13,period=0x186a3,umask=0xe/

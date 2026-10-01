@@ -1,0 +1,892 @@
+{
+  "summary": {
+    "train": {
+      "estimated_events_per_request": {
+        "all": 3874.1533111729295,
+        "early_all": 1740.5541777146454,
+        "main_elf": 1970.9281697677006,
+        "outside_main_elf": 1903.2251414052282,
+        "new_rpc_target_overlap": 39.76868297205736,
+        "early_new_rpc_target_overlap": 26.12627872576668,
+        "previously_untargeted_overlap": 27.091925544998862
+      },
+      "new_rpc_target_overlap_pct": 1.0265128862444808,
+      "new_rpc_target_overlap_within_main_pct": 2.0177641977051155,
+      "previously_untargeted_overlap_pct": 0.6992992628058019,
+      "early_new_rpc_target_overlap_pct": 1.5010322034371024,
+      "outside_main_elf_pct": 49.12622161638235
+    },
+    "heldout": {
+      "estimated_events_per_request": {
+        "all": 3916.686109784077,
+        "early_all": 1771.0764993252658,
+        "main_elf": 2010.0201805026513,
+        "outside_main_elf": 1906.6659292814256,
+        "new_rpc_target_overlap": 37.04444223911391,
+        "early_new_rpc_target_overlap": 26.12731351880291,
+        "previously_untargeted_overlap": 26.904950409551002
+      },
+      "new_rpc_target_overlap_pct": 0.9458108513361603,
+      "new_rpc_target_overlap_within_main_pct": 1.8429885728734379,
+      "previously_untargeted_overlap_pct": 0.6869314940081896,
+      "early_new_rpc_target_overlap_pct": 1.47522218993684,
+      "outside_main_elf_pct": 48.680590576775586
+    },
+    "final": {
+      "estimated_events_per_request": {
+        "all": 1442.1380402203672,
+        "early_all": 794.4557676682297,
+        "main_elf": 894.5484416886275,
+        "outside_original_instruction_boundaries": 183.3475890537206,
+        "outside_main_elf": 547.5895985317397,
+        "new_rpc_target_overlap": 26.063385875485523,
+        "early_new_rpc_target_overlap": 17.71834018343084,
+        "previously_untargeted_overlap": 25.218160974231267
+      },
+      "new_rpc_target_overlap_pct": 1.8072740021130629,
+      "new_rpc_target_overlap_within_main_pct": 2.9135801551770646,
+      "previously_untargeted_overlap_pct": 1.7486648483648475,
+      "early_new_rpc_target_overlap_pct": 2.2302487947737,
+      "outside_main_elf_pct": 37.97067848290479
+    }
+  },
+  "targets": {
+    "movie": {
+      "added_hint_sites": 10,
+      "distinct_new_bundle_lines": 10,
+      "lines_already_targeted_elsewhere": 3,
+      "previously_untargeted_lines": 7
+    },
+    "compose": {
+      "added_hint_sites": 34,
+      "distinct_new_bundle_lines": 34,
+      "lines_already_targeted_elsewhere": 7,
+      "previously_untargeted_lines": 27
+    },
+    "rating": {
+      "added_hint_sites": 6,
+      "distinct_new_bundle_lines": 6,
+      "lines_already_targeted_elsewhere": 1,
+      "previously_untargeted_lines": 5
+    },
+    "unique": {
+      "added_hint_sites": 5,
+      "distinct_new_bundle_lines": 5,
+      "lines_already_targeted_elsewhere": 1,
+      "previously_untargeted_lines": 4
+    },
+    "text": {
+      "added_hint_sites": 6,
+      "distinct_new_bundle_lines": 6,
+      "lines_already_targeted_elsewhere": 1,
+      "previously_untargeted_lines": 5
+    },
+    "user": {
+      "added_hint_sites": 15,
+      "distinct_new_bundle_lines": 15,
+      "lines_already_targeted_elsewhere": 2,
+      "previously_untargeted_lines": 13
+    },
+    "storage": {
+      "added_hint_sites": 5,
+      "distinct_new_bundle_lines": 5,
+      "lines_already_targeted_elsewhere": 0,
+      "previously_untargeted_lines": 5
+    },
+    "userreview": {
+      "added_hint_sites": 10,
+      "distinct_new_bundle_lines": 10,
+      "lines_already_targeted_elsewhere": 3,
+      "previously_untargeted_lines": 7
+    },
+    "moviereview": {
+      "added_hint_sites": 10,
+      "distinct_new_bundle_lines": 10,
+      "lines_already_targeted_elsewhere": 1,
+      "previously_untargeted_lines": 9
+    }
+  },
+  "services": {
+    "movie": {
+      "train": {
+        "samples": {
+          "all": 4306,
+          "early_all": 2678,
+          "main_elf": 3613,
+          "outside_main_elf": 693,
+          "new_rpc_target_overlap": 52,
+          "early_new_rpc_target_overlap": 33,
+          "previously_untargeted_overlap": 22
+        },
+        "estimated_events_per_request": {
+          "all": 399.49350295320306,
+          "early_all": 248.45415720127215,
+          "main_elf": 335.19972739663785,
+          "outside_main_elf": 64.2937755565652,
+          "new_rpc_target_overlap": 4.824352567014993,
+          "early_new_rpc_target_overlap": 3.061608359836438,
+          "previously_untargeted_overlap": 2.0410722398909584
+        },
+        "overlapping_functions": {
+          "_ZN13media_service14MovieIdHandler13UploadMovieIdElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiRKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE": 52
+        },
+        "source": "/storage/prefetchit/class_b_temporal_20261001/profiles/train_native/movie/l2/observations.json.gz",
+        "source_sha256": "0ce7f944a9de9d9cf93e579636d40dad86173168b43c2172f0cb203e1b0f50f5",
+        "requests": 11005,
+        "period": 1021
+      },
+      "heldout": {
+        "samples": {
+          "all": 4188,
+          "early_all": 2575,
+          "main_elf": 3558,
+          "outside_main_elf": 630,
+          "new_rpc_target_overlap": 49,
+          "early_new_rpc_target_overlap": 39,
+          "previously_untargeted_overlap": 33
+        },
+        "estimated_events_per_request": {
+          "all": 400.63224960179895,
+          "early_all": 246.32952309566195,
+          "main_elf": 340.36522065023894,
+          "outside_main_elf": 60.267028951560015,
+          "new_rpc_target_overlap": 4.687435585121334,
+          "early_new_rpc_target_overlap": 3.730816077953715,
+          "previously_untargeted_overlap": 3.1568443736531435
+        },
+        "overlapping_functions": {
+          "_ZN13media_service14MovieIdHandler13UploadMovieIdElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiRKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE": 49
+        },
+        "source": "/storage/prefetchit/class_b_temporal_20261001/profiles/heldout_native/movie/l2/observations.json.gz",
+        "source_sha256": "b26b91d91ed87562438616cfa688e06179507c125bae838fd27fa3ac3e0cbdfc",
+        "requests": 10673,
+        "period": 1021
+      },
+      "final": {
+        "samples": {
+          "all": 1786,
+          "early_all": 1278,
+          "main_elf": 1505,
+          "outside_original_instruction_boundaries": 283,
+          "outside_main_elf": 281,
+          "new_rpc_target_overlap": 30,
+          "early_new_rpc_target_overlap": 24,
+          "previously_untargeted_overlap": 30
+        },
+        "estimated_events_per_request": {
+          "all": 166.24177226729876,
+          "early_all": 118.95687847570426,
+          "main_elf": 140.08615188257818,
+          "outside_original_instruction_boundaries": 26.34178138390008,
+          "outside_main_elf": 26.155620384720574,
+          "new_rpc_target_overlap": 2.792414987692588,
+          "early_new_rpc_target_overlap": 2.2339319901540704,
+          "previously_untargeted_overlap": 2.792414987692588
+        },
+        "overlapping_functions": {
+          "_ZN13media_service14MovieIdHandler13UploadMovieIdElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiRKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE": 30
+        },
+        "source": "/storage/prefetchit/class_b_temporal_20261001/profiles/final_native/movie/l2/observations.json.gz",
+        "source_sha256": "65e7efa02412b9f3519371968588544739edef3bc84d3a66d23d5073709c6aff",
+        "requests": 10969,
+        "period": 1021
+      }
+    },
+    "compose": {
+      "train": {
+        "samples": {
+          "all": 8984,
+          "early_all": 6146,
+          "outside_main_elf": 1676,
+          "main_elf": 7308,
+          "new_rpc_target_overlap": 144,
+          "early_new_rpc_target_overlap": 140,
+          "previously_untargeted_overlap": 94
+        },
+        "estimated_events_per_request": {
+          "all": 843.2307409450267,
+          "early_all": 576.8584298584299,
+          "outside_main_elf": 157.30796102224673,
+          "main_elf": 685.9227799227799,
+          "new_rpc_target_overlap": 13.515719801434088,
+          "early_new_rpc_target_overlap": 13.14028314028314,
+          "previously_untargeted_overlap": 8.822761537047251
+        },
+        "overlapping_functions": {
+          "_ZN13media_service20ComposeReviewHandler12UploadRatingEliRKSt3mapINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES7_St4lessIS7_ESaISt4pairIKS7_S7_EEE": 33,
+          "_ZN13media_service20ComposeReviewHandler10UploadTextElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE": 32,
+          "_ZN13media_service20ComposeReviewHandler14UploadUniqueIdEllRKSt3mapINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES7_St4lessIS7_ESaISt4pairIKS7_S7_EEE": 28,
+          "_ZN13media_service20ComposeReviewHandler13UploadMovieIdElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE": 27,
+          "_ZN13media_service20ComposeReviewHandler12UploadUserIdEllRKSt3mapINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES7_St4lessIS7_ESaISt4pairIKS7_S7_EEE": 24
+        },
+        "source": "/storage/prefetchit/class_b_temporal_20261001/profiles/train_native/compose/l2/observations.json.gz",
+        "source_sha256": "3d0205dceb6596ea7d5282125bae39847d0ee35ccde22b3ff30ea672a0a9ae3a",
+        "requests": 10878,
+        "period": 1021
+      },
+      "heldout": {
+        "samples": {
+          "all": 8846,
+          "early_all": 6112,
+          "main_elf": 7337,
+          "outside_main_elf": 1509,
+          "new_rpc_target_overlap": 135,
+          "early_new_rpc_target_overlap": 132,
+          "previously_untargeted_overlap": 89
+        },
+        "estimated_events_per_request": {
+          "all": 844.2480837539727,
+          "early_all": 583.3194989717704,
+          "main_elf": 700.2315386053468,
+          "outside_main_elf": 144.0165451486259,
+          "new_rpc_target_overlap": 12.88418395961862,
+          "early_new_rpc_target_overlap": 12.597868760515984,
+          "previously_untargeted_overlap": 8.494017573378201
+        },
+        "overlapping_functions": {
+          "_ZN13media_service20ComposeReviewHandler10UploadTextElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE": 37,
+          "_ZN13media_service20ComposeReviewHandler14UploadUniqueIdEllRKSt3mapINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES7_St4lessIS7_ESaISt4pairIKS7_S7_EEE": 29,
+          "_ZN13media_service20ComposeReviewHandler13UploadMovieIdElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE": 27,
+          "_ZN13media_service20ComposeReviewHandler12UploadRatingEliRKSt3mapINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES7_St4lessIS7_ESaISt4pairIKS7_S7_EEE": 22,
+          "_ZN13media_service20ComposeReviewHandler12UploadUserIdEllRKSt3mapINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES7_St4lessIS7_ESaISt4pairIKS7_S7_EEE": 20
+        },
+        "source": "/storage/prefetchit/class_b_temporal_20261001/profiles/heldout_native/compose/l2/observations.json.gz",
+        "source_sha256": "133bd38c12d007b0cd5f22b1b4ab54d07f4522aa467e5545b6728a0290d9007b",
+        "requests": 10698,
+        "period": 1021
+      },
+      "final": {
+        "samples": {
+          "all": 3373,
+          "early_all": 2656,
+          "outside_main_elf": 667,
+          "main_elf": 2706,
+          "outside_original_instruction_boundaries": 695,
+          "new_rpc_target_overlap": 101,
+          "early_new_rpc_target_overlap": 97,
+          "previously_untargeted_overlap": 98
+        },
+        "estimated_events_per_request": {
+          "all": 316.49967833838804,
+          "early_all": 249.22121128572743,
+          "outside_main_elf": 62.586802683576884,
+          "main_elf": 253.91287565481116,
+          "outside_original_instruction_boundaries": 65.21413473026377,
+          "new_rpc_target_overlap": 9.477162025549124,
+          "early_new_rpc_target_overlap": 9.101828876022426,
+          "previously_untargeted_overlap": 9.1956621634041
+        },
+        "overlapping_functions": {
+          "_ZN13media_service20ComposeReviewHandler10UploadTextElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE": 23,
+          "_ZN13media_service20ComposeReviewHandler12UploadRatingEliRKSt3mapINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES7_St4lessIS7_ESaISt4pairIKS7_S7_EEE": 21,
+          "_ZN13media_service20ComposeReviewHandler13UploadMovieIdElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE": 19,
+          "_ZN13media_service20ComposeReviewHandler12UploadUserIdEllRKSt3mapINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES7_St4lessIS7_ESaISt4pairIKS7_S7_EEE": 19,
+          "_ZN13media_service20ComposeReviewHandler14UploadUniqueIdEllRKSt3mapINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES7_St4lessIS7_ESaISt4pairIKS7_S7_EEE": 19
+        },
+        "source": "/storage/prefetchit/class_b_temporal_20261001/profiles/final_native/compose/l2/observations.json.gz",
+        "source_sha256": "4b7252de7dab39d84a3017964aea084ced9848f5f9016053c0be4aa4797053dc",
+        "requests": 10881,
+        "period": 1021
+      }
+    },
+    "rating": {
+      "train": {
+        "samples": {
+          "all": 4550,
+          "early_all": 2953,
+          "main_elf": 4171,
+          "outside_main_elf": 379,
+          "new_rpc_target_overlap": 27,
+          "early_new_rpc_target_overlap": 23,
+          "previously_untargeted_overlap": 19
+        },
+        "estimated_events_per_request": {
+          "all": 430.02406738868837,
+          "early_all": 279.0903452744608,
+          "main_elf": 394.2044802369712,
+          "outside_main_elf": 35.819587151717116,
+          "new_rpc_target_overlap": 2.551791169119689,
+          "early_new_rpc_target_overlap": 2.1737480329538093,
+          "previously_untargeted_overlap": 1.7957048967879294
+        },
+        "overlapping_functions": {
+          "_ZN13media_service13RatingHandler12UploadRatingElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiRKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE": 27
+        },
+        "source": "/storage/prefetchit/class_b_temporal_20261001/profiles/train_native/rating/l2/observations.json.gz",
+        "source_sha256": "78458ba1496fa962d003da1411e2e30608baaaa978cfd28ddf648e1e110d15e4",
+        "requests": 10803,
+        "period": 1021
+      },
+      "heldout": {
+        "samples": {
+          "all": 4554,
+          "early_all": 3005,
+          "main_elf": 4209,
+          "outside_main_elf": 345,
+          "new_rpc_target_overlap": 27,
+          "early_new_rpc_target_overlap": 22,
+          "previously_untargeted_overlap": 26
+        },
+        "estimated_events_per_request": {
+          "all": 437.65380271084337,
+          "early_all": 288.79000376506025,
+          "main_elf": 404.49821159638554,
+          "outside_main_elf": 33.155591114457835,
+          "new_rpc_target_overlap": 2.594785391566265,
+          "early_new_rpc_target_overlap": 2.114269578313253,
+          "previously_untargeted_overlap": 2.4986822289156625
+        },
+        "overlapping_functions": {
+          "_ZN13media_service13RatingHandler12UploadRatingElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiRKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE": 27
+        },
+        "source": "/storage/prefetchit/class_b_temporal_20261001/profiles/heldout_native/rating/l2/observations.json.gz",
+        "source_sha256": "bf5cbc6ddd620351a3ae2ff7fd85d1a21080c7bd120b8bd2e24ddb6f9f1c39fc",
+        "requests": 10624,
+        "period": 1021
+      },
+      "final": {
+        "samples": {
+          "all": 1947,
+          "early_all": 1486,
+          "main_elf": 1822,
+          "outside_original_instruction_boundaries": 309,
+          "outside_main_elf": 125,
+          "new_rpc_target_overlap": 19,
+          "early_new_rpc_target_overlap": 18,
+          "previously_untargeted_overlap": 19
+        },
+        "estimated_events_per_request": {
+          "all": 181.82447635598646,
+          "early_all": 138.77307234976678,
+          "main_elf": 170.15110216774903,
+          "outside_original_instruction_boundaries": 28.856580993322968,
+          "outside_main_elf": 11.673374188237446,
+          "new_rpc_target_overlap": 1.774352876612092,
+          "early_new_rpc_target_overlap": 1.6809658831061922,
+          "previously_untargeted_overlap": 1.774352876612092
+        },
+        "overlapping_functions": {
+          "_ZN13media_service13RatingHandler12UploadRatingElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiRKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE": 19
+        },
+        "source": "/storage/prefetchit/class_b_temporal_20261001/profiles/final_native/rating/l2/observations.json.gz",
+        "source_sha256": "4083a529b4129022db2389584001da84d2f433e8b55ba3d202e72677cff33e9a",
+        "requests": 10933,
+        "period": 1021
+      }
+    },
+    "unique": {
+      "train": {
+        "samples": {
+          "all": 1795,
+          "early_all": 544,
+          "outside_main_elf": 1081,
+          "main_elf": 714,
+          "new_rpc_target_overlap": 20,
+          "early_new_rpc_target_overlap": 5,
+          "previously_untargeted_overlap": 16
+        },
+        "estimated_events_per_request": {
+          "all": 168.13715596330275,
+          "early_all": 50.956330275229355,
+          "outside_main_elf": 101.25697247706422,
+          "main_elf": 66.88018348623854,
+          "new_rpc_target_overlap": 1.8733944954128439,
+          "early_new_rpc_target_overlap": 0.46834862385321097,
+          "previously_untargeted_overlap": 1.4987155963302752
+        },
+        "overlapping_functions": {
+          "_ZN13media_service15UniqueIdHandler14UploadUniqueIdElRKSt3mapINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES7_St4lessIS7_ESaISt4pairIKS7_S7_EEE": 20
+        },
+        "source": "/storage/prefetchit/class_b_temporal_20261001/profiles/train_native/unique/l2/observations.json.gz",
+        "source_sha256": "adaf04c18124e2b4dda7ff0739fa85353d15ac605cad2e63b69ac76c14c0e2ac",
+        "requests": 10900,
+        "period": 1021
+      },
+      "heldout": {
+        "samples": {
+          "all": 1772,
+          "early_all": 554,
+          "main_elf": 674,
+          "outside_main_elf": 1098,
+          "new_rpc_target_overlap": 14,
+          "early_new_rpc_target_overlap": 9,
+          "previously_untargeted_overlap": 9
+        },
+        "estimated_events_per_request": {
+          "all": 169.44947082513815,
+          "early_all": 52.976866160906624,
+          "main_elf": 64.45199962536293,
+          "outside_main_elf": 104.99747119977522,
+          "new_rpc_target_overlap": 1.338765570853236,
+          "early_new_rpc_target_overlap": 0.8606350098342231,
+          "previously_untargeted_overlap": 0.8606350098342231
+        },
+        "overlapping_functions": {
+          "_ZN13media_service15UniqueIdHandler14UploadUniqueIdElRKSt3mapINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES7_St4lessIS7_ESaISt4pairIKS7_S7_EEE": 14
+        },
+        "source": "/storage/prefetchit/class_b_temporal_20261001/profiles/heldout_native/unique/l2/observations.json.gz",
+        "source_sha256": "70fb5e3ef4add4981f55d7ca44eb5daf8c75eded1c4772c9d289317ac3ba5659",
+        "requests": 10677,
+        "period": 1021
+      },
+      "final": {
+        "samples": {
+          "all": 622,
+          "early_all": 219,
+          "main_elf": 328,
+          "outside_main_elf": 294,
+          "outside_original_instruction_boundaries": 47,
+          "new_rpc_target_overlap": 1,
+          "early_new_rpc_target_overlap": 1,
+          "previously_untargeted_overlap": 1
+        },
+        "estimated_events_per_request": {
+          "all": 58.49332228055633,
+          "early_all": 20.594915722575298,
+          "main_elf": 30.845353228331955,
+          "outside_main_elf": 27.647969052224372,
+          "outside_original_instruction_boundaries": 4.41991341991342,
+          "new_rpc_target_overlap": 0.09404071106198766,
+          "early_new_rpc_target_overlap": 0.09404071106198766,
+          "previously_untargeted_overlap": 0.09404071106198766
+        },
+        "overlapping_functions": {
+          "_ZN13media_service15UniqueIdHandler14UploadUniqueIdElRKSt3mapINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES7_St4lessIS7_ESaISt4pairIKS7_S7_EEE": 1
+        },
+        "source": "/storage/prefetchit/class_b_temporal_20261001/profiles/final_native/unique/l2/observations.json.gz",
+        "source_sha256": "72ac040c0094fb389e59c9cd292a38732c1d21543c2f1c15b2a34549b13ad3d8",
+        "requests": 10857,
+        "period": 1021
+      }
+    },
+    "text": {
+      "train": {
+        "samples": {
+          "all": 1631,
+          "early_all": 594,
+          "outside_main_elf": 1067,
+          "main_elf": 564,
+          "new_rpc_target_overlap": 29,
+          "early_new_rpc_target_overlap": 14,
+          "previously_untargeted_overlap": 21
+        },
+        "estimated_events_per_request": {
+          "all": 151.9389598540146,
+          "early_all": 55.33521897810218,
+          "outside_main_elf": 99.39844890510948,
+          "main_elf": 52.54051094890511,
+          "new_rpc_target_overlap": 2.701551094890511,
+          "early_new_rpc_target_overlap": 1.3041970802919707,
+          "previously_untargeted_overlap": 1.956295620437956
+        },
+        "overlapping_functions": {
+          "_ZN13media_service11TextHandler10UploadTextElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE": 29
+        },
+        "source": "/storage/prefetchit/class_b_temporal_20261001/profiles/train_native/text/l2/observations.json.gz",
+        "source_sha256": "ebe08ff0fe8100730965309e439c0b221c6657c1f45de06757f01c454a9f0296",
+        "requests": 10960,
+        "period": 1021
+      },
+      "heldout": {
+        "samples": {
+          "all": 1544,
+          "early_all": 526,
+          "outside_main_elf": 1039,
+          "main_elf": 505,
+          "new_rpc_target_overlap": 18,
+          "early_new_rpc_target_overlap": 8,
+          "previously_untargeted_overlap": 14
+        },
+        "estimated_events_per_request": {
+          "all": 148.146226858378,
+          "early_all": 50.46950474579457,
+          "outside_main_elf": 99.69166431726342,
+          "main_elf": 48.45456254111456,
+          "new_rpc_target_overlap": 1.7270933182971526,
+          "early_new_rpc_target_overlap": 0.76759703035429,
+          "previously_untargeted_overlap": 1.3432948031200076
+        },
+        "overlapping_functions": {
+          "_ZN13media_service11TextHandler10UploadTextElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE": 18
+        },
+        "source": "/storage/prefetchit/class_b_temporal_20261001/profiles/heldout_native/text/l2/observations.json.gz",
+        "source_sha256": "7f375605decb894838c470b9d4ff4af6bd7efe008c485d4df486f8c9bea7175e",
+        "requests": 10641,
+        "period": 1021
+      },
+      "final": {
+        "samples": {
+          "all": 661,
+          "early_all": 270,
+          "main_elf": 385,
+          "outside_original_instruction_boundaries": 75,
+          "outside_main_elf": 276,
+          "new_rpc_target_overlap": 15,
+          "early_new_rpc_target_overlap": 1,
+          "previously_untargeted_overlap": 15
+        },
+        "estimated_events_per_request": {
+          "all": 61.55426851514046,
+          "early_all": 25.143195913900037,
+          "main_elf": 35.852334914264866,
+          "outside_original_instruction_boundaries": 6.984221087194455,
+          "outside_main_elf": 25.70193360087559,
+          "new_rpc_target_overlap": 1.3968442174388909,
+          "early_new_rpc_target_overlap": 0.0931229478292594,
+          "previously_untargeted_overlap": 1.3968442174388909
+        },
+        "overlapping_functions": {
+          "_ZN13media_service11TextHandler10UploadTextElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE": 15
+        },
+        "source": "/storage/prefetchit/class_b_temporal_20261001/profiles/final_native/text/l2/observations.json.gz",
+        "source_sha256": "fe717ab1e23a5415db4337a0694476eeccf29003a0331662624dcb24a611c53c",
+        "requests": 10964,
+        "period": 1021
+      }
+    },
+    "user": {
+      "train": {
+        "samples": {
+          "all": 2384,
+          "early_all": 932,
+          "outside_main_elf": 1620,
+          "main_elf": 764,
+          "new_rpc_target_overlap": 33,
+          "early_new_rpc_target_overlap": 17,
+          "previously_untargeted_overlap": 22
+        },
+        "estimated_events_per_request": {
+          "all": 230.0845070422535,
+          "early_all": 89.94914453161924,
+          "outside_main_elf": 156.3493713961622,
+          "main_elf": 73.73513564609131,
+          "new_rpc_target_overlap": 3.184894602514415,
+          "early_new_rpc_target_overlap": 1.6407032800831836,
+          "previously_untargeted_overlap": 2.1232630683429434
+        },
+        "overlapping_functions": {
+          "_ZN13media_service11UserHandler22UploadUserWithUsernameElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE": 33
+        },
+        "source": "/storage/prefetchit/class_b_temporal_20261001/profiles/train_native/user/l2/observations.json.gz",
+        "source_sha256": "b8b583aa35e9410234e8776b99dcdb940ca15b98b982506f98ee30c9fe7cb405",
+        "requests": 10579,
+        "period": 1021
+      },
+      "heldout": {
+        "samples": {
+          "all": 2517,
+          "early_all": 1079,
+          "main_elf": 843,
+          "outside_main_elf": 1674,
+          "new_rpc_target_overlap": 43,
+          "early_new_rpc_target_overlap": 17,
+          "previously_untargeted_overlap": 31
+        },
+        "estimated_events_per_request": {
+          "all": 235.74506925970095,
+          "early_all": 101.06036143473077,
+          "main_elf": 78.9563342812586,
+          "outside_main_elf": 156.78873497844236,
+          "new_rpc_target_overlap": 4.027428676268232,
+          "early_new_rpc_target_overlap": 1.5922392441060453,
+          "previously_untargeted_overlap": 2.903495092193377
+        },
+        "overlapping_functions": {
+          "_ZN13media_service11UserHandler22UploadUserWithUsernameElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE": 43
+        },
+        "source": "/storage/prefetchit/class_b_temporal_20261001/profiles/heldout_native/user/l2/observations.json.gz",
+        "source_sha256": "b634a0709fe1cb777081b055708e089b94e88eb54b6847aafb7a348f751ebece",
+        "requests": 10901,
+        "period": 1021
+      },
+      "final": {
+        "samples": {
+          "all": 1042,
+          "early_all": 432,
+          "outside_main_elf": 452,
+          "main_elf": 590,
+          "outside_original_instruction_boundaries": 86,
+          "new_rpc_target_overlap": 28,
+          "early_new_rpc_target_overlap": 12,
+          "previously_untargeted_overlap": 28
+        },
+        "estimated_events_per_request": {
+          "all": 97.3537701317716,
+          "early_all": 40.36163982430454,
+          "outside_main_elf": 42.230234260614935,
+          "main_elf": 55.12353587115666,
+          "outside_original_instruction_boundaries": 8.0349560761347,
+          "new_rpc_target_overlap": 2.6160322108345535,
+          "early_new_rpc_target_overlap": 1.1211566617862372,
+          "previously_untargeted_overlap": 2.6160322108345535
+        },
+        "overlapping_functions": {
+          "_ZN13media_service11UserHandler22UploadUserWithUsernameElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE": 28
+        },
+        "source": "/storage/prefetchit/class_b_temporal_20261001/profiles/final_native/user/l2/observations.json.gz",
+        "source_sha256": "6d1900bf6af463d0bba5b84a59ba62e86e0fae45481a2faf3dba6831ec76224a",
+        "requests": 10928,
+        "period": 1021
+      }
+    },
+    "storage": {
+      "train": {
+        "samples": {
+          "all": 3804,
+          "early_all": 891,
+          "outside_main_elf": 3287,
+          "main_elf": 517,
+          "new_rpc_target_overlap": 30,
+          "early_new_rpc_target_overlap": 3,
+          "previously_untargeted_overlap": 30
+        },
+        "estimated_events_per_request": {
+          "all": 357.0402647545505,
+          "early_all": 83.62851627137341,
+          "outside_main_elf": 308.5150763007906,
+          "main_elf": 48.52518845375988,
+          "new_rpc_target_overlap": 2.8157749586321015,
+          "early_new_rpc_target_overlap": 0.2815774958632101,
+          "previously_untargeted_overlap": 2.8157749586321015
+        },
+        "overlapping_functions": {
+          "_ZN13media_service20ReviewStorageHandler11StoreReviewElRKNS_6ReviewERKSt3mapINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESA_St4lessISA_ESaISt4pairIKSA_SA_EEE": 30
+        },
+        "source": "/storage/prefetchit/class_b_temporal_20261001/profiles/train_native/storage/l2/observations.json.gz",
+        "source_sha256": "78db66294bb5e32610f7e9fb8b81bfb64b2b0bb382e5a221ac1c906eb99b2509",
+        "requests": 10878,
+        "period": 1021
+      },
+      "heldout": {
+        "samples": {
+          "all": 3753,
+          "early_all": 975,
+          "outside_main_elf": 3205,
+          "main_elf": 548,
+          "new_rpc_target_overlap": 21,
+          "early_new_rpc_target_overlap": 3,
+          "previously_untargeted_overlap": 21
+        },
+        "estimated_events_per_request": {
+          "all": 360.1666510010339,
+          "early_all": 93.56847448068427,
+          "outside_main_elf": 307.5763699595827,
+          "main_elf": 52.59028104145126,
+          "new_rpc_target_overlap": 2.015320988814738,
+          "early_new_rpc_target_overlap": 0.2879029984021054,
+          "previously_untargeted_overlap": 2.015320988814738
+        },
+        "overlapping_functions": {
+          "_ZN13media_service20ReviewStorageHandler11StoreReviewElRKNS_6ReviewERKSt3mapINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESA_St4lessISA_ESaISt4pairIKSA_SA_EEE": 21
+        },
+        "source": "/storage/prefetchit/class_b_temporal_20261001/profiles/heldout_native/storage/l2/observations.json.gz",
+        "source_sha256": "cf28129ab634c29cd68aa258780b0ead9bed50e210e70a4293dac7b1d7e727f0",
+        "requests": 10639,
+        "period": 1021
+      },
+      "final": {
+        "samples": {
+          "all": 1150,
+          "early_all": 361,
+          "outside_main_elf": 832,
+          "main_elf": 318,
+          "outside_original_instruction_boundaries": 74,
+          "new_rpc_target_overlap": 20,
+          "early_new_rpc_target_overlap": 6,
+          "previously_untargeted_overlap": 20
+        },
+        "estimated_events_per_request": {
+          "all": 107.90828048892566,
+          "early_all": 33.87381674478449,
+          "outside_main_elf": 78.06929510155317,
+          "main_elf": 29.838985387372485,
+          "outside_original_instruction_boundaries": 6.943663266243912,
+          "new_rpc_target_overlap": 1.8766657476334898,
+          "early_new_rpc_target_overlap": 0.5629997242900469,
+          "previously_untargeted_overlap": 1.8766657476334898
+        },
+        "overlapping_functions": {
+          "_ZN13media_service20ReviewStorageHandler11StoreReviewElRKNS_6ReviewERKSt3mapINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESA_St4lessISA_ESaISt4pairIKSA_SA_EEE": 20
+        },
+        "source": "/storage/prefetchit/class_b_temporal_20261001/profiles/final_native/storage/l2/observations.json.gz",
+        "source_sha256": "184af2c4f5f43d9dfc4ce7cd11b46ba74c62b02236b0ffbe52b6894449a3c663",
+        "requests": 10881,
+        "period": 1021
+      }
+    },
+    "userreview": {
+      "train": {
+        "samples": {
+          "all": 7019,
+          "early_all": 1940,
+          "outside_main_elf": 5266,
+          "main_elf": 1753,
+          "new_rpc_target_overlap": 44,
+          "early_new_rpc_target_overlap": 24,
+          "previously_untargeted_overlap": 26
+        },
+        "estimated_events_per_request": {
+          "all": 661.4730478124422,
+          "early_all": 182.82628761306995,
+          "outside_main_elf": 496.2697064796012,
+          "main_elf": 165.20334133284103,
+          "new_rpc_target_overlap": 4.146575595347978,
+          "early_new_rpc_target_overlap": 2.2617685065534427,
+          "previously_untargeted_overlap": 2.4502492154328963
+        },
+        "overlapping_functions": {
+          "_ZN13media_service17UserReviewHandler16UploadUserReviewEllllRKSt3mapINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES7_St4lessIS7_ESaISt4pairIKS7_S7_EEE": 44
+        },
+        "source": "/storage/prefetchit/class_b_temporal_20261001/profiles/train_native/userreview/l2/observations.json.gz",
+        "source_sha256": "0c5f01b43063b9985b0abfcd914092203f65e67f67a3e44f3404638f774ceee6",
+        "requests": 10834,
+        "period": 1021
+      },
+      "heldout": {
+        "samples": {
+          "all": 6834,
+          "early_all": 1865,
+          "outside_main_elf": 5220,
+          "main_elf": 1614,
+          "new_rpc_target_overlap": 48,
+          "early_new_rpc_target_overlap": 24,
+          "previously_untargeted_overlap": 31
+        },
+        "estimated_events_per_request": {
+          "all": 663.8297022167253,
+          "early_all": 181.15926172581104,
+          "outside_main_elf": 507.05166016554085,
+          "main_elf": 156.77804205118446,
+          "new_rpc_target_overlap": 4.662544001522215,
+          "early_new_rpc_target_overlap": 2.3312720007611074,
+          "previously_untargeted_overlap": 3.0112263343164303
+        },
+        "overlapping_functions": {
+          "_ZN13media_service17UserReviewHandler16UploadUserReviewEllllRKSt3mapINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES7_St4lessIS7_ESaISt4pairIKS7_S7_EEE": 48
+        },
+        "source": "/storage/prefetchit/class_b_temporal_20261001/profiles/heldout_native/userreview/l2/observations.json.gz",
+        "source_sha256": "2cef6316b6e654827c5e9a5ece50296094bc0e960b670b4ee5df15d5681d56f9",
+        "requests": 10511,
+        "period": 1021
+      },
+      "final": {
+        "samples": {
+          "all": 2382,
+          "early_all": 872,
+          "outside_main_elf": 1441,
+          "main_elf": 941,
+          "outside_original_instruction_boundaries": 203,
+          "new_rpc_target_overlap": 21,
+          "early_new_rpc_target_overlap": 8,
+          "previously_untargeted_overlap": 15
+        },
+        "estimated_events_per_request": {
+          "all": 223.79884052636424,
+          "early_all": 81.92803901720806,
+          "outside_main_elf": 135.38796355940002,
+          "main_elf": 88.41087696696421,
+          "outside_original_instruction_boundaries": 19.072697156528942,
+          "new_rpc_target_overlap": 1.9730376368823044,
+          "early_new_rpc_target_overlap": 0.7516333854789731,
+          "previously_untargeted_overlap": 1.4093125977730745
+        },
+        "overlapping_functions": {
+          "_ZN13media_service17UserReviewHandler16UploadUserReviewEllllRKSt3mapINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES7_St4lessIS7_ESaISt4pairIKS7_S7_EEE": 21
+        },
+        "source": "/storage/prefetchit/class_b_temporal_20261001/profiles/final_native/userreview/l2/observations.json.gz",
+        "source_sha256": "959ab75980777c2908443753a9f91c28ce1910c5c8a3c76aa0e45f2b9dd53c1a",
+        "requests": 10867,
+        "period": 1021
+      }
+    },
+    "moviereview": {
+      "train": {
+        "samples": {
+          "all": 6701,
+          "early_all": 1837,
+          "outside_main_elf": 5126,
+          "main_elf": 1575,
+          "new_rpc_target_overlap": 44,
+          "early_new_rpc_target_overlap": 19,
+          "previously_untargeted_overlap": 38
+        },
+        "estimated_events_per_request": {
+          "all": 632.731064459447,
+          "early_all": 173.45574771108852,
+          "outside_main_elf": 484.0142421159715,
+          "main_elf": 148.71682234347546,
+          "new_rpc_target_overlap": 4.154628687690743,
+          "early_new_rpc_target_overlap": 1.7940442060482753,
+          "previously_untargeted_overlap": 3.5880884120965506
+        },
+        "overlapping_functions": {
+          "_ZN13media_service18MovieReviewHandler17UploadMovieReviewElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEllRKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE": 44
+        },
+        "source": "/storage/prefetchit/class_b_temporal_20261001/profiles/train_native/moviereview/l2/observations.json.gz",
+        "source_sha256": "b2b66b0a9342de3133d78ea30701d1275259b2c4b8fedb113a49288d15fc84f9",
+        "requests": 10813,
+        "period": 1021
+      },
+      "heldout": {
+        "samples": {
+          "all": 6765,
+          "early_all": 1786,
+          "outside_main_elf": 5079,
+          "main_elf": 1686,
+          "new_rpc_target_overlap": 32,
+          "early_new_rpc_target_overlap": 19,
+          "previously_untargeted_overlap": 27
+        },
+        "estimated_events_per_request": {
+          "all": 656.8148535564854,
+          "early_all": 173.40300494484595,
+          "outside_main_elf": 493.1208634461773,
+          "main_elf": 163.6939901103081,
+          "new_rpc_target_overlap": 3.1068847470521113,
+          "early_new_rpc_target_overlap": 1.844712818562191,
+          "previously_untargeted_overlap": 2.6214340053252188
+        },
+        "overlapping_functions": {
+          "_ZN13media_service18MovieReviewHandler17UploadMovieReviewElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEllRKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE": 32
+        },
+        "source": "/storage/prefetchit/class_b_temporal_20261001/profiles/heldout_native/moviereview/l2/observations.json.gz",
+        "source_sha256": "c28b0b1385ef9fff2390f81666a058d005f411754b150db44f1b77946f7a5e13",
+        "requests": 10516,
+        "period": 1021
+      },
+      "final": {
+        "samples": {
+          "all": 2418,
+          "early_all": 906,
+          "outside_main_elf": 1462,
+          "main_elf": 956,
+          "outside_original_instruction_boundaries": 185,
+          "new_rpc_target_overlap": 43,
+          "early_new_rpc_target_overlap": 22,
+          "previously_untargeted_overlap": 43
+        },
+        "estimated_events_per_request": {
+          "all": 228.4636313159356,
+          "early_all": 85.60299833425874,
+          "outside_main_elf": 138.13640570053673,
+          "main_elf": 90.32722561539885,
+          "outside_original_instruction_boundaries": 17.479640940218395,
+          "new_rpc_target_overlap": 4.062835461780493,
+          "early_new_rpc_target_overlap": 2.078660003701647,
+          "previously_untargeted_overlap": 4.062835461780493
+        },
+        "overlapping_functions": {
+          "_ZN13media_service18MovieReviewHandler17UploadMovieReviewElRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEllRKSt3mapIS6_S6_St4lessIS6_ESaISt4pairIS7_S6_EEE": 43
+        },
+        "source": "/storage/prefetchit/class_b_temporal_20261001/profiles/final_native/moviereview/l2/observations.json.gz",
+        "source_sha256": "02bf76ffd1bb3106759b16be8dc4140fa039b6d42b7a349f133bad43705eefa3",
+        "requests": 10806,
+        "period": 1021
+      }
+    }
+  },
+  "source_sha256": "9fd14d5921dd97e3c8b50bf1f4005e8db64c32753347e443a9011f1d40de30f7",
+  "scope": "Nine app process populations, including their DSOs. Excludes MongoDB, kernel, Nginx, Redis, Memcached and Jaeger process counts. Each service normalized by its own request window before summing.",
+  "independence": "Train selected targets; heldout was a separate baseline capture; final was an earlier full-DSO policy residual capture. Neither is a new rpc_stable trace or causal coverage validation.",
+  "limitation": "Locate new RPC target lines in earlier independent PEBS populations.\n\nThis is static overlap with sampled retired instructions, not accepted fills,\nactual dynamic coverage, a fetch-deadline measurement, or a causal speedup bound.\n Instruction spans include both touched cache lines, optimistically. PEBS retired-instruction L2 events are not unique raw code-read transactions. Secondary cache effects and target execution after other placements are not inferred."
+}

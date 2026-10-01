@@ -1,0 +1,589 @@
+{
+  "selected": "full_dso",
+  "selected_reference": {
+    "overrides": {
+      "movie": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/1dbfa7f16b813e7a1a18eb57cf17538bf1d051e27aeccaec8ffadd8fce258b07/MovieIdService",
+      "compose": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/fb16c1d304d6c0b56c24c422f5dfa7dde6ab3c368cec6a4fd9bcc0602a66c917/ComposeReviewService",
+      "rating": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/d2314e24f46b0fa6b2487f55dad565070adb9b6a920cd0a5f64c7e6d767ac3e3/RatingService",
+      "unique": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/54771f7236ce5ab22b131b8381b31d23e0a8b2b45695d559a9c47f572e2c3859/UniqueIdService",
+      "text": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/beee2b363cdd95391e3db419aeccb36e2dd16c7f8b7f4c3f560bd878fc4c6e7b/TextService",
+      "user": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ea3f1c8938c351427483122bc24978df3ad62d0212cba5ea3a7138e6b120c8dd/UserService",
+      "storage": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/d2a2d732143c46b04f5ca16733387a5f5713ad8dc218c423def02e91e4025de9/ReviewStorageService",
+      "userreview": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/317486ab030170061457bacd8d793ef2a68b3da84a619f34430ec865864426e5/UserReviewService",
+      "moviereview": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/3a547e47cb945f83448ecdee31f23d2428e3c700ce96af34c177300d9909e209/MovieReviewService"
+    },
+    "mongo_binary": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/3c6655036faf043c338d698ae1dda5ed4e19f23ea54eb8023ad32cf268e821cf/mongod",
+    "libraries": {
+      "moviereview": {
+        "/usr/local/lib/libmongoc-1.0.so.0.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/9cb7b23eb3a7bcf07247adbb79644be9f4460d8e41304f850f586c157963f6a6/libmongoc-1.0.so.0.0.0",
+        "/usr/local/lib/libbson-1.0.so.0.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/7277229c6489da6761bfa3456517c6cf25e006a732d2a0dab69141658d47f872/libbson-1.0.so.0.0.0",
+        "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30",
+        "/usr/local/lib/libjaegertracing.so.0.4.2": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ea804b0c846d1d50c1abb962468a454dc68d1949a3a907de3e77fd4090cd8089/libjaegertracing.so.0.4.2",
+        "/usr/local/lib/libthrift.so.0.12.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/74758375d70ece71e60caec108eeeae79d9abef7dce5ef79835d4c0c4edfca8e/libthrift.so.0.12.0",
+        "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6"
+      },
+      "storage": {
+        "/usr/local/lib/libmongoc-1.0.so.0.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/9cb7b23eb3a7bcf07247adbb79644be9f4460d8e41304f850f586c157963f6a6/libmongoc-1.0.so.0.0.0",
+        "/usr/local/lib/libbson-1.0.so.0.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/7277229c6489da6761bfa3456517c6cf25e006a732d2a0dab69141658d47f872/libbson-1.0.so.0.0.0",
+        "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/7242d32f52f35ec9c5164e928ad51bf40e039f0572f3b4e26ac43ec1ce20d0d7/libmemcached.so.11.0.0",
+        "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30",
+        "/usr/local/lib/libjaegertracing.so.0.4.2": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ea804b0c846d1d50c1abb962468a454dc68d1949a3a907de3e77fd4090cd8089/libjaegertracing.so.0.4.2",
+        "/usr/local/lib/libthrift.so.0.12.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/74758375d70ece71e60caec108eeeae79d9abef7dce5ef79835d4c0c4edfca8e/libthrift.so.0.12.0",
+        "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6",
+        "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/082e3d939aa9f5294a39458d62f4633ecec0e4e48b83416f249c3eae3a265403/libmemcachedutil.so.2.0.0"
+      },
+      "user": {
+        "/usr/local/lib/libmongoc-1.0.so.0.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/9cb7b23eb3a7bcf07247adbb79644be9f4460d8e41304f850f586c157963f6a6/libmongoc-1.0.so.0.0.0",
+        "/usr/local/lib/libbson-1.0.so.0.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/7277229c6489da6761bfa3456517c6cf25e006a732d2a0dab69141658d47f872/libbson-1.0.so.0.0.0",
+        "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/7242d32f52f35ec9c5164e928ad51bf40e039f0572f3b4e26ac43ec1ce20d0d7/libmemcached.so.11.0.0",
+        "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30",
+        "/usr/local/lib/libjaegertracing.so.0.4.2": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ea804b0c846d1d50c1abb962468a454dc68d1949a3a907de3e77fd4090cd8089/libjaegertracing.so.0.4.2",
+        "/usr/local/lib/libthrift.so.0.12.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/74758375d70ece71e60caec108eeeae79d9abef7dce5ef79835d4c0c4edfca8e/libthrift.so.0.12.0",
+        "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6",
+        "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/082e3d939aa9f5294a39458d62f4633ecec0e4e48b83416f249c3eae3a265403/libmemcachedutil.so.2.0.0"
+      },
+      "userreview": {
+        "/usr/local/lib/libmongoc-1.0.so.0.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/9cb7b23eb3a7bcf07247adbb79644be9f4460d8e41304f850f586c157963f6a6/libmongoc-1.0.so.0.0.0",
+        "/usr/local/lib/libbson-1.0.so.0.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/7277229c6489da6761bfa3456517c6cf25e006a732d2a0dab69141658d47f872/libbson-1.0.so.0.0.0",
+        "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30",
+        "/usr/local/lib/libjaegertracing.so.0.4.2": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ea804b0c846d1d50c1abb962468a454dc68d1949a3a907de3e77fd4090cd8089/libjaegertracing.so.0.4.2",
+        "/usr/local/lib/libthrift.so.0.12.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/74758375d70ece71e60caec108eeeae79d9abef7dce5ef79835d4c0c4edfca8e/libthrift.so.0.12.0",
+        "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6"
+      },
+      "compose": {
+        "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/7242d32f52f35ec9c5164e928ad51bf40e039f0572f3b4e26ac43ec1ce20d0d7/libmemcached.so.11.0.0",
+        "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30",
+        "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6",
+        "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/082e3d939aa9f5294a39458d62f4633ecec0e4e48b83416f249c3eae3a265403/libmemcachedutil.so.2.0.0"
+      },
+      "movie": {
+        "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/7242d32f52f35ec9c5164e928ad51bf40e039f0572f3b4e26ac43ec1ce20d0d7/libmemcached.so.11.0.0",
+        "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30",
+        "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6",
+        "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/082e3d939aa9f5294a39458d62f4633ecec0e4e48b83416f249c3eae3a265403/libmemcachedutil.so.2.0.0"
+      },
+      "text": {
+        "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30",
+        "/usr/local/lib/libjaegertracing.so.0.4.2": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ea804b0c846d1d50c1abb962468a454dc68d1949a3a907de3e77fd4090cd8089/libjaegertracing.so.0.4.2",
+        "/usr/local/lib/libthrift.so.0.12.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/74758375d70ece71e60caec108eeeae79d9abef7dce5ef79835d4c0c4edfca8e/libthrift.so.0.12.0",
+        "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6"
+      },
+      "unique": {
+        "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30",
+        "/usr/local/lib/libjaegertracing.so.0.4.2": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ea804b0c846d1d50c1abb962468a454dc68d1949a3a907de3e77fd4090cd8089/libjaegertracing.so.0.4.2",
+        "/usr/local/lib/libthrift.so.0.12.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/74758375d70ece71e60caec108eeeae79d9abef7dce5ef79835d4c0c4edfca8e/libthrift.so.0.12.0",
+        "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6"
+      },
+      "rating": {
+        "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6"
+      }
+    },
+    "controls": [
+      "original"
+    ]
+  },
+  "retained_new_reference": "no_dso",
+  "rejected": "rpc_stable",
+  "reason": "Independent five-block confirmation establishes no incremental RPC gain; RPC/full throughput is lower, and RPC/exact-NOP CPU cost is higher. Keep the existing full policy and strict no-DSO ablation reference.",
+  "comparisons": {
+    "full_dso": {
+      "original": {
+        "inverse_rps": {
+          "pairs": 5,
+          "cost_reduction_pct": 2.4674799177137663,
+          "ci95_pct": [
+            1.1898841034660324,
+            3.7285566635465672
+          ],
+          "speedup": 1.02529904810859,
+          "speedup_ci95": [
+            1.0120421284062857,
+            1.038729622558123
+          ]
+        },
+        "mean_ms": {
+          "pairs": 5,
+          "cost_reduction_pct": 2.528449352162865,
+          "ci95_pct": [
+            1.2133934903105992,
+            3.825999076483988
+          ],
+          "speedup": 1.0259403829666986,
+          "speedup_ci95": [
+            1.012282975731043,
+            1.0397820516953087
+          ]
+        },
+        "p99_ms": {
+          "pairs": 5,
+          "cost_reduction_pct": 1.5876536749979908,
+          "ci95_pct": [
+            0.843187649018351,
+            2.3265302749896577
+          ],
+          "speedup": 1.016132667640652,
+          "speedup_ci95": [
+            1.0085035776062843,
+            1.02381946992914
+          ]
+        },
+        "stack_cpu": {
+          "pairs": 5,
+          "cost_reduction_pct": 3.1736769696516176,
+          "ci95_pct": [
+            2.720917489830166,
+            3.6243292015295525
+          ],
+          "speedup": 1.0327770059868626,
+          "speedup_ci95": [
+            1.027970221548355,
+            1.0376062669292163
+          ]
+        }
+      }
+    },
+    "no_dso": {
+      "original": {
+        "inverse_rps": {
+          "pairs": 5,
+          "cost_reduction_pct": 1.698903194364798,
+          "ci95_pct": [
+            -0.5166408199338557,
+            3.865613152538483
+          ],
+          "speedup": 1.017282647392266,
+          "speedup_ci95": [
+            0.9948601463825342,
+            1.0402105144610965
+          ]
+        },
+        "mean_ms": {
+          "pairs": 5,
+          "cost_reduction_pct": 1.7408657434880626,
+          "ci95_pct": [
+            -0.5340256476592531,
+            3.964280723458391
+          ],
+          "speedup": 1.0177170881532847,
+          "speedup_ci95": [
+            0.994688110376373,
+            1.0412792318662494
+          ]
+        },
+        "p99_ms": {
+          "pairs": 5,
+          "cost_reduction_pct": 2.0492451189426775,
+          "ci95_pct": [
+            1.476036567124006,
+            2.6191187659074466
+          ],
+          "speedup": 1.0209211773960405,
+          "speedup_ci95": [
+            1.0149814980609222,
+            1.0268956157791527
+          ]
+        },
+        "stack_cpu": {
+          "pairs": 5,
+          "cost_reduction_pct": 2.136746348150065,
+          "ci95_pct": [
+            1.3223388305086625,
+            2.9444323890465807
+          ],
+          "speedup": 1.0218340006939843,
+          "speedup_ci95": [
+            1.01340058950361,
+            1.0303375938292312
+          ]
+        }
+      },
+      "full_dso": {
+        "inverse_rps": {
+          "pairs": 5,
+          "cost_reduction_pct": -0.7880209828481144,
+          "ci95_pct": [
+            -3.8770868792853186,
+            2.2091831912477433
+          ],
+          "speedup": 0.9921814023614749,
+          "speedup_ci95": [
+            0.9626762070851019,
+            1.0225909064198553
+          ]
+        },
+        "mean_ms": {
+          "pairs": 5,
+          "cost_reduction_pct": -0.8080138291021166,
+          "ci95_pct": [
+            -3.979826128222652,
+            2.2670451512693757
+          ],
+          "speedup": 0.9919846270310223,
+          "speedup_ci95": [
+            0.9617250165112323,
+            1.0231963226199214
+          ]
+        },
+        "p99_ms": {
+          "pairs": 5,
+          "cost_reduction_pct": 0.4690381452956194,
+          "ci95_pct": [
+            0.01572836737211425,
+            0.9202927024188456
+          ],
+          "speedup": 1.0047124848042794,
+          "speedup_ci95": [
+            1.0001573084157667,
+            1.0092884075611446
+          ]
+        },
+        "stack_cpu": {
+          "pairs": 5,
+          "cost_reduction_pct": -1.0709181026904657,
+          "ci95_pct": [
+            -2.2965560727897794,
+            0.1400352241381575
+          ],
+          "speedup": 0.9894042903458897,
+          "speedup_ci95": [
+            0.9775500157487643,
+            1.0014023159777041
+          ]
+        }
+      }
+    },
+    "rpc_stable": {
+      "original": {
+        "inverse_rps": {
+          "pairs": 5,
+          "cost_reduction_pct": 0.47785556711068544,
+          "ci95_pct": [
+            -0.9909039774740336,
+            1.9252542315087218
+          ],
+          "speedup": 1.004801499905711,
+          "speedup_ci95": [
+            0.990188185881621,
+            1.0196304789415753
+          ]
+        },
+        "mean_ms": {
+          "pairs": 5,
+          "cost_reduction_pct": 0.49026540152946607,
+          "ci95_pct": [
+            -1.0175982841382547,
+            1.975621594115018
+          ],
+          "speedup": 1.0049268084525371,
+          "speedup_ci95": [
+            0.9899265246707213,
+            1.0201543904306605
+          ]
+        },
+        "p99_ms": {
+          "pairs": 5,
+          "cost_reduction_pct": 1.8506159089207719,
+          "ci95_pct": [
+            1.0221237264831262,
+            2.6721732153820454
+          ],
+          "speedup": 1.0188550944670571,
+          "speedup_ci95": [
+            1.0103267898339077,
+            1.0274553876692987
+          ]
+        },
+        "stack_cpu": {
+          "pairs": 5,
+          "cost_reduction_pct": 2.1030756317667043,
+          "ci95_pct": [
+            1.6631167196615615,
+            2.541066169057804
+          ],
+          "speedup": 1.0214825506045124,
+          "speedup_ci95": [
+            1.0169124408277244,
+            1.0260731989277214
+          ]
+        }
+      },
+      "full_dso": {
+        "inverse_rps": {
+          "pairs": 5,
+          "cost_reduction_pct": -2.039959952767023,
+          "ci95_pct": [
+            -3.5100385059914085,
+            -0.5907598668279501
+          ],
+          "speedup": 0.9800082246826508,
+          "speedup_ci95": [
+            0.96608987343978,
+            0.994127096091032
+          ]
+        },
+        "mean_ms": {
+          "pairs": 5,
+          "cost_reduction_pct": -2.091055222869409,
+          "ci95_pct": [
+            -3.6082845570580613,
+            -0.5960440429757075
+          ],
+          "speedup": 0.9795177430745079,
+          "speedup_ci95": [
+            0.9651737834239409,
+            0.9940748759193645
+          ]
+        },
+        "p99_ms": {
+          "pairs": 5,
+          "cost_reduction_pct": 0.2672045162446901,
+          "ci95_pct": [
+            -0.4480017459185692,
+            0.9773183924117634
+          ],
+          "speedup": 1.0026792041168466,
+          "speedup_ci95": [
+            0.9955399635818363,
+            1.0098696417481878
+          ]
+        },
+        "stack_cpu": {
+          "pairs": 5,
+          "cost_reduction_pct": -1.1056924443463068,
+          "ci95_pct": [
+            -1.4128532798052928,
+            -0.7994619424277705
+          ],
+          "speedup": 0.9890639941469672,
+          "speedup_ci95": [
+            0.986068301658892,
+            0.9920687876004299
+          ]
+        }
+      },
+      "no_dso": {
+        "inverse_rps": {
+          "pairs": 5,
+          "cost_reduction_pct": -1.2421505628451124,
+          "ci95_pct": [
+            -3.2544327236470716,
+            0.7309150782601193
+          ],
+          "speedup": 0.9877308951267876,
+          "speedup_ci95": [
+            0.9684814236270386,
+            1.007362967824639
+          ]
+        },
+        "mean_ms": {
+          "pairs": 5,
+          "cost_reduction_pct": -1.2727573384616164,
+          "ci95_pct": [
+            -3.3317583638433845,
+            0.7452157852406494
+          ],
+          "speedup": 0.9874323818970588,
+          "speedup_ci95": [
+            0.9677566856830998,
+            1.0075081094693452
+          ]
+        },
+        "p99_ms": {
+          "pairs": 5,
+          "cost_reduction_pct": -0.20278476696082848,
+          "ci95_pct": [
+            -1.0379772847953772,
+            0.6255039453879951
+          ],
+          "speedup": 0.997976256174592,
+          "speedup_ci95": [
+            0.9897268600115614,
+            1.0062944112445535
+          ]
+        },
+        "stack_cpu": {
+          "pairs": 5,
+          "cost_reduction_pct": -0.034405882828236756,
+          "ci95_pct": [
+            -1.1061908755459093,
+            1.0260175596157106
+          ],
+          "speedup": 0.9996560595074805,
+          "speedup_ci95": [
+            0.9890591182798336,
+            1.0103665380973603
+          ]
+        }
+      },
+      "rpc_stable_nop": {
+        "inverse_rps": {
+          "pairs": 5,
+          "cost_reduction_pct": -1.1259201932002805,
+          "ci95_pct": [
+            -2.5501047081667005,
+            0.27848568245180116
+          ],
+          "speedup": 0.9888661562629124,
+          "speedup_ci95": [
+            0.9751330852813491,
+            1.002792633910121
+          ]
+        },
+        "mean_ms": {
+          "pairs": 5,
+          "cost_reduction_pct": -1.1410423498184663,
+          "ci95_pct": [
+            -2.594458658075638,
+            0.291783967587933
+          ],
+          "speedup": 0.9887183054148095,
+          "speedup_ci95": [
+            0.9747115127657879,
+            1.0029263783788196
+          ]
+        },
+        "p99_ms": {
+          "pairs": 5,
+          "cost_reduction_pct": -0.6191438712643382,
+          "ci95_pct": [
+            -1.3017227239562335,
+            0.05883571225805406
+          ],
+          "speedup": 0.9938466593190607,
+          "speedup_ci95": [
+            0.9871500435633914,
+            1.0005887034904724
+          ]
+        },
+        "stack_cpu": {
+          "pairs": 5,
+          "cost_reduction_pct": -0.20964370672493793,
+          "ci95_pct": [
+            -0.38549755635273186,
+            -0.03409791530455397
+          ],
+          "speedup": 0.9979079487864613,
+          "speedup_ci95": [
+            0.9961598282049026,
+            0.9996591370741063
+          ]
+        }
+      }
+    },
+    "rpc_stable_nop": {
+      "original": {
+        "inverse_rps": {
+          "pairs": 5,
+          "cost_reduction_pct": 1.5859195716063423,
+          "ci95_pct": [
+            -0.842357729368115,
+            3.9557241158623024
+          ],
+          "speedup": 1.016114762894729,
+          "speedup_ci95": [
+            0.9916467866446681,
+            1.0411864640495
+          ]
+        },
+        "mean_ms": {
+          "pairs": 5,
+          "cost_reduction_pct": 1.612903835522772,
+          "ci95_pct": [
+            -0.8728232727585938,
+            4.037377188269431
+          ],
+          "speedup": 1.0163934489216597,
+          "speedup_ci95": [
+            0.9913472901378155,
+            1.042072393083611
+          ]
+        },
+        "p99_ms": {
+          "pairs": 5,
+          "cost_reduction_pct": 2.4545625068575383,
+          "ci95_pct": [
+            1.8329876672309453,
+            3.072201652893425
+          ],
+          "speedup": 1.0251632733415144,
+          "speedup_ci95": [
+            1.0186721345966754,
+            1.0316957746413635
+          ]
+        },
+        "stack_cpu": {
+          "pairs": 5,
+          "cost_reduction_pct": 2.3078810111929693,
+          "ci95_pct": [
+            1.856216862706328,
+            2.757466571545897
+          ],
+          "speedup": 1.0236240244871482,
+          "speedup_ci95": [
+            1.0189132393654488,
+            1.028356589183011
+          ]
+        }
+      },
+      "no_dso": {
+        "inverse_rps": {
+          "pairs": 5,
+          "cost_reduction_pct": -0.11493627887169122,
+          "ci95_pct": [
+            -2.704317574951687,
+            2.4091615349282502
+          ],
+          "speedup": 0.998851956729498,
+          "speedup_ci95": [
+            0.9736689007939893,
+            1.0246863493829956
+          ]
+        },
+        "mean_ms": {
+          "pairs": 5,
+          "cost_reduction_pct": -0.1302290203689882,
+          "ci95_pct": [
+            -2.7887573461979898,
+            2.459539131276489
+          ],
+          "speedup": 0.9986994035503255,
+          "speedup_ci95": [
+            0.9728690430918888,
+            1.025215578328943
+          ]
+        },
+        "p99_ms": {
+          "pairs": 5,
+          "cost_reduction_pct": 0.41379710488912425,
+          "ci95_pct": [
+            -0.622495380460375,
+            1.439417005434096
+          ],
+          "speedup": 1.0041551650013703,
+          "speedup_ci95": [
+            0.9938135565202724,
+            1.0146043881001947
+          ]
+        },
+        "stack_cpu": {
+          "pairs": 5,
+          "cost_reduction_pct": 0.17487121739455658,
+          "ci95_pct": [
+            -0.8311161266445266,
+            1.1708218726093622
+          ],
+          "speedup": 1.0017517755251324,
+          "speedup_ci95": [
+            0.9917573447704314,
+            1.0118469251165902
+          ]
+        }
+      }
+    }
+  },
+  "diagnosis_records": [
+    "analysis/pmu_contrasts.json",
+    "analysis/rpc_target_footprint.json"
+  ],
+  "limitations": "No claim that DSO removal significantly harms throughput: that interval crosses zero. Initial live/type/trace comparisons include displaced decoder hints/layout effects."
+}
