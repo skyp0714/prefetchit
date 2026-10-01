@@ -90,6 +90,9 @@ def campaign(spec):
     source_files += [Path(__file__).with_name(name) for name in ('backend_study.py','backend_prefetch.py',
         'media_library_study.py','balanced_load.py')]
     source_files.append(h.HARNESS/'run_platform.py')
+    trial_script=Path(spec.get('trial_script',system.__file__)).resolve()
+    assert trial_script.is_file()
+    source_files += [trial_script,Path(h.old.__file__)]
     source_hashes={str(path):b.sha(path) for path in source_files}
     for path in source_files:
         saved=root/'source_versions'/(source_hashes[str(path)]+'.py')
@@ -119,7 +122,7 @@ def campaign(spec):
             assert all(b.sha(path)==digest for path,digest in source_hashes.items()),'Timing harness changed during frozen campaign'
             b.space(root);dest=out/f'{block:02d}_{name}';manifest=dest.with_suffix('.json')
             b.save(manifest,dict(arms[name],out=str(dest),seed=spec['seedbase']+block))
-            h.platform(dest,['python3',Path(system.__file__),'trial',manifest])
+            h.platform(dest,['python3',trial_script,'trial',manifest])
             result=json.loads((dest/'result.json').read_text());assert result['valid']
             row=dict(block=block,arm=name,valid=True,output=str(dest),achieved_rps=result['pool']['achieved_rps'],pool_util_pct=result['pool_util_pct'],
                 metrics=dict(mean_ms=result['pool']['mean_ms'],p99_ms=result['pool']['p99_ms'],stack_cpu=result['whole_stack_cpu_us_per_request'],inverse_rps=1/result['pool']['achieved_rps']))
