@@ -31,7 +31,6 @@ def build(root):
         for group,values in groups.items():
             values['topdown:frontend_pct']=100*values['topdown:topdown-fe-bound:u']/values['topdown:slots:u']
             values['topdown:backend_pct']=100*values['topdown:topdown-be-bound:u']/values['topdown:slots:u']
-            values['translation:frontend_pct']=100*values['translation:FE_BUBBLES']/values['translation:SLOTS']
             diagnostic_rows.append(dict(block=int(block),arm=name,group=group,values=dict(values)))
     if diagnostic_rows:
         means={}
