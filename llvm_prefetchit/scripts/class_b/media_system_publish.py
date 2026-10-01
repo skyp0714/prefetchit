@@ -18,6 +18,9 @@ def publish(root):
         'complete.json','decision.json','candidate_cleanup.json','boundary_summary.json']
     for name in copies:
         if (root/name).exists():shutil.copyfile(root/name,destination/name)
+    for suffix in ['_driver.log','_libraries.log','_diagnostics.log','_diagnostics_continue.log','_boundaries.log']:
+        path=root.with_name(root.name+suffix)
+        if path.exists():shutil.copyfile(path,destination/path.name)
     files=[];records={}
     for path in sorted(root.rglob('*')):
         if not path.is_file() or path.is_symlink():continue

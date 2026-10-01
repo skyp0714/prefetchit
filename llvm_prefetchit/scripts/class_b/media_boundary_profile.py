@@ -24,9 +24,9 @@ from media_system_study import configure, audit_native
 from media_library_study import bind_libraries, audit_libraries
 from split_hybrid_study import pool_window
 
-CACHE='cycles:u,instructions:u,cpu/event=0x24,umask=0x24,name=L2I/u,cpu/event=0xc6,umask=0x3,config1=0x13,name=FE_L2/u,cpu/event=0x80,umask=0x4,name=ICACHE_STALL/u'
-L1='cycles:u,instructions:u,cpu/event=0xc6,umask=0x3,config1=0x12,name=FE_L1I/u,cpu/event=0x80,umask=0x4,cmask=1,edge=1,name=ICACHE_PERIODS/u,cpu/event=0x11,umask=0x10,cmask=1,name=ITLB_WALK_ACTIVE/u'
-SAMPLES=dict(cycles=('cycles:k',100003),l2=('cpu/event=0xc6,umask=0x3,config1=0x13,name=kernel_l2/kpp',257))
+CACHE='cycles:u,instructions:u,cpu/event=0x24,umask=0x24,name=L2I/u,cpu/event=0x24,umask=0xe4,name=L2_CODE_ALL/u,cpu/event=0xc6,umask=0x3,config1=0x13,name=FE_L2/u,cpu/event=0x80,umask=0x4,name=ICACHE_STALL/u'
+L1='cycles:u,instructions:u,cpu/event=0xc6,umask=0x3,config1=0x12,name=FE_L1I/u,cpu/event=0x80,umask=0x4,cmask=1,edge=1,name=ICACHE_PERIODS/u,cpu/event=0x11,umask=0x10,cmask=1,name=ITLB_WALK_ACTIVE/u,cpu/event=0x80,umask=0x4,name=ICACHE_STALL/u'
+SAMPLES=dict(cycles=('cycles:k',1000003),l2=('cpu/event=0xc6,umask=0x3,config1=0x13,name=kernel_l2/kpp',1021))
 
 
 def decode_symbols(dest):
@@ -38,21 +38,24 @@ def decode_symbols(dest):
             if match:types[match[1]]+=1
         assert proc.wait()==0
     b.save(dest/'record_types.json',dict(types))
-    assert not any(types[k] for k in ['LOST','LOST_SAMPLES','THROTTLE','UNTHROTTLE'])
     command=['perf','script','-i',str(dest/'perf.data'),'-F','ip,sym,dso'];b.save(dest/'decode_command.json',command)
-    histogram=collections.Counter();unparsed=[]
+    histogram=collections.Counter();ips=collections.Counter();unparsed=[]
     with (dest/'decode.log').open('w') as err:
         proc=subprocess.Popen(command,stdout=subprocess.PIPE,stderr=err,text=True)
         for line in proc.stdout:
             if not line.strip():continue
-            match=re.match(r'^\s*[0-9a-f]+\s+(.+?)\s+\((.*)\)\s*$',line)
-            if match:histogram[(match[1],match[2])]+=1
+            match=re.match(r'^\s*([0-9a-f]+)\s+(.+?)\s+\((.*)\)\s*$',line)
+            if match:
+                histogram[(match[2],match[3])]+=1
+                ips[(match[1],match[2],match[3])]+=1
             else:unparsed.append(line.rstrip())
         assert proc.wait()==0
     result=dict(samples=sum(histogram.values()),record_samples=types['SAMPLE'],unparsed=unparsed[:50],
         histogram=[dict(symbol=s,dso=d,samples=n) for (s,d),n in histogram.most_common()],
+        instruction_histogram=[dict(ip=ip,symbol=s,dso=d,samples=n) for (ip,s,d),n in ips.most_common()],
         raw_sha256=b.sha(dest/'perf.data'),scope='CPU pool kernel-only samples; associations, not exclusive syscall or cache-stall causal costs.')
     b.save(dest/'symbols.json',result)
+    assert not any(types[k] for k in ['LOST','LOST_SAMPLES','THROTTLE','UNTHROTTLE'])
     assert result['samples']==types['SAMPLE'] and not unparsed and result['samples']>100
     remove_generated([dest/'perf.data'],dest/'raw_cleanup.json','Full symbol histogram, sample-quality records, source/commands/hash retained.')
 
@@ -60,6 +63,7 @@ def decode_symbols(dest):
 def trial(spec):
     configure();out=Path(spec['out']);out.mkdir(parents=True,exist_ok=False);b.space(out)
     b.save(out/'protocol.json',dict(spec,source_sha256=b.sha(__file__),cache=CACHE,l1=L1,samples=SAMPLES,
+        perf_max_sample_rate=Path('/proc/sys/kernel/perf_event_max_sample_rate').read_text().strip(),
         scope='Full Media C4, separate diagnostic only; CPU pool 32-39. User and kernel PMU windows are sequential, each with its own request count.'))
     stack=client=None;windows=[];captures=[]
     try:
@@ -89,6 +93,9 @@ def trial(spec):
             h.old.attach(row['window'],samples)
             row['per_request']={k:v/row['window']['completed'] for k,v in row['counters'].items()}
         b.save(out/'result.json',dict(valid=True,windows=windows,load=info))
+        # Read existing tracing only after load and every PMU recorder stop.
+        from request_path_trace import collect
+        collect(stack,out,info)
     except BaseException as error:b.save(out/'failure.json',dict(error=repr(error)));raise
     finally:
         h.c.stop(client)

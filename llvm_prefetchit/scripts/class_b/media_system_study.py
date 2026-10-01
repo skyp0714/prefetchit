@@ -276,8 +276,43 @@ def diagnostics(root):
     for block,order in enumerate([['original','mongo','combined'],['combined','mongo','original']]):
         for arm in order:
             b.space(root);out=root/'diagnostics'/f'{block:02d}_{arm}';manifest=out.with_suffix('.json')
-            b.save(manifest,dict(prepared['arms'][arm],out=str(out),seed=931101+block,diagnostic=True,reverse_pmu=bool(block)))
-            h.platform(out,['python3',Path(__file__),'trial',manifest])
+            completed=(out/'result.json').exists() and not (out/'failure.json').exists()
+            prior_failures=sum(p.parent.name==out.name for p in (root/'invalid_diagnostics').rglob('failure.json'))
+            prior_failures+=int((out/'failure.json').exists())
+            first_attempt=0 if completed else prior_failures
+            assert first_attempt<3, 'Diagnostic exhausted its three operational attempts'
+            for attempt in range(first_attempt,3):
+                if out.exists():
+                    if (out/'result.json').exists() and not (out/'failure.json').exists():
+                        assert json.loads((out/'result.json').read_text())['valid']
+                        protocol=json.loads((out/'protocol.json').read_text())
+                        assert protocol['seed']==931101+block and protocol['diagnostic_roi_s']==5
+                        assert protocol['reverse_pmu']==bool(block)
+                        assert all(protocol.get(k)==v for k,v in prepared['arms'][arm].items())
+                        assert (out.with_name(out.name+'_platform')/'verified.json').exists()
+                        break
+                    assert (out/'failure.json').exists(), 'Incomplete diagnostic needs an explicit audit'
+                    rejected=root/'invalid_diagnostics'/f'{out.name}_pmu_attempt{attempt}'
+                    rejected.mkdir(parents=True,exist_ok=False)
+                    moved=[]
+                    for path in sorted(out.parent.glob(out.name+'*')):
+                        target=rejected/path.name;path.rename(target);moved.append(str(target))
+                    checks=[]
+                    for before in rejected.rglob('*_before.json'):
+                        after=before.with_name(before.name.replace('_before','_restored'))
+                        checks.append(after.exists() and json.loads(before.read_text())==json.loads(after.read_text()))
+                    assert checks and all(checks)
+                    b.save(rejected/'exclusion.json',dict(reason='Operational/PMU validity gate, never performance-based selection.',
+                        failure=json.loads((rejected/out.name/'failure.json').read_text()),moved=moved,
+                        platform_restored=True,bulk='Stack/data volumes and request traces removed by trial finally/compact. Active policy binaries retained for retry.'))
+                b.save(manifest,dict(prepared['arms'][arm],out=str(out),seed=931101+block,diagnostic=True,
+                    diagnostic_roi_s=5,reverse_pmu=bool(block),diagnostic_attempt=attempt))
+                try:h.platform(out,['python3',Path(__file__),'trial',manifest])
+                except subprocess.CalledProcessError:
+                    if attempt==2:raise
+                    continue
+                break
+            assert json.loads((out/'result.json').read_text())['valid']
             print(json.dumps(dict(stage='diagnostic_complete',arm=arm,block=block)),flush=True)
     b.save(root/'diagnostics/complete.json',dict(valid=True,runs=6))
 

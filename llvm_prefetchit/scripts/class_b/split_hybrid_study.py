@@ -79,9 +79,14 @@ def trial(spec):
         try:
             with bind_mongodb(out, spec['mongo_binary']): stack = h.start(out, 'media', spec['overrides'], 8)
             hybrid.audit(stack, out, spec['mongo_binary'])
-            seconds = 125+len(order)*4
+            # A dedicated diagnostic may shorten its unused endpoint ROI to
+            # stay below Nginx's unchanged 100,000 requests/connection limit.
+            # Existing timing campaigns keep the default 60-second ROI.
+            roi_s = spec.get('diagnostic_roi_s', 60)
+            assert roi_s in (5, 60)
+            seconds = 65+roi_s+len(order)*4
             client = balanced_backend.start_client(out, seconds, spec['seed']); time.sleep(50)
-            a = stack.accounts(); pb = h.old.pool_cpu(set(range(32, 40))); time.sleep(60)
+            a = stack.accounts(); pb = h.old.pool_cpu(set(range(32, 40))); time.sleep(roi_s)
             pa = h.old.pool_cpu(set(range(32, 40))); z = stack.accounts()
             for label, name, privilege in order:
                 stem = out/(label+'_'+(name or 'pool_'+privilege))
