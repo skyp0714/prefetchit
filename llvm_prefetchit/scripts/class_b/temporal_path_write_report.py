@@ -34,6 +34,7 @@ def report(root):
     native = data['pmu_absolute'][best]['native']['ratios']
     mongo = data['pmu_absolute'][best]['mongo']['ratios']
     cpu = data['cpu_us_per_request'][best]
+    original_cpu = data['cpu_us_per_request']['original']
     mongo_code_bytes = next(row['extra_instruction_bytes'] for row in prepared['builds'].values()
                             if Path(row['binary']).name == 'mongod')
     lines = [
@@ -101,6 +102,12 @@ def report(root):
         '## 실제 성능 및 PMU 세부 결과', '',
         (root / 'analysis/final_tables.md').read_text(),
         '## 해석 및 남은 제약', '',
+        f'CPU 기준으로 원본에서 MongoDB가 차지한 비중은 '
+        f'{100*original_cpu["mongo:cpu_us"]/original_cpu["all:cpu_us"]:.2f}%다. '
+        f'이 그룹의 CPU/request가 {100*(1-cpu["mongo:cpu_us"]/original_cpu["mongo:cpu_us"]):.2f}% 줄어 '
+        f'전체 CPU를 약 {100*(original_cpu["mongo:cpu_us"]-cpu["mongo:cpu_us"])/original_cpu["all:cpu_us"]:.2f}%p 줄이는 데 기여했다. '
+        f'앱 서버 합계의 기여는 약 {100*(original_cpu["native:cpu_us"]-cpu["native:cpu_us"])/original_cpu["all:cpu_us"]:.2f}%p다. '
+        '이는 CPU 작업량의 분해이며 각 서비스의 요청 지연을 순서대로 더한 결과가 아니다.', '',
         'T1은 L1I에 직접 채우는 정책이 아니므로 L2에서 가져오는 지연을 줄여도 L1I 미스 횟수가 '
         '같이 줄어든다고 보장되지 않는다. 분기 복구, target을 다시 찾는 시간, ITLB 변환, '
         '삽입 코드 fetch 비용도 구별해야 한다. NOP 대비는 같은 코드 배치에서 prefetch 자체의 순효과를 '
