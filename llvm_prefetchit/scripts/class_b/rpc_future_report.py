@@ -15,7 +15,8 @@ def build(root):
     for phase in ('screen','confirmation'):
         folder=root/phase
         if not (folder/'complete.json').exists():continue
-        result=evaluate(folder,folder/'evaluation.json')
+        existing=folder/'evaluation.json'
+        result=json.loads(existing.read_text()) if existing.exists() else evaluate(folder,root/'analysis'/(phase+'_evaluation.json'))
         report[phase]=dict(trials=result['trials'],absolute={k:dict(rps=v['rps'],util_pct=v['util_pct'],**v['e2e'])
             for k,v in result['absolute'].items()},comparisons=result['e2e'])
     diagnostic_rows=[]

@@ -74,6 +74,17 @@ ret
     pf=output.read_bytes();nop=Path(str(output)+'.nop').read_bytes()
     allowed={i for h in record['hints'] for i in range(h['offset'],h['offset']+8)}
     assert len(pf)==len(nop) and all(a==b or i in allowed for i,(a,b) in enumerate(zip(pf,nop)))
+    # A second append must keep all first-pass code addresses and hints while
+    # tail-jumping through the first stub, including C++ exception propagation.
+    second_row=dict(site=site,callee=record['patches'][0]['stub'],expected=pf[off:off+5].hex(),targets=[symbols['decode']])
+    second=tmp_path/'second';again=m.build(output,dict(sha256=m.sha(pf),calls=[second_row]),second)
+    second_raw=second.read_bytes();second_elf=m.Elf(second_raw)
+    for hint in record['hints']:
+        start=second_elf.offset(hint['va'],8,True)
+        assert second_raw[start:start+8].hex()==hint['original']
+    for binary in (second,Path(str(second)+'.nop')):
+        assert subprocess.check_output([str(binary)],text=True)=='runtime-target-ok\n'
+    assert again['original_instruction_addresses_unchanged'] and again['original_return_addresses_preserved']
     with pytest.raises(AssertionError,match='live-object proof'):
         row['runtime_target']['live_immutable_chain_proof']=''
         m.build(base,dict(sha256=m.sha(raw),calls=[row]),tmp_path/'bad')

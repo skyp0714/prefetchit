@@ -7,6 +7,7 @@ import copy
 import json
 from pathlib import Path
 import re
+import struct
 import subprocess
 import time
 
@@ -241,8 +242,45 @@ def smoke(spec):
         h.old.compact(out)
 
 
+def stable(root):
+    """Append RPC-only stubs to no-DSO, keeping every existing hint in place."""
+    prepared=json.loads((root/'prepared_candidates.json').read_text());base=prepared['no_dso']
+    choice=json.loads((root/'stable_policy_spec.json').read_text())['source_policy'];assert choice in ('rpc_type','rpc_trace')
+    inventory=json.loads((root/'rpc_inventory.json').read_text());arm=copy.deepcopy(base['arm']);nop=copy.deepcopy(base['arm']);builds={}
+    for key,info in inventory.items():
+        b.space(root);source=Path(base['builds'][key]['binary']);old=json.loads(Path(str(source)+'.json').read_text())
+        selected=json.loads(Path(prepared[choice]['builds'][key]['binary']+'.json').read_text())
+        targets={p['site']:p['targets'] for p in selected['patches']};old_by_site={p['site']:p for p in old['patches']}
+        raw=source.read_bytes();elf=stubs.Elf(raw);calls=[];selections=[]
+        for method in info['methods']:
+            site=method['args_site'];off=elf.offset(site,5,True);prior=old_by_site.get(site);existing=prior['targets'] if prior else []
+            added=[t for t in targets[site] if all(t//64!=v//64 for v in existing)][:8-len(existing)]
+            if not added:continue
+            callee=site+5+struct.unpack_from('<i',raw,off+1)[0]
+            assert callee==(prior['stub'] if prior else method['args_callee'])
+            calls.append(dict(site=site,callee=callee,expected=raw[off:off+5].hex(),targets=added))
+            selections.append(dict(method=method['method'],site=site,existing=existing,added=added,existing_stub=prior['stub'] if prior else None))
+        plan=dict(sha256=b.sha(source),calls=calls);output=root/'builds/rpc_stable'/key/source.name
+        b.save(root/'plans/rpc_stable'/(key+'.json'),dict(plan=plan,source_policy=choice,selections=selections,
+            rule='Append to the already patched no-DSO ELF. New RPC hints tail-jump through any existing call stub; keep all original and pre-existing inserted instructions at their existing addresses. Eight combined local targets per RPC site.'))
+        built=stubs.build(source,plan,output);check=stubs.Elf(output.read_bytes())
+        for hint in old['hints']:
+            off=check.offset(hint['va'],len(bytes.fromhex(hint['original'])),True)
+            assert check.data[off:off+len(bytes.fromhex(hint['original']))].hex()==hint['original']
+        b.save(Path(str(output)+'.preservation.json'),dict(original_source_sha256=info['sha256'],base_sha256=old['sha256'],
+            unchanged_existing_hint_count=len(old['hints']),unchanged_existing_code_bytes=old['extra_instruction_bytes'],
+            new_code_bytes=built['extra_instruction_bytes'],existing_stubs_preserved=True,additional_branch_at_previously_patched_rpc_sites=True,
+            nop_scope='Only appended RPC hints disabled; all no-DSO hints and instruction addresses are preserved in both arms.'))
+        arm['overrides'][key]=str(output);nop['overrides'][key]=str(output)+'.nop'
+        builds[key]=dict(binary=str(output),nop=str(output)+'.nop',sha256=built['sha256'],nop_sha256=built['nop_sha256'],
+            sites=built['call_sites'],hints=len(built['hints']),extra_instruction_bytes=built['extra_instruction_bytes'],rpc_sites=selections)
+    arm['controls']=['original','no_dso','rpc_stable_nop'];prepared['rpc_stable']=dict(arm=arm,nop=nop,builds=builds,source_policy=choice)
+    b.save(root/'prepared_candidates.json',prepared);arms=json.loads((root/'arms.json').read_text());arms['rpc_stable']=arm
+    arms['rpc_stable_nop']=dict(nop,controls=['no_dso']);b.save(root/'arms.json',arms)
+
+
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('action',choices=['inventory','prepare','trace_path','smoke','platform_smoke']);p.add_argument('root',type=Path);a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('action',choices=['inventory','prepare','trace_path','stable','smoke','platform_smoke']);p.add_argument('root',type=Path);a=p.parse_args()
     if a.action=='platform_smoke':
         import fullset as h
         spec=json.loads(a.root.read_text());h.platform(Path(spec['out']),['python3',__file__,'smoke',str(a.root)])
