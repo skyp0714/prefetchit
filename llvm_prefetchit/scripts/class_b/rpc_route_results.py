@@ -25,6 +25,7 @@ def summarize(root):
     report=dict(selection=chosen,complete=complete,phases={})
     if (root/'resumption.json').exists():
         report['resumption']=load(root/'resumption.json')
+    if (root/'training_classification.json').exists():report['training_classification']=load(root/'training_classification.json')
     phases=['screen','screen2','confirmation']
     if (root/'same_line_predeclared.json').exists():
         assert load(root/'same_line_complete.json')['valid']
@@ -190,6 +191,19 @@ def write_report(root,report,nominee,combined):
     for phase in ['screen','screen2']:
         for name,v in report['phases'][phase]['absolute'].items():
             lines.append(f"| {phase} | {name} | {v['rps']:.2f} | {v['mean_ms']:.4f} | {v['p99_ms']:.4f} | {v['stack_cpu']:.2f} |")
+    if 'training_classification' in report:
+        training=report['training_classification']
+        lines+=['','잔여 훈련 표본을 RPC 문맥에 연결하는 단계에서도 커버리지가 제한됐다. '
+            f"decoder·handler·worker 중 하나로 분류된 비중은 {training['recognized_rpc_pct']:.2f}%였다. "
+            '최근 32개 분기에서 문맥을 찾는 방식으로는 긴 공통 함수 경로의 RPC 타입을 모두 복원하지 못한다. '
+            '아래는 요청 수로 정규화한 훈련 표본 분포이며 실제 raw L2 miss의 원인 분해가 아니다.', '',
+            '| 훈련 표본 영역 | 비중 |','|---|---:|']
+        for key,label in [('outside_main','main ELF 밖'),('not_original_instruction','원본 ELF에서 명령어로 해석되지 않은 주소'),
+                          ('main_unclassified','main ELF이지만 RPC 문맥 미분류'),('context_decoder','RPC decoder 문맥'),
+                          ('context_handler','handler 문맥'),('context_worker','typed worker 문맥')]:
+            lines.append(f"| {label} | {training['categories'][key]['pct']:.2f}% |")
+        lines+=['','원본 명령어로 해석되지 않은 주소를 전부 주입 stub이라고 단정하지 않았다. '
+            '이 분류와 최종 타깃의 2.08% 주소 겹침은 타깃 선정 범위가 좁다는 증거이며, BTB miss 비중이나 속도 개선 상한은 아니다.']
     lines+=['','## 이번 추가가 겨냥한 CPU 비용', '',
         'Clean E2E 실행의 cgroup CPU 회계다. 변경한 세 앱의 사용자 시간에는 프리패치로 줄일 수 없는 명령 실행도 포함된다. '
         '커널 시간에는 해당 프로세스가 실행한 커널 코드가 포함되며, 아래 비중을 latency 개선 상한으로 해석하지 않는다.', '',
@@ -362,7 +376,7 @@ def publish(root):
                  'prepared_summary.json','combined_prepared.json','it0_encoding_validation.json','footprint_summary.json']:
         shutil.copyfile(root/name,destination/name)
     if (root/'resumption.json').exists():shutil.copyfile(root/'resumption.json',destination/'resumption.json')
-    for name in ['same_line_predeclared.json','same_line_encoding_validation.json','same_line_decision.json']:
+    for name in ['same_line_predeclared.json','same_line_encoding_validation.json','same_line_decision.json','training_classification.json']:
         if (root/name).exists():shutil.copyfile(root/name,destination/name)
     shutil.copyfile(root/'analysis/report.json',destination/'report.json')
     for path in Path(__file__).parent.glob('rpc_route_*.py'):
