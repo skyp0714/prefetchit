@@ -87,14 +87,19 @@ def publish(root):
     b.save(destination / 'local_derived_records.json', dict(root=str(root), files=omitted))
     figures = b.REPO / 'docs/figures'
     figures.mkdir(exist_ok=True)
+    figure_manifest = {}
     for path in sorted((root / 'analysis').glob('*')):
         if path.suffix not in ('.png', '.svg') or not path.name.startswith(('final_', 'matched_')):
             continue
-        shutil.copyfile(path, figures / (TAG + '_' + path.name))
+        target = figures / (TAG + '_' + path.name)
+        shutil.copyfile(path, target)
+        assert b.sha(path) == b.sha(target)
+        figure_manifest[str(target.relative_to(b.REPO))] = dict(bytes=target.stat().st_size, sha256=b.sha(target))
     shutil.copyfile(root / 'report.md', b.REPO / 'docs' / (TAG + '.md'))
     manifest = {str(path.relative_to(destination)): dict(bytes=path.stat().st_size, sha256=b.sha(path))
                 for path in sorted(destination.rglob('*')) if path.is_file()}
     b.save(destination / 'manifest.json', dict(files=manifest, source=str(root), archives=archives,
+        figures=figure_manifest, publisher_source_sha256=b.sha(__file__),
         archived_records=len(records), verified_archive=True,
         exclusions='No ELF/object/build tree, generated plan/callgraph/location index, raw perf recording, decoded trace copies, full HTTP request list, original datasets, or identifying details of unrelated host processes. Reusable compact observations and derived planning records remain local with hashes.'))
     print(json.dumps(dict(evidence=str(destination), archives=archives, compact_files=len(manifest),
