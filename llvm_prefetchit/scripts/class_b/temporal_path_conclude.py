@@ -84,7 +84,7 @@ def summarize(root):
                 events_per_request=dict(weighted),
                 age_classes=[dict(bin=i, classification=key, samples=value) for (i, key), value in sorted(ages.items())]))
     builds = prepared[best]['builds']
-    result = dict(selected=best, confirmation=e2e, pmu=pmu_changes,
+    result = dict(selected=best, confirmation=e2e, pmu=pmu_changes, pmu_absolute=pmu['arms'],
         cpu_us_per_request=cpu, temporal=time_groups, residual=residual_groups,
         endpoint_windows=windows, source_sha256=b.sha(__file__),
         footprint=dict(elf_count=len(builds), sites=sum(row['sites'] for row in builds.values()),
@@ -235,6 +235,21 @@ def tables(root, data):
             values.append('—' if row is None else f"{row['before']:.2f} → {row['after']:.2f}")
         lines.append('| ' + label + ' | ' + ' | '.join(values) + ' |')
     lines += ['', 'PMU는 독립된 짧은 진단 구간이다. 서로 다른 이벤트 그룹은 다른 시간에 측정했다. 중첩되는 stall cycle 비율은 합산할 수 없고, frontend-bound slots %를 요청 지연 비중으로 해석하면 안 된다.', '',
+              '| 같은 코드 배치의 NOP와 비교, 요청당 | 원본 | NOP | Prefetch | Prefetch/NOP 변화 |', '|---|---:|---:|---:|---:|']
+    for group in ('native', 'mongo'):
+        for key, label in [('cache:L2I', 'L2 code-read miss'), ('cache:FE_L2', 'Retired L2 miss'),
+                           ('l1:FE_L1', 'Retired L1I miss'), ('cache:ICACHE_DATA_STALL', 'I-cache stall cycles'),
+                           ('recovery:branch-misses:u', 'Branch misprediction'),
+                           ('recovery:RECOVERY_CYCLES', 'Recovery cycles'),
+                           ('recovery:CLEAR_RESTEER_CYCLES', 'Clear-resteer cycles'),
+                           ('front:UNKNOWN_BRANCH_CYCLES', 'Unknown-branch bubbles')]:
+            original = data['pmu_absolute']['original'][group]['per_request'][key]
+            nop = data['pmu_absolute'][best + '_nop'][group]['per_request'][key]
+            prefetch = data['pmu_absolute'][best][group]['per_request'][key]
+            value = change(nop, prefetch)
+            delta = '—' if value is None else f'{value:+.2f}%'
+            lines.append(f'| {group} / {label} | {original:,.1f} | {nop:,.1f} | {prefetch:,.1f} | {delta} |')
+    lines += ['', 'NOP은 추가 분기·GOT 접근·코드 배치를 유지하고 삽입한 prefetch 명령만 같은 길이의 NOP으로 바꾼 대조군이다.', '',
               '| 시간대별 진단 | 전체 이벤트/request 변화 | 0–20µs 변화 | 20–100µs 변화 | ≥100µs 변화 |', '|---|---:|---:|---:|---:|']
     for row in data['temporal']:
         values = []
