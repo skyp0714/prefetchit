@@ -154,13 +154,13 @@ def main(root):
         arm['controls'] = [control for control in arms if control != name]
     now = datetime.datetime.now(datetime.timezone.utc)
     # Predeclared time-only budget, independent of any endpoint effect size.
-    blocks = 7 if now.hour < 6 or (now.hour == 6 and now.minute < 14) else 6
-    if now.hour > 6 or (now.hour == 6 and now.minute >= 28):
+    blocks = 7 if now.hour < 6 else 6
+    if now.hour > 6 or (now.hour == 6 and now.minute >= 15):
         blocks = 5
     if best == ready['base']:
         blocks += 1
     final_choice = dict(epoch=time.time(), selected=best, arms=list(arms), blocks=blocks,
-        screen_only=True, timing_budget='7 blocks before 06:14 UTC, 6 before 06:28, otherwise 5; one additional block when only four arms remain. Set before confirmation, without effect-size-dependent stopping.')
+        screen_only=True, timing_budget='Amended before confirmation to reserve two NOP diagnostics: 7 blocks before 06:00 UTC, 6 before 06:15, otherwise 5; one additional block when only four arms remain. Time-only choice, no effect-size-dependent stopping.')
     b.save(root / 'confirmation_selection.json', final_choice)
     spec = root / 'confirmation_spec.json'
     b.save(spec, dict(root=str(root), out=str(root / 'confirmation'), arms=arms, blocks=blocks,
@@ -171,7 +171,8 @@ def main(root):
                      promotion_rule='Report all contrasts with individual paired-log t95 intervals. Selected policy remains selected regardless of confirmation noise; do not select a different winner from these trials. No performance exclusions, retries or early stopping.',
                      background_audit=str(root / 'environment_amendment.json')))
     run(root, 'confirmation_driver', ['python3', scripts / 'temporal_path_campaign.py', 'campaign', spec])
-    for name, suite in [('original', 'core'), (best, 'core'), (best, 'extra'), ('original', 'extra')]:
+    for name, suite in [('original', 'core'), (best + '_nop', 'core'), (best, 'core'),
+                        (best, 'extra'), (best + '_nop', 'extra'), ('original', 'extra')]:
         tag = 'pmu_final_' + name + '_' + suite
         spec = root / (tag + '_spec.json')
         b.save(spec, dict(arms[name], root=str(root), out=str(root / 'diagnostics' / tag),
