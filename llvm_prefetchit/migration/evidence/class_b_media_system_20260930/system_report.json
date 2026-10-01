@@ -1,0 +1,5683 @@
+{
+  "clean_trials": 16,
+  "cpu": {
+    "mongo": {
+      "original": {
+        "all:cpu_us": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.8413022533127599,
+          "ci95_pct": [
+            0.2600745167206986,
+            3.397461982856953
+          ]
+        },
+        "all:system_us": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.15497457071109721,
+          "ci95_pct": [
+            -0.7447290589687405,
+            0.4313275249532067
+          ]
+        },
+        "all:user_us": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.101099666555096,
+          "ci95_pct": [
+            0.9127333528008763,
+            5.241135379564965
+          ]
+        },
+        "mongo:cpu_us": {
+          "pairs": 4,
+          "cost_reduction_pct": 8.402802442658242,
+          "ci95_pct": [
+            7.82361422545772,
+            8.978351343908974
+          ]
+        },
+        "mongo:system_us": {
+          "pairs": 4,
+          "cost_reduction_pct": -2.03749341721311,
+          "ci95_pct": [
+            -4.581592712241522,
+            0.4447169635703907
+          ]
+        },
+        "mongo:user_us": {
+          "pairs": 4,
+          "cost_reduction_pct": 9.517463408587224,
+          "ci95_pct": [
+            9.017291674797857,
+            10.014885479634227
+          ]
+        },
+        "native:cpu_us": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.42699594630675186,
+          "ci95_pct": [
+            -0.7185150328276046,
+            -0.1363206309413556
+          ]
+        },
+        "native:system_us": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.05413945333725412,
+          "ci95_pct": [
+            -0.43201001445309917,
+            0.5379356743390518
+          ]
+        },
+        "native:user_us": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.9790566981068949,
+          "ci95_pct": [
+            -1.830508521495533,
+            -0.13472425591429804
+          ]
+        }
+      }
+    },
+    "combined_nop": {
+      "mongo": {
+        "all:cpu_us": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.48032225461847045,
+          "ci95_pct": [
+            -1.373435585252225,
+            0.4049226298414865
+          ]
+        },
+        "all:system_us": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.09241385843924421,
+          "ci95_pct": [
+            -0.7124172510466709,
+            0.8908132573925642
+          ]
+        },
+        "all:user_us": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.8542474915409937,
+          "ci95_pct": [
+            -1.8852768132046283,
+            0.16634831612160061
+          ]
+        },
+        "mongo:cpu_us": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.18929438526293918,
+          "ci95_pct": [
+            -0.9812224626660981,
+            1.3462432681993541
+          ]
+        },
+        "mongo:system_us": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.7032231595827554,
+          "ci95_pct": [
+            -1.4554579636803622,
+            2.815973740660549
+          ]
+        },
+        "mongo:user_us": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.12743314593816057,
+          "ci95_pct": [
+            -0.9856339493689692,
+            1.228231977827965
+          ]
+        },
+        "native:cpu_us": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.9110555563015987,
+          "ci95_pct": [
+            -1.9088660735514296,
+            0.07698519442357332
+          ]
+        },
+        "native:system_us": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.06416102164641391,
+          "ci95_pct": [
+            -1.2175115524288849,
+            1.0760473420697858
+          ]
+        },
+        "native:user_us": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.8754638774509003,
+          "ci95_pct": [
+            -2.9945169987414033,
+            -0.7685694605726434
+          ]
+        }
+      }
+    },
+    "combined": {
+      "original": {
+        "all:cpu_us": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.5218165466722398,
+          "ci95_pct": [
+            1.1187453260234737,
+            3.90497894985401
+          ]
+        },
+        "all:system_us": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.38876519566195533,
+          "ci95_pct": [
+            -0.91263674587585,
+            0.1323867605548812
+          ]
+        },
+        "all:user_us": {
+          "pairs": 4,
+          "cost_reduction_pct": 4.359470597420123,
+          "ci95_pct": [
+            2.4011710214686843,
+            6.278477312285946
+          ]
+        },
+        "mongo:cpu_us": {
+          "pairs": 4,
+          "cost_reduction_pct": 8.204135746841235,
+          "ci95_pct": [
+            7.999830631865734,
+            8.407987160695408
+          ]
+        },
+        "mongo:system_us": {
+          "pairs": 4,
+          "cost_reduction_pct": -2.0349510638651314,
+          "ci95_pct": [
+            -3.6454996305031573,
+            -0.44942882924099425
+          ]
+        },
+        "mongo:user_us": {
+          "pairs": 4,
+          "cost_reduction_pct": 9.29699977371169,
+          "ci95_pct": [
+            8.897364436970602,
+            9.694882050276355
+          ]
+        },
+        "native:cpu_us": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.2832840168739534,
+          "ci95_pct": [
+            0.9291977608581803,
+            1.6361047428458897
+          ]
+        },
+        "native:system_us": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.24548216646220755,
+          "ci95_pct": [
+            -0.623612849466948,
+            0.13122754973977635
+          ]
+        },
+        "native:user_us": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.0409212095499627,
+          "ci95_pct": [
+            2.453540730733883,
+            3.6247647498704794
+          ]
+        }
+      },
+      "mongo": {
+        "all:cpu_us": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.6932796674989028,
+          "ci95_pct": [
+            0.4346037663058633,
+            0.9512835157057586
+          ]
+        },
+        "all:system_us": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.23342886956232434,
+          "ci95_pct": [
+            -0.47913048959646876,
+            0.011671936294854746
+          ]
+        },
+        "all:user_us": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.298643149235712,
+          "ci95_pct": [
+            0.9443694214316345,
+            1.6516498125278667
+          ]
+        },
+        "mongo:cpu_us": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.21689167476182103,
+          "ci95_pct": [
+            -0.9027381541371282,
+            0.46429303426042123
+          ]
+        },
+        "mongo:system_us": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.0024915874183517595,
+          "ci95_pct": [
+            -1.6027419283691557,
+            1.582363832522582
+          ]
+        },
+        "mongo:user_us": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.2436532431347116,
+          "ci95_pct": [
+            -0.8371901308295016,
+            0.3463900323660174
+          ]
+        },
+        "native:cpu_us": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.703008187255839,
+          "ci95_pct": [
+            1.2766728081305967,
+            2.127502442700757
+          ]
+        },
+        "native:system_us": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.2997839211756004,
+          "ci95_pct": [
+            -0.7145673193054369,
+            0.11329123084899972
+          ]
+        },
+        "native:user_us": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.9810016444055574,
+          "ci95_pct": [
+            3.312988679039841,
+            4.644399291583234
+          ]
+        }
+      },
+      "combined_nop": {
+        "all:cpu_us": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.167991797581469,
+          "ci95_pct": [
+            0.5467165037674415,
+            1.7853860431572222
+          ]
+        },
+        "all:system_us": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.3261441303765267,
+          "ci95_pct": [
+            -0.9278232709236223,
+            0.2719481123614531
+          ]
+        },
+        "all:user_us": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.1346554005643337,
+          "ci95_pct": [
+            1.4637128155425394,
+            2.801029476204886
+          ]
+        },
+        "mongo:cpu_us": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.40695640565111546,
+          "ci95_pct": [
+            -1.153855131547199,
+            0.33442737762592323
+          ]
+        },
+        "mongo:system_us": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.7056941770532843,
+          "ci95_pct": [
+            -2.648934623008481,
+            1.200758907740651
+          ]
+        },
+        "mongo:user_us": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.37155987951638103,
+          "ci95_pct": [
+            -1.0813906210048518,
+            0.33328616915704323
+          ]
+        },
+        "native:cpu_us": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.5904631847785575,
+          "ci95_pct": [
+            1.9069984674871865,
+            3.269165849604583
+          ]
+        },
+        "native:system_us": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.2354718184047977,
+          "ci95_pct": [
+            -1.034423257898065,
+            0.557161740686063
+          ]
+        },
+        "native:user_us": {
+          "pairs": 4,
+          "cost_reduction_pct": 5.748651636964697,
+          "ci95_pct": [
+            5.112421444209869,
+            6.380615846075144
+          ]
+        }
+      }
+    }
+  },
+  "cpu_rows": [
+    {
+      "block": 0,
+      "arm": "original",
+      "valid": true,
+      "metrics": {
+        "native:cpu_us": 3080.3818458347737,
+        "native:user_us": 1427.8573107500865,
+        "native:system_us": 1652.5245212582095,
+        "mongo:cpu_us": 1236.2342758382301,
+        "mongo:user_us": 1117.1417628759073,
+        "mongo:system_us": 119.09252678880055,
+        "all:cpu_us": 5832.5058416868305,
+        "all:user_us": 3560.5028275146906,
+        "all:system_us": 2272.0029588662287
+      }
+    },
+    {
+      "block": 0,
+      "arm": "mongo",
+      "valid": true,
+      "metrics": {
+        "native:cpu_us": 3088.544986310282,
+        "native:user_us": 1437.5166716365313,
+        "native:system_us": 1651.028341782103,
+        "mongo:cpu_us": 1128.4937244164928,
+        "mongo:user_us": 1006.724945105587,
+        "mongo:system_us": 121.76876575672965,
+        "all:cpu_us": 5744.0742768847085,
+        "all:user_us": 3467.1679633495078,
+        "all:system_us": 2276.9063135352003
+      }
+    },
+    {
+      "block": 0,
+      "arm": "combined",
+      "valid": true,
+      "metrics": {
+        "native:cpu_us": 3048.22574014837,
+        "native:user_us": 1388.5199754985367,
+        "native:system_us": 1659.7057374259853,
+        "mongo:cpu_us": 1133.1054515755802,
+        "mongo:user_us": 1010.3341046756959,
+        "mongo:system_us": 122.77133328796025,
+        "all:cpu_us": 5711.714054311577,
+        "all:user_us": 3427.176002177908,
+        "all:system_us": 2284.538038521745
+      }
+    },
+    {
+      "block": 0,
+      "arm": "combined_nop",
+      "valid": true,
+      "metrics": {
+        "native:cpu_us": 3136.744679680299,
+        "native:user_us": 1475.1872119736427,
+        "native:system_us": 1661.5574401936913,
+        "mongo:cpu_us": 1130.0686173359195,
+        "mongo:user_us": 1008.8060198368481,
+        "mongo:system_us": 121.26261125555418,
+        "all:cpu_us": 5795.240325753512,
+        "all:user_us": 3508.7511864966364,
+        "all:system_us": 2286.4891392568748
+      }
+    },
+    {
+      "block": 1,
+      "arm": "mongo",
+      "valid": true,
+      "metrics": {
+        "native:cpu_us": 3113.8206613296206,
+        "native:user_us": 1462.7574660633484,
+        "native:system_us": 1651.06322311173,
+        "mongo:cpu_us": 1127.36644622346,
+        "mongo:user_us": 1008.430407239819,
+        "mongo:system_us": 118.93601113818309,
+        "all:cpu_us": 5762.043592064045,
+        "all:user_us": 3488.6138531152105,
+        "all:system_us": 2273.429711103376
+      }
+    },
+    {
+      "block": 1,
+      "arm": "combined_nop",
+      "valid": true,
+      "metrics": {
+        "native:cpu_us": 3154.769175536408,
+        "native:user_us": 1495.3725150644816,
+        "native:system_us": 1659.3966604719265,
+        "mongo:cpu_us": 1131.367925325224,
+        "mongo:user_us": 1013.2146899814157,
+        "mongo:system_us": 118.15326350171763,
+        "all:cpu_us": 5821.246480261306,
+        "all:user_us": 3542.556414371797,
+        "all:system_us": 2278.690150363237
+      }
+    },
+    {
+      "block": 1,
+      "arm": "original",
+      "valid": true,
+      "metrics": {
+        "native:cpu_us": 3101.886419361352,
+        "native:user_us": 1444.142498629821,
+        "native:system_us": 1657.743964000346,
+        "mongo:cpu_us": 1235.0274035826578,
+        "mongo:user_us": 1116.1658926356477,
+        "mongo:system_us": 118.86152536994837,
+        "all:cpu_us": 5958.35888597225,
+        "all:user_us": 3676.2799059624426,
+        "all:system_us": 2282.0790953933133
+      }
+    },
+    {
+      "block": 1,
+      "arm": "combined",
+      "valid": true,
+      "metrics": {
+        "native:cpu_us": 3058.0883606034113,
+        "native:user_us": 1401.9310684596917,
+        "native:system_us": 1656.1572921437196,
+        "mongo:cpu_us": 1135.543056191626,
+        "mongo:user_us": 1015.6812800977004,
+        "mongo:system_us": 119.86177609392564,
+        "all:cpu_us": 5730.463813369971,
+        "all:user_us": 3449.4881829662627,
+        "all:system_us": 2280.975616525806
+      }
+    },
+    {
+      "block": 2,
+      "arm": "combined_nop",
+      "valid": true,
+      "metrics": {
+        "native:cpu_us": 3131.6833574131406,
+        "native:user_us": 1477.4296525627794,
+        "native:system_us": 1654.2537048503611,
+        "mongo:cpu_us": 1123.7460061919505,
+        "mongo:user_us": 1002.325916752666,
+        "mongo:system_us": 121.42007567939457,
+        "all:cpu_us": 5778.230780873753,
+        "all:user_us": 3505.8986859305123,
+        "all:system_us": 2272.3320949432405
+      }
+    },
+    {
+      "block": 2,
+      "arm": "combined",
+      "valid": true,
+      "metrics": {
+        "native:cpu_us": 3058.5106577471224,
+        "native:user_us": 1398.2887079126328,
+        "native:system_us": 1660.2219498344898,
+        "mongo:cpu_us": 1135.589465519868,
+        "mongo:user_us": 1012.6623315466545,
+        "mongo:system_us": 122.92714782343735,
+        "all:cpu_us": 5732.581820196397,
+        "all:user_us": 3446.187490477971,
+        "all:system_us": 2286.3943989695435
+      }
+    },
+    {
+      "block": 2,
+      "arm": "mongo",
+      "valid": true,
+      "metrics": {
+        "native:cpu_us": 3115.5562917610223,
+        "native:user_us": 1462.4813246106964,
+        "native:system_us": 1653.0749531717408,
+        "mongo:cpu_us": 1138.0908747798373,
+        "mongo:user_us": 1013.5885822919288,
+        "mongo:system_us": 124.50232044507814,
+        "all:cpu_us": 5782.988048309989,
+        "all:user_us": 3502.4875031451816,
+        "all:system_us": 2280.500531186223
+      }
+    },
+    {
+      "block": 2,
+      "arm": "original",
+      "valid": true,
+      "metrics": {
+        "native:cpu_us": 3094.208966117396,
+        "native:user_us": 1440.1059427897706,
+        "native:system_us": 1654.1029812199984,
+        "mongo:cpu_us": 1238.0093759649665,
+        "mongo:user_us": 1118.195940824748,
+        "mongo:system_us": 119.8134491760941,
+        "all:cpu_us": 5851.998764842939,
+        "all:user_us": 3581.7272829351823,
+        "all:system_us": 2270.2714257642533
+      }
+    },
+    {
+      "block": 3,
+      "arm": "combined",
+      "valid": true,
+      "metrics": {
+        "native:cpu_us": 3059.847559282501,
+        "native:user_us": 1396.7815294052314,
+        "native:system_us": 1663.06602987727,
+        "mongo:cpu_us": 1134.264896984506,
+        "mongo:user_us": 1013.572346865108,
+        "mongo:system_us": 120.692550119398,
+        "all:cpu_us": 5737.63321208419,
+        "all:user_us": 3451.3553479202533,
+        "all:system_us": 2286.2778919309158
+      }
+    },
+    {
+      "block": 3,
+      "arm": "original",
+      "valid": true,
+      "metrics": {
+        "native:cpu_us": 3107.163173398289,
+        "native:user_us": 1448.6414348835892,
+        "native:system_us": 1658.521752676599,
+        "mongo:cpu_us": 1234.8551379368946,
+        "mongo:user_us": 1116.0928170849147,
+        "mongo:system_us": 118.76233501387865,
+        "all:cpu_us": 5863.04867444627,
+        "all:user_us": 3584.588780943749,
+        "all:system_us": 2278.4598651787232
+      }
+    },
+    {
+      "block": 3,
+      "arm": "combined_nop",
+      "valid": true,
+      "metrics": {
+        "native:cpu_us": 3126.6295518684647,
+        "native:user_us": 1478.2588719682612,
+        "native:system_us": 1648.370666266752,
+        "mongo:cpu_us": 1134.9526237576517,
+        "mongo:user_us": 1012.9338232286739,
+        "mongo:system_us": 122.01878689552686,
+        "all:cpu_us": 5788.505801033416,
+        "all:user_us": 3517.50901852786,
+        "all:system_us": 2270.996659804496
+      }
+    },
+    {
+      "block": 3,
+      "arm": "mongo",
+      "valid": true,
+      "metrics": {
+        "native:cpu_us": 3118.6232009613504,
+        "native:user_us": 1454.4536930944862,
+        "native:system_us": 1664.1694799206327,
+        "mongo:cpu_us": 1134.7622334628174,
+        "mongo:user_us": 1013.6682782326803,
+        "mongo:system_us": 121.09396920325294,
+        "all:cpu_us": 5783.301539837353,
+        "all:user_us": 3497.2185954224074,
+        "all:system_us": 2286.08293044183
+      }
+    }
+  ],
+  "diagnostic_means": {
+    "original": {
+      "cache:movie:cycles:u": 268482.0895167323,
+      "cache:movie:instructions:u": 96064.74687260407,
+      "cache:movie:L2I": 5580.070585514696,
+      "cache:movie:FE_L2": 457.633415551541,
+      "cache:movie:ICACHE_DATA_STALL": 60719.976759019555,
+      "cache:compose:cycles:u": 550964.8455285146,
+      "cache:compose:instructions:u": 272678.41491266584,
+      "cache:compose:L2I": 10600.561305446752,
+      "cache:compose:FE_L2": 976.7336877608572,
+      "cache:compose:ICACHE_DATA_STALL": 127928.52580474374,
+      "cache:rating:cycles:u": 263097.9908505541,
+      "cache:rating:instructions:u": 102500.70529330494,
+      "cache:rating:L2I": 5444.6163350453335,
+      "cache:rating:FE_L2": 475.39828667209065,
+      "cache:rating:ICACHE_DATA_STALL": 56953.74607207876,
+      "cache:unique:cycles:u": 126404.01887585747,
+      "cache:unique:instructions:u": 43726.48123662827,
+      "cache:unique:L2I": 2336.1761797086283,
+      "cache:unique:FE_L2": 197.2091705096061,
+      "cache:unique:ICACHE_DATA_STALL": 25421.29605379748,
+      "cache:text:cycles:u": 114914.62007096042,
+      "cache:text:instructions:u": 40004.8097818325,
+      "cache:text:L2I": 2115.706617216886,
+      "cache:text:FE_L2": 173.15574786112435,
+      "cache:text:ICACHE_DATA_STALL": 22840.247225383864,
+      "cache:user:cycles:u": 165856.01792410773,
+      "cache:user:instructions:u": 65709.40798132843,
+      "cache:user:L2I": 3137.6678584757283,
+      "cache:user:FE_L2": 268.7626472377343,
+      "cache:user:ICACHE_DATA_STALL": 34925.93652188314,
+      "cache:storage:cycles:u": 215440.97785434092,
+      "cache:storage:instructions:u": 117270.39447381438,
+      "cache:storage:L2I": 4419.104211618218,
+      "cache:storage:FE_L2": 406.4583012419371,
+      "cache:storage:ICACHE_DATA_STALL": 47559.38657838701,
+      "cache:userreview:cycles:u": 411696.0661790989,
+      "cache:userreview:instructions:u": 208727.35497775994,
+      "cache:userreview:L2I": 8043.5016694027845,
+      "cache:userreview:FE_L2": 741.8325825655404,
+      "cache:userreview:ICACHE_DATA_STALL": 91024.4748698982,
+      "cache:moviereview:cycles:u": 411359.5489897481,
+      "cache:moviereview:instructions:u": 207483.79138163963,
+      "cache:moviereview:L2I": 7794.1546510216285,
+      "cache:moviereview:FE_L2": 730.892283980022,
+      "cache:moviereview:ICACHE_DATA_STALL": 91503.54865511501,
+      "cache:mongo_user:cycles:u": 988080.3743502281,
+      "cache:mongo_user:instructions:u": 757526.6872703105,
+      "cache:mongo_user:L2I": 25730.71555339188,
+      "cache:mongo_user:FE_L2": 2303.5461159900897,
+      "cache:mongo_user:ICACHE_DATA_STALL": 260145.68241837752,
+      "cache:mongo_movie:cycles:u": 980290.1869415608,
+      "cache:mongo_movie:instructions:u": 750026.8180773761,
+      "cache:mongo_movie:L2I": 25424.028597923207,
+      "cache:mongo_movie:FE_L2": 2292.266376984371,
+      "cache:mongo_movie:ICACHE_DATA_STALL": 259826.48658561718,
+      "cache:mongo_storage:cycles:u": 305562.5742780592,
+      "cache:mongo_storage:instructions:u": 149595.519787079,
+      "cache:mongo_storage:L2I": 9116.516372201606,
+      "cache:mongo_storage:FE_L2": 794.8942081675332,
+      "cache:mongo_storage:ICACHE_DATA_STALL": 88445.09620829753,
+      "cache:nginx:cycles:u": 835551.643221789,
+      "cache:nginx:instructions:u": 588756.3404230224,
+      "cache:nginx:L2I": 14786.576031082766,
+      "cache:nginx:FE_L2": 1597.245276529793,
+      "cache:nginx:ICACHE_DATA_STALL": 180308.44759618578,
+      "topdown:movie:cycles:u": 268693.73595722235,
+      "topdown:movie:instructions:u": 96260.9883463032,
+      "topdown:movie:slots:u": 1612162.4157433342,
+      "topdown:movie:topdown-retiring:u": 139615.9127129709,
+      "topdown:movie:topdown-bad-spec:u": 112216.4748200526,
+      "topdown:movie:topdown-fe-bound:u": 1204169.4649905975,
+      "topdown:movie:topdown-be-bound:u": 163681.1493516848,
+      "topdown:movie:topdown-fetch-lat:u": 1089511.5287921203,
+      "topdown:movie:topdown-mem-bound:u": 88929.99335364177,
+      "topdown:compose:cycles:u": 549380.9307438275,
+      "topdown:compose:instructions:u": 272487.6223669118,
+      "topdown:compose:slots:u": 3296285.584462965,
+      "topdown:compose:topdown-retiring:u": 346763.1811602204,
+      "topdown:compose:topdown-bad-spec:u": 249580.28101180756,
+      "topdown:compose:topdown-fe-bound:u": 2433332.98905635,
+      "topdown:compose:topdown-be-bound:u": 300456.6723971318,
+      "topdown:compose:topdown-fetch-lat:u": 2141143.7746087927,
+      "topdown:compose:topdown-mem-bound:u": 173685.07674097447,
+      "topdown:rating:cycles:u": 262196.66587162245,
+      "topdown:rating:instructions:u": 102367.98924500443,
+      "topdown:rating:slots:u": 1573179.9952297346,
+      "topdown:rating:topdown-retiring:u": 127178.14207017503,
+      "topdown:rating:topdown-bad-spec:u": 128434.9204670048,
+      "topdown:rating:topdown-fe-bound:u": 1158324.1381919198,
+      "topdown:rating:topdown-be-bound:u": 163898.47295296672,
+      "topdown:rating:topdown-fetch-lat:u": 1027209.791332507,
+      "topdown:rating:topdown-mem-bound:u": 87178.68030233483,
+      "topdown:unique:cycles:u": 125889.14268280892,
+      "topdown:unique:instructions:u": 43989.277532438486,
+      "topdown:unique:slots:u": 755334.8560968535,
+      "topdown:unique:topdown-retiring:u": 54547.96359122836,
+      "topdown:unique:topdown-bad-spec:u": 49951.93112857704,
+      "topdown:unique:topdown-fe-bound:u": 613209.5643163854,
+      "topdown:unique:topdown-be-bound:u": 42067.09700810914,
+      "topdown:unique:topdown-fetch-lat:u": 561681.0291125602,
+      "topdown:unique:topdown-mem-bound:u": 22241.67658982703,
+      "topdown:text:cycles:u": 114578.57442183676,
+      "topdown:text:instructions:u": 40548.93555575535,
+      "topdown:text:slots:u": 687471.4465310206,
+      "topdown:text:topdown-retiring:u": 53417.64253743838,
+      "topdown:text:topdown-bad-spec:u": 43582.6225959204,
+      "topdown:text:topdown-fe-bound:u": 553382.1163846832,
+      "topdown:text:topdown-be-bound:u": 36374.42674186715,
+      "topdown:text:topdown-fetch-lat:u": 508220.72394694155,
+      "topdown:text:topdown-mem-bound:u": 19378.984787424135,
+      "topdown:user:cycles:u": 165112.2593891033,
+      "topdown:user:instructions:u": 65504.33095256622,
+      "topdown:user:slots:u": 990673.5563346199,
+      "topdown:user:topdown-retiring:u": 84093.16204324755,
+      "topdown:user:topdown-bad-spec:u": 64873.287351769424,
+      "topdown:user:topdown-fe-bound:u": 780854.1502093126,
+      "topdown:user:topdown-be-bound:u": 65593.8383142955,
+      "topdown:user:topdown-fetch-lat:u": 708166.295058981,
+      "topdown:user:topdown-mem-bound:u": 36449.06194170375,
+      "topdown:storage:cycles:u": 214981.04118378594,
+      "topdown:storage:instructions:u": 116792.32451503888,
+      "topdown:storage:slots:u": 1289886.2471027155,
+      "topdown:storage:topdown-retiring:u": 128960.83298197923,
+      "topdown:storage:topdown-bad-spec:u": 95828.15172302202,
+      "topdown:storage:topdown-fe-bound:u": 987525.7654355404,
+      "topdown:storage:topdown-be-bound:u": 79329.66520392406,
+      "topdown:storage:topdown-fetch-lat:u": 875403.7042252643,
+      "topdown:storage:topdown-mem-bound:u": 43594.83087963348,
+      "topdown:userreview:cycles:u": 410601.3576447482,
+      "topdown:userreview:instructions:u": 207517.9397429191,
+      "topdown:userreview:slots:u": 2463608.1458684895,
+      "topdown:userreview:topdown-retiring:u": 265684.92985454353,
+      "topdown:userreview:topdown-bad-spec:u": 193305.08012972408,
+      "topdown:userreview:topdown-fe-bound:u": 1838571.1699674488,
+      "topdown:userreview:topdown-be-bound:u": 174022.49438342257,
+      "topdown:userreview:topdown-fetch-lat:u": 1608632.607630739,
+      "topdown:userreview:topdown-mem-bound:u": 96120.06794917368,
+      "topdown:moviereview:cycles:u": 411299.4598628279,
+      "topdown:moviereview:instructions:u": 206974.71959871415,
+      "topdown:moviereview:slots:u": 2467796.7591769677,
+      "topdown:moviereview:topdown-retiring:u": 264611.92136167374,
+      "topdown:moviereview:topdown-bad-spec:u": 193492.37525311107,
+      "topdown:moviereview:topdown-fe-bound:u": 1837008.2231528165,
+      "topdown:moviereview:topdown-be-bound:u": 174253.2160393971,
+      "topdown:moviereview:topdown-fetch-lat:u": 1602675.1591180842,
+      "topdown:moviereview:topdown-mem-bound:u": 94992.72853415688,
+      "topdown:mongo_user:cycles:u": 978219.1038777499,
+      "topdown:mongo_user:instructions:u": 747946.4682848444,
+      "topdown:mongo_user:slots:u": 5869314.6232664995,
+      "topdown:mongo_user:topdown-retiring:u": 762896.8998327244,
+      "topdown:mongo_user:topdown-bad-spec:u": 568092.458440169,
+      "topdown:mongo_user:topdown-fe-bound:u": 4037106.8790789754,
+      "topdown:mongo_user:topdown-be-bound:u": 533760.655642955,
+      "topdown:mongo_user:topdown-fetch-lat:u": 3595308.0159984776,
+      "topdown:mongo_user:topdown-mem-bound:u": 243471.81662780695,
+      "topdown:mongo_movie:cycles:u": 979863.4198301686,
+      "topdown:mongo_movie:instructions:u": 749136.7986362004,
+      "topdown:mongo_movie:slots:u": 5879180.518981012,
+      "topdown:mongo_movie:topdown-retiring:u": 772740.602148918,
+      "topdown:mongo_movie:topdown-bad-spec:u": 571714.9282314209,
+      "topdown:mongo_movie:topdown-fe-bound:u": 4021255.523049404,
+      "topdown:mongo_movie:topdown-be-bound:u": 529424.7750302413,
+      "topdown:mongo_movie:topdown-fetch-lat:u": 3588832.9236838194,
+      "topdown:mongo_movie:topdown-mem-bound:u": 245192.21673408244,
+      "topdown:mongo_storage:cycles:u": 286805.0652458626,
+      "topdown:mongo_storage:instructions:u": 95590.27528650084,
+      "topdown:mongo_storage:slots:u": 1720830.3914751755,
+      "topdown:mongo_storage:topdown-retiring:u": 102218.90201727403,
+      "topdown:mongo_storage:topdown-bad-spec:u": 145469.9960574386,
+      "topdown:mongo_storage:topdown-fe-bound:u": 1366235.136511203,
+      "topdown:mongo_storage:topdown-be-bound:u": 113951.223564291,
+      "topdown:mongo_storage:topdown-fetch-lat:u": 1251540.5347319534,
+      "topdown:mongo_storage:topdown-mem-bound:u": 54998.51837539785,
+      "topdown:nginx:cycles:u": 835504.777347875,
+      "topdown:nginx:instructions:u": 588084.3926242834,
+      "topdown:nginx:slots:u": 5013028.664087249,
+      "topdown:nginx:topdown-retiring:u": 688545.0771053752,
+      "topdown:nginx:topdown-bad-spec:u": 859868.8098835411,
+      "topdown:nginx:topdown-fe-bound:u": 2938622.9593705274,
+      "topdown:nginx:topdown-be-bound:u": 601700.4523537636,
+      "topdown:nginx:topdown-fetch-lat:u": 2356280.619604565,
+      "topdown:nginx:topdown-mem-bound:u": 340033.2723432039,
+      "memory:movie:cycles:u": 269518.9622541491,
+      "memory:movie:instructions:u": 96785.20482727201,
+      "memory:movie:EXE_STALL": 214474.76672014897,
+      "memory:movie:LOAD_L1D_STALL": 95108.37220604549,
+      "memory:movie:LOAD_L3_STALL": 153.029979567022,
+      "memory:movie:STORE_STALL": 258.85664864115364,
+      "memory:compose:cycles:u": 551424.7579742586,
+      "memory:compose:instructions:u": 273244.8438724119,
+      "memory:compose:EXE_STALL": 412588.6592053721,
+      "memory:compose:LOAD_L1D_STALL": 163513.49860100728,
+      "memory:compose:LOAD_L3_STALL": 269.2448237269166,
+      "memory:compose:STORE_STALL": 565.1561275881365,
+      "memory:rating:cycles:u": 264705.3400247461,
+      "memory:rating:instructions:u": 102712.84948197348,
+      "memory:rating:EXE_STALL": 203592.05705443857,
+      "memory:rating:LOAD_L1D_STALL": 86133.61225987508,
+      "memory:rating:LOAD_L3_STALL": 95.73144384274562,
+      "memory:rating:STORE_STALL": 116.48169517749585,
+      "memory:unique:cycles:u": 126983.88393159168,
+      "memory:unique:instructions:u": 43844.073861168814,
+      "memory:unique:EXE_STALL": 102791.8778234651,
+      "memory:unique:LOAD_L1D_STALL": 45536.99457915728,
+      "memory:unique:LOAD_L3_STALL": 17.8686676687105,
+      "memory:unique:STORE_STALL": 31.942077996247043,
+      "memory:text:cycles:u": 114757.0051131591,
+      "memory:text:instructions:u": 40642.43557292109,
+      "memory:text:EXE_STALL": 92833.19135474769,
+      "memory:text:LOAD_L1D_STALL": 40499.216427890555,
+      "memory:text:LOAD_L3_STALL": 21.263269061977972,
+      "memory:text:STORE_STALL": 36.228107628566306,
+      "memory:user:cycles:u": 165700.97277065928,
+      "memory:user:instructions:u": 65552.04939350183,
+      "memory:user:EXE_STALL": 131678.31320791616,
+      "memory:user:LOAD_L1D_STALL": 60618.92316566383,
+      "memory:user:LOAD_L3_STALL": 28.650335715213316,
+      "memory:user:STORE_STALL": 81.4052168428083,
+      "memory:storage:cycles:u": 214325.3374563793,
+      "memory:storage:instructions:u": 117230.81965360983,
+      "memory:storage:EXE_STALL": 160721.55812868077,
+      "memory:storage:LOAD_L1D_STALL": 65891.40303891842,
+      "memory:storage:LOAD_L3_STALL": 22.091018240357542,
+      "memory:storage:STORE_STALL": 110.091966710939,
+      "memory:userreview:cycles:u": 413467.4853634549,
+      "memory:userreview:instructions:u": 208815.4934192326,
+      "memory:userreview:EXE_STALL": 306805.752506661,
+      "memory:userreview:LOAD_L1D_STALL": 127537.85993167393,
+      "memory:userreview:LOAD_L3_STALL": 42.63014420967578,
+      "memory:userreview:STORE_STALL": 617.715766670547,
+      "memory:moviereview:cycles:u": 412838.22843737213,
+      "memory:moviereview:instructions:u": 207162.1944872854,
+      "memory:moviereview:EXE_STALL": 307104.34237118246,
+      "memory:moviereview:LOAD_L1D_STALL": 129174.44924877063,
+      "memory:moviereview:LOAD_L3_STALL": 50.610150476576116,
+      "memory:moviereview:STORE_STALL": 643.6454231947365,
+      "memory:mongo_user:cycles:u": 977861.0796542411,
+      "memory:mongo_user:instructions:u": 748057.4608509756,
+      "memory:mongo_user:EXE_STALL": 657874.3479375304,
+      "memory:mongo_user:LOAD_L1D_STALL": 188035.03963967395,
+      "memory:mongo_user:LOAD_L3_STALL": 757.3375466931359,
+      "memory:mongo_user:STORE_STALL": 5816.206110517199,
+      "memory:mongo_movie:cycles:u": 977451.621287429,
+      "memory:mongo_movie:instructions:u": 748753.0550863937,
+      "memory:mongo_movie:EXE_STALL": 657433.0325997635,
+      "memory:mongo_movie:LOAD_L1D_STALL": 186696.69661449632,
+      "memory:mongo_movie:LOAD_L3_STALL": 690.7855283190934,
+      "memory:mongo_movie:STORE_STALL": 5914.514186726041,
+      "memory:mongo_storage:cycles:u": 285931.4951749187,
+      "memory:mongo_storage:instructions:u": 95912.5368882065,
+      "memory:mongo_storage:EXE_STALL": 224353.89880198342,
+      "memory:mongo_storage:LOAD_L1D_STALL": 78034.76116438385,
+      "memory:mongo_storage:LOAD_L3_STALL": 301.0146955779233,
+      "memory:mongo_storage:STORE_STALL": 31.936762651190094,
+      "memory:nginx:cycles:u": 834330.6537192164,
+      "memory:nginx:instructions:u": 587919.4979242401,
+      "memory:nginx:EXE_STALL": 520803.7969242147,
+      "memory:nginx:LOAD_L1D_STALL": 218496.99410014303,
+      "memory:nginx:LOAD_L3_STALL": 266.42432237305536,
+      "memory:nginx:STORE_STALL": 879.610749540964,
+      "front:movie:cycles:u": 271137.1278640021,
+      "front:movie:instructions:u": 97163.81966231266,
+      "front:movie:DSB_UOPS": 41602.404106208545,
+      "front:movie:MITE_UOPS": 105425.30791843869,
+      "front:movie:ITLB_WALK_ACTIVE": 32275.014316569468,
+      "front:movie:UNKNOWN_BRANCH_CYCLES": 105357.69029579035,
+      "front:compose:cycles:u": 555335.0504354322,
+      "front:compose:instructions:u": 273401.8042314581,
+      "front:compose:DSB_UOPS": 122278.10243250942,
+      "front:compose:MITE_UOPS": 270878.00559760665,
+      "front:compose:ITLB_WALK_ACTIVE": 51889.44733703512,
+      "front:compose:UNKNOWN_BRANCH_CYCLES": 195592.19272021117,
+      "front:rating:cycles:u": 265994.8423922019,
+      "front:rating:instructions:u": 102661.98014622144,
+      "front:rating:DSB_UOPS": 55388.2872709372,
+      "front:rating:MITE_UOPS": 107962.98441622435,
+      "front:rating:ITLB_WALK_ACTIVE": 25586.747760594477,
+      "front:rating:UNKNOWN_BRANCH_CYCLES": 95332.21735669355,
+      "front:unique:cycles:u": 126766.50444415756,
+      "front:unique:instructions:u": 43760.50341192924,
+      "front:unique:DSB_UOPS": 19065.62802057182,
+      "front:unique:MITE_UOPS": 45607.69920019793,
+      "front:unique:ITLB_WALK_ACTIVE": 15274.42020189706,
+      "front:unique:UNKNOWN_BRANCH_CYCLES": 54085.4550490853,
+      "front:text:cycles:u": 114369.05478120997,
+      "front:text:instructions:u": 40252.816180656955,
+      "front:text:DSB_UOPS": 17882.154139403694,
+      "front:text:MITE_UOPS": 40755.8648457628,
+      "front:text:ITLB_WALK_ACTIVE": 13727.13142475918,
+      "front:text:UNKNOWN_BRANCH_CYCLES": 47518.48610834259,
+      "front:user:cycles:u": 165564.18849947947,
+      "front:user:instructions:u": 65665.01076219763,
+      "front:user:DSB_UOPS": 27813.45218588862,
+      "front:user:MITE_UOPS": 66227.42182214855,
+      "front:user:ITLB_WALK_ACTIVE": 19384.50495946177,
+      "front:user:UNKNOWN_BRANCH_CYCLES": 67251.46112940945,
+      "front:storage:cycles:u": 215877.9684535205,
+      "front:storage:instructions:u": 117404.71759891721,
+      "front:storage:DSB_UOPS": 54839.75089117345,
+      "front:storage:MITE_UOPS": 97890.70333078512,
+      "front:storage:ITLB_WALK_ACTIVE": 17354.28776995639,
+      "front:storage:UNKNOWN_BRANCH_CYCLES": 76834.91963625714,
+      "front:userreview:cycles:u": 411767.2027005977,
+      "front:userreview:instructions:u": 208564.3128910799,
+      "front:userreview:DSB_UOPS": 113396.36108843185,
+      "front:userreview:MITE_UOPS": 193561.22641627665,
+      "front:userreview:ITLB_WALK_ACTIVE": 31884.25104936702,
+      "front:userreview:UNKNOWN_BRANCH_CYCLES": 136915.28887468492,
+      "front:moviereview:cycles:u": 413361.447064349,
+      "front:moviereview:instructions:u": 207329.30172244846,
+      "front:moviereview:DSB_UOPS": 111680.66976546087,
+      "front:moviereview:MITE_UOPS": 192618.96888025955,
+      "front:moviereview:ITLB_WALK_ACTIVE": 32812.38696604943,
+      "front:moviereview:UNKNOWN_BRANCH_CYCLES": 138623.68175655388,
+      "front:mongo_user:cycles:u": 979956.6977141149,
+      "front:mongo_user:instructions:u": 747400.3174517566,
+      "front:mongo_user:DSB_UOPS": 635917.7791605019,
+      "front:mongo_user:MITE_UOPS": 465412.23334240145,
+      "front:mongo_user:ITLB_WALK_ACTIVE": 77420.65818903947,
+      "front:mongo_user:UNKNOWN_BRANCH_CYCLES": 310337.16092001856,
+      "front:mongo_movie:cycles:u": 986343.1863963183,
+      "front:mongo_movie:instructions:u": 761529.730884615,
+      "front:mongo_movie:DSB_UOPS": 662714.157255214,
+      "front:mongo_movie:MITE_UOPS": 464579.5387609636,
+      "front:mongo_movie:ITLB_WALK_ACTIVE": 78628.58426524239,
+      "front:mongo_movie:UNKNOWN_BRANCH_CYCLES": 307502.51633475546,
+      "front:mongo_storage:cycles:u": 303657.66605757724,
+      "front:mongo_storage:instructions:u": 150217.0709704221,
+      "front:mongo_storage:DSB_UOPS": 82232.49272061195,
+      "front:mongo_storage:MITE_UOPS": 132162.20996582625,
+      "front:mongo_storage:ITLB_WALK_ACTIVE": 33479.053837025014,
+      "front:mongo_storage:UNKNOWN_BRANCH_CYCLES": 109253.38593328939,
+      "front:nginx:cycles:u": 830920.0804477974,
+      "front:nginx:instructions:u": 586014.7324753273,
+      "front:nginx:DSB_UOPS": 621869.4467918506,
+      "front:nginx:MITE_UOPS": 548660.4873888738,
+      "front:nginx:ITLB_WALK_ACTIVE": 47287.21129235253,
+      "front:nginx:UNKNOWN_BRANCH_CYCLES": 149087.93429208093,
+      "topdown:pool_u:cycles:u": 6611811.925584955,
+      "topdown:pool_u:instructions:u": 5061490.579254197,
+      "topdown:pool_u:slots:u": 39670872.70794012,
+      "topdown:pool_u:topdown-retiring:u": 4922360.4398759715,
+      "topdown:pool_u:topdown-bad-spec:u": 3507486.221845683,
+      "topdown:pool_u:topdown-fe-bound:u": 26651057.346915133,
+      "topdown:pool_u:topdown-be-bound:u": 4687114.294151059,
+      "topdown:pool_u:topdown-fetch-lat:u": 23484325.752104603,
+      "topdown:pool_u:topdown-mem-bound:u": 2695969.3452953333,
+      "topdown:pool_k:cycles:k": 5058710.398059431,
+      "topdown:pool_k:instructions:k": 5135913.035142621,
+      "topdown:pool_k:slots:k": 30349895.305596203,
+      "topdown:pool_k:topdown-retiring:k": 5623701.641182879,
+      "topdown:pool_k:topdown-bad-spec:k": 2358301.0758501315,
+      "topdown:pool_k:topdown-fe-bound:k": 10101632.29614826,
+      "topdown:pool_k:topdown-be-bound:k": 12311134.157791499,
+      "topdown:pool_k:topdown-fetch-lat:k": 7163216.886026423,
+      "topdown:pool_k:topdown-mem-bound:k": 8011663.525391458,
+      "memory:pool_u:cycles:u": 6635020.194372984,
+      "memory:pool_u:instructions:u": 5044192.524701034,
+      "memory:pool_u:EXE_STALL": 4554177.314881278,
+      "memory:pool_u:LOAD_L1D_STALL": 1779955.5836617104,
+      "memory:pool_u:LOAD_L3_STALL": 40844.60327757717,
+      "memory:pool_u:STORE_STALL": 22068.675833930745,
+      "memory:pool_k:cycles:k": 5082165.217797633,
+      "memory:pool_k:instructions:k": 5160372.365835526,
+      "memory:pool_k:EXE_STALL": 2987138.4826086448,
+      "memory:pool_k:LOAD_L1D_STALL": 1589215.535855162,
+      "memory:pool_k:LOAD_L3_STALL": 5207.0461517539625,
+      "memory:pool_k:STORE_STALL": 66853.07162736863
+    },
+    "mongo": {
+      "cache:movie:cycles:u": 268449.738875366,
+      "cache:movie:instructions:u": 96955.18435802084,
+      "cache:movie:L2I": 5660.106442736879,
+      "cache:movie:FE_L2": 458.36365562302154,
+      "cache:movie:ICACHE_DATA_STALL": 60530.498179421054,
+      "cache:compose:cycles:u": 555768.5197527535,
+      "cache:compose:instructions:u": 274169.8957124916,
+      "cache:compose:L2I": 10675.891402686106,
+      "cache:compose:FE_L2": 979.96473524587,
+      "cache:compose:ICACHE_DATA_STALL": 128630.43913760662,
+      "cache:rating:cycles:u": 266464.94434832624,
+      "cache:rating:instructions:u": 102667.08747672185,
+      "cache:rating:L2I": 5424.830495800209,
+      "cache:rating:FE_L2": 484.6067609982782,
+      "cache:rating:ICACHE_DATA_STALL": 58055.75595999157,
+      "cache:unique:cycles:u": 127231.3893906121,
+      "cache:unique:instructions:u": 44080.137956804545,
+      "cache:unique:L2I": 2353.019906496699,
+      "cache:unique:FE_L2": 199.0245988360627,
+      "cache:unique:ICACHE_DATA_STALL": 25663.285580268053,
+      "cache:text:cycles:u": 114158.15083755273,
+      "cache:text:instructions:u": 40383.12039541512,
+      "cache:text:L2I": 2132.3485416838716,
+      "cache:text:FE_L2": 171.7254326083969,
+      "cache:text:ICACHE_DATA_STALL": 22489.514967299212,
+      "cache:user:cycles:u": 163466.00058016094,
+      "cache:user:instructions:u": 65590.91866092374,
+      "cache:user:L2I": 3141.9477073028474,
+      "cache:user:FE_L2": 264.84934470566674,
+      "cache:user:ICACHE_DATA_STALL": 34154.909185207856,
+      "cache:storage:cycles:u": 216123.13478045558,
+      "cache:storage:instructions:u": 116771.4416518777,
+      "cache:storage:L2I": 4364.134187890373,
+      "cache:storage:FE_L2": 414.4357086261059,
+      "cache:storage:ICACHE_DATA_STALL": 48454.08598624147,
+      "cache:userreview:cycles:u": 416640.65712902974,
+      "cache:userreview:instructions:u": 209599.15210564577,
+      "cache:userreview:L2I": 8013.868392070484,
+      "cache:userreview:FE_L2": 763.1347392618206,
+      "cache:userreview:ICACHE_DATA_STALL": 93253.38267472462,
+      "cache:moviereview:cycles:u": 410813.3852189958,
+      "cache:moviereview:instructions:u": 207652.73791651244,
+      "cache:moviereview:L2I": 7944.765782601431,
+      "cache:moviereview:FE_L2": 738.7913095041317,
+      "cache:moviereview:ICACHE_DATA_STALL": 92159.27927849424,
+      "cache:mongo_user:cycles:u": 896203.9386975616,
+      "cache:mongo_user:instructions:u": 760138.4753153166,
+      "cache:mongo_user:L2I": 23128.07669516585,
+      "cache:mongo_user:FE_L2": 832.3072520540836,
+      "cache:mongo_user:ICACHE_DATA_STALL": 195855.46507786357,
+      "cache:mongo_movie:cycles:u": 896934.6031316163,
+      "cache:mongo_movie:instructions:u": 758305.1646608664,
+      "cache:mongo_movie:L2I": 23098.378359105605,
+      "cache:mongo_movie:FE_L2": 825.5111377715232,
+      "cache:mongo_movie:ICACHE_DATA_STALL": 195205.74814742603,
+      "cache:mongo_storage:cycles:u": 274530.2384973478,
+      "cache:mongo_storage:instructions:u": 151587.83100011956,
+      "cache:mongo_storage:L2I": 8309.953617728732,
+      "cache:mongo_storage:FE_L2": 375.1253666355691,
+      "cache:mongo_storage:ICACHE_DATA_STALL": 69204.82069101586,
+      "cache:nginx:cycles:u": 838536.4527920778,
+      "cache:nginx:instructions:u": 596910.8039729545,
+      "cache:nginx:L2I": 14925.423982459803,
+      "cache:nginx:FE_L2": 1597.5808245394069,
+      "cache:nginx:ICACHE_DATA_STALL": 179149.37894739676,
+      "topdown:movie:cycles:u": 268257.7067407924,
+      "topdown:movie:instructions:u": 96226.31865557743,
+      "topdown:movie:slots:u": 1609546.2404447543,
+      "topdown:movie:topdown-retiring:u": 135242.71100715897,
+      "topdown:movie:topdown-bad-spec:u": 116757.82842282785,
+      "topdown:movie:topdown-fe-bound:u": 1211654.8919067667,
+      "topdown:movie:topdown-be-bound:u": 159360.88956081923,
+      "topdown:movie:topdown-fetch-lat:u": 1097748.8211934832,
+      "topdown:movie:topdown-mem-bound:u": 90003.08552726296,
+      "topdown:compose:cycles:u": 553469.6272926235,
+      "topdown:compose:instructions:u": 272702.23985543515,
+      "topdown:compose:slots:u": 3320817.7637557415,
+      "topdown:compose:topdown-retiring:u": 351600.17886948166,
+      "topdown:compose:topdown-bad-spec:u": 244998.0848427747,
+      "topdown:compose:topdown-fe-bound:u": 2448795.0219092844,
+      "topdown:compose:topdown-be-bound:u": 293619.11361686885,
+      "topdown:compose:topdown-fetch-lat:u": 2155083.695189288,
+      "topdown:compose:topdown-mem-bound:u": 166798.50266092454,
+      "topdown:rating:cycles:u": 265128.71273420175,
+      "topdown:rating:instructions:u": 102660.1121296861,
+      "topdown:rating:slots:u": 1590772.2764052104,
+      "topdown:rating:topdown-retiring:u": 128951.7943348405,
+      "topdown:rating:topdown-bad-spec:u": 127488.73907815485,
+      "topdown:rating:topdown-fe-bound:u": 1176210.6517456968,
+      "topdown:rating:topdown-be-bound:u": 163265.57566554408,
+      "topdown:rating:topdown-fetch-lat:u": 1046304.8468958369,
+      "topdown:rating:topdown-mem-bound:u": 89575.24355973827,
+      "topdown:unique:cycles:u": 126579.74341422002,
+      "topdown:unique:instructions:u": 44202.66574036829,
+      "topdown:unique:slots:u": 759478.4604853202,
+      "topdown:unique:topdown-retiring:u": 57263.706281543986,
+      "topdown:unique:topdown-bad-spec:u": 50394.95764907563,
+      "topdown:unique:topdown-fe-bound:u": 612961.167423358,
+      "topdown:unique:topdown-be-bound:u": 42204.13056168886,
+      "topdown:unique:topdown-fetch-lat:u": 562456.5910614375,
+      "topdown:unique:topdown-mem-bound:u": 23041.184560406327,
+      "topdown:text:cycles:u": 112866.62048782465,
+      "topdown:text:instructions:u": 40104.336963133115,
+      "topdown:text:slots:u": 677199.722926948,
+      "topdown:text:topdown-retiring:u": 46523.78772147315,
+      "topdown:text:topdown-bad-spec:u": 43994.1750017475,
+      "topdown:text:topdown-fe-bound:u": 551017.2997700941,
+      "topdown:text:topdown-be-bound:u": 36867.31146767381,
+      "topdown:text:topdown-fetch-lat:u": 505569.3105295693,
+      "topdown:text:topdown-mem-bound:u": 17970.855945607043,
+      "topdown:user:cycles:u": 163768.84854448918,
+      "topdown:user:instructions:u": 65276.60952416049,
+      "topdown:user:slots:u": 982613.0912669351,
+      "topdown:user:topdown-retiring:u": 83864.86451796512,
+      "topdown:user:topdown-bad-spec:u": 65022.80506057452,
+      "topdown:user:topdown-fe-bound:u": 775200.2551693036,
+      "topdown:user:topdown-be-bound:u": 64352.92273197614,
+      "topdown:user:topdown-fetch-lat:u": 701889.1932933102,
+      "topdown:user:topdown-mem-bound:u": 37601.69779163122,
+      "topdown:storage:cycles:u": 216796.89949184406,
+      "topdown:storage:instructions:u": 116744.67201383802,
+      "topdown:storage:slots:u": 1300781.3969510645,
+      "topdown:storage:topdown-retiring:u": 127373.63304221522,
+      "topdown:storage:topdown-bad-spec:u": 99490.02586541328,
+      "topdown:storage:topdown-fe-bound:u": 1001356.7351688219,
+      "topdown:storage:topdown-be-bound:u": 76453.4061247962,
+      "topdown:storage:topdown-fetch-lat:u": 891430.9978876926,
+      "topdown:storage:topdown-mem-bound:u": 38553.98898881482,
+      "topdown:userreview:cycles:u": 414167.51918416994,
+      "topdown:userreview:instructions:u": 208170.10284267372,
+      "topdown:userreview:slots:u": 2485005.11510502,
+      "topdown:userreview:topdown-retiring:u": 250498.74627349013,
+      "topdown:userreview:topdown-bad-spec:u": 193606.96978741518,
+      "topdown:userreview:topdown-fe-bound:u": 1869791.9257584154,
+      "topdown:userreview:topdown-be-bound:u": 177166.1317763336,
+      "topdown:userreview:topdown-fetch-lat:u": 1636321.2717856816,
+      "topdown:userreview:topdown-mem-bound:u": 98055.33150115979,
+      "topdown:moviereview:cycles:u": 412688.25799922214,
+      "topdown:moviereview:instructions:u": 207323.58530805886,
+      "topdown:moviereview:slots:u": 2476129.5479953326,
+      "topdown:moviereview:topdown-retiring:u": 256121.46261594602,
+      "topdown:moviereview:topdown-bad-spec:u": 190520.09688507678,
+      "topdown:moviereview:topdown-fe-bound:u": 1859703.8386225335,
+      "topdown:moviereview:topdown-be-bound:u": 176078.4394748616,
+      "topdown:moviereview:topdown-fetch-lat:u": 1629484.3385083252,
+      "topdown:moviereview:topdown-mem-bound:u": 96512.05303983507,
+      "topdown:mongo_user:cycles:u": 896102.2310466603,
+      "topdown:mongo_user:instructions:u": 758264.6920329899,
+      "topdown:mongo_user:slots:u": 5376613.386279962,
+      "topdown:mongo_user:topdown-retiring:u": 752234.5759706981,
+      "topdown:mongo_user:topdown-bad-spec:u": 567887.0056637039,
+      "topdown:mongo_user:topdown-fe-bound:u": 3537093.3057578355,
+      "topdown:mongo_user:topdown-be-bound:u": 536185.590437076,
+      "topdown:mongo_user:topdown-fetch-lat:u": 3070577.1652817354,
+      "topdown:mongo_user:topdown-mem-bound:u": 248638.60356854674,
+      "topdown:mongo_movie:cycles:u": 895518.1808833185,
+      "topdown:mongo_movie:instructions:u": 757693.6472506985,
+      "topdown:mongo_movie:slots:u": 5373109.085299911,
+      "topdown:mongo_movie:topdown-retiring:u": 772556.66704421,
+      "topdown:mongo_movie:topdown-bad-spec:u": 565962.0177228819,
+      "topdown:mongo_movie:topdown-fe-bound:u": 3537843.9167961525,
+      "topdown:mongo_movie:topdown-be-bound:u": 528777.0617565949,
+      "topdown:mongo_movie:topdown-fetch-lat:u": 3070058.155251028,
+      "topdown:mongo_movie:topdown-mem-bound:u": 249264.72287439433,
+      "topdown:mongo_storage:cycles:u": 254724.98589174135,
+      "topdown:mongo_storage:instructions:u": 96479.66825265376,
+      "topdown:mongo_storage:slots:u": 1528349.9153504479,
+      "topdown:mongo_storage:topdown-retiring:u": 106633.12552322517,
+      "topdown:mongo_storage:topdown-bad-spec:u": 145266.28864902508,
+      "topdown:mongo_storage:topdown-fe-bound:u": 1170009.6571711963,
+      "topdown:mongo_storage:topdown-be-bound:u": 115170.96923850034,
+      "topdown:mongo_storage:topdown-fetch-lat:u": 1052043.130277046,
+      "topdown:mongo_storage:topdown-mem-bound:u": 55967.42230858993,
+      "topdown:nginx:cycles:u": 836871.8990600416,
+      "topdown:nginx:instructions:u": 596002.8606168453,
+      "topdown:nginx:slots:u": 5021231.39436025,
+      "topdown:nginx:topdown-retiring:u": 646934.1684285429,
+      "topdown:nginx:topdown-bad-spec:u": 897648.1333007703,
+      "topdown:nginx:topdown-fe-bound:u": 2915364.061936162,
+      "topdown:nginx:topdown-be-bound:u": 624362.4594937206,
+      "topdown:nginx:topdown-fetch-lat:u": 2349563.707596264,
+      "topdown:nginx:topdown-mem-bound:u": 375581.0929501269,
+      "memory:movie:cycles:u": 269537.3220816869,
+      "memory:movie:instructions:u": 96525.63463372579,
+      "memory:movie:EXE_STALL": 214439.9838220114,
+      "memory:movie:LOAD_L1D_STALL": 95840.01138585177,
+      "memory:movie:LOAD_L3_STALL": 145.691385717868,
+      "memory:movie:STORE_STALL": 265.66019833183606,
+      "memory:compose:cycles:u": 557369.2880971564,
+      "memory:compose:instructions:u": 274037.32501148805,
+      "memory:compose:EXE_STALL": 418175.01944359357,
+      "memory:compose:LOAD_L1D_STALL": 167051.50015134504,
+      "memory:compose:LOAD_L3_STALL": 266.4678639153377,
+      "memory:compose:STORE_STALL": 570.5019984811006,
+      "memory:rating:cycles:u": 267378.0688372004,
+      "memory:rating:instructions:u": 102875.33436623371,
+      "memory:rating:EXE_STALL": 206351.3551524178,
+      "memory:rating:LOAD_L1D_STALL": 88114.67172651182,
+      "memory:rating:LOAD_L3_STALL": 92.95003251452664,
+      "memory:rating:STORE_STALL": 115.58900227124934,
+      "memory:unique:cycles:u": 127036.54069343442,
+      "memory:unique:instructions:u": 43984.279926358446,
+      "memory:unique:EXE_STALL": 102804.1325991561,
+      "memory:unique:LOAD_L1D_STALL": 46022.1182319011,
+      "memory:unique:LOAD_L3_STALL": 27.769014649090153,
+      "memory:unique:STORE_STALL": 37.99639065407332,
+      "memory:text:cycles:u": 113469.48478453365,
+      "memory:text:instructions:u": 40282.79135182999,
+      "memory:text:EXE_STALL": 91623.12459415584,
+      "memory:text:LOAD_L1D_STALL": 39969.521426111765,
+      "memory:text:LOAD_L3_STALL": 21.029380657221566,
+      "memory:text:STORE_STALL": 33.85941804407713,
+      "memory:user:cycles:u": 164924.73754209786,
+      "memory:user:instructions:u": 65591.76541797948,
+      "memory:user:EXE_STALL": 130860.15369361982,
+      "memory:user:LOAD_L1D_STALL": 60341.76691797481,
+      "memory:user:LOAD_L3_STALL": 25.706591487904376,
+      "memory:user:STORE_STALL": 85.49415579823881,
+      "memory:storage:cycles:u": 216699.3944028293,
+      "memory:storage:instructions:u": 117856.39856099145,
+      "memory:storage:EXE_STALL": 162834.6430025674,
+      "memory:storage:LOAD_L1D_STALL": 66399.30144781228,
+      "memory:storage:LOAD_L3_STALL": 23.66710593500165,
+      "memory:storage:STORE_STALL": 107.39069127802892,
+      "memory:userreview:cycles:u": 415355.5402740245,
+      "memory:userreview:instructions:u": 209269.20921791997,
+      "memory:userreview:EXE_STALL": 308387.29140347044,
+      "memory:userreview:LOAD_L1D_STALL": 128801.55546944361,
+      "memory:userreview:LOAD_L3_STALL": 45.4765082305145,
+      "memory:userreview:STORE_STALL": 611.8746262673036,
+      "memory:moviereview:cycles:u": 410421.8049731533,
+      "memory:moviereview:instructions:u": 208129.60292374023,
+      "memory:moviereview:EXE_STALL": 304582.448192107,
+      "memory:moviereview:LOAD_L1D_STALL": 126023.85948074854,
+      "memory:moviereview:LOAD_L3_STALL": 49.87022176642593,
+      "memory:moviereview:STORE_STALL": 619.7307914152921,
+      "memory:mongo_user:cycles:u": 898186.5984136024,
+      "memory:mongo_user:instructions:u": 757927.8124938693,
+      "memory:mongo_user:EXE_STALL": 572705.6272560629,
+      "memory:mongo_user:LOAD_L1D_STALL": 180410.7091717149,
+      "memory:mongo_user:LOAD_L3_STALL": 703.907014352877,
+      "memory:mongo_user:STORE_STALL": 5970.193031337412,
+      "memory:mongo_movie:cycles:u": 894516.1696061627,
+      "memory:mongo_movie:instructions:u": 756534.2598604937,
+      "memory:mongo_movie:EXE_STALL": 570023.6989545363,
+      "memory:mongo_movie:LOAD_L1D_STALL": 179799.45527148264,
+      "memory:mongo_movie:LOAD_L3_STALL": 747.8254693158478,
+      "memory:mongo_movie:STORE_STALL": 5950.011195513665,
+      "memory:mongo_storage:cycles:u": 255672.0571003696,
+      "memory:mongo_storage:instructions:u": 97039.83510192885,
+      "memory:mongo_storage:EXE_STALL": 193305.83582380458,
+      "memory:mongo_storage:LOAD_L1D_STALL": 73923.19712982213,
+      "memory:mongo_storage:LOAD_L3_STALL": 163.85832828020327,
+      "memory:mongo_storage:STORE_STALL": 29.527055902055903,
+      "memory:nginx:cycles:u": 838247.7324723374,
+      "memory:nginx:instructions:u": 597466.5431067741,
+      "memory:nginx:EXE_STALL": 521868.71766703477,
+      "memory:nginx:LOAD_L1D_STALL": 222195.40099002828,
+      "memory:nginx:LOAD_L3_STALL": 279.980581954518,
+      "memory:nginx:STORE_STALL": 893.4588830402068,
+      "front:movie:cycles:u": 270143.7172685575,
+      "front:movie:instructions:u": 96652.76041454988,
+      "front:movie:DSB_UOPS": 41159.62518796993,
+      "front:movie:MITE_UOPS": 105427.22240688594,
+      "front:movie:ITLB_WALK_ACTIVE": 32148.395561297068,
+      "front:movie:UNKNOWN_BRANCH_CYCLES": 105322.48857084797,
+      "front:compose:cycles:u": 554685.2718806217,
+      "front:compose:instructions:u": 273250.76838266617,
+      "front:compose:DSB_UOPS": 121562.83286950737,
+      "front:compose:MITE_UOPS": 268657.13866219565,
+      "front:compose:ITLB_WALK_ACTIVE": 53004.990162097936,
+      "front:compose:UNKNOWN_BRANCH_CYCLES": 195755.07294735874,
+      "front:rating:cycles:u": 267120.1275389324,
+      "front:rating:instructions:u": 102603.04902874195,
+      "front:rating:DSB_UOPS": 54613.415597524945,
+      "front:rating:MITE_UOPS": 107018.86912404795,
+      "front:rating:ITLB_WALK_ACTIVE": 28390.51706763796,
+      "front:rating:UNKNOWN_BRANCH_CYCLES": 96802.95109521798,
+      "front:unique:cycles:u": 127627.65771705305,
+      "front:unique:instructions:u": 44139.379856537074,
+      "front:unique:DSB_UOPS": 19312.535343502255,
+      "front:unique:MITE_UOPS": 45976.750082249855,
+      "front:unique:ITLB_WALK_ACTIVE": 15538.314821579654,
+      "front:unique:UNKNOWN_BRANCH_CYCLES": 53999.18664095707,
+      "front:text:cycles:u": 113900.66620549453,
+      "front:text:instructions:u": 40193.38915612345,
+      "front:text:DSB_UOPS": 17728.218341902237,
+      "front:text:MITE_UOPS": 41009.63689625167,
+      "front:text:ITLB_WALK_ACTIVE": 12876.73137579026,
+      "front:text:UNKNOWN_BRANCH_CYCLES": 47687.32155761529,
+      "front:user:cycles:u": 165501.38148805004,
+      "front:user:instructions:u": 65285.61195160181,
+      "front:user:DSB_UOPS": 27454.07382384122,
+      "front:user:MITE_UOPS": 66685.51328932897,
+      "front:user:ITLB_WALK_ACTIVE": 17884.36948048834,
+      "front:user:UNKNOWN_BRANCH_CYCLES": 66933.6493348816,
+      "front:storage:cycles:u": 218048.7273264698,
+      "front:storage:instructions:u": 117144.0340664203,
+      "front:storage:DSB_UOPS": 54553.54905441899,
+      "front:storage:MITE_UOPS": 97905.23544596473,
+      "front:storage:ITLB_WALK_ACTIVE": 19236.457851035186,
+      "front:storage:UNKNOWN_BRANCH_CYCLES": 77503.10132053256,
+      "front:userreview:cycles:u": 416968.8209324068,
+      "front:userreview:instructions:u": 208814.57264433024,
+      "front:userreview:DSB_UOPS": 114463.62036144835,
+      "front:userreview:MITE_UOPS": 193798.02510329138,
+      "front:userreview:ITLB_WALK_ACTIVE": 34467.09334742549,
+      "front:userreview:UNKNOWN_BRANCH_CYCLES": 138437.28535602993,
+      "front:moviereview:cycles:u": 412212.96549058193,
+      "front:moviereview:instructions:u": 207194.6256556466,
+      "front:moviereview:DSB_UOPS": 110689.70894783843,
+      "front:moviereview:MITE_UOPS": 192741.38784695702,
+      "front:moviereview:ITLB_WALK_ACTIVE": 33170.36531088363,
+      "front:moviereview:UNKNOWN_BRANCH_CYCLES": 137773.4019592972,
+      "front:mongo_user:cycles:u": 897554.3115558587,
+      "front:mongo_user:instructions:u": 755726.3852742107,
+      "front:mongo_user:DSB_UOPS": 636520.1110652782,
+      "front:mongo_user:MITE_UOPS": 470355.74741369823,
+      "front:mongo_user:ITLB_WALK_ACTIVE": 38317.37681480269,
+      "front:mongo_user:UNKNOWN_BRANCH_CYCLES": 257882.92595406342,
+      "front:mongo_movie:cycles:u": 906002.6420258819,
+      "front:mongo_movie:instructions:u": 774259.641789552,
+      "front:mongo_movie:DSB_UOPS": 669370.64099191,
+      "front:mongo_movie:MITE_UOPS": 468633.4127902122,
+      "front:mongo_movie:ITLB_WALK_ACTIVE": 38105.455727948174,
+      "front:mongo_movie:UNKNOWN_BRANCH_CYCLES": 257755.2085994443,
+      "front:mongo_storage:cycles:u": 254300.7593751317,
+      "front:mongo_storage:instructions:u": 95786.74955849111,
+      "front:mongo_storage:DSB_UOPS": 35686.30518384895,
+      "front:mongo_storage:MITE_UOPS": 131854.68065645712,
+      "front:mongo_storage:ITLB_WALK_ACTIVE": 16788.776737353015,
+      "front:mongo_storage:UNKNOWN_BRANCH_CYCLES": 92491.35362275867,
+      "front:nginx:cycles:u": 833808.8159817536,
+      "front:nginx:instructions:u": 594263.6086812001,
+      "front:nginx:DSB_UOPS": 632259.0918660314,
+      "front:nginx:MITE_UOPS": 551575.5245734581,
+      "front:nginx:ITLB_WALK_ACTIVE": 46096.060189045675,
+      "front:nginx:UNKNOWN_BRANCH_CYCLES": 149265.82256645398,
+      "topdown:pool_u:cycles:u": 6480391.459392792,
+      "topdown:pool_u:instructions:u": 5151528.4888233,
+      "topdown:pool_u:slots:u": 38882349.15856188,
+      "topdown:pool_u:topdown-retiring:u": 5010767.985443531,
+      "topdown:pool_u:topdown-bad-spec:u": 3507035.4132089093,
+      "topdown:pool_u:topdown-fe-bound:u": 25539248.331976276,
+      "topdown:pool_u:topdown-be-bound:u": 4940465.181014118,
+      "topdown:pool_u:topdown-fetch-lat:u": 22271402.566174895,
+      "topdown:pool_u:topdown-mem-bound:u": 2917466.5306236856,
+      "topdown:pool_k:cycles:k": 5070002.814287177,
+      "topdown:pool_k:instructions:k": 5131939.204301916,
+      "topdown:pool_k:slots:k": 30417639.494103767,
+      "topdown:pool_k:topdown-retiring:k": 5628720.146232857,
+      "topdown:pool_k:topdown-bad-spec:k": 2378185.732074693,
+      "topdown:pool_k:topdown-fe-bound:k": 10153901.355718333,
+      "topdown:pool_k:topdown-be-bound:k": 12301510.313953372,
+      "topdown:pool_k:topdown-fetch-lat:k": 7246418.195927904,
+      "topdown:pool_k:topdown-mem-bound:k": 8007255.326499658,
+      "memory:pool_u:cycles:u": 6449274.901468542,
+      "memory:pool_u:instructions:u": 5086331.633130429,
+      "memory:pool_u:EXE_STALL": 4351465.229042403,
+      "memory:pool_u:LOAD_L1D_STALL": 1773165.6327856923,
+      "memory:pool_u:LOAD_L3_STALL": 39919.22972192933,
+      "memory:pool_u:STORE_STALL": 22488.239499935047,
+      "memory:pool_k:cycles:k": 5059391.455273688,
+      "memory:pool_k:instructions:k": 5124150.154791572,
+      "memory:pool_k:EXE_STALL": 2976757.941993527,
+      "memory:pool_k:LOAD_L1D_STALL": 1588445.284915126,
+      "memory:pool_k:LOAD_L3_STALL": 5563.820237120074,
+      "memory:pool_k:STORE_STALL": 66696.14400260814
+    },
+    "combined": {
+      "cache:movie:cycles:u": 256407.84786630704,
+      "cache:movie:instructions:u": 98610.00772292126,
+      "cache:movie:L2I": 5501.487633864664,
+      "cache:movie:FE_L2": 256.81455137925843,
+      "cache:movie:ICACHE_DATA_STALL": 51942.358942047606,
+      "cache:compose:cycles:u": 540739.7361825921,
+      "cache:compose:instructions:u": 275982.45261120226,
+      "cache:compose:L2I": 10331.06024073379,
+      "cache:compose:FE_L2": 659.8024104306573,
+      "cache:compose:ICACHE_DATA_STALL": 117842.6867934198,
+      "cache:rating:cycles:u": 253449.4762388244,
+      "cache:rating:instructions:u": 104421.25033659308,
+      "cache:rating:L2I": 5143.898116461161,
+      "cache:rating:FE_L2": 290.3476627584828,
+      "cache:rating:ICACHE_DATA_STALL": 51446.53612105468,
+      "cache:unique:cycles:u": 120392.12141566176,
+      "cache:unique:instructions:u": 44981.54892258087,
+      "cache:unique:L2I": 2186.4787907911004,
+      "cache:unique:FE_L2": 98.48604883682972,
+      "cache:unique:ICACHE_DATA_STALL": 20906.817799811146,
+      "cache:text:cycles:u": 109865.37420718832,
+      "cache:text:instructions:u": 41663.367890705165,
+      "cache:text:L2I": 1935.6576507434615,
+      "cache:text:FE_L2": 83.17188628796669,
+      "cache:text:ICACHE_DATA_STALL": 18498.820797433407,
+      "cache:user:cycles:u": 159650.36130035442,
+      "cache:user:instructions:u": 67129.65475189593,
+      "cache:user:L2I": 2919.8887117030736,
+      "cache:user:FE_L2": 138.118860771948,
+      "cache:user:ICACHE_DATA_STALL": 28803.098464168103,
+      "cache:storage:cycles:u": 207496.45044710822,
+      "cache:storage:instructions:u": 120508.93478831655,
+      "cache:storage:L2I": 4069.1615555721773,
+      "cache:storage:FE_L2": 214.42884806107918,
+      "cache:storage:ICACHE_DATA_STALL": 38568.3499557986,
+      "cache:userreview:cycles:u": 402099.32300201675,
+      "cache:userreview:instructions:u": 215290.98738454565,
+      "cache:userreview:L2I": 7522.941052993116,
+      "cache:userreview:FE_L2": 396.4563020300442,
+      "cache:userreview:ICACHE_DATA_STALL": 76745.27666063221,
+      "cache:moviereview:cycles:u": 397607.7964849569,
+      "cache:moviereview:instructions:u": 213459.5274158781,
+      "cache:moviereview:L2I": 7276.578929435129,
+      "cache:moviereview:FE_L2": 379.7104047320938,
+      "cache:moviereview:ICACHE_DATA_STALL": 74980.16580796955,
+      "cache:mongo_user:cycles:u": 898791.1321599367,
+      "cache:mongo_user:instructions:u": 762793.7589520966,
+      "cache:mongo_user:L2I": 23221.457291561732,
+      "cache:mongo_user:FE_L2": 845.6287507474232,
+      "cache:mongo_user:ICACHE_DATA_STALL": 197571.82201697672,
+      "cache:mongo_movie:cycles:u": 898273.3306942377,
+      "cache:mongo_movie:instructions:u": 764798.9984719208,
+      "cache:mongo_movie:L2I": 23118.349617433334,
+      "cache:mongo_movie:FE_L2": 833.6362727544085,
+      "cache:mongo_movie:ICACHE_DATA_STALL": 196103.19501498214,
+      "cache:mongo_storage:cycles:u": 255076.43268015835,
+      "cache:mongo_storage:instructions:u": 94577.72514497465,
+      "cache:mongo_storage:L2I": 8446.818873323522,
+      "cache:mongo_storage:FE_L2": 382.81343820942516,
+      "cache:mongo_storage:ICACHE_DATA_STALL": 70127.98874319808,
+      "cache:nginx:cycles:u": 834731.1168515965,
+      "cache:nginx:instructions:u": 593986.6797224089,
+      "cache:nginx:L2I": 15032.832415814137,
+      "cache:nginx:FE_L2": 1552.0397948285408,
+      "cache:nginx:ICACHE_DATA_STALL": 176969.08021870066,
+      "topdown:movie:cycles:u": 255563.6164885544,
+      "topdown:movie:instructions:u": 98132.85541043314,
+      "topdown:movie:slots:u": 1533381.6989313266,
+      "topdown:movie:topdown-retiring:u": 155007.6430056195,
+      "topdown:movie:topdown-bad-spec:u": 104748.50379371886,
+      "topdown:movie:topdown-fe-bound:u": 1129409.0320713557,
+      "topdown:movie:topdown-be-bound:u": 148015.93710469315,
+      "topdown:movie:topdown-fetch-lat:u": 1009981.5726334869,
+      "topdown:movie:topdown-mem-bound:u": 84598.10358267248,
+      "topdown:compose:cycles:u": 542875.6798282809,
+      "topdown:compose:instructions:u": 276855.19214988896,
+      "topdown:compose:slots:u": 3257254.0789696854,
+      "topdown:compose:topdown-retiring:u": 350251.88386552135,
+      "topdown:compose:topdown-bad-spec:u": 240284.24424076724,
+      "topdown:compose:topdown-fe-bound:u": 2382748.30018159,
+      "topdown:compose:topdown-be-bound:u": 305517.83117831754,
+      "topdown:compose:topdown-fetch-lat:u": 2079783.9165006096,
+      "topdown:compose:topdown-mem-bound:u": 169076.61628926668,
+      "topdown:rating:cycles:u": 252638.87230754655,
+      "topdown:rating:instructions:u": 104222.93835210023,
+      "topdown:rating:slots:u": 1515833.2338452793,
+      "topdown:rating:topdown-retiring:u": 143387.9679230412,
+      "topdown:rating:topdown-bad-spec:u": 118817.63774038384,
+      "topdown:rating:topdown-fe-bound:u": 1104477.2606620444,
+      "topdown:rating:topdown-be-bound:u": 155214.5456322998,
+      "topdown:rating:topdown-fetch-lat:u": 965229.9232010776,
+      "topdown:rating:topdown-mem-bound:u": 85416.5978659775,
+      "topdown:unique:cycles:u": 119884.2455087693,
+      "topdown:unique:instructions:u": 44797.606882055254,
+      "topdown:unique:slots:u": 719305.4730526158,
+      "topdown:unique:topdown-retiring:u": 51198.6470615219,
+      "topdown:unique:topdown-bad-spec:u": 44609.970871282625,
+      "topdown:unique:topdown-fe-bound:u": 585348.4771086297,
+      "topdown:unique:topdown-be-bound:u": 39732.044824365934,
+      "topdown:unique:topdown-fetch-lat:u": 532632.043325945,
+      "topdown:unique:topdown-mem-bound:u": 21633.24159371973,
+      "topdown:text:cycles:u": 109080.69558327926,
+      "topdown:text:instructions:u": 41051.263828353665,
+      "topdown:text:slots:u": 654484.1734996755,
+      "topdown:text:topdown-retiring:u": 47002.45618033764,
+      "topdown:text:topdown-bad-spec:u": 38701.221958830974,
+      "topdown:text:topdown-fe-bound:u": 533653.70876772,
+      "topdown:text:topdown-be-bound:u": 36301.41432875572,
+      "topdown:text:topdown-fetch-lat:u": 488198.4530999672,
+      "topdown:text:topdown-mem-bound:u": 18590.06598120113,
+      "topdown:user:cycles:u": 159639.3935251746,
+      "topdown:user:instructions:u": 66792.13338730946,
+      "topdown:user:slots:u": 957836.3611510475,
+      "topdown:user:topdown-retiring:u": 85894.0272090059,
+      "topdown:user:topdown-bad-spec:u": 58988.53821781825,
+      "topdown:user:topdown-fe-bound:u": 753061.8937090714,
+      "topdown:user:topdown-be-bound:u": 64187.497632246275,
+      "topdown:user:topdown-fetch-lat:u": 679757.0799050947,
+      "topdown:user:topdown-mem-bound:u": 35400.37162573941,
+      "topdown:storage:cycles:u": 206496.5625890324,
+      "topdown:storage:instructions:u": 120207.20651561132,
+      "topdown:storage:slots:u": 1238979.3755341945,
+      "topdown:storage:topdown-retiring:u": 130664.58069442684,
+      "topdown:storage:topdown-bad-spec:u": 92352.95675765692,
+      "topdown:storage:topdown-fe-bound:u": 948617.2065771708,
+      "topdown:storage:topdown-be-bound:u": 72909.1140935435,
+      "topdown:storage:topdown-fetch-lat:u": 830932.454919833,
+      "topdown:storage:topdown-mem-bound:u": 39471.98185302998,
+      "topdown:userreview:cycles:u": 399919.31102824566,
+      "topdown:userreview:instructions:u": 214007.08246288088,
+      "topdown:userreview:slots:u": 2399515.866169474,
+      "topdown:userreview:topdown-retiring:u": 269744.79900791147,
+      "topdown:userreview:topdown-bad-spec:u": 181826.5166789212,
+      "topdown:userreview:topdown-fe-bound:u": 1780742.1461568056,
+      "topdown:userreview:topdown-be-bound:u": 176423.90761499899,
+      "topdown:userreview:topdown-fetch-lat:u": 1536435.379999554,
+      "topdown:userreview:topdown-mem-bound:u": 94629.32489729224,
+      "topdown:moviereview:cycles:u": 398897.7708734712,
+      "topdown:moviereview:instructions:u": 213464.06882951158,
+      "topdown:moviereview:slots:u": 2393386.6252408274,
+      "topdown:moviereview:topdown-retiring:u": 268958.92810318276,
+      "topdown:moviereview:topdown-bad-spec:u": 178824.69172431855,
+      "topdown:moviereview:topdown-fe-bound:u": 1770324.2457245828,
+      "topdown:moviereview:topdown-be-bound:u": 179475.20947290168,
+      "topdown:moviereview:topdown-fetch-lat:u": 1523642.8474964076,
+      "topdown:moviereview:topdown-mem-bound:u": 101577.15841887332,
+      "topdown:mongo_user:cycles:u": 892353.3917978501,
+      "topdown:mongo_user:instructions:u": 755587.4017438566,
+      "topdown:mongo_user:slots:u": 5354120.350787101,
+      "topdown:mongo_user:topdown-retiring:u": 762085.0146375941,
+      "topdown:mongo_user:topdown-bad-spec:u": 552540.1941343772,
+      "topdown:mongo_user:topdown-fe-bound:u": 3534885.165374498,
+      "topdown:mongo_user:topdown-be-bound:u": 525633.932662162,
+      "topdown:mongo_user:topdown-fetch-lat:u": 3079741.519958659,
+      "topdown:mongo_user:topdown-mem-bound:u": 249666.43709843289,
+      "topdown:mongo_movie:cycles:u": 891772.9594530768,
+      "topdown:mongo_movie:instructions:u": 756190.2558769546,
+      "topdown:mongo_movie:slots:u": 5350637.7567184605,
+      "topdown:mongo_movie:topdown-retiring:u": 763294.3332500017,
+      "topdown:mongo_movie:topdown-bad-spec:u": 563045.5332156622,
+      "topdown:mongo_movie:topdown-fe-bound:u": 3526725.8736813357,
+      "topdown:mongo_movie:topdown-be-bound:u": 525385.0758463253,
+      "topdown:mongo_movie:topdown-fetch-lat:u": 3073780.91763897,
+      "topdown:mongo_movie:topdown-mem-bound:u": 241939.3460356631,
+      "topdown:mongo_storage:cycles:u": 254855.6328289152,
+      "topdown:mongo_storage:instructions:u": 94089.00935806886,
+      "topdown:mongo_storage:slots:u": 1529133.796973491,
+      "topdown:mongo_storage:topdown-retiring:u": 103425.23753187488,
+      "topdown:mongo_storage:topdown-bad-spec:u": 140091.974020669,
+      "topdown:mongo_storage:topdown-fe-bound:u": 1190127.8164388798,
+      "topdown:mongo_storage:topdown-be-bound:u": 104500.95507460405,
+      "topdown:mongo_storage:topdown-fetch-lat:u": 1073120.9759502844,
+      "topdown:mongo_storage:topdown-mem-bound:u": 51384.03980722192,
+      "topdown:nginx:cycles:u": 830067.4296822072,
+      "topdown:nginx:instructions:u": 589823.0143185493,
+      "topdown:nginx:slots:u": 4980404.578093243,
+      "topdown:nginx:topdown-retiring:u": 665310.0268768938,
+      "topdown:nginx:topdown-bad-spec:u": 873455.0894410571,
+      "topdown:nginx:topdown-fe-bound:u": 2879944.115180156,
+      "topdown:nginx:topdown-be-bound:u": 619102.6057484092,
+      "topdown:nginx:topdown-fetch-lat:u": 2321429.252574845,
+      "topdown:nginx:topdown-mem-bound:u": 356361.44962322887,
+      "memory:movie:cycles:u": 256664.56256161115,
+      "memory:movie:instructions:u": 98620.8039165235,
+      "memory:movie:EXE_STALL": 201373.51515520771,
+      "memory:movie:LOAD_L1D_STALL": 95715.40213674854,
+      "memory:movie:LOAD_L3_STALL": 153.18643495722722,
+      "memory:movie:STORE_STALL": 252.6463251093495,
+      "memory:compose:cycles:u": 541755.3150753651,
+      "memory:compose:instructions:u": 276125.4562575248,
+      "memory:compose:EXE_STALL": 401901.4530793745,
+      "memory:compose:LOAD_L1D_STALL": 168242.75592472943,
+      "memory:compose:LOAD_L3_STALL": 273.43118402102016,
+      "memory:compose:STORE_STALL": 515.653969467143,
+      "memory:rating:cycles:u": 254311.40626506344,
+      "memory:rating:instructions:u": 104606.96213403944,
+      "memory:rating:EXE_STALL": 193058.93736101748,
+      "memory:rating:LOAD_L1D_STALL": 86906.5957048949,
+      "memory:rating:LOAD_L3_STALL": 106.2679399855172,
+      "memory:rating:STORE_STALL": 116.8315155017603,
+      "memory:unique:cycles:u": 120606.1771109522,
+      "memory:unique:instructions:u": 45368.875137387615,
+      "memory:unique:EXE_STALL": 96279.36112303767,
+      "memory:unique:LOAD_L1D_STALL": 44467.244290320945,
+      "memory:unique:LOAD_L3_STALL": 17.491462451670383,
+      "memory:unique:STORE_STALL": 31.962432154216124,
+      "memory:text:cycles:u": 109519.34478540835,
+      "memory:text:instructions:u": 41404.221552727075,
+      "memory:text:EXE_STALL": 87610.37045405366,
+      "memory:text:LOAD_L1D_STALL": 40076.11702250314,
+      "memory:text:LOAD_L3_STALL": 31.168998129223812,
+      "memory:text:STORE_STALL": 27.079371318727933,
+      "memory:user:cycles:u": 159835.5514352977,
+      "memory:user:instructions:u": 66662.32702490952,
+      "memory:user:EXE_STALL": 125623.14744679807,
+      "memory:user:LOAD_L1D_STALL": 61114.71423654676,
+      "memory:user:LOAD_L3_STALL": 34.84249370054103,
+      "memory:user:STORE_STALL": 84.8209036073662,
+      "memory:storage:cycles:u": 208045.20676154777,
+      "memory:storage:instructions:u": 121013.03878015812,
+      "memory:storage:EXE_STALL": 153258.78834378108,
+      "memory:storage:LOAD_L1D_STALL": 67809.5597995844,
+      "memory:storage:LOAD_L3_STALL": 21.230288206002093,
+      "memory:storage:STORE_STALL": 91.32354372206228,
+      "memory:userreview:cycles:u": 401717.55572332744,
+      "memory:userreview:instructions:u": 214852.43354466156,
+      "memory:userreview:EXE_STALL": 292936.0308763002,
+      "memory:userreview:LOAD_L1D_STALL": 131344.3645585679,
+      "memory:userreview:LOAD_L3_STALL": 49.40835199641994,
+      "memory:userreview:STORE_STALL": 592.2920970590999,
+      "memory:moviereview:cycles:u": 397883.72330435505,
+      "memory:moviereview:instructions:u": 213564.02243294223,
+      "memory:moviereview:EXE_STALL": 289955.0969360338,
+      "memory:moviereview:LOAD_L1D_STALL": 131187.57301192806,
+      "memory:moviereview:LOAD_L3_STALL": 40.58818849533482,
+      "memory:moviereview:STORE_STALL": 646.1545635799941,
+      "memory:mongo_user:cycles:u": 894083.6557547546,
+      "memory:mongo_user:instructions:u": 757770.971284644,
+      "memory:mongo_user:EXE_STALL": 570735.5941454704,
+      "memory:mongo_user:LOAD_L1D_STALL": 180056.4639812403,
+      "memory:mongo_user:LOAD_L3_STALL": 883.3139639115789,
+      "memory:mongo_user:STORE_STALL": 5916.118466376879,
+      "memory:mongo_movie:cycles:u": 894970.2744002797,
+      "memory:mongo_movie:instructions:u": 760301.5818888808,
+      "memory:mongo_movie:EXE_STALL": 570150.3817580191,
+      "memory:mongo_movie:LOAD_L1D_STALL": 180738.95217176643,
+      "memory:mongo_movie:LOAD_L3_STALL": 716.9455402989773,
+      "memory:mongo_movie:STORE_STALL": 6061.598728662545,
+      "memory:mongo_storage:cycles:u": 254891.06674072501,
+      "memory:mongo_storage:instructions:u": 94430.3459027324,
+      "memory:mongo_storage:EXE_STALL": 193383.66880380755,
+      "memory:mongo_storage:LOAD_L1D_STALL": 73562.96931877037,
+      "memory:mongo_storage:LOAD_L3_STALL": 159.7027817517526,
+      "memory:mongo_storage:STORE_STALL": 32.029588654554544,
+      "memory:nginx:cycles:u": 833693.7525120651,
+      "memory:nginx:instructions:u": 593033.8935159959,
+      "memory:nginx:EXE_STALL": 519979.0630621157,
+      "memory:nginx:LOAD_L1D_STALL": 222541.0125687709,
+      "memory:nginx:LOAD_L3_STALL": 263.96132283801666,
+      "memory:nginx:STORE_STALL": 908.9619938117849,
+      "front:movie:cycles:u": 256763.00421574037,
+      "front:movie:instructions:u": 98197.44801163708,
+      "front:movie:DSB_UOPS": 39087.144661648446,
+      "front:movie:MITE_UOPS": 103228.52268799412,
+      "front:movie:ITLB_WALK_ACTIVE": 25664.158951688783,
+      "front:movie:UNKNOWN_BRANCH_CYCLES": 100286.23747282696,
+      "front:compose:cycles:u": 542420.7461496925,
+      "front:compose:instructions:u": 276687.5300348756,
+      "front:compose:DSB_UOPS": 118979.70989146209,
+      "front:compose:MITE_UOPS": 266915.72220056964,
+      "front:compose:ITLB_WALK_ACTIVE": 48959.45404897214,
+      "front:compose:UNKNOWN_BRANCH_CYCLES": 190801.79982192587,
+      "front:rating:cycles:u": 253441.41382612984,
+      "front:rating:instructions:u": 104678.09527621526,
+      "front:rating:DSB_UOPS": 53561.97420108785,
+      "front:rating:MITE_UOPS": 105264.5045994182,
+      "front:rating:ITLB_WALK_ACTIVE": 24524.403112022817,
+      "front:rating:UNKNOWN_BRANCH_CYCLES": 89809.08287529752,
+      "front:unique:cycles:u": 120798.55531248376,
+      "front:unique:instructions:u": 45421.13137695961,
+      "front:unique:DSB_UOPS": 18653.813792262816,
+      "front:unique:MITE_UOPS": 43492.42514137013,
+      "front:unique:ITLB_WALK_ACTIVE": 15130.533751236067,
+      "front:unique:UNKNOWN_BRANCH_CYCLES": 53856.63181286979,
+      "front:text:cycles:u": 109381.6624827407,
+      "front:text:instructions:u": 41421.339867455456,
+      "front:text:DSB_UOPS": 17011.771406902906,
+      "front:text:MITE_UOPS": 38395.608511537735,
+      "front:text:ITLB_WALK_ACTIVE": 13919.673382766763,
+      "front:text:UNKNOWN_BRANCH_CYCLES": 48690.114924380396,
+      "front:user:cycles:u": 160636.61062165868,
+      "front:user:instructions:u": 67580.82570472165,
+      "front:user:DSB_UOPS": 26845.989773745983,
+      "front:user:MITE_UOPS": 64310.31821671118,
+      "front:user:ITLB_WALK_ACTIVE": 17979.281634074032,
+      "front:user:UNKNOWN_BRANCH_CYCLES": 69130.32789884298,
+      "front:storage:cycles:u": 207425.38804386277,
+      "front:storage:instructions:u": 120958.19268694948,
+      "front:storage:DSB_UOPS": 53671.31596324974,
+      "front:storage:MITE_UOPS": 96190.42630091897,
+      "front:storage:ITLB_WALK_ACTIVE": 16450.717074383974,
+      "front:storage:UNKNOWN_BRANCH_CYCLES": 81600.98215054272,
+      "front:userreview:cycles:u": 401213.42740994366,
+      "front:userreview:instructions:u": 214882.36055243446,
+      "front:userreview:DSB_UOPS": 110180.69140968895,
+      "front:userreview:MITE_UOPS": 193448.2686608963,
+      "front:userreview:ITLB_WALK_ACTIVE": 29778.176608636968,
+      "front:userreview:UNKNOWN_BRANCH_CYCLES": 144967.78819188438,
+      "front:moviereview:cycles:u": 396776.49786662596,
+      "front:moviereview:instructions:u": 212821.89377895754,
+      "front:moviereview:DSB_UOPS": 107016.25418510406,
+      "front:moviereview:MITE_UOPS": 192151.40678886778,
+      "front:moviereview:ITLB_WALK_ACTIVE": 31180.939496738603,
+      "front:moviereview:UNKNOWN_BRANCH_CYCLES": 142548.22893140453,
+      "front:mongo_user:cycles:u": 895614.8978592912,
+      "front:mongo_user:instructions:u": 757056.9154002633,
+      "front:mongo_user:DSB_UOPS": 634335.0242887533,
+      "front:mongo_user:MITE_UOPS": 466231.98180436034,
+      "front:mongo_user:ITLB_WALK_ACTIVE": 40502.45615731786,
+      "front:mongo_user:UNKNOWN_BRANCH_CYCLES": 260284.39292614,
+      "front:mongo_movie:cycles:u": 899509.7282991153,
+      "front:mongo_movie:instructions:u": 770220.4239520789,
+      "front:mongo_movie:DSB_UOPS": 662571.2711156877,
+      "front:mongo_movie:MITE_UOPS": 461199.40073595534,
+      "front:mongo_movie:ITLB_WALK_ACTIVE": 40133.182436947856,
+      "front:mongo_movie:UNKNOWN_BRANCH_CYCLES": 259129.65699003637,
+      "front:mongo_storage:cycles:u": 253023.5834265678,
+      "front:mongo_storage:instructions:u": 94086.91148941149,
+      "front:mongo_storage:DSB_UOPS": 33319.9632509945,
+      "front:mongo_storage:MITE_UOPS": 132085.9397760179,
+      "front:mongo_storage:ITLB_WALK_ACTIVE": 16926.04894443957,
+      "front:mongo_storage:UNKNOWN_BRANCH_CYCLES": 91889.30736113549,
+      "front:nginx:cycles:u": 831578.7098848864,
+      "front:nginx:instructions:u": 591440.7195424022,
+      "front:nginx:DSB_UOPS": 630240.400006904,
+      "front:nginx:MITE_UOPS": 548182.4813654497,
+      "front:nginx:ITLB_WALK_ACTIVE": 47430.365115528846,
+      "front:nginx:UNKNOWN_BRANCH_CYCLES": 149504.67522815464,
+      "topdown:pool_u:cycles:u": 6398007.048536077,
+      "topdown:pool_u:instructions:u": 5170336.608022679,
+      "topdown:pool_u:slots:u": 38388043.39867079,
+      "topdown:pool_u:topdown-retiring:u": 5034536.124004686,
+      "topdown:pool_u:topdown-bad-spec:u": 3433574.8238697266,
+      "topdown:pool_u:topdown-fe-bound:u": 25084803.448427185,
+      "topdown:pool_u:topdown-be-bound:u": 4985981.4027512,
+      "topdown:pool_u:topdown-fetch-lat:u": 21766208.799020395,
+      "topdown:pool_u:topdown-mem-bound:u": 2940364.070753283,
+      "topdown:pool_k:cycles:k": 5081932.7536499435,
+      "topdown:pool_k:instructions:k": 5140713.484613076,
+      "topdown:pool_k:slots:k": 30489238.831100352,
+      "topdown:pool_k:topdown-retiring:k": 5634450.555177594,
+      "topdown:pool_k:topdown-bad-spec:k": 2376525.1036957707,
+      "topdown:pool_k:topdown-fe-bound:k": 10185369.247883694,
+      "topdown:pool_k:topdown-be-bound:k": 12360111.186780008,
+      "topdown:pool_k:topdown-fetch-lat:k": 7256188.273382097,
+      "topdown:pool_k:topdown-mem-bound:k": 8048633.756598694,
+      "memory:pool_u:cycles:u": 6289730.588908629,
+      "memory:pool_u:instructions:u": 5024786.557859002,
+      "memory:pool_u:EXE_STALL": 4215511.649830016,
+      "memory:pool_u:LOAD_L1D_STALL": 1759988.0892588578,
+      "memory:pool_u:LOAD_L3_STALL": 27093.671908907385,
+      "memory:pool_u:STORE_STALL": 22426.616829346025,
+      "memory:pool_k:cycles:k": 5088692.505893738,
+      "memory:pool_k:instructions:k": 5148658.0313329995,
+      "memory:pool_k:EXE_STALL": 2996079.68770267,
+      "memory:pool_k:LOAD_L1D_STALL": 1598235.6906095385,
+      "memory:pool_k:LOAD_L3_STALL": 5807.695167821435,
+      "memory:pool_k:STORE_STALL": 65771.33652170861
+    }
+  },
+  "services": {
+    "movie": {
+      "original": {
+        "code_read_miss": 5580.070585514696,
+        "retired_l2": 457.633415551541,
+        "icache_stall_cycles": 60719.976759019555,
+        "frontend_pct": 74.69281340586149,
+        "frontend_slots": 1204169.4649905975,
+        "itlb_walk_cycles": 32275.014316569468,
+        "unknown_branch_cycles": 105357.69029579035,
+        "instructions": 96064.74687260407,
+        "backend_pct": 10.152894506985195,
+        "fetch_latency_pct": 67.58075477710285
+      },
+      "mongo": {
+        "code_read_miss": 5660.106442736879,
+        "retired_l2": 458.36365562302154,
+        "icache_stall_cycles": 60530.498179421054,
+        "frontend_pct": 75.2792844007985,
+        "frontend_slots": 1211654.8919067667,
+        "itlb_walk_cycles": 32148.395561297068,
+        "unknown_branch_cycles": 105322.48857084797,
+        "instructions": 96955.18435802084,
+        "backend_pct": 9.900982373565371,
+        "fetch_latency_pct": 68.20237863375395
+      },
+      "combined": {
+        "code_read_miss": 5501.487633864664,
+        "retired_l2": 256.81455137925843,
+        "icache_stall_cycles": 51942.358942047606,
+        "frontend_pct": 73.6547875104082,
+        "frontend_slots": 1129409.0320713557,
+        "itlb_walk_cycles": 25664.158951688783,
+        "unknown_branch_cycles": 100286.23747282696,
+        "instructions": 98610.00772292126,
+        "backend_pct": 9.652908809845012,
+        "fetch_latency_pct": 65.86628582676984
+      }
+    },
+    "compose": {
+      "original": {
+        "code_read_miss": 10600.561305446752,
+        "retired_l2": 976.7336877608572,
+        "icache_stall_cycles": 127928.52580474374,
+        "frontend_pct": 73.82045416592119,
+        "frontend_slots": 2433332.98905635,
+        "itlb_walk_cycles": 51889.44733703512,
+        "unknown_branch_cycles": 195592.19272021117,
+        "instructions": 272678.41491266584,
+        "backend_pct": 9.11500732258557,
+        "fetch_latency_pct": 64.95625818045224
+      },
+      "mongo": {
+        "code_read_miss": 10675.891402686106,
+        "retired_l2": 979.96473524587,
+        "icache_stall_cycles": 128630.43913760662,
+        "frontend_pct": 73.7407228013552,
+        "frontend_slots": 2448795.0219092844,
+        "itlb_walk_cycles": 53004.990162097936,
+        "unknown_branch_cycles": 195755.07294735874,
+        "instructions": 274169.8957124916,
+        "backend_pct": 8.84177134986157,
+        "fetch_latency_pct": 64.89617463235788
+      },
+      "combined": {
+        "code_read_miss": 10331.06024073379,
+        "retired_l2": 659.8024104306573,
+        "icache_stall_cycles": 117842.6867934198,
+        "frontend_pct": 73.15205514871245,
+        "frontend_slots": 2382748.30018159,
+        "itlb_walk_cycles": 48959.45404897214,
+        "unknown_branch_cycles": 190801.79982192587,
+        "instructions": 275982.45261120226,
+        "backend_pct": 9.379613127231298,
+        "fetch_latency_pct": 63.850834662504255
+      }
+    },
+    "rating": {
+      "original": {
+        "code_read_miss": 5444.6163350453335,
+        "retired_l2": 475.39828667209065,
+        "icache_stall_cycles": 56953.74607207876,
+        "frontend_pct": 73.62947289593315,
+        "frontend_slots": 1158324.1381919198,
+        "itlb_walk_cycles": 25586.747760594477,
+        "unknown_branch_cycles": 95332.21735669355,
+        "instructions": 102500.70529330494,
+        "backend_pct": 10.418291196808177,
+        "fetch_latency_pct": 65.29512162926414
+      },
+      "mongo": {
+        "code_read_miss": 5424.830495800209,
+        "retired_l2": 484.6067609982782,
+        "icache_stall_cycles": 58055.75595999157,
+        "frontend_pct": 73.9395996015011,
+        "frontend_slots": 1176210.6517456968,
+        "itlb_walk_cycles": 28390.51706763796,
+        "unknown_branch_cycles": 96802.95109521798,
+        "instructions": 102667.08747672185,
+        "backend_pct": 10.263290232495613,
+        "fetch_latency_pct": 65.77338959289962
+      },
+      "combined": {
+        "code_read_miss": 5143.898116461161,
+        "retired_l2": 290.3476627584828,
+        "icache_stall_cycles": 51446.53612105468,
+        "frontend_pct": 72.86271576592034,
+        "frontend_slots": 1104477.2606620444,
+        "itlb_walk_cycles": 24524.403112022817,
+        "unknown_branch_cycles": 89809.08287529752,
+        "instructions": 104421.25033659308,
+        "backend_pct": 10.239552885284114,
+        "fetch_latency_pct": 63.676524676302115
+      }
+    },
+    "unique": {
+      "original": {
+        "code_read_miss": 2336.1761797086283,
+        "retired_l2": 197.2091705096061,
+        "icache_stall_cycles": 25421.29605379748,
+        "frontend_pct": 81.18380336439233,
+        "frontend_slots": 613209.5643163854,
+        "itlb_walk_cycles": 15274.42020189706,
+        "unknown_branch_cycles": 54085.4550490853,
+        "instructions": 43726.48123662827,
+        "backend_pct": 5.569330829704891,
+        "fetch_latency_pct": 74.36185747007791
+      },
+      "mongo": {
+        "code_read_miss": 2353.019906496699,
+        "retired_l2": 199.0245988360627,
+        "icache_stall_cycles": 25663.285580268053,
+        "frontend_pct": 80.70817005549637,
+        "frontend_slots": 612961.167423358,
+        "itlb_walk_cycles": 15538.314821579654,
+        "unknown_branch_cycles": 53999.18664095707,
+        "instructions": 44080.137956804545,
+        "backend_pct": 5.556988480584383,
+        "fetch_latency_pct": 74.05826765673088
+      },
+      "combined": {
+        "code_read_miss": 2186.4787907911004,
+        "retired_l2": 98.48604883682972,
+        "icache_stall_cycles": 20906.817799811146,
+        "frontend_pct": 81.37689744309961,
+        "frontend_slots": 585348.4771086297,
+        "itlb_walk_cycles": 15130.533751236067,
+        "unknown_branch_cycles": 53856.63181286979,
+        "instructions": 44981.54892258087,
+        "backend_pct": 5.523667803575799,
+        "fetch_latency_pct": 74.04810101966012
+      }
+    },
+    "text": {
+      "original": {
+        "code_read_miss": 2115.706617216886,
+        "retired_l2": 173.15574786112435,
+        "icache_stall_cycles": 22840.247225383864,
+        "frontend_pct": 80.49528735732198,
+        "frontend_slots": 553382.1163846832,
+        "itlb_walk_cycles": 13727.13142475918,
+        "unknown_branch_cycles": 47518.48610834259,
+        "instructions": 40004.8097818325,
+        "backend_pct": 5.291045457293161,
+        "fetch_latency_pct": 73.92608471397936
+      },
+      "mongo": {
+        "code_read_miss": 2132.3485416838716,
+        "retired_l2": 171.7254326083969,
+        "icache_stall_cycles": 22489.514967299212,
+        "frontend_pct": 81.36702971296613,
+        "frontend_slots": 551017.2997700941,
+        "itlb_walk_cycles": 12876.73137579026,
+        "unknown_branch_cycles": 47687.32155761529,
+        "instructions": 40383.12039541512,
+        "backend_pct": 5.444082479586428,
+        "fetch_latency_pct": 74.65586494105919
+      },
+      "combined": {
+        "code_read_miss": 1935.6576507434615,
+        "retired_l2": 83.17188628796669,
+        "icache_stall_cycles": 18498.820797433407,
+        "frontend_pct": 81.53806163320229,
+        "frontend_slots": 533653.70876772,
+        "itlb_walk_cycles": 13919.673382766763,
+        "unknown_branch_cycles": 48690.114924380396,
+        "instructions": 41663.367890705165,
+        "backend_pct": 5.546568702287149,
+        "fetch_latency_pct": 74.59285844750978
+      }
+    },
+    "user": {
+      "original": {
+        "code_read_miss": 3137.6678584757283,
+        "retired_l2": 268.7626472377343,
+        "icache_stall_cycles": 34925.93652188314,
+        "frontend_pct": 78.8205302560396,
+        "frontend_slots": 780854.1502093126,
+        "itlb_walk_cycles": 19384.50495946177,
+        "unknown_branch_cycles": 67251.46112940945,
+        "instructions": 65709.40798132843,
+        "backend_pct": 6.621135478470353,
+        "fetch_latency_pct": 71.4833146126476
+      },
+      "mongo": {
+        "code_read_miss": 3141.9477073028474,
+        "retired_l2": 264.84934470566674,
+        "icache_stall_cycles": 34154.909185207856,
+        "frontend_pct": 78.89170845157342,
+        "frontend_slots": 775200.2551693036,
+        "itlb_walk_cycles": 17884.36948048834,
+        "unknown_branch_cycles": 66933.6493348816,
+        "instructions": 65590.91866092374,
+        "backend_pct": 6.549161954376418,
+        "fetch_latency_pct": 71.43088154752013
+      },
+      "combined": {
+        "code_read_miss": 2919.8887117030736,
+        "retired_l2": 138.118860771948,
+        "icache_stall_cycles": 28803.098464168103,
+        "frontend_pct": 78.62114284365909,
+        "frontend_slots": 753061.8937090714,
+        "itlb_walk_cycles": 17979.281634074032,
+        "unknown_branch_cycles": 69130.32789884298,
+        "instructions": 67129.65475189593,
+        "backend_pct": 6.701300998336618,
+        "fetch_latency_pct": 70.9679761048348
+      }
+    },
+    "storage": {
+      "original": {
+        "code_read_miss": 4419.104211618218,
+        "retired_l2": 406.4583012419371,
+        "icache_stall_cycles": 47559.38657838701,
+        "frontend_pct": 76.5591359434738,
+        "frontend_slots": 987525.7654355404,
+        "itlb_walk_cycles": 17354.28776995639,
+        "unknown_branch_cycles": 76834.91963625714,
+        "instructions": 117270.39447381438,
+        "backend_pct": 6.150128771596005,
+        "fetch_latency_pct": 67.86673679105864
+      },
+      "mongo": {
+        "code_read_miss": 4364.134187890373,
+        "retired_l2": 414.4357086261059,
+        "icache_stall_cycles": 48454.08598624147,
+        "frontend_pct": 76.98116974273526,
+        "frontend_slots": 1001356.7351688219,
+        "itlb_walk_cycles": 19236.457851035186,
+        "unknown_branch_cycles": 77503.10132053256,
+        "instructions": 116771.4416518777,
+        "backend_pct": 5.877498425484661,
+        "fetch_latency_pct": 68.53042332686653
+      },
+      "combined": {
+        "code_read_miss": 4069.1615555721773,
+        "retired_l2": 214.42884806107918,
+        "icache_stall_cycles": 38568.3499557986,
+        "frontend_pct": 76.56440658410217,
+        "frontend_slots": 948617.2065771708,
+        "itlb_walk_cycles": 16450.717074383974,
+        "unknown_branch_cycles": 81600.98215054272,
+        "instructions": 120508.93478831655,
+        "backend_pct": 5.884610796052051,
+        "fetch_latency_pct": 67.06588271992588
+      }
+    },
+    "userreview": {
+      "original": {
+        "code_read_miss": 8043.5016694027845,
+        "retired_l2": 741.8325825655404,
+        "icache_stall_cycles": 91024.4748698982,
+        "frontend_pct": 74.62920485348947,
+        "frontend_slots": 1838571.1699674488,
+        "itlb_walk_cycles": 31884.25104936702,
+        "unknown_branch_cycles": 136915.28887468492,
+        "instructions": 208727.35497775994,
+        "backend_pct": 7.063724589288321,
+        "fetch_latency_pct": 65.295798373148
+      },
+      "mongo": {
+        "code_read_miss": 8013.868392070484,
+        "retired_l2": 763.1347392618206,
+        "icache_stall_cycles": 93253.38267472462,
+        "frontend_pct": 75.24298096583175,
+        "frontend_slots": 1869791.9257584154,
+        "itlb_walk_cycles": 34467.09334742549,
+        "unknown_branch_cycles": 138437.28535602993,
+        "instructions": 209599.15210564577,
+        "backend_pct": 7.129407126747355,
+        "fetch_latency_pct": 65.84780296182723
+      },
+      "combined": {
+        "code_read_miss": 7522.941052993116,
+        "retired_l2": 396.4563020300442,
+        "icache_stall_cycles": 76745.27666063221,
+        "frontend_pct": 74.21255976104617,
+        "frontend_slots": 1780742.1461568056,
+        "itlb_walk_cycles": 29778.176608636968,
+        "unknown_branch_cycles": 144967.78819188438,
+        "instructions": 215290.98738454565,
+        "backend_pct": 7.352479310613503,
+        "fetch_latency_pct": 64.03105733375627
+      }
+    },
+    "moviereview": {
+      "original": {
+        "code_read_miss": 7794.1546510216285,
+        "retired_l2": 730.892283980022,
+        "icache_stall_cycles": 91503.54865511501,
+        "frontend_pct": 74.43920235009448,
+        "frontend_slots": 1837008.2231528165,
+        "itlb_walk_cycles": 32812.38696604943,
+        "unknown_branch_cycles": 138623.68175655388,
+        "instructions": 207483.79138163963,
+        "backend_pct": 7.061084564253668,
+        "fetch_latency_pct": 64.94356365281033
+      },
+      "mongo": {
+        "code_read_miss": 7944.765782601431,
+        "retired_l2": 738.7913095041317,
+        "icache_stall_cycles": 92159.27927849424,
+        "frontend_pct": 75.10527226364809,
+        "frontend_slots": 1859703.8386225335,
+        "itlb_walk_cycles": 33170.36531088363,
+        "unknown_branch_cycles": 137773.4019592972,
+        "instructions": 207652.73791651244,
+        "backend_pct": 7.111035027121833,
+        "fetch_latency_pct": 65.80771752542394
+      },
+      "combined": {
+        "code_read_miss": 7276.578929435129,
+        "retired_l2": 379.7104047320938,
+        "icache_stall_cycles": 74980.16580796955,
+        "frontend_pct": 73.96733260955902,
+        "frontend_slots": 1770324.2457245828,
+        "itlb_walk_cycles": 31180.939496738603,
+        "unknown_branch_cycles": 142548.22893140453,
+        "instructions": 213459.5274158781,
+        "backend_pct": 7.498797209783961,
+        "fetch_latency_pct": 63.66053989890144
+      }
+    },
+    "mongo_user": {
+      "original": {
+        "code_read_miss": 25730.71555339188,
+        "retired_l2": 2303.5461159900897,
+        "icache_stall_cycles": 260145.68241837752,
+        "frontend_pct": 68.78327604172921,
+        "frontend_slots": 4037106.8790789754,
+        "itlb_walk_cycles": 77420.65818903947,
+        "unknown_branch_cycles": 310337.16092001856,
+        "instructions": 757526.6872703105,
+        "backend_pct": 9.094088320416136,
+        "fetch_latency_pct": 61.25601108085683
+      },
+      "mongo": {
+        "code_read_miss": 23128.07669516585,
+        "retired_l2": 832.3072520540836,
+        "icache_stall_cycles": 195855.46507786357,
+        "frontend_pct": 65.78664024428068,
+        "frontend_slots": 3537093.3057578355,
+        "itlb_walk_cycles": 38317.37681480269,
+        "unknown_branch_cycles": 257882.92595406342,
+        "instructions": 760138.4753153166,
+        "backend_pct": 9.97255245849207,
+        "fetch_latency_pct": 57.109874649295634
+      },
+      "combined": {
+        "code_read_miss": 23221.457291561732,
+        "retired_l2": 845.6287507474232,
+        "icache_stall_cycles": 197571.82201697672,
+        "frontend_pct": 66.02177264944818,
+        "frontend_slots": 3534885.165374498,
+        "itlb_walk_cycles": 40502.45615731786,
+        "unknown_branch_cycles": 260284.39292614,
+        "instructions": 762793.7589520966,
+        "backend_pct": 9.817372382839496,
+        "fetch_latency_pct": 57.52096176743413
+      }
+    },
+    "mongo_movie": {
+      "original": {
+        "code_read_miss": 25424.028597923207,
+        "retired_l2": 2292.266376984371,
+        "icache_stall_cycles": 259826.48658561718,
+        "frontend_pct": 68.39823186355186,
+        "frontend_slots": 4021255.523049404,
+        "itlb_walk_cycles": 78628.58426524239,
+        "unknown_branch_cycles": 307502.51633475546,
+        "instructions": 750026.8180773761,
+        "backend_pct": 9.005077719947304,
+        "fetch_latency_pct": 61.04308095485799
+      },
+      "mongo": {
+        "code_read_miss": 23098.378359105605,
+        "retired_l2": 825.5111377715232,
+        "icache_stall_cycles": 195205.74814742603,
+        "frontend_pct": 65.84351556299514,
+        "frontend_slots": 3537843.9167961525,
+        "itlb_walk_cycles": 38105.455727948174,
+        "unknown_branch_cycles": 257755.2085994443,
+        "instructions": 758305.1646608664,
+        "backend_pct": 9.841174883332565,
+        "fetch_latency_pct": 57.13746187752424
+      },
+      "combined": {
+        "code_read_miss": 23118.349617433334,
+        "retired_l2": 833.6362727544085,
+        "icache_stall_cycles": 196103.19501498214,
+        "frontend_pct": 65.91225259555362,
+        "frontend_slots": 3526725.8736813357,
+        "itlb_walk_cycles": 40133.182436947856,
+        "unknown_branch_cycles": 259129.65699003637,
+        "instructions": 764798.9984719208,
+        "backend_pct": 9.819111286063649,
+        "fetch_latency_pct": 57.447000851055854
+      }
+    },
+    "mongo_storage": {
+      "original": {
+        "code_read_miss": 9116.516372201606,
+        "retired_l2": 794.8942081675332,
+        "icache_stall_cycles": 88445.09620829753,
+        "frontend_pct": 79.39394511390533,
+        "frontend_slots": 1366235.136511203,
+        "itlb_walk_cycles": 33479.053837025014,
+        "unknown_branch_cycles": 109253.38593328939,
+        "instructions": 149595.519787079,
+        "backend_pct": 6.621874191018136,
+        "fetch_latency_pct": 72.7288721149953
+      },
+      "mongo": {
+        "code_read_miss": 8309.953617728732,
+        "retired_l2": 375.1253666355691,
+        "icache_stall_cycles": 69204.82069101586,
+        "frontend_pct": 76.55378165823467,
+        "frontend_slots": 1170009.6571711963,
+        "itlb_walk_cycles": 16788.776737353015,
+        "unknown_branch_cycles": 92491.35362275867,
+        "instructions": 151587.83100011956,
+        "backend_pct": 7.535641418352278,
+        "fetch_latency_pct": 68.83522678350883
+      },
+      "combined": {
+        "code_read_miss": 8446.818873323522,
+        "retired_l2": 382.81343820942516,
+        "icache_stall_cycles": 70127.98874319808,
+        "frontend_pct": 77.83019502900385,
+        "frontend_slots": 1190127.8164388798,
+        "itlb_walk_cycles": 16926.04894443957,
+        "unknown_branch_cycles": 91889.30736113549,
+        "instructions": 94577.72514497465,
+        "backend_pct": 6.833996821039177,
+        "fetch_latency_pct": 70.17835705902509
+      }
+    },
+    "nginx": {
+      "original": {
+        "code_read_miss": 14786.576031082766,
+        "retired_l2": 1597.245276529793,
+        "icache_stall_cycles": 180308.44759618578,
+        "frontend_pct": 58.6197118804143,
+        "frontend_slots": 2938622.9593705274,
+        "itlb_walk_cycles": 47287.21129235253,
+        "unknown_branch_cycles": 149087.93429208093,
+        "instructions": 588756.3404230224,
+        "backend_pct": 12.002733131455548,
+        "fetch_latency_pct": 47.003134781268734
+      },
+      "mongo": {
+        "code_read_miss": 14925.423982459803,
+        "retired_l2": 1597.5808245394069,
+        "icache_stall_cycles": 179149.37894739676,
+        "frontend_pct": 58.06073914878017,
+        "frontend_slots": 2915364.061936162,
+        "itlb_walk_cycles": 46096.060189045675,
+        "unknown_branch_cycles": 149265.82256645398,
+        "instructions": 596910.8039729545,
+        "backend_pct": 12.4344490515811,
+        "fetch_latency_pct": 46.79257980891398
+      },
+      "combined": {
+        "code_read_miss": 15032.832415814137,
+        "retired_l2": 1552.0397948285408,
+        "icache_stall_cycles": 176969.08021870066,
+        "frontend_pct": 57.82550533841867,
+        "frontend_slots": 2879944.115180156,
+        "itlb_walk_cycles": 47430.365115528846,
+        "unknown_branch_cycles": 149504.67522815464,
+        "instructions": 593986.6797224089,
+        "backend_pct": 12.430769348971921,
+        "fetch_latency_pct": 46.61125850670567
+      }
+    }
+  },
+  "kernel": {
+    "original": {
+      "frontend_pct": 33.28391150754851,
+      "frontend_slots": 10101632.29614826,
+      "backend_pct": 40.5640086525157,
+      "memory_pct": 26.397664455581136,
+      "cycles": 5058710.398059431
+    },
+    "mongo": {
+      "frontend_pct": 33.38162173197757,
+      "frontend_slots": 10153901.355718333,
+      "backend_pct": 40.44202810786132,
+      "memory_pct": 26.324381048870688,
+      "cycles": 5070002.814287177
+    },
+    "combined": {
+      "frontend_pct": 33.406439905919115,
+      "frontend_slots": 10185369.247883694,
+      "backend_pct": 40.53925798295809,
+      "memory_pct": 26.398277114050934,
+      "cycles": 5081932.7536499435
+    }
+  },
+  "quality": [
+    {
+      "run": "00_combined",
+      "scope": "movie",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "compose",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "rating",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "unique",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "text",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "user",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "storage",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "userreview",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "moviereview",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "mongo_user",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "mongo_movie",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "mongo_storage",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "nginx",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "movie",
+      "label": "topdown",
+      "closure_error": 0.3433565539620931
+    },
+    {
+      "run": "00_combined",
+      "scope": "compose",
+      "label": "topdown",
+      "closure_error": 0.8887563337130366
+    },
+    {
+      "run": "00_combined",
+      "scope": "rating",
+      "label": "topdown",
+      "closure_error": 0.35936092346853243
+    },
+    {
+      "run": "00_combined",
+      "scope": "unique",
+      "label": "topdown",
+      "closure_error": 0.14034293741149728
+    },
+    {
+      "run": "00_combined",
+      "scope": "text",
+      "label": "topdown",
+      "closure_error": 0.20460161669701993
+    },
+    {
+      "run": "00_combined",
+      "scope": "user",
+      "label": "topdown",
+      "closure_error": 0.6447307011204106
+    },
+    {
+      "run": "00_combined",
+      "scope": "storage",
+      "label": "topdown",
+      "closure_error": 0.7308861758310137
+    },
+    {
+      "run": "00_combined",
+      "scope": "userreview",
+      "label": "topdown",
+      "closure_error": 0.4963202403936773
+    },
+    {
+      "run": "00_combined",
+      "scope": "moviereview",
+      "label": "topdown",
+      "closure_error": 0.1937582314692099
+    },
+    {
+      "run": "00_combined",
+      "scope": "mongo_user",
+      "label": "topdown",
+      "closure_error": 0.4548592497017889
+    },
+    {
+      "run": "00_combined",
+      "scope": "mongo_movie",
+      "label": "topdown",
+      "closure_error": 0.45526788514340666
+    },
+    {
+      "run": "00_combined",
+      "scope": "mongo_storage",
+      "label": "topdown",
+      "closure_error": 0.3871530628081654
+    },
+    {
+      "run": "00_combined",
+      "scope": "nginx",
+      "label": "topdown",
+      "closure_error": 0.7840765181643228
+    },
+    {
+      "run": "00_combined",
+      "scope": "movie",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "compose",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "rating",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "unique",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "text",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "user",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "storage",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "userreview",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "moviereview",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "mongo_user",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "mongo_movie",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "mongo_storage",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "nginx",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "movie",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "compose",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "rating",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "unique",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "text",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "user",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "storage",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "userreview",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "moviereview",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "mongo_user",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "mongo_movie",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "mongo_storage",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "nginx",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "pool_u",
+      "label": "topdown",
+      "closure_error": 0.44076134982173887
+    },
+    {
+      "run": "00_combined",
+      "scope": "pool_k",
+      "label": "topdown",
+      "closure_error": 0.1957269230028702
+    },
+    {
+      "run": "00_combined",
+      "scope": "pool_u",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_combined",
+      "scope": "pool_k",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "movie",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "compose",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "rating",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "unique",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "text",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "user",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "storage",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "userreview",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "moviereview",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "mongo_user",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "mongo_movie",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "mongo_storage",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "nginx",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "movie",
+      "label": "topdown",
+      "closure_error": 0.6413888580392602
+    },
+    {
+      "run": "00_mongo",
+      "scope": "compose",
+      "label": "topdown",
+      "closure_error": 0.9841201919899456
+    },
+    {
+      "run": "00_mongo",
+      "scope": "rating",
+      "label": "topdown",
+      "closure_error": 0.19738872489016845
+    },
+    {
+      "run": "00_mongo",
+      "scope": "unique",
+      "label": "topdown",
+      "closure_error": 0.4880219692557697
+    },
+    {
+      "run": "00_mongo",
+      "scope": "text",
+      "label": "topdown",
+      "closure_error": 0.504762502988676
+    },
+    {
+      "run": "00_mongo",
+      "scope": "user",
+      "label": "topdown",
+      "closure_error": 0.4893938005371856
+    },
+    {
+      "run": "00_mongo",
+      "scope": "storage",
+      "label": "topdown",
+      "closure_error": 0.30958135738576864
+    },
+    {
+      "run": "00_mongo",
+      "scope": "userreview",
+      "label": "topdown",
+      "closure_error": 0.833680241395629
+    },
+    {
+      "run": "00_mongo",
+      "scope": "moviereview",
+      "label": "topdown",
+      "closure_error": 0.3494720850505395
+    },
+    {
+      "run": "00_mongo",
+      "scope": "mongo_user",
+      "label": "topdown",
+      "closure_error": 0.24811474602073336
+    },
+    {
+      "run": "00_mongo",
+      "scope": "mongo_movie",
+      "label": "topdown",
+      "closure_error": 0.3467582584251172
+    },
+    {
+      "run": "00_mongo",
+      "scope": "mongo_storage",
+      "label": "topdown",
+      "closure_error": 0.4654202326929813
+    },
+    {
+      "run": "00_mongo",
+      "scope": "nginx",
+      "label": "topdown",
+      "closure_error": 1.6180067900191553
+    },
+    {
+      "run": "00_mongo",
+      "scope": "movie",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "compose",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "rating",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "unique",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "text",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "user",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "storage",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "userreview",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "moviereview",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "mongo_user",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "mongo_movie",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "mongo_storage",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "nginx",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "movie",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "compose",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "rating",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "unique",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "text",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "user",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "storage",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "userreview",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "moviereview",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "mongo_user",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "mongo_movie",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "mongo_storage",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "nginx",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "pool_u",
+      "label": "topdown",
+      "closure_error": 0.3921568526032315
+    },
+    {
+      "run": "00_mongo",
+      "scope": "pool_k",
+      "label": "topdown",
+      "closure_error": 0.1462697888833686
+    },
+    {
+      "run": "00_mongo",
+      "scope": "pool_u",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_mongo",
+      "scope": "pool_k",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "movie",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "compose",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "rating",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "unique",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "text",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "user",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "storage",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "userreview",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "moviereview",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "mongo_user",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "mongo_movie",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "mongo_storage",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "nginx",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "movie",
+      "label": "topdown",
+      "closure_error": 0.4317851205487999
+    },
+    {
+      "run": "00_original",
+      "scope": "compose",
+      "label": "topdown",
+      "closure_error": 0.8752169270519028
+    },
+    {
+      "run": "00_original",
+      "scope": "rating",
+      "label": "topdown",
+      "closure_error": 0.5936847382894683
+    },
+    {
+      "run": "00_original",
+      "scope": "unique",
+      "label": "topdown",
+      "closure_error": 0.7491395873062467
+    },
+    {
+      "run": "00_original",
+      "scope": "text",
+      "label": "topdown",
+      "closure_error": -0.09534716680028588
+    },
+    {
+      "run": "00_original",
+      "scope": "user",
+      "label": "topdown",
+      "closure_error": 0.4046606446079348
+    },
+    {
+      "run": "00_original",
+      "scope": "storage",
+      "label": "topdown",
+      "closure_error": 0.1258538526727193
+    },
+    {
+      "run": "00_original",
+      "scope": "userreview",
+      "label": "topdown",
+      "closure_error": 0.6001803610909517
+    },
+    {
+      "run": "00_original",
+      "scope": "moviereview",
+      "label": "topdown",
+      "closure_error": 0.1336999681194051
+    },
+    {
+      "run": "00_original",
+      "scope": "mongo_user",
+      "label": "topdown",
+      "closure_error": 0.543883875807083
+    },
+    {
+      "run": "00_original",
+      "scope": "mongo_movie",
+      "label": "topdown",
+      "closure_error": -0.2569260621374969
+    },
+    {
+      "run": "00_original",
+      "scope": "mongo_storage",
+      "label": "topdown",
+      "closure_error": 0.38487400368001357
+    },
+    {
+      "run": "00_original",
+      "scope": "nginx",
+      "label": "topdown",
+      "closure_error": 1.2048981536520564
+    },
+    {
+      "run": "00_original",
+      "scope": "movie",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "compose",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "rating",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "unique",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "text",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "user",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "storage",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "userreview",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "moviereview",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "mongo_user",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "mongo_movie",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "mongo_storage",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "nginx",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "movie",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "compose",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "rating",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "unique",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "text",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "user",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "storage",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "userreview",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "moviereview",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "mongo_user",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "mongo_movie",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "mongo_storage",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "nginx",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "pool_u",
+      "label": "topdown",
+      "closure_error": 0.24456554915310846
+    },
+    {
+      "run": "00_original",
+      "scope": "pool_k",
+      "label": "topdown",
+      "closure_error": 0.19547887086550642
+    },
+    {
+      "run": "00_original",
+      "scope": "pool_u",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "00_original",
+      "scope": "pool_k",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "nginx",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "mongo_storage",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "mongo_movie",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "mongo_user",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "moviereview",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "userreview",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "storage",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "user",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "text",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "unique",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "rating",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "compose",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "movie",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "nginx",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "mongo_storage",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "mongo_movie",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "mongo_user",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "moviereview",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "userreview",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "storage",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "user",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "text",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "unique",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "rating",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "compose",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "movie",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "nginx",
+      "label": "topdown",
+      "closure_error": 1.5204209049729522
+    },
+    {
+      "run": "01_combined",
+      "scope": "mongo_storage",
+      "label": "topdown",
+      "closure_error": 0.7931177389222777
+    },
+    {
+      "run": "01_combined",
+      "scope": "mongo_movie",
+      "label": "topdown",
+      "closure_error": 0.5823840046396134
+    },
+    {
+      "run": "01_combined",
+      "scope": "mongo_user",
+      "label": "topdown",
+      "closure_error": 0.33341342591037826
+    },
+    {
+      "run": "01_combined",
+      "scope": "moviereview",
+      "label": "topdown",
+      "closure_error": 0.1569247639362059
+    },
+    {
+      "run": "01_combined",
+      "scope": "userreview",
+      "label": "topdown",
+      "closure_error": 0.2720178456323552
+    },
+    {
+      "run": "01_combined",
+      "scope": "storage",
+      "label": "topdown",
+      "closure_error": 0.1631589466639216
+    },
+    {
+      "run": "01_combined",
+      "scope": "user",
+      "label": "topdown",
+      "closure_error": 0.25267254592205024
+    },
+    {
+      "run": "01_combined",
+      "scope": "text",
+      "label": "topdown",
+      "closure_error": 0.15430420298767622
+    },
+    {
+      "run": "01_combined",
+      "scope": "unique",
+      "label": "topdown",
+      "closure_error": 0.29975876488215203
+    },
+    {
+      "run": "01_combined",
+      "scope": "rating",
+      "label": "topdown",
+      "closure_error": 0.4410936280883959
+    },
+    {
+      "run": "01_combined",
+      "scope": "compose",
+      "label": "topdown",
+      "closure_error": 0.4365854139198877
+    },
+    {
+      "run": "01_combined",
+      "scope": "movie",
+      "label": "topdown",
+      "closure_error": 0.15226415885023492
+    },
+    {
+      "run": "01_combined",
+      "scope": "nginx",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "mongo_storage",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "mongo_movie",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "mongo_user",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "moviereview",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "userreview",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "storage",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "user",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "text",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "unique",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "rating",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "compose",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "movie",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "pool_k",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "pool_u",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_combined",
+      "scope": "pool_k",
+      "label": "topdown",
+      "closure_error": 0.24584243697953756
+    },
+    {
+      "run": "01_combined",
+      "scope": "pool_u",
+      "label": "topdown",
+      "closure_error": 0.3421552828365648
+    },
+    {
+      "run": "01_mongo",
+      "scope": "nginx",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "mongo_storage",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "mongo_movie",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "mongo_user",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "moviereview",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "userreview",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "storage",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "user",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "text",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "unique",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "rating",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "compose",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "movie",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "nginx",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "mongo_storage",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "mongo_movie",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "mongo_user",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "moviereview",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "userreview",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "storage",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "user",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "text",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "unique",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "rating",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "compose",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "movie",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "nginx",
+      "label": "topdown",
+      "closure_error": 0.8943881817533805
+    },
+    {
+      "run": "01_mongo",
+      "scope": "mongo_storage",
+      "label": "topdown",
+      "closure_error": 0.6778540022372326
+    },
+    {
+      "run": "01_mongo",
+      "scope": "mongo_movie",
+      "label": "topdown",
+      "closure_error": 0.8372533034817442
+    },
+    {
+      "run": "01_mongo",
+      "scope": "mongo_user",
+      "label": "topdown",
+      "closure_error": 0.37345433795210603
+    },
+    {
+      "run": "01_mongo",
+      "scope": "moviereview",
+      "label": "topdown",
+      "closure_error": 0.1589780815664188
+    },
+    {
+      "run": "01_mongo",
+      "scope": "userreview",
+      "label": "topdown",
+      "closure_error": -0.3457937291775681
+    },
+    {
+      "run": "01_mongo",
+      "scope": "storage",
+      "label": "topdown",
+      "closure_error": 0.28882782305654775
+    },
+    {
+      "run": "01_mongo",
+      "scope": "user",
+      "label": "topdown",
+      "closure_error": 0.6960241399388556
+    },
+    {
+      "run": "01_mongo",
+      "scope": "text",
+      "label": "topdown",
+      "closure_error": -0.15016333966793027
+    },
+    {
+      "run": "01_mongo",
+      "scope": "unique",
+      "label": "topdown",
+      "closure_error": 0.39336319057496905
+    },
+    {
+      "run": "01_mongo",
+      "scope": "rating",
+      "label": "topdown",
+      "closure_error": 0.44993944276652265
+    },
+    {
+      "run": "01_mongo",
+      "scope": "compose",
+      "label": "topdown",
+      "closure_error": 0.1100012315265797
+    },
+    {
+      "run": "01_mongo",
+      "scope": "movie",
+      "label": "topdown",
+      "closure_error": 1.0323895999198696
+    },
+    {
+      "run": "01_mongo",
+      "scope": "nginx",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "mongo_storage",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "mongo_movie",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "mongo_user",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "moviereview",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "userreview",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "storage",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "user",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "text",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "unique",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "rating",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "compose",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "movie",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "pool_k",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "pool_u",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_mongo",
+      "scope": "pool_k",
+      "label": "topdown",
+      "closure_error": 0.1475006372384291
+    },
+    {
+      "run": "01_mongo",
+      "scope": "pool_u",
+      "label": "topdown",
+      "closure_error": 0.1959330188961772
+    },
+    {
+      "run": "01_original",
+      "scope": "nginx",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "mongo_storage",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "mongo_movie",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "mongo_user",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "moviereview",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "userreview",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "storage",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "user",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "text",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "unique",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "rating",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "compose",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "movie",
+      "label": "front",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "nginx",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "mongo_storage",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "mongo_movie",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "mongo_user",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "moviereview",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "userreview",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "storage",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "user",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "text",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "unique",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "rating",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "compose",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "movie",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "nginx",
+      "label": "topdown",
+      "closure_error": 1.819051148123818
+    },
+    {
+      "run": "01_original",
+      "scope": "mongo_storage",
+      "label": "topdown",
+      "closure_error": 0.434097776339204
+    },
+    {
+      "run": "01_original",
+      "scope": "mongo_movie",
+      "label": "topdown",
+      "closure_error": 0.7850702461540404
+    },
+    {
+      "run": "01_original",
+      "scope": "mongo_user",
+      "label": "topdown",
+      "closure_error": 0.564634336772718
+    },
+    {
+      "run": "01_original",
+      "scope": "moviereview",
+      "label": "topdown",
+      "closure_error": -0.006113661254425473
+    },
+    {
+      "run": "01_original",
+      "scope": "userreview",
+      "label": "topdown",
+      "closure_error": 0.049982429995010236
+    },
+    {
+      "run": "01_original",
+      "scope": "storage",
+      "label": "topdown",
+      "closure_error": 0.14672882402180232
+    },
+    {
+      "run": "01_original",
+      "scope": "user",
+      "label": "topdown",
+      "closure_error": 0.5532901214866603
+    },
+    {
+      "run": "01_original",
+      "scope": "text",
+      "label": "topdown",
+      "closure_error": -0.11255141843224958
+    },
+    {
+      "run": "01_original",
+      "scope": "unique",
+      "label": "topdown",
+      "closure_error": 0.42494094229090784
+    },
+    {
+      "run": "01_original",
+      "scope": "rating",
+      "label": "topdown",
+      "closure_error": 0.0030606347764416952
+    },
+    {
+      "run": "01_original",
+      "scope": "compose",
+      "label": "topdown",
+      "closure_error": 1.1780072634618666
+    },
+    {
+      "run": "01_original",
+      "scope": "movie",
+      "label": "topdown",
+      "closure_error": 0.5009908413545094
+    },
+    {
+      "run": "01_original",
+      "scope": "nginx",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "mongo_storage",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "mongo_movie",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "mongo_user",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "moviereview",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "userreview",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "storage",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "user",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "text",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "unique",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "rating",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "compose",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "movie",
+      "label": "cache",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "pool_k",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "pool_u",
+      "label": "memory",
+      "closure_error": null
+    },
+    {
+      "run": "01_original",
+      "scope": "pool_k",
+      "label": "topdown",
+      "closure_error": 0.09997214159558343
+    },
+    {
+      "run": "01_original",
+      "scope": "pool_u",
+      "label": "topdown",
+      "closure_error": 0.24521782205109144
+    }
+  ],
+  "aggregates": {
+    "native": {
+      "original": {
+        "code_read_miss": 49471.559413450654,
+        "retired_l2": 4428.076123380453,
+        "icache_stall_cycles": 558877.1385403067,
+        "frontend_slots": 11406377.581705054,
+        "itlb_walk_cycles": 240188.1917856899,
+        "unknown_branch_cycles": 917511.3929270284,
+        "instructions": 1154166.106911578,
+        "frontend_pct": 75.35727339621293,
+        "backend_pct": 7.925775687294727,
+        "fetch_latency_pct": 66.8761745078721,
+        "icache_stall_cycles_pct": 22.105591440007753,
+        "unknown_branch_cycles_pct": 36.12003014260713,
+        "itlb_walk_cycles_pct": 9.455582561782325
+      },
+      "mongo": {
+        "code_read_miss": 49710.9128592689,
+        "retired_l2": 4474.896285409354,
+        "icache_stall_cycles": 563391.1509492547,
+        "frontend_slots": 11506691.787474275,
+        "itlb_walk_cycles": 246717.23497823553,
+        "unknown_branch_cycles": 920214.4587827383,
+        "instructions": 1157869.6762344136,
+        "frontend_pct": 75.69024933672839,
+        "backend_pct": 7.823582673007813,
+        "fetch_latency_pct": 67.26784583416604,
+        "icache_stall_cycles_pct": 22.188476954081636,
+        "unknown_branch_cycles_pct": 36.14056573538584,
+        "itlb_walk_cycles_pct": 9.689589599122712
+      },
+      "combined": {
+        "code_read_miss": 46887.152682297674,
+        "retired_l2": 2517.33697528836,
+        "icache_stall_cycles": 479734.1113423351,
+        "frontend_slots": 10988382.270958971,
+        "itlb_walk_cycles": 223587.33806052015,
+        "unknown_branch_cycles": 921691.1940799751,
+        "instructions": 1182047.7318246388,
+        "frontend_pct": 74.90388264449346,
+        "backend_pct": 8.028489144890669,
+        "fetch_latency_pct": 65.75738834345978,
+        "icache_stall_cycles_pct": 19.599315599133853,
+        "unknown_branch_cycles_pct": 37.63760313222365,
+        "itlb_walk_cycles_pct": 9.130272209785252
+      }
+    },
+    "mongo": {
+      "original": {
+        "code_read_miss": 60271.26052351669,
+        "retired_l2": 5390.706701141994,
+        "icache_stall_cycles": 608417.2652122922,
+        "frontend_slots": 9424597.538639583,
+        "itlb_walk_cycles": 189528.29629130688,
+        "unknown_branch_cycles": 727093.0631880634,
+        "instructions": 1657149.0251347655,
+        "frontend_pct": 69.9708201056062,
+        "backend_pct": 8.739388258828036,
+        "fetch_latency_pct": 62.62883359151224,
+        "icache_stall_cycles_pct": 26.75616339351257,
+        "unknown_branch_cycles_pct": 32.03113041185497,
+        "itlb_walk_cycles_pct": 8.349420291021698
+      },
+      "mongo": {
+        "code_read_miss": 54536.40867200019,
+        "retired_l2": 2032.9437564611758,
+        "icache_stall_cycles": 460266.03391630546,
+        "frontend_slots": 8244946.879725184,
+        "itlb_walk_cycles": 93211.60928010388,
+        "unknown_branch_cycles": 608129.4881762664,
+        "instructions": 1670031.4709763024,
+        "frontend_pct": 67.15180217133847,
+        "backend_pct": 9.611717411671167,
+        "fetch_latency_pct": 58.58149572783284,
+        "icache_stall_cycles_pct": 22.260143321582696,
+        "unknown_branch_cycles_pct": 29.551580964383778,
+        "itlb_walk_cycles_pct": 4.529545881292783
+      },
+      "combined": {
+        "code_read_miss": 54786.62578231859,
+        "retired_l2": 2062.0784617112568,
+        "icache_stall_cycles": 463803.0057751569,
+        "frontend_slots": 8251738.855494713,
+        "itlb_walk_cycles": 97561.68753870529,
+        "unknown_branch_cycles": 611303.3572773119,
+        "instructions": 1622170.482568992,
+        "frontend_pct": 67.4498264323686,
+        "backend_pct": 9.445236009973524,
+        "fetch_latency_pct": 59.070682248729916,
+        "icache_stall_cycles_pct": 22.600933824009815,
+        "unknown_branch_cycles_pct": 29.846636801795857,
+        "itlb_walk_cycles_pct": 4.763409556111892
+      }
+    },
+    "monitored": {
+      "original": {
+        "code_read_miss": 124529.39596805011,
+        "retired_l2": 11416.02810105224,
+        "icache_stall_cycles": 1347602.8513487848,
+        "frontend_slots": 23769598.079715163,
+        "itlb_walk_cycles": 477003.69936934934,
+        "unknown_branch_cycles": 1793692.3904071727,
+        "instructions": 3400071.472469366,
+        "frontend_pct": 70.70338966834402,
+        "backend_pct": 8.859680550550774,
+        "fetch_latency_pct": 62.21113133111223,
+        "icache_stall_cycles_pct": 23.903411376469656,
+        "unknown_branch_cycles_pct": 31.797131153785465,
+        "itlb_walk_cycles_pct": 8.455936631500693
+      },
+      "mongo": {
+        "code_read_miss": 119172.74551372889,
+        "retired_l2": 8105.420866409937,
+        "icache_stall_cycles": 1202806.563812957,
+        "frontend_slots": 22667002.72913562,
+        "itlb_walk_cycles": 386024.90444738505,
+        "unknown_branch_cycles": 1677609.7695254588,
+        "instructions": 3424811.9511836707,
+        "frontend_pct": 69.74108866705649,
+        "backend_pct": 9.211422317679702,
+        "fetch_latency_pct": 60.823166849082014,
+        "icache_stall_cycles_pct": 22.08880853468795,
+        "unknown_branch_cycles_pct": 30.850460938045593,
+        "itlb_walk_cycles_pct": 7.098817884886017
+      },
+      "combined": {
+        "code_read_miss": 116706.6108804304,
+        "retired_l2": 6131.455231828158,
+        "icache_stall_cycles": 1120506.1973361927,
+        "frontend_slots": 22120065.24163384,
+        "itlb_walk_cycles": 368579.3907147543,
+        "unknown_branch_cycles": 1682499.2265854417,
+        "instructions": 3398204.89411604,
+        "frontend_pct": 69.37609957629998,
+        "backend_pct": 9.259737667684318,
+        "fetch_latency_pct": 60.201046814155326,
+        "icache_stall_cycles_pct": 21.004579412284002,
+        "unknown_branch_cycles_pct": 31.574976680781283,
+        "itlb_walk_cycles_pct": 6.917022892458333
+      }
+    }
+  },
+  "limitation": "Native policies cover each main ELF, including statically linked library code, but not unmodified shared DSOs, Nginx, Redis, Memcached, Jaeger or kernel instructions. LBR placement uses observed earlier direct calls, not whole-program dominators. Sample coverage and retired-cycle lead are not accepted fills or fetch deadlines. Separate kernel PMU includes scheduler/interrupt work and is not a request critical-path decomposition.",
+  "boundaries": {
+    "arms": {
+      "original": {
+        "pmu": {
+          "u": {
+            "code_read_miss": 133224.27420155553,
+            "retired_l2": 12219.483865629654,
+            "icache_stall_cycles": 1457258.6303160682,
+            "retired_l1": 45058.672856905985,
+            "icache_stall_periods": 68954.52412535234,
+            "itlb_walk_cycles": 529613.1631570221,
+            "cycles_per_stall_period": 21.112574125815215,
+            "code_read_mpki": 28.749179752984737,
+            "code_read_requests": 254195.52672513653,
+            "code_read_miss_pct": 52.41015682609235
+          },
+          "k": {
+            "code_read_miss": 44235.80942960765,
+            "retired_l2": 2650.917408506429,
+            "icache_stall_cycles": 569343.3140454995,
+            "retired_l1": 81604.27275742,
+            "icache_stall_periods": 61073.121870336596,
+            "itlb_walk_cycles": 31700.814790250373,
+            "cycles_per_stall_period": 9.316167413182495,
+            "code_read_mpki": 8.526455336844654,
+            "code_read_requests": 335269.2936036927,
+            "code_read_miss_pct": 13.194112993209835
+          }
+        },
+        "symbols": {
+          "cycles": {
+            "samples": 61781,
+            "unknown_samples": 121,
+            "top": [
+              {
+                "symbol": "intel_idle",
+                "dso": "[kernel.kallsyms]",
+                "samples": 2182,
+                "share_pct": 3.5318301743254397
+              },
+              {
+                "symbol": "__raw_spin_lock_irqsave",
+                "dso": "[kernel.kallsyms]",
+                "samples": 1330,
+                "share_pct": 2.152765413314773
+              },
+              {
+                "symbol": "update_load_avg",
+                "dso": "[kernel.kallsyms]",
+                "samples": 1015,
+                "share_pct": 1.64289992068759
+              },
+              {
+                "symbol": "psi_group_change",
+                "dso": "[kernel.kallsyms]",
+                "samples": 918,
+                "share_pct": 1.485893721370648
+              },
+              {
+                "symbol": "restore_fpregs_from_fpstate",
+                "dso": "[kernel.kallsyms]",
+                "samples": 896,
+                "share_pct": 1.4502840679173208
+              },
+              {
+                "symbol": "switch_mm_irqs_off",
+                "dso": "[kernel.kallsyms]",
+                "samples": 874,
+                "share_pct": 1.4146744144639938
+              },
+              {
+                "symbol": "_raw_spin_lock",
+                "dso": "[kernel.kallsyms]",
+                "samples": 807,
+                "share_pct": 1.3062268334924978
+              },
+              {
+                "symbol": "__fdget",
+                "dso": "[kernel.kallsyms]",
+                "samples": 767,
+                "share_pct": 1.241482009031903
+              },
+              {
+                "symbol": "__nf_conntrack_find_get",
+                "dso": "[kernel.kallsyms]",
+                "samples": 760,
+                "share_pct": 1.230151664751299
+              },
+              {
+                "symbol": "__schedule",
+                "dso": "[kernel.kallsyms]",
+                "samples": 682,
+                "share_pct": 1.1038992570531394
+              },
+              {
+                "symbol": "available_idle_cpu",
+                "dso": "[kernel.kallsyms]",
+                "samples": 539,
+                "share_pct": 0.8724365096065133
+              },
+              {
+                "symbol": "native_sched_clock",
+                "dso": "[kernel.kallsyms]",
+                "samples": 472,
+                "share_pct": 0.7639889286350172
+              },
+              {
+                "symbol": "__seccomp_filter",
+                "dso": "[kernel.kallsyms]",
+                "samples": 472,
+                "share_pct": 0.7639889286350172
+              },
+              {
+                "symbol": "__update_load_avg_cfs_rq",
+                "dso": "[kernel.kallsyms]",
+                "samples": 461,
+                "share_pct": 0.7461841019083537
+              },
+              {
+                "symbol": "_raw_spin_lock_irq",
+                "dso": "[kernel.kallsyms]",
+                "samples": 439,
+                "share_pct": 0.7105744484550266
+              },
+              {
+                "symbol": "_copy_to_iter",
+                "dso": "[kernel.kallsyms]",
+                "samples": 413,
+                "share_pct": 0.6684903125556401
+              },
+              {
+                "symbol": "task_h_load",
+                "dso": "[kernel.kallsyms]",
+                "samples": 410,
+                "share_pct": 0.6636344507210955
+              },
+              {
+                "symbol": "enqueue_task_fair",
+                "dso": "[kernel.kallsyms]",
+                "samples": 398,
+                "share_pct": 0.644211003382917
+              },
+              {
+                "symbol": "__update_load_avg_se",
+                "dso": "[kernel.kallsyms]",
+                "samples": 396,
+                "share_pct": 0.6409737621598873
+              },
+              {
+                "symbol": "update_cfs_group",
+                "dso": "[kernel.kallsyms]",
+                "samples": 391,
+                "share_pct": 0.6328806591023131
+              },
+              {
+                "symbol": "__switch_to_asm",
+                "dso": "[kernel.kallsyms]",
+                "samples": 389,
+                "share_pct": 0.6296434178792832
+              },
+              {
+                "symbol": "update_rq_clock",
+                "dso": "[kernel.kallsyms]",
+                "samples": 383,
+                "share_pct": 0.6199316942101941
+              },
+              {
+                "symbol": "futex_wake",
+                "dso": "[kernel.kallsyms]",
+                "samples": 367,
+                "share_pct": 0.5940337644259562
+              },
+              {
+                "symbol": "__switch_to",
+                "dso": "[kernel.kallsyms]",
+                "samples": 365,
+                "share_pct": 0.5907965232029264
+              },
+              {
+                "symbol": "native_queued_spin_lock_slowpath",
+                "dso": "[kernel.kallsyms]",
+                "samples": 358,
+                "share_pct": 0.5794661789223224
+              }
+            ],
+            "symbol_count": 1883,
+            "sampled_ip_line_count": 5658,
+            "function_top_coverage_pct": {
+              "16": 21.085770706204173,
+              "64": 44.13978407601042,
+              "256": 76.18685356339327
+            },
+            "sampled_ip_line_top_coverage_pct": {
+              "16": 15.027273757304025,
+              "64": 30.25687509104741,
+              "256": 54.040886356646865
+            },
+            "full_record": "/storage/prefetchit/class_b_media_system_20260930/boundaries/original/cycles/symbols.json"
+          },
+          "l2": {
+            "samples": 31028,
+            "unknown_samples": 198,
+            "top": [
+              {
+                "symbol": "x64_sys_call",
+                "dso": "[kernel.kallsyms]",
+                "samples": 787,
+                "share_pct": 2.5364187185767695
+              },
+              {
+                "symbol": "[unknown]",
+                "dso": "[kernel.kallsyms]",
+                "samples": 198,
+                "share_pct": 0.6381332989557819
+              },
+              {
+                "symbol": "copy_process",
+                "dso": "[kernel.kallsyms]",
+                "samples": 142,
+                "share_pct": 0.45765115379657084
+              },
+              {
+                "symbol": "mas_walk",
+                "dso": "[kernel.kallsyms]",
+                "samples": 131,
+                "share_pct": 0.42219930385458293
+              },
+              {
+                "symbol": "zap_pte_range",
+                "dso": "[kernel.kallsyms]",
+                "samples": 128,
+                "share_pct": 0.41253061750676806
+              },
+              {
+                "symbol": "free_unref_page_commit",
+                "dso": "[kernel.kallsyms]",
+                "samples": 125,
+                "share_pct": 0.4028619311589532
+              },
+              {
+                "symbol": "do_select",
+                "dso": "[kernel.kallsyms]",
+                "samples": 124,
+                "share_pct": 0.39963903570968157
+              },
+              {
+                "symbol": "rmqueue",
+                "dso": "[kernel.kallsyms]",
+                "samples": 123,
+                "share_pct": 0.39641614026040994
+              },
+              {
+                "symbol": "pipe_write",
+                "dso": "[kernel.kallsyms]",
+                "samples": 120,
+                "share_pct": 0.3867474539125951
+              },
+              {
+                "symbol": "free_unref_page_prepare",
+                "dso": "[kernel.kallsyms]",
+                "samples": 115,
+                "share_pct": 0.37063297666623696
+              },
+              {
+                "symbol": "__x64_sys_rseq",
+                "dso": "[kernel.kallsyms]",
+                "samples": 115,
+                "share_pct": 0.37063297666623696
+              },
+              {
+                "symbol": "p4d_offset",
+                "dso": "[kernel.kallsyms]",
+                "samples": 111,
+                "share_pct": 0.35774139486915046
+              },
+              {
+                "symbol": "nohz_balancer_kick",
+                "dso": "[kernel.kallsyms]",
+                "samples": 110,
+                "share_pct": 0.35451849941987884
+              },
+              {
+                "symbol": "tcp_tso_should_defer",
+                "dso": "[kernel.kallsyms]",
+                "samples": 109,
+                "share_pct": 0.3512956039706072
+              },
+              {
+                "symbol": "nft_do_chain",
+                "dso": "[kernel.kallsyms]",
+                "samples": 107,
+                "share_pct": 0.3448498130720639
+              },
+              {
+                "symbol": "post_alloc_hook",
+                "dso": "[kernel.kallsyms]",
+                "samples": 103,
+                "share_pct": 0.3319582312749774
+              },
+              {
+                "symbol": "sched_move_task",
+                "dso": "[kernel.kallsyms]",
+                "samples": 100,
+                "share_pct": 0.32228954492716255
+              },
+              {
+                "symbol": "mas_prev_slot",
+                "dso": "[kernel.kallsyms]",
+                "samples": 98,
+                "share_pct": 0.3158437540286193
+              },
+              {
+                "symbol": "siphash_2u64",
+                "dso": "[kernel.kallsyms]",
+                "samples": 98,
+                "share_pct": 0.3158437540286193
+              },
+              {
+                "symbol": "gup_pgd_range",
+                "dso": "[kernel.kallsyms]",
+                "samples": 94,
+                "share_pct": 0.3029521722315328
+              },
+              {
+                "symbol": "unmap_page_range",
+                "dso": "[kernel.kallsyms]",
+                "samples": 93,
+                "share_pct": 0.2997292767822612
+              },
+              {
+                "symbol": "internal_get_user_pages_fast",
+                "dso": "[kernel.kallsyms]",
+                "samples": 92,
+                "share_pct": 0.29650638133298957
+              },
+              {
+                "symbol": "__alloc_pages",
+                "dso": "[kernel.kallsyms]",
+                "samples": 90,
+                "share_pct": 0.2900605904344463
+              },
+              {
+                "symbol": "rb_erase",
+                "dso": "[kernel.kallsyms]",
+                "samples": 89,
+                "share_pct": 0.2868376949851747
+              },
+              {
+                "symbol": "get_pfnblock_flags_mask",
+                "dso": "[kernel.kallsyms]",
+                "samples": 88,
+                "share_pct": 0.2836147995359031
+              }
+            ],
+            "symbol_count": 1844,
+            "sampled_ip_line_count": 3782,
+            "function_top_coverage_pct": {
+              "16": 8.534227149671265,
+              "64": 20.761892484207813,
+              "256": 48.93966739718964
+            },
+            "sampled_ip_line_top_coverage_pct": {
+              "16": 3.8416913755317776,
+              "64": 11.850586566971767,
+              "256": 32.4738945468609
+            },
+            "full_record": "/storage/prefetchit/class_b_media_system_20260930/boundaries/original/l2/symbols.json"
+          }
+        },
+        "request_path": {
+          "valid": true,
+          "protocol": {
+            "source_sha256": "fd60506b3aa62e33594ae10a1461d82c91d4320a42f3bdb36347dc84284cbbc5",
+            "query_limit": 200,
+            "window_seconds": 5,
+            "fetch_started_epoch": 1790817650.2664568,
+            "load_end_epoch": 1790817645.8189955,
+            "source": "https://raw.githubusercontent.com/jaegertracing/jaeger/v1.57.0/cmd/query/app/http_handler.go",
+            "limitation": "Bounded late-window Jaeger sample from existing 100% tracing, fetched after load and PMU end. The query can return a recent subset and applies Jaeger UI clock adjustment. Span durations include waiting and child work; they are not CPU cost, independent E2E latency observations, or an exclusive critical-path decomposition. Span tags, logs and process environment are not collected.",
+            "query": {
+              "service": "nginx",
+              "start": 1790817640818995,
+              "end": 1790817645818995,
+              "limit": 200
+            },
+            "url": "http://172.19.0.2:16686/api/traces?service=nginx&start=1790817640818995&end=1790817645818995&limit=200",
+            "response_bytes": 2001377,
+            "response_sha256": "08668e70c12318256144b1876d0da66903619ad281c48aaed3dfb918f647e1cf",
+            "api_errors": null,
+            "fetch_completed_epoch": 1790817650.805664
+          },
+          "quality": {
+            "traces": 200,
+            "spans": 4120,
+            "traces_with_missing_parent": 193,
+            "traces_without_root": 3,
+            "traces_with_multiple_roots": 0,
+            "spans_with_api_warnings": 498
+          },
+          "operations": [
+            {
+              "service": "compose-review-service",
+              "operation": "UploadMovieId",
+              "spans": 184,
+              "mean_us": 390.75,
+              "median_us": 180.5,
+              "min_us": 61,
+              "max_us": 2715
+            },
+            {
+              "service": "compose-review-service",
+              "operation": "UploadRating",
+              "spans": 182,
+              "mean_us": 1098.8461538461538,
+              "median_us": 1432.0,
+              "min_us": 59,
+              "max_us": 3305
+            },
+            {
+              "service": "compose-review-service",
+              "operation": "UploadText",
+              "spans": 184,
+              "mean_us": 333.1358695652174,
+              "median_us": 200.0,
+              "min_us": 67,
+              "max_us": 2494
+            },
+            {
+              "service": "compose-review-service",
+              "operation": "UploadUniqueId",
+              "spans": 184,
+              "mean_us": 440.67391304347825,
+              "median_us": 191.5,
+              "min_us": 61,
+              "max_us": 2436
+            },
+            {
+              "service": "compose-review-service",
+              "operation": "UploadUserId",
+              "spans": 184,
+              "mean_us": 310.23369565217394,
+              "median_us": 211.5,
+              "min_us": 63,
+              "max_us": 2273
+            },
+            {
+              "service": "movie-id-service",
+              "operation": "MmcGetMovieId",
+              "spans": 182,
+              "mean_us": 88.96153846153847,
+              "median_us": 54.0,
+              "min_us": 21,
+              "max_us": 720
+            },
+            {
+              "service": "movie-id-service",
+              "operation": "MmcSetMovieId",
+              "spans": 182,
+              "mean_us": 84.23626373626374,
+              "median_us": 59.0,
+              "min_us": 25,
+              "max_us": 498
+            },
+            {
+              "service": "movie-id-service",
+              "operation": "UploadMovieId",
+              "spans": 181,
+              "mean_us": 1975.9502762430939,
+              "median_us": 2191,
+              "min_us": 508,
+              "max_us": 4585
+            },
+            {
+              "service": "movie-review-service",
+              "operation": "MongoFindMovie",
+              "spans": 131,
+              "mean_us": 982.4656488549618,
+              "median_us": 958,
+              "min_us": 631,
+              "max_us": 1510
+            },
+            {
+              "service": "movie-review-service",
+              "operation": "MongoUpdate.",
+              "spans": 133,
+              "mean_us": 421.90225563909775,
+              "median_us": 412,
+              "min_us": 279,
+              "max_us": 800
+            },
+            {
+              "service": "movie-review-service",
+              "operation": "RedisUpdate",
+              "spans": 131,
+              "mean_us": 195.74045801526717,
+              "median_us": 160,
+              "min_us": 88,
+              "max_us": 551
+            },
+            {
+              "service": "movie-review-service",
+              "operation": "UploadMovieReview",
+              "spans": 131,
+              "mean_us": 993.6183206106871,
+              "median_us": 968,
+              "min_us": 643,
+              "max_us": 1524
+            },
+            {
+              "service": "nginx",
+              "operation": "/wrk2-api/review/compose",
+              "spans": 395,
+              "mean_us": 3052.4987341772153,
+              "median_us": 2910,
+              "min_us": 2031,
+              "max_us": 6487
+            },
+            {
+              "service": "nginx",
+              "operation": "ComposeReview",
+              "spans": 200,
+              "mean_us": 2686.315,
+              "median_us": 2580.0,
+              "min_us": 1943,
+              "max_us": 5882
+            },
+            {
+              "service": "rating-service",
+              "operation": "RedisInsert",
+              "spans": 91,
+              "mean_us": 275.1208791208791,
+              "median_us": 196,
+              "min_us": 102,
+              "max_us": 1708
+            },
+            {
+              "service": "rating-service",
+              "operation": "UploadRating",
+              "spans": 91,
+              "mean_us": 1325.8021978021977,
+              "median_us": 1617,
+              "min_us": 228,
+              "max_us": 4062
+            },
+            {
+              "service": "review-storage-service",
+              "operation": "MongoInsertReview",
+              "spans": 131,
+              "mean_us": 251.74045801526717,
+              "median_us": 231,
+              "min_us": 152,
+              "max_us": 546
+            },
+            {
+              "service": "review-storage-service",
+              "operation": "StoreReview",
+              "spans": 131,
+              "mean_us": 274.99236641221376,
+              "median_us": 255,
+              "min_us": 170,
+              "max_us": 571
+            },
+            {
+              "service": "user-review-service",
+              "operation": "MongoFindUser",
+              "spans": 191,
+              "mean_us": 999.1047120418848,
+              "median_us": 945,
+              "min_us": 682,
+              "max_us": 1921
+            },
+            {
+              "service": "user-review-service",
+              "operation": "MongoUpdate",
+              "spans": 191,
+              "mean_us": 415.84293193717275,
+              "median_us": 400,
+              "min_us": 229,
+              "max_us": 922
+            },
+            {
+              "service": "user-review-service",
+              "operation": "RedisUpdate",
+              "spans": 191,
+              "mean_us": 201.95811518324606,
+              "median_us": 170,
+              "min_us": 98,
+              "max_us": 771
+            },
+            {
+              "service": "user-review-service",
+              "operation": "UploadUserReview",
+              "spans": 191,
+              "mean_us": 1013.1570680628272,
+              "median_us": 961,
+              "min_us": 692,
+              "max_us": 1924
+            },
+            {
+              "service": "user-service",
+              "operation": "MmcGetUserId",
+              "spans": 164,
+              "mean_us": 66.8780487804878,
+              "median_us": 54.0,
+              "min_us": 26,
+              "max_us": 626
+            },
+            {
+              "service": "user-service",
+              "operation": "UploadUserWithUsername",
+              "spans": 164,
+              "mean_us": 515.4573170731708,
+              "median_us": 388.5,
+              "min_us": 187,
+              "max_us": 2483
+            }
+          ],
+          "limitation": "Bounded late-window Jaeger sample from existing 100% tracing, fetched after load and PMU end. The query can return a recent subset and applies Jaeger UI clock adjustment. Span durations include waiting and child work; they are not CPU cost, independent E2E latency observations, or an exclusive critical-path decomposition. Span tags, logs and process environment are not collected."
+        }
+      },
+      "combined": {
+        "pmu": {
+          "u": {
+            "code_read_miss": 124495.29619433198,
+            "retired_l2": 6758.927935222672,
+            "icache_stall_cycles": 1207130.9054251013,
+            "retired_l1": 47910.72169123603,
+            "icache_stall_periods": 76636.04665478697,
+            "itlb_walk_cycles": 392975.6225498137,
+            "cycles_per_stall_period": 15.751517767876454,
+            "code_read_mpki": 26.95341544286639,
+            "code_read_requests": 262043.34170040485,
+            "code_read_miss_pct": 47.50942931290653
+          },
+          "k": {
+            "code_read_miss": 45270.672979591836,
+            "retired_l2": 2690.128816326531,
+            "icache_stall_cycles": 575738.2189387755,
+            "retired_l1": 80531.62047116166,
+            "icache_stall_periods": 61533.73371242892,
+            "itlb_walk_cycles": 31071.271324126727,
+            "cycles_per_stall_period": 9.363711269878607,
+            "code_read_mpki": 8.72329449974845,
+            "code_read_requests": 337260.05551020405,
+            "code_read_miss_pct": 13.423075825302453
+          }
+        },
+        "symbols": {
+          "cycles": {
+            "samples": 62921,
+            "unknown_samples": 115,
+            "top": [
+              {
+                "symbol": "intel_idle",
+                "dso": "[kernel.kallsyms]",
+                "samples": 2350,
+                "share_pct": 3.7348421035902164
+              },
+              {
+                "symbol": "__raw_spin_lock_irqsave",
+                "dso": "[kernel.kallsyms]",
+                "samples": 1387,
+                "share_pct": 2.2043514883743107
+              },
+              {
+                "symbol": "update_load_avg",
+                "dso": "[kernel.kallsyms]",
+                "samples": 1103,
+                "share_pct": 1.7529918469191526
+              },
+              {
+                "symbol": "psi_group_change",
+                "dso": "[kernel.kallsyms]",
+                "samples": 933,
+                "share_pct": 1.4828117798509242
+              },
+              {
+                "symbol": "restore_fpregs_from_fpstate",
+                "dso": "[kernel.kallsyms]",
+                "samples": 923,
+                "share_pct": 1.4669188347292637
+              },
+              {
+                "symbol": "switch_mm_irqs_off",
+                "dso": "[kernel.kallsyms]",
+                "samples": 871,
+                "share_pct": 1.384275520096629
+              },
+              {
+                "symbol": "_raw_spin_lock",
+                "dso": "[kernel.kallsyms]",
+                "samples": 847,
+                "share_pct": 1.346132451804644
+              },
+              {
+                "symbol": "__fdget",
+                "dso": "[kernel.kallsyms]",
+                "samples": 818,
+                "share_pct": 1.3000429109518286
+              },
+              {
+                "symbol": "__nf_conntrack_find_get",
+                "dso": "[kernel.kallsyms]",
+                "samples": 804,
+                "share_pct": 1.2777927877815038
+              },
+              {
+                "symbol": "__schedule",
+                "dso": "[kernel.kallsyms]",
+                "samples": 701,
+                "share_pct": 1.1140954530284006
+              },
+              {
+                "symbol": "available_idle_cpu",
+                "dso": "[kernel.kallsyms]",
+                "samples": 565,
+                "share_pct": 0.897951399373818
+              },
+              {
+                "symbol": "native_sched_clock",
+                "dso": "[kernel.kallsyms]",
+                "samples": 498,
+                "share_pct": 0.7914686670586927
+              },
+              {
+                "symbol": "__update_load_avg_se",
+                "dso": "[kernel.kallsyms]",
+                "samples": 431,
+                "share_pct": 0.6849859347435673
+              },
+              {
+                "symbol": "__seccomp_filter",
+                "dso": "[kernel.kallsyms]",
+                "samples": 426,
+                "share_pct": 0.677039462182737
+              },
+              {
+                "symbol": "__update_load_avg_cfs_rq",
+                "dso": "[kernel.kallsyms]",
+                "samples": 425,
+                "share_pct": 0.6754501676705711
+              },
+              {
+                "symbol": "__switch_to_asm",
+                "dso": "[kernel.kallsyms]",
+                "samples": 420,
+                "share_pct": 0.6675036951097408
+              },
+              {
+                "symbol": "enqueue_task_fair",
+                "dso": "[kernel.kallsyms]",
+                "samples": 409,
+                "share_pct": 0.6500214554759143
+              },
+              {
+                "symbol": "__switch_to",
+                "dso": "[kernel.kallsyms]",
+                "samples": 406,
+                "share_pct": 0.6452535719394161
+              },
+              {
+                "symbol": "task_h_load",
+                "dso": "[kernel.kallsyms]",
+                "samples": 401,
+                "share_pct": 0.6373070993785859
+              },
+              {
+                "symbol": "_copy_to_iter",
+                "dso": "[kernel.kallsyms]",
+                "samples": 396,
+                "share_pct": 0.6293606268177556
+              },
+              {
+                "symbol": "_raw_spin_lock_irq",
+                "dso": "[kernel.kallsyms]",
+                "samples": 395,
+                "share_pct": 0.6277713323055896
+              },
+              {
+                "symbol": "update_cfs_group",
+                "dso": "[kernel.kallsyms]",
+                "samples": 388,
+                "share_pct": 0.6166462707204272
+              },
+              {
+                "symbol": "update_rq_clock",
+                "dso": "[kernel.kallsyms]",
+                "samples": 379,
+                "share_pct": 0.6023426201109328
+              },
+              {
+                "symbol": "native_queued_spin_lock_slowpath",
+                "dso": "[kernel.kallsyms]",
+                "samples": 362,
+                "share_pct": 0.5753246134041099
+              },
+              {
+                "symbol": "ip_finish_output2",
+                "dso": "[kernel.kallsyms]",
+                "samples": 353,
+                "share_pct": 0.5610209627946154
+              }
+            ],
+            "symbol_count": 1885,
+            "sampled_ip_line_count": 5665,
+            "function_top_coverage_pct": {
+              "16": 21.458654503266,
+              "64": 44.10292271260787,
+              "256": 76.47526263091814
+            },
+            "sampled_ip_line_top_coverage_pct": {
+              "16": 15.343049220451041,
+              "64": 30.28559622383624,
+              "256": 54.09322801608366
+            },
+            "full_record": "/storage/prefetchit/class_b_media_system_20260930/boundaries/combined/cycles/symbols.json"
+          },
+          "l2": {
+            "samples": 32012,
+            "unknown_samples": 247,
+            "top": [
+              {
+                "symbol": "x64_sys_call",
+                "dso": "[kernel.kallsyms]",
+                "samples": 715,
+                "share_pct": 2.2335374234662
+              },
+              {
+                "symbol": "[unknown]",
+                "dso": "[kernel.kallsyms]",
+                "samples": 247,
+                "share_pct": 0.7715856553792327
+              },
+              {
+                "symbol": "free_unref_page_commit",
+                "dso": "[kernel.kallsyms]",
+                "samples": 192,
+                "share_pct": 0.5997750843433712
+              },
+              {
+                "symbol": "mas_walk",
+                "dso": "[kernel.kallsyms]",
+                "samples": 155,
+                "share_pct": 0.48419342746470073
+              },
+              {
+                "symbol": "zap_pte_range",
+                "dso": "[kernel.kallsyms]",
+                "samples": 153,
+                "share_pct": 0.47794577033612395
+              },
+              {
+                "symbol": "rmqueue",
+                "dso": "[kernel.kallsyms]",
+                "samples": 153,
+                "share_pct": 0.47794577033612395
+              },
+              {
+                "symbol": "free_unref_page_prepare",
+                "dso": "[kernel.kallsyms]",
+                "samples": 143,
+                "share_pct": 0.44670748469324
+              },
+              {
+                "symbol": "do_madvise",
+                "dso": "[kernel.kallsyms]",
+                "samples": 123,
+                "share_pct": 0.3842309134074722
+              },
+              {
+                "symbol": "sched_move_task",
+                "dso": "[kernel.kallsyms]",
+                "samples": 117,
+                "share_pct": 0.36548794202174184
+              },
+              {
+                "symbol": "do_select",
+                "dso": "[kernel.kallsyms]",
+                "samples": 113,
+                "share_pct": 0.3529926277645883
+              },
+              {
+                "symbol": "blkcg_exit",
+                "dso": "[kernel.kallsyms]",
+                "samples": 112,
+                "share_pct": 0.3498687992002999
+              },
+              {
+                "symbol": "tcp_data_queue",
+                "dso": "[kernel.kallsyms]",
+                "samples": 112,
+                "share_pct": 0.3498687992002999
+              },
+              {
+                "symbol": "gup_pgd_range",
+                "dso": "[kernel.kallsyms]",
+                "samples": 108,
+                "share_pct": 0.33737348494314634
+              },
+              {
+                "symbol": "pipe_write",
+                "dso": "[kernel.kallsyms]",
+                "samples": 106,
+                "share_pct": 0.33112582781456956
+              },
+              {
+                "symbol": "nft_do_chain",
+                "dso": "[kernel.kallsyms]",
+                "samples": 106,
+                "share_pct": 0.33112582781456956
+              },
+              {
+                "symbol": "core_sys_select",
+                "dso": "[kernel.kallsyms]",
+                "samples": 106,
+                "share_pct": 0.33112582781456956
+              },
+              {
+                "symbol": "nohz_balancer_kick",
+                "dso": "[kernel.kallsyms]",
+                "samples": 105,
+                "share_pct": 0.3280019992502811
+              },
+              {
+                "symbol": "copy_process",
+                "dso": "[kernel.kallsyms]",
+                "samples": 103,
+                "share_pct": 0.32175434212170434
+              },
+              {
+                "symbol": "___slab_alloc",
+                "dso": "[kernel.kallsyms]",
+                "samples": 103,
+                "share_pct": 0.32175434212170434
+              },
+              {
+                "symbol": "__x64_sys_rseq",
+                "dso": "[kernel.kallsyms]",
+                "samples": 99,
+                "share_pct": 0.3092590278645508
+              },
+              {
+                "symbol": "p4d_offset",
+                "dso": "[kernel.kallsyms]",
+                "samples": 99,
+                "share_pct": 0.3092590278645508
+              },
+              {
+                "symbol": "siphash_2u64",
+                "dso": "[kernel.kallsyms]",
+                "samples": 98,
+                "share_pct": 0.3061351993002624
+              },
+              {
+                "symbol": "tcp_validate_incoming",
+                "dso": "[kernel.kallsyms]",
+                "samples": 96,
+                "share_pct": 0.2998875421716856
+              },
+              {
+                "symbol": "post_alloc_hook",
+                "dso": "[kernel.kallsyms]",
+                "samples": 95,
+                "share_pct": 0.29676371360739723
+              },
+              {
+                "symbol": "menu_select",
+                "dso": "[kernel.kallsyms]",
+                "samples": 95,
+                "share_pct": 0.29676371360739723
+              }
+            ],
+            "symbol_count": 1862,
+            "sampled_ip_line_count": 3762,
+            "function_top_coverage_pct": {
+              "16": 8.62489066600025,
+              "64": 21.113957266025242,
+              "256": 50.03436211420717
+            },
+            "sampled_ip_line_top_coverage_pct": {
+              "16": 3.970386105210546,
+              "64": 12.148569286517557,
+              "256": 33.43433712357866
+            },
+            "full_record": "/storage/prefetchit/class_b_media_system_20260930/boundaries/combined/l2/symbols.json"
+          }
+        },
+        "request_path": {
+          "valid": true,
+          "protocol": {
+            "source_sha256": "fd60506b3aa62e33594ae10a1461d82c91d4320a42f3bdb36347dc84284cbbc5",
+            "query_limit": 200,
+            "window_seconds": 5,
+            "fetch_started_epoch": 1790817830.6511073,
+            "load_end_epoch": 1790817826.0441957,
+            "source": "https://raw.githubusercontent.com/jaegertracing/jaeger/v1.57.0/cmd/query/app/http_handler.go",
+            "limitation": "Bounded late-window Jaeger sample from existing 100% tracing, fetched after load and PMU end. The query can return a recent subset and applies Jaeger UI clock adjustment. Span durations include waiting and child work; they are not CPU cost, independent E2E latency observations, or an exclusive critical-path decomposition. Span tags, logs and process environment are not collected.",
+            "query": {
+              "service": "nginx",
+              "start": 1790817821044195,
+              "end": 1790817826044195,
+              "limit": 200
+            },
+            "url": "http://172.19.0.2:16686/api/traces?service=nginx&start=1790817821044195&end=1790817826044195&limit=200",
+            "response_bytes": 2478627,
+            "response_sha256": "7bd7d209a1a70e40efdd24edc688a1756fd420ce1471516630e0d4bf8a291909",
+            "api_errors": null,
+            "fetch_completed_epoch": 1790817831.1856744
+          },
+          "quality": {
+            "traces": 200,
+            "spans": 5194,
+            "traces_with_missing_parent": 200,
+            "traces_without_root": 3,
+            "traces_with_multiple_roots": 0,
+            "spans_with_api_warnings": 203
+          },
+          "operations": [
+            {
+              "service": "compose-review-service",
+              "operation": "UploadMovieId",
+              "spans": 200,
+              "mean_us": 386.67,
+              "median_us": 164.0,
+              "min_us": 57,
+              "max_us": 2837
+            },
+            {
+              "service": "compose-review-service",
+              "operation": "UploadRating",
+              "spans": 200,
+              "mean_us": 1028.69,
+              "median_us": 1372.0,
+              "min_us": 62,
+              "max_us": 3511
+            },
+            {
+              "service": "compose-review-service",
+              "operation": "UploadText",
+              "spans": 200,
+              "mean_us": 356.42,
+              "median_us": 227.0,
+              "min_us": 66,
+              "max_us": 2549
+            },
+            {
+              "service": "compose-review-service",
+              "operation": "UploadUniqueId",
+              "spans": 200,
+              "mean_us": 426.765,
+              "median_us": 195.5,
+              "min_us": 65,
+              "max_us": 3308
+            },
+            {
+              "service": "compose-review-service",
+              "operation": "UploadUserId",
+              "spans": 200,
+              "mean_us": 369.83,
+              "median_us": 234.0,
+              "min_us": 62,
+              "max_us": 3379
+            },
+            {
+              "service": "movie-id-service",
+              "operation": "MmcGetMovieId",
+              "spans": 200,
+              "mean_us": 76.21,
+              "median_us": 54.0,
+              "min_us": 25,
+              "max_us": 441
+            },
+            {
+              "service": "movie-id-service",
+              "operation": "MmcSetMovieId",
+              "spans": 200,
+              "mean_us": 81.735,
+              "median_us": 59.0,
+              "min_us": 22,
+              "max_us": 471
+            },
+            {
+              "service": "movie-id-service",
+              "operation": "UploadMovieId",
+              "spans": 200,
+              "mean_us": 1898.225,
+              "median_us": 2085.5,
+              "min_us": 501,
+              "max_us": 4280
+            },
+            {
+              "service": "movie-review-service",
+              "operation": "MongoFindMovie",
+              "spans": 200,
+              "mean_us": 946.17,
+              "median_us": 894.0,
+              "min_us": 626,
+              "max_us": 2257
+            },
+            {
+              "service": "movie-review-service",
+              "operation": "MongoUpdate.",
+              "spans": 200,
+              "mean_us": 390.42,
+              "median_us": 377.5,
+              "min_us": 276,
+              "max_us": 1348
+            },
+            {
+              "service": "movie-review-service",
+              "operation": "RedisUpdate",
+              "spans": 200,
+              "mean_us": 211.49,
+              "median_us": 172.5,
+              "min_us": 97,
+              "max_us": 1298
+            },
+            {
+              "service": "movie-review-service",
+              "operation": "UploadMovieReview",
+              "spans": 200,
+              "mean_us": 955.885,
+              "median_us": 903.0,
+              "min_us": 634,
+              "max_us": 2268
+            },
+            {
+              "service": "nginx",
+              "operation": "/wrk2-api/review/compose",
+              "spans": 394,
+              "mean_us": 2942.532994923858,
+              "median_us": 2855.0,
+              "min_us": 1883,
+              "max_us": 5317
+            },
+            {
+              "service": "nginx",
+              "operation": "ComposeReview",
+              "spans": 200,
+              "mean_us": 2568.345,
+              "median_us": 2511.0,
+              "min_us": 1796,
+              "max_us": 4551
+            },
+            {
+              "service": "rating-service",
+              "operation": "RedisInsert",
+              "spans": 200,
+              "mean_us": 216.93,
+              "median_us": 190.5,
+              "min_us": 89,
+              "max_us": 541
+            },
+            {
+              "service": "rating-service",
+              "operation": "UploadRating",
+              "spans": 200,
+              "mean_us": 1289.82,
+              "median_us": 1597.5,
+              "min_us": 241,
+              "max_us": 3713
+            },
+            {
+              "service": "review-storage-service",
+              "operation": "MongoInsertReview",
+              "spans": 200,
+              "mean_us": 239.225,
+              "median_us": 218.0,
+              "min_us": 126,
+              "max_us": 893
+            },
+            {
+              "service": "review-storage-service",
+              "operation": "StoreReview",
+              "spans": 200,
+              "mean_us": 262.08,
+              "median_us": 242.0,
+              "min_us": 136,
+              "max_us": 913
+            },
+            {
+              "service": "unique-id-service",
+              "operation": "UploadUniqueId",
+              "spans": 200,
+              "mean_us": 554.055,
+              "median_us": 322.5,
+              "min_us": 129,
+              "max_us": 3391
+            },
+            {
+              "service": "user-review-service",
+              "operation": "MongoFindUser",
+              "spans": 200,
+              "mean_us": 971.215,
+              "median_us": 921.5,
+              "min_us": 640,
+              "max_us": 2471
+            },
+            {
+              "service": "user-review-service",
+              "operation": "MongoUpdate",
+              "spans": 200,
+              "mean_us": 419.52,
+              "median_us": 395.0,
+              "min_us": 268,
+              "max_us": 2020
+            },
+            {
+              "service": "user-review-service",
+              "operation": "RedisUpdate",
+              "spans": 200,
+              "mean_us": 208.61,
+              "median_us": 170.0,
+              "min_us": 102,
+              "max_us": 795
+            },
+            {
+              "service": "user-review-service",
+              "operation": "UploadUserReview",
+              "spans": 200,
+              "mean_us": 982.62,
+              "median_us": 932.0,
+              "min_us": 651,
+              "max_us": 2483
+            },
+            {
+              "service": "user-service",
+              "operation": "MmcGetUserId",
+              "spans": 200,
+              "mean_us": 66.335,
+              "median_us": 55.5,
+              "min_us": 27,
+              "max_us": 510
+            },
+            {
+              "service": "user-service",
+              "operation": "UploadUserWithUsername",
+              "spans": 200,
+              "mean_us": 561.525,
+              "median_us": 408.5,
+              "min_us": 170,
+              "max_us": 3743
+            }
+          ],
+          "limitation": "Bounded late-window Jaeger sample from existing 100% tracing, fetched after load and PMU end. The query can return a recent subset and applies Jaeger UI clock adjustment. Span durations include waiting and child work; they are not CPU cost, independent E2E latency observations, or an exclusive critical-path decomposition. Span tags, logs and process environment are not collected."
+        }
+      }
+    },
+    "limitation": "One fresh diagnostic per arm, separate from timing and from service PMU. CPU pool scope includes other kernel work. Cycles and precise retired L2 samples are separate populations, not call-chain evidence or cache-miss latency. No kernel code changed."
+  },
+  "diagnostic_interpretation": "Two fresh runs per arm, descriptive means; independent of 4-block clean endpoint timing. Service-summed PMU combines separate request-normalized windows."
+}

@@ -1,0 +1,30 @@
+{"stage": "prepared", "service": "movie", "sites": 128, "hints": 264, "train_coverage": 0.6508155404441486, "heldout_coverage": 0.6347221574207997, "main_sample_fraction": 0.841867168421474, "estimated_hints_per_request": 383.281800522473, "extra_instruction_bytes": 3537}
+{"stage": "prepared", "service": "compose", "sites": 128, "hints": 375, "train_coverage": 0.5510117098120149, "heldout_coverage": 0.5472340225784496, "main_sample_fraction": 0.8310124340547695, "estimated_hints_per_request": 705.216473836445, "extra_instruction_bytes": 4380}
+{"stage": "prepared", "service": "rating", "sites": 128, "hints": 292, "train_coverage": 0.6502588544662667, "heldout_coverage": 0.6237440720199341, "main_sample_fraction": 0.922383081937391, "estimated_hints_per_request": 347.73807504078303, "extra_instruction_bytes": 3786}
+{"stage": "prepared", "service": "unique", "sites": 24, "hints": 47, "train_coverage": 0.6570036540803897, "heldout_coverage": 0.6371318203766296, "main_sample_fraction": 0.3845433255269321, "estimated_hints_per_request": 42.168362023995826, "extra_instruction_bytes": 634}
+{"stage": "prepared", "service": "text", "sites": 24, "hints": 41, "train_coverage": 0.6680124223602485, "heldout_coverage": 0.6634522661523626, "main_sample_fraction": 0.3337133381697585, "estimated_hints_per_request": 49.38557429504699, "extra_instruction_bytes": 572}
+{"stage": "prepared", "service": "user", "sites": 32, "hints": 54, "train_coverage": 0.651039456936784, "heldout_coverage": 0.6005812746522732, "main_sample_fraction": 0.3250361994070192, "estimated_hints_per_request": 52.91836458403845, "extra_instruction_bytes": 748}
+{"stage": "prepared", "service": "storage", "sites": 22, "hints": 39, "train_coverage": 0.65331998665332, "heldout_coverage": 0.6577340569877883, "main_sample_fraction": 0.13599854789671914, "estimated_hints_per_request": 40.669933756928486, "extra_instruction_bytes": 522}
+{"stage": "prepared", "service": "userreview", "sites": 81, "hints": 143, "train_coverage": 0.6504048375525264, "heldout_coverage": 0.6410337220296249, "main_sample_fraction": 0.2379988291540638, "estimated_hints_per_request": 144.63984962406016, "extra_instruction_bytes": 2012}
+{"stage": "prepared", "service": "moviereview", "sites": 78, "hints": 132, "train_coverage": 0.6513527851458886, "heldout_coverage": 0.6344958381624697, "main_sample_fraction": 0.2374474088630237, "estimated_hints_per_request": 133.0965978958874, "extra_instruction_bytes": 1859}
+Traceback (most recent call last):
+  File "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/media_system_study.py", line 294, in <module>
+    b.save(root/'complete.json',dict(valid=True,clean_trials=16,diagnostic_runs=6))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/media_system_study.py", line 280, in run
+    initialize(root)
+    ^^^^^^^^^^^^^^^^^
+  File "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/fullset.py", line 97, in platform
+    rc=child.wait(timeout=2400)
+       ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 1264, in wait
+    return self._wait(timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 2047, in _wait
+    time.sleep(delay)
+  File "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/media_system_study.py", line 288, in <lambda>
+    # before admitting any candidate to clean performance measurement.
+                                                   ^^^^^^^^^^^^^^^^^^^^
+  File "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/media_system_study.py", line 288, in <genexpr>
+    # before admitting any candidate to clean performance measurement.
+KeyboardInterrupt: 15

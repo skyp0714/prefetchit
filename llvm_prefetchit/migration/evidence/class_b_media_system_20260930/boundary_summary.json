@@ -1,0 +1,1250 @@
+{
+  "arms": {
+    "original": {
+      "pmu": {
+        "u": {
+          "code_read_miss": 133224.27420155553,
+          "retired_l2": 12219.483865629654,
+          "icache_stall_cycles": 1457258.6303160682,
+          "retired_l1": 45058.672856905985,
+          "icache_stall_periods": 68954.52412535234,
+          "itlb_walk_cycles": 529613.1631570221,
+          "cycles_per_stall_period": 21.112574125815215,
+          "code_read_mpki": 28.749179752984737,
+          "code_read_requests": 254195.52672513653,
+          "code_read_miss_pct": 52.41015682609235
+        },
+        "k": {
+          "code_read_miss": 44235.80942960765,
+          "retired_l2": 2650.917408506429,
+          "icache_stall_cycles": 569343.3140454995,
+          "retired_l1": 81604.27275742,
+          "icache_stall_periods": 61073.121870336596,
+          "itlb_walk_cycles": 31700.814790250373,
+          "cycles_per_stall_period": 9.316167413182495,
+          "code_read_mpki": 8.526455336844654,
+          "code_read_requests": 335269.2936036927,
+          "code_read_miss_pct": 13.194112993209835
+        }
+      },
+      "symbols": {
+        "cycles": {
+          "samples": 61781,
+          "unknown_samples": 121,
+          "top": [
+            {
+              "symbol": "intel_idle",
+              "dso": "[kernel.kallsyms]",
+              "samples": 2182,
+              "share_pct": 3.5318301743254397
+            },
+            {
+              "symbol": "__raw_spin_lock_irqsave",
+              "dso": "[kernel.kallsyms]",
+              "samples": 1330,
+              "share_pct": 2.152765413314773
+            },
+            {
+              "symbol": "update_load_avg",
+              "dso": "[kernel.kallsyms]",
+              "samples": 1015,
+              "share_pct": 1.64289992068759
+            },
+            {
+              "symbol": "psi_group_change",
+              "dso": "[kernel.kallsyms]",
+              "samples": 918,
+              "share_pct": 1.485893721370648
+            },
+            {
+              "symbol": "restore_fpregs_from_fpstate",
+              "dso": "[kernel.kallsyms]",
+              "samples": 896,
+              "share_pct": 1.4502840679173208
+            },
+            {
+              "symbol": "switch_mm_irqs_off",
+              "dso": "[kernel.kallsyms]",
+              "samples": 874,
+              "share_pct": 1.4146744144639938
+            },
+            {
+              "symbol": "_raw_spin_lock",
+              "dso": "[kernel.kallsyms]",
+              "samples": 807,
+              "share_pct": 1.3062268334924978
+            },
+            {
+              "symbol": "__fdget",
+              "dso": "[kernel.kallsyms]",
+              "samples": 767,
+              "share_pct": 1.241482009031903
+            },
+            {
+              "symbol": "__nf_conntrack_find_get",
+              "dso": "[kernel.kallsyms]",
+              "samples": 760,
+              "share_pct": 1.230151664751299
+            },
+            {
+              "symbol": "__schedule",
+              "dso": "[kernel.kallsyms]",
+              "samples": 682,
+              "share_pct": 1.1038992570531394
+            },
+            {
+              "symbol": "available_idle_cpu",
+              "dso": "[kernel.kallsyms]",
+              "samples": 539,
+              "share_pct": 0.8724365096065133
+            },
+            {
+              "symbol": "native_sched_clock",
+              "dso": "[kernel.kallsyms]",
+              "samples": 472,
+              "share_pct": 0.7639889286350172
+            },
+            {
+              "symbol": "__seccomp_filter",
+              "dso": "[kernel.kallsyms]",
+              "samples": 472,
+              "share_pct": 0.7639889286350172
+            },
+            {
+              "symbol": "__update_load_avg_cfs_rq",
+              "dso": "[kernel.kallsyms]",
+              "samples": 461,
+              "share_pct": 0.7461841019083537
+            },
+            {
+              "symbol": "_raw_spin_lock_irq",
+              "dso": "[kernel.kallsyms]",
+              "samples": 439,
+              "share_pct": 0.7105744484550266
+            },
+            {
+              "symbol": "_copy_to_iter",
+              "dso": "[kernel.kallsyms]",
+              "samples": 413,
+              "share_pct": 0.6684903125556401
+            },
+            {
+              "symbol": "task_h_load",
+              "dso": "[kernel.kallsyms]",
+              "samples": 410,
+              "share_pct": 0.6636344507210955
+            },
+            {
+              "symbol": "enqueue_task_fair",
+              "dso": "[kernel.kallsyms]",
+              "samples": 398,
+              "share_pct": 0.644211003382917
+            },
+            {
+              "symbol": "__update_load_avg_se",
+              "dso": "[kernel.kallsyms]",
+              "samples": 396,
+              "share_pct": 0.6409737621598873
+            },
+            {
+              "symbol": "update_cfs_group",
+              "dso": "[kernel.kallsyms]",
+              "samples": 391,
+              "share_pct": 0.6328806591023131
+            },
+            {
+              "symbol": "__switch_to_asm",
+              "dso": "[kernel.kallsyms]",
+              "samples": 389,
+              "share_pct": 0.6296434178792832
+            },
+            {
+              "symbol": "update_rq_clock",
+              "dso": "[kernel.kallsyms]",
+              "samples": 383,
+              "share_pct": 0.6199316942101941
+            },
+            {
+              "symbol": "futex_wake",
+              "dso": "[kernel.kallsyms]",
+              "samples": 367,
+              "share_pct": 0.5940337644259562
+            },
+            {
+              "symbol": "__switch_to",
+              "dso": "[kernel.kallsyms]",
+              "samples": 365,
+              "share_pct": 0.5907965232029264
+            },
+            {
+              "symbol": "native_queued_spin_lock_slowpath",
+              "dso": "[kernel.kallsyms]",
+              "samples": 358,
+              "share_pct": 0.5794661789223224
+            }
+          ],
+          "symbol_count": 1883,
+          "sampled_ip_line_count": 5658,
+          "function_top_coverage_pct": {
+            "16": 21.085770706204173,
+            "64": 44.13978407601042,
+            "256": 76.18685356339327
+          },
+          "sampled_ip_line_top_coverage_pct": {
+            "16": 15.027273757304025,
+            "64": 30.25687509104741,
+            "256": 54.040886356646865
+          },
+          "full_record": "/storage/prefetchit/class_b_media_system_20260930/boundaries/original/cycles/symbols.json"
+        },
+        "l2": {
+          "samples": 31028,
+          "unknown_samples": 198,
+          "top": [
+            {
+              "symbol": "x64_sys_call",
+              "dso": "[kernel.kallsyms]",
+              "samples": 787,
+              "share_pct": 2.5364187185767695
+            },
+            {
+              "symbol": "[unknown]",
+              "dso": "[kernel.kallsyms]",
+              "samples": 198,
+              "share_pct": 0.6381332989557819
+            },
+            {
+              "symbol": "copy_process",
+              "dso": "[kernel.kallsyms]",
+              "samples": 142,
+              "share_pct": 0.45765115379657084
+            },
+            {
+              "symbol": "mas_walk",
+              "dso": "[kernel.kallsyms]",
+              "samples": 131,
+              "share_pct": 0.42219930385458293
+            },
+            {
+              "symbol": "zap_pte_range",
+              "dso": "[kernel.kallsyms]",
+              "samples": 128,
+              "share_pct": 0.41253061750676806
+            },
+            {
+              "symbol": "free_unref_page_commit",
+              "dso": "[kernel.kallsyms]",
+              "samples": 125,
+              "share_pct": 0.4028619311589532
+            },
+            {
+              "symbol": "do_select",
+              "dso": "[kernel.kallsyms]",
+              "samples": 124,
+              "share_pct": 0.39963903570968157
+            },
+            {
+              "symbol": "rmqueue",
+              "dso": "[kernel.kallsyms]",
+              "samples": 123,
+              "share_pct": 0.39641614026040994
+            },
+            {
+              "symbol": "pipe_write",
+              "dso": "[kernel.kallsyms]",
+              "samples": 120,
+              "share_pct": 0.3867474539125951
+            },
+            {
+              "symbol": "free_unref_page_prepare",
+              "dso": "[kernel.kallsyms]",
+              "samples": 115,
+              "share_pct": 0.37063297666623696
+            },
+            {
+              "symbol": "__x64_sys_rseq",
+              "dso": "[kernel.kallsyms]",
+              "samples": 115,
+              "share_pct": 0.37063297666623696
+            },
+            {
+              "symbol": "p4d_offset",
+              "dso": "[kernel.kallsyms]",
+              "samples": 111,
+              "share_pct": 0.35774139486915046
+            },
+            {
+              "symbol": "nohz_balancer_kick",
+              "dso": "[kernel.kallsyms]",
+              "samples": 110,
+              "share_pct": 0.35451849941987884
+            },
+            {
+              "symbol": "tcp_tso_should_defer",
+              "dso": "[kernel.kallsyms]",
+              "samples": 109,
+              "share_pct": 0.3512956039706072
+            },
+            {
+              "symbol": "nft_do_chain",
+              "dso": "[kernel.kallsyms]",
+              "samples": 107,
+              "share_pct": 0.3448498130720639
+            },
+            {
+              "symbol": "post_alloc_hook",
+              "dso": "[kernel.kallsyms]",
+              "samples": 103,
+              "share_pct": 0.3319582312749774
+            },
+            {
+              "symbol": "sched_move_task",
+              "dso": "[kernel.kallsyms]",
+              "samples": 100,
+              "share_pct": 0.32228954492716255
+            },
+            {
+              "symbol": "mas_prev_slot",
+              "dso": "[kernel.kallsyms]",
+              "samples": 98,
+              "share_pct": 0.3158437540286193
+            },
+            {
+              "symbol": "siphash_2u64",
+              "dso": "[kernel.kallsyms]",
+              "samples": 98,
+              "share_pct": 0.3158437540286193
+            },
+            {
+              "symbol": "gup_pgd_range",
+              "dso": "[kernel.kallsyms]",
+              "samples": 94,
+              "share_pct": 0.3029521722315328
+            },
+            {
+              "symbol": "unmap_page_range",
+              "dso": "[kernel.kallsyms]",
+              "samples": 93,
+              "share_pct": 0.2997292767822612
+            },
+            {
+              "symbol": "internal_get_user_pages_fast",
+              "dso": "[kernel.kallsyms]",
+              "samples": 92,
+              "share_pct": 0.29650638133298957
+            },
+            {
+              "symbol": "__alloc_pages",
+              "dso": "[kernel.kallsyms]",
+              "samples": 90,
+              "share_pct": 0.2900605904344463
+            },
+            {
+              "symbol": "rb_erase",
+              "dso": "[kernel.kallsyms]",
+              "samples": 89,
+              "share_pct": 0.2868376949851747
+            },
+            {
+              "symbol": "get_pfnblock_flags_mask",
+              "dso": "[kernel.kallsyms]",
+              "samples": 88,
+              "share_pct": 0.2836147995359031
+            }
+          ],
+          "symbol_count": 1844,
+          "sampled_ip_line_count": 3782,
+          "function_top_coverage_pct": {
+            "16": 8.534227149671265,
+            "64": 20.761892484207813,
+            "256": 48.93966739718964
+          },
+          "sampled_ip_line_top_coverage_pct": {
+            "16": 3.8416913755317776,
+            "64": 11.850586566971767,
+            "256": 32.4738945468609
+          },
+          "full_record": "/storage/prefetchit/class_b_media_system_20260930/boundaries/original/l2/symbols.json"
+        }
+      },
+      "request_path": {
+        "valid": true,
+        "protocol": {
+          "source_sha256": "fd60506b3aa62e33594ae10a1461d82c91d4320a42f3bdb36347dc84284cbbc5",
+          "query_limit": 200,
+          "window_seconds": 5,
+          "fetch_started_epoch": 1790817650.2664568,
+          "load_end_epoch": 1790817645.8189955,
+          "source": "https://raw.githubusercontent.com/jaegertracing/jaeger/v1.57.0/cmd/query/app/http_handler.go",
+          "limitation": "Bounded late-window Jaeger sample from existing 100% tracing, fetched after load and PMU end. The query can return a recent subset and applies Jaeger UI clock adjustment. Span durations include waiting and child work; they are not CPU cost, independent E2E latency observations, or an exclusive critical-path decomposition. Span tags, logs and process environment are not collected.",
+          "query": {
+            "service": "nginx",
+            "start": 1790817640818995,
+            "end": 1790817645818995,
+            "limit": 200
+          },
+          "url": "http://172.19.0.2:16686/api/traces?service=nginx&start=1790817640818995&end=1790817645818995&limit=200",
+          "response_bytes": 2001377,
+          "response_sha256": "08668e70c12318256144b1876d0da66903619ad281c48aaed3dfb918f647e1cf",
+          "api_errors": null,
+          "fetch_completed_epoch": 1790817650.805664
+        },
+        "quality": {
+          "traces": 200,
+          "spans": 4120,
+          "traces_with_missing_parent": 193,
+          "traces_without_root": 3,
+          "traces_with_multiple_roots": 0,
+          "spans_with_api_warnings": 498
+        },
+        "operations": [
+          {
+            "service": "compose-review-service",
+            "operation": "UploadMovieId",
+            "spans": 184,
+            "mean_us": 390.75,
+            "median_us": 180.5,
+            "min_us": 61,
+            "max_us": 2715
+          },
+          {
+            "service": "compose-review-service",
+            "operation": "UploadRating",
+            "spans": 182,
+            "mean_us": 1098.8461538461538,
+            "median_us": 1432.0,
+            "min_us": 59,
+            "max_us": 3305
+          },
+          {
+            "service": "compose-review-service",
+            "operation": "UploadText",
+            "spans": 184,
+            "mean_us": 333.1358695652174,
+            "median_us": 200.0,
+            "min_us": 67,
+            "max_us": 2494
+          },
+          {
+            "service": "compose-review-service",
+            "operation": "UploadUniqueId",
+            "spans": 184,
+            "mean_us": 440.67391304347825,
+            "median_us": 191.5,
+            "min_us": 61,
+            "max_us": 2436
+          },
+          {
+            "service": "compose-review-service",
+            "operation": "UploadUserId",
+            "spans": 184,
+            "mean_us": 310.23369565217394,
+            "median_us": 211.5,
+            "min_us": 63,
+            "max_us": 2273
+          },
+          {
+            "service": "movie-id-service",
+            "operation": "MmcGetMovieId",
+            "spans": 182,
+            "mean_us": 88.96153846153847,
+            "median_us": 54.0,
+            "min_us": 21,
+            "max_us": 720
+          },
+          {
+            "service": "movie-id-service",
+            "operation": "MmcSetMovieId",
+            "spans": 182,
+            "mean_us": 84.23626373626374,
+            "median_us": 59.0,
+            "min_us": 25,
+            "max_us": 498
+          },
+          {
+            "service": "movie-id-service",
+            "operation": "UploadMovieId",
+            "spans": 181,
+            "mean_us": 1975.9502762430939,
+            "median_us": 2191,
+            "min_us": 508,
+            "max_us": 4585
+          },
+          {
+            "service": "movie-review-service",
+            "operation": "MongoFindMovie",
+            "spans": 131,
+            "mean_us": 982.4656488549618,
+            "median_us": 958,
+            "min_us": 631,
+            "max_us": 1510
+          },
+          {
+            "service": "movie-review-service",
+            "operation": "MongoUpdate.",
+            "spans": 133,
+            "mean_us": 421.90225563909775,
+            "median_us": 412,
+            "min_us": 279,
+            "max_us": 800
+          },
+          {
+            "service": "movie-review-service",
+            "operation": "RedisUpdate",
+            "spans": 131,
+            "mean_us": 195.74045801526717,
+            "median_us": 160,
+            "min_us": 88,
+            "max_us": 551
+          },
+          {
+            "service": "movie-review-service",
+            "operation": "UploadMovieReview",
+            "spans": 131,
+            "mean_us": 993.6183206106871,
+            "median_us": 968,
+            "min_us": 643,
+            "max_us": 1524
+          },
+          {
+            "service": "nginx",
+            "operation": "/wrk2-api/review/compose",
+            "spans": 395,
+            "mean_us": 3052.4987341772153,
+            "median_us": 2910,
+            "min_us": 2031,
+            "max_us": 6487
+          },
+          {
+            "service": "nginx",
+            "operation": "ComposeReview",
+            "spans": 200,
+            "mean_us": 2686.315,
+            "median_us": 2580.0,
+            "min_us": 1943,
+            "max_us": 5882
+          },
+          {
+            "service": "rating-service",
+            "operation": "RedisInsert",
+            "spans": 91,
+            "mean_us": 275.1208791208791,
+            "median_us": 196,
+            "min_us": 102,
+            "max_us": 1708
+          },
+          {
+            "service": "rating-service",
+            "operation": "UploadRating",
+            "spans": 91,
+            "mean_us": 1325.8021978021977,
+            "median_us": 1617,
+            "min_us": 228,
+            "max_us": 4062
+          },
+          {
+            "service": "review-storage-service",
+            "operation": "MongoInsertReview",
+            "spans": 131,
+            "mean_us": 251.74045801526717,
+            "median_us": 231,
+            "min_us": 152,
+            "max_us": 546
+          },
+          {
+            "service": "review-storage-service",
+            "operation": "StoreReview",
+            "spans": 131,
+            "mean_us": 274.99236641221376,
+            "median_us": 255,
+            "min_us": 170,
+            "max_us": 571
+          },
+          {
+            "service": "user-review-service",
+            "operation": "MongoFindUser",
+            "spans": 191,
+            "mean_us": 999.1047120418848,
+            "median_us": 945,
+            "min_us": 682,
+            "max_us": 1921
+          },
+          {
+            "service": "user-review-service",
+            "operation": "MongoUpdate",
+            "spans": 191,
+            "mean_us": 415.84293193717275,
+            "median_us": 400,
+            "min_us": 229,
+            "max_us": 922
+          },
+          {
+            "service": "user-review-service",
+            "operation": "RedisUpdate",
+            "spans": 191,
+            "mean_us": 201.95811518324606,
+            "median_us": 170,
+            "min_us": 98,
+            "max_us": 771
+          },
+          {
+            "service": "user-review-service",
+            "operation": "UploadUserReview",
+            "spans": 191,
+            "mean_us": 1013.1570680628272,
+            "median_us": 961,
+            "min_us": 692,
+            "max_us": 1924
+          },
+          {
+            "service": "user-service",
+            "operation": "MmcGetUserId",
+            "spans": 164,
+            "mean_us": 66.8780487804878,
+            "median_us": 54.0,
+            "min_us": 26,
+            "max_us": 626
+          },
+          {
+            "service": "user-service",
+            "operation": "UploadUserWithUsername",
+            "spans": 164,
+            "mean_us": 515.4573170731708,
+            "median_us": 388.5,
+            "min_us": 187,
+            "max_us": 2483
+          }
+        ],
+        "limitation": "Bounded late-window Jaeger sample from existing 100% tracing, fetched after load and PMU end. The query can return a recent subset and applies Jaeger UI clock adjustment. Span durations include waiting and child work; they are not CPU cost, independent E2E latency observations, or an exclusive critical-path decomposition. Span tags, logs and process environment are not collected."
+      }
+    },
+    "combined": {
+      "pmu": {
+        "u": {
+          "code_read_miss": 124495.29619433198,
+          "retired_l2": 6758.927935222672,
+          "icache_stall_cycles": 1207130.9054251013,
+          "retired_l1": 47910.72169123603,
+          "icache_stall_periods": 76636.04665478697,
+          "itlb_walk_cycles": 392975.6225498137,
+          "cycles_per_stall_period": 15.751517767876454,
+          "code_read_mpki": 26.95341544286639,
+          "code_read_requests": 262043.34170040485,
+          "code_read_miss_pct": 47.50942931290653
+        },
+        "k": {
+          "code_read_miss": 45270.672979591836,
+          "retired_l2": 2690.128816326531,
+          "icache_stall_cycles": 575738.2189387755,
+          "retired_l1": 80531.62047116166,
+          "icache_stall_periods": 61533.73371242892,
+          "itlb_walk_cycles": 31071.271324126727,
+          "cycles_per_stall_period": 9.363711269878607,
+          "code_read_mpki": 8.72329449974845,
+          "code_read_requests": 337260.05551020405,
+          "code_read_miss_pct": 13.423075825302453
+        }
+      },
+      "symbols": {
+        "cycles": {
+          "samples": 62921,
+          "unknown_samples": 115,
+          "top": [
+            {
+              "symbol": "intel_idle",
+              "dso": "[kernel.kallsyms]",
+              "samples": 2350,
+              "share_pct": 3.7348421035902164
+            },
+            {
+              "symbol": "__raw_spin_lock_irqsave",
+              "dso": "[kernel.kallsyms]",
+              "samples": 1387,
+              "share_pct": 2.2043514883743107
+            },
+            {
+              "symbol": "update_load_avg",
+              "dso": "[kernel.kallsyms]",
+              "samples": 1103,
+              "share_pct": 1.7529918469191526
+            },
+            {
+              "symbol": "psi_group_change",
+              "dso": "[kernel.kallsyms]",
+              "samples": 933,
+              "share_pct": 1.4828117798509242
+            },
+            {
+              "symbol": "restore_fpregs_from_fpstate",
+              "dso": "[kernel.kallsyms]",
+              "samples": 923,
+              "share_pct": 1.4669188347292637
+            },
+            {
+              "symbol": "switch_mm_irqs_off",
+              "dso": "[kernel.kallsyms]",
+              "samples": 871,
+              "share_pct": 1.384275520096629
+            },
+            {
+              "symbol": "_raw_spin_lock",
+              "dso": "[kernel.kallsyms]",
+              "samples": 847,
+              "share_pct": 1.346132451804644
+            },
+            {
+              "symbol": "__fdget",
+              "dso": "[kernel.kallsyms]",
+              "samples": 818,
+              "share_pct": 1.3000429109518286
+            },
+            {
+              "symbol": "__nf_conntrack_find_get",
+              "dso": "[kernel.kallsyms]",
+              "samples": 804,
+              "share_pct": 1.2777927877815038
+            },
+            {
+              "symbol": "__schedule",
+              "dso": "[kernel.kallsyms]",
+              "samples": 701,
+              "share_pct": 1.1140954530284006
+            },
+            {
+              "symbol": "available_idle_cpu",
+              "dso": "[kernel.kallsyms]",
+              "samples": 565,
+              "share_pct": 0.897951399373818
+            },
+            {
+              "symbol": "native_sched_clock",
+              "dso": "[kernel.kallsyms]",
+              "samples": 498,
+              "share_pct": 0.7914686670586927
+            },
+            {
+              "symbol": "__update_load_avg_se",
+              "dso": "[kernel.kallsyms]",
+              "samples": 431,
+              "share_pct": 0.6849859347435673
+            },
+            {
+              "symbol": "__seccomp_filter",
+              "dso": "[kernel.kallsyms]",
+              "samples": 426,
+              "share_pct": 0.677039462182737
+            },
+            {
+              "symbol": "__update_load_avg_cfs_rq",
+              "dso": "[kernel.kallsyms]",
+              "samples": 425,
+              "share_pct": 0.6754501676705711
+            },
+            {
+              "symbol": "__switch_to_asm",
+              "dso": "[kernel.kallsyms]",
+              "samples": 420,
+              "share_pct": 0.6675036951097408
+            },
+            {
+              "symbol": "enqueue_task_fair",
+              "dso": "[kernel.kallsyms]",
+              "samples": 409,
+              "share_pct": 0.6500214554759143
+            },
+            {
+              "symbol": "__switch_to",
+              "dso": "[kernel.kallsyms]",
+              "samples": 406,
+              "share_pct": 0.6452535719394161
+            },
+            {
+              "symbol": "task_h_load",
+              "dso": "[kernel.kallsyms]",
+              "samples": 401,
+              "share_pct": 0.6373070993785859
+            },
+            {
+              "symbol": "_copy_to_iter",
+              "dso": "[kernel.kallsyms]",
+              "samples": 396,
+              "share_pct": 0.6293606268177556
+            },
+            {
+              "symbol": "_raw_spin_lock_irq",
+              "dso": "[kernel.kallsyms]",
+              "samples": 395,
+              "share_pct": 0.6277713323055896
+            },
+            {
+              "symbol": "update_cfs_group",
+              "dso": "[kernel.kallsyms]",
+              "samples": 388,
+              "share_pct": 0.6166462707204272
+            },
+            {
+              "symbol": "update_rq_clock",
+              "dso": "[kernel.kallsyms]",
+              "samples": 379,
+              "share_pct": 0.6023426201109328
+            },
+            {
+              "symbol": "native_queued_spin_lock_slowpath",
+              "dso": "[kernel.kallsyms]",
+              "samples": 362,
+              "share_pct": 0.5753246134041099
+            },
+            {
+              "symbol": "ip_finish_output2",
+              "dso": "[kernel.kallsyms]",
+              "samples": 353,
+              "share_pct": 0.5610209627946154
+            }
+          ],
+          "symbol_count": 1885,
+          "sampled_ip_line_count": 5665,
+          "function_top_coverage_pct": {
+            "16": 21.458654503266,
+            "64": 44.10292271260787,
+            "256": 76.47526263091814
+          },
+          "sampled_ip_line_top_coverage_pct": {
+            "16": 15.343049220451041,
+            "64": 30.28559622383624,
+            "256": 54.09322801608366
+          },
+          "full_record": "/storage/prefetchit/class_b_media_system_20260930/boundaries/combined/cycles/symbols.json"
+        },
+        "l2": {
+          "samples": 32012,
+          "unknown_samples": 247,
+          "top": [
+            {
+              "symbol": "x64_sys_call",
+              "dso": "[kernel.kallsyms]",
+              "samples": 715,
+              "share_pct": 2.2335374234662
+            },
+            {
+              "symbol": "[unknown]",
+              "dso": "[kernel.kallsyms]",
+              "samples": 247,
+              "share_pct": 0.7715856553792327
+            },
+            {
+              "symbol": "free_unref_page_commit",
+              "dso": "[kernel.kallsyms]",
+              "samples": 192,
+              "share_pct": 0.5997750843433712
+            },
+            {
+              "symbol": "mas_walk",
+              "dso": "[kernel.kallsyms]",
+              "samples": 155,
+              "share_pct": 0.48419342746470073
+            },
+            {
+              "symbol": "zap_pte_range",
+              "dso": "[kernel.kallsyms]",
+              "samples": 153,
+              "share_pct": 0.47794577033612395
+            },
+            {
+              "symbol": "rmqueue",
+              "dso": "[kernel.kallsyms]",
+              "samples": 153,
+              "share_pct": 0.47794577033612395
+            },
+            {
+              "symbol": "free_unref_page_prepare",
+              "dso": "[kernel.kallsyms]",
+              "samples": 143,
+              "share_pct": 0.44670748469324
+            },
+            {
+              "symbol": "do_madvise",
+              "dso": "[kernel.kallsyms]",
+              "samples": 123,
+              "share_pct": 0.3842309134074722
+            },
+            {
+              "symbol": "sched_move_task",
+              "dso": "[kernel.kallsyms]",
+              "samples": 117,
+              "share_pct": 0.36548794202174184
+            },
+            {
+              "symbol": "do_select",
+              "dso": "[kernel.kallsyms]",
+              "samples": 113,
+              "share_pct": 0.3529926277645883
+            },
+            {
+              "symbol": "blkcg_exit",
+              "dso": "[kernel.kallsyms]",
+              "samples": 112,
+              "share_pct": 0.3498687992002999
+            },
+            {
+              "symbol": "tcp_data_queue",
+              "dso": "[kernel.kallsyms]",
+              "samples": 112,
+              "share_pct": 0.3498687992002999
+            },
+            {
+              "symbol": "gup_pgd_range",
+              "dso": "[kernel.kallsyms]",
+              "samples": 108,
+              "share_pct": 0.33737348494314634
+            },
+            {
+              "symbol": "pipe_write",
+              "dso": "[kernel.kallsyms]",
+              "samples": 106,
+              "share_pct": 0.33112582781456956
+            },
+            {
+              "symbol": "nft_do_chain",
+              "dso": "[kernel.kallsyms]",
+              "samples": 106,
+              "share_pct": 0.33112582781456956
+            },
+            {
+              "symbol": "core_sys_select",
+              "dso": "[kernel.kallsyms]",
+              "samples": 106,
+              "share_pct": 0.33112582781456956
+            },
+            {
+              "symbol": "nohz_balancer_kick",
+              "dso": "[kernel.kallsyms]",
+              "samples": 105,
+              "share_pct": 0.3280019992502811
+            },
+            {
+              "symbol": "copy_process",
+              "dso": "[kernel.kallsyms]",
+              "samples": 103,
+              "share_pct": 0.32175434212170434
+            },
+            {
+              "symbol": "___slab_alloc",
+              "dso": "[kernel.kallsyms]",
+              "samples": 103,
+              "share_pct": 0.32175434212170434
+            },
+            {
+              "symbol": "__x64_sys_rseq",
+              "dso": "[kernel.kallsyms]",
+              "samples": 99,
+              "share_pct": 0.3092590278645508
+            },
+            {
+              "symbol": "p4d_offset",
+              "dso": "[kernel.kallsyms]",
+              "samples": 99,
+              "share_pct": 0.3092590278645508
+            },
+            {
+              "symbol": "siphash_2u64",
+              "dso": "[kernel.kallsyms]",
+              "samples": 98,
+              "share_pct": 0.3061351993002624
+            },
+            {
+              "symbol": "tcp_validate_incoming",
+              "dso": "[kernel.kallsyms]",
+              "samples": 96,
+              "share_pct": 0.2998875421716856
+            },
+            {
+              "symbol": "post_alloc_hook",
+              "dso": "[kernel.kallsyms]",
+              "samples": 95,
+              "share_pct": 0.29676371360739723
+            },
+            {
+              "symbol": "menu_select",
+              "dso": "[kernel.kallsyms]",
+              "samples": 95,
+              "share_pct": 0.29676371360739723
+            }
+          ],
+          "symbol_count": 1862,
+          "sampled_ip_line_count": 3762,
+          "function_top_coverage_pct": {
+            "16": 8.62489066600025,
+            "64": 21.113957266025242,
+            "256": 50.03436211420717
+          },
+          "sampled_ip_line_top_coverage_pct": {
+            "16": 3.970386105210546,
+            "64": 12.148569286517557,
+            "256": 33.43433712357866
+          },
+          "full_record": "/storage/prefetchit/class_b_media_system_20260930/boundaries/combined/l2/symbols.json"
+        }
+      },
+      "request_path": {
+        "valid": true,
+        "protocol": {
+          "source_sha256": "fd60506b3aa62e33594ae10a1461d82c91d4320a42f3bdb36347dc84284cbbc5",
+          "query_limit": 200,
+          "window_seconds": 5,
+          "fetch_started_epoch": 1790817830.6511073,
+          "load_end_epoch": 1790817826.0441957,
+          "source": "https://raw.githubusercontent.com/jaegertracing/jaeger/v1.57.0/cmd/query/app/http_handler.go",
+          "limitation": "Bounded late-window Jaeger sample from existing 100% tracing, fetched after load and PMU end. The query can return a recent subset and applies Jaeger UI clock adjustment. Span durations include waiting and child work; they are not CPU cost, independent E2E latency observations, or an exclusive critical-path decomposition. Span tags, logs and process environment are not collected.",
+          "query": {
+            "service": "nginx",
+            "start": 1790817821044195,
+            "end": 1790817826044195,
+            "limit": 200
+          },
+          "url": "http://172.19.0.2:16686/api/traces?service=nginx&start=1790817821044195&end=1790817826044195&limit=200",
+          "response_bytes": 2478627,
+          "response_sha256": "7bd7d209a1a70e40efdd24edc688a1756fd420ce1471516630e0d4bf8a291909",
+          "api_errors": null,
+          "fetch_completed_epoch": 1790817831.1856744
+        },
+        "quality": {
+          "traces": 200,
+          "spans": 5194,
+          "traces_with_missing_parent": 200,
+          "traces_without_root": 3,
+          "traces_with_multiple_roots": 0,
+          "spans_with_api_warnings": 203
+        },
+        "operations": [
+          {
+            "service": "compose-review-service",
+            "operation": "UploadMovieId",
+            "spans": 200,
+            "mean_us": 386.67,
+            "median_us": 164.0,
+            "min_us": 57,
+            "max_us": 2837
+          },
+          {
+            "service": "compose-review-service",
+            "operation": "UploadRating",
+            "spans": 200,
+            "mean_us": 1028.69,
+            "median_us": 1372.0,
+            "min_us": 62,
+            "max_us": 3511
+          },
+          {
+            "service": "compose-review-service",
+            "operation": "UploadText",
+            "spans": 200,
+            "mean_us": 356.42,
+            "median_us": 227.0,
+            "min_us": 66,
+            "max_us": 2549
+          },
+          {
+            "service": "compose-review-service",
+            "operation": "UploadUniqueId",
+            "spans": 200,
+            "mean_us": 426.765,
+            "median_us": 195.5,
+            "min_us": 65,
+            "max_us": 3308
+          },
+          {
+            "service": "compose-review-service",
+            "operation": "UploadUserId",
+            "spans": 200,
+            "mean_us": 369.83,
+            "median_us": 234.0,
+            "min_us": 62,
+            "max_us": 3379
+          },
+          {
+            "service": "movie-id-service",
+            "operation": "MmcGetMovieId",
+            "spans": 200,
+            "mean_us": 76.21,
+            "median_us": 54.0,
+            "min_us": 25,
+            "max_us": 441
+          },
+          {
+            "service": "movie-id-service",
+            "operation": "MmcSetMovieId",
+            "spans": 200,
+            "mean_us": 81.735,
+            "median_us": 59.0,
+            "min_us": 22,
+            "max_us": 471
+          },
+          {
+            "service": "movie-id-service",
+            "operation": "UploadMovieId",
+            "spans": 200,
+            "mean_us": 1898.225,
+            "median_us": 2085.5,
+            "min_us": 501,
+            "max_us": 4280
+          },
+          {
+            "service": "movie-review-service",
+            "operation": "MongoFindMovie",
+            "spans": 200,
+            "mean_us": 946.17,
+            "median_us": 894.0,
+            "min_us": 626,
+            "max_us": 2257
+          },
+          {
+            "service": "movie-review-service",
+            "operation": "MongoUpdate.",
+            "spans": 200,
+            "mean_us": 390.42,
+            "median_us": 377.5,
+            "min_us": 276,
+            "max_us": 1348
+          },
+          {
+            "service": "movie-review-service",
+            "operation": "RedisUpdate",
+            "spans": 200,
+            "mean_us": 211.49,
+            "median_us": 172.5,
+            "min_us": 97,
+            "max_us": 1298
+          },
+          {
+            "service": "movie-review-service",
+            "operation": "UploadMovieReview",
+            "spans": 200,
+            "mean_us": 955.885,
+            "median_us": 903.0,
+            "min_us": 634,
+            "max_us": 2268
+          },
+          {
+            "service": "nginx",
+            "operation": "/wrk2-api/review/compose",
+            "spans": 394,
+            "mean_us": 2942.532994923858,
+            "median_us": 2855.0,
+            "min_us": 1883,
+            "max_us": 5317
+          },
+          {
+            "service": "nginx",
+            "operation": "ComposeReview",
+            "spans": 200,
+            "mean_us": 2568.345,
+            "median_us": 2511.0,
+            "min_us": 1796,
+            "max_us": 4551
+          },
+          {
+            "service": "rating-service",
+            "operation": "RedisInsert",
+            "spans": 200,
+            "mean_us": 216.93,
+            "median_us": 190.5,
+            "min_us": 89,
+            "max_us": 541
+          },
+          {
+            "service": "rating-service",
+            "operation": "UploadRating",
+            "spans": 200,
+            "mean_us": 1289.82,
+            "median_us": 1597.5,
+            "min_us": 241,
+            "max_us": 3713
+          },
+          {
+            "service": "review-storage-service",
+            "operation": "MongoInsertReview",
+            "spans": 200,
+            "mean_us": 239.225,
+            "median_us": 218.0,
+            "min_us": 126,
+            "max_us": 893
+          },
+          {
+            "service": "review-storage-service",
+            "operation": "StoreReview",
+            "spans": 200,
+            "mean_us": 262.08,
+            "median_us": 242.0,
+            "min_us": 136,
+            "max_us": 913
+          },
+          {
+            "service": "unique-id-service",
+            "operation": "UploadUniqueId",
+            "spans": 200,
+            "mean_us": 554.055,
+            "median_us": 322.5,
+            "min_us": 129,
+            "max_us": 3391
+          },
+          {
+            "service": "user-review-service",
+            "operation": "MongoFindUser",
+            "spans": 200,
+            "mean_us": 971.215,
+            "median_us": 921.5,
+            "min_us": 640,
+            "max_us": 2471
+          },
+          {
+            "service": "user-review-service",
+            "operation": "MongoUpdate",
+            "spans": 200,
+            "mean_us": 419.52,
+            "median_us": 395.0,
+            "min_us": 268,
+            "max_us": 2020
+          },
+          {
+            "service": "user-review-service",
+            "operation": "RedisUpdate",
+            "spans": 200,
+            "mean_us": 208.61,
+            "median_us": 170.0,
+            "min_us": 102,
+            "max_us": 795
+          },
+          {
+            "service": "user-review-service",
+            "operation": "UploadUserReview",
+            "spans": 200,
+            "mean_us": 982.62,
+            "median_us": 932.0,
+            "min_us": 651,
+            "max_us": 2483
+          },
+          {
+            "service": "user-service",
+            "operation": "MmcGetUserId",
+            "spans": 200,
+            "mean_us": 66.335,
+            "median_us": 55.5,
+            "min_us": 27,
+            "max_us": 510
+          },
+          {
+            "service": "user-service",
+            "operation": "UploadUserWithUsername",
+            "spans": 200,
+            "mean_us": 561.525,
+            "median_us": 408.5,
+            "min_us": 170,
+            "max_us": 3743
+          }
+        ],
+        "limitation": "Bounded late-window Jaeger sample from existing 100% tracing, fetched after load and PMU end. The query can return a recent subset and applies Jaeger UI clock adjustment. Span durations include waiting and child work; they are not CPU cost, independent E2E latency observations, or an exclusive critical-path decomposition. Span tags, logs and process environment are not collected."
+      }
+    }
+  },
+  "limitation": "One fresh diagnostic per arm, separate from timing and from service PMU. CPU pool scope includes other kernel work. Cycles and precise retired L2 samples are separate populations, not call-chain evidence or cache-miss latency. No kernel code changed."
+}

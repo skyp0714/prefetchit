@@ -15,7 +15,7 @@ def publish(root):
     copies=['settings.json','prepared.json','screen_evaluation.json','system_report.json','report.md',
         'tests.json','scope_amendment.json','audit_amendment.json','smoke_restoration_audit.json',
         'source_manifest.json','source_snapshot.tar.gz','source_manifest_dso.json','source_snapshot_dso.tar.gz',
-        'complete.json','decision.json','candidate_cleanup.json','boundary_summary.json']
+        'complete.json','decision.json','candidate_cleanup.json','boundary_summary.json','final_work_status.json']
     for name in copies:
         if (root/name).exists():shutil.copyfile(root/name,destination/name)
     for suffix in ['_driver.log','_libraries.log','_diagnostics.log','_diagnostics_continue.log','_boundaries.log']:

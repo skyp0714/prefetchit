@@ -1,0 +1,423 @@
+{
+  "candidates": {
+    "movie": {
+      "binary": "/storage/prefetchit/class_b_media_system_20260930/builds/movie/MovieIdService",
+      "nop": "/storage/prefetchit/class_b_media_system_20260930/builds/movie/MovieIdService.nop",
+      "sha256": "a06d02fc84ed9d193601f384a35a8afb029417f00f73a47617538113481ba8f7",
+      "nop_sha256": "03726145d455bd491677a057d600bfead71b473d192a06d3eb979bfb36feb5a5"
+    },
+    "compose": {
+      "binary": "/storage/prefetchit/class_b_media_system_20260930/builds/compose/ComposeReviewService",
+      "nop": "/storage/prefetchit/class_b_media_system_20260930/builds/compose/ComposeReviewService.nop",
+      "sha256": "44b4c3f52647a662691bae7a859bca18f1d9a01c9c29b2636111b9e3e97cc6e0",
+      "nop_sha256": "e429afca69394f3b98ab75b9dc6af39390e8177ae169b4c1f818dd350b244442"
+    },
+    "rating": {
+      "binary": "/storage/prefetchit/class_b_media_system_20260930/builds/rating/RatingService",
+      "nop": "/storage/prefetchit/class_b_media_system_20260930/builds/rating/RatingService.nop",
+      "sha256": "3860737e9fa9b8ff1743dace64ae2c52d24df698e0067725c0c6f1c71ac0d487",
+      "nop_sha256": "c9dd6460502a271951d3732c4934d869d83aaf4269bc765a3d5d8ba56652a68d"
+    },
+    "unique": {
+      "binary": "/storage/prefetchit/class_b_media_system_20260930/builds/unique/UniqueIdService",
+      "nop": "/storage/prefetchit/class_b_media_system_20260930/builds/unique/UniqueIdService.nop",
+      "sha256": "5b2466f3aa01ef0b202046c54d69ff5c2990f583bbcb84250a2eb307c987b51a",
+      "nop_sha256": "eb3511a6133673038a1a4a3548574ac4034bf0b9e63d5a5ef6565e8965c6a786"
+    },
+    "text": {
+      "binary": "/storage/prefetchit/class_b_media_system_20260930/builds/text/TextService",
+      "nop": "/storage/prefetchit/class_b_media_system_20260930/builds/text/TextService.nop",
+      "sha256": "94122f4ef5f23b78f545c679bc538843bf6024f9aafbf65ca68362bec47482ba",
+      "nop_sha256": "9c36056e3638ad334ea022b29717fcc3c11b120355fd7e36e40f5a4151d6e1d2"
+    },
+    "user": {
+      "binary": "/storage/prefetchit/class_b_media_system_20260930/builds/user/UserService",
+      "nop": "/storage/prefetchit/class_b_media_system_20260930/builds/user/UserService.nop",
+      "sha256": "8061c5b05c3934c2fbe2d936b4e47b32f84058ededc10d5f0c4e1e10a4d3c73c",
+      "nop_sha256": "ce0047b0477555d308f356382bbe733601e40b1d325f869325a15cbcbc2c59f2"
+    },
+    "storage": {
+      "binary": "/storage/prefetchit/class_b_media_system_20260930/builds/storage/ReviewStorageService",
+      "nop": "/storage/prefetchit/class_b_media_system_20260930/builds/storage/ReviewStorageService.nop",
+      "sha256": "140778115037d350eb8dd28dcde8c768cdfb3c9dce75399071f2b563bb46b7ef",
+      "nop_sha256": "0a1e403c45457674f3f63566f6aca2a74530261203b1b9bd5453fd674ae8520c"
+    },
+    "userreview": {
+      "binary": "/storage/prefetchit/class_b_media_system_20260930/builds/userreview/UserReviewService",
+      "nop": "/storage/prefetchit/class_b_media_system_20260930/builds/userreview/UserReviewService.nop",
+      "sha256": "a783d0e941a29d3f217c6902335c2e74ca75c469b525204ad9d631d6819c417d",
+      "nop_sha256": "4e450023b7290805a65e0a306ba593db94b95718948040a45008cdb6aa88445a"
+    },
+    "moviereview": {
+      "binary": "/storage/prefetchit/class_b_media_system_20260930/builds/moviereview/MovieReviewService",
+      "nop": "/storage/prefetchit/class_b_media_system_20260930/builds/moviereview/MovieReviewService.nop",
+      "sha256": "cd6dd252baaa5ea81347b910ab827ea9a532c7407ad590b85be380142f6dde6e",
+      "nop_sha256": "8589b33b3ab6ffd1624ba62cdca76cd693cdcd26a52f524065ca90c3b1f3523f"
+    }
+  },
+  "summary": {
+    "movie": {
+      "sites": 128,
+      "hints": 264,
+      "train_coverage": 0.6508155404441486,
+      "heldout_coverage": 0.6347221574207997,
+      "main_sample_fraction": 0.841867168421474,
+      "estimated_hints_per_request": 383.281800522473,
+      "extra_instruction_bytes": 3537
+    },
+    "compose": {
+      "sites": 128,
+      "hints": 375,
+      "train_coverage": 0.5510117098120149,
+      "heldout_coverage": 0.5472340225784496,
+      "main_sample_fraction": 0.8310124340547695,
+      "estimated_hints_per_request": 705.216473836445,
+      "extra_instruction_bytes": 4380
+    },
+    "rating": {
+      "sites": 128,
+      "hints": 292,
+      "train_coverage": 0.6502588544662667,
+      "heldout_coverage": 0.6237440720199341,
+      "main_sample_fraction": 0.922383081937391,
+      "estimated_hints_per_request": 347.73807504078303,
+      "extra_instruction_bytes": 3786
+    },
+    "unique": {
+      "sites": 24,
+      "hints": 47,
+      "train_coverage": 0.6570036540803897,
+      "heldout_coverage": 0.6371318203766296,
+      "main_sample_fraction": 0.3845433255269321,
+      "estimated_hints_per_request": 42.168362023995826,
+      "extra_instruction_bytes": 634
+    },
+    "text": {
+      "sites": 24,
+      "hints": 41,
+      "train_coverage": 0.6680124223602485,
+      "heldout_coverage": 0.6634522661523626,
+      "main_sample_fraction": 0.3337133381697585,
+      "estimated_hints_per_request": 49.38557429504699,
+      "extra_instruction_bytes": 572
+    },
+    "user": {
+      "sites": 32,
+      "hints": 54,
+      "train_coverage": 0.651039456936784,
+      "heldout_coverage": 0.6005812746522732,
+      "main_sample_fraction": 0.3250361994070192,
+      "estimated_hints_per_request": 52.91836458403845,
+      "extra_instruction_bytes": 748
+    },
+    "storage": {
+      "sites": 22,
+      "hints": 39,
+      "train_coverage": 0.65331998665332,
+      "heldout_coverage": 0.6577340569877883,
+      "main_sample_fraction": 0.13599854789671914,
+      "estimated_hints_per_request": 40.669933756928486,
+      "extra_instruction_bytes": 522
+    },
+    "userreview": {
+      "sites": 81,
+      "hints": 143,
+      "train_coverage": 0.6504048375525264,
+      "heldout_coverage": 0.6410337220296249,
+      "main_sample_fraction": 0.2379988291540638,
+      "estimated_hints_per_request": 144.63984962406016,
+      "extra_instruction_bytes": 2012
+    },
+    "moviereview": {
+      "sites": 78,
+      "hints": 132,
+      "train_coverage": 0.6513527851458886,
+      "heldout_coverage": 0.6344958381624697,
+      "main_sample_fraction": 0.2374474088630237,
+      "estimated_hints_per_request": 133.0965978958874,
+      "extra_instruction_bytes": 1859
+    }
+  },
+  "arms": {
+    "original": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService",
+        "unique": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/UniqueIdService",
+        "text": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/TextService",
+        "user": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/UserService",
+        "storage": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/ReviewStorageService",
+        "userreview": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/UserReviewService",
+        "moviereview": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/MovieReviewService"
+      },
+      "mongo_binary": "/storage/prefetchit/class_b_mechanism_20260928/backend/reference/mongod"
+    },
+    "mongo": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService",
+        "unique": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/UniqueIdService",
+        "text": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/TextService",
+        "user": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/UserService",
+        "storage": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/ReviewStorageService",
+        "userreview": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/UserReviewService",
+        "moviereview": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/MovieReviewService"
+      },
+      "mongo_binary": "/storage/prefetchit/class_b_mechanism_20260928/split_coverage/prepared/build/mongod",
+      "controls": [
+        "original"
+      ]
+    },
+    "combined_nop": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_media_system_20260930/builds/movie/MovieIdService.nop",
+        "compose": "/storage/prefetchit/class_b_media_system_20260930/builds/compose/ComposeReviewService.nop",
+        "rating": "/storage/prefetchit/class_b_media_system_20260930/builds/rating/RatingService.nop",
+        "unique": "/storage/prefetchit/class_b_media_system_20260930/builds/unique/UniqueIdService.nop",
+        "text": "/storage/prefetchit/class_b_media_system_20260930/builds/text/TextService.nop",
+        "user": "/storage/prefetchit/class_b_media_system_20260930/builds/user/UserService.nop",
+        "storage": "/storage/prefetchit/class_b_media_system_20260930/builds/storage/ReviewStorageService.nop",
+        "userreview": "/storage/prefetchit/class_b_media_system_20260930/builds/userreview/UserReviewService.nop",
+        "moviereview": "/storage/prefetchit/class_b_media_system_20260930/builds/moviereview/MovieReviewService.nop"
+      },
+      "mongo_binary": "/storage/prefetchit/class_b_mechanism_20260928/split_coverage/prepared/build/mongod",
+      "controls": [
+        "mongo"
+      ],
+      "libraries": {
+        "movie": {
+          "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6.nop",
+          "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30.nop",
+          "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/7242d32f52f35ec9c5164e928ad51bf40e039f0572f3b4e26ac43ec1ce20d0d7/libmemcached.so.11.0.0.nop",
+          "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/082e3d939aa9f5294a39458d62f4633ecec0e4e48b83416f249c3eae3a265403/libmemcachedutil.so.2.0.0.nop"
+        },
+        "compose": {
+          "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6.nop",
+          "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30.nop",
+          "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/7242d32f52f35ec9c5164e928ad51bf40e039f0572f3b4e26ac43ec1ce20d0d7/libmemcached.so.11.0.0.nop",
+          "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/082e3d939aa9f5294a39458d62f4633ecec0e4e48b83416f249c3eae3a265403/libmemcachedutil.so.2.0.0.nop"
+        },
+        "rating": {
+          "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6.nop"
+        },
+        "unique": {
+          "/usr/local/lib/libjaegertracing.so.0.4.2": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/ea804b0c846d1d50c1abb962468a454dc68d1949a3a907de3e77fd4090cd8089/libjaegertracing.so.0.4.2.nop",
+          "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6.nop",
+          "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30.nop",
+          "/usr/local/lib/libthrift.so.0.12.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/74758375d70ece71e60caec108eeeae79d9abef7dce5ef79835d4c0c4edfca8e/libthrift.so.0.12.0.nop"
+        },
+        "text": {
+          "/usr/local/lib/libjaegertracing.so.0.4.2": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/ea804b0c846d1d50c1abb962468a454dc68d1949a3a907de3e77fd4090cd8089/libjaegertracing.so.0.4.2.nop",
+          "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6.nop",
+          "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30.nop",
+          "/usr/local/lib/libthrift.so.0.12.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/74758375d70ece71e60caec108eeeae79d9abef7dce5ef79835d4c0c4edfca8e/libthrift.so.0.12.0.nop"
+        },
+        "user": {
+          "/usr/local/lib/libmongoc-1.0.so.0.0.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/9cb7b23eb3a7bcf07247adbb79644be9f4460d8e41304f850f586c157963f6a6/libmongoc-1.0.so.0.0.0.nop",
+          "/usr/local/lib/libjaegertracing.so.0.4.2": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/ea804b0c846d1d50c1abb962468a454dc68d1949a3a907de3e77fd4090cd8089/libjaegertracing.so.0.4.2.nop",
+          "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6.nop",
+          "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30.nop",
+          "/usr/local/lib/libbson-1.0.so.0.0.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/7277229c6489da6761bfa3456517c6cf25e006a732d2a0dab69141658d47f872/libbson-1.0.so.0.0.0.nop",
+          "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/7242d32f52f35ec9c5164e928ad51bf40e039f0572f3b4e26ac43ec1ce20d0d7/libmemcached.so.11.0.0.nop",
+          "/usr/local/lib/libthrift.so.0.12.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/74758375d70ece71e60caec108eeeae79d9abef7dce5ef79835d4c0c4edfca8e/libthrift.so.0.12.0.nop",
+          "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/082e3d939aa9f5294a39458d62f4633ecec0e4e48b83416f249c3eae3a265403/libmemcachedutil.so.2.0.0.nop"
+        },
+        "storage": {
+          "/usr/local/lib/libmongoc-1.0.so.0.0.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/9cb7b23eb3a7bcf07247adbb79644be9f4460d8e41304f850f586c157963f6a6/libmongoc-1.0.so.0.0.0.nop",
+          "/usr/local/lib/libjaegertracing.so.0.4.2": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/ea804b0c846d1d50c1abb962468a454dc68d1949a3a907de3e77fd4090cd8089/libjaegertracing.so.0.4.2.nop",
+          "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6.nop",
+          "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30.nop",
+          "/usr/local/lib/libbson-1.0.so.0.0.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/7277229c6489da6761bfa3456517c6cf25e006a732d2a0dab69141658d47f872/libbson-1.0.so.0.0.0.nop",
+          "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/7242d32f52f35ec9c5164e928ad51bf40e039f0572f3b4e26ac43ec1ce20d0d7/libmemcached.so.11.0.0.nop",
+          "/usr/local/lib/libthrift.so.0.12.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/74758375d70ece71e60caec108eeeae79d9abef7dce5ef79835d4c0c4edfca8e/libthrift.so.0.12.0.nop",
+          "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/082e3d939aa9f5294a39458d62f4633ecec0e4e48b83416f249c3eae3a265403/libmemcachedutil.so.2.0.0.nop"
+        },
+        "userreview": {
+          "/usr/local/lib/libmongoc-1.0.so.0.0.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/9cb7b23eb3a7bcf07247adbb79644be9f4460d8e41304f850f586c157963f6a6/libmongoc-1.0.so.0.0.0.nop",
+          "/usr/local/lib/libjaegertracing.so.0.4.2": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/ea804b0c846d1d50c1abb962468a454dc68d1949a3a907de3e77fd4090cd8089/libjaegertracing.so.0.4.2.nop",
+          "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6.nop",
+          "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30.nop",
+          "/usr/local/lib/libbson-1.0.so.0.0.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/7277229c6489da6761bfa3456517c6cf25e006a732d2a0dab69141658d47f872/libbson-1.0.so.0.0.0.nop",
+          "/usr/local/lib/libthrift.so.0.12.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/74758375d70ece71e60caec108eeeae79d9abef7dce5ef79835d4c0c4edfca8e/libthrift.so.0.12.0.nop"
+        },
+        "moviereview": {
+          "/usr/local/lib/libmongoc-1.0.so.0.0.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/9cb7b23eb3a7bcf07247adbb79644be9f4460d8e41304f850f586c157963f6a6/libmongoc-1.0.so.0.0.0.nop",
+          "/usr/local/lib/libjaegertracing.so.0.4.2": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/ea804b0c846d1d50c1abb962468a454dc68d1949a3a907de3e77fd4090cd8089/libjaegertracing.so.0.4.2.nop",
+          "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6.nop",
+          "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30.nop",
+          "/usr/local/lib/libbson-1.0.so.0.0.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/7277229c6489da6761bfa3456517c6cf25e006a732d2a0dab69141658d47f872/libbson-1.0.so.0.0.0.nop",
+          "/usr/local/lib/libthrift.so.0.12.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/74758375d70ece71e60caec108eeeae79d9abef7dce5ef79835d4c0c4edfca8e/libthrift.so.0.12.0.nop"
+        }
+      }
+    },
+    "combined": {
+      "overrides": {
+        "movie": "/storage/prefetchit/class_b_media_system_20260930/builds/movie/MovieIdService",
+        "compose": "/storage/prefetchit/class_b_media_system_20260930/builds/compose/ComposeReviewService",
+        "rating": "/storage/prefetchit/class_b_media_system_20260930/builds/rating/RatingService",
+        "unique": "/storage/prefetchit/class_b_media_system_20260930/builds/unique/UniqueIdService",
+        "text": "/storage/prefetchit/class_b_media_system_20260930/builds/text/TextService",
+        "user": "/storage/prefetchit/class_b_media_system_20260930/builds/user/UserService",
+        "storage": "/storage/prefetchit/class_b_media_system_20260930/builds/storage/ReviewStorageService",
+        "userreview": "/storage/prefetchit/class_b_media_system_20260930/builds/userreview/UserReviewService",
+        "moviereview": "/storage/prefetchit/class_b_media_system_20260930/builds/moviereview/MovieReviewService"
+      },
+      "mongo_binary": "/storage/prefetchit/class_b_mechanism_20260928/split_coverage/prepared/build/mongod",
+      "controls": [
+        "original",
+        "mongo",
+        "combined_nop"
+      ],
+      "libraries": {
+        "movie": {
+          "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6",
+          "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30",
+          "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/7242d32f52f35ec9c5164e928ad51bf40e039f0572f3b4e26ac43ec1ce20d0d7/libmemcached.so.11.0.0",
+          "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/082e3d939aa9f5294a39458d62f4633ecec0e4e48b83416f249c3eae3a265403/libmemcachedutil.so.2.0.0"
+        },
+        "compose": {
+          "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6",
+          "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30",
+          "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/7242d32f52f35ec9c5164e928ad51bf40e039f0572f3b4e26ac43ec1ce20d0d7/libmemcached.so.11.0.0",
+          "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/082e3d939aa9f5294a39458d62f4633ecec0e4e48b83416f249c3eae3a265403/libmemcachedutil.so.2.0.0"
+        },
+        "rating": {
+          "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6"
+        },
+        "unique": {
+          "/usr/local/lib/libjaegertracing.so.0.4.2": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/ea804b0c846d1d50c1abb962468a454dc68d1949a3a907de3e77fd4090cd8089/libjaegertracing.so.0.4.2",
+          "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6",
+          "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30",
+          "/usr/local/lib/libthrift.so.0.12.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/74758375d70ece71e60caec108eeeae79d9abef7dce5ef79835d4c0c4edfca8e/libthrift.so.0.12.0"
+        },
+        "text": {
+          "/usr/local/lib/libjaegertracing.so.0.4.2": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/ea804b0c846d1d50c1abb962468a454dc68d1949a3a907de3e77fd4090cd8089/libjaegertracing.so.0.4.2",
+          "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6",
+          "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30",
+          "/usr/local/lib/libthrift.so.0.12.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/74758375d70ece71e60caec108eeeae79d9abef7dce5ef79835d4c0c4edfca8e/libthrift.so.0.12.0"
+        },
+        "user": {
+          "/usr/local/lib/libmongoc-1.0.so.0.0.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/9cb7b23eb3a7bcf07247adbb79644be9f4460d8e41304f850f586c157963f6a6/libmongoc-1.0.so.0.0.0",
+          "/usr/local/lib/libjaegertracing.so.0.4.2": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/ea804b0c846d1d50c1abb962468a454dc68d1949a3a907de3e77fd4090cd8089/libjaegertracing.so.0.4.2",
+          "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6",
+          "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30",
+          "/usr/local/lib/libbson-1.0.so.0.0.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/7277229c6489da6761bfa3456517c6cf25e006a732d2a0dab69141658d47f872/libbson-1.0.so.0.0.0",
+          "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/7242d32f52f35ec9c5164e928ad51bf40e039f0572f3b4e26ac43ec1ce20d0d7/libmemcached.so.11.0.0",
+          "/usr/local/lib/libthrift.so.0.12.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/74758375d70ece71e60caec108eeeae79d9abef7dce5ef79835d4c0c4edfca8e/libthrift.so.0.12.0",
+          "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/082e3d939aa9f5294a39458d62f4633ecec0e4e48b83416f249c3eae3a265403/libmemcachedutil.so.2.0.0"
+        },
+        "storage": {
+          "/usr/local/lib/libmongoc-1.0.so.0.0.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/9cb7b23eb3a7bcf07247adbb79644be9f4460d8e41304f850f586c157963f6a6/libmongoc-1.0.so.0.0.0",
+          "/usr/local/lib/libjaegertracing.so.0.4.2": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/ea804b0c846d1d50c1abb962468a454dc68d1949a3a907de3e77fd4090cd8089/libjaegertracing.so.0.4.2",
+          "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6",
+          "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30",
+          "/usr/local/lib/libbson-1.0.so.0.0.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/7277229c6489da6761bfa3456517c6cf25e006a732d2a0dab69141658d47f872/libbson-1.0.so.0.0.0",
+          "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/7242d32f52f35ec9c5164e928ad51bf40e039f0572f3b4e26ac43ec1ce20d0d7/libmemcached.so.11.0.0",
+          "/usr/local/lib/libthrift.so.0.12.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/74758375d70ece71e60caec108eeeae79d9abef7dce5ef79835d4c0c4edfca8e/libthrift.so.0.12.0",
+          "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/082e3d939aa9f5294a39458d62f4633ecec0e4e48b83416f249c3eae3a265403/libmemcachedutil.so.2.0.0"
+        },
+        "userreview": {
+          "/usr/local/lib/libmongoc-1.0.so.0.0.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/9cb7b23eb3a7bcf07247adbb79644be9f4460d8e41304f850f586c157963f6a6/libmongoc-1.0.so.0.0.0",
+          "/usr/local/lib/libjaegertracing.so.0.4.2": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/ea804b0c846d1d50c1abb962468a454dc68d1949a3a907de3e77fd4090cd8089/libjaegertracing.so.0.4.2",
+          "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6",
+          "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30",
+          "/usr/local/lib/libbson-1.0.so.0.0.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/7277229c6489da6761bfa3456517c6cf25e006a732d2a0dab69141658d47f872/libbson-1.0.so.0.0.0",
+          "/usr/local/lib/libthrift.so.0.12.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/74758375d70ece71e60caec108eeeae79d9abef7dce5ef79835d4c0c4edfca8e/libthrift.so.0.12.0"
+        },
+        "moviereview": {
+          "/usr/local/lib/libmongoc-1.0.so.0.0.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/9cb7b23eb3a7bcf07247adbb79644be9f4460d8e41304f850f586c157963f6a6/libmongoc-1.0.so.0.0.0",
+          "/usr/local/lib/libjaegertracing.so.0.4.2": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/ea804b0c846d1d50c1abb962468a454dc68d1949a3a907de3e77fd4090cd8089/libjaegertracing.so.0.4.2",
+          "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6",
+          "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30",
+          "/usr/local/lib/libbson-1.0.so.0.0.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/7277229c6489da6761bfa3456517c6cf25e006a732d2a0dab69141658d47f872/libbson-1.0.so.0.0.0",
+          "/usr/local/lib/libthrift.so.0.12.0": "/storage/prefetchit/class_b_media_system_20260930/libraries/builds/74758375d70ece71e60caec108eeeae79d9abef7dce5ef79835d4c0c4edfca8e/libthrift.so.0.12.0"
+        }
+      }
+    }
+  },
+  "limitation": "Nine main ELF policies plus selected shared DSOs in all nine native servers; original infrastructure and kernel code. Native policies cover each main ELF, including statically linked library code, but not unmodified shared DSOs, Nginx, Redis, Memcached, Jaeger or kernel instructions. LBR placement uses observed earlier direct calls, not whole-program dominators. Sample coverage and retired-cycle lead are not accepted fills or fetch deadlines. Separate kernel PMU includes scheduler/interrupt work and is not a request critical-path decomposition.",
+  "library_summary": {
+    "9cb7b23eb3a7bcf07247adbb79644be9f4460d8e41304f850f586c157963f6a6": {
+      "name": "libmongoc-1.0.so.0.0.0",
+      "sites": 94,
+      "hints": 205,
+      "extra_instruction_bytes": 2716,
+      "train_coverage": 0.6513635471846184,
+      "heldout_coverage": 0.6462964760702844,
+      "estimated_hints_per_request": 1004.7496192962044,
+      "weighted_baseline_misses_per_request": 490.2971300858368
+    },
+    "ea804b0c846d1d50c1abb962468a454dc68d1949a3a907de3e77fd4090cd8089": {
+      "name": "libjaegertracing.so.0.4.2",
+      "sites": 60,
+      "hints": 138,
+      "extra_instruction_bytes": 1818,
+      "train_coverage": 0.6501288273713224,
+      "heldout_coverage": 0.6341707360122375,
+      "estimated_hints_per_request": 1578.0294677385973,
+      "weighted_baseline_misses_per_request": 398.24469556574667
+    },
+    "b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793": {
+      "name": "libc.so.6",
+      "sites": 36,
+      "hints": 101,
+      "extra_instruction_bytes": 1292,
+      "train_coverage": 0.3908533021624781,
+      "heldout_coverage": 0.3866103739445115,
+      "estimated_hints_per_request": 5668.830355436523,
+      "weighted_baseline_misses_per_request": 326.2594606158501
+    },
+    "ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128": {
+      "name": "libstdc++.so.6.0.30",
+      "sites": 35,
+      "hints": 89,
+      "extra_instruction_bytes": 1132,
+      "train_coverage": 0.6576963450710945,
+      "heldout_coverage": 0.6478102189781022,
+      "estimated_hints_per_request": 2397.8072473232505,
+      "weighted_baseline_misses_per_request": 249.69708858298702
+    },
+    "7277229c6489da6761bfa3456517c6cf25e006a732d2a0dab69141658d47f872": {
+      "name": "libbson-1.0.so.0.0.0",
+      "sites": 40,
+      "hints": 106,
+      "extra_instruction_bytes": 1345,
+      "train_coverage": 0.563953488372093,
+      "heldout_coverage": 0.5486921282082771,
+      "estimated_hints_per_request": 4811.083466562014,
+      "weighted_baseline_misses_per_request": 186.1209136199791
+    },
+    "7242d32f52f35ec9c5164e928ad51bf40e039f0572f3b4e26ac43ec1ce20d0d7": {
+      "name": "libmemcached.so.11.0.0",
+      "sites": 36,
+      "hints": 85,
+      "extra_instruction_bytes": 1130,
+      "train_coverage": 0.6516773733047823,
+      "heldout_coverage": 0.6312094084605933,
+      "estimated_hints_per_request": 622.4359602184519,
+      "weighted_baseline_misses_per_request": 131.76508873703654
+    },
+    "74758375d70ece71e60caec108eeeae79d9abef7dce5ef79835d4c0c4edfca8e": {
+      "name": "libthrift.so.0.12.0",
+      "sites": 6,
+      "hints": 20,
+      "extra_instruction_bytes": 225,
+      "train_coverage": 0.39717385818824125,
+      "heldout_coverage": 0.3768553459119497,
+      "estimated_hints_per_request": 504.90099794506926,
+      "weighted_baseline_misses_per_request": 94.07784068946668
+    },
+    "082e3d939aa9f5294a39458d62f4633ecec0e4e48b83416f249c3eae3a265403": {
+      "name": "libmemcachedutil.so.2.0.0",
+      "sites": 2,
+      "hints": 2,
+      "extra_instruction_bytes": 28,
+      "train_coverage": 0.23076923076923078,
+      "heldout_coverage": 0.1912087912087912,
+      "estimated_hints_per_request": 16.076791455579993,
+      "weighted_baseline_misses_per_request": 10.686954224771101
+    }
+  }
+}

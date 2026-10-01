@@ -1,0 +1,4963 @@
+{
+  "trials": 16,
+  "complete": true,
+  "absolute": {
+    "original": {
+      "trials": 4,
+      "e2e": {
+        "mean_ms": 3.3158569663677424,
+        "p99_ms": 5.815982818603516,
+        "stack_cpu": 5876.478041737072,
+        "inverse_rps": 0.0008467288759592314
+      },
+      "rps": 1181.2914699078917,
+      "util_pct": 85.61453916294047,
+      "service_cpu": {
+        "unique-id-service:cpu_us/request": 116.11981444867313,
+        "other_services:cpu_us/request": 4097.433503156182,
+        "unique-id-service:user_us/request": 69.43120987785753,
+        "other_services:user_us/request": 2971.677283477834,
+        "unique-id-service:system_us/request": 46.68860106238835,
+        "other_services:system_us/request": 1125.7562134013685,
+        "movie-id-service:cpu_us/request": 438.05210354778774,
+        "targets:cpu_us/request": 1778.2794479744252,
+        "movie-id-service:user_us/request": 153.19674551989368,
+        "targets:user_us/request": 628.630555319943,
+        "movie-id-service:system_us/request": 284.8553615679677,
+        "targets:system_us/request": 1149.6488928350032,
+        "movie-id-mongodb:cpu_us/request": 2.297422203288556,
+        "movie-id-mongodb:user_us/request": 1.5663224445279642,
+        "movie-id-mongodb:system_us/request": 0.7310962502841125,
+        "movie-id-memcached:cpu_us/request": 59.796484129192834,
+        "movie-id-memcached:user_us/request": 27.121694797126644,
+        "movie-id-memcached:system_us/request": 32.67478948108722,
+        "text-service:cpu_us/request": 110.49419690348705,
+        "text-service:user_us/request": 63.53959243956648,
+        "text-service:system_us/request": 46.95460092394719,
+        "rating-service:cpu_us/request": 380.2604063831966,
+        "rating-service:user_us/request": 157.13175729942193,
+        "rating-service:system_us/request": 223.12865268893725,
+        "rating-redis:cpu_us/request": 41.74362344243211,
+        "rating-redis:user_us/request": 26.207028644045778,
+        "rating-redis:system_us/request": 15.536591438935092,
+        "user-service:cpu_us/request": 162.44381544946452,
+        "user-service:user_us/request": 93.2195970059586,
+        "user-service:system_us/request": 69.22421835972187,
+        "user-mongodb:cpu_us/request": 2.2863922118397197,
+        "user-mongodb:user_us/request": 1.582485604546045,
+        "user-mongodb:system_us/request": 0.7038996426756323,
+        "user-memcached:cpu_us/request": 36.88288476320319,
+        "user-memcached:user_us/request": 16.43741832580897,
+        "user-memcached:system_us/request": 20.44545944117902,
+        "compose-review-service:cpu_us/request": 959.9669380434409,
+        "compose-review-service:user_us/request": 318.30205250062744,
+        "compose-review-service:system_us/request": 641.6648785780984,
+        "compose-review-memcached:cpu_us/request": 372.3456745585032,
+        "compose-review-memcached:user_us/request": 117.96482292591915,
+        "compose-review-memcached:system_us/request": 254.3808551411098,
+        "review-storage-service:cpu_us/request": 160.90717143417862,
+        "review-storage-service:user_us/request": 117.17800646417763,
+        "review-storage-service:system_us/request": 43.729165119026234,
+        "review-storage-mongodb:cpu_us/request": 172.4600427922039,
+        "review-storage-mongodb:user_us/request": 150.98357843909278,
+        "review-storage-mongodb:system_us/request": 21.476464418252068,
+        "review-storage-memcached:cpu_us/request": 0.04965898572903378,
+        "review-storage-memcached:user_us/request": 0.03643679351653695,
+        "review-storage-memcached:system_us/request": 0.013222043139478017,
+        "user-review-service:cpu_us/request": 384.173413778986,
+        "user-review-service:user_us/request": 234.78156393532453,
+        "user-review-service:system_us/request": 149.39185348057447,
+        "user-review-mongodb:cpu_us/request": 531.6034193208724,
+        "user-review-mongodb:user_us/request": 482.7756790753561,
+        "user-review-mongodb:system_us/request": 48.82774378558989,
+        "user-review-redis:cpu_us/request": 37.8375543090397,
+        "user-review-redis:user_us/request": 21.052014114830904,
+        "user-review-redis:system_us/request": 16.785543799475374,
+        "movie-review-service:cpu_us/request": 383.08201468635656,
+        "movie-review-service:user_us/request": 233.2150286883848,
+        "movie-review-service:system_us/request": 149.86698953804543,
+        "movie-review-mongodb:cpu_us/request": 531.8074421021652,
+        "movie-review-mongodb:user_us/request": 482.99472974203036,
+        "movie-review-mongodb:system_us/request": 48.81272286497273,
+        "movie-review-redis:cpu_us/request": 37.49888422011378,
+        "movie-review-redis:user_us/request": 21.29894445966439,
+        "movie-review-redis:system_us/request": 16.199932646659846,
+        "nginx-web-server:cpu_us/request": 588.6959546348735,
+        "nginx-web-server:user_us/request": 468.08178524691715,
+        "nginx-web-server:system_us/request": 120.61416590021905,
+        "cast-info-service:cpu_us/request": 0.00934940059129169,
+        "cast-info-service:user_us/request": 0.004032865561080266,
+        "cast-info-service:system_us/request": 0.0053130917448088654,
+        "cast-info-mongodb:cpu_us/request": 2.3022965818527337,
+        "cast-info-mongodb:user_us/request": 1.5074690401608397,
+        "cast-info-mongodb:system_us/request": 0.794824020307263,
+        "cast-info-memcached:cpu_us/request": 0.04915469704945327,
+        "cast-info-memcached:user_us/request": 0.03127343535373231,
+        "cast-info-memcached:system_us/request": 0.017881261695720962,
+        "plot-service:cpu_us/request": 0.008969894628423038,
+        "plot-service:user_us/request": 0.006167221730918862,
+        "plot-service:system_us/request": 0.002802725233877793,
+        "plot-mongodb:cpu_us/request": 2.2725654082834263,
+        "plot-mongodb:user_us/request": 1.535232935758272,
+        "plot-mongodb:system_us/request": 0.7373360462438119,
+        "plot-memcached:cpu_us/request": 0.049553000255967074,
+        "plot-memcached:user_us/request": 0.027330236476643118,
+        "plot-memcached:system_us/request": 0.022226452830414346,
+        "movie-info-service:cpu_us/request": 0.008872390130309816,
+        "movie-info-service:user_us/request": 0.00575548181516529,
+        "movie-info-service:system_us/request": 0.003120429693218884,
+        "movie-info-mongodb:cpu_us/request": 2.291968069401701,
+        "movie-info-mongodb:user_us/request": 1.538275349015178,
+        "movie-info-mongodb:system_us/request": 0.7536926364998863,
+        "movie-info-memcached:cpu_us/request": 0.04869001908218605,
+        "movie-info-memcached:user_us/request": 0.03637286114670049,
+        "movie-info-memcached:system_us/request": 0.012320763202058965,
+        "jaeger:cpu_us/request": 357.86621932030346,
+        "jaeger:user_us/request": 337.5174350261631,
+        "jaeger:system_us/request": 20.348780636634427
+      },
+      "pmu": {},
+      "pmu_trials": {}
+    },
+    "mongo": {
+      "trials": 4,
+      "e2e": {
+        "mean_ms": 3.255099104665062,
+        "p99_ms": 5.7579874992370605,
+        "stack_cpu": 5768.101864274024,
+        "inverse_rps": 0.0008314494162331506
+      },
+      "rps": 1202.9164245146708,
+      "util_pct": 85.546345983272,
+      "service_cpu": {
+        "unique-id-service:cpu_us/request": 116.66845224766026,
+        "other_services:cpu_us/request": 3983.211117499267,
+        "unique-id-service:user_us/request": 70.11453951619697,
+        "other_services:user_us/request": 2852.4929403138894,
+        "unique-id-service:system_us/request": 46.553916120869076,
+        "other_services:system_us/request": 1130.7181631596334,
+        "movie-id-service:cpu_us/request": 439.4247035378902,
+        "targets:cpu_us/request": 1784.1567862635784,
+        "movie-id-service:user_us/request": 155.4150587859716,
+        "targets:user_us/request": 635.9364032103716,
+        "movie-id-service:system_us/request": 284.0096482322132,
+        "targets:system_us/request": 1148.2203831315533,
+        "movie-id-mongodb:cpu_us/request": 2.2543476018264346,
+        "movie-id-mongodb:user_us/request": 1.5091628880028056,
+        "movie-id-mongodb:system_us/request": 0.745184726320285,
+        "movie-id-memcached:cpu_us/request": 59.650172107246554,
+        "movie-id-memcached:user_us/request": 26.641532369060183,
+        "movie-id-memcached:system_us/request": 33.00863634878346,
+        "text-service:cpu_us/request": 111.04780983557767,
+        "text-service:user_us/request": 63.58552294796136,
+        "text-service:system_us/request": 47.46229026310718,
+        "rating-service:cpu_us/request": 381.4827340723808,
+        "rating-service:user_us/request": 158.94596207823065,
+        "rating-service:system_us/request": 222.53677208636,
+        "rating-redis:cpu_us/request": 42.1680004815242,
+        "rating-redis:user_us/request": 27.02920990041728,
+        "rating-redis:system_us/request": 15.138790475036856,
+        "user-service:cpu_us/request": 163.15621940855038,
+        "user-service:user_us/request": 93.16518177379254,
+        "user-service:system_us/request": 69.9910341544633,
+        "user-mongodb:cpu_us/request": 2.25469781751901,
+        "user-mongodb:user_us/request": 1.541415160276094,
+        "user-mongodb:system_us/request": 0.7132791643544371,
+        "user-memcached:cpu_us/request": 37.04156192654567,
+        "user-memcached:user_us/request": 16.580379579177823,
+        "user-memcached:system_us/request": 20.461175374184446,
+        "compose-review-service:cpu_us/request": 963.2493486533073,
+        "compose-review-service:user_us/request": 321.5753823461694,
+        "compose-review-service:system_us/request": 641.67396281298,
+        "compose-review-memcached:cpu_us/request": 373.9500621119138,
+        "compose-review-memcached:user_us/request": 120.12069839581045,
+        "compose-review-memcached:system_us/request": 253.82935684659785,
+        "review-storage-service:cpu_us/request": 162.4699833881151,
+        "review-storage-service:user_us/request": 118.75872947693924,
+        "review-storage-service:system_us/request": 43.71126079214913,
+        "review-storage-mongodb:cpu_us/request": 157.243437773552,
+        "review-storage-mongodb:user_us/request": 135.53203475337114,
+        "review-storage-mongodb:system_us/request": 21.711403020180853,
+        "review-storage-memcached:cpu_us/request": 0.048356186997171126,
+        "review-storage-memcached:user_us/request": 0.032367839649966014,
+        "review-storage-memcached:system_us/request": 0.015995320481807174,
+        "user-review-service:cpu_us/request": 386.6616170339767,
+        "user-review-service:user_us/request": 237.11631304280468,
+        "user-review-service:system_us/request": 149.54530049696538,
+        "user-review-mongodb:cpu_us/request": 487.73739271388604,
+        "user-review-mongodb:user_us/request": 437.6942454169099,
+        "user-review-mongodb:system_us/request": 50.043147415737465,
+        "user-review-redis:cpu_us/request": 37.79131330505648,
+        "user-review-redis:user_us/request": 21.460465732884387,
+        "user-review-redis:system_us/request": 16.33085105241821,
+        "movie-review-service:cpu_us/request": 384.57646830187053,
+        "movie-review-service:user_us/request": 235.43887512922043,
+        "movie-review-service:system_us/request": 149.1375896798104,
+        "movie-review-mongodb:cpu_us/request": 487.05307013656545,
+        "movie-review-mongodb:user_us/request": 437.24784966015955,
+        "movie-review-mongodb:system_us/request": 49.8052204903179,
+        "movie-review-redis:cpu_us/request": 37.76255922738498,
+        "movie-review-redis:user_us/request": 21.25049845085762,
+        "movie-review-redis:system_us/request": 16.51206765886467,
+        "nginx-web-server:cpu_us/request": 566.1628491364502,
+        "nginx-web-server:user_us/request": 443.34731890240664,
+        "nginx-web-server:system_us/request": 122.8155197667023,
+        "cast-info-service:cpu_us/request": 0.009123237158813972,
+        "cast-info-service:user_us/request": 0.005138469577460255,
+        "cast-info-service:system_us/request": 0.003977794495199433,
+        "cast-info-mongodb:cpu_us/request": 2.2534252653591507,
+        "cast-info-mongodb:user_us/request": 1.5368281820790723,
+        "cast-info-mongodb:system_us/request": 0.7166005761685572,
+        "cast-info-memcached:cpu_us/request": 0.04898504486159479,
+        "cast-info-memcached:user_us/request": 0.03435971626117279,
+        "cast-info-memcached:system_us/request": 0.014625434719322634,
+        "plot-service:cpu_us/request": 0.009187663356972598,
+        "plot-service:user_us/request": 0.003960352538066169,
+        "plot-service:system_us/request": 0.00522729695571035,
+        "plot-mongodb:cpu_us/request": 2.233094284152635,
+        "plot-mongodb:user_us/request": 1.5020881748152861,
+        "plot-mongodb:system_us/request": 0.7310062015930534,
+        "plot-memcached:cpu_us/request": 0.04841172231827386,
+        "plot-memcached:user_us/request": 0.03255073598175279,
+        "plot-memcached:system_us/request": 0.015867973480373228,
+        "movie-info-service:cpu_us/request": 0.00896062936737007,
+        "movie-info-service:user_us/request": 0.005943389183299411,
+        "movie-info-service:system_us/request": 0.003017149197336741,
+        "movie-info-mongodb:cpu_us/request": 2.239587894497013,
+        "movie-info-mongodb:user_us/request": 1.5667088050604974,
+        "movie-info-mongodb:system_us/request": 0.6728756886580424,
+        "movie-info-memcached:cpu_us/request": 0.0479682361312464,
+        "movie-info-memcached:user_us/request": 0.030491664573690742,
+        "movie-info-memcached:system_us/request": 0.017476479350300236,
+        "jaeger:cpu_us/request": 360.6140027798454,
+        "jaeger:user_us/request": 339.60852988791976,
+        "jaeger:system_us/request": 21.00546939767021
+      },
+      "pmu": {},
+      "pmu_trials": {}
+    },
+    "combined_nop": {
+      "trials": 4,
+      "e2e": {
+        "mean_ms": 3.242920998042117,
+        "p99_ms": 5.7830810546875,
+        "stack_cpu": 5795.805846980496,
+        "inverse_rps": 0.0008284513257066174
+      },
+      "rps": 1207.24219798321,
+      "util_pct": 86.25055834135676,
+      "service_cpu": {
+        "unique-id-service:cpu_us/request": 118.13168415359826,
+        "other_services:cpu_us/request": 3998.5871224573475,
+        "unique-id-service:user_us/request": 71.81879245202734,
+        "other_services:user_us/request": 2872.992752653008,
+        "unique-id-service:system_us/request": 46.31289170157093,
+        "other_services:system_us/request": 1125.5943703746798,
+        "movie-id-service:cpu_us/request": 442.2727535894966,
+        "targets:cpu_us/request": 1796.4800033697554,
+        "movie-id-service:user_us/request": 158.46233446787795,
+        "targets:user_us/request": 645.244011056153,
+        "movie-id-service:system_us/request": 283.8104088356209,
+        "targets:system_us/request": 1151.235982187895,
+        "movie-id-mongodb:cpu_us/request": 2.2300730960040154,
+        "movie-id-mongodb:user_us/request": 1.499544556248018,
+        "movie-id-mongodb:system_us/request": 0.7305320906025046,
+        "movie-id-memcached:cpu_us/request": 59.44674058525408,
+        "movie-id-memcached:user_us/request": 26.99085240391887,
+        "movie-id-memcached:system_us/request": 32.455888212084716,
+        "text-service:cpu_us/request": 112.00085003613893,
+        "text-service:user_us/request": 65.75780745193367,
+        "text-service:system_us/request": 46.24304258420525,
+        "rating-service:cpu_us/request": 383.0756102675943,
+        "rating-service:user_us/request": 159.35241424051014,
+        "rating-service:system_us/request": 223.7231892601833,
+        "rating-redis:cpu_us/request": 41.902774043680836,
+        "rating-redis:user_us/request": 26.6256227693367,
+        "rating-redis:system_us/request": 15.27714780409542,
+        "user-service:cpu_us/request": 164.82760858896847,
+        "user-service:user_us/request": 95.06379358790612,
+        "user-service:system_us/request": 69.76381844056155,
+        "user-mongodb:cpu_us/request": 2.2299571415427315,
+        "user-mongodb:user_us/request": 1.4431124251969567,
+        "user-mongodb:system_us/request": 0.7868447163457748,
+        "user-memcached:cpu_us/request": 36.778958981416004,
+        "user-memcached:user_us/request": 16.675176359784476,
+        "user-memcached:system_us/request": 20.103782621631524,
+        "compose-review-service:cpu_us/request": 971.1316395126646,
+        "compose-review-service:user_us/request": 327.42926234776485,
+        "compose-review-service:system_us/request": 643.7023840920906,
+        "compose-review-memcached:cpu_us/request": 372.08012129920087,
+        "compose-review-memcached:user_us/request": 119.37922163719284,
+        "compose-review-memcached:system_us/request": 252.70090321290184,
+        "review-storage-service:cpu_us/request": 164.59992281272073,
+        "review-storage-service:user_us/request": 120.65078714060246,
+        "review-storage-service:system_us/request": 43.94913218442658,
+        "review-storage-mongodb:cpu_us/request": 156.81549252746402,
+        "review-storage-mongodb:user_us/request": 135.37703582369457,
+        "review-storage-mongodb:system_us/request": 21.438463661757154,
+        "review-storage-memcached:cpu_us/request": 0.048604476748519136,
+        "review-storage-memcached:user_us/request": 0.04199461119652616,
+        "review-storage-memcached:system_us/request": 0.006606457607392527,
+        "user-review-service:cpu_us/request": 391.08977584102365,
+        "user-review-service:user_us/request": 241.89369313917481,
+        "user-review-service:system_us/request": 149.19608610979344,
+        "user-review-mongodb:cpu_us/request": 487.2823417262741,
+        "user-review-mongodb:user_us/request": 437.93663314548115,
+        "user-review-mongodb:system_us/request": 49.34570173330184,
+        "user-review-redis:cpu_us/request": 37.67317019192812,
+        "user-review-redis:user_us/request": 21.62390494755564,
+        "user-review-redis:system_us/request": 16.04926868391901,
+        "movie-review-service:cpu_us/request": 389.913885970463,
+        "movie-review-service:user_us/request": 240.93855162573232,
+        "movie-review-service:system_us/request": 148.97533082543794,
+        "movie-review-mongodb:cpu_us/request": 485.796730554352,
+        "movie-review-mongodb:user_us/request": 435.88211991745766,
+        "movie-review-mongodb:system_us/request": 49.91461415618713,
+        "movie-review-redis:cpu_us/request": 37.427534033999976,
+        "movie-review-redis:user_us/request": 20.950892026082858,
+        "movie-review-redis:system_us/request": 16.47664203951905,
+        "nginx-web-server:cpu_us/request": 570.4652483188122,
+        "nginx-web-server:user_us/request": 447.24900271382563,
+        "nginx-web-server:system_us/request": 123.21624557423624,
+        "cast-info-service:cpu_us/request": 0.009743281756201073,
+        "cast-info-service:user_us/request": 0.00552880754484723,
+        "cast-info-service:system_us/request": 0.004210985765777091,
+        "cast-info-mongodb:cpu_us/request": 2.243907543391213,
+        "cast-info-mongodb:user_us/request": 1.4767195547130612,
+        "cast-info-mongodb:system_us/request": 0.767191539570626,
+        "cast-info-memcached:cpu_us/request": 0.04853535800387263,
+        "cast-info-memcached:user_us/request": 0.02462232481740943,
+        "cast-info-memcached:system_us/request": 0.02390951399278086,
+        "plot-service:cpu_us/request": 0.009876575395307268,
+        "plot-service:user_us/request": 0.005911381585979852,
+        "plot-service:system_us/request": 0.003965193809327416,
+        "plot-mongodb:cpu_us/request": 2.2256611635604346,
+        "plot-mongodb:user_us/request": 1.4436052763104834,
+        "plot-mongodb:system_us/request": 0.7820525590507164,
+        "plot-memcached:cpu_us/request": 0.04883853215686949,
+        "plot-memcached:user_us/request": 0.03378894371643944,
+        "plot-memcached:system_us/request": 0.015042660351459545,
+        "movie-info-service:cpu_us/request": 0.009946961944609376,
+        "movie-info-service:user_us/request": 0.006216485079175344,
+        "movie-info-service:system_us/request": 0.0037270688743765994,
+        "movie-info-mongodb:cpu_us/request": 2.2216563757855705,
+        "movie-info-mongodb:user_us/request": 1.5130411042058516,
+        "movie-info-mongodb:system_us/request": 0.7086221980141754,
+        "movie-info-memcached:cpu_us/request": 0.048641293661661825,
+        "movie-info-memcached:user_us/request": 0.03586145383781923,
+        "movie-info-memcached:system_us/request": 0.01277651248014398,
+        "jaeger:cpu_us/request": 360.9788409921007,
+        "jaeger:user_us/request": 340.6489185868488,
+        "jaeger:system_us/request": 20.329929332585188
+      },
+      "pmu": {},
+      "pmu_trials": {}
+    },
+    "combined": {
+      "trials": 4,
+      "e2e": {
+        "mean_ms": 3.242575935487782,
+        "p99_ms": 5.720317363739014,
+        "stack_cpu": 5728.098224990534,
+        "inverse_rps": 0.0008283726806333303
+      },
+      "rps": 1207.2672885991437,
+      "util_pct": 85.28235857482201,
+      "service_cpu": {
+        "unique-id-service:cpu_us/request": 112.90356923052916,
+        "other_services:cpu_us/request": 3963.6897910783605,
+        "unique-id-service:user_us/request": 66.95388307510996,
+        "other_services:user_us/request": 2833.7553581853076,
+        "unique-id-service:system_us/request": 45.94969308663378,
+        "other_services:system_us/request": 1129.9344571396543,
+        "movie-id-service:cpu_us/request": 432.62356275569164,
+        "targets:cpu_us/request": 1763.6926040939177,
+        "movie-id-service:user_us/request": 146.7316580488179,
+        "targets:user_us/request": 609.3680679318707,
+        "movie-id-service:system_us/request": 285.89189777426265,
+        "targets:system_us/request": 1154.324529295818,
+        "movie-id-mongodb:cpu_us/request": 2.231488842242568,
+        "movie-id-mongodb:user_us/request": 1.4637212380944398,
+        "movie-id-mongodb:system_us/request": 0.767767595881631,
+        "movie-id-memcached:cpu_us/request": 60.074102940871484,
+        "movie-id-memcached:user_us/request": 26.991729887315685,
+        "movie-id-memcached:system_us/request": 33.08237298563486,
+        "text-service:cpu_us/request": 108.20380656155,
+        "text-service:user_us/request": 61.119391570062845,
+        "text-service:system_us/request": 47.08440806041698,
+        "rating-service:cpu_us/request": 374.3880719740592,
+        "rating-service:user_us/request": 150.62050421323016,
+        "rating-service:system_us/request": 223.76756435677208,
+        "rating-redis:cpu_us/request": 42.182455436360534,
+        "rating-redis:user_us/request": 26.77785897638516,
+        "rating-redis:system_us/request": 15.404603392442185,
+        "user-service:cpu_us/request": 159.69329649927457,
+        "user-service:user_us/request": 90.46746202747528,
+        "user-service:system_us/request": 69.2258378824873,
+        "user-mongodb:cpu_us/request": 2.228111202671534,
+        "user-mongodb:user_us/request": 1.5146346693127613,
+        "user-mongodb:system_us/request": 0.7134765265369476,
+        "user-memcached:cpu_us/request": 37.62222552595516,
+        "user-memcached:user_us/request": 17.243103741868246,
+        "user-memcached:system_us/request": 20.379132117817516,
+        "compose-review-service:cpu_us/request": 956.6809693641669,
+        "compose-review-service:user_us/request": 312.01590566982253,
+        "compose-review-service:system_us/request": 644.6650671647832,
+        "compose-review-memcached:cpu_us/request": 375.1209150907487,
+        "compose-review-memcached:user_us/request": 120.32827628884658,
+        "compose-review-memcached:system_us/request": 254.79263873556664,
+        "review-storage-service:cpu_us/request": 156.49889554930317,
+        "review-storage-service:user_us/request": 112.62011355040481,
+        "review-storage-service:system_us/request": 43.87877858951418,
+        "review-storage-mongodb:cpu_us/request": 157.17527458801936,
+        "review-storage-mongodb:user_us/request": 135.27670430558334,
+        "review-storage-mongodb:system_us/request": 21.898573810991966,
+        "review-storage-memcached:cpu_us/request": 0.04880346748495428,
+        "review-storage-memcached:user_us/request": 0.026526726500331818,
+        "review-storage-memcached:system_us/request": 0.022280210026889274,
+        "user-review-service:cpu_us/request": 377.47319056949027,
+        "user-review-service:user_us/request": 229.10069635093987,
+        "user-review-service:system_us/request": 148.37249768072272,
+        "user-review-mongodb:cpu_us/request": 488.35850390350026,
+        "user-review-mongodb:user_us/request": 439.36044589939144,
+        "user-review-mongodb:system_us/request": 48.99805800410883,
+        "user-review-redis:cpu_us/request": 38.03423087348834,
+        "user-review-redis:user_us/request": 21.74032610480109,
+        "user-review-redis:system_us/request": 16.293897903997085,
+        "movie-review-service:cpu_us/request": 377.31742107070534,
+        "movie-review-service:user_us/request": 226.5745555910659,
+        "movie-review-service:system_us/request": 150.74286207712157,
+        "movie-review-mongodb:cpu_us/request": 488.95207063918946,
+        "movie-review-mongodb:user_us/request": 438.3004434278838,
+        "movie-review-mongodb:system_us/request": 50.65162374235965,
+        "movie-review-redis:cpu_us/request": 38.23117718642792,
+        "movie-review-redis:user_us/request": 21.67571722315075,
+        "movie-review-redis:system_us/request": 16.55545996327717,
+        "nginx-web-server:cpu_us/request": 573.4681941567262,
+        "nginx-web-server:user_us/request": 451.70251021400895,
+        "nginx-web-server:system_us/request": 121.7656908820539,
+        "cast-info-service:cpu_us/request": 0.01001062336237871,
+        "cast-info-service:user_us/request": 0.004124799031556152,
+        "cast-info-service:system_us/request": 0.005878951281537514,
+        "cast-info-mongodb:cpu_us/request": 2.2470320188207995,
+        "cast-info-mongodb:user_us/request": 1.4424455818454596,
+        "cast-info-mongodb:system_us/request": 0.8045899074623187,
+        "cast-info-memcached:cpu_us/request": 0.04988235332450121,
+        "cast-info-memcached:user_us/request": 0.04443990953499121,
+        "cast-info-memcached:system_us/request": 0.005445839624479352,
+        "plot-service:cpu_us/request": 0.010030136294546818,
+        "plot-service:user_us/request": 0.005864423367432643,
+        "plot-service:system_us/request": 0.004158781712731109,
+        "plot-mongodb:cpu_us/request": 2.2326335978358607,
+        "plot-mongodb:user_us/request": 1.4973830134739141,
+        "plot-mongodb:system_us/request": 0.7352505248448016,
+        "plot-memcached:cpu_us/request": 0.047496971786355105,
+        "plot-memcached:user_us/request": 0.027789767243079824,
+        "plot-memcached:system_us/request": 0.01971066676352789,
+        "movie-info-service:cpu_us/request": 0.009897612988904857,
+        "movie-info-service:user_us/request": 0.006408470373973496,
+        "movie-info-service:system_us/request": 0.003489202224701203,
+        "movie-info-mongodb:cpu_us/request": 2.2314652931380783,
+        "movie-info-mongodb:user_us/request": 1.506330782577365,
+        "movie-info-mongodb:system_us/request": 0.7251345784853866,
+        "movie-info-memcached:cpu_us/request": 0.04913787377427046,
+        "movie-info-memcached:user_us/request": 0.025466099189708102,
+        "movie-info-memcached:system_us/request": 0.023675243482424127,
+        "jaeger:cpu_us/request": 360.9844712624961,
+        "jaeger:user_us/request": 339.95700447046886,
+        "jaeger:system_us/request": 21.027470196180534
+      },
+      "pmu": {},
+      "pmu_trials": {}
+    }
+  },
+  "e2e": {
+    "mongo": {
+      "original": {
+        "inverse_rps": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.8010728127678788,
+          "ci95_pct": [
+            -0.27197754312147104,
+            3.8312643572190663
+          ],
+          "speedup": 1.0183410640457797,
+          "speedup_ci95": [
+            0.9972876016830873,
+            1.0398389802217043
+          ]
+        },
+        "mean_ms": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.8286394261451178,
+          "ci95_pct": [
+            -0.2758185078249653,
+            3.888931745097013
+          ],
+          "speedup": 1.0186270152054113,
+          "speedup_ci95": [
+            0.9972494015812652,
+            1.0404628916909227
+          ]
+        },
+        "p99_ms": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.9953488125618026,
+          "ci95_pct": [
+            0.0178181174407821,
+            1.9633221421411662
+          ],
+          "speedup": 1.0100535560766473,
+          "speedup_ci95": [
+            1.0001782129285968,
+            1.020026404250333
+          ]
+        },
+        "stack_cpu": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.8413022533127599,
+          "ci95_pct": [
+            0.2600745167206986,
+            3.397461982856953
+          ],
+          "speedup": 1.0187584217759744,
+          "speedup_ci95": [
+            1.0026075266796173,
+            1.035169489876695
+          ]
+        }
+      }
+    },
+    "combined_nop": {
+      "mongo": {
+        "inverse_rps": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.3595133579635701,
+          "ci95_pct": [
+            -2.7885445550407395,
+            3.4111571358467874
+          ],
+          "speedup": 1.0036081051997983,
+          "speedup_ci95": [
+            0.9728710571094084,
+            1.0353162646398444
+          ]
+        },
+        "mean_ms": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.37306213718688586,
+          "ci95_pct": [
+            -2.832855257740663,
+            3.479031842075686
+          ],
+          "speedup": 1.0037445910231688,
+          "speedup_ci95": [
+            0.9724518467308879,
+            1.036044311494922
+          ]
+        },
+        "p99_ms": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.43569249484298744,
+          "ci95_pct": [
+            -1.802579265236548,
+            0.9128413079090847
+          ],
+          "speedup": 0.9956619754987466,
+          "speedup_ci95": [
+            0.9822933831515201,
+            1.0092125086636674
+          ]
+        },
+        "stack_cpu": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.48032225461847045,
+          "ci95_pct": [
+            -1.373435585252225,
+            0.4049226298414865
+          ],
+          "speedup": 0.9952197381154757,
+          "speedup_ci95": [
+            0.9864517210320133,
+            1.0040656891940205
+          ]
+        }
+      }
+    },
+    "combined": {
+      "original": {
+        "inverse_rps": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.1597401315864184,
+          "ci95_pct": [
+            0.36080215180775976,
+            3.926199148015519
+          ],
+          "speedup": 1.0220741454948206,
+          "speedup_ci95": [
+            1.0036210864760018,
+            1.0408664913139472
+          ]
+        },
+        "mean_ms": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.2014605080007077,
+          "ci95_pct": [
+            0.35161507644925205,
+            4.016965913637483
+          ],
+          "speedup": 1.0225101573033286,
+          "speedup_ci95": [
+            1.0035285577053659,
+            1.041850791151519
+          ]
+        },
+        "p99_ms": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.6407310069876946,
+          "ci95_pct": [
+            -0.08139491281433653,
+            3.3332238697541205
+          ],
+          "speedup": 1.0166810004159776,
+          "speedup_ci95": [
+            0.9991867128462264,
+            1.0344815871925122
+          ]
+        },
+        "stack_cpu": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.5218165466722398,
+          "ci95_pct": [
+            1.1187453260234737,
+            3.90497894985401
+          ],
+          "speedup": 1.0258705738795355,
+          "speedup_ci95": [
+            1.011314028424418,
+            1.0406366418070323
+          ]
+        }
+      },
+      "mongo": {
+        "inverse_rps": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.36524565908410134,
+          "ci95_pct": [
+            -0.5610691093218545,
+            1.2830277114224353
+          ],
+          "speedup": 1.0036658459339836,
+          "speedup_ci95": [
+            0.9944206131230376,
+            1.0129970326447186
+          ]
+        },
+        "mean_ms": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.37976562581621964,
+          "ci95_pct": [
+            -0.5501426779065621,
+            1.3010739471789212
+          ],
+          "speedup": 1.0038121334305417,
+          "speedup_ci95": [
+            0.9945286733240266,
+            1.013182250296043
+          ]
+        },
+        "p99_ms": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.651870580508418,
+          "ci95_pct": [
+            -0.6727319109125718,
+            1.9590446012107465
+          ],
+          "speedup": 1.0065614781507957,
+          "speedup_ci95": [
+            0.9933176352906774,
+            1.0199819003521762
+          ]
+        },
+        "stack_cpu": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.6932796674989028,
+          "ci95_pct": [
+            0.4346037663058633,
+            0.9512835157057586
+          ],
+          "speedup": 1.0069811958866193,
+          "speedup_ci95": [
+            1.0043650081528908,
+            1.0096041983124193
+          ]
+        }
+      },
+      "combined_nop": {
+        "inverse_rps": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.005752983866014194,
+          "ci95_pct": [
+            -2.4394884929201277,
+            2.392626286740318
+          ],
+          "speedup": 1.0000575331485329,
+          "speedup_ci95": [
+            0.9761860535540576,
+            1.0245127616461551
+          ]
+        },
+        "mean_ms": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.006728590452687033,
+          "ci95_pct": [
+            -2.4973529289392005,
+            2.4496336591697143
+          ],
+          "speedup": 1.0000672904322245,
+          "speedup_ci95": [
+            0.9756349519516802,
+            1.0251114757540833
+          ]
+        },
+        "p99_ms": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.0828452000838706,
+          "ci95_pct": [
+            -0.1951888246115363,
+            2.3445773345643794
+          ],
+          "speedup": 1.0109469909670794,
+          "speedup_ci95": [
+            0.9980519141996608,
+            1.0240086753051783
+          ]
+        },
+        "stack_cpu": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.167991797581469,
+          "ci95_pct": [
+            0.5467165037674415,
+            1.7853860431572222
+          ],
+          "speedup": 1.0118179506702858,
+          "speedup_ci95": [
+            1.0054972192425216,
+            1.0181784153215911
+          ]
+        }
+      }
+    }
+  },
+  "pmu": {
+    "mongo": {
+      "original": {}
+    },
+    "combined_nop": {
+      "mongo": {}
+    },
+    "combined": {
+      "original": {},
+      "mongo": {},
+      "combined_nop": {}
+    }
+  },
+  "pmu_rows": [
+    {
+      "block": 0,
+      "arm": "original",
+      "valid": true,
+      "metrics": {}
+    },
+    {
+      "block": 0,
+      "arm": "mongo",
+      "valid": true,
+      "metrics": {}
+    },
+    {
+      "block": 0,
+      "arm": "combined",
+      "valid": true,
+      "metrics": {}
+    },
+    {
+      "block": 0,
+      "arm": "combined_nop",
+      "valid": true,
+      "metrics": {}
+    },
+    {
+      "block": 1,
+      "arm": "mongo",
+      "valid": true,
+      "metrics": {}
+    },
+    {
+      "block": 1,
+      "arm": "combined_nop",
+      "valid": true,
+      "metrics": {}
+    },
+    {
+      "block": 1,
+      "arm": "original",
+      "valid": true,
+      "metrics": {}
+    },
+    {
+      "block": 1,
+      "arm": "combined",
+      "valid": true,
+      "metrics": {}
+    },
+    {
+      "block": 2,
+      "arm": "combined_nop",
+      "valid": true,
+      "metrics": {}
+    },
+    {
+      "block": 2,
+      "arm": "combined",
+      "valid": true,
+      "metrics": {}
+    },
+    {
+      "block": 2,
+      "arm": "mongo",
+      "valid": true,
+      "metrics": {}
+    },
+    {
+      "block": 2,
+      "arm": "original",
+      "valid": true,
+      "metrics": {}
+    },
+    {
+      "block": 3,
+      "arm": "combined",
+      "valid": true,
+      "metrics": {}
+    },
+    {
+      "block": 3,
+      "arm": "original",
+      "valid": true,
+      "metrics": {}
+    },
+    {
+      "block": 3,
+      "arm": "combined_nop",
+      "valid": true,
+      "metrics": {}
+    },
+    {
+      "block": 3,
+      "arm": "mongo",
+      "valid": true,
+      "metrics": {}
+    }
+  ],
+  "invalid_pmu_windows": [],
+  "service_cpu": {
+    "mongo": {
+      "original": {
+        "cast-info-memcached:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.3628034884365694,
+          "ci95_pct": [
+            -2.5248094089812767,
+            3.1690867223963526
+          ]
+        },
+        "cast-info-memcached:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 71.94152030892108,
+          "ci95_pct": [
+            -2523.1930176792325,
+            99.69987786744294
+          ]
+        },
+        "cast-info-memcached:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -10.04258686863999,
+          "ci95_pct": [
+            -95.96355702859418,
+            38.20600570658538
+          ]
+        },
+        "cast-info-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.1166604317393367,
+          "ci95_pct": [
+            -0.06964869893071324,
+            4.2552033548030055
+          ]
+        },
+        "cast-info-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 9.790161071612335,
+          "ci95_pct": [
+            -8.716468205444428,
+            25.146436654772497
+          ]
+        },
+        "cast-info-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.8404610155934753,
+          "ci95_pct": [
+            -12.281453827780563,
+            7.629629415231964
+          ]
+        },
+        "cast-info-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.4358011929272227,
+          "ci95_pct": [
+            -1.7514521581676767,
+            6.450741616251809
+          ]
+        },
+        "cast-info-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 18.714959219590643,
+          "ci95_pct": [
+            -56.54567022338812,
+            57.7934168013439
+          ]
+        },
+        "cast-info-service:user_us/request": {
+          "pairs": 3,
+          "cost_reduction_pct": 5.246757393152979,
+          "ci95_pct": [
+            0.13132751866670178,
+            10.100166934829902
+          ]
+        },
+        "compose-review-memcached:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.43025049083535993,
+          "ci95_pct": [
+            -1.4659562361947653,
+            0.594883369817456
+          ]
+        },
+        "compose-review-memcached:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.21551177196634796,
+          "ci95_pct": [
+            -1.599351833437157,
+            1.997956569111925
+          ]
+        },
+        "compose-review-memcached:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.8229693322556528,
+          "ci95_pct": [
+            -4.971685616929888,
+            1.2312984905966995
+          ]
+        },
+        "compose-review-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.3420311404728871,
+          "ci95_pct": [
+            -0.7439420532007857,
+            0.05827637677059405
+          ]
+        },
+        "compose-review-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.000907499818625368,
+          "ci95_pct": [
+            -0.7930045346111081,
+            0.7849647209064337
+          ]
+        },
+        "compose-review-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.0289015796623557,
+          "ci95_pct": [
+            -2.328404810019924,
+            0.2540988170114167
+          ]
+        },
+        "jaeger:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.7699966721389062,
+          "ci95_pct": [
+            -1.9171081051178263,
+            0.3642036346892197
+          ]
+        },
+        "jaeger:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -3.3864374338237635,
+          "ci95_pct": [
+            -19.32325015114653,
+            10.421854653485152
+          ]
+        },
+        "jaeger:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.6209397792929394,
+          "ci95_pct": [
+            -1.5899610403022457,
+            0.33883842074192705
+          ]
+        },
+        "movie-id-memcached:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.2453691206191766,
+          "ci95_pct": [
+            -1.0220116460578854,
+            1.4968498474774883
+          ]
+        },
+        "movie-id-memcached:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.0164721421267453,
+          "ci95_pct": [
+            -8.045322755735285,
+            5.55511905766971
+          ]
+        },
+        "movie-id-memcached:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.7856700254588853,
+          "ci95_pct": [
+            -5.662505610036406,
+            8.708821954797463
+          ]
+        },
+        "movie-id-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.877621218835368,
+          "ci95_pct": [
+            -0.1790766780008779,
+            3.892094667422352
+          ]
+        },
+        "movie-id-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -2.6267730012417445,
+          "ci95_pct": [
+            -21.903000431733165,
+            13.601351079569524
+          ]
+        },
+        "movie-id-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.4513104699835706,
+          "ci95_pct": [
+            -5.231833716645329,
+            11.417970012157753
+          ]
+        },
+        "movie-id-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.3139475456964247,
+          "ci95_pct": [
+            -0.9974222290298318,
+            0.36490189441346077
+          ]
+        },
+        "movie-id-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.29694028152926766,
+          "ci95_pct": [
+            -0.3849477880027541,
+            0.9741964679989668
+          ]
+        },
+        "movie-id-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.447841389197757,
+          "ci95_pct": [
+            -3.19998091358189,
+            0.2745501363424552
+          ]
+        },
+        "movie-info-memcached:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.4818071537963995,
+          "ci95_pct": [
+            -0.6885685909099326,
+            3.6053997240159896
+          ]
+        },
+        "movie-info-memcached:system_us/request": {
+          "pairs": 3,
+          "cost_reduction_pct": -34.545761133273565,
+          "ci95_pct": [
+            -511.2366090811066,
+            70.3837080927693
+          ]
+        },
+        "movie-info-memcached:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 14.5534866170544,
+          "ci95_pct": [
+            -78.16364721641212,
+            59.020222344048776
+          ]
+        },
+        "movie-info-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.2869870006202997,
+          "ci95_pct": [
+            0.40224111251419004,
+            4.13606675424294
+          ]
+        },
+        "movie-info-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 10.583561841972022,
+          "ci95_pct": [
+            -21.11974744344105,
+            33.988473542665
+          ]
+        },
+        "movie-info-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.7508725656005364,
+          "ci95_pct": [
+            -16.670759582468484,
+            11.261055427149124
+          ]
+        },
+        "movie-info-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.9669898461275306,
+          "ci95_pct": [
+            -8.754586401409249,
+            6.2629597894740545
+          ]
+        },
+        "movie-info-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.7131610434885323,
+          "ci95_pct": [
+            -24.290612738065633,
+            23.850009058234377
+          ]
+        },
+        "movie-info-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -3.523171706631434,
+          "ci95_pct": [
+            -13.947491779830102,
+            5.947494650358543
+          ]
+        },
+        "movie-review-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 8.416051606768171,
+          "ci95_pct": [
+            7.636375191968414,
+            9.189146477014443
+          ]
+        },
+        "movie-review-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -2.0009593701021844,
+          "ci95_pct": [
+            -6.856578562840077,
+            2.6340179299044864
+          ]
+        },
+        "movie-review-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 9.47189880781899,
+          "ci95_pct": [
+            8.844777843747732,
+            10.094705365164291
+          ]
+        },
+        "movie-review-redis:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.7001400264931901,
+          "ci95_pct": [
+            -2.367880879268025,
+            0.9404305896007159
+          ]
+        },
+        "movie-review-redis:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.9574674298470374,
+          "ci95_pct": [
+            -7.824308832744964,
+            3.5901525616700125
+          ]
+        },
+        "movie-review-redis:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.22635351613700117,
+          "ci95_pct": [
+            -2.4189150114817926,
+            2.8033002344256985
+          ]
+        },
+        "movie-review-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.38943240752526975,
+          "ci95_pct": [
+            -1.1445464430245078,
+            0.36004417912813835
+          ]
+        },
+        "movie-review-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.49078972261999976,
+          "ci95_pct": [
+            -2.741679735853597,
+            3.6215588893830697
+          ]
+        },
+        "movie-review-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.9526537260324375,
+          "ci95_pct": [
+            -2.068056610659963,
+            0.15056000131761227
+          ]
+        },
+        "nginx-web-server:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.6320048355776624,
+          "ci95_pct": [
+            -10.695320115659769,
+            16.104940278352842
+          ]
+        },
+        "nginx-web-server:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.7976450015271928,
+          "ci95_pct": [
+            -6.027669306172911,
+            2.2636204712496166
+          ]
+        },
+        "nginx-web-server:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 4.985368300654603,
+          "ci95_pct": [
+            -12.380521265384271,
+            19.667749043062944
+          ]
+        },
+        "other_services:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.7817060415150197,
+          "ci95_pct": [
+            0.5600149011453559,
+            4.9537600915503415
+          ]
+        },
+        "other_services:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.44104686995409814,
+          "ci95_pct": [
+            -1.3316828883185972,
+            0.44176106843979435
+          ]
+        },
+        "other_services:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 4.00068642737984,
+          "ci95_pct": [
+            1.2509427337404788,
+            6.6738613861874185
+          ]
+        },
+        "plot-memcached:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.334368522962793,
+          "ci95_pct": [
+            -0.29497988165334554,
+            4.894785531002399
+          ]
+        },
+        "plot-memcached:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 26.085339384118043,
+          "ci95_pct": [
+            -23.339777592550103,
+            55.70466267574163
+          ]
+        },
+        "plot-memcached:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -30.95459699697809,
+          "ci95_pct": [
+            -183.32921549689095,
+            39.47286218060655
+          ]
+        },
+        "plot-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.7380690484582684,
+          "ci95_pct": [
+            0.8600555530879239,
+            2.608306589319531
+          ]
+        },
+        "plot-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.9780418554402592,
+          "ci95_pct": [
+            -16.871583178575534,
+            16.10151990667633
+          ]
+        },
+        "plot-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.1819463592292476,
+          "ci95_pct": [
+            -6.655098330301734,
+            10.286786399687397
+          ]
+        },
+        "plot-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -2.4697033835649362,
+          "ci95_pct": [
+            -12.783556041728449,
+            6.9009660625446
+          ]
+        },
+        "plot-service:system_us/request": {
+          "pairs": 3,
+          "cost_reduction_pct": -8.143167662483307,
+          "ci95_pct": [
+            -25.755156701404225,
+            7.002265204561676
+          ]
+        },
+        "plot-service:user_us/request": {
+          "pairs": 3,
+          "cost_reduction_pct": 2.0827982728242045,
+          "ci95_pct": [
+            -21.068259295130897,
+            20.80683698682667
+          ]
+        },
+        "rating-redis:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.013474434718309,
+          "ci95_pct": [
+            -2.386557556179847,
+            0.34119457747495696
+          ]
+        },
+        "rating-redis:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.526070622983645,
+          "ci95_pct": [
+            -3.0599183797054286,
+            7.809291356216097
+          ]
+        },
+        "rating-redis:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -3.1216140994243524,
+          "ci95_pct": [
+            -7.085406689064078,
+            0.6954577354508662
+          ]
+        },
+        "rating-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.32131807674959934,
+          "ci95_pct": [
+            -0.4774371869491256,
+            -0.16544154017905655
+          ]
+        },
+        "rating-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.26805546786741186,
+          "ci95_pct": [
+            -1.3881868332191516,
+            1.897241968415575
+          ]
+        },
+        "rating-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.156018640812384,
+          "ci95_pct": [
+            -3.7182529281145404,
+            1.3429187401334919
+          ]
+        },
+        "review-storage-memcached:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.6504786790382484,
+          "ci95_pct": [
+            -4.930619059788199,
+            9.683852184074626
+          ]
+        },
+        "review-storage-memcached:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -23.372350168195567,
+          "ci95_pct": [
+            -574.0386318501862,
+            77.41859877638754
+          ]
+        },
+        "review-storage-memcached:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 11.737820703061308,
+          "ci95_pct": [
+            -64.80775258089643,
+            52.73151795197801
+          ]
+        },
+        "review-storage-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 8.823064250208368,
+          "ci95_pct": [
+            8.029941804938511,
+            9.609347043252958
+          ]
+        },
+        "review-storage-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.1122740675403975,
+          "ci95_pct": [
+            -11.508179062878398,
+            8.314420941764656
+          ]
+        },
+        "review-storage-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 10.233892361407316,
+          "ci95_pct": [
+            9.576107636136232,
+            10.886892059917342
+          ]
+        },
+        "review-storage-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.9709860730332309,
+          "ci95_pct": [
+            -1.3420365695321568,
+            -0.6012941289732954
+          ]
+        },
+        "review-storage-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.04591725920853884,
+          "ci95_pct": [
+            -3.242975127883563,
+            3.230039194650325
+          ]
+        },
+        "review-storage-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.3467654668154028,
+          "ci95_pct": [
+            -2.910612557379011,
+            0.19331713861017175
+          ]
+        },
+        "targets:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.33050731592834115,
+          "ci95_pct": [
+            -0.6896911755652324,
+            0.02739525022640299
+          ]
+        },
+        "targets:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.12460012942729914,
+          "ci95_pct": [
+            -0.46581177104385585,
+            0.7115423300465995
+          ]
+        },
+        "targets:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.1632944674111245,
+          "ci95_pct": [
+            -2.729085821829713,
+            0.3786311770582307
+          ]
+        },
+        "text-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.4992073196133928,
+          "ci95_pct": [
+            -1.50722275733155,
+            0.49879804103757364
+          ]
+        },
+        "text-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.0859287395341477,
+          "ci95_pct": [
+            -3.244432569885447,
+            1.0274478266183218
+          ]
+        },
+        "text-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.06300155296850019,
+          "ci95_pct": [
+            -2.8347763740030008,
+            2.6340637589931104
+          ]
+        },
+        "unique-id-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.4724545488957066,
+          "ci95_pct": [
+            -0.9051112030511455,
+            -0.04165302158321005
+          ]
+        },
+        "unique-id-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.2884690658562783,
+          "ci95_pct": [
+            -2.649910841610037,
+            3.1427370982141656
+          ]
+        },
+        "unique-id-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.9935117454737741,
+          "ci95_pct": [
+            -2.868780764674983,
+            0.84757164551027
+          ]
+        },
+        "user-memcached:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.4301843772708924,
+          "ci95_pct": [
+            -0.6951476577657267,
+            -0.1659183055457314
+          ]
+        },
+        "user-memcached:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.07376281017132946,
+          "ci95_pct": [
+            -1.6222570688184668,
+            1.4511358844898736
+          ]
+        },
+        "user-memcached:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.8536444736084281,
+          "ci95_pct": [
+            -2.7808268876785336,
+            1.037402484369665
+          ]
+        },
+        "user-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.3834862775761847,
+          "ci95_pct": [
+            -1.1706752379033958,
+            3.8731652635894287
+          ]
+        },
+        "user-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.289884718532086,
+          "ci95_pct": [
+            -41.46816089089176,
+            27.477386560454875
+          ]
+        },
+        "user-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.73861328527808,
+          "ci95_pct": [
+            -13.785743287839924,
+            16.863246024235124
+          ]
+        },
+        "user-review-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 8.252441088931828,
+          "ci95_pct": [
+            7.5799512577316435,
+            8.92003758173605
+          ]
+        },
+        "user-review-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -2.494719715446214,
+          "ci95_pct": [
+            -6.434229337359398,
+            1.2989746348408215
+          ]
+        },
+        "user-review-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 9.33895502489781,
+          "ci95_pct": [
+            8.45839035655046,
+            10.21104929231862
+          ]
+        },
+        "user-review-redis:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.1243743830161459,
+          "ci95_pct": [
+            -1.0947800098596527,
+            1.3288263606581863
+          ]
+        },
+        "user-review-redis:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.7137688294929796,
+          "ci95_pct": [
+            -1.9793928681945072,
+            7.190948002660946
+          ]
+        },
+        "user-review-redis:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.9492352104305999,
+          "ci95_pct": [
+            -5.658123941152082,
+            1.629461395882792
+          ]
+        },
+        "user-review-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.6455828339653191,
+          "ci95_pct": [
+            -1.5636947530158762,
+            0.26422956922029783
+          ]
+        },
+        "user-review-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.09802154451057365,
+          "ci95_pct": [
+            -2.372518912209687,
+            2.1259413796616666
+          ]
+        },
+        "user-review-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.9913782300117191,
+          "ci95_pct": [
+            -3.2062242714121503,
+            1.1759363468695994
+          ]
+        },
+        "user-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.4369057109723906,
+          "ci95_pct": [
+            -0.8468483759781709,
+            -0.028629463820006862
+          ]
+        },
+        "user-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.1097679301999452,
+          "ci95_pct": [
+            -2.1180733601091406,
+            -0.11141842490363096
+          ]
+        },
+        "user-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.06266223341232502,
+          "ci95_pct": [
+            -1.2266256034534795,
+            1.335528865714808
+          ]
+        }
+      }
+    },
+    "combined_nop": {
+      "mongo": {
+        "cast-info-memcached:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.9196760544148974,
+          "ci95_pct": [
+            -4.287315373256928,
+            5.866686106299957
+          ]
+        },
+        "cast-info-memcached:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -365.9897152018323,
+          "ci95_pct": [
+            -73173.32545998231,
+            97.03648751696853
+          ]
+        },
+        "cast-info-memcached:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 34.369710899867044,
+          "ci95_pct": [
+            -124.2168397119515,
+            80.78942307410716
+          ]
+        },
+        "cast-info-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.42324980762066255,
+          "ci95_pct": [
+            -2.6604704218379682,
+            3.41434109806803
+          ]
+        },
+        "cast-info-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -7.281481330543271,
+          "ci95_pct": [
+            -29.082693843835838,
+            10.837650704751578
+          ]
+        },
+        "cast-info-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.7603478153902192,
+          "ci95_pct": [
+            -8.919898353884093,
+            14.964383986827512
+          ]
+        },
+        "cast-info-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -6.461741910389507,
+          "ci95_pct": [
+            -26.225175444536287,
+            10.207274811239042
+          ]
+        },
+        "cast-info-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -5.387561513382111,
+          "ci95_pct": [
+            -31.266877768734314,
+            15.389637427772362
+          ]
+        },
+        "cast-info-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -7.36045884315446,
+          "ci95_pct": [
+            -22.624566112106592,
+            6.003597089387069
+          ]
+        },
+        "compose-review-memcached:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.500151455106379,
+          "ci95_pct": [
+            -1.23353411856022,
+            2.2041466134919974
+          ]
+        },
+        "compose-review-memcached:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.4438545846909281,
+          "ci95_pct": [
+            -1.2023376038202027,
+            2.063269242310195
+          ]
+        },
+        "compose-review-memcached:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.6258758774697948,
+          "ci95_pct": [
+            -4.00866455453055,
+            5.053905004783732
+          ]
+        },
+        "compose-review-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.8184556958983569,
+          "ci95_pct": [
+            -1.7421261439984015,
+            0.09682916867767011
+          ]
+        },
+        "compose-review-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.3156991667369047,
+          "ci95_pct": [
+            -1.3345596796194181,
+            0.6929172917184201
+          ]
+        },
+        "compose-review-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.8185499166027963,
+          "ci95_pct": [
+            -2.9789568422972756,
+            -0.6712189073332597
+          ]
+        },
+        "jaeger:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.10066049510766284,
+          "ci95_pct": [
+            -1.7010422761343458,
+            1.4745374550779622
+          ]
+        },
+        "jaeger:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.2218123995159886,
+          "ci95_pct": [
+            -5.30976840821793,
+            11.062214485853971
+          ]
+        },
+        "jaeger:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.305748372845871,
+          "ci95_pct": [
+            -1.5000869783355908,
+            0.8745366022773204
+          ]
+        },
+        "movie-id-memcached:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.3400475573313688,
+          "ci95_pct": [
+            -1.218808312648778,
+            1.8748957190221183
+          ]
+        },
+        "movie-id-memcached:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.6556935607017764,
+          "ci95_pct": [
+            -4.553206907331453,
+            7.49587798297936
+          ]
+        },
+        "movie-id-memcached:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.3162220945203584,
+          "ci95_pct": [
+            -9.411295879468229,
+            6.179917009533675
+          ]
+        },
+        "movie-id-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.072828638324863,
+          "ci95_pct": [
+            -2.1646428002065177,
+            4.207708602662919
+          ]
+        },
+        "movie-id-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.168395024344294,
+          "ci95_pct": [
+            -12.343526356837398,
+            14.805745889511723
+          ]
+        },
+        "movie-id-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.6897140276023395,
+          "ci95_pct": [
+            -2.3916045038622658,
+            3.6783049967013204
+          ]
+        },
+        "movie-id-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.6476428155829383,
+          "ci95_pct": [
+            -1.4427094425051301,
+            0.1411924030427003
+          ]
+        },
+        "movie-id-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.07041286286694204,
+          "ci95_pct": [
+            -1.4412242964652044,
+            1.5595242007954147
+          ]
+        },
+        "movie-id-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.9633258774629958,
+          "ci95_pct": [
+            -4.061334284004747,
+            0.09238402018294511
+          ]
+        },
+        "movie-info-memcached:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.4066653825124176,
+          "ci95_pct": [
+            -5.034246761978434,
+            2.0956297491789178
+          ]
+        },
+        "movie-info-memcached:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 16.23333928080917,
+          "ci95_pct": [
+            -241.5982759636424,
+            79.45875625908938
+          ]
+        },
+        "movie-info-memcached:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -22.972649469473794,
+          "ci95_pct": [
+            -157.49251096640847,
+            41.27102003555021
+          ]
+        },
+        "movie-info-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.7959909765883344,
+          "ci95_pct": [
+            -2.380284167358915,
+            3.8737244543143423
+          ]
+        },
+        "movie-info-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -5.477711235570637,
+          "ci95_pct": [
+            -23.317503786381376,
+            9.781278197401544
+          ]
+        },
+        "movie-info-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.3802634186694602,
+          "ci95_pct": [
+            -7.220403497909644,
+            12.932863592257382
+          ]
+        },
+        "movie-info-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -10.739318172739942,
+          "ci95_pct": [
+            -24.885353158489345,
+            1.8043647296223209
+          ]
+        },
+        "movie-info-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -23.014326645491813,
+          "ci95_pct": [
+            -42.83960534474236,
+            -5.940677471920464
+          ]
+        },
+        "movie-info-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -4.418319819048366,
+          "ci95_pct": [
+            -16.33867042567314,
+            6.28064190574592
+          ]
+        },
+        "movie-review-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.25741681757436297,
+          "ci95_pct": [
+            -0.6750818846830375,
+            1.1812782899091712
+          ]
+        },
+        "movie-review-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.2522025832609298,
+          "ci95_pct": [
+            -5.953415638975046,
+            5.142235744044243
+          ]
+        },
+        "movie-review-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.3123025616762032,
+          "ci95_pct": [
+            -0.08926962915285497,
+            0.7122635885408846
+          ]
+        },
+        "movie-review-redis:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.8834770803065828,
+          "ci95_pct": [
+            -1.4627800349479303,
+            3.1754786109123634
+          ]
+        },
+        "movie-review-redis:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.26897363488479487,
+          "ci95_pct": [
+            -6.151225887625178,
+            6.300869003917786
+          ]
+        },
+        "movie-review-redis:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.426064126515092,
+          "ci95_pct": [
+            -3.158778054563993,
+            5.8071352061733865
+          ]
+        },
+        "movie-review-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.3877237665868014,
+          "ci95_pct": [
+            -3.219196926385992,
+            0.41125258995341474
+          ]
+        },
+        "movie-review-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.10701992965411744,
+          "ci95_pct": [
+            -3.0336776128401466,
+            3.151981968165951
+          ]
+        },
+        "movie-review-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -2.3382194756100594,
+          "ci95_pct": [
+            -3.98046040773139,
+            -0.721915678875118
+          ]
+        },
+        "nginx-web-server:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.7666732249330899,
+          "ci95_pct": [
+            -3.380084855341403,
+            1.7806722926497986
+          ]
+        },
+        "nginx-web-server:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.35201287070005804,
+          "ci95_pct": [
+            -4.46267845172954,
+            3.596895690793811
+          ]
+        },
+        "nginx-web-server:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.8860157298875126,
+          "ci95_pct": [
+            -3.586281744194153,
+            1.7438603020272114
+          ]
+        },
+        "other_services:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.3859769490224707,
+          "ci95_pct": [
+            -1.390777332702542,
+            0.6088656866493181
+          ]
+        },
+        "other_services:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.4533125010933947,
+          "ci95_pct": [
+            -0.22883533660937871,
+            1.130817706055598
+          ]
+        },
+        "other_services:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.7185961187136991,
+          "ci95_pct": [
+            -1.8705252157006358,
+            0.42030722188612923
+          ]
+        },
+        "plot-memcached:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.8970631217944058,
+          "ci95_pct": [
+            -6.130732555252916,
+            4.07851617057835
+          ]
+        },
+        "plot-memcached:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.2018024091452029,
+          "ci95_pct": [
+            -86.42136420610076,
+            45.06099204629413
+          ]
+        },
+        "plot-memcached:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -5.4164781700134945,
+          "ci95_pct": [
+            -38.060763408006146,
+            19.509108920916553
+          ]
+        },
+        "plot-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.3368171854650215,
+          "ci95_pct": [
+            -2.3049173946281476,
+            2.9103364561734013
+          ]
+        },
+        "plot-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -6.661163708743345,
+          "ci95_pct": [
+            -48.03804592487151,
+            23.150810505314865
+          ]
+        },
+        "plot-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.8937218310905464,
+          "ci95_pct": [
+            -16.417309364498212,
+            20.6611391905569
+          ]
+        },
+        "plot-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -7.479608939617277,
+          "ci95_pct": [
+            -22.018263279100168,
+            5.326743494211694
+          ]
+        },
+        "plot-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 19.292111460175242,
+          "ci95_pct": [
+            -51.0365840287547,
+            56.87294363518794
+          ]
+        },
+        "plot-service:user_us/request": {
+          "pairs": 3,
+          "cost_reduction_pct": -7.792461172985399,
+          "ci95_pct": [
+            -50.02529026166087,
+            22.551626692643932
+          ]
+        },
+        "rating-redis:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.6258957680117416,
+          "ci95_pct": [
+            -1.7949430546003953,
+            2.989163355460245
+          ]
+        },
+        "rating-redis:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.8906330939596474,
+          "ci95_pct": [
+            -3.1487908948868437,
+            1.3180885806722498
+          ]
+        },
+        "rating-redis:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.4816141013459516,
+          "ci95_pct": [
+            -1.5623033693117572,
+            4.434302511015509
+          ]
+        },
+        "rating-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.41733994202930447,
+          "ci95_pct": [
+            -0.9313689636835321,
+            0.09407120336093477
+          ]
+        },
+        "rating-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.5338989793040483,
+          "ci95_pct": [
+            -1.298051048270632,
+            0.22448863142802145
+          ]
+        },
+        "rating-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.257550594328082,
+          "ci95_pct": [
+            -1.489762677590556,
+            0.959700900022975
+          ]
+        },
+        "review-storage-memcached:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.5586251348533633,
+          "ci95_pct": [
+            -6.378829670593089,
+            4.943144041682446
+          ]
+        },
+        "review-storage-memcached:system_us/request": {
+          "pairs": 2,
+          "cost_reduction_pct": 66.63404572376582,
+          "ci95_pct": [
+            -4753108917.534074,
+            99.99999976577712
+          ]
+        },
+        "review-storage-memcached:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -26.87201481508401,
+          "ci95_pct": [
+            -157.25439332859028,
+            37.429608353942164
+          ]
+        },
+        "review-storage-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.27175854499373875,
+          "ci95_pct": [
+            -0.746202185870537,
+            1.2794335873943519
+          ]
+        },
+        "review-storage-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.238278059495146,
+          "ci95_pct": [
+            -2.006389411647369,
+            4.37973761337862
+          ]
+        },
+        "review-storage-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.11472051674672468,
+          "ci95_pct": [
+            -1.0214569156437037,
+            1.2381194840735188
+          ]
+        },
+        "review-storage-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.3111453580657795,
+          "ci95_pct": [
+            -2.075352503605976,
+            -0.5526595991969918
+          ]
+        },
+        "review-storage-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.5417602234785601,
+          "ci95_pct": [
+            -2.2150425426225473,
+            1.1041301027658101
+          ]
+        },
+        "review-storage-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.59274938872207,
+          "ci95_pct": [
+            -2.698606702616102,
+            -0.4987999325678505
+          ]
+        },
+        "targets:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.6907386415481387,
+          "ci95_pct": [
+            -1.3996340436292831,
+            0.01320079894761017
+          ]
+        },
+        "targets:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.2627095282873304,
+          "ci95_pct": [
+            -1.2380580477134417,
+            0.7032422805272498
+          ]
+        },
+        "targets:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.4630277987638607,
+          "ci95_pct": [
+            -2.0624968332337623,
+            -0.8670797747967196
+          ]
+        },
+        "text-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.8597348961232543,
+          "ci95_pct": [
+            -1.4714646637016493,
+            -0.2516929959643477
+          ]
+        },
+        "text-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.5710209871292244,
+          "ci95_pct": [
+            0.36170664528074603,
+            4.7313474379093385
+          ]
+        },
+        "text-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -3.4272474546857445,
+          "ci95_pct": [
+            -6.080767415644961,
+            -0.8401030333719417
+          ]
+        },
+        "unique-id-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.2539798696328486,
+          "ci95_pct": [
+            -2.8648969147631487,
+            0.3317093883307365
+          ]
+        },
+        "unique-id-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.5224086429502339,
+          "ci95_pct": [
+            -3.1962824815463975,
+            4.107096261246124
+          ]
+        },
+        "unique-id-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -2.425957047077576,
+          "ci95_pct": [
+            -4.885517496203096,
+            -0.024073174731320535
+          ]
+        },
+        "user-memcached:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.7079419539783971,
+          "ci95_pct": [
+            -1.2441685666265911,
+            2.622413413108471
+          ]
+        },
+        "user-memcached:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.755398543590403,
+          "ci95_pct": [
+            -1.6827232122630154,
+            5.077269663793582
+          ]
+        },
+        "user-memcached:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.598956924125349,
+          "ci95_pct": [
+            -6.92222879756581,
+            5.350363081353715
+          ]
+        },
+        "user-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.0950319327456937,
+          "ci95_pct": [
+            -1.951289496667119,
+            4.050328772895195
+          ]
+        },
+        "user-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -10.147609928865275,
+          "ci95_pct": [
+            -56.93158955040219,
+            22.689268567276997
+          ]
+        },
+        "user-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 6.402774975227532,
+          "ci95_pct": [
+            -16.143112652147607,
+            24.572018673412877
+          ]
+        },
+        "user-review-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.09415455335815004,
+          "ci95_pct": [
+            -1.5806957137572741,
+            1.7413900911439018
+          ]
+        },
+        "user-review-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.423643347221215,
+          "ci95_pct": [
+            -4.217028948339663,
+            6.759018281429752
+          ]
+        },
+        "user-review-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.05437575036753017,
+          "ci95_pct": [
+            -1.9393202946512034,
+            1.795714569611384
+          ]
+        },
+        "user-review-redis:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.3122380079932263,
+          "ci95_pct": [
+            -2.9209825419137303,
+            3.4438882574020946
+          ]
+        },
+        "user-review-redis:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.7106872937666662,
+          "ci95_pct": [
+            -2.664174733386715,
+            5.899121895712245
+          ]
+        },
+        "user-review-redis:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.7559489646094875,
+          "ci95_pct": [
+            -4.563454342408835,
+            2.9129123975235705
+          ]
+        },
+        "user-review-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.1476344587360465,
+          "ci95_pct": [
+            -2.700394891587976,
+            0.38164928773726237
+          ]
+        },
+        "user-review-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.22642273642962119,
+          "ci95_pct": [
+            -1.948016544456821,
+            2.3544836144149928
+          ]
+        },
+        "user-review-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -2.018661166048319,
+          "ci95_pct": [
+            -4.501718771599328,
+            0.4053966915084972
+          ]
+        },
+        "user-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.0256996489397263,
+          "ci95_pct": [
+            -3.2293090490918885,
+            1.1308698704540432
+          ]
+        },
+        "user-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.3320821718035716,
+          "ci95_pct": [
+            -3.163001645366692,
+            3.7087552148182157
+          ]
+        },
+        "user-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -2.044339347686952,
+          "ci95_pct": [
+            -4.605533643188986,
+            0.4541458731528558
+          ]
+        }
+      }
+    },
+    "combined": {
+      "original": {
+        "cast-info-memcached:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.4572136230228239,
+          "ci95_pct": [
+            -6.000488737128551,
+            2.891332683618253
+          ]
+        },
+        "cast-info-memcached:system_us/request": {
+          "pairs": 3,
+          "cost_reduction_pct": 68.51470124606404,
+          "ci95_pct": [
+            -103.71280990910923,
+            95.13371771727608
+          ]
+        },
+        "cast-info-memcached:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -46.15391686003281,
+          "ci95_pct": [
+            -129.89470617951966,
+            7.083691623377009
+          ]
+        },
+        "cast-info-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.388264768249404,
+          "ci95_pct": [
+            0.023481977619022043,
+            4.697112447740903
+          ]
+        },
+        "cast-info-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.563406237782461,
+          "ci95_pct": [
+            -15.817828217357533,
+            10.936635184850484
+          ]
+        },
+        "cast-info-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 4.2942553016427905,
+          "ci95_pct": [
+            -1.1525614664298578,
+            9.4477743768557
+          ]
+        },
+        "cast-info-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -6.874351524059552,
+          "ci95_pct": [
+            -18.79357760709437,
+            3.8489517382283234
+          ]
+        },
+        "cast-info-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -8.596156107044827,
+          "ci95_pct": [
+            -247.11867976456315,
+            66.02566842779979
+          ]
+        },
+        "cast-info-service:user_us/request": {
+          "pairs": 2,
+          "cost_reduction_pct": -4.133658378286609,
+          "ci95_pct": [
+            -20.75244127916953,
+            10.197933123557302
+          ]
+        },
+        "compose-review-memcached:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.7466389610233382,
+          "ci95_pct": [
+            -1.4478910487707441,
+            -0.05023423368419877
+          ]
+        },
+        "compose-review-memcached:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.16480778159848608,
+          "ci95_pct": [
+            -1.7425761296044007,
+            1.3884933958809187
+          ]
+        },
+        "compose-review-memcached:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -2.0065598088322423,
+          "ci95_pct": [
+            -4.174508261284338,
+            0.11627203523901786
+          ]
+        },
+        "compose-review-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.3419157303835907,
+          "ci95_pct": [
+            -0.2638276350343638,
+            0.943999500577597
+          ]
+        },
+        "compose-review-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.4663114231861165,
+          "ci95_pct": [
+            -1.5801921515977257,
+            0.6353550117609297
+          ]
+        },
+        "compose-review-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.972087213741458,
+          "ci95_pct": [
+            0.1582646603278004,
+            3.752958093748404
+          ]
+        },
+        "jaeger:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.8705061387106694,
+          "ci95_pct": [
+            -3.797476571529801,
+            1.973927066831116
+          ]
+        },
+        "jaeger:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -3.5174433856105747,
+          "ci95_pct": [
+            -20.973979501401452,
+            11.420115885590508
+          ]
+        },
+        "jaeger:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.720667020800736,
+          "ci95_pct": [
+            -2.8575614103916847,
+            1.371832794685468
+          ]
+        },
+        "movie-id-memcached:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.4650182333991948,
+          "ci95_pct": [
+            -0.8703130139096737,
+            -0.0613519187296685
+          ]
+        },
+        "movie-id-memcached:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.2669776850995351,
+          "ci95_pct": [
+            -5.646694461124757,
+            2.931172415924277
+          ]
+        },
+        "movie-id-memcached:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.47799492490656625,
+          "ci95_pct": [
+            -3.87171751014892,
+            4.645559623107431
+          ]
+        },
+        "movie-id-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.8623492269312156,
+          "ci95_pct": [
+            1.312405648232562,
+            4.3879500793436605
+          ]
+        },
+        "movie-id-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -5.37913184920582,
+          "ci95_pct": [
+            -41.63775882887446,
+            21.59745027659622
+          ]
+        },
+        "movie-id-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 6.441013265407259,
+          "ci95_pct": [
+            -7.792565881538316,
+            18.7951049572067
+          ]
+        },
+        "movie-id-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.2390444391676358,
+          "ci95_pct": [
+            0.6149909267009201,
+            1.859179425188029
+          ]
+        },
+        "movie-id-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.3623305624490536,
+          "ci95_pct": [
+            -1.2628299302912316,
+            0.530160939999269
+          ]
+        },
+        "movie-id-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 4.222906611456512,
+          "ci95_pct": [
+            1.0182959320557239,
+            7.3237654944699475
+          ]
+        },
+        "movie-info-memcached:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.9275995905618784,
+          "ci95_pct": [
+            -4.631973539417444,
+            2.6456252851302264
+          ]
+        },
+        "movie-info-memcached:system_us/request": {
+          "pairs": 3,
+          "cost_reduction_pct": -78.52444331720001,
+          "ci95_pct": [
+            -462.99672502383356,
+            43.39047556561372
+          ]
+        },
+        "movie-info-memcached:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 29.01063425051188,
+          "ci95_pct": [
+            -20.28503953404781,
+            58.10376694361794
+          ]
+        },
+        "movie-info-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.630922813077108,
+          "ci95_pct": [
+            0.21454322961440564,
+            4.988787954853069
+          ]
+        },
+        "movie-info-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.382200796779955,
+          "ci95_pct": [
+            -23.132429580867854,
+            24.187322912012064
+          ]
+        },
+        "movie-info-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.06179554699899,
+          "ci95_pct": [
+            -6.967842493396015,
+            10.329201114157172
+          ]
+        },
+        "movie-info-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -11.583999000083068,
+          "ci95_pct": [
+            -19.606575354957933,
+            -4.099534627586987
+          ]
+        },
+        "movie-info-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -12.515538648272129,
+          "ci95_pct": [
+            -42.30306801336423,
+            11.036728764541504
+          ]
+        },
+        "movie-info-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -11.708531748353934,
+          "ci95_pct": [
+            -27.247658724361457,
+            1.9330006502984776
+          ]
+        },
+        "movie-review-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 8.058579668772003,
+          "ci95_pct": [
+            7.475544934201739,
+            8.637940461123716
+          ]
+        },
+        "movie-review-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -3.764506827996783,
+          "ci95_pct": [
+            -6.364957021733719,
+            -1.2276334117949705
+          ]
+        },
+        "movie-review-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 9.253858437023954,
+          "ci95_pct": [
+            8.66940514573258,
+            9.83457162730923
+          ]
+        },
+        "movie-review-redis:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.954075288293522,
+          "ci95_pct": [
+            -3.7563173940397876,
+            -0.18313803886158553
+          ]
+        },
+        "movie-review-redis:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -2.1318797328022665,
+          "ci95_pct": [
+            -11.077934261590006,
+            6.093672635371206
+          ]
+        },
+        "movie-review-redis:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.7247927317608047,
+          "ci95_pct": [
+            -7.961417127385961,
+            4.1515595880892375
+          ]
+        },
+        "movie-review-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.5039762785238442,
+          "ci95_pct": [
+            0.9690163364432292,
+            2.0360463963389197
+          ]
+        },
+        "movie-review-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.5853028407065697,
+          "ci95_pct": [
+            -1.046112390815468,
+            -0.12659476126732905
+          ]
+        },
+        "movie-review-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.845154874257816,
+          "ci95_pct": [
+            1.8477309808800357,
+            3.8324429405882654
+          ]
+        },
+        "nginx-web-server:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.3811940349517724,
+          "ci95_pct": [
+            -10.367982810786035,
+            13.657647486600212
+          ]
+        },
+        "nginx-web-server:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.953370404013576,
+          "ci95_pct": [
+            -2.3041438470569497,
+            0.3795680928993961
+          ]
+        },
+        "nginx-web-server:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.188628278648742,
+          "ci95_pct": [
+            -12.783923756240378,
+            16.899134358667244
+          ]
+        },
+        "other_services:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.2579203237696253,
+          "ci95_pct": [
+            1.3044956972429467,
+            5.1726819149485515
+          ]
+        },
+        "other_services:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.3714731341963651,
+          "ci95_pct": [
+            -0.9853948776899157,
+            0.23871638734971334
+          ]
+        },
+        "other_services:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 4.630976117658769,
+          "ci95_pct": [
+            1.9793877920114777,
+            7.210835441718211
+          ]
+        },
+        "plot-memcached:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 4.144811432717443,
+          "ci95_pct": [
+            0.5420302171367908,
+            7.617084932167573
+          ]
+        },
+        "plot-memcached:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 5.5342718005543245,
+          "ci95_pct": [
+            -55.75730656233835,
+            42.70718978643864
+          ]
+        },
+        "plot-memcached:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -10.789450939583078,
+          "ci95_pct": [
+            -101.91036591484747,
+            39.20915162587153
+          ]
+        },
+        "plot-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.7466092081379059,
+          "ci95_pct": [
+            -0.17250988171200188,
+            3.6289615434622946
+          ]
+        },
+        "plot-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.1607807501834202,
+          "ci95_pct": [
+            -13.02354648964721,
+            11.807140989634501
+          ]
+        },
+        "plot-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.409947415012781,
+          "ci95_pct": [
+            -3.929469521656448,
+            8.362677040740273
+          ]
+        },
+        "plot-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -11.383163880943204,
+          "ci95_pct": [
+            -35.87475150829371,
+            8.693785575226743
+          ]
+        },
+        "plot-service:system_us/request": {
+          "pairs": 3,
+          "cost_reduction_pct": -4.381400337709018,
+          "ci95_pct": [
+            -59.92267334656274,
+            31.870343907709188
+          ]
+        },
+        "plot-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.234263556396566,
+          "ci95_pct": [
+            -28.29256035983354,
+            27.013634124925247
+          ]
+        },
+        "rating-redis:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.0498282486629762,
+          "ci95_pct": [
+            -1.9933584873719212,
+            -0.11502651271695363
+          ]
+        },
+        "rating-redis:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.8269312751242097,
+          "ci95_pct": [
+            -7.9410156199148485,
+            8.882666113303184
+          ]
+        },
+        "rating-redis:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -2.1695175585589865,
+          "ci95_pct": [
+            -6.325873235999624,
+            1.8243631540247995
+          ]
+        },
+        "rating-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.5443082809414976,
+          "ci95_pct": [
+            1.0763913497037647,
+            2.010011926013
+          ]
+        },
+        "rating-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.2840193334870289,
+          "ci95_pct": [
+            -1.7006904330384875,
+            1.1129178095321879
+          ]
+        },
+        "rating-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 4.143090452145238,
+          "ci95_pct": [
+            1.6597633333298667,
+            6.563707598033175
+          ]
+        },
+        "review-storage-memcached:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.7096201069722317,
+          "ci95_pct": [
+            -3.709072170936012,
+            6.845191290572861
+          ]
+        },
+        "review-storage-memcached:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -74.74356714954598,
+          "ci95_pct": [
+            -574.8837046190762,
+            54.75470210473833
+          ]
+        },
+        "review-storage-memcached:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 30.218910597754743,
+          "ci95_pct": [
+            -40.74130505393001,
+            65.40176719053257
+          ]
+        },
+        "review-storage-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 8.86231873748794,
+          "ci95_pct": [
+            8.495246008874346,
+            9.227918948202563
+          ]
+        },
+        "review-storage-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.9852660045305504,
+          "ci95_pct": [
+            -10.397651127639218,
+            5.7860889631658585
+          ]
+        },
+        "review-storage-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 10.403958437890392,
+          "ci95_pct": [
+            9.326859610239268,
+            11.468262496555448
+          ]
+        },
+        "review-storage-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.739134110855368,
+          "ci95_pct": [
+            2.2087579173467042,
+            3.266633779834338
+          ]
+        },
+        "review-storage-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.3388543069615224,
+          "ci95_pct": [
+            -1.9878954063930143,
+            1.2835234660351968
+          ]
+        },
+        "review-storage-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.8893625931857523,
+          "ci95_pct": [
+            3.15080010940082,
+            4.622292872026601
+          ]
+        },
+        "targets:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.8200186687141287,
+          "ci95_pct": [
+            0.49584888855040976,
+            1.1431323517683611
+          ]
+        },
+        "targets:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.40606875259170394,
+          "ci95_pct": [
+            -1.2902269342473849,
+            0.4703716490387255
+          ]
+        },
+        "targets:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.0636116767690846,
+          "ci95_pct": [
+            1.3351349216805364,
+            4.76180782598532
+          ]
+        },
+        "text-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.0730475361125267,
+          "ci95_pct": [
+            1.6401823368021096,
+            2.504007767670613
+          ]
+        },
+        "text-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.27973001053840374,
+          "ci95_pct": [
+            -1.9904078083559318,
+            1.402254711225892
+          ]
+        },
+        "text-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.8097086323075735,
+          "ci95_pct": [
+            2.6734617004542383,
+            4.932690352917368
+          ]
+        },
+        "unique-id-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.768266074568415,
+          "ci95_pct": [
+            1.5406744569846587,
+            3.980552070554111
+          ]
+        },
+        "unique-id-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.5946635644362717,
+          "ci95_pct": [
+            -2.713544230409437,
+            5.722168273407213
+          ]
+        },
+        "unique-id-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.5663087753911027,
+          "ci95_pct": [
+            -0.7568962079332664,
+            7.704016765147204
+          ]
+        },
+        "user-memcached:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.9865720468489556,
+          "ci95_pct": [
+            -5.089537788062093,
+            1.0247728099849862
+          ]
+        },
+        "user-memcached:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.369673935351178,
+          "ci95_pct": [
+            -5.154458249698979,
+            5.603604098481895
+          ]
+        },
+        "user-memcached:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -4.897265253175398,
+          "ci95_pct": [
+            -10.227011725283152,
+            0.17477489983387384
+          ]
+        },
+        "user-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.5392745226231583,
+          "ci95_pct": [
+            0.9045840206208244,
+            4.146998963572857
+          ]
+        },
+        "user-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.9229072786595571,
+          "ci95_pct": [
+            -21.793528628082726,
+            16.37131029613347
+          ]
+        },
+        "user-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 4.391715826391318,
+          "ci95_pct": [
+            -5.828372334642329,
+            13.624826679590951
+          ]
+        },
+        "user-review-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 8.134771655023176,
+          "ci95_pct": [
+            7.516876571815068,
+            8.748538478720791
+          ]
+        },
+        "user-review-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.33665196743724035,
+          "ci95_pct": [
+            -3.1699112623454484,
+            2.418800163211887
+          ]
+        },
+        "user-review-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 8.993558238601828,
+          "ci95_pct": [
+            8.178886667478302,
+            9.801001736086212
+          ]
+        },
+        "user-review-redis:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.5221187182677722,
+          "ci95_pct": [
+            -1.3929339527935625,
+            0.34121750225657443
+          ]
+        },
+        "user-review-redis:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.968194259340773,
+          "ci95_pct": [
+            -5.052850210347781,
+            10.376812181287898
+          ]
+        },
+        "user-review-redis:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -3.2557340931171463,
+          "ci95_pct": [
+            -10.151506397009925,
+            3.208344834783561
+          ]
+        },
+        "user-review-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.7433950065561588,
+          "ci95_pct": [
+            1.2363209370671924,
+            2.247865648202141
+          ]
+        },
+        "user-review-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.6819454330478258,
+          "ci95_pct": [
+            -1.7456887998027248,
+            3.0516567402390615
+          ]
+        },
+        "user-review-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.4204515335489396,
+          "ci95_pct": [
+            0.614287550443593,
+            4.193791600082553
+          ]
+        },
+        "user-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.692097291012784,
+          "ci95_pct": [
+            1.1213702692893013,
+            2.25953007884353
+          ]
+        },
+        "user-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.0011678555452032668,
+          "ci95_pct": [
+            -3.4073828679456852,
+            3.297364724674967
+          ]
+        },
+        "user-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.9556056276012543,
+          "ci95_pct": [
+            0.34540909326736813,
+            5.497434755217023
+          ]
+        }
+      },
+      "mongo": {
+        "cast-info-memcached:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.826644240485198,
+          "ci95_pct": [
+            -4.750871331106521,
+            1.0159500773595287
+          ]
+        },
+        "cast-info-memcached:system_us/request": {
+          "pairs": 3,
+          "cost_reduction_pct": -139.2262137661024,
+          "ci95_pct": [
+            -229536.52416052338,
+            99.7507836283358
+          ]
+        },
+        "cast-info-memcached:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -32.81577707228895,
+          "ci95_pct": [
+            -135.21608050987032,
+            25.004997102756622
+          ]
+        },
+        "cast-info-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.2774775949697439,
+          "ci95_pct": [
+            -1.1007007439628902,
+            1.6368689668494585
+          ]
+        },
+        "cast-info-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -12.585730607952561,
+          "ci95_pct": [
+            -25.575816674914577,
+            -0.9393932061010801
+          ]
+        },
+        "cast-info-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 6.023849711655305,
+          "ci95_pct": [
+            -0.9519396520210277,
+            12.517611316240384
+          ]
+        },
+        "cast-info-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -9.542591268952073,
+          "ci95_pct": [
+            -26.471252752577023,
+            5.120104049319707
+          ]
+        },
+        "cast-info-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -33.59919004090328,
+          "ci95_pct": [
+            -201.10507834639267,
+            40.72254218491754
+          ]
+        },
+        "cast-info-service:user_us/request": {
+          "pairs": 3,
+          "cost_reduction_pct": -6.7607947640924815,
+          "ci95_pct": [
+            -26.620684626960987,
+            9.984159916366764
+          ]
+        },
+        "compose-review-memcached:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.3150330389914302,
+          "ci95_pct": [
+            -1.246566447062647,
+            0.6079296637136244
+          ]
+        },
+        "compose-review-memcached:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.38114095719536945,
+          "ci95_pct": [
+            -1.1062435025404493,
+            0.33876137812257623
+          ]
+        },
+        "compose-review-memcached:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.18030359729299672,
+          "ci95_pct": [
+            -2.1022780048510548,
+            1.7054915428139306
+          ]
+        },
+        "compose-review-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.6816155334737006,
+          "ci95_pct": [
+            0.29425836924154014,
+            1.0674678137320037
+          ]
+        },
+        "compose-review-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.4653996998660537,
+          "ci95_pct": [
+            -0.7853776907143173,
+            -0.1464375896641057
+          ]
+        },
+        "compose-review-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.9704260330272847,
+          "ci95_pct": [
+            1.795205509862019,
+            4.131582647345333
+          ]
+        },
+        "jaeger:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.09974146064408718,
+          "ci95_pct": [
+            -2.3111487789112983,
+            2.063867329450486
+          ]
+        },
+        "jaeger:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.12671483323978272,
+          "ci95_pct": [
+            -9.665114896051996,
+            8.582058817887251
+          ]
+        },
+        "jaeger:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.09911181681123704,
+          "ci95_pct": [
+            -2.310582373496972,
+            2.064557213291096
+          ]
+        },
+        "movie-id-memcached:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.7121347127005517,
+          "ci95_pct": [
+            -2.0204139255132647,
+            0.5793675195764125
+          ]
+        },
+        "movie-id-memcached:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.24798484609553917,
+          "ci95_pct": [
+            -4.505946600783339,
+            3.836491677425069
+          ]
+        },
+        "movie-id-memcached:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.3314504114535053,
+          "ci95_pct": [
+            -6.510949744486139,
+            3.5961761009419835
+          ]
+        },
+        "movie-id-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.0035712753071357,
+          "ci95_pct": [
+            -1.2755540490797745,
+            3.2314067075474795
+          ]
+        },
+        "movie-id-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -2.6819111304715593,
+          "ci95_pct": [
+            -23.499327714118976,
+            14.626459361683875
+          ]
+        },
+        "movie-id-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.0965752202097074,
+          "ci95_pct": [
+            -5.091713134762399,
+            10.646867826666496
+          ]
+        },
+        "movie-id-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.548131663502339,
+          "ci95_pct": [
+            0.8168670719520987,
+            2.274004734467694
+          ]
+        },
+        "movie-id-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.6612343150149025,
+          "ci95_pct": [
+            -2.121079749850896,
+            0.7777422776699017
+          ]
+        },
+        "movie-id-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 5.589816326301933,
+          "ci95_pct": [
+            2.6105910141222544,
+            8.47790458822988
+          ]
+        },
+        "movie-info-memcached:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -2.4456465092894897,
+          "ci95_pct": [
+            -4.364346470763136,
+            -0.5622211379096242
+          ]
+        },
+        "movie-info-memcached:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -47.33595614036359,
+          "ci95_pct": [
+            -127.98436964398721,
+            4.783455086445398
+          ]
+        },
+        "movie-info-memcached:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 16.91952902591225,
+          "ci95_pct": [
+            -8.506298524840483,
+            36.38742864594104
+          ]
+        },
+        "movie-info-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.351985679183775,
+          "ci95_pct": [
+            -1.7704250967955026,
+            2.430133816997704
+          ]
+        },
+        "movie-info-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -8.053732841007278,
+          "ci95_pct": [
+            -18.154316173461837,
+            1.1833883094472308
+          ]
+        },
+        "movie-info-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.747061834915899,
+          "ci95_pct": [
+            -2.021743778100582,
+            9.18967111989123
+          ]
+        },
+        "movie-info-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -10.515327009486697,
+          "ci95_pct": [
+            -16.990902099065263,
+            -4.398182122499961
+          ]
+        },
+        "movie-info-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -15.653401688349744,
+          "ci95_pct": [
+            -17.224629633334978,
+            -14.103233799283021
+          ]
+        },
+        "movie-info-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -7.906790244911077,
+          "ci95_pct": [
+            -17.390264529385412,
+            0.8105533483612426
+          ]
+        },
+        "movie-review-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.39032160577014974,
+          "ci95_pct": [
+            -0.6459390269168974,
+            -0.13535339378796252
+          ]
+        },
+        "movie-review-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.7289518341643273,
+          "ci95_pct": [
+            -5.983737422624569,
+            2.3550226388926343
+          ]
+        },
+        "movie-review-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.2408537989017967,
+          "ci95_pct": [
+            -0.7003505084729467,
+            0.21654622257399891
+          ]
+        },
+        "movie-review-redis:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.245216999172416,
+          "ci95_pct": [
+            -3.0972794283997906,
+            0.5735745691673122
+          ]
+        },
+        "movie-review-redis:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.17106378507807385,
+          "ci95_pct": [
+            -7.360848946085463,
+            6.537232908122947
+          ]
+        },
+        "movie-review-redis:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.9555727555907065,
+          "ci95_pct": [
+            -10.057605849986938,
+            5.550018686675051
+          ]
+        },
+        "movie-review-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.8860637426088123,
+          "ci95_pct": [
+            1.0605684204846422,
+            2.7046715931155374
+          ]
+        },
+        "movie-review-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.0813999632064197,
+          "ci95_pct": [
+            -4.034433616694533,
+            1.7878113686188302
+          ]
+        },
+        "movie-review-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.761970052413699,
+          "ci95_pct": [
+            2.3030835942157157,
+            5.199071281597146
+          ]
+        },
+        "nginx-web-server:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.2979524981211688,
+          "ci95_pct": [
+            -3.21043281122535,
+            0.57908972167805
+          ]
+        },
+        "nginx-web-server:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.8293655491744989,
+          "ci95_pct": [
+            -2.261261616937804,
+            3.826585142087746
+          ]
+        },
+        "nginx-web-server:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.891014036334182,
+          "ci95_pct": [
+            -3.5722608860162097,
+            -0.2370581904922453
+          ]
+        },
+        "other_services:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.4898401965971133,
+          "ci95_pct": [
+            0.18547364568468616,
+            0.7932786361343869
+          ]
+        },
+        "other_services:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.06926823039569152,
+          "ci95_pct": [
+            -0.6595460273751907,
+            0.7928055895186747
+          ]
+        },
+        "other_services:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.6565564552731273,
+          "ci95_pct": [
+            0.4300711237974375,
+            0.8825266150905398
+          ]
+        },
+        "plot-memcached:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.8537154599571948,
+          "ci95_pct": [
+            -3.2179397464776605,
+            6.676172837059912
+          ]
+        },
+        "plot-memcached:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -27.803777237594375,
+          "ci95_pct": [
+            -122.08980859689275,
+            26.454052172004204
+          ]
+        },
+        "plot-memcached:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 15.39857822468067,
+          "ci95_pct": [
+            -24.350131513878146,
+            42.441552097541035
+          ]
+        },
+        "plot-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.008691219068190925,
+          "ci95_pct": [
+            -2.2800349963452815,
+            2.2462024765545596
+          ]
+        },
+        "plot-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.8253332094925403,
+          "ci95_pct": [
+            -29.66754215346672,
+            21.601445913321715
+          ]
+        },
+        "plot-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.2330868866199709,
+          "ci95_pct": [
+            -13.165534474511142,
+            12.045332544118514
+          ]
+        },
+        "plot-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -8.698630134619755,
+          "ci95_pct": [
+            -38.639861144213896,
+            14.776370261562555
+          ]
+        },
+        "plot-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 16.13151427531706,
+          "ci95_pct": [
+            -42.45963366659515,
+            50.62515102198593
+          ]
+        },
+        "plot-service:user_us/request": {
+          "pairs": 3,
+          "cost_reduction_pct": -7.56486767434259,
+          "ci95_pct": [
+            -54.30097616751277,
+            25.015375500684122
+          ]
+        },
+        "rating-redis:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.03598907388158157,
+          "ci95_pct": [
+            -1.885334960989593,
+            1.7797888791221461
+          ]
+        },
+        "rating-redis:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.743173132261222,
+          "ci95_pct": [
+            -7.567549252757089,
+            3.7658350410362695
+          ]
+        },
+        "rating-redis:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.9232754444159608,
+          "ci95_pct": [
+            -3.211401980766393,
+            4.8923165437445455
+          ]
+        },
+        "rating-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.8596509629825841,
+          "ci95_pct": [
+            1.4986185289710074,
+            2.219360121965297
+          ]
+        },
+        "rating-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.553558645571739,
+          "ci95_pct": [
+            -1.7782916186942055,
+            0.6564366970442603
+          ]
+        },
+        "rating-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 5.238550472981595,
+          "ci95_pct": [
+            4.229479894291066,
+            6.2369891429004625
+          ]
+        },
+        "review-storage-memcached:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.9664747800495199,
+          "ci95_pct": [
+            -6.053947452052522,
+            3.8769487187713447
+          ]
+        },
+        "review-storage-memcached:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -41.63916542994859,
+          "ci95_pct": [
+            -146.4671793686413,
+            18.60314531499506
+          ]
+        },
+        "review-storage-memcached:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 20.938855172063985,
+          "ci95_pct": [
+            -52.71711337970515,
+            59.07030663968445
+          ]
+        },
+        "review-storage-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.043053088982170085,
+          "ci95_pct": [
+            -0.8592210648016074,
+            0.9372556094537798
+          ]
+        },
+        "review-storage-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.8633886885058395,
+          "ci95_pct": [
+            -7.1571681576567014,
+            5.060731329137081
+          ]
+        },
+        "review-storage-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.18945466274172817,
+          "ci95_pct": [
+            -1.0309169302680221,
+            1.3950851559943356
+          ]
+        },
+        "review-storage-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.674441865116629,
+          "ci95_pct": [
+            3.126477528935745,
+            4.219306645236509
+          ]
+        },
+        "review-storage-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.38494832388977773,
+          "ci95_pct": [
+            -3.7739845878687284,
+            2.893409268125502
+          ]
+        },
+        "review-storage-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 5.16654679197992,
+          "ci95_pct": [
+            3.8727440396162938,
+            6.442935902964731
+          ]
+        },
+        "targets:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.1467359384714326,
+          "ci95_pct": [
+            0.8538732857811926,
+            1.438733519209967
+          ]
+        },
+        "targets:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.5313309210342787,
+          "ci95_pct": [
+            -1.0849603259383223,
+            0.019266326395606104
+          ]
+        },
+        "targets:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 4.178300209016895,
+          "ci95_pct": [
+            3.192677510821984,
+            5.15388800408445
+          ]
+        },
+        "text-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.559477755426942,
+          "ci95_pct": [
+            1.8825977332521338,
+            3.2316882026452776
+          ]
+        },
+        "text-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.79753803427286,
+          "ci95_pct": [
+            -0.19062406553416178,
+            1.7759540690702735
+          ]
+        },
+        "text-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.870271853904006,
+          "ci95_pct": [
+            2.1674669819854664,
+            5.543438891225183
+          ]
+        },
+        "unique-id-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.2254816885029847,
+          "ci95_pct": [
+            2.0592612056263726,
+            4.377815506530802
+          ]
+        },
+        "unique-id-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.3099733665133395,
+          "ci95_pct": [
+            -0.2863797762252984,
+            2.8809158466872598
+          ]
+        },
+        "unique-id-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 4.514963824960006,
+          "ci95_pct": [
+            1.5510030796363705,
+            7.389689904876873
+          ]
+        },
+        "user-memcached:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.5497210118936122,
+          "ci95_pct": [
+            -4.885344360374422,
+            1.6798209465628489
+          ]
+        },
+        "user-memcached:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.44310989521164634,
+          "ci95_pct": [
+            -6.250657691774064,
+            6.715171626610472
+          ]
+        },
+        "user-memcached:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -4.009394802411048,
+          "ci95_pct": [
+            -11.337920368383925,
+            2.8367498569181637
+          ]
+        },
+        "user-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.1720027421575518,
+          "ci95_pct": [
+            -1.4777671930883862,
+            3.7525823423779525
+          ]
+        },
+        "user-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.3623041342107336,
+          "ci95_pct": [
+            -55.0719083897844,
+            35.980213692285226
+          ]
+        },
+        "user-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.6996493644101274,
+          "ci95_pct": [
+            -24.791132265484485,
+            22.56694238078841
+          ]
+        },
+        "user-review-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.1282534765014276,
+          "ci95_pct": [
+            -1.3410766344928549,
+            1.0700549352349542
+          ]
+        },
+        "user-review-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.1055404161310576,
+          "ci95_pct": [
+            -0.8481430742883322,
+            4.972715162853014
+          ]
+        },
+        "user-review-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.38097595984123434,
+          "ci95_pct": [
+            -1.9594734693912264,
+            1.1730838559577905
+          ]
+        },
+        "user-review-redis:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.6472981743945949,
+          "ci95_pct": [
+            -2.0009832303403474,
+            0.6884217289354178
+          ]
+        },
+        "user-review-redis:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.261522547216253,
+          "ci95_pct": [
+            -5.120198886699723,
+            5.36772199868728
+          ]
+        },
+        "user-review-redis:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.2815190619035466,
+          "ci95_pct": [
+            -4.364424930440425,
+            1.7103183357382368
+          ]
+        },
+        "user-review-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.3736539381589927,
+          "ci95_pct": [
+            1.3731117460637043,
+            3.3640459096005992
+          ]
+        },
+        "user-review-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.7792031905561547,
+          "ci95_pct": [
+            -1.8849001779988717,
+            3.3736451397453515
+          ]
+        },
+        "user-review-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.3783376594684,
+          "ci95_pct": [
+            2.85778912320358,
+            3.896096772102031
+          ]
+        },
+        "user-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.1197417293119414,
+          "ci95_pct": [
+            1.1636159415812086,
+            3.066618124415943
+          ]
+        },
+        "user-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.0987422961074134,
+          "ci95_pct": [
+            -1.909579614791701,
+            4.018259987091133
+          ]
+        },
+        "user-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.8947573137736105,
+          "ci95_pct": [
+            0.006682604564767214,
+            5.699416693406112
+          ]
+        }
+      },
+      "combined_nop": {
+        "cast-info-memcached:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -2.771811986008821,
+          "ci95_pct": [
+            -10.41240624087514,
+            4.340049288977155
+          ]
+        },
+        "cast-info-memcached:system_us/request": {
+          "pairs": 3,
+          "cost_reduction_pct": 66.5044334403317,
+          "ci95_pct": [
+            -680.1447779265883,
+            98.56186568070736
+          ]
+        },
+        "cast-info-memcached:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -102.36963586988055,
+          "ci95_pct": [
+            -483.31960608514055,
+            29.792400092702298
+          ]
+        },
+        "cast-info-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.1463918157293742,
+          "ci95_pct": [
+            -2.4695511326383146,
+            2.1240975211505253
+          ]
+        },
+        "cast-info-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -4.944235679470599,
+          "ci95_pct": [
+            -13.94413665712615,
+            3.3448062756506136
+          ]
+        },
+        "cast-info-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.3519431387004297,
+          "ci95_pct": [
+            -3.7156414340514976,
+            8.064561169873318
+          ]
+        },
+        "cast-info-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -2.8938558615317245,
+          "ci95_pct": [
+            -14.97400968043101,
+            7.917053571667887
+          ]
+        },
+        "cast-info-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -26.769410092042854,
+          "ci95_pct": [
+            -135.9397419718058,
+            31.88734038284692
+          ]
+        },
+        "cast-info-service:user_us/request": {
+          "pairs": 3,
+          "cost_reduction_pct": -3.3960128263707867,
+          "ci95_pct": [
+            -24.190234022824274,
+            13.91645605220263
+          ]
+        },
+        "compose-review-memcached:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.8192821456707966,
+          "ci95_pct": [
+            -2.0459180699757162,
+            0.3926090860559839
+          ]
+        },
+        "compose-review-memcached:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.8286736478644752,
+          "ci95_pct": [
+            -1.8687063210339305,
+            0.20074076970593158
+          ]
+        },
+        "compose-review-memcached:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.8112569362309419,
+          "ci95_pct": [
+            -4.849129984098455,
+            3.0711124965548953
+          ]
+        },
+        "compose-review-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.487893480432545,
+          "ci95_pct": [
+            0.7040395006185252,
+            2.2655596248242538
+          ]
+        },
+        "compose-review-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.14922941710282522,
+          "ci95_pct": [
+            -1.375338328745701,
+            1.0620500193639804
+          ]
+        },
+        "compose-review-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 4.70344151783012,
+          "ci95_pct": [
+            3.3891474855836656,
+            5.999855894134798
+          ]
+        },
+        "jaeger:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.0009181102892164006,
+          "ci95_pct": [
+            -3.092802228234337,
+            3.001798742003714
+          ]
+        },
+        "jaeger:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -3.4600020064221804,
+          "ci95_pct": [
+            -13.402454383922603,
+            5.610755311073623
+          ]
+        },
+        "jaeger:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.20600669392001336,
+          "ci95_pct": [
+            -2.7713786749467895,
+            3.097134354181197
+          ]
+        },
+        "movie-id-memcached:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.0557723982832723,
+          "ci95_pct": [
+            -1.601116022055038,
+            -0.5133559044450342
+          ]
+        },
+        "movie-id-memcached:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.9357281328455267,
+          "ci95_pct": [
+            -4.121280791912185,
+            0.20394878987574083
+          ]
+        },
+        "movie-id-memcached:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.015030482402833556,
+          "ci95_pct": [
+            -3.3306776122944415,
+            3.194225049717514
+          ]
+        },
+        "movie-id-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.07000843354199038,
+          "ci95_pct": [
+            -1.9858731120179218,
+            1.8098655988353252
+          ]
+        },
+        "movie-id-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -4.957811083670549,
+          "ci95_pct": [
+            -16.04688142776707,
+            5.071623020456329
+          ]
+        },
+        "movie-id-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.423576942751271,
+          "ci95_pct": [
+            -5.20433374829079,
+            9.498420859474631
+          ]
+        },
+        "movie-id-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.1816452106172113,
+          "ci95_pct": [
+            1.3726970966966512,
+            2.983958274893783
+          ]
+        },
+        "movie-id-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.7321627146100296,
+          "ci95_pct": [
+            -2.324185615013419,
+            0.8350905098836292
+          ]
+        },
+        "movie-id-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 7.407704818144223,
+          "ci95_pct": [
+            6.0824013122452225,
+            8.714306510886916
+          ]
+        },
+        "movie-info-memcached:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.0245688711466583,
+          "ci95_pct": [
+            -5.601484344591556,
+            3.353976708341988
+          ]
+        },
+        "movie-info-memcached:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -75.8885395160668,
+          "ci95_pct": [
+            -407.00692924608705,
+            38.98154729542337
+          ]
+        },
+        "movie-info-memcached:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 32.43987884093584,
+          "ci95_pct": [
+            -43.25276006521608,
+            68.1376472680213
+          ]
+        },
+        "movie-info-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.4475678974826369,
+          "ci95_pct": [
+            -3.1704511599226715,
+            2.2034527998767928
+          ]
+        },
+        "movie-info-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -2.442242607714018,
+          "ci95_pct": [
+            -15.008588801158584,
+            8.751049118237553
+          ]
+        },
+        "movie-info-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.3796309421084776,
+          "ci95_pct": [
+            -8.165833506184494,
+            8.249974973260999
+          ]
+        },
+        "movie-info-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.20226886615271056,
+          "ci95_pct": [
+            -10.375666053154031,
+            9.766459441636389
+          ]
+        },
+        "movie-info-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 5.9837948618416625,
+          "ci95_pct": [
+            -10.555813337437137,
+            20.049009077416503
+          ]
+        },
+        "movie-info-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -3.340860523237743,
+          "ci95_pct": [
+            -11.993234494684057,
+            4.643048288866158
+          ]
+        },
+        "movie-review-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.6494101141934605,
+          "ci95_pct": [
+            -1.3963324607556782,
+            0.09201013009095815
+          ]
+        },
+        "movie-review-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.4730342205468538,
+          "ci95_pct": [
+            -4.925393230267194,
+            1.8657318602831374
+          ]
+        },
+        "movie-review-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.5548892940578254,
+          "ci95_pct": [
+            -1.2201922783777075,
+            0.1060407677158759
+          ]
+        },
+        "movie-review-redis:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -2.1476682361060373,
+          "ci95_pct": [
+            -3.913818142095127,
+            -0.41153633490393915
+          ]
+        },
+        "movie-review-redis:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.44122419672278923,
+          "ci95_pct": [
+            -12.098240901939562,
+            10.003587594550945
+          ]
+        },
+        "movie-review-redis:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -3.430558851222054,
+          "ci95_pct": [
+            -10.383169797397084,
+            3.08413389548835
+          ]
+        },
+        "movie-review-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.2289782111416976,
+          "ci95_pct": [
+            2.1228557962619132,
+            4.3226001918633905
+          ]
+        },
+        "movie-review-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.1896931015809464,
+          "ci95_pct": [
+            -3.141376255708872,
+            0.7250595085462885
+          ]
+        },
+        "movie-review-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 5.960812645834235,
+          "ci95_pct": [
+            4.455214428405208,
+            7.442685591614328
+          ]
+        },
+        "nginx-web-server:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.52723708760547,
+          "ci95_pct": [
+            -1.3600078974901342,
+            0.298691702076348
+          ]
+        },
+        "nginx-web-server:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.177234403256766,
+          "ci95_pct": [
+            -1.397005467008694,
+            3.686120164896023
+          ]
+        },
+        "nginx-web-server:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.9961720652517991,
+          "ci95_pct": [
+            -2.0248234999477033,
+            0.022108130976783436
+          ]
+        },
+        "other_services:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.8724496909208068,
+          "ci95_pct": [
+            0.17455350363833055,
+            1.5654667706678893
+          ]
+        },
+        "other_services:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.3857931191350916,
+          "ci95_pct": [
+            -0.866796703628947,
+            0.09291670313117395
+          ]
+        },
+        "other_services:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.3653412845091473,
+          "ci95_pct": [
+            0.4378954573520777,
+            2.2841477225506224
+          ]
+        },
+        "plot-memcached:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.7263217547086604,
+          "ci95_pct": [
+            -1.1508493900927563,
+            6.454878664664565
+          ]
+        },
+        "plot-memcached:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -26.286068227224835,
+          "ci95_pct": [
+            -96.34759288594171,
+            18.775826105718664
+          ]
+        },
+        "plot-memcached:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 19.745543349611893,
+          "ci95_pct": [
+            -16.227726837371105,
+            44.58484229618351
+          ]
+        },
+        "plot-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.32923488607365936,
+          "ci95_pct": [
+            -3.1786944101823256,
+            2.4415318456329715
+          ]
+        },
+        "plot-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 5.47137336246073,
+          "ci95_pct": [
+            -28.36772116014503,
+            30.390123208375552
+          ]
+        },
+        "plot-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -3.808944653997437,
+          "ci95_pct": [
+            -18.296084237793544,
+            8.90402620162245
+          ]
+        },
+        "plot-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.1341883423555466,
+          "ci95_pct": [
+            -15.744780493861054,
+            11.632092539935057
+          ]
+        },
+        "plot-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -3.916094500847467,
+          "ci95_pct": [
+            -46.222777260321294,
+            26.149982248768744
+          ]
+        },
+        "plot-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.7902772604427732,
+          "ci95_pct": [
+            -1.8683446229564193,
+            3.379512816371444
+          ]
+        },
+        "rating-redis:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.6660536434604403,
+          "ci95_pct": [
+            -3.052319372307699,
+            1.6649560352236303
+          ]
+        },
+        "rating-redis:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.8450140634042924,
+          "ci95_pct": [
+            -8.944186492168571,
+            6.6520464386665035
+          ]
+        },
+        "rating-redis:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.5667354898651666,
+          "ci95_pct": [
+            -1.7008807156531747,
+            0.5547620048105273
+          ]
+        },
+        "rating-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 2.26752760661294,
+          "ci95_pct": [
+            1.4464877952397481,
+            3.0817274144512075
+          ]
+        },
+        "rating-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.0195552609292049,
+          "ci95_pct": [
+            -1.7285715965666082,
+            1.6607499978726903
+          ]
+        },
+        "rating-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 5.4819821895994,
+          "ci95_pct": [
+            4.030800638539123,
+            6.911219951317371
+          ]
+        },
+        "review-storage-memcached:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.40558395130123603,
+          "ci95_pct": [
+            -3.1067701284752447,
+            2.2248366810432407
+          ]
+        },
+        "review-storage-memcached:system_us/request": {
+          "pairs": 2,
+          "cost_reduction_pct": -307.961116324618,
+          "ci95_pct": [
+            -305202403.8442302,
+            99.9994546824802
+          ]
+        },
+        "review-storage-memcached:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 37.68433098255147,
+          "ci95_pct": [
+            18.141539102465142,
+            52.561499904658774
+          ]
+        },
+        "review-storage-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.22932867628548959,
+          "ci95_pct": [
+            -0.6465148185126335,
+            0.1861282031094369
+          ]
+        },
+        "review-storage-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -2.1280175220790953,
+          "ci95_pct": [
+            -6.787007753649732,
+            2.3277065029138067
+          ]
+        },
+        "review-storage-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.0748199798625393,
+          "ci95_pct": [
+            -1.0902961026058033,
+            1.2265075183661045
+          ]
+        },
+        "review-storage-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 4.921064909059869,
+          "ci95_pct": [
+            4.1091679358095545,
+            5.726087641248934
+          ]
+        },
+        "review-storage-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.1559669327851787,
+          "ci95_pct": [
+            -3.3173514404535087,
+            3.512519435105954
+          ]
+        },
+        "review-storage-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 6.6533253813606645,
+          "ci95_pct": [
+            4.841787221008687,
+            8.430377075326046
+          ]
+        },
+        "targets:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 1.8248695012168525,
+          "ci95_pct": [
+            1.2643753153431914,
+            2.3821819202925587
+          ]
+        },
+        "targets:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.26791754782087285,
+          "ci95_pct": [
+            -1.307641827615602,
+            0.7611360011336776
+          ]
+        },
+        "targets:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 5.559983897749876,
+          "ci95_pct": [
+            5.028028898606451,
+            6.088959321784637
+          ]
+        },
+        "text-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.3900670620160667,
+          "ci95_pct": [
+            3.220883599405655,
+            3.55895476821656
+          ]
+        },
+        "text-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.8202828058190734,
+          "ci95_pct": [
+            -3.7216865869864613,
+            0.046264847782306884
+          ]
+        },
+        "text-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 7.055702910190087,
+          "ci95_pct": [
+            6.0380378839217315,
+            8.062346007133348
+          ]
+        },
+        "unique-id-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 4.42398566841844,
+          "ci95_pct": [
+            3.603414954153028,
+            5.237571318879041
+          ]
+        },
+        "unique-id-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.7917006361124468,
+          "ci95_pct": [
+            -4.023600774913327,
+            5.384099479775662
+          ]
+        },
+        "unique-id-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 6.7765252794732,
+          "ci95_pct": [
+            3.33817538713157,
+            10.09256990777172
+          ]
+        },
+        "user-memcached:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -2.2737598658953972,
+          "ci95_pct": [
+            -5.187887758726761,
+            0.5596349543672052
+          ]
+        },
+        "user-memcached:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.3357361411466595,
+          "ci95_pct": [
+            -4.960822389720443,
+            2.1641486273853094
+          ]
+        },
+        "user-memcached:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -3.3901324452677573,
+          "ci95_pct": [
+            -6.761205790248259,
+            -0.12550352842122248
+          ]
+        },
+        "user-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.07782299606984289,
+          "ci95_pct": [
+            -2.0045911090075252,
+            2.117724813632693
+          ]
+        },
+        "user-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 9.541663291526215,
+          "ci95_pct": [
+            -18.483529955651544,
+            30.937990426801008
+          ]
+        },
+        "user-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -5.024855821924867,
+          "ci95_pct": [
+            -24.66774340163269,
+            11.52306090212225
+          ]
+        },
+        "user-review-mongodb:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.22261763449904493,
+          "ci95_pct": [
+            -1.445048685892325,
+            0.9850829032341912
+          ]
+        },
+        "user-review-mongodb:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.6917450513125978,
+          "ci95_pct": [
+            -3.0794273281999462,
+            4.324948667468331
+          ]
+        },
+        "user-review-mongodb:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.3264227146732246,
+          "ci95_pct": [
+            -1.4358220498885021,
+            0.7708431665008342
+          ]
+        },
+        "user-review-redis:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.9625416031154854,
+          "ci95_pct": [
+            -3.0591504478963083,
+            1.0914143706790114
+          ]
+        },
+        "user-review-redis:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -1.4743868958384754,
+          "ci95_pct": [
+            -8.889709720474848,
+            5.435956966738676
+          ]
+        },
+        "user-review-redis:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": -0.5216268644133937,
+          "ci95_pct": [
+            -5.490910201997501,
+            4.213572068723847
+          ]
+        },
+        "user-review-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.4813353923087154,
+          "ci95_pct": [
+            2.6514285674320126,
+            4.304167174091922
+          ]
+        },
+        "user-review-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.5540349151421764,
+          "ci95_pct": [
+            -0.5277739311275065,
+            1.6242020992711215
+          ]
+        },
+        "user-review-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 5.290207461880348,
+          "ci95_pct": [
+            3.3752411996453957,
+            7.167221797186551
+          ]
+        },
+        "user-service:cpu_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 3.1135061565343958,
+          "ci95_pct": [
+            1.60725385057362,
+            4.596699892651346
+          ]
+        },
+        "user-service:system_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 0.7692145486829394,
+          "ci95_pct": [
+            -0.215808713664134,
+            1.7445559969547664
+          ]
+        },
+        "user-service:user_us/request": {
+          "pairs": 4,
+          "cost_reduction_pct": 4.840147619195223,
+          "ci95_pct": [
+            2.632461078591486,
+            6.9977776428575496
+          ]
+        }
+      }
+    }
+  },
+  "interpretation": "Individual paired-log t95 intervals, no multiplicity correction. Two-block screens are exploratory. E2E precedes PMU; no E2E inference from code misses. LATE_SWPF zero-control values are retained as absolute counts, not undefined percentage ratios. Service-summed PMU counts combine separate request-normalized windows."
+}

@@ -1,0 +1,11 @@
+{"stage": "diagnostic_complete", "arm": "original", "block": 0}
+{"stage": "diagnostic_complete", "arm": "mongo", "block": 0}
+Traceback (most recent call last):
+  File "/storage/prefetchit/class_b_media_system_20260930/resume_diagnostics.py", line 24, in <module>
+    study.diagnostics(root)
+  File "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/media_system_study.py", line 281, in diagnostics
+    h.platform(out,['python3',Path(__file__),'trial',manifest])
+  File "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/fullset.py", line 98, in platform
+    if rc:raise subprocess.CalledProcessError(rc,cmd)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+subprocess.CalledProcessError: Command '['python3', PosixPath('/home/hnpark2/prefetchit/llvm_prefetchit/migration/schemes/class_b_extension_20260926/run_platform.py'), '--out', PosixPath('/storage/prefetchit/class_b_media_system_20260930/diagnostics/00_combined_platform'), '--cpus', '16-19,32-45', 'python3', PosixPath('/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/media_system_study.py'), 'trial', PosixPath('/storage/prefetchit/class_b_media_system_20260930/diagnostics/00_combined.json')]' returned non-zero exit status 1.
