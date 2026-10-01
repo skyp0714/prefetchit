@@ -82,8 +82,13 @@ def main(root):
     choice.update(epoch=time.time(), rejected=[name for name in ready['variants'] if name != best], screen_only=True)
     b.save(root / 'screen2_decision.json', choice)
     scripts = Path(__file__).parent
-    if (root / 'it0_diagnostic_amendment.json').exists():
-        it0 = ready['base'] + '_native_it0'
+    it0 = ready['base'] + '_native_it0'
+    diagnose_it0 = (root / 'it0_diagnostic_amendment.json').exists()
+    kept = [*references.values(), prepared[ready['base']]['arm'], prepared[ready['base']]['nop'],
+            prepared[best]['arm'], prepared[best]['nop']]
+    cleanup(root, [name for name in choice['rejected'] if not diagnose_it0 or name != it0],
+            kept + ([prepared[it0]['arm'], prepared[it0]['nop']] if diagnose_it0 else []))
+    if diagnose_it0:
         tag = 'pmu_it0_extra'
         spec = root / (tag + '_spec.json')
         b.save(spec, dict(prepared[it0]['arm'], root=str(root), out=str(root / 'diagnostics' / tag),
@@ -93,8 +98,8 @@ def main(root):
         assert json.loads((root / 'diagnostics' / tag / 'result.json').read_text())['valid']
         run(root, 'it0_pmu_summary_driver', ['python3', scripts / 'temporal_path_metrics.py', root,
                                            '--pattern', 'pmu_it0_*', '--output', 'it0_pmu_summary.json'])
-    cleanup(root, choice['rejected'], [*references.values(), prepared[ready['base']]['arm'],
-                                     prepared[ready['base']]['nop'], prepared[best]['arm'], prepared[best]['nop']])
+        if it0 != best:
+            cleanup(root, [it0], kept, 'it0_rejected_cleanup.json')
     # The earlier long-lived driver may have loaded before the L1 amendment.
     # Complete that declared control here, outside every clean timing trial.
     for group, services in [('native', list(system.NATIVE)), ('mongo', list(system.MONGO))]:
