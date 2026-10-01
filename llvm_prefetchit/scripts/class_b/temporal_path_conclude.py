@@ -329,6 +329,21 @@ def tables(root, data):
             delta = '—' if value is None else f'{value:+.2f}%'
             lines.append(f'| {group} / {label} | {original:,.1f} | {nop:,.1f} | {prefetch:,.1f} | {delta} |')
     lines += ['', 'NOP은 추가 분기·GOT 접근·코드 배치를 유지하고 삽입한 prefetch 명령만 같은 길이의 NOP으로 바꾼 대조군이다.', '',
+              '| 서비스별 결과 | E2E CPU µs/request: 원본 → 최종 | FE-bound slots %: 원본 → 최종 | L2 code-read miss 변화 | Retired L2 변화 | Retired L1I 변화 | ITLB page walk 완료 변화 |',
+              '|---|---:|---:|---:|---:|---:|---:|---:|']
+    from media_system_study import MONITORED
+    for scope, service in MONITORED.items():
+        old_cpu = e2e['absolute']['original']['service_cpu'][service + ':cpu_us/request']
+        new_cpu = e2e['absolute'][best]['service_cpu'][service + ':cpu_us/request']
+        fe = data['pmu'][scope]['ratios']['fe-bound_pct']
+        values = []
+        for key in ('cache:L2I', 'cache:FE_L2', 'l1:FE_L1', 'l1:ITLB_WALK_COMPLETED'):
+            delta = data['pmu'][scope]['per_request'][key]['change_pct']
+            values.append('—' if delta is None else f'{delta:+.2f}%')
+        lines.append(f'| {service} | {old_cpu:.2f} → {new_cpu:.2f} | '
+                     f'{fe["before"]:.2f} → {fe["after"]:.2f} | ' + ' | '.join(values) + ' |')
+    lines += ['', 'CPU는 clean E2E 실행의 cgroup 값이고 PMU는 별도 진단 실행이다. '
+              '음의 미스 변화율은 감소를 뜻한다. Nginx 실행 파일은 수정하지 않은 관찰 대조군이다.', '',
               '| 시간대별 진단 | 전체 이벤트/request 변화 | 0–20µs 변화 | 20–100µs 변화 | ≥100µs 변화 |', '|---|---:|---:|---:|---:|']
     for row in data['temporal']:
         values = []

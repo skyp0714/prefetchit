@@ -1,0 +1,126 @@
+#!/usr/bin/env python3
+"""Assemble the Korean report from completed, independently checked records."""
+import argparse
+import json
+from pathlib import Path
+
+import dense_build as b
+
+
+TAG = 'class_b_temporal_20261001'
+
+
+def read(path):
+    return json.loads(path.read_text())
+
+
+def report(root):
+    assert read(root / 'confirmation_and_diagnostics_complete.json')['valid']
+    data = read(root / 'analysis/final_summary.json')
+    best = data['selected']
+    contrast = data['confirmation']['e2e'][best]['original']
+    rps = contrast['inverse_rps']
+    gain = 100 * (rps['speedup'] - 1)
+    ci = [100 * (v - 1) for v in rps['speedup_ci95']]
+    prepared = read(root / 'prepared_candidates.json')[best]
+    env = read(root / 'analysis/final_environment_summary.json')
+    baseline = next(row for row in env['variation'] if row['campaign'] == 'confirmation' and row['arm'] == 'original')
+    trials = sum(len(read(root / campaign / 'rows.json')) for campaign in ('screen1', 'screen2', 'screen3', 'confirmation')
+                 if (root / campaign / 'rows.json').exists())
+    code = data['footprint']
+    hints = sum(row['hints'] for row in prepared['builds'].values())
+    lines = [
+        '# DSB Media: schedule-in 이후 코드 미스와 전체 요청 성능', '',
+        f'2026-10-01, 01:52–08:52 UTC의 7시간 캠페인. 최종 정책은 `{best}`다. '
+        f'원본 대비 독립 재검증 처리량 변화는 **{gain:+.2f}%** '
+        f'(개별 paired-log 95% CI {ci[0]:+.2f}–{ci[1]:+.2f}%, {rps["pairs"]}쌍), '
+        f'평균 지연 절감은 **{contrast["mean_ms"]["cost_reduction_pct"]:+.2f}%**, '
+        f'p99 절감은 **{contrast["p99_ms"]["cost_reduction_pct"]:+.2f}%**, '
+        f'전체 CPU/request 절감은 **{contrast["stack_cpu"]["cost_reduction_pct"]:+.2f}%**다. '
+        '지연·CPU 절감이 음수이면 악화다.', '',
+        ('10% 처리량 향상 목표에는 도달하지 못했다.' if gain < 10 else
+         '처리량 점추정치는 10% 목표에 도달했다. 구간의 하한과 측정 범위를 함께 해석해야 한다.'), '',
+        f'최종 원본 {baseline["trials"]}회 RPS의 변동계수는 {baseline["rps_cv_pct"]:.2f}%, '
+        f'범위는 {baseline["min_rps"]:.2f}–{baseline["max_rps"]:.2f}다. '
+        f'탐색과 확인을 합쳐 {trials}개의 새 스택 실행을 완료했으며, 서로 다른 탐색 단계의 성능 수치는 합치지 않았다.', '',
+        f'![독립 재검증의 처리량·지연·CPU 변화와 신뢰구간](figures/{TAG}_final_endpoint_effects.png)', '',
+        '## 무엇을 바꿨나', '',
+        f'실행 trace의 이전 호출과 실제 코드 미스 주소를 연결하고, 정적 direct-call/CFG 분석으로 '
+        f'삽입 가능한 경로를 확인했다. 최종 {code["elf_count"]}개 ELF에 호출 지점 {code["sites"]:,}개, '
+        f'힌트 명령 {hints:,}개를 사용한다. 원본에 덧붙인 코드 합계는 {code["appended_code_bytes"]:,}바이트다. '
+        '이는 서비스별 메모리 사용량이나 전체 프로세스 크기가 아니라 수정한 ELF별 추가 코드의 합계다.', '',
+        '같은 요청을 처리하는 앱 서버 9개, 공유 라이브러리 8종, MongoDB 실행 파일을 함께 최적화했다. '
+        'MovieId도 포함했다. 아래 모든 E2E 수치는 compose-review 전체 요청을 잰 결과다.', '',
+        '| 단계 | 정책 | 반복/정책 | RPS | 평균 지연 ms | p99 ms | CPU µs/request |',
+        '|---|---|---:|---:|---:|---:|---:|',
+    ]
+    for campaign in ('screen1', 'screen2', 'screen3'):
+        path = root / campaign / 'evaluation.json'
+        if not path.exists():
+            continue
+        for name, row in read(path)['absolute'].items():
+            costs = row['e2e']
+            lines.append(f'| {campaign} | `{name}` | {row["trials"]} | {row["rps"]:.2f} | '
+                         f'{costs["mean_ms"]:.4f} | {costs["p99_ms"]:.4f} | {costs["stack_cpu"]:.2f} |')
+    lines += ['',
+        '`pathwide`는 넓은 trace 경로를 이용한다. `aligned`는 stub의 캐시라인 배치, '
+        '`neighbor`는 인접 라인 1개 추가, `shared_anchor`는 DSO 주소 계산용 GOT load 공유, '
+        '`native_it0`는 앱/라이브러리의 RIP-relative T1을 IT0으로 교체, '
+        '`compact`·`compact16`은 호출 지점 감소를 시험했다. '
+        '`repair`는 공유 GOT 방식을 유지하면서 잔여 미스의 다른 호출 경로에 힌트 347개를 추가했다. '
+        '이 보강은 호출 지점 수를 늘리지 않았다.', '',
+        '탐색 단계에서는 미리 정한 CPU·p99 제한 안에서 처리량이 높은 정책을 선택했다. '
+        '선택 이후의 확인 실험으로 다시 승자를 고르지 않았다. 실패·탈락 결과도 모두 보존했다.', '',
+        '## 시간에 따른 미스와 남은 위치', '',
+        f'![schedule-in 이후 원본과 최종 정책의 미스](figures/{TAG}_final_temporal_overview.png)', '',
+        '10–20µs가 모든 서비스의 동일한 최적 구간은 아니었다. 앱의 짧은 실행 구간과 '
+        'MongoDB의 긴 실행 구간을 나눴고, 초반뿐 아니라 이후 호출 경로에서도 힌트를 발행했다. '
+        '아래 잔여 미스 그래프는 타깃 밖 코드, 대응 힌트가 최근 LBR에 보이지 않는 코드, '
+        '삽입한 stub 자체, 대응 힌트가 보이는 코드를 구분한다.', '',
+        f'![남은 L2 미스의 위치별 시간 분포](figures/{TAG}_final_residual_time.png)', '',
+        'retired L2 true-miss 태그는 해당 미스를 겪은 retired 명령을 센다. '
+        'L2 code-read miss는 speculative instruction-fetch 요청도 포함하는 별도 이벤트다. '
+        '하나의 감소율을 다른 이벤트 전체의 감소율로 바꿔 말하지 않는다. '
+        '힌트가 실행된 흔적은 캐시 채움 완료의 증명이 아니며, 이 자료만으로 실제 fetch queue 점유율이나 '
+        '정확한 hint-to-fetch lead-time을 계산할 수는 없다. '
+        '[Intel 이벤트 정의](https://perfmon-events.intel.com/platforms/graniterapids/core-events/core/)', '',
+        '## 실제 성능 및 PMU 세부 결과', '',
+        (root / 'analysis/final_tables.md').read_text(),
+        '## 해석 및 남은 제약', '',
+        'T1은 L1I에 직접 채우는 정책이 아니므로 L2에서 가져오는 지연을 줄여도 L1I 미스 횟수가 '
+        '같이 줄어든다고 보장되지 않는다. 분기 복구, target을 다시 찾는 시간, ITLB 변환, '
+        '삽입 코드 fetch 비용도 구별해야 한다. NOP 대비는 같은 코드 배치에서 prefetch 자체의 순효과를 '
+        '보며, 원본 대비는 삽입 비용까지 포함한 시스템 이득을 본다.', '',
+        'IT0 교체 진단에서는 T1 중간 정책보다 앱의 ITLB page walk 완료가 약 51%, '
+        'clear-to-first-uop cycle이 약 20% 늘었고 L1I 미스도 줄지 않았다. '
+        '그때 MongoDB는 T1을 그대로 유지했으며 해당 수치가 거의 변하지 않았다. '
+        '서로 다른 진단 실행의 관찰이므로 주소 변환 준비가 성능에 영향을 준다는 단서로 해석한다. '
+        'IT0가 TLB miss에서 반드시 버려진다거나 fetch queue가 완전히 비어야만 동작한다는 '
+        '하드웨어 조건을 입증한 것은 아니다.', '',
+        'frontend-bound 비중 전체를 BTB miss라고 볼 수 없다. branch-miss, recovery, '
+        'clear-resteer, unknown-branch bubble은 서로 다른 이벤트이며 일부 시간이 겹친다. '
+        '분기 타깃 근처의 미스가 많다는 사실도 그 미스가 분기 명령 자체에서 났거나 '
+        'BTB 부재 때문에 났다는 뜻은 아니다. 위 표의 절대 횟수·cycle과 잔여 trace 관계를 함께 봐야 한다.', '',
+        '## 측정 방법과 재현 자료', '',
+        (root / 'report_methods.md').read_text(), '',
+        f'[전체 수치](../llvm_prefetchit/migration/evidence/{TAG}/final_summary.json), '
+        f'[독립 재검증](../llvm_prefetchit/migration/evidence/{TAG}/confirmation.json), '
+        f'[PMU 원본/NOP/prefetch 요약](../llvm_prefetchit/migration/evidence/{TAG}/final_pmu_summary.json), '
+        f'[보존 기록 목록](../llvm_prefetchit/migration/evidence/{TAG}/records_manifest.json). '
+        '각 archive 구성 파일은 크기와 SHA-256으로 검증했다. '
+        '원본 입력·현재 참조/최종 바이너리·재사용 가능한 compact branch observations는 로컬에 남겼다. '
+        '탈락한 실행 파일과 원시/디코딩 trace는 필요한 수치·명령·소스·해시를 뽑은 뒤 제거했다.', '',
+        '실험 코드는 [temporal_path_confirm.py](../llvm_prefetchit/scripts/class_b/temporal_path_confirm.py), '
+        '[잔여 경로 보강](../llvm_prefetchit/scripts/class_b/temporal_path_repair.py), '
+        '[잔여 미스 분석](../llvm_prefetchit/scripts/class_b/temporal_path_residual.py)에 있다. '
+        '각 실험의 정확한 명령·설정·소스 스냅샷·바이너리 해시는 evidence archive에 포함했다.', '',
+    ]
+    (root / 'report.md').write_text('\n'.join(lines))
+    b.save(root / 'report_source.json', dict(source_sha256=b.sha(__file__),
+        data_sha256=b.sha(root / 'analysis/final_summary.json'), report_sha256=b.sha(root / 'report.md')))
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('root', type=Path)
+    report(parser.parse_args().root)
