@@ -25,18 +25,29 @@ def report(root):
     prepared = read(root / 'prepared_candidates.json')[best]
     env = read(root / 'analysis/final_environment_summary.json')
     baseline = next(row for row in env['variation'] if row['campaign'] == 'confirmation' and row['arm'] == 'original')
+    exploratory = read(root / 'screen1/evaluation.json')['e2e']['pathwide']['original']['inverse_rps']
     trials = sum(len(read(root / campaign / 'rows.json')) for campaign in ('screen1', 'screen2', 'screen3', 'confirmation')
                  if (root / campaign / 'rows.json').exists())
     code = data['footprint']
     hints = sum(row['hints'] for row in prepared['builds'].values())
     nop = data['confirmation']['e2e'][best + '_nop']['original']['inverse_rps']
     hint_effect = data['confirmation']['e2e'][best][best + '_nop']['inverse_rps']
+    mongo_contrast = data['confirmation']['e2e'][best]['mongo']['inverse_rps']
+    wide_contrast = data['confirmation']['e2e'][best]['pathwide']['inverse_rps']
     native = data['pmu_absolute'][best]['native']['ratios']
     mongo = data['pmu_absolute'][best]['mongo']['ratios']
     cpu = data['cpu_us_per_request'][best]
     original_cpu = data['cpu_us_per_request']['original']
     mongo_code_bytes = next(row['extra_instruction_bytes'] for row in prepared['builds'].values()
                             if Path(row['binary']).name == 'mongod')
+    stall_text = []
+    for group, label in [('native', '앱'), ('mongo', 'MongoDB')]:
+        values = data['pmu'][group]
+        duration = values['ratios']['cycles_per_icache_stall_period']
+        stall_text.append(f'{label}의 I-cache stall 구간 수는 '
+            f'{values["per_request"]["cache:ICACHE_STALL_PERIODS"]["change_pct"]:+.2f}% 변했지만, '
+            f'총 stall cycle 변화는 {values["per_request"]["cache:ICACHE_DATA_STALL"]["change_pct"]:+.2f}%다. '
+            f'평균 구간 길이는 {duration["before"]:.2f}→{duration["after"]:.2f} cycle이다.')
     lines = [
         '# DSB Media: schedule-in 이후 코드 미스와 전체 요청 성능', '',
         f'2026-10-01, 01:52–08:52 UTC의 7시간 캠페인. 최종 정책은 `{best}`다. '
@@ -51,6 +62,16 @@ def report(root):
          '처리량 95% 구간이 0을 포함하므로, 이 반복 수만으로 처리량 개선을 확정하지 않는다.'), '',
         ('10% 처리량 향상 목표에는 도달하지 못했다.' if gain < 10 else
          '처리량 점추정치는 10% 목표에 도달했다. 구간의 하한과 측정 범위를 함께 해석해야 한다.'), '',
+        f'초기 탐색의 `pathwide`는 원본 대비 {100*(exploratory["speedup"]-1):+.2f}%였지만 '
+        f'{exploratory["pairs"]}쌍의 탐색값이다. 최종 성능 주장은 위의 새 {rps["pairs"]}쌍 확인값을 사용한다. '
+        '서로 다른 시드·측정 시점의 차이를 하나의 원인으로 단정하거나 두 단계를 합산하지 않았다.', '',
+        f'MongoDB만 기존 split75로 최적화한 `mongo` 기준 대비 추가 처리량 변화는 '
+        f'{100*(mongo_contrast["speedup"]-1):+.2f}% '
+        f'(95% CI {100*(mongo_contrast["speedup_ci95"][0]-1):+.2f}–{100*(mongo_contrast["speedup_ci95"][1]-1):+.2f}%)다. '
+        '이 비교에는 앱·라이브러리 변경과 MongoDB의 추가 타깃이 함께 포함된다. '
+        f'공유 GOT 개선 자체의 `pathwide` 대비 변화는 {100*(wide_contrast["speedup"]-1):+.2f}% '
+        f'(95% CI {100*(wide_contrast["speedup_ci95"][0]-1):+.2f}–{100*(wide_contrast["speedup_ci95"][1]-1):+.2f}%)다. '
+        '두 추가 대비는 원본 대비 전체 변경의 이득과 구분한다.', '',
         f'최종 원본 {baseline["trials"]}회 RPS의 변동계수는 {baseline["rps_cv_pct"]:.2f}%, '
         f'범위는 {baseline["min_rps"]:.2f}–{baseline["max_rps"]:.2f}다. '
         f'탐색과 확인을 합쳐 {trials}개의 새 스택 실행을 완료했으며, 서로 다른 탐색 단계의 성능 수치는 합치지 않았다.', '',
@@ -98,10 +119,12 @@ def report(root):
         '하나의 감소율을 다른 이벤트 전체의 감소율로 바꿔 말하지 않는다. '
         '힌트가 실행된 흔적은 캐시 채움 완료의 증명이 아니며, 이 자료만으로 실제 fetch queue 점유율이나 '
         '정확한 hint-to-fetch lead-time을 계산할 수는 없다. '
+        '주소별 잔여 분류도 precise retired 이벤트에 대한 것이며, 전체 speculative code-read miss의 주소 지도는 아니다. '
         '[Intel 이벤트 정의](https://perfmon-events.intel.com/platforms/graniterapids/core-events/core/)', '',
         '## 실제 성능 및 PMU 세부 결과', '',
         (root / 'analysis/final_tables.md').read_text(),
         '## 해석 및 남은 제약', '',
+        ' '.join(stall_text) + ' 구간 수와 평균 길이를 구분해야 하며, 구간 수 증가만으로 비용 증가를 판단하지 않는다.', '',
         f'CPU 기준으로 원본에서 MongoDB가 차지한 비중은 '
         f'{100*original_cpu["mongo:cpu_us"]/original_cpu["all:cpu_us"]:.2f}%다. '
         f'이 그룹의 CPU/request가 {100*(1-cpu["mongo:cpu_us"]/original_cpu["mongo:cpu_us"]):.2f}% 줄어 '

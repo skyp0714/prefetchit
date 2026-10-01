@@ -350,6 +350,17 @@ def tables(root, data):
                      f'{fe["before"]:.2f} → {fe["after"]:.2f} | ' + ' | '.join(values) + ' |')
     lines += ['', 'CPU는 clean E2E 실행의 cgroup 값이고 PMU는 별도 진단 실행이다. '
               '음의 미스 변화율은 감소를 뜻한다. Nginx 실행 파일은 수정하지 않은 관찰 대조군이다.', '',
+              '| 서비스 CPU의 사용자/커널 분해 | 원본의 커널 CPU 비중 | User CPU/request 변화 | Kernel CPU/request 변화 | 전체 CPU/request 변화 |',
+              '|---|---:|---:|---:|---:|']
+    for _, service in MONITORED.items():
+        old = e2e['absolute']['original']['service_cpu']
+        new = e2e['absolute'][best]['service_cpu']
+        values = [change(old[service + ':' + field], new[service + ':' + field])
+                  for field in ('user_us/request', 'system_us/request', 'cpu_us/request')]
+        fraction = 100 * old[service + ':system_us/request'] / old[service + ':cpu_us/request']
+        lines.append(f'| {service} | {fraction:.2f}% | ' +
+                     ' | '.join('—' if value is None else f'{value:+.2f}%' for value in values) + ' |')
+    lines += ['', '위 PMU frontend 비율은 사용자 코드에서 측정한 값이다. 이 표의 커널 CPU 비중과 분모를 혼동하지 않는다.', '',
               '| 시간대별 진단 | 전체 이벤트/request 변화 | 0–20µs 변화 | 20–100µs 변화 | ≥100µs 변화 |', '|---|---:|---:|---:|---:|']
     for row in data['temporal']:
         values = []
