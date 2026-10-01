@@ -25,7 +25,11 @@ def summarize(root):
     report=dict(selection=chosen,complete=complete,phases={})
     if (root/'resumption.json').exists():
         report['resumption']=load(root/'resumption.json')
-    for phase in ('screen','screen2','confirmation'):
+    phases=['screen','screen2','confirmation']
+    if (root/'same_line_predeclared.json').exists():
+        assert load(root/'same_line_complete.json')['valid']
+        phases.append('same_line')
+    for phase in phases:
         data=load(root/phase/'evaluation.json')
         report['phases'][phase]=dict(trials=data['trials'],
             absolute={name:dict(rps=v['rps'],util_pct=v['util_pct'],service_cpu=v['service_cpu'],**v['e2e']) for name,v in data['absolute'].items()},
@@ -58,11 +62,19 @@ def summarize(root):
         c=comparisons[name][control]
         if c['inverse_rps']['speedup_ci95'][0]>1 and c['stack_cpu']['cost_reduction_pct']>=-.5 and c['p99_ms']['cost_reduction_pct']>=-2:
             promoted.append(name)
-    decision=dict(selected=combined if combined in promoted else 'full_dso',retained_new_references=promoted,
+    pruning=None
+    if 'same_line' in report['phases']:
+        name='full_rpc_worker_pruned';pruning=report['phases']['same_line']['comparisons'][name]
+        c=pruning['full_dso']
+        if c['inverse_rps']['speedup_ci95'][0]>1 and c['stack_cpu']['cost_reduction_pct']>=-.5 and c['p99_ms']['cost_reduction_pct']>=-2:
+            promoted.append(name)
+        b.save(root/'same_line_decision.json',dict(promoted=name in promoted,comparisons=pruning,
+            rule=load(root/'same_line_predeclared.json')['promotion']))
+    decision=dict(selected='full_rpc_worker_pruned' if 'full_rpc_worker_pruned' in promoted else combined if combined in promoted else 'full_dso',retained_new_references=promoted,
         rule='Promote only the frozen RPC nominees with positive lower individual paired-log throughput CI versus their own background policy, CPU cost <=+0.5%, and p99 cost <=+2%. '
              'Intervals are not multiplicity-adjusted; do not select a different RPC implementation from confirmation.',
         comparisons={name:comparisons[name][control] for name,control in [(nominee,'no_dso'),(combined,'full_dso')]},
-        epoch=time.time())
+        same_line_comparisons=pruning,epoch=time.time())
     b.save(root/'final_decision.json',decision)
     report['decision']=decision
     baseline=[row['achieved_rps'] for row in load(root/'confirmation/rows.json') if row['arm']=='original']
@@ -103,7 +115,7 @@ def plot(root,report,nominee,combined):
     blocks=report['selection']['blocks']
     fig.suptitle('DSB Media: RPC-aware prefetch, independent confirmation',fontsize=15,y=.99)
     fig.text(.5,.01,f'{blocks} fresh paired blocks · individual paired-log 95% intervals · balanced C4 · 8 server CPUs\n'
-        'Same 23 future-code hints in six typed async-worker callsites. Exploration and diagnostic timing are excluded.',ha='center',fontsize=9)
+        '23 worker hints in six callsites. Separate three-hint ablation is reported in the text. Diagnostic timing is excluded.',ha='center',fontsize=9)
     fig.tight_layout(rect=[0,.075,1,.96])
     for extension in ('png','svg'):
         path=root/'analysis'/('endpoint_effects.'+extension);fig.savefig(path,dpi=180)
@@ -152,7 +164,7 @@ def write_report(root,report,nominee,combined):
         '```mermaid','flowchart LR','  A[RPC 타입 결정] --> B[인자 디코딩] --> C[Handler] --> D[비동기 작업 생성]',
         '  D --> E[새 작업 스레드 실행] --> F[작업 타입별 코드 prefetch] --> G[call_once와 콜백] --> H[후속 RPC]',
         '```','',
-        '최종 후보는 MovieId·ComposeReview·Rating의 6개 호출 지점에 힌트 23개, 코드 220바이트를 추가한다. '
+        '본 확인 후보는 MovieId·ComposeReview·Rating의 6개 호출 지점에 힌트 23개, 코드 220바이트를 추가한다. '
         '부모 스레드에만 발행하던 방식과 달리 실제 작업 스레드 안에서 타입별 후속 코드를 가져온다. '
         '발행 후 CPU migration을 금지하거나 정확한 fetch lead-time을 측정한 것은 아니다. '
         '이미 선택된 코드 타입과 별도 과거 trace를 사용하며, 현재 요청의 미래 결과를 읽거나 handler를 미리 실행하지 않는다.', '',
@@ -209,7 +221,7 @@ def write_report(root,report,nominee,combined):
         'DTLB walk 전체를 software-prefetch 탓으로 분류하지 않는다. Frontend/backend 비율은 사용자 slot 비율이며 요청 지연 비중이 아니다. '
         '이 자료만으로 fetch queue가 비었는지, 정확한 hint-to-fetch 시간, BTB miss 비율을 판정하지 않는다.', '',
         '## 측정·보존', '',
-        f"Clean E2E {report['complete']['clean_trials']}회, 별도 PMU 2회, 전체 스택 smoke 5회를 완료했다. "
+        f"Clean E2E {report['complete']['clean_trials']}회, 별도 PMU 2회, 전체 스택 smoke {report['complete']['smoke_trials']}회를 완료했다. "
         'MovieId 포함 Media compose-review 전체 HTTP 요청, balanced C4 지속 연결, 서버 CPU32–39의 8개 CPU, '
         '2GHz, tracing100%, 매번 새 스택·데이터와 50초 warmup·60초 ROI다. '
         '최대 처리량을 다시 찾는 부하 스윕이나 다른 Media API 검증은 아니다. '
@@ -236,9 +248,29 @@ def write_report(root,report,nominee,combined):
             '재개 전 생성된 실험 컨테이너와 임시 DB 볼륨을 제거했고, 원본 입력은 유지했다.', '',
             '정상 완료된 실행은 설정 복원을 검증했다. 재부팅으로 끊긴 실행은 정상적인 MSR/sysfs 복원을 했다고 주장하지 않는다. '
             '재개 후 실행은 새 부팅 상태를 각각 기록하고 그 상태로 복원했다. '
-            '따라서 clean E2E 집계 29회 외에, 통계에서 제외한 중단 전 완료 8회와 미완료 1회의 기록이 별도로 남아 있다.', '',
+            f"따라서 clean E2E 집계 {report['complete']['clean_trials']}회 외에, 통계에서 제외한 중단 전 완료 8회와 미완료 1회의 기록이 별도로 남아 있다.", '',
             f'[재개·정리 기록](../llvm_prefetchit/migration/evidence/{TAG}/resumption.json), '
             '[재개 구현](../llvm_prefetchit/scripts/class_b/rpc_route_resume.py).','']
+    if 'same_line' in report['phases']:
+        extra=report['phases']['same_line'];name='full_rpc_worker_pruned'
+        lines+=['## 이미 실행한 캐시 라인 힌트 3개 제거','',
+            '별도 정적 점검에서 MovieId의 2개, Rating의 1개 추가 힌트가 원래 발행 callsite와 같은 64바이트 라인을 가리켰다. '
+            '기존 검증 도중 코드나 후보를 바꾸지 않고, 그 검증과 PMU 종료 후 3개만 같은 길이 NOP으로 바꾼 20-hint 버전을 만들었다. '
+            '다른 바이트·주소·분기·CFI·기존 힌트는 모두 같음을 검사하고 smoke 후 새 두 블록 6회로 비교했다. '
+            '이는 발행 제거 효과를 분리하는 실험이며 파일 크기나 코드 배치를 줄인 실험은 아니다.', '',
+            '| 정책 | RPS | 평균 ms | p99 ms | CPU µs/request |','|---|---:|---:|---:|---:|']
+        for policy,label in [('full_dso','기존 정책'),('full_rpc_worker','작업 힌트 23개'),(name,'작업 힌트 20개')]:
+            v=extra['absolute'][policy]
+            lines.append(f"| {label} | {v['rps']:.2f} | {v['mean_ms']:.4f} | {v['p99_ms']:.4f} | {v['stack_cpu']:.2f} |")
+        lines+=['','| 20-hint 비교 | 처리량 증가 | 평균 지연 절감 | p99 절감 | CPU/request 절감 |','|---|---:|---:|---:|---:|']
+        for control,label in [('full_dso','기존 정책 대비'),('full_rpc_worker','23-hint 대비')]:
+            lines.append('| '+label+' | '+' | '.join(interval(extra['comparisons'][name][control],key)
+                for key in ['inverse_rps','mean_ms','p99_ms','stack_cpu'])+' |')
+        lines+=['','위 PMU 표는 23-hint 버전의 결과다. 20-hint의 PMU 감소율로 인용하지 않는다. '
+            '두 블록 비교는 앞의 세 블록과 합산하지 않으며, 개별 95% 구간과 사전 기록한 승격 규칙을 적용했다. '
+            +('20-hint를 새 참고 정책으로 보존했다.' if name in decision['retained_new_references'] else '20-hint의 추가 이득도 승격 규칙을 충족하지 않아 기존 결정을 유지한다.'), '',
+            f'[같은 라인 제거 기록](../llvm_prefetchit/migration/evidence/{TAG}/same_line_encoding_validation.json), '
+            '[구현](../llvm_prefetchit/scripts/class_b/rpc_route_prune.py).','']
     (root/'report.md').write_text('\n'.join(lines))
 
 
@@ -274,7 +306,7 @@ def audit(root):
     assert not any(owned.values()),owned
     modules={name:Path('/sys/module',name).exists() for name in ['wake_prefetch','prefetchit']};assert not any(modules.values())
     quality=[]
-    for phase in ['screen','screen2','confirmation']:
+    for phase in ['screen','screen2','confirmation']+(['same_line'] if (root/'same_line/complete.json').exists() else []):
         for row in load(root/phase/'rows.json'):
             info=load(Path(row['output'])/'load/load.json')
             assert row['valid'] and info['mapping_preserved'] and not info['steady_errors']
@@ -317,6 +349,8 @@ def publish(root):
                  'prepared_summary.json','combined_prepared.json','it0_encoding_validation.json','footprint_summary.json']:
         shutil.copyfile(root/name,destination/name)
     if (root/'resumption.json').exists():shutil.copyfile(root/'resumption.json',destination/'resumption.json')
+    for name in ['same_line_predeclared.json','same_line_encoding_validation.json','same_line_decision.json']:
+        if (root/name).exists():shutil.copyfile(root/name,destination/name)
     shutil.copyfile(root/'analysis/report.json',destination/'report.json')
     for path in Path(__file__).parent.glob('rpc_route_*.py'):
         digest=b.sha(path);snapshot=root/'source_versions'/(digest+'.py')

@@ -152,7 +152,8 @@ def prepare(root):
                 site = anchor['site']
                 existing = prior_sites.get(site, {}).get('targets', [])
                 choices_here = [(line, n) for line, n in weights.most_common()
-                                if n >= 3 and all(line != target//64 for target in existing)][:8-len(existing)]
+                                if n >= 3 and line != site//64
+                                and all(line != target//64 for target in existing)][:8-len(existing)]
                 if not choices_here:
                     continue
                 targets = [addresses[line] for line, n in choices_here]
@@ -174,7 +175,7 @@ def prepare(root):
             b.save(root / 'plans' / variant / (service+'.json'), dict(source=str(baseline), plan=plan, choices=choices,
                 training=str(path), training_sha256=b.sha(path),
                 rule='Main-ELF residual targets associated with known RPC phase or typed async worker. '
-                     'No forced handler-entry lines. Minimum three training samples, at most eight combined hints/site. '
+                     'No forced handler-entry lines or issuing-callsite cache line. Minimum three training samples, at most eight combined hints/site. '
                      'Worker hint executes inside the typed async worker before its first normal direct call.'))
             built = stubs.build(baseline, plan, output)
             after = stubs.Elf(output.read_bytes())
