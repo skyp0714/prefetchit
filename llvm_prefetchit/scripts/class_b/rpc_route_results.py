@@ -256,17 +256,19 @@ def write_report(root,report,nominee,combined):
         lines+=['## 이미 실행한 캐시 라인 힌트 3개 제거','',
             '별도 정적 점검에서 MovieId의 2개, Rating의 1개 추가 힌트가 원래 발행 callsite와 같은 64바이트 라인을 가리켰다. '
             '기존 검증 도중 코드나 후보를 바꾸지 않고, 그 검증과 PMU 종료 후 3개만 같은 길이 NOP으로 바꾼 20-hint 버전을 만들었다. '
-            '다른 바이트·주소·분기·CFI·기존 힌트는 모두 같음을 검사하고 smoke 후 새 두 블록 6회로 비교했다. '
+            f"다른 바이트·주소·분기·CFI·기존 힌트는 모두 같음을 검사하고 smoke 후 새 두 블록 {extra['trials']}회로 비교했다. "+
             '이는 발행 제거 효과를 분리하는 실험이며 파일 크기나 코드 배치를 줄인 실험은 아니다.', '',
             '| 정책 | RPS | 평균 ms | p99 ms | CPU µs/request |','|---|---:|---:|---:|---:|']
-        for policy,label in [('full_dso','기존 정책'),('full_rpc_worker','작업 힌트 23개'),(name,'작업 힌트 20개')]:
+        for policy,label in [('full_dso','기존 정책'),('full_rpc_worker','작업 힌트 23개'),('full_rpc_worker_nop','새 힌트만 모두 NOP'),(name,'작업 힌트 20개')]:
             v=extra['absolute'][policy]
             lines.append(f"| {label} | {v['rps']:.2f} | {v['mean_ms']:.4f} | {v['p99_ms']:.4f} | {v['stack_cpu']:.2f} |")
         lines+=['','| 20-hint 비교 | 처리량 증가 | 평균 지연 절감 | p99 절감 | CPU/request 절감 |','|---|---:|---:|---:|---:|']
-        for control,label in [('full_dso','기존 정책 대비'),('full_rpc_worker','23-hint 대비')]:
+        for control,label in [('full_dso','기존 정책 대비'),('full_rpc_worker','23-hint 대비'),('full_rpc_worker_nop','새 힌트 전부 NOP 대비')]:
             lines.append('| '+label+' | '+' | '.join(interval(extra['comparisons'][name][control],key)
                 for key in ['inverse_rps','mean_ms','p99_ms','stack_cpu'])+' |')
-        lines+=['','위 PMU 표는 23-hint 버전의 결과다. 20-hint의 PMU 감소율로 인용하지 않는다. '
+        lines+=['',f"23-hint / NOP의 clean 처리량 증가는 {interval(extra['comparisons']['full_rpc_worker']['full_rpc_worker_nop'],'inverse_rps')}다. "+
+            'NOP 대조군도 기존 프리패치는 그대로 유지하며, 새 힌트만 끈다. 추가 stub과 주소 배치가 같으므로 이 비교로 새 prefetch 자체의 효과를 분리한다.', '',
+            '위 PMU 표는 23-hint 버전의 결과다. 20-hint의 PMU 감소율로 인용하지 않는다. '
             '두 블록 비교는 앞의 세 블록과 합산하지 않으며, 개별 95% 구간과 사전 기록한 승격 규칙을 적용했다. '
             +('20-hint를 새 참고 정책으로 보존했다.' if name in decision['retained_new_references'] else '20-hint의 추가 이득도 승격 규칙을 충족하지 않아 기존 결정을 유지한다.'), '',
             f'[같은 라인 제거 기록](../llvm_prefetchit/migration/evidence/{TAG}/same_line_encoding_validation.json), '

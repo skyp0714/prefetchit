@@ -78,9 +78,10 @@ def finish(root,wait_parent):
     path=root/'same_line_spec.json';b.save(path,spec)
     run(root,'same_line',['python3',scripts/'temporal_path_campaign.py','campaign',path])
     assert load(root/'same_line/complete.json')['valid']
-    complete=load(root/'measurement_complete.json');complete.update(epoch=time.time(),clean_trials=35,smoke_trials=6,same_line_trials=6)
+    trials=setting['blocks']*len(names)
+    complete=load(root/'measurement_complete.json');complete.update(epoch=time.time(),clean_trials=29+trials,smoke_trials=6,same_line_trials=trials)
     b.save(root/'measurement_complete.json',complete)
-    b.save(root/'same_line_complete.json',dict(valid=True,epoch=time.time(),trials=6))
+    b.save(root/'same_line_complete.json',dict(valid=True,epoch=time.time(),trials=trials))
 
 
 if __name__=='__main__':
