@@ -72,6 +72,13 @@ def run(root, name, command):
 
 def main(root):
     import media_system_study as system
+    digest = b.sha(__file__)
+    snapshot = root / 'source_versions' / (digest + '.py')
+    if not snapshot.exists():
+        snapshot.write_bytes(Path(__file__).read_bytes())
+    b.save(root / 'confirmation_pipeline_source.json', dict(epoch=time.time(), sha256=digest, snapshot=str(snapshot),
+        amendments={path.name: b.sha(path) for path in root.glob('*amendment.json')},
+        iteration3_sha256=b.sha(root / 'iteration3_predeclared.json') if (root / 'iteration3_predeclared.json').exists() else None))
     assert json.loads((root / 'screen2/complete.json').read_text())['valid']
     ready = json.loads((root / 'iteration2_extended_prepared.json').read_text())
     rows = json.loads((root / 'screen2/rows.json').read_text())
@@ -180,11 +187,28 @@ def main(root):
                              purpose='Final selected policy versus repeated original baseline2, including residual L1I misses.'))
             run(root, tag, ['python3', scripts / 'temporal_path_study.py', 'platform_capture', spec])
             assert json.loads((root / 'profiles' / tag / 'complete.json').read_text())['valid']
+    if (root / 'unknown_branch_amendment.json').exists():
+        now = datetime.datetime.now(datetime.timezone.utc)
+        available = now.hour < 8 or (now.hour == 8 and now.minute < 33)
+        b.save(root / 'unknown_branch_budget_decision.json', dict(epoch=time.time(), run=available,
+            rule='Run the two predeclared representative-service captures if final primary profiles finish before 08:33 UTC; otherwise retain the primary measurements and publication reserve. No performance-dependent choice.'))
+        if available:
+            for phase, name in [('baseline2', 'original'), ('final', best)]:
+                tag = phase + '_unknown_representatives'
+                spec = root / (tag + '_spec.json')
+                b.save(spec, dict(arms[name], root=str(root), out=str(root / 'profiles' / tag),
+                                 services=['compose', 'mongo_user'], kinds=['unknown'], capture_s=8,
+                                 seed=1001401, phase=phase, arm=name,
+                                 purpose='Representative precise unknown-branch locations/LBR; not a BTB occupancy measurement or a full-service aggregate.'))
+                run(root, tag, ['python3', scripts / 'temporal_path_study.py', 'platform_capture', spec])
+                assert json.loads((root / 'profiles' / tag / 'complete.json').read_text())['valid']
     run(root, 'final_pmu_summary_driver', ['python3', scripts / 'temporal_path_metrics.py', root,
                                          '--pattern', 'pmu_final_*', '--output', 'final_pmu_summary.json'])
     run(root, 'final_temporal_report_driver', ['python3', scripts / 'temporal_path_report.py', root,
                                              '--plot', '--phases', 'baseline2', 'best1', 'final', '--prefix', 'matched_'])
     run(root, 'final_residual_driver', ['python3', scripts / 'temporal_path_residual.py', root, '--phase', 'final'])
+    run(root, 'final_conclusion_driver', ['python3', scripts / 'temporal_path_conclude.py', root, '--plot'])
+    run(root, 'final_environment_driver', ['python3', scripts / 'temporal_path_environment.py', root])
     b.save(root / 'confirmation_and_diagnostics_complete.json', dict(valid=True, selected=best, epoch=time.time()))
 
 

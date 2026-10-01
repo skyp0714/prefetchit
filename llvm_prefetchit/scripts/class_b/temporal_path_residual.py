@@ -80,11 +80,12 @@ def analyze(root,phase='residual'):
                     cls='unmapped';target=ip;function='unknown';nearest=None
                 else:
                     code=images[dso];length,asm,function=code.get(ip);target=ip
-                    instruction_classes[category(asm)]+=1
                     if length and ip//64!=(ip+length-1)//64:
                         straddling+=1
                         if ip+length in code.instructions:target=ip+length
                     in_stub=any(lo<=ip<hi for lo,hi in stub_ranges.get(dso,[]))
+                    instruction_classes[('added_hint_stub_jump' if (dso,ip) in stub_jumps else 'added_hint_stub_other')
+                                        if in_stub else category(asm)]+=1
                     history=row['edges']
                     if history and tuple(history[0][:2])==(dso,ip):history=history[1:]
                     nearest=history[0] if history else None
@@ -110,6 +111,8 @@ def analyze(root,phase='residual'):
                     if nearest and nearest[2]==dso and 0<=ip-nearest[3]<64:
                         branches[cls,'within_64B_after_taken_target']+=1
                         branches[cls,'preceding_mispredicted_taken_branch']+=nearest[4]=='M'
+                        branches[cls,'preceding_correctly_predicted_taken_branch']+=nearest[4]=='P'
+                        branches[cls,'preceding_prediction_unknown']+=nearest[4] not in ('M','P')
                         if nearest[0] in images:
                             source_kind='added_hint_stub_jump' if tuple(nearest[:2]) in stub_jumps else category(images[nearest[0]].get(nearest[1])[1])
                             branches[cls,source_kind]+=1
