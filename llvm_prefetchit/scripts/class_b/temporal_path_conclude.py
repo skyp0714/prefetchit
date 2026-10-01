@@ -295,6 +295,7 @@ def tables(root, data):
         ('l1:ITLB_WALK_COMPLETED', 'ITLB page walk 완료'), ('front:ITLB_WALK_ACTIVE', 'ITLB page walk active cycles'),
         ('recovery:branch-misses:u', 'Branch misprediction'), ('recovery:RECOVERY_CYCLES', 'Recovery cycles'),
         ('recovery:CLEAR_RESTEER_CYCLES', 'Clear → 첫 uop cycles'), ('front:UNKNOWN_BRANCH_CYCLES', 'Unknown-branch bubble cycles'),
+        ('front:DSB_UOPS', 'µop cache (DSB) 공급 uops'), ('front:MITE_UOPS', 'Decoder (MITE) 공급 uops'),
         ('topdown:cycles:u', 'User cycles'), ('topdown:instructions:u', 'Retired instructions'),
         ('topdown:topdown-fe-bound:u', 'Frontend-bound slots')]
     for key, label in counter_rows:
@@ -305,6 +306,7 @@ def tables(root, data):
         lines.append('| ' + label + ' | ' + ' | '.join(values) + ' |')
     lines += ['', '| PMU 비율 | 앱 서버: 원본 → 최종 | MongoDB: 원본 → 최종 |', '|---|---:|---:|']
     for key, label in [('fe-bound_pct', 'Frontend-bound slots %'), ('be-bound_pct', 'Backend-bound slots %'),
+                       ('fetch-lat_pct', 'Fetch-latency-bound slots %'), ('mem-bound_pct', 'Memory-bound slots %'),
                        ('bad-spec_pct', 'Bad-speculation slots %'), ('recovery_cycles_pct', 'Recovery / cycles %'),
                        ('clear_resteer_cycles_pct', 'Clear-resteer / cycles %'), ('unknown_branch_cycles_pct', 'Unknown-branch bubbles / cycles %'),
                        ('code_read_mpki', 'Code-read MPKI'), ('retired_l2_mpki', 'Retired L2 MPKI'), ('retired_l1_mpki', 'Retired L1I MPKI'),
