@@ -216,6 +216,16 @@ def write_report(root,report,nominee,combined):
     for key,label in [('frontend_pct','Frontend-bound slots %'),('backend_pct','Backend-bound slots %')]:
         v=report['pmu']['contrast'][key]
         lines.append(f"| {label} | {v['nop']:.2f} | {v['prefetch']:.2f} | {v['prefetch']-v['nop']:+.2f}%p |")
+    v=report['pmu']['contrast']
+    lines+=['',f"새 힌트를 켰을 때 raw L2 code-read miss는 {v['cache:L2I']['change_pct']:+.2f}%, "
+        f"retired L2 이벤트는 {v['cache:FE_L2']['change_pct']:+.2f}% 변했다. "
+        '이 진단에서 새 RPC 타깃이 미스를 크게 줄였다고 해석할 근거는 없다. '
+        '선정된 worker 타깃과 훈련 잔여 표본의 주소 겹침 자체가 2.08%로 좁았고, 추가 23개 중 3개는 발행 지점과 같은 캐시 라인이었다. '
+        '타깃 선정의 제한은 확인했지만, 정확한 hint-to-fetch 시간과 하드웨어 수용 여부는 측정하지 않았다.', '',
+        f"수정한 세 앱의 사용자 slot 비중은 frontend {v['frontend_pct']['prefetch']:.2f}%, "
+        f"backend {v['backend_pct']['prefetch']:.2f}%다. "
+        '이 둘을 전체 요청 시간 비중으로 바꾸거나 남은 frontend 비용을 전부 BTB miss로 분류하지 않는다. '
+        '앞의 원본 대비 E2E 이득과 새 힌트 자체의 효과는 별도 비교이며, 아래 동일 배치 NOP의 clean E2E 결과로 후자를 추가 점검했다.']
     lines+=['','Raw L2 code-read와 retired L2 miss는 다른 이벤트다. I-cache stall 표는 cycle 수이며 발생 구간 수가 아니다. '
         'T1/T2 실행은 speculative 카운트이며 기존 데이터 프리패치도 포함한다. L1D fill-buffer 지표는 instruction fetch queue의 점유율이 아니다. '
         'DTLB walk 전체를 software-prefetch 탓으로 분류하지 않는다. Frontend/backend 비율은 사용자 slot 비율이며 요청 지연 비중이 아니다. '
@@ -258,6 +268,7 @@ def write_report(root,report,nominee,combined):
             '기존 검증 도중 코드나 후보를 바꾸지 않고, 그 검증과 PMU 종료 후 3개만 같은 길이 NOP으로 바꾼 20-hint 버전을 만들었다. '
             f"다른 바이트·주소·분기·CFI·기존 힌트는 모두 같음을 검사하고 smoke 후 새 두 블록 {extra['trials']}회로 비교했다. "+
             '이는 발행 제거 효과를 분리하는 실험이며 파일 크기나 코드 배치를 줄인 실험은 아니다.', '',
+            '향후 타깃 생성기에서도 발행 라인을 제외하도록 수정했다. 이 20-hint 측정에서는 차순위 타깃을 채우지 않고 기존 목록의 3개만 제거했다.', '',
             '| 정책 | RPS | 평균 ms | p99 ms | CPU µs/request |','|---|---:|---:|---:|---:|']
         for policy,label in [('full_dso','기존 정책'),('full_rpc_worker','작업 힌트 23개'),('full_rpc_worker_nop','새 힌트만 모두 NOP'),(name,'작업 힌트 20개')]:
             v=extra['absolute'][policy]
