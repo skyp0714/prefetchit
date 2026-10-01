@@ -14,11 +14,11 @@ import time
 import dense_build as b
 
 
-def select(rows, base, variants):
+def select(rows, base, variants, expected_pairs=2):
     means = {}
     for name in [base, *variants]:
         observations = [row for row in rows if row['arm'] == name]
-        assert len(observations) == 2 and all(row['valid'] for row in observations)
+        assert len(observations) == expected_pairs and all(row['valid'] for row in observations)
         means[name] = dict(
             geometric_rps=math.exp(statistics.mean(math.log(row['achieved_rps']) for row in observations)),
             cpu=statistics.mean(row['metrics']['stack_cpu'] for row in observations),
@@ -29,7 +29,7 @@ def select(rows, base, variants):
     # The frozen screen rule compares the highest qualifying refinement with base.
     best = max([base, *eligible], key=lambda name: means[name]['geometric_rps'])
     return dict(selected=best, eligible=eligible, means=means,
-                rule='Highest geometric RPS after all two-block observations, subject to CPU <= base+0.5% and p99 <= base+2%; retain base if no refinement improves RPS.')
+                rule='Highest geometric RPS after all frozen blocks, subject to CPU <= base+0.5% and p99 <= base+2%; retain base if no refinement improves RPS.')
 
 
 def arm_paths(arm):
@@ -39,7 +39,7 @@ def arm_paths(arm):
     return {Path(path).resolve() for path in result}
 
 
-def cleanup(root, rejected, keep_arms):
+def cleanup(root, rejected, keep_arms, record_name='screen2_rejected_cleanup.json'):
     protected = set().union(*(arm_paths(arm) for arm in keep_arms))
     files = []
     for name in rejected:
@@ -55,7 +55,7 @@ def cleanup(root, rejected, keep_arms):
     record = dict(reason='Completed exploratory screen; retain all measurements, source/patch/assembly/hash records and selected/reference/NOP artifacts. Remove only rejected generated ELFs.',
                   rejected=rejected, files=files, bytes_removed=sum(row['bytes'] for row in files),
                   free_before=shutil.disk_usage(root).free, complete=False)
-    destination = root / 'screen2_rejected_cleanup.json'
+    destination = root / record_name
     assert not destination.exists()
     b.save(destination, record)
     for row in files:
@@ -79,6 +79,37 @@ def main(root):
     best = choice['selected']
     prepared = json.loads((root / 'prepared_candidates.json').read_text())
     references = json.loads((root / 'arms.json').read_text())
+    choice.update(epoch=time.time(), rejected=[name for name in ready['variants'] if name != best], screen_only=True)
+    b.save(root / 'screen2_decision.json', choice)
+    cleanup(root, choice['rejected'], [*references.values(), prepared[ready['base']]['arm'],
+                                     prepared[ready['base']]['nop'], prepared[best]['arm'], prepared[best]['nop']])
+    scripts = Path(__file__).parent
+    if (root / 'iteration3_predeclared.json').exists():
+        run(root, 'prepare_residual_repair', ['python3', scripts / 'temporal_path_repair.py', root])
+        candidate = ready['base'] + '_repair'
+        if json.loads((root / 'candidates' / candidate / 'model_decision.json').read_text())['eligible']:
+            prepared = json.loads((root / 'prepared_candidates.json').read_text())
+            smoke_spec = root / ('smoke_' + candidate + '_spec.json')
+            b.save(smoke_spec, dict(prepared[candidate]['arm'], root=str(root), out=str(root / 'smokes' / candidate),
+                                   candidate=candidate, seed=1001801))
+            run(root, 'smoke_' + candidate, ['python3', scripts / 'temporal_path_campaign.py', 'platform_smoke', smoke_spec])
+            assert json.loads((root / 'smokes' / candidate / 'result.json').read_text())['valid']
+            screen_arms = {name: copy.deepcopy(prepared[name]['arm']) for name in (best, candidate)}
+            for name, arm in screen_arms.items():
+                arm['controls'] = [other for other in screen_arms if other != name]
+            screen_spec = root / 'screen3_spec.json'
+            b.save(screen_spec, dict(root=str(root), out=str(root / 'screen3'), arms=screen_arms, blocks=3,
+                seedbase=1001901, order_seed=1001900, trial_script=str(scripts / 'temporal_path_trial.py'),
+                predeclared=str(root / 'iteration3_predeclared.json'),
+                scope='Residual repair versus the screen2 incumbent, three fresh exploratory blocks. No performance exclusions or retries. Independent confirmation follows.'))
+            run(root, 'screen3_driver', ['python3', scripts / 'temporal_path_campaign.py', 'campaign', screen_spec])
+            third = select(json.loads((root / 'screen3/rows.json').read_text()), best, [candidate], expected_pairs=3)
+            third.update(epoch=time.time(), incumbent=best, screen_only=True)
+            b.save(root / 'screen3_decision.json', third)
+            rejected = [name for name in (best, candidate) if name != third['selected'] and name != ready['base']]
+            best = third['selected']
+            cleanup(root, rejected, [*references.values(), prepared[ready['base']]['arm'], prepared[ready['base']]['nop'],
+                                     prepared[best]['arm'], prepared[best]['nop']], 'screen3_rejected_cleanup.json')
     arms = {name: copy.deepcopy(references[name]) for name in ('original', 'mongo')}
     arms[ready['base']] = copy.deepcopy(prepared[ready['base']]['arm'])
     arms[best] = copy.deepcopy(prepared[best]['arm'])
@@ -92,17 +123,14 @@ def main(root):
         blocks = 5
     if best == ready['base']:
         blocks += 1
-    choice.update(epoch=time.time(), arms=list(arms), blocks=blocks,
-                  rejected=[name for name in ready['variants'] if name != best],
-                  screen_only=True, timing_budget='7 blocks before 06:14 UTC, 6 before 06:28, otherwise 5; one additional block when only four arms remain. Set before confirmation, without effect-size-dependent stopping.')
-    b.save(root / 'screen2_decision.json', choice)
-    cleanup(root, choice['rejected'], list(arms.values()))
+    final_choice = dict(epoch=time.time(), selected=best, arms=list(arms), blocks=blocks,
+        screen_only=True, timing_budget='7 blocks before 06:14 UTC, 6 before 06:28, otherwise 5; one additional block when only four arms remain. Set before confirmation, without effect-size-dependent stopping.')
+    b.save(root / 'confirmation_selection.json', final_choice)
     spec = root / 'confirmation_spec.json'
-    scripts = Path(__file__).parent
     b.save(spec, dict(root=str(root), out=str(root / 'confirmation'), arms=arms, blocks=blocks,
                      seedbase=1002101, order_seed=1002100,
                      trial_script=str(scripts / 'temporal_path_trial.py'),
-                     selection_source=str(root / 'screen2_decision.json'),
+                     selection_source=str(root / 'confirmation_selection.json'),
                      scope='Independent endpoint confirmation at accepted C4 / 80–90% utilization operating point; no PMU or trace collection in clean ROIs.',
                      promotion_rule='Report all contrasts with individual paired-log t95 intervals. Selected policy remains selected regardless of confirmation noise; do not select a different winner from these trials. No performance exclusions, retries or early stopping.',
                      background_audit=str(root / 'environment_amendment.json')))
