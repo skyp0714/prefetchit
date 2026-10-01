@@ -18,6 +18,8 @@ def summarize(root):
         rows.append(dict(run=path.parents[2].name,arm=protocol.get('arm'),phase=protocol.get('phase'),
             service=path.parents[1].name,kind=data['kind'],samples=data['quality']['complete_samples'],
             joined_pct=data['quality']['complete_sample_pct'],period=data['period'],requests=n,
+            quality=data['quality'],runs_with_prior_out=data['runs_with_prior_out'],
+            migrated_pct=data['migrated_pct'],median_off_us=data['median_off_us'],
             events_per_request=total/n,median_run_us=data['median_run_us'],
             early20_pct=100*sum(v['estimated_events'] for v in data['bins'] if v['lo_us']<20)/total,
             bins=[dict(v,events_per_request=v['estimated_events']/n) for v in data['bins']],

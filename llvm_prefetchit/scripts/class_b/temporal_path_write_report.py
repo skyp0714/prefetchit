@@ -14,6 +14,47 @@ def read(path):
     return json.loads(path.read_text())
 
 
+def residual_interpretation(data):
+    lines = []
+    for group, label in [('native', '앱'), ('mongo', 'MongoDB')]:
+        row = next(item for item in data['residual'] if item['group'] == group and item['kind'] == 'l2')
+        pct = row['sample_pct']
+        witnessed = sum(value for key, value in pct.items() if key.startswith('matching_stub_observed_'))
+        lines.append(f'{label}에 남은 retired L2 miss 표본 중 '
+            f'{pct.get("line_not_statically_targeted", 0):.2f}%는 정적 타깃 밖 라인, '
+            f'{pct.get("added_hint_stub_fetch", 0):.2f}%는 새 hint stub 코드, '
+            f'{pct.get("targeted_line_without_matching_stub_in_bounded_lbr", 0):.2f}%는 타깃이지만 '
+            f'최근 32개 분기에 대응 hint stub이 보이지 않는 경우다. '
+            f'대응 stub을 실제로 거친 흔적이 있는 경우는 {witnessed:.2f}%다.')
+    lines += ['이 분류에서 타깃 밖 비중이 높으면 다른 경로·주소의 커버리지를, stub 비중이 높으면 '
+        '추가 실행 코드 자체의 비용을 먼저 다뤄야 한다. 단, 이 비중은 이미 크게 줄어든 잔여 집합의 구성이다. '
+        '대응 힌트가 보이는 표본도 늦은 발행·이후 축출·주소 변환 문제 중 어느 하나로 확정할 수 없다.']
+    return '\n\n'.join(lines)
+
+
+def recovery_interpretation(data):
+    best = data['selected']
+    lines = []
+    for group, label in [('native', '앱'), ('mongo', 'MongoDB')]:
+        values = data['pmu'][group]['per_request']
+        nop = data['pmu_absolute'][best + '_nop'][group]['per_request']
+        new = data['pmu_absolute'][best][group]['per_request']
+        keys = [('recovery:RECOVERY_CYCLES', 'recovery cycle'),
+                ('recovery:CLEAR_RESTEER_CYCLES', 'clear→첫 uop cycle'),
+                ('l1:FE_L1', 'L1I miss')]
+        parts = [f'{label}:']
+        for key, name in keys:
+            parts.append(f'{name}는 원본 대비 {values[key]["change_pct"]:+.2f}%, '
+                         f'같은 배치 NOP 대비 {100*(new[key]/nop[key]-1):+.2f}%다.')
+        lines.append(' '.join(parts))
+    lines += ['분기 예측 실패 뒤의 복구 자체와 첫 uop 공급까지의 지연을 분리한 관찰이다. '
+        '같은 배치 NOP 대비 recovery는 거의 그대로인데 clear→첫 uop 비용은 줄어, '
+        'prefetch가 복구 이후 코드 공급을 도울 수 있다는 해석과 맞는다. '
+        '반면 L1I miss는 NOP과 거의 같아, 추가 배치와 실행 경로에서 생긴 L1I 비용이 남았다. '
+        '각 카운터는 별도 진단 창에서 얻었고 서로 겹칠 수 있으므로 더해서 요청 지연으로 환산하지 않는다.']
+    return '\n\n'.join(lines)
+
+
 def report(root):
     assert read(root / 'confirmation_and_diagnostics_complete.json')['valid']
     data = read(root / 'analysis/final_summary.json')
@@ -110,6 +151,13 @@ def report(root):
         '아래 잔여 미스 그래프는 타깃 밖 코드, 대응 힌트가 최근 LBR에 보이지 않는 코드, '
         '삽입한 stub 자체, 대응 힌트가 보이는 코드를 구분한다.', '',
         f'![남은 L2 미스의 위치별 시간 분포](figures/{TAG}_final_residual_time.png)', '',
+        residual_interpretation(data), '',
+        f'![새 스레드 첫 실행과 재실행을 분리한 L2 미스](figures/{TAG}_final_temporal_origin.png)', '',
+        '스케줄 인을 전부 같은 상황으로 다루지 않기 위해, 새 스레드의 첫 실행과 기존 스레드의 '
+        '재실행도 나눴다. MovieId·ComposeReview 소스는 요청 경로에서 여러 '
+        '`std::async(std::launch::async, ...)`를 사용하며, 실제 FORK·스케줄 기록에서도 '
+        '짧게 실행하는 새 스레드가 관찰된다. 이 구분은 초반 미스와 커널 CPU 비중을 해석하는 데 '
+        '도움이 되지만, 스레드 생성이 커널 CPU의 얼마를 차지하는지 직접 측정한 것은 아니다.', '',
         f'[서비스별 L2 시간 그래프](figures/{TAG}_matched_miss_age_per_request.png)와 '
         f'[실제 schedule 시간으로 정규화한 그래프](figures/{TAG}_matched_miss_age_exposure.png), '
         f'[L1I](figures/{TAG}_matched_l1_age_per_request.png), '
@@ -125,6 +173,7 @@ def report(root):
         (root / 'analysis/final_tables.md').read_text(),
         '## 해석 및 남은 제약', '',
         ' '.join(stall_text) + ' 구간 수와 평균 길이를 구분해야 하며, 구간 수 증가만으로 비용 증가를 판단하지 않는다.', '',
+        recovery_interpretation(data), '',
         f'CPU 기준으로 원본에서 MongoDB가 차지한 비중은 '
         f'{100*original_cpu["mongo:cpu_us"]/original_cpu["all:cpu_us"]:.2f}%다. '
         f'이 그룹의 CPU/request가 {100*(1-cpu["mongo:cpu_us"]/original_cpu["mongo:cpu_us"]):.2f}% 줄어 '

@@ -63,7 +63,13 @@ def summarize(root):
                 assert len(rows) == (3 if group == 'mongo' else 9), (phase, group, kind, len(rows))
                 records[phase] = dict(total=sum(row['events_per_request'] for row in rows),
                     bins=[sum(row['bins'][i]['events_per_request'] for row in rows) for i in range(len(EDGES))],
-                    sample_count=sum(row['samples'] for row in rows))
+                    sample_count=sum(row['samples'] for row in rows),
+                    origins={origin: dict(
+                        total=sum(row['origins'].get(origin, {}).get('events_per_request', 0) for row in rows),
+                        bins=[sum(row['origins'].get(origin, {}).get('bins', [{}]*len(EDGES))[i]
+                                  .get('estimated_events', 0)/row['requests'] for row in rows)
+                              for i in range(len(EDGES))])
+                             for origin in ('new_thread_first_run', 'resume', 'boundary_or_initial')})
             before, after = records['baseline2'], records['final']
             time_groups.append(dict(group=group, kind=kind, **records,
                                     change_pct=change(before['total'], after['total']),
@@ -110,6 +116,9 @@ def summarize(root):
         cpu_us_per_request=cpu, temporal=time_groups, residual=residual_groups,
         representative_unknown_branch=[row for row in residual['records'] if row['kind'] == 'unknown'],
         endpoint_windows=windows, source_sha256=b.sha(__file__),
+        schedule_details=[{key: row[key] for key in ('phase', 'service', 'kind', 'samples', 'joined_pct',
+                          'requests', 'quality', 'median_run_us', 'median_off_us', 'runs_with_prior_out', 'migrated_pct', 'origins')}
+                          for row in temporal['rows'] if row['phase'] in ('baseline2', 'final') and row['kind'] == 'l2'],
         footprint=dict(elf_count=len(builds), sites=sum(row['sites'] for row in builds.values()),
                        appended_code_bytes=sum(row['extra_instruction_bytes'] for row in builds.values())),
         limitations=[
@@ -196,6 +205,30 @@ def figures(root, data):
     fig.text(.5, .008, 'Separate diagnostic captures. Samples retire after fetch; scheduler age includes kernel time. Later bins remain in JSON.', ha='center', fontsize=8)
     fig.tight_layout(rect=(0, .075, 1, .91))
     savefig(root, fig, 'final_temporal_overview')
+    fig, axes = plt.subplots(2, 2, figsize=(12, 7))
+    for row_index, group in enumerate(('native', 'mongo')):
+        limit = 100 if group == 'native' else 500
+        row = next(item for item in data['temporal'] if item['group'] == group and item['kind'] == 'l2')
+        indices = [i for i in range(len(EDGES)-1) if EDGES[i+1] <= limit]
+        for col, origin in enumerate(('new_thread_first_run', 'resume')):
+            ax = axes[row_index, col]
+            for phase, label, color in [('baseline2', 'original', '#7b8894'), ('final', best, '#007b9b')]:
+                values = [row[phase]['origins'][origin]['bins'][i]/(EDGES[i+1]-EDGES[i]) for i in indices]
+                ax.stairs(values, EDGES[:len(values)+1], label=label, color=color, linewidth=1.7)
+            ax.axvspan(10, 20, color='#999999', alpha=.12)
+            ax.set_title(group + ' — ' + ('new thread: first run' if col == 0 else 'resumed thread'))
+            ax.set_xlim(0, limit)
+            ax.set_ylim(bottom=0)
+            ax.grid(alpha=.2)
+            if col == 0:
+                ax.set_ylabel('Retired L2 events / request / age-bin µs')
+    handles, labels = axes[0, 0].get_legend_handles_labels()
+    fig.legend(handles, labels, loc='upper center', ncol=2, bbox_to_anchor=(.5, .967))
+    fig.suptitle('First execution versus resume: where residual misses occur', y=.997)
+    fig.supxlabel('Sample retirement age after scheduler selection (µs)', y=.035)
+    fig.text(.5, .008, 'Observed thread births and scheduler records; retirement age includes kernel time. Boundary runs are excluded.', ha='center', fontsize=8)
+    fig.tight_layout(rect=(0, .075, 1, .91))
+    savefig(root, fig, 'final_temporal_origin')
     fig, axes = plt.subplots(1, 2, figsize=(13, 4.8))
     classes = [('line_not_statically_targeted', 'Not statically targeted', '#d68c45'),
                ('targeted_line_without_matching_stub_in_bounded_lbr', 'Targeted; no bounded-LBR witness', '#c75356'),
@@ -372,6 +405,19 @@ def tables(root, data):
             values.append('—' if value is None else f'{value:+.2f}%')
         lines.append(f"| {row['group']} / {row['kind']} | {row['change_pct']:+.2f}% | " + ' | '.join(values) + ' |')
     lines += ['', '시간축은 scheduler가 다음 태스크를 선택한 뒤 샘플 명령이 retire할 때까지다. fetch 시점이나 prefetch lead-time 자체가 아니다. 요청당 값은 perf 시작·종료를 둘러싼 요청 구간으로 정규화한 추정치다.', '',
+              '| L2 진단의 스케줄 특성 | 원본 → 최종 중앙 실행 구간 µs | 새 스레드 첫 실행의 미스 비중 | 재실행 때 코어 이동 비율 | 샘플 스케줄 연결률 |',
+              '|---|---:|---:|---:|---:|']
+    for service in sorted({row['service'] for row in data['schedule_details']}):
+        pair = [next(row for row in data['schedule_details'] if row['service'] == service and row['phase'] == phase)
+                for phase in ('baseline2', 'final')]
+        metrics = []
+        for row in pair:
+            origins = row['origins']
+            total = sum(value['estimated_events'] for value in origins.values())
+            metrics.append([row['median_run_us'], 100*origins.get('new_thread_first_run', {}).get('estimated_events', 0)/total,
+                            row['migrated_pct'], row['joined_pct']])
+        lines.append('| ' + service + ' | ' + ' | '.join(f'{old:.2f} → {new:.2f}' for old, new in zip(*metrics)) + ' |')
+    lines += ['', '새 스레드 첫 실행은 FORK 기록 이후의 첫 스케줄 구간이다. 코어 이동 비율의 분모는 직전 실행 코어를 확인할 수 있는 재실행 구간이며, 전체 요청 수나 미스 수가 아니다. 후반 세 열의 단위는 %다.', '',
               '| 남은 미스의 샘플 분포 | 정적 타깃 밖 | 타깃이지만 LBR에 대응 힌트 없음 | 삽입한 hint stub | 대응 힌트가 LBR에 있음 | 미수정·타깃 없는 ELF |', '|---|---:|---:|---:|---:|---:|']
     for row in data['residual']:
         pct = row['sample_pct']
