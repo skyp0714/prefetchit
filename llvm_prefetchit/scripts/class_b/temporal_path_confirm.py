@@ -84,6 +84,19 @@ def main(root):
     cleanup(root, choice['rejected'], [*references.values(), prepared[ready['base']]['arm'],
                                      prepared[ready['base']]['nop'], prepared[best]['arm'], prepared[best]['nop']])
     scripts = Path(__file__).parent
+    # The earlier long-lived driver may have loaded before the L1 amendment.
+    # Complete that declared control here, outside every clean timing trial.
+    for group, services in [('native', list(system.NATIVE)), ('mongo', list(system.MONGO))]:
+        tag = 'baseline2_l1_' + group
+        if (root / 'profiles' / tag / 'complete.json').exists():
+            assert json.loads((root / 'profiles' / tag / 'complete.json').read_text())['valid']
+            continue
+        spec = root / (tag + '_spec.json')
+        b.save(spec, dict(references['original'], root=str(root), out=str(root / 'profiles' / tag),
+                         services=services, kinds=['l1'], capture_s=8, seed=1001401,
+                         phase='baseline2', arm='original', purpose='Declared L1I temporal control after screen2; no overlap with clean ROI.'))
+        run(root, tag, ['python3', scripts / 'temporal_path_study.py', 'platform_capture', spec])
+        assert json.loads((root / 'profiles' / tag / 'complete.json').read_text())['valid']
     if (root / 'iteration3_predeclared.json').exists():
         run(root, 'prepare_residual_repair', ['python3', scripts / 'temporal_path_repair.py', root])
         candidate = ready['base'] + '_repair'
