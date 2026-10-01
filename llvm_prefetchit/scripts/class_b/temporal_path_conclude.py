@@ -336,7 +336,7 @@ def tables(root, data):
             lines.append(f'| {group} / {label} | {original:,.1f} | {nop:,.1f} | {prefetch:,.1f} | {delta} |')
     lines += ['', 'NOP은 추가 분기·GOT 접근·코드 배치를 유지하고 삽입한 prefetch 명령만 같은 길이의 NOP으로 바꾼 대조군이다.', '',
               '| 서비스별 결과 | E2E CPU µs/request: 원본 → 최종 | FE-bound slots %: 원본 → 최종 | L2 code-read miss 변화 | Retired L2 변화 | Retired L1I 변화 | ITLB page walk 완료 변화 |',
-              '|---|---:|---:|---:|---:|---:|---:|---:|']
+              '|---|---:|---:|---:|---:|---:|---:|']
     from media_system_study import MONITORED
     for scope, service in MONITORED.items():
         old_cpu = e2e['absolute']['original']['service_cpu'][service + ':cpu_us/request']
@@ -361,7 +361,7 @@ def tables(root, data):
             values.append('—' if value is None else f'{value:+.2f}%')
         lines.append(f"| {row['group']} / {row['kind']} | {row['change_pct']:+.2f}% | " + ' | '.join(values) + ' |')
     lines += ['', '시간축은 scheduler가 다음 태스크를 선택한 뒤 샘플 명령이 retire할 때까지다. fetch 시점이나 prefetch lead-time 자체가 아니다. 요청당 값은 perf 시작·종료를 둘러싼 요청 구간으로 정규화한 추정치다.', '',
-              '| 남은 미스의 샘플 분포 | 정적 타깃 밖 | 타깃이지만 LBR에 대응 힌트 없음 | 삽입한 hint stub | 대응 힌트가 LBR에 있음 | 수정하지 않은 ELF |', '|---|---:|---:|---:|---:|']
+              '| 남은 미스의 샘플 분포 | 정적 타깃 밖 | 타깃이지만 LBR에 대응 힌트 없음 | 삽입한 hint stub | 대응 힌트가 LBR에 있음 | 미수정·타깃 없는 ELF |', '|---|---:|---:|---:|---:|---:|']
     for row in data['residual']:
         pct = row['sample_pct']
         values = [pct.get('line_not_statically_targeted', 0), pct.get('targeted_line_without_matching_stub_in_bounded_lbr', 0),
