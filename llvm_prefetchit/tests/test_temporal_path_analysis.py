@@ -42,3 +42,30 @@ def test_cost_selection_accounts_for_cross_dso_issue_work():
     chosen=m.choose(rows,{('a',1):1,('b',2):1},{'a':.1,'b':.1},min_gain=2,goal=1)
     assert chosen['covered']==8 and chosen['hints']==1
     assert chosen['choices'][0]['site']==2
+
+
+def test_opening_a_stub_refreshes_other_targets_before_choosing_new_sites():
+    rows=[]
+    for site,line,count in [(1,10,10),(1,11,8),(2,12,9)]:
+        rows += [dict(target_sha='a',line=line,weight=1,
+            sites={('a',site):dict(kind='local',target=64*line)}) for _ in range(count)]
+    rates={('a',1):1,('a',2):1}
+    chosen=m.choose(rows,rates,{'a':.1},min_gain=1,goal=1,max_hints=2,site_overhead=4)
+    assert [c['site'] for c in chosen['choices']]==[1,1]
+    assert chosen['sites']==1 and chosen['covered']==18
+    ordinary=m.choose(rows,rates,{'a':.1},min_gain=1,goal=1,max_hints=2)
+    assert [c['site'] for c in ordinary['choices']]==[1,2]
+    complete=m.choose(rows,rates,{'a':.1},min_gain=1,goal=1,max_hints=9,site_overhead=4)
+    assert complete['hints']==3 and complete['covered']==27
+    capped=m.choose(rows,rates,{'a':.1},min_gain=1,goal=1,max_hints=2,
+        site_overhead=4,site_caps={('a',1):1})
+    assert [c['site'] for c in capped['choices']]==[1,2]
+    assert capped['covered']==19
+
+
+def test_retained_mongo_stub_is_already_open_for_cost_accounting():
+    rows=[dict(target_sha='a',line=10,weight=1,sites={
+        ('a',1):dict(kind='local',target=640),('a',2):dict(kind='local',target=640)}) for _ in range(8)]
+    chosen=m.choose(rows,{('a',1):1,('a',2):1},{'a':.1},min_gain=1,goal=1,
+        site_overhead=4,opened_sites={('a',2)})
+    assert chosen['choices'][0]['site']==2 and chosen['hints']==1

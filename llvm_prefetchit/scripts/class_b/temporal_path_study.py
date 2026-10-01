@@ -97,9 +97,9 @@ def catalog_process(pid, root, out):
     for directory in ('controls','builds'):
         for audit_path in (root/directory).rglob('*.json'):
             record=json.loads(audit_path.read_text());binary=Path(str(audit_path)[:-5])
-            if 'hints' in record and binary.is_file():
-                known[record['sha256']]=str(binary)
-                twin=Path(str(binary)+'.nop')
+            if 'hints' in record:
+                if binary.is_file():known[record['sha256']]=str(binary)
+                twin=Path(record.get('nop_path',str(binary)+'.nop'))
                 if twin.is_file():known[record['nop_sha256']]=str(twin)
     for line in text.splitlines():
         fields=line.split(None,5)

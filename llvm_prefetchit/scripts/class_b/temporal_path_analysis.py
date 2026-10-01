@@ -247,28 +247,45 @@ def collect(root,phase,images,anchor_table,minimum,maximum):
     return rows,dict(quality,classes=dict(classes),age_bins=dict(timebins),rows=len(rows))
 
 
-def choose(rows,frequency,floors,max_sites=2048,max_hints=6144,per_site=4,min_gain=6,goal=.75,cross_cost=2.5):
+def choose(rows,frequency,floors,max_sites=2048,max_hints=6144,per_site=4,min_gain=6,goal=.75,cross_cost=2.5,
+           site_overhead=0,opened_sites=(),site_caps=None):
+    assert site_overhead>=0
+    opened=set(opened_sites);initial_opened=len(opened)
     candidates=collections.defaultdict(set);representatives={};weights=[r['weight'] for r in rows]
     for i,row in enumerate(rows):
         for site,description in row['sites'].items():
             key=(*site,row['target_sha'],row['line']);candidates[key].add(i);representatives.setdefault(key,description)
     candidates={k:v for k,v in candidates.items() if len(v)>=min_gain}
-    costs={k:max(frequency.get(k[:2],0),floors.get(k[0],1.0))*(cross_cost if representatives[k]['kind']=='cross' else 1) for k in candidates}
-    heap=[(-sum(weights[i] for i in ids)/costs[k],k) for k,ids in candidates.items()];heapq.heapify(heap)
+    rates={k:max(frequency.get(k[:2],0),floors.get(k[0],1.0)) for k in candidates}
+    def cost(key):return rates[key]*((cross_cost if representatives[key]['kind']=='cross' else 1)+(site_overhead if key[:2] not in opened else 0))
+    versions=collections.Counter();by_site=collections.defaultdict(list)
+    for key in candidates:by_site[key[:2]].append(key)
+    heap=[(-sum(weights[i] for i in ids)/cost(k),k,0) for k,ids in candidates.items()];heapq.heapify(heap)
     covered={i for i,row in enumerate(rows) if row.get('precovered')};baseline_covered=len(covered)
     used=collections.Counter();selected=[]
     while heap and len(selected)<max_hints and len(covered)<goal*len(rows):
-        _,key=heapq.heappop(heap);site=key[:2]
-        if used[site]>=per_site or (site not in used and len(used)>=max_sites):continue
+        _,key,version=heapq.heappop(heap);site=key[:2]
+        if version!=versions[key]:continue
+        if used[site]>=min(per_site,(site_caps or {}).get(site,per_site)) or (site not in used and len(used)>=max_sites):continue
         new=candidates[key]-covered
         if len(new)<min_gain:continue
-        gain=sum(weights[i] for i in new);priority=(-gain/costs[key],key)
+        gain=sum(weights[i] for i in new);priority=(-gain/cost(key),key,version)
         if heap and priority>heap[0]:heapq.heappush(heap,priority);continue
         selected.append(dict(source_sha=key[0],site=key[1],target_sha=key[2],line=key[3],**representatives[key],
             gain=len(new),estimated_misses_per_request=gain,estimated_issue_per_request=max(frequency.get(site,0),floors.get(key[0],1.0))))
         covered.update(new);used[site]+=1
+        if site_overhead and site not in opened:
+            opened.add(site)
+            # Opening a site lowers its remaining marginal costs. Refresh
+            # those priorities immediately; lazy set-cover updates alone
+            # only handle gains that decrease, not this discount.
+            for other in by_site[site]:
+                versions[other]+=1;remaining=candidates[other]-covered
+                if len(remaining)>=min_gain:
+                    heapq.heappush(heap,(-sum(weights[i] for i in remaining)/cost(other),other,versions[other]))
     return dict(choices=selected,samples=len(rows),covered=len(covered),baseline_covered=baseline_covered,sites=len(used),hints=len(selected),
-        settings=dict(max_sites=max_sites,max_hints=max_hints,per_site=per_site,min_gain=min_gain,goal=goal,cross_cost=cross_cost),
+        settings=dict(max_sites=max_sites,max_hints=max_hints,per_site=per_site,min_gain=min_gain,goal=goal,cross_cost=cross_cost,
+            site_overhead=site_overhead,initially_opened_sites=initial_opened,sites_with_capacity_override=len(site_caps or {})),
         estimated_hint_executions_per_request=sum(s['estimated_issue_per_request'] for s in selected))
 
 
