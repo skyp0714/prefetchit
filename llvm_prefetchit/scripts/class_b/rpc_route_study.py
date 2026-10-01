@@ -214,7 +214,68 @@ def prepare(root):
     (root / 'source_versions' / (digest+'.py')).write_bytes(Path(__file__).read_bytes())
 
 
+def worker_it0(root, parent):
+    """Change only the fresh typed worker's added T1 opcodes to equal-size IT0."""
+    b.space(root)
+    assert parent in ('rpc_worker', 'rpc_staged')
+    prepared = load(root / 'prepared_candidates.json')
+    base = prepared[parent]
+    name = parent+'_it0'
+    assert name not in prepared
+    entry = dict(arm=copy.deepcopy(base['arm']), nop=copy.deepcopy(base['nop']), builds={}, parent=parent)
+    for service, row in base['builds'].items():
+        wanted = {x['site'] for x in row['selections'] if x['anchor'].startswith('worker:')}
+        if not wanted:
+            continue
+        b.space(root)
+        source = Path(row['binary'])
+        assert b.sha(source) == row['sha256']
+        meta = load(Path(str(source)+'.json'))
+        ranges = {(p['stub'], p['terminal_jumps'][0]) for p in meta['patches'] if p['site'] in wanted}
+        other_ranges = {(p['stub'], p['terminal_jumps'][0]) for p in meta['patches'] if p['site'] not in wanted}
+        assert not ranges & other_ranges, 'Do not change a shared stub used by a different phase'
+        raw = bytearray(source.read_bytes())
+        patches = []
+        for hint in meta['hints']:
+            if not any(lo <= hint['va'] < hi for lo, hi in ranges):
+                continue
+            old = bytes.fromhex(hint['original'])
+            assert old[:3] == bytes.fromhex('0f1815') and len(old) == 7
+            offset = hint['offset']
+            assert raw[offset:offset+7] == old
+            new = bytes.fromhex('0f183d')+old[3:]
+            raw[offset:offset+7] = new
+            patches.append(dict(va=hint['va'], offset=offset, old=old.hex(), new=new.hex(), target=hint['target']))
+            hint.update(original=new.hex(), kind='it0')
+        assert patches
+        output = root / 'builds' / name / service / source.name
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_bytes(raw);output.chmod(0o755)
+        meta.update(sha256=b.sha(output), output=str(output),
+            transform=dict(source=str(source), sha256=row['sha256'], patches=patches,
+                rule='Change only added typed-async-worker T1 to IT0. Same addresses, displacement, branches, '
+                     'registers and CFI; other new RPC hints and all old no-DSO hints stay T1.', source_sha256=b.sha(__file__)))
+        b.save(Path(str(output)+'.json'), meta)
+        entry['arm']['overrides'][service] = str(output)
+        entry['builds'][service] = dict(row, binary=str(output), sha256=meta['sha256'],
+                                      changed_to_it0=len(patches), nop=row['nop'])
+    assert entry['builds']
+    entry['arm']['controls'] = ['original', 'no_dso', 'full_dso', parent, name+'_nop']
+    prepared[name] = entry
+    b.save(root / 'prepared_candidates.json', prepared)
+    arms = load(root / 'arms.json');arms[name] = entry['arm'];arms[name+'_nop'] = entry['nop']
+    b.save(root / 'arms.json', arms)
+    digest = b.sha(__file__)
+    (root / 'source_versions' / (digest+'.py')).write_bytes(Path(__file__).read_bytes())
+    b.save(root / (name+'_prepared.json'), dict(name=name, parent=parent,
+        changed_hints=sum(v['changed_to_it0'] for v in entry['builds'].values()),
+        rationale='Fresh async task knows its callback type after it is placed on a CPU; test L1-oriented '
+                  'instruction hint only at that point. Empty fetch queue and accepted fill are hypotheses, not measured conditions.'))
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('root', type=Path)
-    prepare(parser.parse_args().root)
+    parser.add_argument('--worker-it0', choices=['rpc_worker', 'rpc_staged'])
+    args = parser.parse_args()
+    worker_it0(args.root, args.worker_it0) if args.worker_it0 else prepare(args.root)
