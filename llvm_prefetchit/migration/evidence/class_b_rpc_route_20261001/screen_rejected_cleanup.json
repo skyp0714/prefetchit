@@ -1,0 +1,193 @@
+{
+  "reason": "Completed exploratory screen; retain all measurements, source/patch/assembly/hash records and selected/reference/NOP artifacts. Remove only rejected generated ELFs.",
+  "rejected": [
+    "rpc_route",
+    "rpc_staged"
+  ],
+  "files": [
+    {
+      "path": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_route/compose/ComposeReviewService",
+      "bytes": 20197400,
+      "sha256": "2fd26cb4c3e88f2336445504c991cba104a59839857afa943c21f3ad8fa9017f"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_route/compose/ComposeReviewService.nop",
+      "bytes": 20197400,
+      "sha256": "76a7556e3b7a58e3a335d7cf4fae76784694c7c09a6f17dc8bfe4eecf77e316e"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_route/movie/MovieIdService",
+      "bytes": 21615832,
+      "sha256": "e675351b5c2ab2aa08d0fddda36ef194c7bea44db61f2344c642a1d33ccca98d"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_route/movie/MovieIdService.nop",
+      "bytes": 21615832,
+      "sha256": "956a92161c93b15bde458484b452175a57dec6da92bd556f79c6704e56c82710"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_route/moviereview/MovieReviewService",
+      "bytes": 7994648,
+      "sha256": "f849aaf139acf34e6c6484f7cd9ee9be7cabf8484fdcd5bd6249245b1c8d7f3b"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_route/moviereview/MovieReviewService.nop",
+      "bytes": 7994648,
+      "sha256": "60ea995da959cd71ee3853201314886070a99b172cb55ee84042910daadddfce"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_route/rating/RatingService",
+      "bytes": 19566872,
+      "sha256": "7e495a09acf3cb4c87eee198facc56347e8cf3fa56afe79ffb1f93084316e647"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_route/rating/RatingService.nop",
+      "bytes": 19566872,
+      "sha256": "8210d78e9c141e9240f621cd1f4b02c660d0239f8da2c4c39675e54a7f3b8c62"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_route/storage/ReviewStorageService",
+      "bytes": 6151512,
+      "sha256": "aee0231e6ccc71be27312a8c8a06ea1ebbf649e8364daa5679bcb5fa4404a73e"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_route/storage/ReviewStorageService.nop",
+      "bytes": 6151512,
+      "sha256": "e178f5340494c8fda5f9425268cfc2c6d2880832ee7fc7e43293ba02594b7e3e"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_route/text/TextService",
+      "bytes": 6185016,
+      "sha256": "67f57ce9b2770e9fd6d537e5ea5e4c577fb7c247416753c77fcbfacaaad7bb2e"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_route/text/TextService.nop",
+      "bytes": 6185016,
+      "sha256": "3f7304b67ace04dee4de72c10f190a5fe6814f054d8cde77b8d4eccaa544eb60"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_route/unique/UniqueIdService",
+      "bytes": 6246472,
+      "sha256": "9c84daac58caf83ee67be31c258efd7e77522ab10344aae109483242893442ed"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_route/unique/UniqueIdService.nop",
+      "bytes": 6246472,
+      "sha256": "326c66a1dd1b3782bd18f3ba61b74717886af0292cff74bd12fe2aa4938cf256"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_route/user/UserService",
+      "bytes": 7460480,
+      "sha256": "f2d8d8f2805a5903fe514321886d131f340a8d5733d107eaf39ce7a3b124274e"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_route/user/UserService.nop",
+      "bytes": 7460480,
+      "sha256": "a9fc2e5bc52226af4a363edb6d4cd3f1c3585c66a00b85e74fbd72c24f836c67"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_route/userreview/UserReviewService",
+      "bytes": 7994656,
+      "sha256": "ad024288c3e32ca93ef7b5cff9458ab4600fcf8c9c07845d194d66ea290c58fa"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_route/userreview/UserReviewService.nop",
+      "bytes": 7994656,
+      "sha256": "5164cf1bfe42727446442fa0a767abea5e27baee9c8ae55647032b43c0ed753a"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_staged/compose/ComposeReviewService",
+      "bytes": 20197720,
+      "sha256": "2ad17aa7a77cf486783aead6e4f4dbeded84482aee7d988870b646ff1dfa54ba"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_staged/compose/ComposeReviewService.nop",
+      "bytes": 20197720,
+      "sha256": "196c7c3e90fe1cec073718072e56b6f3b8e8d4e8cfbc191cf8998332e550e699"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_staged/movie/MovieIdService",
+      "bytes": 21616104,
+      "sha256": "146b691a1835e07abdae1c522d31ece9fd669c05b7c78fa0dfa5e3f82f325811"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_staged/movie/MovieIdService.nop",
+      "bytes": 21616104,
+      "sha256": "62f4600e4011306baf0043d0f7497c125043079b70dce9d53feac0609fb1ee96"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_staged/moviereview/MovieReviewService",
+      "bytes": 7994712,
+      "sha256": "333da7a3d46ed336a21e7bb5c6c8a08a0beaa9b9aa4fc6b63f35d7a7ec9b6e7c"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_staged/moviereview/MovieReviewService.nop",
+      "bytes": 7994712,
+      "sha256": "a4f794a40521c8d0438f7b73dbfad0c434093a44c51e3e0b89750f7e2e09a8f2"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_staged/rating/RatingService",
+      "bytes": 19567096,
+      "sha256": "d7309d7831da0c98a5095415dede13b674af2927ced040cbcf95870e5b493758"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_staged/rating/RatingService.nop",
+      "bytes": 19567096,
+      "sha256": "7a31230531bc3c3290c8b870c4351d2b91fc6d24a24baa13073328a194a2ad33"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_staged/storage/ReviewStorageService",
+      "bytes": 6151568,
+      "sha256": "d74d361dc8e12645b9a463d2a584c665e029076395ed9b54420292e9825f2145"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_staged/storage/ReviewStorageService.nop",
+      "bytes": 6151568,
+      "sha256": "fe8d9732fe4c54d4b683e4c86a04336db4de2b23e4f1cda7b519df5874469158"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_staged/text/TextService",
+      "bytes": 6185016,
+      "sha256": "09a0cdb2abafabeb447946b2b5e0669795f500df098d224dd022440abc912227"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_staged/text/TextService.nop",
+      "bytes": 6185016,
+      "sha256": "3f7304b67ace04dee4de72c10f190a5fe6814f054d8cde77b8d4eccaa544eb60"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_staged/unique/UniqueIdService",
+      "bytes": 6246528,
+      "sha256": "6d8f421fea24d63391ead502d946991d3875df0bff57b10d8d5ede04e075d2a3"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_staged/unique/UniqueIdService.nop",
+      "bytes": 6246528,
+      "sha256": "10e9f9a29bb75764a20f1c2b758cf1dc8b441fd3821ca52a08dc7787eb3609c9"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_staged/user/UserService",
+      "bytes": 7460544,
+      "sha256": "163b8f956f28df9b4c3ff3b7d34fdf031b9d70642be44ac151691e539f0fc854"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_staged/user/UserService.nop",
+      "bytes": 7460544,
+      "sha256": "594976f0ec27e74c680b286be5d6882f9d06173d82af34095a169382c15db817"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_staged/userreview/UserReviewService",
+      "bytes": 7994720,
+      "sha256": "8dec3deef01e47d79a744001b9828449264257d746069c6571ddf88a23fe8233"
+    },
+    {
+      "path": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_staged/userreview/UserReviewService.nop",
+      "bytes": 7994720,
+      "sha256": "59d352453787e39611b48c7d5cb69d13e953d85319749115d61def47ed2feaae"
+    }
+  ],
+  "bytes_removed": 413653792,
+  "free_before": 912734027776,
+  "complete": true,
+  "free_after": 913147760640
+}

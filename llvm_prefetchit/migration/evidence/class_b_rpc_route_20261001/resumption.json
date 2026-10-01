@@ -1,0 +1,1932 @@
+{
+  "epoch": 1790891082.6977804,
+  "boot_epoch": 1790865685,
+  "boot_id": "b350e03b-cfbb-4859-b8f6-b6eac46aa4bf",
+  "interrupted_trial_started": 1790864838.7294815,
+  "completed_trials_retained": 8,
+  "reason": "Host reboot after unfinished trial; preserve all eight completed endpoints but exclude the entire interrupted confirmation cohort from promotion. Restart all frozen arms in three complete fresh blocks. No performance-based exclusions.",
+  "archived_directory": "/storage/prefetchit/class_b_rpc_route_20261001/interrupted_confirmation",
+  "original_directory": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation",
+  "interrupted_platform": "/storage/prefetchit/class_b_rpc_route_20261001/interrupted_confirmation/01_rpc_worker_platform",
+  "old_spec": {
+    "root": "/storage/prefetchit/class_b_rpc_route_20261001",
+    "out": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation",
+    "arms": {
+      "original": {
+        "overrides": {
+          "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+          "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+          "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService",
+          "unique": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/UniqueIdService",
+          "text": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/TextService",
+          "user": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/UserService",
+          "storage": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/ReviewStorageService",
+          "userreview": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/UserReviewService",
+          "moviereview": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/MovieReviewService"
+        },
+        "mongo_binary": "/storage/prefetchit/class_b_mechanism_20260928/backend/reference/mongod",
+        "controls": [
+          "full_dso",
+          "no_dso",
+          "rpc_worker",
+          "full_rpc_worker"
+        ]
+      },
+      "full_dso": {
+        "overrides": {
+          "movie": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/1dbfa7f16b813e7a1a18eb57cf17538bf1d051e27aeccaec8ffadd8fce258b07/MovieIdService",
+          "compose": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/fb16c1d304d6c0b56c24c422f5dfa7dde6ab3c368cec6a4fd9bcc0602a66c917/ComposeReviewService",
+          "rating": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/d2314e24f46b0fa6b2487f55dad565070adb9b6a920cd0a5f64c7e6d767ac3e3/RatingService",
+          "unique": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/54771f7236ce5ab22b131b8381b31d23e0a8b2b45695d559a9c47f572e2c3859/UniqueIdService",
+          "text": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/beee2b363cdd95391e3db419aeccb36e2dd16c7f8b7f4c3f560bd878fc4c6e7b/TextService",
+          "user": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ea3f1c8938c351427483122bc24978df3ad62d0212cba5ea3a7138e6b120c8dd/UserService",
+          "storage": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/d2a2d732143c46b04f5ca16733387a5f5713ad8dc218c423def02e91e4025de9/ReviewStorageService",
+          "userreview": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/317486ab030170061457bacd8d793ef2a68b3da84a619f34430ec865864426e5/UserReviewService",
+          "moviereview": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/3a547e47cb945f83448ecdee31f23d2428e3c700ce96af34c177300d9909e209/MovieReviewService"
+        },
+        "mongo_binary": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/3c6655036faf043c338d698ae1dda5ed4e19f23ea54eb8023ad32cf268e821cf/mongod",
+        "libraries": {
+          "moviereview": {
+            "/usr/local/lib/libmongoc-1.0.so.0.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/9cb7b23eb3a7bcf07247adbb79644be9f4460d8e41304f850f586c157963f6a6/libmongoc-1.0.so.0.0.0",
+            "/usr/local/lib/libbson-1.0.so.0.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/7277229c6489da6761bfa3456517c6cf25e006a732d2a0dab69141658d47f872/libbson-1.0.so.0.0.0",
+            "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30",
+            "/usr/local/lib/libjaegertracing.so.0.4.2": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ea804b0c846d1d50c1abb962468a454dc68d1949a3a907de3e77fd4090cd8089/libjaegertracing.so.0.4.2",
+            "/usr/local/lib/libthrift.so.0.12.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/74758375d70ece71e60caec108eeeae79d9abef7dce5ef79835d4c0c4edfca8e/libthrift.so.0.12.0",
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6"
+          },
+          "storage": {
+            "/usr/local/lib/libmongoc-1.0.so.0.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/9cb7b23eb3a7bcf07247adbb79644be9f4460d8e41304f850f586c157963f6a6/libmongoc-1.0.so.0.0.0",
+            "/usr/local/lib/libbson-1.0.so.0.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/7277229c6489da6761bfa3456517c6cf25e006a732d2a0dab69141658d47f872/libbson-1.0.so.0.0.0",
+            "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/7242d32f52f35ec9c5164e928ad51bf40e039f0572f3b4e26ac43ec1ce20d0d7/libmemcached.so.11.0.0",
+            "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30",
+            "/usr/local/lib/libjaegertracing.so.0.4.2": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ea804b0c846d1d50c1abb962468a454dc68d1949a3a907de3e77fd4090cd8089/libjaegertracing.so.0.4.2",
+            "/usr/local/lib/libthrift.so.0.12.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/74758375d70ece71e60caec108eeeae79d9abef7dce5ef79835d4c0c4edfca8e/libthrift.so.0.12.0",
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6",
+            "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/082e3d939aa9f5294a39458d62f4633ecec0e4e48b83416f249c3eae3a265403/libmemcachedutil.so.2.0.0"
+          },
+          "user": {
+            "/usr/local/lib/libmongoc-1.0.so.0.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/9cb7b23eb3a7bcf07247adbb79644be9f4460d8e41304f850f586c157963f6a6/libmongoc-1.0.so.0.0.0",
+            "/usr/local/lib/libbson-1.0.so.0.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/7277229c6489da6761bfa3456517c6cf25e006a732d2a0dab69141658d47f872/libbson-1.0.so.0.0.0",
+            "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/7242d32f52f35ec9c5164e928ad51bf40e039f0572f3b4e26ac43ec1ce20d0d7/libmemcached.so.11.0.0",
+            "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30",
+            "/usr/local/lib/libjaegertracing.so.0.4.2": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ea804b0c846d1d50c1abb962468a454dc68d1949a3a907de3e77fd4090cd8089/libjaegertracing.so.0.4.2",
+            "/usr/local/lib/libthrift.so.0.12.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/74758375d70ece71e60caec108eeeae79d9abef7dce5ef79835d4c0c4edfca8e/libthrift.so.0.12.0",
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6",
+            "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/082e3d939aa9f5294a39458d62f4633ecec0e4e48b83416f249c3eae3a265403/libmemcachedutil.so.2.0.0"
+          },
+          "userreview": {
+            "/usr/local/lib/libmongoc-1.0.so.0.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/9cb7b23eb3a7bcf07247adbb79644be9f4460d8e41304f850f586c157963f6a6/libmongoc-1.0.so.0.0.0",
+            "/usr/local/lib/libbson-1.0.so.0.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/7277229c6489da6761bfa3456517c6cf25e006a732d2a0dab69141658d47f872/libbson-1.0.so.0.0.0",
+            "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30",
+            "/usr/local/lib/libjaegertracing.so.0.4.2": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ea804b0c846d1d50c1abb962468a454dc68d1949a3a907de3e77fd4090cd8089/libjaegertracing.so.0.4.2",
+            "/usr/local/lib/libthrift.so.0.12.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/74758375d70ece71e60caec108eeeae79d9abef7dce5ef79835d4c0c4edfca8e/libthrift.so.0.12.0",
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6"
+          },
+          "compose": {
+            "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/7242d32f52f35ec9c5164e928ad51bf40e039f0572f3b4e26ac43ec1ce20d0d7/libmemcached.so.11.0.0",
+            "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30",
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6",
+            "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/082e3d939aa9f5294a39458d62f4633ecec0e4e48b83416f249c3eae3a265403/libmemcachedutil.so.2.0.0"
+          },
+          "movie": {
+            "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/7242d32f52f35ec9c5164e928ad51bf40e039f0572f3b4e26ac43ec1ce20d0d7/libmemcached.so.11.0.0",
+            "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30",
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6",
+            "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/082e3d939aa9f5294a39458d62f4633ecec0e4e48b83416f249c3eae3a265403/libmemcachedutil.so.2.0.0"
+          },
+          "text": {
+            "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30",
+            "/usr/local/lib/libjaegertracing.so.0.4.2": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ea804b0c846d1d50c1abb962468a454dc68d1949a3a907de3e77fd4090cd8089/libjaegertracing.so.0.4.2",
+            "/usr/local/lib/libthrift.so.0.12.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/74758375d70ece71e60caec108eeeae79d9abef7dce5ef79835d4c0c4edfca8e/libthrift.so.0.12.0",
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6"
+          },
+          "unique": {
+            "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30",
+            "/usr/local/lib/libjaegertracing.so.0.4.2": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ea804b0c846d1d50c1abb962468a454dc68d1949a3a907de3e77fd4090cd8089/libjaegertracing.so.0.4.2",
+            "/usr/local/lib/libthrift.so.0.12.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/74758375d70ece71e60caec108eeeae79d9abef7dce5ef79835d4c0c4edfca8e/libthrift.so.0.12.0",
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6"
+          },
+          "rating": {
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6"
+          }
+        },
+        "controls": [
+          "original",
+          "no_dso",
+          "rpc_worker",
+          "full_rpc_worker"
+        ]
+      },
+      "no_dso": {
+        "overrides": {
+          "movie": "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/movie/MovieIdService",
+          "compose": "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/compose/ComposeReviewService",
+          "rating": "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/rating/RatingService",
+          "unique": "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/unique/UniqueIdService",
+          "text": "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/text/TextService",
+          "user": "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/user/UserService",
+          "storage": "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/storage/ReviewStorageService",
+          "userreview": "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/userreview/UserReviewService",
+          "moviereview": "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/moviereview/MovieReviewService"
+        },
+        "mongo_binary": "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/mongo/mongod",
+        "controls": [
+          "original",
+          "full_dso",
+          "rpc_worker",
+          "full_rpc_worker"
+        ]
+      },
+      "rpc_worker": {
+        "overrides": {
+          "movie": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_worker/movie/MovieIdService",
+          "compose": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_worker/compose/ComposeReviewService",
+          "rating": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_worker/rating/RatingService",
+          "unique": "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/unique/UniqueIdService",
+          "text": "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/text/TextService",
+          "user": "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/user/UserService",
+          "storage": "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/storage/ReviewStorageService",
+          "userreview": "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/userreview/UserReviewService",
+          "moviereview": "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/moviereview/MovieReviewService"
+        },
+        "mongo_binary": "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/mongo/mongod",
+        "controls": [
+          "original",
+          "full_dso",
+          "no_dso",
+          "full_rpc_worker"
+        ]
+      },
+      "full_rpc_worker": {
+        "overrides": {
+          "movie": "/storage/prefetchit/class_b_rpc_route_20261001/builds/full_rpc_worker/movie/MovieIdService",
+          "compose": "/storage/prefetchit/class_b_rpc_route_20261001/builds/full_rpc_worker/compose/ComposeReviewService",
+          "rating": "/storage/prefetchit/class_b_rpc_route_20261001/builds/full_rpc_worker/rating/RatingService",
+          "unique": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/54771f7236ce5ab22b131b8381b31d23e0a8b2b45695d559a9c47f572e2c3859/UniqueIdService",
+          "text": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/beee2b363cdd95391e3db419aeccb36e2dd16c7f8b7f4c3f560bd878fc4c6e7b/TextService",
+          "user": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ea3f1c8938c351427483122bc24978df3ad62d0212cba5ea3a7138e6b120c8dd/UserService",
+          "storage": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/d2a2d732143c46b04f5ca16733387a5f5713ad8dc218c423def02e91e4025de9/ReviewStorageService",
+          "userreview": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/317486ab030170061457bacd8d793ef2a68b3da84a619f34430ec865864426e5/UserReviewService",
+          "moviereview": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/3a547e47cb945f83448ecdee31f23d2428e3c700ce96af34c177300d9909e209/MovieReviewService"
+        },
+        "mongo_binary": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/3c6655036faf043c338d698ae1dda5ed4e19f23ea54eb8023ad32cf268e821cf/mongod",
+        "libraries": {
+          "moviereview": {
+            "/usr/local/lib/libmongoc-1.0.so.0.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/9cb7b23eb3a7bcf07247adbb79644be9f4460d8e41304f850f586c157963f6a6/libmongoc-1.0.so.0.0.0",
+            "/usr/local/lib/libbson-1.0.so.0.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/7277229c6489da6761bfa3456517c6cf25e006a732d2a0dab69141658d47f872/libbson-1.0.so.0.0.0",
+            "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30",
+            "/usr/local/lib/libjaegertracing.so.0.4.2": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ea804b0c846d1d50c1abb962468a454dc68d1949a3a907de3e77fd4090cd8089/libjaegertracing.so.0.4.2",
+            "/usr/local/lib/libthrift.so.0.12.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/74758375d70ece71e60caec108eeeae79d9abef7dce5ef79835d4c0c4edfca8e/libthrift.so.0.12.0",
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6"
+          },
+          "storage": {
+            "/usr/local/lib/libmongoc-1.0.so.0.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/9cb7b23eb3a7bcf07247adbb79644be9f4460d8e41304f850f586c157963f6a6/libmongoc-1.0.so.0.0.0",
+            "/usr/local/lib/libbson-1.0.so.0.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/7277229c6489da6761bfa3456517c6cf25e006a732d2a0dab69141658d47f872/libbson-1.0.so.0.0.0",
+            "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/7242d32f52f35ec9c5164e928ad51bf40e039f0572f3b4e26ac43ec1ce20d0d7/libmemcached.so.11.0.0",
+            "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30",
+            "/usr/local/lib/libjaegertracing.so.0.4.2": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ea804b0c846d1d50c1abb962468a454dc68d1949a3a907de3e77fd4090cd8089/libjaegertracing.so.0.4.2",
+            "/usr/local/lib/libthrift.so.0.12.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/74758375d70ece71e60caec108eeeae79d9abef7dce5ef79835d4c0c4edfca8e/libthrift.so.0.12.0",
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6",
+            "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/082e3d939aa9f5294a39458d62f4633ecec0e4e48b83416f249c3eae3a265403/libmemcachedutil.so.2.0.0"
+          },
+          "user": {
+            "/usr/local/lib/libmongoc-1.0.so.0.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/9cb7b23eb3a7bcf07247adbb79644be9f4460d8e41304f850f586c157963f6a6/libmongoc-1.0.so.0.0.0",
+            "/usr/local/lib/libbson-1.0.so.0.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/7277229c6489da6761bfa3456517c6cf25e006a732d2a0dab69141658d47f872/libbson-1.0.so.0.0.0",
+            "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/7242d32f52f35ec9c5164e928ad51bf40e039f0572f3b4e26ac43ec1ce20d0d7/libmemcached.so.11.0.0",
+            "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30",
+            "/usr/local/lib/libjaegertracing.so.0.4.2": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ea804b0c846d1d50c1abb962468a454dc68d1949a3a907de3e77fd4090cd8089/libjaegertracing.so.0.4.2",
+            "/usr/local/lib/libthrift.so.0.12.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/74758375d70ece71e60caec108eeeae79d9abef7dce5ef79835d4c0c4edfca8e/libthrift.so.0.12.0",
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6",
+            "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/082e3d939aa9f5294a39458d62f4633ecec0e4e48b83416f249c3eae3a265403/libmemcachedutil.so.2.0.0"
+          },
+          "userreview": {
+            "/usr/local/lib/libmongoc-1.0.so.0.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/9cb7b23eb3a7bcf07247adbb79644be9f4460d8e41304f850f586c157963f6a6/libmongoc-1.0.so.0.0.0",
+            "/usr/local/lib/libbson-1.0.so.0.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/7277229c6489da6761bfa3456517c6cf25e006a732d2a0dab69141658d47f872/libbson-1.0.so.0.0.0",
+            "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30",
+            "/usr/local/lib/libjaegertracing.so.0.4.2": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ea804b0c846d1d50c1abb962468a454dc68d1949a3a907de3e77fd4090cd8089/libjaegertracing.so.0.4.2",
+            "/usr/local/lib/libthrift.so.0.12.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/74758375d70ece71e60caec108eeeae79d9abef7dce5ef79835d4c0c4edfca8e/libthrift.so.0.12.0",
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6"
+          },
+          "compose": {
+            "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/7242d32f52f35ec9c5164e928ad51bf40e039f0572f3b4e26ac43ec1ce20d0d7/libmemcached.so.11.0.0",
+            "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30",
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6",
+            "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/082e3d939aa9f5294a39458d62f4633ecec0e4e48b83416f249c3eae3a265403/libmemcachedutil.so.2.0.0"
+          },
+          "movie": {
+            "/usr/lib/x86_64-linux-gnu/libmemcached.so.11.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/7242d32f52f35ec9c5164e928ad51bf40e039f0572f3b4e26ac43ec1ce20d0d7/libmemcached.so.11.0.0",
+            "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30",
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6",
+            "/usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2.0.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/082e3d939aa9f5294a39458d62f4633ecec0e4e48b83416f249c3eae3a265403/libmemcachedutil.so.2.0.0"
+          },
+          "text": {
+            "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30",
+            "/usr/local/lib/libjaegertracing.so.0.4.2": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ea804b0c846d1d50c1abb962468a454dc68d1949a3a907de3e77fd4090cd8089/libjaegertracing.so.0.4.2",
+            "/usr/local/lib/libthrift.so.0.12.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/74758375d70ece71e60caec108eeeae79d9abef7dce5ef79835d4c0c4edfca8e/libthrift.so.0.12.0",
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6"
+          },
+          "unique": {
+            "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30",
+            "/usr/local/lib/libjaegertracing.so.0.4.2": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ea804b0c846d1d50c1abb962468a454dc68d1949a3a907de3e77fd4090cd8089/libjaegertracing.so.0.4.2",
+            "/usr/local/lib/libthrift.so.0.12.0": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/74758375d70ece71e60caec108eeeae79d9abef7dce5ef79835d4c0c4edfca8e/libthrift.so.0.12.0",
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6"
+          },
+          "rating": {
+            "/usr/lib/x86_64-linux-gnu/libc.so.6": "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6"
+          }
+        },
+        "controls": [
+          "original",
+          "full_dso",
+          "no_dso",
+          "rpc_worker"
+        ]
+      }
+    },
+    "blocks": 3,
+    "orders": [
+      [
+        "full_dso",
+        "rpc_worker",
+        "original",
+        "full_rpc_worker",
+        "no_dso"
+      ],
+      [
+        "full_rpc_worker",
+        "no_dso",
+        "full_dso",
+        "rpc_worker",
+        "original"
+      ],
+      [
+        "original",
+        "no_dso",
+        "rpc_worker",
+        "full_rpc_worker",
+        "full_dso"
+      ]
+    ],
+    "seedbase": 1040601,
+    "order_seed": 1040600,
+    "trial_script": "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/temporal_path_trial.py",
+    "scope": "Fresh independent full-request confirmation; five arms include both DSO-free and full-incumbent RPC changes. No PMU.",
+    "budget_rule": "Four blocks if confirmation starts by13:55UTC, otherwise three; fixed before first confirmation endpoint.",
+    "no_adaptive_stopping": true
+  },
+  "source_hashes": {
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/temporal_path_campaign.py": "22322683c4bb57919c9330154def461009e957dfafc4c8f5c30faa4d81ec5c2b",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/media_system_study.py": "552cf7c6dc450084ecfe5921b816a1fce544a104056c571dbe8be2ec1d5dd390",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/balanced_backend.py": "65faf913ed06b55e82e7b6ec53a994c5bbbd8fa793be11efdbeaeaf30fb55983",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/fullset.py": "6e2b832d3aa518b3718c31c8f83f47dc69f1a5302ff1ac0e0cb350283355920f",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/backend_study.py": "a2ec2c6eefe10aab2e72fd935611b854edc5e738433746abf07e80b8cc5ec285",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/backend_prefetch.py": "dfb8bfc353fa9ced8ab444f05695f221c5b92f56e133e23d9436251a86dfc0c5",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/media_library_study.py": "3d147727f88c089ca2cd326546ba0a0b2c0a938e0de8310611bb41fc0181f799",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/balanced_load.py": "a4c7ef2057e9e346188e73d61661eed40dc9a242f03c3f68fda0e775cf909dd4",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/migration/schemes/class_b_extension_20260926/run_platform.py": "e453cda485d1adb5d2590dd8f780a0eb30f89287fae1b5553662c49e4e1ec5a5",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/temporal_path_trial.py": "69909477985a37894d5f83bcdb02e0b11cb01cdd4ab11f11fc04cdcd6f4a6b5f",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/scripts/class_b/social_headroom.py": "585033730a4d65eabe7a40eb8a23b2d9ee31f5cf966b8028a4b04cd004274af5"
+  },
+  "binary_hashes": {
+    "/storage/prefetchit/class_b_mechanism_20260928/backend/reference/mongod": "3c6655036faf043c338d698ae1dda5ed4e19f23ea54eb8023ad32cf268e821cf",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/ReviewStorageService": "d2a2d732143c46b04f5ca16733387a5f5713ad8dc218c423def02e91e4025de9",
+    "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/beee2b363cdd95391e3db419aeccb36e2dd16c7f8b7f4c3f560bd878fc4c6e7b/TextService": "7bb075c8626d020b00b8a753b5ac5ac9071e2854a19d0cd31c70c5e3f7b4de42",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/TextService": "beee2b363cdd95391e3db419aeccb36e2dd16c7f8b7f4c3f560bd878fc4c6e7b",
+    "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ea804b0c846d1d50c1abb962468a454dc68d1949a3a907de3e77fd4090cd8089/libjaegertracing.so.0.4.2": "2cf33788a53ea2857147603ca2f85d2b5ecba028459c01e769586d339704b09d",
+    "/storage/prefetchit/class_b_rpc_route_20261001/builds/full_rpc_worker/rating/RatingService": "8316abd209bd58117dc1ddb4e8161bb3ee12862e9ab340e9b839e62445958abb",
+    "/storage/prefetchit/class_b_rpc_route_20261001/builds/full_rpc_worker/movie/MovieIdService": "4a8a5edf8e44c524ae556946644c75ad0b5ff0182eac57dc67088be93dde6aef",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/MovieReviewService": "3a547e47cb945f83448ecdee31f23d2428e3c700ce96af34c177300d9909e209",
+    "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/7242d32f52f35ec9c5164e928ad51bf40e039f0572f3b4e26ac43ec1ce20d0d7/libmemcached.so.11.0.0": "3ebeca686fc0e2786faa91703f1c765155246db1e6cc6254d3b0052acf6cfc78",
+    "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/3c6655036faf043c338d698ae1dda5ed4e19f23ea54eb8023ad32cf268e821cf/mongod": "4cafe2121957c6e19e324da05dd155a5a5f0d77caa588b8cc0f22e0232255fa5",
+    "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService": "fb16c1d304d6c0b56c24c422f5dfa7dde6ab3c368cec6a4fd9bcc0602a66c917",
+    "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ea3f1c8938c351427483122bc24978df3ad62d0212cba5ea3a7138e6b120c8dd/UserService": "9e0039ee38de3b6a5da3866068231cec405606f67757d87b1ac893fdebaacf65",
+    "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/082e3d939aa9f5294a39458d62f4633ecec0e4e48b83416f249c3eae3a265403/libmemcachedutil.so.2.0.0": "6e0d06b0ff84cab0fd2de47b8d7719f526f92ead0852b036ee26810af97b9166",
+    "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/rating/RatingService": "28982da4efdd93644f0f60c210548baea56ecf666578b97c07c12b493f45ef32",
+    "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/fb16c1d304d6c0b56c24c422f5dfa7dde6ab3c368cec6a4fd9bcc0602a66c917/ComposeReviewService": "13d82f15f89b07667fe0b6ff71e7f1cb86857e00cd0f3e16f45fbc21986aaafe",
+    "/storage/prefetchit/class_b_rpc_route_20261001/builds/full_rpc_worker/compose/ComposeReviewService": "883e6ae2057baa2f2460e50d3131e7598e46a8c4519f83eb5201e274ab446200",
+    "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/storage/ReviewStorageService": "d81fff89a345dd35472be37929e288ff11f78fa4b21c423da709436062ef552a",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/UserService": "ea3f1c8938c351427483122bc24978df3ad62d0212cba5ea3a7138e6b120c8dd",
+    "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/317486ab030170061457bacd8d793ef2a68b3da84a619f34430ec865864426e5/UserReviewService": "b8759949076a41cdc599adbe8d800449b1a70644b998493be13b3faddaef2968",
+    "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/compose/ComposeReviewService": "20c53d65eb36af0b57af174b554dc0b565c150423734b47e218b42b24fc9a15a",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/UserReviewService": "317486ab030170061457bacd8d793ef2a68b3da84a619f34430ec865864426e5",
+    "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/d2a2d732143c46b04f5ca16733387a5f5713ad8dc218c423def02e91e4025de9/ReviewStorageService": "bae28e92d2fbb157cecb3b4509bf0fe89ae44e625e0a9b4765649239f90e68ef",
+    "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/1dbfa7f16b813e7a1a18eb57cf17538bf1d051e27aeccaec8ffadd8fce258b07/MovieIdService": "388fd810be3b8fe030f024eef337c25f9d5bba901ba9bce9753513f93207bf34",
+    "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/7277229c6489da6761bfa3456517c6cf25e006a732d2a0dab69141658d47f872/libbson-1.0.so.0.0.0": "2a92ab24565ae6a438ec26f1a93c223bb37d76a48a4c7562067797b7b34ab045",
+    "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_worker/movie/MovieIdService": "d293ba858f0e6a417008260627d0fe19f15bdc9f2e899803b4c5afa0d7f09cd2",
+    "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/74758375d70ece71e60caec108eeeae79d9abef7dce5ef79835d4c0c4edfca8e/libthrift.so.0.12.0": "b9bc80549260d89f1509fabfd797227c3147d7614466faeac416cc7236361e7d",
+    "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/userreview/UserReviewService": "65d5770ac2811af91b34ed50d91c59b86b3495d3bed1731c9ebaddcaa873c2ea",
+    "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/54771f7236ce5ab22b131b8381b31d23e0a8b2b45695d559a9c47f572e2c3859/UniqueIdService": "c1a8e4bc078f673f900ad0dcf48660663a211bdab15b146c5c955f59b8b5f1ce",
+    "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/unique/UniqueIdService": "5a2356d505193b2f5178e3be678e03c858d5e381dd611013c9658ecde859e645",
+    "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/9cb7b23eb3a7bcf07247adbb79644be9f4460d8e41304f850f586c157963f6a6/libmongoc-1.0.so.0.0.0": "7f11a1199c3ede8b46fd7c8ee7d4c9586df335ce994a644b453e750ccd905ff5",
+    "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/user/UserService": "eafee7eb5480efb917f2de52f3be6bc85799643e28934308afb0e30c4a3c831d",
+    "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/3a547e47cb945f83448ecdee31f23d2428e3c700ce96af34c177300d9909e209/MovieReviewService": "e8b99fd0d9a3723e7ee279e76099a64ae256c3c43e8c326bb8f8310da374062f",
+    "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/d2314e24f46b0fa6b2487f55dad565070adb9b6a920cd0a5f64c7e6d767ac3e3/RatingService": "d0d149848b0710165d632fa653e4c6aa5136e0b43b6a8872b97c2e1b1f7bc966",
+    "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService": "d2314e24f46b0fa6b2487f55dad565070adb9b6a920cd0a5f64c7e6d767ac3e3",
+    "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/text/TextService": "cace0fd036ac02725885ccabeafbde648dcf1de33f016c9a855228810bdee600",
+    "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_worker/rating/RatingService": "9d04ce69361cccd7fa3d7850e10c40438a8f0233b5a37bf8a7141809e152b31c",
+    "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/mongo/mongod": "fe864ff36ba5b1ec2bee4c2fcd52a177de39328a57a8a82bcf47ba0c11959d2d",
+    "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/UniqueIdService": "54771f7236ce5ab22b131b8381b31d23e0a8b2b45695d559a9c47f572e2c3859",
+    "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_worker/compose/ComposeReviewService": "501136d68269143d4968a614986aab1977b38e3065ec45d4225ab794858bead1",
+    "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/movie/MovieIdService": "f0f53278860c5028db3cd1a6e4ebc30d5424cfabe764bd54582e833776fa2bd5",
+    "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128/libstdc++.so.6.0.30": "3661fd5742745e56fb92d2caeb81c4d0d8906e6f667a0b7fab646d682d70d406",
+    "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/moviereview/MovieReviewService": "963b736a125b908fc88602d3ebd2c024de87ad187722a76fea227e6fd8f74565",
+    "/storage/prefetchit/class_b_temporal_20261001/builds/pathwide_shared_anchor/b2cf6c33b74d2f22543b7a469a75b538911e690f769d0b238843a49465b83793/libc.so.6": "acab585a2caf41ca64aed87a8311b448b58909700bdb249895864757b2332bab",
+    "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService": "1dbfa7f16b813e7a1a18eb57cf17538bf1d051e27aeccaec8ffadd8fce258b07"
+  },
+  "resources": [
+    {
+      "id": "51afb2f84185accc4e5aac9c63248f57f3d7324c3023b1cb511d7bbe4096d9b7",
+      "name": "/codex-b-fullset-media-plot-service-1",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 139,
+        "Error": "",
+        "StartedAt": "2026-10-01T14:41:52.509353359Z",
+        "FinishedAt": "2026-10-01T14:41:52.847737805Z"
+      },
+      "writable_bytes": 16384,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/PlotService",
+          "Destination": "/custom/PlotService",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/runtime_config",
+          "Destination": "/media-microservices/config",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        }
+      ],
+      "labels": {
+        "com.docker.compose.config-hash": "6fb192fa76ab66bbd4e26c24c1aacab2e7c18acba08b67abab69797ef00ce0df",
+        "com.docker.compose.container-number": "1",
+        "com.docker.compose.depends_on": "",
+        "com.docker.compose.image": "sha256:12b003320b7c9e6c885d347770c149f77fa4027e1e8789dc650dddf20e1164ae",
+        "com.docker.compose.oneoff": "False",
+        "com.docker.compose.project": "codex-b-fullset-media",
+        "com.docker.compose.project.config_files": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/compose.json",
+        "com.docker.compose.project.working_dir": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker",
+        "com.docker.compose.service": "plot-service",
+        "com.docker.compose.version": "2.40.3",
+        "org.opencontainers.image.version": "22.04"
+      }
+    },
+    {
+      "id": "06cfc0680c8ba081c8b59ceb0e4988ac746d62876094459a85cc620f48a0c4bb",
+      "name": "/codex-b-fullset-media-text-service-1",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 139,
+        "Error": "",
+        "StartedAt": "2026-10-01T14:41:52.213341316Z",
+        "FinishedAt": "2026-10-01T14:41:52.831759765Z"
+      },
+      "writable_bytes": 16384,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/text/TextService",
+          "Destination": "/custom/TextService",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/runtime_config",
+          "Destination": "/media-microservices/config",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        }
+      ],
+      "labels": {
+        "com.docker.compose.config-hash": "2aed4e521136b811ca10d9a756c4def98269281742a02dd8a4468a2a875ffb62",
+        "com.docker.compose.container-number": "1",
+        "com.docker.compose.depends_on": "",
+        "com.docker.compose.image": "sha256:12b003320b7c9e6c885d347770c149f77fa4027e1e8789dc650dddf20e1164ae",
+        "com.docker.compose.oneoff": "False",
+        "com.docker.compose.project": "codex-b-fullset-media",
+        "com.docker.compose.project.config_files": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/compose.json",
+        "com.docker.compose.project.working_dir": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker",
+        "com.docker.compose.service": "text-service",
+        "com.docker.compose.version": "2.40.3",
+        "org.opencontainers.image.version": "22.04"
+      }
+    },
+    {
+      "id": "046db61e5ddfc535342dcb748502f0ea83a96484b68fffd14e4f3bf6dad99cfa",
+      "name": "/codex-b-fullset-media-movie-review-service-1",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 139,
+        "Error": "",
+        "StartedAt": "2026-10-01T14:41:51.964023525Z",
+        "FinishedAt": "2026-10-01T14:41:52.285186581Z"
+      },
+      "writable_bytes": 16384,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/moviereview/MovieReviewService",
+          "Destination": "/custom/MovieReviewService",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/runtime_config",
+          "Destination": "/media-microservices/config",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        }
+      ],
+      "labels": {
+        "com.docker.compose.config-hash": "c2d6cb31bc3fe3a7bcfa128441762575c58e82b88d5ffc469fa6d6008ab31c61",
+        "com.docker.compose.container-number": "1",
+        "com.docker.compose.depends_on": "",
+        "com.docker.compose.image": "sha256:12b003320b7c9e6c885d347770c149f77fa4027e1e8789dc650dddf20e1164ae",
+        "com.docker.compose.oneoff": "False",
+        "com.docker.compose.project": "codex-b-fullset-media",
+        "com.docker.compose.project.config_files": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/compose.json",
+        "com.docker.compose.project.working_dir": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker",
+        "com.docker.compose.service": "movie-review-service",
+        "com.docker.compose.version": "2.40.3",
+        "org.opencontainers.image.version": "22.04"
+      }
+    },
+    {
+      "id": "cb780e26f427b3c4cb68a2b8e334e7178fd61b44db22a9fd581e8aec5a805c92",
+      "name": "/codex-b-fullset-media-user-service-1",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 139,
+        "Error": "",
+        "StartedAt": "2026-10-01T14:41:51.944538275Z",
+        "FinishedAt": "2026-10-01T14:41:52.251398987Z"
+      },
+      "writable_bytes": 16384,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/user/UserService",
+          "Destination": "/custom/UserService",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/runtime_config",
+          "Destination": "/media-microservices/config",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        }
+      ],
+      "labels": {
+        "com.docker.compose.config-hash": "cc9f60874aa856872b9f073e62d9009196bdfc6b3fc98b975c1b2c54a60c1e59",
+        "com.docker.compose.container-number": "1",
+        "com.docker.compose.depends_on": "",
+        "com.docker.compose.image": "sha256:12b003320b7c9e6c885d347770c149f77fa4027e1e8789dc650dddf20e1164ae",
+        "com.docker.compose.oneoff": "False",
+        "com.docker.compose.project": "codex-b-fullset-media",
+        "com.docker.compose.project.config_files": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/compose.json",
+        "com.docker.compose.project.working_dir": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker",
+        "com.docker.compose.service": "user-service",
+        "com.docker.compose.version": "2.40.3",
+        "org.opencontainers.image.version": "22.04"
+      }
+    },
+    {
+      "id": "479ebe1d66dc5dc959fd0397d09fbb3ffb6600d6ea14dbfbdff0b8931f33a80c",
+      "name": "/codex-b-fullset-media-unique-id-service-1",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 139,
+        "Error": "",
+        "StartedAt": "2026-10-01T14:41:51.850394025Z",
+        "FinishedAt": "2026-10-01T14:41:52.161639924Z"
+      },
+      "writable_bytes": 16384,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/runtime_config",
+          "Destination": "/media-microservices/config",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/unique/UniqueIdService",
+          "Destination": "/custom/UniqueIdService",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        }
+      ],
+      "labels": {
+        "com.docker.compose.config-hash": "0f7d5d921b90aba4138a829471ad53218509b0a24fcde7d9c36111750b371261",
+        "com.docker.compose.container-number": "1",
+        "com.docker.compose.depends_on": "",
+        "com.docker.compose.image": "sha256:12b003320b7c9e6c885d347770c149f77fa4027e1e8789dc650dddf20e1164ae",
+        "com.docker.compose.oneoff": "False",
+        "com.docker.compose.project": "codex-b-fullset-media",
+        "com.docker.compose.project.config_files": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/compose.json",
+        "com.docker.compose.project.working_dir": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker",
+        "com.docker.compose.service": "unique-id-service",
+        "com.docker.compose.version": "2.40.3",
+        "org.opencontainers.image.version": "22.04"
+      }
+    },
+    {
+      "id": "70110e676b7565da165bda24bc4cf3485c1789f13c2735c130de0b27e72a59d8",
+      "name": "/codex-b-fullset-media-user-review-service-1",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 139,
+        "Error": "",
+        "StartedAt": "2026-10-01T14:41:52.616191513Z",
+        "FinishedAt": "2026-10-01T14:41:53.005066727Z"
+      },
+      "writable_bytes": 16384,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/userreview/UserReviewService",
+          "Destination": "/custom/UserReviewService",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/runtime_config",
+          "Destination": "/media-microservices/config",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        }
+      ],
+      "labels": {
+        "com.docker.compose.config-hash": "60bc8e255403302f298a89ad994e9db9543f9fd503105e16c0cd03d6ef1772bd",
+        "com.docker.compose.container-number": "1",
+        "com.docker.compose.depends_on": "",
+        "com.docker.compose.image": "sha256:12b003320b7c9e6c885d347770c149f77fa4027e1e8789dc650dddf20e1164ae",
+        "com.docker.compose.oneoff": "False",
+        "com.docker.compose.project": "codex-b-fullset-media",
+        "com.docker.compose.project.config_files": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/compose.json",
+        "com.docker.compose.project.working_dir": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker",
+        "com.docker.compose.service": "user-review-service",
+        "com.docker.compose.version": "2.40.3",
+        "org.opencontainers.image.version": "22.04"
+      }
+    },
+    {
+      "id": "a6394c76fb42743ddc0d3193dac438e185bdcaf56dc3ae9589a22eadfc859d5d",
+      "name": "/codex-b-fullset-media-compose-review-service-1",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 139,
+        "Error": "",
+        "StartedAt": "2026-10-01T14:41:52.0068238Z",
+        "FinishedAt": "2026-10-01T14:41:52.326842674Z"
+      },
+      "writable_bytes": 16384,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_worker/compose/ComposeReviewService",
+          "Destination": "/custom/ComposeReviewService",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/runtime_config",
+          "Destination": "/media-microservices/config",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        }
+      ],
+      "labels": {
+        "com.docker.compose.config-hash": "506b53f08a3d189427b26a008251a308d40ea93343437929da76be8960cf1419",
+        "com.docker.compose.container-number": "1",
+        "com.docker.compose.depends_on": "",
+        "com.docker.compose.image": "sha256:12b003320b7c9e6c885d347770c149f77fa4027e1e8789dc650dddf20e1164ae",
+        "com.docker.compose.oneoff": "False",
+        "com.docker.compose.project": "codex-b-fullset-media",
+        "com.docker.compose.project.config_files": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/compose.json",
+        "com.docker.compose.project.working_dir": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker",
+        "com.docker.compose.service": "compose-review-service",
+        "com.docker.compose.version": "2.40.3",
+        "org.opencontainers.image.version": "22.04"
+      }
+    },
+    {
+      "id": "23ddc4096ff0b6a67b557e4ed45c3d91c1cc274755a2f8e9256de24d7aae85dd",
+      "name": "/codex-b-fullset-media-cast-info-service-1",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 139,
+        "Error": "",
+        "StartedAt": "2026-10-01T14:41:52.525224907Z",
+        "FinishedAt": "2026-10-01T14:41:52.872684089Z"
+      },
+      "writable_bytes": 16384,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/CastInfoService",
+          "Destination": "/custom/CastInfoService",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/runtime_config",
+          "Destination": "/media-microservices/config",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        }
+      ],
+      "labels": {
+        "com.docker.compose.config-hash": "e197988ee04a6beadc4fcbcf5edf1c56235776f44859290f6c424d131557d8e8",
+        "com.docker.compose.container-number": "1",
+        "com.docker.compose.depends_on": "",
+        "com.docker.compose.image": "sha256:12b003320b7c9e6c885d347770c149f77fa4027e1e8789dc650dddf20e1164ae",
+        "com.docker.compose.oneoff": "False",
+        "com.docker.compose.project": "codex-b-fullset-media",
+        "com.docker.compose.project.config_files": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/compose.json",
+        "com.docker.compose.project.working_dir": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker",
+        "com.docker.compose.service": "cast-info-service",
+        "com.docker.compose.version": "2.40.3",
+        "org.opencontainers.image.version": "22.04"
+      }
+    },
+    {
+      "id": "c0526eacd20a21e8953071e42cb09f725d26a000571bf658ceb368d9a1d42e8b",
+      "name": "/codex-b-fullset-media-nginx-web-server-1",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-01T14:31:56.641213376Z",
+        "FinishedAt": "2026-10-01T14:39:11.956056468Z"
+      },
+      "writable_bytes": 69632,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "/home/hnpark2/prefetchit/benchmarks/DeathStarBench/mediaMicroservices/gen-lua",
+          "Destination": "/gen-lua",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/nginx.conf",
+          "Destination": "/usr/local/openresty/nginx/conf/nginx.conf",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/nginx_jaeger.json",
+          "Destination": "/usr/local/openresty/nginx/jaeger-config.json",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "/home/hnpark2/prefetchit/benchmarks/DeathStarBench/mediaMicroservices/nginx-web-server/lua-scripts",
+          "Destination": "/usr/local/openresty/nginx/lua-scripts",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        }
+      ],
+      "labels": {
+        "com.docker.compose.config-hash": "b8083b37e86df9c96d050eb2e854cdabfbcc2ea780f0f6ba12518b8331e7a51b",
+        "com.docker.compose.container-number": "1",
+        "com.docker.compose.depends_on": "",
+        "com.docker.compose.image": "sha256:6c295fda3c2f6b941d85ebf16421bafac0dcf72450c96f53a2d031b29d8c81ef",
+        "com.docker.compose.oneoff": "False",
+        "com.docker.compose.project": "codex-b-fullset-media",
+        "com.docker.compose.project.config_files": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/compose.json",
+        "com.docker.compose.project.working_dir": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker",
+        "com.docker.compose.service": "nginx-web-server",
+        "com.docker.compose.version": "2.40.3",
+        "maintainer": "Yu Gan <yg397@cornell.edu>",
+        "resty_add_package_builddeps": "",
+        "resty_add_package_rundeps": "",
+        "resty_config_options": "    --with-file-aio     --with-http_addition_module     --with-http_auth_request_module     --with-http_dav_module     --with-http_flv_module     --with-http_geoip_module=dynamic     --with-http_gunzip_module     --with-http_gzip_static_module     --with-http_image_filter_module=dynamic     --with-http_mp4_module     --with-http_random_index_module     --with-http_realip_module     --with-http_secure_link_module     --with-http_slice_module     --with-http_ssl_module     --with-http_stub_status_module     --with-http_sub_module     --with-http_v2_module     --with-http_xslt_module=dynamic     --with-ipv6     --with-mail     --with-mail_ssl_module     --with-md5-asm     --with-pcre-jit     --with-sha1-asm     --with-stream     --with-stream_ssl_module     --with-threads     --add-dynamic-module=/usr/local/nginx-opentracing-0.8.0/opentracing     ",
+        "resty_config_options_more": "",
+        "resty_eval_post_make": "",
+        "resty_eval_pre_configure": "",
+        "resty_luarocks_version": "3.5.0",
+        "resty_openssl_version": "1.1.0j",
+        "resty_pcre_version": "8.42",
+        "resty_version": "1.15.8.1rc1"
+      }
+    },
+    {
+      "id": "6b749b95e4eaafbdca1f6d0ee0d3a1a47219874965754acade6d1c051a418142",
+      "name": "/codex-b-fullset-media-rating-service-1",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 139,
+        "Error": "",
+        "StartedAt": "2026-10-01T14:41:52.622577893Z",
+        "FinishedAt": "2026-10-01T14:41:52.985737019Z"
+      },
+      "writable_bytes": 16384,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_worker/rating/RatingService",
+          "Destination": "/custom/RatingService",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/runtime_config",
+          "Destination": "/media-microservices/config",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        }
+      ],
+      "labels": {
+        "com.docker.compose.config-hash": "484e767dd4b8f6427ac628a08b765824f540a7cb09e1c05f11c648c6e93b75ce",
+        "com.docker.compose.container-number": "1",
+        "com.docker.compose.depends_on": "",
+        "com.docker.compose.image": "sha256:12b003320b7c9e6c885d347770c149f77fa4027e1e8789dc650dddf20e1164ae",
+        "com.docker.compose.oneoff": "False",
+        "com.docker.compose.project": "codex-b-fullset-media",
+        "com.docker.compose.project.config_files": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/compose.json",
+        "com.docker.compose.project.working_dir": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker",
+        "com.docker.compose.service": "rating-service",
+        "com.docker.compose.version": "2.40.3",
+        "org.opencontainers.image.version": "22.04"
+      }
+    },
+    {
+      "id": "eafc671855824338d70198667fa6610847a5c735bdc527a487141148abb31c07",
+      "name": "/codex-b-fullset-media-review-storage-service-1",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 139,
+        "Error": "",
+        "StartedAt": "2026-10-01T14:41:51.865078511Z",
+        "FinishedAt": "2026-10-01T14:41:52.193419064Z"
+      },
+      "writable_bytes": 16384,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/storage/ReviewStorageService",
+          "Destination": "/custom/ReviewStorageService",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/runtime_config",
+          "Destination": "/media-microservices/config",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        }
+      ],
+      "labels": {
+        "com.docker.compose.config-hash": "ecb6763bb30597a1c3167863ca5d3847133ca0aa3105ad4f2e956723b7dae945",
+        "com.docker.compose.container-number": "1",
+        "com.docker.compose.depends_on": "",
+        "com.docker.compose.image": "sha256:12b003320b7c9e6c885d347770c149f77fa4027e1e8789dc650dddf20e1164ae",
+        "com.docker.compose.oneoff": "False",
+        "com.docker.compose.project": "codex-b-fullset-media",
+        "com.docker.compose.project.config_files": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/compose.json",
+        "com.docker.compose.project.working_dir": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker",
+        "com.docker.compose.service": "review-storage-service",
+        "com.docker.compose.version": "2.40.3",
+        "org.opencontainers.image.version": "22.04"
+      }
+    },
+    {
+      "id": "827d19d003e6ab9ca15f58c47f9330d86d6536ec2b77962aa6378ed64452ecaa",
+      "name": "/codex-b-fullset-media-movie-info-service-1",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 139,
+        "Error": "",
+        "StartedAt": "2026-10-01T14:41:52.583029654Z",
+        "FinishedAt": "2026-10-01T14:41:52.968410129Z"
+      },
+      "writable_bytes": 16384,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/MovieInfoService",
+          "Destination": "/custom/MovieInfoService",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/runtime_config",
+          "Destination": "/media-microservices/config",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        }
+      ],
+      "labels": {
+        "com.docker.compose.config-hash": "0db188e0f0a7dfd13738a110d2bd3f51cddb998c94b8871f676b7849ad8e8dfc",
+        "com.docker.compose.container-number": "1",
+        "com.docker.compose.depends_on": "",
+        "com.docker.compose.image": "sha256:12b003320b7c9e6c885d347770c149f77fa4027e1e8789dc650dddf20e1164ae",
+        "com.docker.compose.oneoff": "False",
+        "com.docker.compose.project": "codex-b-fullset-media",
+        "com.docker.compose.project.config_files": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/compose.json",
+        "com.docker.compose.project.working_dir": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker",
+        "com.docker.compose.service": "movie-info-service",
+        "com.docker.compose.version": "2.40.3",
+        "org.opencontainers.image.version": "22.04"
+      }
+    },
+    {
+      "id": "e737cae80a907a4de1a1a03e7bba49e6879181a6f9441b7f79ce4a0189b3dc03",
+      "name": "/codex-b-fullset-media-movie-id-service-1",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 139,
+        "Error": "",
+        "StartedAt": "2026-10-01T14:41:52.66104682Z",
+        "FinishedAt": "2026-10-01T14:41:52.9462099Z"
+      },
+      "writable_bytes": 16384,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "/storage/prefetchit/class_b_rpc_route_20261001/builds/rpc_worker/movie/MovieIdService",
+          "Destination": "/custom/MovieIdService",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/runtime_config",
+          "Destination": "/media-microservices/config",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        }
+      ],
+      "labels": {
+        "com.docker.compose.config-hash": "7ea8a928a3d15fcd2d334e7f2f5d03c8f7fab2a579105ded1073b9599655f7ef",
+        "com.docker.compose.container-number": "1",
+        "com.docker.compose.depends_on": "",
+        "com.docker.compose.image": "sha256:12b003320b7c9e6c885d347770c149f77fa4027e1e8789dc650dddf20e1164ae",
+        "com.docker.compose.oneoff": "False",
+        "com.docker.compose.project": "codex-b-fullset-media",
+        "com.docker.compose.project.config_files": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/compose.json",
+        "com.docker.compose.project.working_dir": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker",
+        "com.docker.compose.service": "movie-id-service",
+        "com.docker.compose.version": "2.40.3",
+        "org.opencontainers.image.version": "22.04"
+      }
+    },
+    {
+      "id": "4594693238e0bb5dc960fc3df87f5e70ef1b5997736539fe0b67476d8fcb84d9",
+      "name": "/codex-b-fullset-media-movie-id-memcached-1",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-01T14:31:54.334368819Z",
+        "FinishedAt": "2026-10-01T14:39:11.674961257Z"
+      },
+      "writable_bytes": 4096,
+      "mounts": [],
+      "labels": {
+        "com.docker.compose.config-hash": "b37d8b6fd18f67565b86f30c9517057f92e2a36b3f44f299a415f0615a826ed1",
+        "com.docker.compose.container-number": "1",
+        "com.docker.compose.depends_on": "",
+        "com.docker.compose.image": "sha256:75c93cc91e76853da7c029e74d6e8dbd44774dd3713c93be8cd1971ad26120a4",
+        "com.docker.compose.oneoff": "False",
+        "com.docker.compose.project": "codex-b-fullset-media",
+        "com.docker.compose.project.config_files": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/compose.json",
+        "com.docker.compose.project.working_dir": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker",
+        "com.docker.compose.service": "movie-id-memcached",
+        "com.docker.compose.version": "2.40.3"
+      }
+    },
+    {
+      "id": "ee5e8d56c577dbf7b3e0727323d2684da6d84d855e3f8a995ab24a6c190035d0",
+      "name": "/codex-b-fullset-media-rating-redis-1",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-01T14:31:54.311806282Z",
+        "FinishedAt": "2026-10-01T14:39:11.676565501Z"
+      },
+      "writable_bytes": 12288,
+      "mounts": [],
+      "labels": {
+        "com.docker.compose.config-hash": "082f3ca8461d43649db282b0871f2f6fc291735ab29f1ae1ca08c0302c13bac2",
+        "com.docker.compose.container-number": "1",
+        "com.docker.compose.depends_on": "",
+        "com.docker.compose.image": "sha256:298e5b3bc566bade82f46ad5511777a4a07a294097ce16ada2f6a42be5239df5",
+        "com.docker.compose.oneoff": "False",
+        "com.docker.compose.project": "codex-b-fullset-media",
+        "com.docker.compose.project.config_files": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/compose.json",
+        "com.docker.compose.project.working_dir": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker",
+        "com.docker.compose.service": "rating-redis",
+        "com.docker.compose.version": "2.40.3"
+      }
+    },
+    {
+      "id": "75c796f4d13fc500342746cd399aed590ae0cd106179c3af5fb197389988ad67",
+      "name": "/codex-b-fullset-media-user-memcached-1",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-01T14:31:54.311252302Z",
+        "FinishedAt": "2026-10-01T14:39:11.957891684Z"
+      },
+      "writable_bytes": 4096,
+      "mounts": [],
+      "labels": {
+        "com.docker.compose.config-hash": "dbe2cc12839e0b1124cf55383e16804b449259d31901570194c911449e38094b",
+        "com.docker.compose.container-number": "1",
+        "com.docker.compose.depends_on": "",
+        "com.docker.compose.image": "sha256:75c93cc91e76853da7c029e74d6e8dbd44774dd3713c93be8cd1971ad26120a4",
+        "com.docker.compose.oneoff": "False",
+        "com.docker.compose.project": "codex-b-fullset-media",
+        "com.docker.compose.project.config_files": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/compose.json",
+        "com.docker.compose.project.working_dir": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker",
+        "com.docker.compose.service": "user-memcached",
+        "com.docker.compose.version": "2.40.3"
+      }
+    },
+    {
+      "id": "66a726937084bd3a34ab28cf4b18309398f87c4ab75646282c3171100b95caa9",
+      "name": "/codex-b-fullset-media-plot-memcached-1",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-01T14:31:54.316216602Z",
+        "FinishedAt": "2026-10-01T14:39:11.675258435Z"
+      },
+      "writable_bytes": 4096,
+      "mounts": [],
+      "labels": {
+        "com.docker.compose.config-hash": "7841b269b17cde5d10808efab1c4c6fd952df6e9264833795593f75accdecb93",
+        "com.docker.compose.container-number": "1",
+        "com.docker.compose.depends_on": "",
+        "com.docker.compose.image": "sha256:75c93cc91e76853da7c029e74d6e8dbd44774dd3713c93be8cd1971ad26120a4",
+        "com.docker.compose.oneoff": "False",
+        "com.docker.compose.project": "codex-b-fullset-media",
+        "com.docker.compose.project.config_files": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/compose.json",
+        "com.docker.compose.project.working_dir": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker",
+        "com.docker.compose.service": "plot-memcached",
+        "com.docker.compose.version": "2.40.3"
+      }
+    },
+    {
+      "id": "9f973e1fd7e4063816c58fd96a6e435d5029a0c08ce6b7008e88868b25179620",
+      "name": "/codex-b-fullset-media-user-review-redis-1",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-01T14:31:54.335885614Z",
+        "FinishedAt": "2026-10-01T14:39:11.674614076Z"
+      },
+      "writable_bytes": 12288,
+      "mounts": [],
+      "labels": {
+        "com.docker.compose.config-hash": "371e1b423bcca6f479089334e84175e96379644c7822686deae781fc7d40ed3e",
+        "com.docker.compose.container-number": "1",
+        "com.docker.compose.depends_on": "",
+        "com.docker.compose.image": "sha256:298e5b3bc566bade82f46ad5511777a4a07a294097ce16ada2f6a42be5239df5",
+        "com.docker.compose.oneoff": "False",
+        "com.docker.compose.project": "codex-b-fullset-media",
+        "com.docker.compose.project.config_files": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/compose.json",
+        "com.docker.compose.project.working_dir": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker",
+        "com.docker.compose.service": "user-review-redis",
+        "com.docker.compose.version": "2.40.3"
+      }
+    },
+    {
+      "id": "21cdc9b303d76e09e2d2cf1f0a1816c0b2423fa343e8c487f069c977be1ceda9",
+      "name": "/codex-b-fullset-media-cast-info-memcached-1",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-01T14:31:54.318574443Z",
+        "FinishedAt": "2026-10-01T14:39:11.675721281Z"
+      },
+      "writable_bytes": 4096,
+      "mounts": [],
+      "labels": {
+        "com.docker.compose.config-hash": "04ab7f65a27bf0a35b723dc3f03559d6cc56c5c778ddf08c7d3c599511c9f4ec",
+        "com.docker.compose.container-number": "1",
+        "com.docker.compose.depends_on": "",
+        "com.docker.compose.image": "sha256:75c93cc91e76853da7c029e74d6e8dbd44774dd3713c93be8cd1971ad26120a4",
+        "com.docker.compose.oneoff": "False",
+        "com.docker.compose.project": "codex-b-fullset-media",
+        "com.docker.compose.project.config_files": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/compose.json",
+        "com.docker.compose.project.working_dir": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker",
+        "com.docker.compose.service": "cast-info-memcached",
+        "com.docker.compose.version": "2.40.3"
+      }
+    },
+    {
+      "id": "3b4a711ad64928bbe905f8a766491c75abd8179bff212fdcef78f58d00a110a3",
+      "name": "/codex-b-fullset-media-movie-review-redis-1",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-01T14:31:54.341252923Z",
+        "FinishedAt": "2026-10-01T14:39:11.956199962Z"
+      },
+      "writable_bytes": 12288,
+      "mounts": [],
+      "labels": {
+        "com.docker.compose.config-hash": "765b966d3c202999d51dcb7a624ce2142cc984c1f8b5dc22fc934a13b667ea8b",
+        "com.docker.compose.container-number": "1",
+        "com.docker.compose.depends_on": "",
+        "com.docker.compose.image": "sha256:298e5b3bc566bade82f46ad5511777a4a07a294097ce16ada2f6a42be5239df5",
+        "com.docker.compose.oneoff": "False",
+        "com.docker.compose.project": "codex-b-fullset-media",
+        "com.docker.compose.project.config_files": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/compose.json",
+        "com.docker.compose.project.working_dir": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker",
+        "com.docker.compose.service": "movie-review-redis",
+        "com.docker.compose.version": "2.40.3"
+      }
+    },
+    {
+      "id": "7783e7a2a5b80976acfe239be577abb79b64cbeb548ec0faedd92050f9ea07d1",
+      "name": "/codex-b-fullset-media-review-storage-memcached-1",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-01T14:31:54.341199092Z",
+        "FinishedAt": "2026-10-01T14:39:11.955129487Z"
+      },
+      "writable_bytes": 4096,
+      "mounts": [],
+      "labels": {
+        "com.docker.compose.config-hash": "3f83a2696c5e132b4c7e0f2127618619b3423df06e5cac2eba7572445f707220",
+        "com.docker.compose.container-number": "1",
+        "com.docker.compose.depends_on": "",
+        "com.docker.compose.image": "sha256:75c93cc91e76853da7c029e74d6e8dbd44774dd3713c93be8cd1971ad26120a4",
+        "com.docker.compose.oneoff": "False",
+        "com.docker.compose.project": "codex-b-fullset-media",
+        "com.docker.compose.project.config_files": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/compose.json",
+        "com.docker.compose.project.working_dir": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker",
+        "com.docker.compose.service": "review-storage-memcached",
+        "com.docker.compose.version": "2.40.3"
+      }
+    },
+    {
+      "id": "e087d18edd0e5f8dc33a0051a4fa8337e0758c406ad692e40f9911ab15d31bba",
+      "name": "/codex-b-fullset-media-compose-review-memcached-1",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-01T14:31:54.316226479Z",
+        "FinishedAt": "2026-10-01T14:39:11.674637647Z"
+      },
+      "writable_bytes": 4096,
+      "mounts": [],
+      "labels": {
+        "com.docker.compose.config-hash": "206b4f071decd0dacf40aaf150a53f16c0c5be8cec42e7ffef5b5c5f47b836a0",
+        "com.docker.compose.container-number": "1",
+        "com.docker.compose.depends_on": "",
+        "com.docker.compose.image": "sha256:75c93cc91e76853da7c029e74d6e8dbd44774dd3713c93be8cd1971ad26120a4",
+        "com.docker.compose.oneoff": "False",
+        "com.docker.compose.project": "codex-b-fullset-media",
+        "com.docker.compose.project.config_files": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/compose.json",
+        "com.docker.compose.project.working_dir": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker",
+        "com.docker.compose.service": "compose-review-memcached",
+        "com.docker.compose.version": "2.40.3"
+      }
+    },
+    {
+      "id": "cfafe8772bd1e61d20edc07ae2b0bf2bcdebc2f2d44f2d43d096dfc4346a0304",
+      "name": "/codex-b-fullset-media-movie-info-memcached-1",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-01T14:31:54.310749376Z",
+        "FinishedAt": "2026-10-01T14:39:11.675006537Z"
+      },
+      "writable_bytes": 4096,
+      "mounts": [],
+      "labels": {
+        "com.docker.compose.config-hash": "101a15d95bf28a1a1fe8dc3f86257a193ebfef96fc3e791ff99c0f1f77d7f58b",
+        "com.docker.compose.container-number": "1",
+        "com.docker.compose.depends_on": "",
+        "com.docker.compose.image": "sha256:75c93cc91e76853da7c029e74d6e8dbd44774dd3713c93be8cd1971ad26120a4",
+        "com.docker.compose.oneoff": "False",
+        "com.docker.compose.project": "codex-b-fullset-media",
+        "com.docker.compose.project.config_files": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/compose.json",
+        "com.docker.compose.project.working_dir": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker",
+        "com.docker.compose.service": "movie-info-memcached",
+        "com.docker.compose.version": "2.40.3"
+      }
+    },
+    {
+      "id": "cde1b8f1921b50c0bec8b1b6632e4ea27ab1eb674edd5ebaa56b60827d467689",
+      "name": "/codex-b-fullset-media-plot-mongodb-1",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-01T14:31:54.327984805Z",
+        "FinishedAt": "2026-10-01T14:39:11.957086855Z"
+      },
+      "writable_bytes": 8192,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "2628e87ba5790991bbd750fc3ccc5dd125bc922cc21387c31fe130dc3bedd88b",
+          "Source": "/var/lib/docker/volumes/2628e87ba5790991bbd750fc3ccc5dd125bc922cc21387c31fe130dc3bedd88b/_data",
+          "Destination": "/data/configdb",
+          "Driver": "local",
+          "Mode": "",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "volume",
+          "Name": "8f670f6b32b42e12eabeeaa5a2c8751175827d31920d45f06d76617521e4a2e4",
+          "Source": "/var/lib/docker/volumes/8f670f6b32b42e12eabeeaa5a2c8751175827d31920d45f06d76617521e4a2e4/_data",
+          "Destination": "/data/db",
+          "Driver": "local",
+          "Mode": "",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "bind",
+          "Source": "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/mongo/mongod",
+          "Destination": "/usr/bin/mongod",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        }
+      ],
+      "labels": {
+        "com.docker.compose.config-hash": "9635d298ae0f28bf00b371d7d9b5a1dca15ff9c1aba3695d1211eafaf5042c00",
+        "com.docker.compose.container-number": "1",
+        "com.docker.compose.depends_on": "",
+        "com.docker.compose.image": "sha256:6efa052039903e731e4a5550c68a13c4869ddc93742c716332883fd9c77eb79b",
+        "com.docker.compose.oneoff": "False",
+        "com.docker.compose.project": "codex-b-fullset-media",
+        "com.docker.compose.project.config_files": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/compose.json",
+        "com.docker.compose.project.working_dir": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker",
+        "com.docker.compose.service": "plot-mongodb",
+        "com.docker.compose.version": "2.40.3"
+      }
+    },
+    {
+      "id": "a1eba06d0a11cac0078f70551a3fc492722ae48d0240246072b71e38caafd8ad",
+      "name": "/codex-b-fullset-media-movie-id-mongodb-1",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-01T14:31:54.332877359Z",
+        "FinishedAt": "2026-10-01T14:39:11.755124153Z"
+      },
+      "writable_bytes": 8192,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "652a0b8854e480afb55625c6ed3706fc0e5d8f60c3dec9bd1dae673a93c49566",
+          "Source": "/var/lib/docker/volumes/652a0b8854e480afb55625c6ed3706fc0e5d8f60c3dec9bd1dae673a93c49566/_data",
+          "Destination": "/data/configdb",
+          "Driver": "local",
+          "Mode": "",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "volume",
+          "Name": "1f0d51b205d77341a9df26a766e5e5f23b605853732e2be914caa4be7b4366a2",
+          "Source": "/var/lib/docker/volumes/1f0d51b205d77341a9df26a766e5e5f23b605853732e2be914caa4be7b4366a2/_data",
+          "Destination": "/data/db",
+          "Driver": "local",
+          "Mode": "",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "bind",
+          "Source": "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/mongo/mongod",
+          "Destination": "/usr/bin/mongod",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        }
+      ],
+      "labels": {
+        "com.docker.compose.config-hash": "fd97937ce5de6a5c83365e649c2939703b9847020534cf6794a5a38cb1d5f549",
+        "com.docker.compose.container-number": "1",
+        "com.docker.compose.depends_on": "",
+        "com.docker.compose.image": "sha256:6efa052039903e731e4a5550c68a13c4869ddc93742c716332883fd9c77eb79b",
+        "com.docker.compose.oneoff": "False",
+        "com.docker.compose.project": "codex-b-fullset-media",
+        "com.docker.compose.project.config_files": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/compose.json",
+        "com.docker.compose.project.working_dir": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker",
+        "com.docker.compose.service": "movie-id-mongodb",
+        "com.docker.compose.version": "2.40.3"
+      }
+    },
+    {
+      "id": "af420fbe3a9c94b739a951f0da836c952330b97a717594953c73bb0ffc9c0f87",
+      "name": "/codex-b-fullset-media-user-review-mongodb-1",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-01T14:31:54.336057804Z",
+        "FinishedAt": "2026-10-01T14:39:11.756073486Z"
+      },
+      "writable_bytes": 8192,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "068bf310032692d3a81b6ada7cb0b44d26bd7068e8eeecee729a08872c44f62f",
+          "Source": "/var/lib/docker/volumes/068bf310032692d3a81b6ada7cb0b44d26bd7068e8eeecee729a08872c44f62f/_data",
+          "Destination": "/data/configdb",
+          "Driver": "local",
+          "Mode": "",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "volume",
+          "Name": "6e0478f37956ef1874bc352fb9511cdcb1a23a199cad5c6b34789234ae076e93",
+          "Source": "/var/lib/docker/volumes/6e0478f37956ef1874bc352fb9511cdcb1a23a199cad5c6b34789234ae076e93/_data",
+          "Destination": "/data/db",
+          "Driver": "local",
+          "Mode": "",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "bind",
+          "Source": "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/mongo/mongod",
+          "Destination": "/usr/bin/mongod",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        }
+      ],
+      "labels": {
+        "com.docker.compose.config-hash": "5da93b08df3f227f8caec61e51f794a0a3ca3bb6e30e6f22e536c9dc99b79241",
+        "com.docker.compose.container-number": "1",
+        "com.docker.compose.depends_on": "",
+        "com.docker.compose.image": "sha256:6efa052039903e731e4a5550c68a13c4869ddc93742c716332883fd9c77eb79b",
+        "com.docker.compose.oneoff": "False",
+        "com.docker.compose.project": "codex-b-fullset-media",
+        "com.docker.compose.project.config_files": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/compose.json",
+        "com.docker.compose.project.working_dir": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker",
+        "com.docker.compose.service": "user-review-mongodb",
+        "com.docker.compose.version": "2.40.3"
+      }
+    },
+    {
+      "id": "2e2de71723877780647e23b68ae10c03cb63a2c18a318e3c2ea0b52f371454bb",
+      "name": "/codex-b-fullset-media-review-storage-mongodb-1",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-01T14:31:54.335888973Z",
+        "FinishedAt": "2026-10-01T14:39:11.754906688Z"
+      },
+      "writable_bytes": 8192,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "61543eb0722fa2e230f76920ee0678fcc99615e653cf05845de7fd0c9948865f",
+          "Source": "/var/lib/docker/volumes/61543eb0722fa2e230f76920ee0678fcc99615e653cf05845de7fd0c9948865f/_data",
+          "Destination": "/data/configdb",
+          "Driver": "local",
+          "Mode": "",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "volume",
+          "Name": "757b89dd78ceb0ed0fda3b1ac13f25376b005f81d416fc02d828039c3de6a0cc",
+          "Source": "/var/lib/docker/volumes/757b89dd78ceb0ed0fda3b1ac13f25376b005f81d416fc02d828039c3de6a0cc/_data",
+          "Destination": "/data/db",
+          "Driver": "local",
+          "Mode": "",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "bind",
+          "Source": "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/mongo/mongod",
+          "Destination": "/usr/bin/mongod",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        }
+      ],
+      "labels": {
+        "com.docker.compose.config-hash": "9e096ff21ecba863a1bf7b51b5d44b872315e0c81b1e3d1b8bf2c125b4f4bf98",
+        "com.docker.compose.container-number": "1",
+        "com.docker.compose.depends_on": "",
+        "com.docker.compose.image": "sha256:6efa052039903e731e4a5550c68a13c4869ddc93742c716332883fd9c77eb79b",
+        "com.docker.compose.oneoff": "False",
+        "com.docker.compose.project": "codex-b-fullset-media",
+        "com.docker.compose.project.config_files": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/compose.json",
+        "com.docker.compose.project.working_dir": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker",
+        "com.docker.compose.service": "review-storage-mongodb",
+        "com.docker.compose.version": "2.40.3"
+      }
+    },
+    {
+      "id": "f6247c45507756b434183a082ff4d33a811875ca82191752e93d9d0510b421df",
+      "name": "/codex-b-fullset-media-user-mongodb-1",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-01T14:31:54.329635833Z",
+        "FinishedAt": "2026-10-01T14:39:11.754823621Z"
+      },
+      "writable_bytes": 8192,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/mongo/mongod",
+          "Destination": "/usr/bin/mongod",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "volume",
+          "Name": "6f862eba7e95baeb1146bd0acb256654bb540ec17130e5aed7924f7f3e1c863e",
+          "Source": "/var/lib/docker/volumes/6f862eba7e95baeb1146bd0acb256654bb540ec17130e5aed7924f7f3e1c863e/_data",
+          "Destination": "/data/configdb",
+          "Driver": "local",
+          "Mode": "",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "volume",
+          "Name": "63819d75210fc44ebb8142db555d36d60eba84e71b2803b76e7cf3348941d773",
+          "Source": "/var/lib/docker/volumes/63819d75210fc44ebb8142db555d36d60eba84e71b2803b76e7cf3348941d773/_data",
+          "Destination": "/data/db",
+          "Driver": "local",
+          "Mode": "",
+          "RW": true,
+          "Propagation": ""
+        }
+      ],
+      "labels": {
+        "com.docker.compose.config-hash": "6b70a5a7dac734dda2ee47a42201701e79e6ede4bda974aad0ff685bdd5db150",
+        "com.docker.compose.container-number": "1",
+        "com.docker.compose.depends_on": "",
+        "com.docker.compose.image": "sha256:6efa052039903e731e4a5550c68a13c4869ddc93742c716332883fd9c77eb79b",
+        "com.docker.compose.oneoff": "False",
+        "com.docker.compose.project": "codex-b-fullset-media",
+        "com.docker.compose.project.config_files": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/compose.json",
+        "com.docker.compose.project.working_dir": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker",
+        "com.docker.compose.service": "user-mongodb",
+        "com.docker.compose.version": "2.40.3"
+      }
+    },
+    {
+      "id": "315fe622266d52040f200d6e856d16d7a74995be0338b5c1b928ab13bf007c79",
+      "name": "/codex-b-fullset-media-movie-info-mongodb-1",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-01T14:31:54.335218123Z",
+        "FinishedAt": "2026-10-01T14:39:11.957324046Z"
+      },
+      "writable_bytes": 8192,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "838c39d76c716fa3775e9a60d48aafec0c392913d0722867a80fb43e41ea5f17",
+          "Source": "/var/lib/docker/volumes/838c39d76c716fa3775e9a60d48aafec0c392913d0722867a80fb43e41ea5f17/_data",
+          "Destination": "/data/configdb",
+          "Driver": "local",
+          "Mode": "",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "volume",
+          "Name": "10898e69574ad9f63782928e9d8a731e2e8b58786dd0b5bfb6b4b1949f72e4fe",
+          "Source": "/var/lib/docker/volumes/10898e69574ad9f63782928e9d8a731e2e8b58786dd0b5bfb6b4b1949f72e4fe/_data",
+          "Destination": "/data/db",
+          "Driver": "local",
+          "Mode": "",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "bind",
+          "Source": "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/mongo/mongod",
+          "Destination": "/usr/bin/mongod",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        }
+      ],
+      "labels": {
+        "com.docker.compose.config-hash": "fa43a2e99db8d08645f65d2a864d1aad02d3055a15e27c103cb8d13086cefb94",
+        "com.docker.compose.container-number": "1",
+        "com.docker.compose.depends_on": "",
+        "com.docker.compose.image": "sha256:6efa052039903e731e4a5550c68a13c4869ddc93742c716332883fd9c77eb79b",
+        "com.docker.compose.oneoff": "False",
+        "com.docker.compose.project": "codex-b-fullset-media",
+        "com.docker.compose.project.config_files": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/compose.json",
+        "com.docker.compose.project.working_dir": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker",
+        "com.docker.compose.service": "movie-info-mongodb",
+        "com.docker.compose.version": "2.40.3"
+      }
+    },
+    {
+      "id": "0435988103e8da65c15935973a55dbd63cc3911a1eb6ca1ea60cf2b0c08823e5",
+      "name": "/codex-b-fullset-media-cast-info-mongodb-1",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-01T14:31:54.340955271Z",
+        "FinishedAt": "2026-10-01T14:39:11.755189224Z"
+      },
+      "writable_bytes": 8192,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "473336eb3805a103d698fa15d98d75d493096761b28a3ab0112b5243464ce3c9",
+          "Source": "/var/lib/docker/volumes/473336eb3805a103d698fa15d98d75d493096761b28a3ab0112b5243464ce3c9/_data",
+          "Destination": "/data/configdb",
+          "Driver": "local",
+          "Mode": "",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "volume",
+          "Name": "ac6d21ad96fcb349cd2412a637e8075ac6c4e9a41313c77a137f2ada4acd0d6a",
+          "Source": "/var/lib/docker/volumes/ac6d21ad96fcb349cd2412a637e8075ac6c4e9a41313c77a137f2ada4acd0d6a/_data",
+          "Destination": "/data/db",
+          "Driver": "local",
+          "Mode": "",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "bind",
+          "Source": "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/mongo/mongod",
+          "Destination": "/usr/bin/mongod",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        }
+      ],
+      "labels": {
+        "com.docker.compose.config-hash": "cac7d92d8c649c3d20373e86dfb8817ef3fc469abbaa32a06358d850a383a88c",
+        "com.docker.compose.container-number": "1",
+        "com.docker.compose.depends_on": "",
+        "com.docker.compose.image": "sha256:6efa052039903e731e4a5550c68a13c4869ddc93742c716332883fd9c77eb79b",
+        "com.docker.compose.oneoff": "False",
+        "com.docker.compose.project": "codex-b-fullset-media",
+        "com.docker.compose.project.config_files": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/compose.json",
+        "com.docker.compose.project.working_dir": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker",
+        "com.docker.compose.service": "cast-info-mongodb",
+        "com.docker.compose.version": "2.40.3"
+      }
+    },
+    {
+      "id": "291ce5942336386869ff1886e6237ae75a7b92b70f86affee30316c9731c4c2e",
+      "name": "/codex-b-fullset-media-movie-review-mongodb-1",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-01T14:31:54.335641589Z",
+        "FinishedAt": "2026-10-01T14:39:11.956798613Z"
+      },
+      "writable_bytes": 8192,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "c1ababdb59fac9997e5be7a3da8f1641f239cb9de2e069430c3e42158ffe2e3f",
+          "Source": "/var/lib/docker/volumes/c1ababdb59fac9997e5be7a3da8f1641f239cb9de2e069430c3e42158ffe2e3f/_data",
+          "Destination": "/data/db",
+          "Driver": "local",
+          "Mode": "",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "bind",
+          "Source": "/storage/prefetchit/class_b_rpc_future_20261001/builds/no_dso/mongo/mongod",
+          "Destination": "/usr/bin/mongod",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "volume",
+          "Name": "59039ad867cc272ae3c4e9b06e6e55bc619cad1f623534a3cd62a34e6dd5e6cc",
+          "Source": "/var/lib/docker/volumes/59039ad867cc272ae3c4e9b06e6e55bc619cad1f623534a3cd62a34e6dd5e6cc/_data",
+          "Destination": "/data/configdb",
+          "Driver": "local",
+          "Mode": "",
+          "RW": true,
+          "Propagation": ""
+        }
+      ],
+      "labels": {
+        "com.docker.compose.config-hash": "c49f7b739330b48dc3fb5df98c6a2fa318da9f7864091111a1bf47981497097a",
+        "com.docker.compose.container-number": "1",
+        "com.docker.compose.depends_on": "",
+        "com.docker.compose.image": "sha256:6efa052039903e731e4a5550c68a13c4869ddc93742c716332883fd9c77eb79b",
+        "com.docker.compose.oneoff": "False",
+        "com.docker.compose.project": "codex-b-fullset-media",
+        "com.docker.compose.project.config_files": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/compose.json",
+        "com.docker.compose.project.working_dir": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker",
+        "com.docker.compose.service": "movie-review-mongodb",
+        "com.docker.compose.version": "2.40.3"
+      }
+    },
+    {
+      "id": "fee008656a8dbd598077cdb4720d5c24ce2e31843c2a6c6310ee06abe0bd9785",
+      "name": "/codex-b-fullset-media-jaeger-1",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-01T14:31:54.327970672Z",
+        "FinishedAt": "2026-10-01T14:39:11.596944293Z"
+      },
+      "writable_bytes": 4096,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "eb360f74bd6576b2b6e1655cfdc0d179bf8c374e64c683565d31690be06188d9",
+          "Source": "/var/lib/docker/volumes/eb360f74bd6576b2b6e1655cfdc0d179bf8c374e64c683565d31690be06188d9/_data",
+          "Destination": "/tmp",
+          "Driver": "local",
+          "Mode": "",
+          "RW": true,
+          "Propagation": ""
+        }
+      ],
+      "labels": {
+        "com.docker.compose.config-hash": "4ea6dca558c73e41935da488121c945bcdfba6331b29708a01df0db722be8921",
+        "com.docker.compose.container-number": "1",
+        "com.docker.compose.depends_on": "",
+        "com.docker.compose.image": "sha256:8f165334f418ca53691ce358c19b4244226ed35c5d18408c5acf305af2065fb9",
+        "com.docker.compose.oneoff": "False",
+        "com.docker.compose.project": "codex-b-fullset-media",
+        "com.docker.compose.project.config_files": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker/compose.json",
+        "com.docker.compose.project.working_dir": "/storage/prefetchit/class_b_rpc_route_20261001/confirmation/01_rpc_worker",
+        "com.docker.compose.service": "jaeger",
+        "com.docker.compose.version": "2.40.3"
+      }
+    }
+  ],
+  "volumes_removed": [
+    {
+      "name": "2628e87ba5790991bbd750fc3ccc5dd125bc922cc21387c31fe130dc3bedd88b",
+      "path": "/var/lib/docker/volumes/2628e87ba5790991bbd750fc3ccc5dd125bc922cc21387c31fe130dc3bedd88b/_data",
+      "bytes": 0
+    },
+    {
+      "name": "8f670f6b32b42e12eabeeaa5a2c8751175827d31920d45f06d76617521e4a2e4",
+      "path": "/var/lib/docker/volumes/8f670f6b32b42e12eabeeaa5a2c8751175827d31920d45f06d76617521e4a2e4/_data",
+      "bytes": 315241384
+    },
+    {
+      "name": "652a0b8854e480afb55625c6ed3706fc0e5d8f60c3dec9bd1dae673a93c49566",
+      "path": "/var/lib/docker/volumes/652a0b8854e480afb55625c6ed3706fc0e5d8f60c3dec9bd1dae673a93c49566/_data",
+      "bytes": 0
+    },
+    {
+      "name": "1f0d51b205d77341a9df26a766e5e5f23b605853732e2be914caa4be7b4366a2",
+      "path": "/var/lib/docker/volumes/1f0d51b205d77341a9df26a766e5e5f23b605853732e2be914caa4be7b4366a2/_data",
+      "bytes": 315094537
+    },
+    {
+      "name": "068bf310032692d3a81b6ada7cb0b44d26bd7068e8eeecee729a08872c44f62f",
+      "path": "/var/lib/docker/volumes/068bf310032692d3a81b6ada7cb0b44d26bd7068e8eeecee729a08872c44f62f/_data",
+      "bytes": 0
+    },
+    {
+      "name": "6e0478f37956ef1874bc352fb9511cdcb1a23a199cad5c6b34789234ae076e93",
+      "path": "/var/lib/docker/volumes/6e0478f37956ef1874bc352fb9511cdcb1a23a199cad5c6b34789234ae076e93/_data",
+      "bytes": 318806765
+    },
+    {
+      "name": "61543eb0722fa2e230f76920ee0678fcc99615e653cf05845de7fd0c9948865f",
+      "path": "/var/lib/docker/volumes/61543eb0722fa2e230f76920ee0678fcc99615e653cf05845de7fd0c9948865f/_data",
+      "bytes": 0
+    },
+    {
+      "name": "757b89dd78ceb0ed0fda3b1ac13f25376b005f81d416fc02d828039c3de6a0cc",
+      "path": "/var/lib/docker/volumes/757b89dd78ceb0ed0fda3b1ac13f25376b005f81d416fc02d828039c3de6a0cc/_data",
+      "bytes": 359269705
+    },
+    {
+      "name": "6f862eba7e95baeb1146bd0acb256654bb540ec17130e5aed7924f7f3e1c863e",
+      "path": "/var/lib/docker/volumes/6f862eba7e95baeb1146bd0acb256654bb540ec17130e5aed7924f7f3e1c863e/_data",
+      "bytes": 0
+    },
+    {
+      "name": "63819d75210fc44ebb8142db555d36d60eba84e71b2803b76e7cf3348941d773",
+      "path": "/var/lib/docker/volumes/63819d75210fc44ebb8142db555d36d60eba84e71b2803b76e7cf3348941d773/_data",
+      "bytes": 315073419
+    },
+    {
+      "name": "838c39d76c716fa3775e9a60d48aafec0c392913d0722867a80fb43e41ea5f17",
+      "path": "/var/lib/docker/volumes/838c39d76c716fa3775e9a60d48aafec0c392913d0722867a80fb43e41ea5f17/_data",
+      "bytes": 0
+    },
+    {
+      "name": "10898e69574ad9f63782928e9d8a731e2e8b58786dd0b5bfb6b4b1949f72e4fe",
+      "path": "/var/lib/docker/volumes/10898e69574ad9f63782928e9d8a731e2e8b58786dd0b5bfb6b4b1949f72e4fe/_data",
+      "bytes": 315598062
+    },
+    {
+      "name": "473336eb3805a103d698fa15d98d75d493096761b28a3ab0112b5243464ce3c9",
+      "path": "/var/lib/docker/volumes/473336eb3805a103d698fa15d98d75d493096761b28a3ab0112b5243464ce3c9/_data",
+      "bytes": 0
+    },
+    {
+      "name": "ac6d21ad96fcb349cd2412a637e8075ac6c4e9a41313c77a137f2ada4acd0d6a",
+      "path": "/var/lib/docker/volumes/ac6d21ad96fcb349cd2412a637e8075ac6c4e9a41313c77a137f2ada4acd0d6a/_data",
+      "bytes": 318551421
+    },
+    {
+      "name": "c1ababdb59fac9997e5be7a3da8f1641f239cb9de2e069430c3e42158ffe2e3f",
+      "path": "/var/lib/docker/volumes/c1ababdb59fac9997e5be7a3da8f1641f239cb9de2e069430c3e42158ffe2e3f/_data",
+      "bytes": 318843434
+    },
+    {
+      "name": "59039ad867cc272ae3c4e9b06e6e55bc619cad1f623534a3cd62a34e6dd5e6cc",
+      "path": "/var/lib/docker/volumes/59039ad867cc272ae3c4e9b06e6e55bc619cad1f623534a3cd62a34e6dd5e6cc/_data",
+      "bytes": 0
+    },
+    {
+      "name": "eb360f74bd6576b2b6e1655cfdc0d179bf8c374e64c683565d31690be06188d9",
+      "path": "/var/lib/docker/volumes/eb360f74bd6576b2b6e1655cfdc0d179bf8c374e64c683565d31690be06188d9/_data",
+      "bytes": 0
+    }
+  ],
+  "free_before": {
+    "/": 13102108672,
+    "/storage/prefetchit/class_b_rpc_route_20261001": 913009651712
+  },
+  "cleanup_complete": true,
+  "platform_note": "No claim of normal restoration for the reboot-interrupted trial. New trials snapshot and restore the post-boot platform state.",
+  "free_after": {
+    "/": 15682760704,
+    "/storage/prefetchit/class_b_rpc_route_20261001": 913009356800
+  },
+  "anonymous_volume_bytes_removed": 2576478727,
+  "writable_container_bytes_removed": 401408
+}

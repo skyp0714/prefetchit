@@ -1,0 +1,56 @@
+{
+  "epoch": 1790891929.3416955,
+  "reason": "Static audit found three of 23 new worker targets on the issuing original callsite cache line. Test removing only those hints after the frozen confirmation and its PMU complete.",
+  "same_line_targets": [
+    {
+      "service": "movie",
+      "anchor": "worker:MovieIdHandler:UploadMovieId:$_0",
+      "site": 681919,
+      "target": 681856
+    },
+    {
+      "service": "movie",
+      "anchor": "worker:MovieIdHandler:UploadMovieId:$_2",
+      "site": 685311,
+      "target": 685248
+    },
+    {
+      "service": "rating",
+      "anchor": "worker:RatingHandler:UploadRating:$_0",
+      "site": 353567,
+      "target": 353536
+    }
+  ],
+  "arms": [
+    "full_dso",
+    "full_rpc_worker",
+    "full_rpc_worker_nop",
+    "full_rpc_worker_pruned"
+  ],
+  "blocks": 2,
+  "orders": [
+    [
+      "full_dso",
+      "full_rpc_worker",
+      "full_rpc_worker_nop",
+      "full_rpc_worker_pruned"
+    ],
+    [
+      "full_rpc_worker_pruned",
+      "full_rpc_worker_nop",
+      "full_rpc_worker",
+      "full_dso"
+    ]
+  ],
+  "seedbase": 1041801,
+  "implementation": "Replace only the three new same-line T1 instructions by exact-length NOPs; preserve all other instructions, addresses, old hints and CFI. Verify byte differences and run a functional smoke before timing.",
+  "analysis": "Separate fresh paired blocks; do not pool with earlier confirmation. Compare to both the existing incumbent and the unpruned RPC policy. No replacement selected from partial endpoint results.",
+  "promotion": "Retain a new pruned reference only if throughput lower individual paired-log 95% CI is >1 versus full_dso, CPU/request <=+0.5%, and p99 <=+2%. Otherwise preserve previous decision.",
+  "execution": "No binary edits/builds during active timing. Start only after frozen 15-trial confirmation and both PMU trials complete.",
+  "pmu": "Existing PF-versus-NOP diagnostic applies to unpruned 23-hint candidate; no claim of PMU effect for the pruned candidate without its own measurement.",
+  "amendment": {
+    "epoch": 1790893852.5044422,
+    "before_any_same_line_measurement": true,
+    "reason": "Add an exact all-new-hints NOP clean E2E control to distinguish useful prefetch from the extra stub/layout. No policy-selection or outcome exclusions changed; same two complete reverse-order blocks."
+  }
+}

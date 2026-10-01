@@ -1,0 +1,60 @@
+{
+  "valid": true,
+  "disabled_hints": 3,
+  "remaining_hints": 20,
+  "checks": [
+    {
+      "service": "movie",
+      "source": "/storage/prefetchit/class_b_rpc_route_20261001/builds/full_rpc_worker/movie/MovieIdService",
+      "binary": "/storage/prefetchit/class_b_rpc_route_20261001/builds/full_rpc_worker_pruned/movie/MovieIdService",
+      "sha256": "afe38f81bb6aa4de85476e12573e0d059af2fb97c4bebcc236f3e8ce094722d1",
+      "changes": [
+        {
+          "service": "movie",
+          "anchor": "worker:MovieIdHandler:UploadMovieId:$_0",
+          "site": 681919,
+          "target": 681856,
+          "va": 3945351,
+          "offset": 21537671,
+          "old": "0f1815f233ceff",
+          "new": "0f1f8000000000"
+        },
+        {
+          "service": "movie",
+          "anchor": "worker:MovieIdHandler:UploadMovieId:$_2",
+          "site": 685311,
+          "target": 685248,
+          "va": 3945422,
+          "offset": 21537742,
+          "old": "0f1815eb40ceff",
+          "new": "0f1f8000000000"
+        }
+      ],
+      "all_other_bytes_identical": true,
+      "nop_control": "/storage/prefetchit/class_b_rpc_route_20261001/builds/full_rpc_worker/movie/MovieIdService.nop",
+      "nop_sha256": "f3ecc5857f5fc4d2a28a7eea743a8ed2fe8ce104a3c18ad6bbb7e3ede24e7bf6"
+    },
+    {
+      "service": "rating",
+      "source": "/storage/prefetchit/class_b_rpc_route_20261001/builds/full_rpc_worker/rating/RatingService",
+      "binary": "/storage/prefetchit/class_b_rpc_route_20261001/builds/full_rpc_worker_pruned/rating/RatingService",
+      "sha256": "c2f354b8ff59ed44ce05d4c5d1b149e8b852fdc45f97205644d9ff3939b614cc",
+      "changes": [
+        {
+          "service": "rating",
+          "anchor": "worker:RatingHandler:UploadRating:$_0",
+          "site": 353567,
+          "target": 353536,
+          "va": 3732387,
+          "offset": 19477411,
+          "old": "0f18155671ccff",
+          "new": "0f1f8000000000"
+        }
+      ],
+      "all_other_bytes_identical": true,
+      "nop_control": "/storage/prefetchit/class_b_rpc_route_20261001/builds/full_rpc_worker/rating/RatingService.nop",
+      "nop_sha256": "3e9a77796efd89b06895cba598f85a7ec5147bba42389a9ade707244c078a855"
+    }
+  ],
+  "footprint_note": "Binary size and code layout unchanged; this isolates issuance, not code-size removal."
+}

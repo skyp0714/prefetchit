@@ -1,0 +1,7 @@
+{
+  "epoch": 1790862578.55157,
+  "rationale": "Latest request maximizes performance using RPC characteristics. DSO-free variants remain in the experiment; also test the same typed-worker hints on the already-confirmed faster full incumbent. Only six callsites and23 hints, all prior instructions/hints preserved.",
+  "confirmation": "Add full_incumbent+selected_worker as a fifth arm: original, full_dso, no_dso, selected_worker, full_selected_worker. Three fresh paired blocks if start after13:55UTC. Four before13:55UTC. No current confirmation data used for policy or repetition choice.",
+  "diagnostics": "Two runs, full_selected_worker and exact incremental NOP. Service PMU only for the three actually modified app servers: MovieId, ComposeReview, Rating; separate pool user/kernel counters retain whole-stack scope. Saves time for final verification before15UTC.",
+  "deadline_utc": "2026-10-01T15:00:00Z"
+}

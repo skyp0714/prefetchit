@@ -99,3 +99,37 @@ emitted assembly/patch maps, binary hashes, and cleanup decisions. Each member i
 verified by SHA-256. Generated ELFs, datasets, full request lists and raw/decoded
 trace copies are excluded. Rejected RPC binaries were removed after diagnosis;
 the no-DSO ablation and previous winning/reference artifacts remain local.
+
+## October 1 RPC phase and worker continuation campaign
+
+[Report](../../../docs/class_b_rpc_route_20261001.md),
+[measurements](class_b_rpc_route_20261001/report.json),
+[restart record](class_b_rpc_route_20261001/resumption.json),
+[stub address audit](class_b_rpc_route_20261001/training_stub_audit.json),
+[verified publication manifest](class_b_rpc_route_20261001/manifest.json).
+
+RPC decoder, handler and typed asynchronous-worker policies were tested with T1,
+worker IT0, and the existing full DSO policy. The campaign contains 37 clean
+endpoint trials, two separate PMU trials and six functional smokes. Eight completed
+confirmation trials from before a host reboot are retained separately and excluded
+from the fresh confirmation; the unfinished ninth trial is also recorded.
+
+The full policy plus worker hints measured throughput +4.17% versus original
+(individual paired-log 95% CI +1.72–+6.67%), but its incremental gain over the
+incumbent was not established. A separate exact-layout NOP comparison measured
+only +0.08%, with a wide interval. Removing three new hints to the issuing cache
+line measured +0.76% versus the incumbent, also with an interval spanning zero.
+The incumbent remains selected; the 10% throughput goal was not reached.
+
+Only 20.50% of the retained training samples could be assigned to the modeled RPC
+contexts, and the selected worker targets overlapped 2.08% of those samples' total
+request-normalized population. An address-range audit located 12.71% of the total
+training samples inside the incumbent's generated prefetch stubs; this is not a
+slowdown estimate or attribution of target-prefetch misses. The selector now
+excludes the issuing cache line, with the original measured source preserved.
+
+All 7,076 archived records were SHA-256 verified. Failed and unpromoted generated
+ELFs were removed after extracting their results; source, patch, hash and cleanup
+records remain. Original datasets, shared dependencies and retained incumbent,
+original and no-DSO reference binaries were preserved. Completed platform contexts
+were audited separately from the reboot-interrupted context.

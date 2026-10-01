@@ -1,0 +1,29 @@
+{
+  "selected": "no_dso",
+  "eligible": [
+    "rpc_worker",
+    "rpc_worker_it0"
+  ],
+  "means": {
+    "no_dso": {
+      "geometric_rps": 1234.6810844371066,
+      "cpu": 5696.1051940990765,
+      "p99": 5.715727806091309
+    },
+    "rpc_worker": {
+      "geometric_rps": 1216.5856008188287,
+      "cpu": 5721.78144300186,
+      "p99": 5.732536315917969
+    },
+    "rpc_worker_it0": {
+      "geometric_rps": 1204.962975317619,
+      "cpu": 5722.567012037528,
+      "p99": 5.709528923034668
+    }
+  },
+  "rule": "Highest geometric RPS after all frozen blocks, subject to CPU <= base+0.5% and p99 <= base+2%; retain base if no refinement improves RPS.",
+  "epoch": 1790863337.2605035,
+  "nominee": "rpc_worker",
+  "nominee_passes_guardrails": true,
+  "note": "Nomination for independent testing is not promotion; retain no_dso as an explicit control even when it leads the screen."
+}

@@ -1,0 +1,33 @@
+{
+  "scope": "Earlier full-policy residual L2 retired PEBS training, request-normalized across nine app processes. Not raw L2 code-read events, kernel counts, or independent held-out coverage.",
+  "all_per_request": 1442.1380402203672,
+  "categories": {
+    "outside_main": {
+      "estimated_per_request": 547.5895985317397,
+      "pct": 37.97067848290479
+    },
+    "not_original_instruction": {
+      "estimated_per_request": 183.3475890537206,
+      "pct": 12.713594950016299
+    },
+    "context_decoder": {
+      "estimated_per_request": 71.8546379460975,
+      "pct": 4.982507633951441
+    },
+    "context_handler": {
+      "estimated_per_request": 146.10991199260826,
+      "pct": 10.131478951230065
+    },
+    "context_worker": {
+      "estimated_per_request": 77.71928149052371,
+      "pct": 5.389170753629642
+    },
+    "main_unclassified": {
+      "estimated_per_request": 415.51702120567734,
+      "pct": 28.812569228267762
+    }
+  },
+  "recognized_rpc_pct": 20.503157338811146,
+  "selected_worker_static_overlap_pct": 2.0769260495750097,
+  "limitation": "Outside main includes loaded DSOs. Not-original-instruction means no decoded instruction at that address in the original ELF; do not equate every such sample with a generated stub without address-range verification."
+}
