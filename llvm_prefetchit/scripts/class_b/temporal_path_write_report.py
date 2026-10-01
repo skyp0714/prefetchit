@@ -26,6 +26,9 @@ def residual_interpretation(data):
             f'{pct.get("targeted_line_without_matching_stub_in_bounded_lbr", 0):.2f}%는 타깃이지만 '
             f'최근 32개 분기에 대응 hint stub이 보이지 않는 경우다. '
             f'대응 stub을 실제로 거친 흔적이 있는 경우는 {witnessed:.2f}%다.')
+        any_hint = 100*row['any_stub_witness'].get('some_stub_observed', 0)/sum(row['counts'].values())
+        lines.append(f'대상 라인과 무관하게 어떤 hint stub이든 최근에 거친 표본은 {any_hint:.2f}%다. '
+            '최근 힌트 발행의 흔적과 이번에 필요한 라인에 대한 힌트 발행은 다르다.')
     lines += ['이 분류에서 타깃 밖 비중이 높으면 다른 경로·주소의 커버리지를, stub 비중이 높으면 '
         '추가 실행 코드 자체의 비용을 먼저 다뤄야 한다. 단, 이 비중은 이미 크게 줄어든 잔여 집합의 구성이다. '
         '대응 힌트가 보이는 표본도 늦은 발행·이후 축출·주소 변환 문제 중 어느 하나로 확정할 수 없다.']
@@ -58,6 +61,18 @@ def recovery_interpretation(data):
 def report(root):
     assert read(root / 'confirmation_and_diagnostics_complete.json')['valid']
     data = read(root / 'analysis/final_summary.json')
+    cost_path = root / 'analysis/final_l1_stub_cost.json'
+    if not cost_path.exists():
+        from temporal_path_l1_cost import report as write_l1_cost
+        write_l1_cost(root)
+    l1_cost = read(cost_path)
+    assert l1_cost['summary_sha256'] == b.sha(root / 'analysis/final_summary.json')
+    l1_text = []
+    for row in l1_cost['rows']:
+        label = '앱' if row['group'] == 'native' else 'MongoDB'
+        l1_text.append(f'{label}의 L1I miss 증가분은 요청당 약 {row["observed_increase"]:,.0f}건이고, '
+                      f'최종 정책의 새 stub 주소에서는 약 {row["added_stub"]:,.0f}건이 발생했다. '
+                      f'증가분의 약 {row["stub_to_observed_increase_pct"]:.0f}%에 해당하는 규모다.')
     best = data['selected']
     contrast = data['confirmation']['e2e'][best]['original']
     rps = contrast['inverse_rps']
@@ -174,6 +189,10 @@ def report(root):
         '## 해석 및 남은 제약', '',
         ' '.join(stall_text) + ' 구간 수와 평균 길이를 구분해야 하며, 구간 수 증가만으로 비용 증가를 판단하지 않는다.', '',
         recovery_interpretation(data), '',
+        f'![추가한 hint stub의 L1I 미스 비용](figures/{TAG}_final_l1_stub_cost.png)', '',
+        '시간 추적의 주소별 분해로 보면 ' + ' '.join(l1_text) + ' '
+        '이는 별도 진단의 주소별 산술 분해이며, stub을 없애면 그만큼 성능이 회복된다는 인과 추정은 아니다. '
+        'stub을 없애면 프리패치 커버리지도 바뀐다.', '',
         f'CPU 기준으로 원본에서 MongoDB가 차지한 비중은 '
         f'{100*original_cpu["mongo:cpu_us"]/original_cpu["all:cpu_us"]:.2f}%다. '
         f'이 그룹의 CPU/request가 {100*(1-cpu["mongo:cpu_us"]/original_cpu["mongo:cpu_us"]):.2f}% 줄어 '

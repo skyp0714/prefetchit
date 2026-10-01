@@ -205,14 +205,13 @@ def figures(root, data):
             ax.set_xlim(0, limit)
             ax.set_ylim(bottom=0)
             ax.grid(alpha=.2)
-            if col == 0:
-                ax.set_ylabel('Estimated events / request / age-bin µs')
     handles, labels = axes[0, 0].get_legend_handles_labels()
     fig.legend(handles, labels, loc='upper center', ncol=2, bbox_to_anchor=(.5, .967))
     fig.suptitle('Misses after schedule-in: remeasured original versus final policy', y=.997)
+    fig.supylabel('Estimated events / request / age-bin µs', x=.008)
     fig.supxlabel('Sample retirement age after scheduler selection (µs)', y=.035)
     fig.text(.5, .008, 'Separate diagnostic captures. Samples retire after fetch; scheduler age includes kernel time. Later bins remain in JSON.', ha='center', fontsize=8)
-    fig.tight_layout(rect=(0, .075, 1, .91))
+    fig.tight_layout(rect=(.025, .075, 1, .91))
     savefig(root, fig, 'final_temporal_overview')
     fig, axes = plt.subplots(2, 2, figsize=(12, 7))
     for row_index, group in enumerate(('native', 'mongo')):
@@ -233,14 +232,13 @@ def figures(root, data):
                 ax.text(.5, .5, 'No new-thread samples in these captures', transform=ax.transAxes,
                         ha='center', va='center', fontsize=9)
                 ax.set_ylim(0, 1)
-            if col == 0:
-                ax.set_ylabel('Retired L2 events / request / age-bin µs')
     handles, labels = axes[0, 0].get_legend_handles_labels()
     fig.legend(handles, labels, loc='upper center', ncol=2, bbox_to_anchor=(.5, .967))
     fig.suptitle('First execution versus resume: where residual misses occur', y=.997)
+    fig.supylabel('Retired L2 events / request / age-bin µs', x=.008)
     fig.supxlabel('Sample retirement age after scheduler selection (µs)', y=.035)
     fig.text(.5, .008, 'Observed thread births and scheduler records; retirement age includes kernel time. Boundary runs are excluded.', ha='center', fontsize=8)
-    fig.tight_layout(rect=(0, .075, 1, .91))
+    fig.tight_layout(rect=(.025, .075, 1, .91))
     savefig(root, fig, 'final_temporal_origin')
     fig, axes = plt.subplots(1, 2, figsize=(13, 4.8))
     classes = [('line_not_statically_targeted', 'Not statically targeted', '#d68c45'),
