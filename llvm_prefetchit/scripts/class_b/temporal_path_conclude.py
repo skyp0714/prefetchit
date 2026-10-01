@@ -75,6 +75,7 @@ def summarize(root):
                     and row['service'].startswith('mongo_') == (group == 'mongo')]
             counts, weighted, ages = collections.Counter(), collections.Counter(), collections.Counter()
             age_events, branches, instructions = collections.Counter(), collections.Counter(), collections.Counter()
+            any_stub = collections.Counter()
             locations = collections.Counter()
             for row in rows:
                 counts.update(row['counts'])
@@ -86,6 +87,7 @@ def summarize(root):
                 for item in row['branches']:
                     branches[item['kind']] += item['samples']
                 instructions.update(row['instruction_classes'])
+                any_stub.update(row.get('any_stub_witness', {}))
                 for item in row['top_locations']:
                     index = item['dso']
                     digest = row['digests'][index] if 0 <= index < len(row['digests']) else 'unmapped'
@@ -99,6 +101,7 @@ def summarize(root):
                                   events_per_request=age_events[i, key]) for (i, key), value in sorted(ages.items())],
                 branch_association_sample_pct={key: 100 * value / sum(counts.values()) for key, value in branches.items()},
                 instruction_classes=dict(instructions),
+                any_stub_witness=dict(any_stub),
                 top_locations=[dict(sha256=sha, image=image, line_address=hex(line * 64), classification=cls,
                                     estimated_events_per_request=value)
                                for (sha, image, line, cls), value in locations.most_common(16)]))

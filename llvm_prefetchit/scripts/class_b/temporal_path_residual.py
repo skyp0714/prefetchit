@@ -74,6 +74,7 @@ def analyze(root,phase='residual'):
             target_distance=collections.Counter();branch_distance=collections.Counter()
             branches=collections.Counter();lead=collections.Counter();functions=collections.Counter();examples=[]
             instruction_classes=collections.Counter();straddling=0
+            any_stub=collections.Counter();any_stub_ages=collections.Counter();stub_by_class=collections.Counter()
             for row in data['rows']:
                 dso=row['dso'];ip=row['ip'];index=bisect.bisect_right(EDGES,row['age_us'])-1
                 if dso not in images:
@@ -88,6 +89,9 @@ def analyze(root,phase='residual'):
                                         if in_stub else category(asm)]+=1
                     history=row['edges']
                     if history and tuple(history[0][:2])==(dso,ip):history=history[1:]
+                    witnessed=any(tuple(edge[:2]) in stub_jumps for edge in history)
+                    witness='some_stub_observed' if witnessed else 'no_stub_in_bounded_lbr'
+                    any_stub[witness]+=1;any_stub_ages[index,witness]+=1
                     nearest=history[0] if history else None
                     matches=[];age=0
                     for sd,fr,td,to,pred,cycles,typ in history:
@@ -120,6 +124,7 @@ def analyze(root,phase='residual'):
                         distance=ip-nearest[3]
                         branch_distance[str(distance) if 0<=distance<64 else 'outside_first_64_bytes']+=1
                 counts[cls]+=1;weighted[cls]+=data['period']/data['requests'];age_classes[index,cls]+=1
+                if dso in images:stub_by_class[cls,witness]+=1
                 locations[dso,target//64,cls]+=1;functions[dso,function,cls]+=1
                 if len(examples)<40 and cls.startswith('matching_stub'):
                     examples.append(dict(ip=ip,dso=dso,age_us=row['age_us'],classification=cls,function=function,nearest=nearest))
@@ -127,6 +132,9 @@ def analyze(root,phase='residual'):
                 events_per_request=dict(weighted),age_classes=[dict(bin=i,classification=c,samples=n) for (i,c),n in age_classes.items()],
                 nearest_static_target_line_delta=dict(target_distance),nearest_taken_target_byte_delta=dict(branch_distance),
                 instruction_classes=dict(instruction_classes),straddling_instruction_samples=straddling,
+                any_stub_witness=dict(any_stub),
+                any_stub_age_classes=[dict(bin=i,witness=w,samples=n) for (i,w),n in sorted(any_stub_ages.items())],
+                any_stub_by_class=[dict(classification=c,witness=w,samples=n) for (c,w),n in sorted(stub_by_class.items())],
                 branches=[dict(classification=c,kind=k,samples=n) for (c,k),n in branches.items()],
                 top_locations=[dict(dso=d,line=line,classification=c,samples=n) for (d,line,c),n in locations.most_common(100)],
                 top_functions=[dict(dso=d,function=f,classification=c,samples=n) for (d,f,c),n in functions.most_common(80)],examples=examples,
