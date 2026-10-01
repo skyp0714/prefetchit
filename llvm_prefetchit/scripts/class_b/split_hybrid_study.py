@@ -72,7 +72,9 @@ def trial(spec):
     b.save(out/'protocol.json', dict(spec, events=EVENTS, monitored=MONITORED,
         source_sha256=b.sha(__file__), limitation=LIMIT))
     stack = client = None; pmu = {}; pool_pmu = {}
-    order = [(label, name, 'u') for label in EVENTS for name in MONITORED]
+    service_labels = spec.get('service_event_sets', list(EVENTS))
+    assert service_labels and set(service_labels) <= set(EVENTS)
+    order = [(label, name, 'u') for label in service_labels for name in MONITORED]
     order += [(label, None, privilege) for privilege in ['u', 'k'] for label in ['topdown', 'memory']]
     if spec.get('reverse_pmu'): order.reverse()
     with hybrid.environment(out, spec):
@@ -121,6 +123,9 @@ def trial(spec):
                 pool_util_pct=100*pool['cpu_us']/pool['wall_s']/8e6, all_services=costs,
                 services={k: costs[name] for k, name in MONITORED.items()})
             b.save(out/'result.json', result); assert result['valid'] and errors == 0
+            if spec.get('collect_request_traces'):
+                from request_path_trace import collect
+                collect(stack,out,info)
         except BaseException as error:
             b.save(out/'failure.json', dict(error=repr(error))); raise
         finally:
