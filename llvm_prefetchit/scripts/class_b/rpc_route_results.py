@@ -23,6 +23,8 @@ def summarize(root):
     complete=load(root/'measurement_complete.json');assert complete['valid']
     chosen=load(root/'confirmation_selection.json');nominee=chosen['nominee'];combined=chosen['combined']
     report=dict(selection=chosen,complete=complete,phases={})
+    if (root/'resumption.json').exists():
+        report['resumption']=load(root/'resumption.json')
     for phase in ('screen','screen2','confirmation'):
         data=load(root/phase/'evaluation.json')
         report['phases'][phase]=dict(trials=data['trials'],
@@ -115,7 +117,8 @@ def write_report(root,report,nominee,combined):
             combined:'기존 정책 + 작업 스레드 '+hint}
     final=report['phases']['confirmation'];c=final['comparisons'];decision=report['decision']
     lines=['# RPC 타입·실행 단계·비동기 작업을 활용한 프리패치', '',
-        '2026-10-01 오전 10시 CDT(15:00 UTC)까지의 후속 캠페인. '
+        ('2026-10-01 후속 캠페인. 호스트 재부팅으로 오전 확인 실험이 중단되어, 사용자의 재개 요청 후 같은 후보로 새 독립 확인을 수행했다. '
+         if 'resumption' in report else '2026-10-01 오전 10시 CDT(15:00 UTC)까지의 후속 캠페인. ')+
         '전체 Media compose-review 처리량·평균·p99·CPU/request를 기준으로 평가했다. '
         '아래 독립 확인값은 두 탐색 단계와 별도로 얻었다.', '',
         f"기존 정책에 RPC 작업 스레드 힌트를 결합한 버전의 처리량 변화는 원본 대비 **{interval(c[combined]['original'],'inverse_rps')}**, "
@@ -225,14 +228,31 @@ def write_report(root,report,nominee,combined):
         '구현: [RPC/worker 타깃 선정](../llvm_prefetchit/scripts/class_b/rpc_route_study.py), '
         '[기존 정책 결합·진단](../llvm_prefetchit/scripts/class_b/rpc_route_followup.py), '
         '[독립 검증](../llvm_prefetchit/scripts/class_b/rpc_route_finish.py).','']
+    if 'resumption' in report:
+        lines+=['## 중단과 재개 기록','',
+            '오전 독립 확인은 8회가 완료되고 9번째 실행 중 중단됐다. 중단된 실행의 시작보다 뒤인 호스트 boot 시간을 확인했다. '
+            '완료 8회의 원자료·설정·해시는 보존하고 중단된 확인 묶음 전체를 최종 확인 통계에서 제외했다. '
+            '성능값에 따라 재시도 대상을 고르지 않았으며, 고정한 5개 후보와 3개 블록 순서를 유지해 재부팅 후 15회를 새 seed로 실행했다. '
+            '재개 전 생성된 실험 컨테이너와 임시 DB 볼륨을 제거했고, 원본 입력은 유지했다.', '',
+            '정상 완료된 실행은 설정 복원을 검증했다. 재부팅으로 끊긴 실행은 정상적인 MSR/sysfs 복원을 했다고 주장하지 않는다. '
+            '재개 후 실행은 새 부팅 상태를 각각 기록하고 그 상태로 복원했다. '
+            '따라서 clean E2E 집계 29회 외에, 통계에서 제외한 중단 전 완료 8회와 미완료 1회의 기록이 별도로 남아 있다.', '',
+            f'[재개·정리 기록](../llvm_prefetchit/migration/evidence/{TAG}/resumption.json), '
+            '[재개 구현](../llvm_prefetchit/scripts/class_b/rpc_route_resume.py).','']
     (root/'report.md').write_text('\n'.join(lines))
 
 
 def audit(root):
     assert load(root/'measurement_complete.json')['valid']
-    comparisons=[];settings={}
+    comparisons=[];settings={};interrupted=[]
+    resume=load(root/'resumption.json') if (root/'resumption.json').exists() else None
+    interrupted_platform=Path(resume['interrupted_platform']) if resume else None
     for name in ['platform_before.json','hwp_before.json']:
         for before in sorted(root.rglob(name)):
+            if interrupted_platform is not None and before.is_relative_to(interrupted_platform):
+                assert resume['cleanup_complete'] and resume['boot_epoch']>resume['interrupted_trial_started']
+                interrupted.append(str(before.relative_to(root)))
+                continue
             after=before.with_name(name.replace('_before','_restored'))
             valid=after.exists() and load(before)==load(after);assert valid,before
             comparisons.append(dict(before=str(before.relative_to(root)),restored=valid))
@@ -240,6 +260,14 @@ def audit(root):
                 for path,value in load(before).items():settings.setdefault(path,set()).add(value)
     current=[dict(path=path,actual=Path(path).read_text().strip(),expected=sorted(values)) for path,values in sorted(settings.items())]
     assert current and all(v['actual'] in v['expected'] for v in current)
+    latest=max((root/'diagnostics').glob('*_platform'),key=lambda p:(p/'command.json').stat().st_mtime)
+    expected={}
+    # The first nested context records the baseline for shared controls;
+    # later contexts record the baseline for their own per-CPU controls.
+    for cpu in load(latest/'command.json')['cpus']:
+        for path,value in load(latest/f'cpu{cpu}'/'platform_before.json').items():expected.setdefault(path,value)
+    latest_check=[dict(path=path,expected=value,actual=Path(path).read_text().strip()) for path,value in expected.items()]
+    assert all(v['actual']==v['expected'] for v in latest_check)
     project='codex-b-fullset-media';owned={}
     for kind,command in [('containers',['docker','ps','-aq']),('networks',['docker','network','ls','-q']),('volumes',['docker','volume','ls','-q'])]:
         owned[kind]=subprocess.check_output(command+['--filter','label=com.docker.compose.project='+project],text=True).splitlines()
@@ -270,6 +298,8 @@ def audit(root):
             digest=b.sha(path);assert expected[path]==digest,path
             retained.append(dict(path=str(path),bytes=path.stat().st_size,sha256=digest))
     result=dict(valid=True,epoch=time.time(),platform_comparisons=comparisons,current_sysfs=current,
+        latest_platform_baseline=latest_check,
+        interrupted_records_without_normal_restoration=interrupted,
         hwp_note='Each privileged wrapper checked exact MSR restoration; final audit uses those records.',
         owned_resources=owned,modules=modules,endpoint_quality=quality,retained_generated_elves=retained,
         unchanged_tested_native_sources=old_tests,free_bytes={str(p):shutil.disk_usage(p).free for p in [Path('/'),root]},
@@ -286,6 +316,7 @@ def publish(root):
                  'screen_rejected_cleanup.json','screen2_rejected_cleanup.json','final_rejected_cleanup.json',
                  'prepared_summary.json','combined_prepared.json','it0_encoding_validation.json','footprint_summary.json']:
         shutil.copyfile(root/name,destination/name)
+    if (root/'resumption.json').exists():shutil.copyfile(root/'resumption.json',destination/'resumption.json')
     shutil.copyfile(root/'analysis/report.json',destination/'report.json')
     for path in Path(__file__).parent.glob('rpc_route_*.py'):
         digest=b.sha(path);snapshot=root/'source_versions'/(digest+'.py')
