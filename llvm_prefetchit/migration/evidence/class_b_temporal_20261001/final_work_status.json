@@ -1,0 +1,54 @@
+{
+  "epoch": 1790844228.5833476,
+  "requested_window_utc": [
+    "2026-10-01 01:52:00",
+    "2026-10-01 08:52:00"
+  ],
+  "measurement_and_diagnostics_complete": true,
+  "independent_confirmation_trials": 25,
+  "exploratory_trials": 40,
+  "selected": "pathwide_shared_anchor",
+  "policy": "Distributed user-space T1 call stubs; no schedule-age gate or kernel burst in this final policy.",
+  "throughput_gain_pct": 2.4239394179626395,
+  "ten_percent_target_reached": false,
+  "restoration_audit": "final_restoration_audit.json",
+  "figure_review": "figure_review.json",
+  "source_commit": "92a007338aba2d65c152b9a2f97a505d0df49977",
+  "postprocessing_sources": {
+    "llvm_prefetchit/scripts/class_b/temporal_path_conclude.py": {
+      "sha256": "af2e9eca96afa5863c0f51e681b4296101cd25d5efc4af6dbaf5d27f35b50357",
+      "bytes": 33664
+    },
+    "llvm_prefetchit/scripts/class_b/temporal_path_write_report.py": {
+      "sha256": "1d0b27cb658454e3c18eb71a8dd9b639b358fce7c5d5773e32566d56e15d46ba",
+      "bytes": 22028
+    },
+    "llvm_prefetchit/scripts/class_b/temporal_path_publish.py": {
+      "sha256": "256f4fe04b65ded0f7c9adb2a9cb8dc123eeb4cfe42977a54ee11c30894676e3",
+      "bytes": 6269
+    },
+    "llvm_prefetchit/scripts/class_b/temporal_path_l1_cost.py": {
+      "sha256": "574b92f2f8b74cec8f3664846a2d91d5ae1215429e029a8da76dfb77bce424b4",
+      "bytes": 2977
+    },
+    "llvm_prefetchit/scripts/class_b/temporal_path_final_audit.py": {
+      "sha256": "05498c4246563568c576c92df09c907f8e420ecafac97498b9c152e9f9cb16b7",
+      "bytes": 5433
+    },
+    "llvm_prefetchit/scripts/class_b/temporal_path_environment.py": {
+      "sha256": "19c2ed162d1ee67dcf701b34650dd9bd36bc741916745e8b4794ecd04df72c54",
+      "bytes": 4583
+    }
+  },
+  "remaining_work_at_snapshot": "Publish verified compact records and reviewed figures, verify repository links and remote push, then close the requested seven-hour window.",
+  "limitations": [
+    "Media compose-review only, all nine apps including MovieId; accepted approximately 85% CPU-util operating point, not a new maximum-throughput sweep.",
+    "Incremental throughput over older Mongo-only and intermediate pathwide policies remains statistically uncertain.",
+    "Shared-host CPU jobs were neither modified nor used for performance-based exclusions.",
+    "Precise retired-miss locations do not identify every speculative code-read request or exact hint-to-fetch lead time."
+  ],
+  "free_bytes": {
+    "root": 15383851008,
+    "results": 913537667072
+  }
+}

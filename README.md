@@ -4,7 +4,8 @@
 > 호스트 복구 절차는 [`docs/SETUP.md`](docs/SETUP.md). 나머지 문서는 각 컴포넌트의
 > 설계 노트뿐입니다(아래 "문서 지도").
 
-최근 결과: [Class A 종합](docs/results_summary_20260924.md),
+최근 결과: [Class B 시간별 미스·전체 서비스 독립 재검증](docs/class_b_temporal_20261001.md),
+[Class A 종합](docs/results_summary_20260924.md),
 [AsmDB trace 삽입](docs/class_a_asmdb_trace_20260926.md),
 [JVM 확인 현황](docs/class_a_jvm_status_20260926.md),
 [Class B 서비스 확장](docs/class_b_coldmiss_summary_20260926.md),

@@ -1,0 +1,57 @@
+{
+  "selected": "pathwide_shared_anchor",
+  "eligible": [
+    "pathwide_aligned",
+    "pathwide_neighbor",
+    "pathwide_shared_anchor",
+    "pathwide_compact",
+    "pathwide_compact16"
+  ],
+  "means": {
+    "pathwide": {
+      "geometric_rps": 1222.9068537765622,
+      "cpu": 5678.14167146546,
+      "p99": 5.870699882507324
+    },
+    "pathwide_aligned": {
+      "geometric_rps": 1219.3221331550742,
+      "cpu": 5701.01422746239,
+      "p99": 5.9348344802856445
+    },
+    "pathwide_neighbor": {
+      "geometric_rps": 1220.603747805124,
+      "cpu": 5680.403815215109,
+      "p99": 5.934953689575195
+    },
+    "pathwide_shared_anchor": {
+      "geometric_rps": 1242.4099208609396,
+      "cpu": 5680.096985735157,
+      "p99": 5.913138389587402
+    },
+    "pathwide_native_it0": {
+      "geometric_rps": 1220.2665844728997,
+      "cpu": 5775.302467743327,
+      "p99": 5.995035171508789
+    },
+    "pathwide_compact": {
+      "geometric_rps": 1208.206483307111,
+      "cpu": 5691.651262068332,
+      "p99": 5.863785743713379
+    },
+    "pathwide_compact16": {
+      "geometric_rps": 1205.542704714784,
+      "cpu": 5692.131111146042,
+      "p99": 5.933046340942383
+    }
+  },
+  "rule": "Highest geometric RPS after all frozen blocks, subject to CPU <= base+0.5% and p99 <= base+2%; retain base if no refinement improves RPS.",
+  "epoch": 1790834052.9973814,
+  "rejected": [
+    "pathwide_aligned",
+    "pathwide_neighbor",
+    "pathwide_native_it0",
+    "pathwide_compact",
+    "pathwide_compact16"
+  ],
+  "screen_only": true
+}

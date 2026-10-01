@@ -1,0 +1,96 @@
+{
+  "start_utc": "2026-10-01T01:52:00+00:00",
+  "deadline_utc": "2026-10-01T08:52:00+00:00",
+  "user_request": "Seven-hour iterative prefetch campaign: temporal miss coverage, call graph and traces, clean throughput/latency validation.",
+  "prior": "/storage/prefetchit/class_b_media_system_20260930",
+  "settings": {
+    "references": {
+      "movie": "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService",
+      "compose": "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService",
+      "rating": "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService",
+      "unique": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/UniqueIdService",
+      "text": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/TextService",
+      "user": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/UserService",
+      "storage": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/ReviewStorageService",
+      "userreview": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/UserReviewService",
+      "moviereview": "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/MovieReviewService"
+    },
+    "mongo_original": "/storage/prefetchit/class_b_mechanism_20260928/backend/reference/mongod",
+    "mongo_split75": "/storage/prefetchit/class_b_mechanism_20260928/split_coverage/prepared/build/mongod",
+    "hashes": {
+      "/storage/prefetchit/class_b_dense_20260927/builds/base/movie/MovieIdService": "1dbfa7f16b813e7a1a18eb57cf17538bf1d051e27aeccaec8ffadd8fce258b07",
+      "/storage/prefetchit/class_b_dense_20260927/builds/base/compose/ComposeReviewService": "fb16c1d304d6c0b56c24c422f5dfa7dde6ab3c368cec6a4fd9bcc0602a66c917",
+      "/storage/prefetchit/class_b_dense_20260927/builds/base/rating/RatingService": "d2314e24f46b0fa6b2487f55dad565070adb9b6a920cd0a5f64c7e6d767ac3e3",
+      "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/UniqueIdService": "54771f7236ce5ab22b131b8381b31d23e0a8b2b45695d559a9c47f572e2c3859",
+      "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/TextService": "beee2b363cdd95391e3db419aeccb36e2dd16c7f8b7f4c3f560bd878fc4c6e7b",
+      "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/UserService": "ea3f1c8938c351427483122bc24978df3ad62d0212cba5ea3a7138e6b120c8dd",
+      "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/ReviewStorageService": "d2a2d732143c46b04f5ca16733387a5f5713ad8dc218c423def02e91e4025de9",
+      "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/UserReviewService": "317486ab030170061457bacd8d793ef2a68b3da84a619f34430ec865864426e5",
+      "/home/hnpark2/prefetchit/llvm_prefetchit/results/class_a2_20260923/media_rpc_production/support/MovieReviewService": "3a547e47cb945f83448ecdee31f23d2428e3c700ce96af34c177300d9909e209",
+      "/storage/prefetchit/class_b_mechanism_20260928/split_coverage/prepared/build/mongod": "d79cdde377038c5269be0b6c8bbcd1068c4ec4b541abb69775ee0b18b971963b",
+      "/storage/prefetchit/class_b_mechanism_20260928/backend/reference/mongod": "3c6655036faf043c338d698ae1dda5ed4e19f23ea54eb8023ad32cf268e821cf"
+    },
+    "native": {
+      "movie": [
+        "movie-id-service",
+        "MovieIdService",
+        "40-41"
+      ],
+      "compose": [
+        "compose-review-service",
+        "ComposeReviewService",
+        "42-43"
+      ],
+      "rating": [
+        "rating-service",
+        "RatingService",
+        "44-45"
+      ],
+      "unique": [
+        "unique-id-service",
+        "UniqueIdService",
+        "32-39"
+      ],
+      "text": [
+        "text-service",
+        "TextService",
+        "32-39"
+      ],
+      "user": [
+        "user-service",
+        "UserService",
+        "32-39"
+      ],
+      "storage": [
+        "review-storage-service",
+        "ReviewStorageService",
+        "32-39"
+      ],
+      "userreview": [
+        "user-review-service",
+        "UserReviewService",
+        "32-39"
+      ],
+      "moviereview": [
+        "movie-review-service",
+        "MovieReviewService",
+        "32-39"
+      ]
+    },
+    "workload": "Full Media compose-review, C4 balanced persistent HTTP connections, 8 CPUs 32-39, 2GHz, tracing unchanged at 100%.",
+    "training": "Fresh original stack for train and heldout; near-call frequency only from train. 12s per service/event, miss period 257; call period 4093.",
+    "policy": "Train-only cost-weighted direct-call placements, <=128 sites/512 hints/service, <=4 hints/site, >=8 observations, 65% main-image miss-cover goal, lead 64..8192 retired cycles. Fixed before timing.",
+    "comparison": "Four fresh seed blocks: original, MongoDB-only split75, split75 + native NOP stubs, split75 + native T1. Clean 50s warmup + 60s ROI; no PMU during endpoint trials. Separate diagnostics after complete timing.",
+    "limitation": "Native policies cover each main ELF, including statically linked library code, but not unmodified shared DSOs, Nginx, Redis, Memcached, Jaeger or kernel instructions. LBR placement uses observed earlier direct calls, not whole-program dominators. Sample coverage and retired-cycle lead are not accepted fills or fetch deadlines. Separate kernel PMU includes scheduler/interrupt work and is not a request critical-path decomposition.",
+    "source_sha256": "438d78a33ebd49fa77ad3787c40827a05b934a9938fa3c2c02bea6e3ad71a075"
+  },
+  "source_commit": "83ad22f750e7d05026c6da58d0670db0b806e4f5",
+  "workload": "Full Media compose-review, balanced C4, CPUs32-39, fixed2GHz, tracing100%. Other request types require separate validation.",
+  "method": "Original, retained Mongo split75, reconstructed prior joint policy. Train and heldout on independent fresh stacks. Sample retirement ages, LBR paths, static CFG/call graph; never equate coverage with actual fills. Clean endpoint validation against original, retained winner and layout NOP.",
+  "budget": {
+    "expected_temporary_bytes": 8589934592,
+    "root_free": 15660314624,
+    "storage_free": 914956226560
+  },
+  "retention": "Preserve compact observations, settings, source/patch records, hashes and exclusion reasons; remove raw/decoded captures after extraction and rejected generated ELFs immediately. No NAS timing."
+}

@@ -1,0 +1,22 @@
+{
+  "selected": "pathwide_shared_anchor",
+  "eligible": [
+    "pathwide_repair"
+  ],
+  "means": {
+    "pathwide_shared_anchor": {
+      "geometric_rps": 1221.581056576589,
+      "cpu": 5687.628653297201,
+      "p99": 5.902449289957683
+    },
+    "pathwide_repair": {
+      "geometric_rps": 1210.1945514251306,
+      "cpu": 5704.721263288013,
+      "p99": 5.910078684488933
+    }
+  },
+  "rule": "Highest geometric RPS after all frozen blocks, subject to CPU <= base+0.5% and p99 <= base+2%; retain base if no refinement improves RPS.",
+  "epoch": 1790836141.3273926,
+  "incumbent": "pathwide_shared_anchor",
+  "screen_only": true
+}

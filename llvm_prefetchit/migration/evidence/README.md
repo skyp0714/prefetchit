@@ -55,3 +55,24 @@ this publication smaller.
 [Source map](../schemes/README.md) links the implementations. Dated source snapshots
 have independent `sources.json` hashes. This publication preserves experiment
 outcomes without copying whole result trees into the repository.
+
+## October 1 temporal prefetch campaign
+
+[Report](../../../docs/class_b_temporal_20261001.md),
+[independent confirmation](class_b_temporal_20261001/confirmation.json),
+[final PMU and temporal summary](class_b_temporal_20261001/final_summary.json),
+[verified publication manifest](class_b_temporal_20261001/manifest.json).
+
+This campaign publishes small compressed **record archives** containing measurements,
+settings, decisions, commands, source/patch records and binary hashes. They are not
+executable or full reproduction bundles. Each member is SHA-256 verified and listed
+in `records_manifest.json`. Generated plans, full location/callgraph indices, reusable
+branch observations, raw/decoded traces, datasets and executable build outputs are
+excluded; retained local derived records have a separate hash manifest. Rejected
+generated binaries and raw traces were removed after their results were extracted.
+
+The 25 independent confirmation trials are separate from 40 exploratory trials.
+The final policy improves whole compose-review throughput by 2.42% versus original
+(individual paired-log 95% CI 1.23–3.63%); its incremental throughput over the older
+Mongo-only policy is not established by that comparison's interval. The operating
+point has roughly 85% CPU utilization and is not a new maximum-throughput sweep.

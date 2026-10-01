@@ -1,0 +1,146 @@
+{
+  "epoch": 1790828237.485832,
+  "external_processes": 40,
+  "estimated_start_utc_range": [
+    "2026-10-01T03:57:19.448240+00:00",
+    "2026-10-01T03:57:19.698240+00:00"
+  ],
+  "screen1_windows": [
+    {
+      "block": 0,
+      "arm": "mongo",
+      "start": 1790824135.368564,
+      "end": 1790824195.3699992,
+      "after_background_start": false
+    },
+    {
+      "block": 0,
+      "arm": "pathwide",
+      "start": 1790824310.7043147,
+      "end": 1790824370.705769,
+      "after_background_start": false
+    },
+    {
+      "block": 0,
+      "arm": "original",
+      "start": 1790824485.0047495,
+      "end": 1790824545.006198,
+      "after_background_start": false
+    },
+    {
+      "block": 0,
+      "arm": "combined",
+      "start": 1790824659.9358723,
+      "end": 1790824719.9373362,
+      "after_background_start": false
+    },
+    {
+      "block": 0,
+      "arm": "path64",
+      "start": 1790824834.546749,
+      "end": 1790824894.5481918,
+      "after_background_start": false
+    },
+    {
+      "block": 0,
+      "arm": "path512",
+      "start": 1790825010.098751,
+      "end": 1790825070.1001728,
+      "after_background_start": false
+    },
+    {
+      "block": 1,
+      "arm": "pathwide",
+      "start": 1790825184.5794363,
+      "end": 1790825244.5808961,
+      "after_background_start": false
+    },
+    {
+      "block": 1,
+      "arm": "original",
+      "start": 1790825359.021721,
+      "end": 1790825419.0231626,
+      "after_background_start": false
+    },
+    {
+      "block": 1,
+      "arm": "combined",
+      "start": 1790825533.6486237,
+      "end": 1790825593.6500409,
+      "after_background_start": false
+    },
+    {
+      "block": 1,
+      "arm": "path64",
+      "start": 1790825707.95979,
+      "end": 1790825767.9613037,
+      "after_background_start": false
+    },
+    {
+      "block": 1,
+      "arm": "path512",
+      "start": 1790825882.5340118,
+      "end": 1790825942.5354502,
+      "after_background_start": false
+    },
+    {
+      "block": 1,
+      "arm": "mongo",
+      "start": 1790826056.7886357,
+      "end": 1790826116.7900798,
+      "after_background_start": false
+    },
+    {
+      "block": 2,
+      "arm": "original",
+      "start": 1790826231.1927047,
+      "end": 1790826291.1941023,
+      "after_background_start": false
+    },
+    {
+      "block": 2,
+      "arm": "combined",
+      "start": 1790826405.5621006,
+      "end": 1790826465.5635226,
+      "after_background_start": false
+    },
+    {
+      "block": 2,
+      "arm": "path64",
+      "start": 1790826580.5690496,
+      "end": 1790826640.570498,
+      "after_background_start": false
+    },
+    {
+      "block": 2,
+      "arm": "path512",
+      "start": 1790826755.6161273,
+      "end": 1790826815.6175296,
+      "after_background_start": false
+    },
+    {
+      "block": 2,
+      "arm": "mongo",
+      "start": 1790826930.2774935,
+      "end": 1790826990.278004,
+      "after_background_start": false
+    },
+    {
+      "block": 2,
+      "arm": "pathwide",
+      "start": 1790827104.828492,
+      "end": 1790827164.830014,
+      "after_background_start": true
+    }
+  ],
+  "action": "Retain every exploratory trial and earlier profile. Repeat original time-resolved profiles as baseline2; perform all independent confirmation arms under current shared-host conditions. Record coarse CPU-placement samples without perf/tracing during clean ROI.",
+  "graph_primary_phases": [
+    "baseline2",
+    "best1",
+    "final"
+  ],
+  "selection_reason": "Observed environment change, fixed before any baseline2 or refined E2E result, not a performance exclusion.",
+  "limitations": "No unrelated process is stopped, migrated or changed. Affinity overlaps benchmark CPUs even though initial last-CPU snapshots did not. Shared-socket interference cannot be ruled out; this is not a fully isolated host.",
+  "screen2_blocks": 2,
+  "screen2_reason": "Reserve time for a matched temporal baseline and independent confirmation after adding a fifth refinement."
+}

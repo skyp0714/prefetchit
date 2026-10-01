@@ -1,0 +1,11 @@
+{
+  "epoch": 1790831425.927606,
+  "before_any_screen2_result": true,
+  "base": "pathwide",
+  "residual_training_phase": "best1",
+  "hypothesis": "Residual misses are still dominated by original-code lines lacking coverage, while added stubs already cost instruction fetch. Add at most one trace-supported target to each existing call, permitting nonadjacent lines and alternate caller paths; preserve call-site count.",
+  "model_gate": "At least 12% of all residual L2 samples model-covered, at most 768 added targets, eight total per call, at least eight supporting samples, observed older call at 64..8192 completed-branch cycles. No heldout/E2E gate.",
+  "experiment": "If model gate passes, full-stack smoke/GOT audit then three frozen two-arm exploratory blocks against the screen2 incumbent. Highest geomean RPS subject to CPU <= incumbent+0.5%, p99 <= incumbent+2%; incumbent retained if no gain. Separate independent confirmation follows.",
+  "time_budget": "Use the previously frozen time-only confirmation block rule after this stage; reserve final PMU plus L1/L2/latency profiles and publication.",
+  "source_sha256": "8e6d4f81952205cdf24b30bf52b292bf856de5ac35f6fac12ce7bafacc92d2e5"
+}
