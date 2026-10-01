@@ -43,6 +43,9 @@ def report(root):
         f'p99 절감은 **{contrast["p99_ms"]["cost_reduction_pct"]:+.2f}%**, '
         f'전체 CPU/request 절감은 **{contrast["stack_cpu"]["cost_reduction_pct"]:+.2f}%**다. '
         '지연·CPU 절감이 음수이면 악화다.', '',
+        ('이 운영점의 개별 처리량 대비에서 95% 구간 하한도 0보다 높다.' if ci[0] > 0 else
+         '처리량 95% 구간 전체가 0보다 낮아 원본 대비 악화로 나타났다.' if ci[1] < 0 else
+         '처리량 95% 구간이 0을 포함하므로, 이 반복 수만으로 처리량 개선을 확정하지 않는다.'), '',
         ('10% 처리량 향상 목표에는 도달하지 못했다.' if gain < 10 else
          '처리량 점추정치는 10% 목표에 도달했다. 구간의 하한과 측정 범위를 함께 해석해야 한다.'), '',
         f'최종 원본 {baseline["trials"]}회 RPS의 변동계수는 {baseline["rps_cv_pct"]:.2f}%, '
@@ -126,6 +129,9 @@ def report(root):
         '분기 타깃 근처의 미스가 많다는 사실도 그 미스가 분기 명령 자체에서 났거나 '
         'BTB 부재 때문에 났다는 뜻은 아니다. 위 표의 절대 횟수·cycle과 잔여 trace 관계를 함께 봐야 한다.', '',
         '## 측정 방법과 재현 자료', '',
+        '최종 PMU는 정책별로 서비스·이벤트 그룹당 5초 진단 1회, 시간 분포는 '
+        '서비스·이벤트당 8초 capture를 사용했다. PMU 변화율에는 반복 실험의 신뢰구간을 부여하지 않았다. '
+        '95% 구간은 별도로 수행한 clean E2E 반복에서 계산한 것이다.', '',
         (root / 'report_methods.md').read_text(), '',
         f'[전체 수치](../llvm_prefetchit/migration/evidence/{TAG}/final_summary.json), '
         f'[독립 재검증](../llvm_prefetchit/migration/evidence/{TAG}/confirmation.json), '
