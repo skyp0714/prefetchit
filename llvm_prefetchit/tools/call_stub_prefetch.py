@@ -34,6 +34,12 @@ def align(value, size=4096):
     return (value + size - 1) // size * size
 
 
+def ordinary_stub_size(row):
+    targets=row.get('got_targets',[])
+    loads=sum(i==0 or target['got']!=targets[i-1]['got'] for i,target in enumerate(targets))
+    return 7*len(row['targets'])+5+(4+7*loads+8*len(targets) if targets else 0)
+
+
 def sha(data):
     return hashlib.sha256(data).hexdigest()
 
@@ -112,6 +118,9 @@ def build(binary, plan, output, boundaries=None, hybrid=None):
     old_eh, old_entries = decode_eh_header(original[eh_ph[0][2]:eh_ph[0][2] + eh_ph[0][5]], eh_ph[0][3])
     calls = plan['calls']
     assert calls and len({r['site'] for r in calls}) == len(calls)
+    alignment=plan.get('stub_alignment','compact')
+    assert alignment in ('compact','cache_line')
+    assert hybrid is None or alignment=='compact', 'Adaptive alignment supports ordinary leaf stubs only'
     canonical = {}; stub_indices = []
     for index, row in enumerate(calls):
         # Sharing identical leaf stubs reduces appended instruction footprint
@@ -179,7 +188,8 @@ def build(binary, plan, output, boundaries=None, hybrid=None):
     for i, row in enumerate(calls):
         if stub_indices[i] != i:
             continue
-        lines += [f'.balign 16\n.global pf_call_{i}\n.type pf_call_{i},@function\npf_call_{i}:', '.cfi_startproc']
+        boundary=16 if alignment=='compact' else min(64,max(16,1<<(ordinary_stub_size(row)-1).bit_length()))
+        lines += [f'.balign {boundary}\n.global pf_call_{i}\n.type pf_call_{i},@function\npf_call_{i}:', '.cfi_startproc']
         if hybrid is None:
             for j, target in enumerate(row['targets']):
                 definitions.append(f'pf_target_{i}_{j} = 0x{target:x};')
@@ -292,6 +302,10 @@ def build(binary, plan, output, boundaries=None, hybrid=None):
                     seen_hints.add(hintoff)
             jumpvas=([symbols[f'pf_jump_{stub_indices[i]}']] if hybrid is None else [symbols[s] for s in hybrid_jumps[stub_indices[i]]])
             patches[-1]['terminal_jumps'] = jumpvas
+            if hybrid is None:
+                assert jumpvas[0]+5-stub==ordinary_stub_size(row)
+                if alignment=='cache_line' and ordinary_stub_size(row)<=64:
+                    assert stub//64==(jumpvas[0]+4)//64
             for jumpva in jumpvas:
                 jumpoff = rxoff + jumpva - rxva
                 assert data[jumpoff] == 0xe9 and jumpva + 5 + struct.unpack_from('<i', data, jumpoff + 1)[0] == row['callee']
@@ -342,6 +356,7 @@ def build(binary, plan, output, boundaries=None, hybrid=None):
                       extra_instruction_bytes=len(code), extra_mapped_bytes=rxsize+(524288+sitesbytes if hybrid is not None else 0), extra_file_bytes=len(data)-len(original),
                       old_fdes=len(old_entries), added_fdes=len(entries),
                       unique_stubs=len(canonical), call_sites=len(calls),
+                      stub_alignment=alignment,
                       original_build_id_retained=True, perf_identity='Use SHA and runtime maps, not the unchanged original build ID.',
                       temporary_artifacts=temporary, temporary_bytes_removed=sum(r['bytes'] for r in temporary))
         if hybrid is not None:

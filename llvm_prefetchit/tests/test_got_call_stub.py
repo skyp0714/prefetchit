@@ -13,7 +13,8 @@ m=importlib.util.module_from_spec(SPEC);SPEC.loader.exec_module(m)
 
 @pytest.mark.parametrize('pie',[False,True])
 @pytest.mark.parametrize('binding',['lazy','now'])
-def test_external_anchor_preserves_registers_flags_unwind(tmp_path,pie,binding):
+@pytest.mark.parametrize('alignment',['compact','cache_line'])
+def test_external_anchor_preserves_registers_flags_unwind(tmp_path,pie,binding,alignment):
     lib=tmp_path/'target.cc';main=tmp_path/'main.cc';asm=tmp_path/'invoke.s';base=tmp_path/'base'
     lib.write_text('extern "C" long target(long x){if(x<0)throw x;return x+10;}\n')
     main.write_text('''
@@ -64,7 +65,7 @@ ret
     raw=base.read_bytes();elf=m.Elf(raw);site=symbols['call_probe'];offset=elf.offset(site,5,True)
     call=dict(site=site,callee=site+5+struct.unpack_from('<i',raw,offset+1)[0],expected=raw[offset:offset+5].hex(),
         targets=[],got_targets=[dict(got=got,addend=0),dict(got=got,addend=64)])
-    plan=dict(sha256=m.sha(raw),calls=[call]);out=tmp_path/'prefetch'
+    plan=dict(sha256=m.sha(raw),calls=[call],stub_alignment=alignment);out=tmp_path/'prefetch'
     record=m.build(base,plan,out)
     for binary in (base,out,Path(str(out)+'.nop')):
         assert subprocess.check_output([str(binary)],text=True)=='cross-dso-ok\n'
@@ -75,6 +76,7 @@ ret
     jump_offset=m.Elf(candidate).offset(jump,5,True)
     assert candidate[jump_offset]==0xe9
     assert jump+5+struct.unpack_from('<i',candidate,jump_offset+1)[0]==call['callee']
+    if alignment=='cache_line':assert record['patches'][0]['stub']//64==(jump+4)//64
     allowed={i for h in record['hints'] for i in range(h['offset'],h['offset']+8)}
     assert len(candidate)==len(nop) and all(a==b or i in allowed for i,(a,b) in enumerate(zip(candidate,nop)))
     with pytest.raises(AssertionError,match='existing GLOB_DAT'):
