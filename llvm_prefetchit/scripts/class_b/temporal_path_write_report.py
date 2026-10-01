@@ -34,6 +34,8 @@ def report(root):
     native = data['pmu_absolute'][best]['native']['ratios']
     mongo = data['pmu_absolute'][best]['mongo']['ratios']
     cpu = data['cpu_us_per_request'][best]
+    mongo_code_bytes = next(row['extra_instruction_bytes'] for row in prepared['builds'].values()
+                            if Path(row['binary']).name == 'mongod')
     lines = [
         '# DSB Media: schedule-in 이후 코드 미스와 전체 요청 성능', '',
         f'2026-10-01, 01:52–08:52 UTC의 7시간 캠페인. 최종 정책은 `{best}`다. '
@@ -103,6 +105,10 @@ def report(root):
         '같이 줄어든다고 보장되지 않는다. 분기 복구, target을 다시 찾는 시간, ITLB 변환, '
         '삽입 코드 fetch 비용도 구별해야 한다. NOP 대비는 같은 코드 배치에서 prefetch 자체의 순효과를 '
         '보며, 원본 대비는 삽입 비용까지 포함한 시스템 이득을 본다.', '',
+        f'이 CPU의 코어별 L1I는 64KiB이고, MongoDB에 덧붙인 코드만 {mongo_code_bytes/1024:.2f}KiB다. '
+        '추가 바이트 전부가 동시에 실행되는 working set이라는 뜻은 아니지만, 전체 ELF 대비 크기 증가율만으로 '
+        'I-cache 비용을 판단할 수는 없다. 추가 코드·분기·GOT 접근의 합산 비용은 NOP 비교로 확인한다. '
+        '`analysis/cache_topology.json`에 실제 workload CPU의 sysfs 기록을 보존했다.', '',
         f'최종 정책의 NOP 대비 처리량 변화는 {100*(hint_effect["speedup"]-1):+.2f}%이고, '
         f'NOP 자체의 원본 대비 처리량 변화는 {100*(nop["speedup"]-1):+.2f}%다. '
         '각 대비의 오차 범위는 위 표와 원자료에 있다.', '',
