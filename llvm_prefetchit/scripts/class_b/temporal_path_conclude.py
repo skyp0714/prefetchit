@@ -111,9 +111,18 @@ def summarize(root):
                 top_locations=[dict(sha256=sha, image=image, line_address=hex(line * 64), classification=cls,
                                     estimated_events_per_request=value)
                                for (sha, image, line, cls), value in locations.most_common(16)]))
+    for row in residual_groups:
+        timeline = next(item for item in time_groups if (item['group'], item['kind']) == (row['group'], row['kind']))
+        assert sum(row['counts'].values()) == timeline['final']['sample_count']
+        assert abs(sum(row['events_per_request'].values())-timeline['final']['total']) < 1e-6
+    for row in time_groups:
+        for phase in ('baseline2', 'final'):
+            assert abs(sum(item['total'] for item in row[phase]['origins'].values())-row[phase]['total']) < 1e-6
     builds = prepared[best]['builds']
     result = dict(selected=best, confirmation=e2e, pmu=pmu_changes, pmu_absolute=pmu['arms'],
         cpu_us_per_request=cpu, temporal=time_groups, residual=residual_groups,
+        aggregate_consistency=dict(residual_samples_match_timeline=True,
+            residual_request_weighted_counts_match_timeline=True, schedule_origins_match_totals=True),
         representative_unknown_branch=[row for row in residual['records'] if row['kind'] == 'unknown'],
         endpoint_windows=windows, source_sha256=b.sha(__file__),
         schedule_details=[{key: row[key] for key in ('phase', 'service', 'kind', 'samples', 'joined_pct',
