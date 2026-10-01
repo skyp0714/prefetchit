@@ -74,15 +74,34 @@ def summarize(root):
             rows = [row for row in residual['records'] if row['kind'] == kind
                     and row['service'].startswith('mongo_') == (group == 'mongo')]
             counts, weighted, ages = collections.Counter(), collections.Counter(), collections.Counter()
+            age_events, branches, instructions = collections.Counter(), collections.Counter(), collections.Counter()
+            locations = collections.Counter()
             for row in rows:
                 counts.update(row['counts'])
                 weighted.update(row['events_per_request'])
+                scale = sum(row['events_per_request'].values()) / sum(row['counts'].values())
                 for item in row['age_classes']:
                     ages[item['bin'], item['classification']] += item['samples']
+                    age_events[item['bin'], item['classification']] += item['samples'] * scale
+                for item in row['branches']:
+                    branches[item['kind']] += item['samples']
+                instructions.update(row['instruction_classes'])
+                for item in row['top_locations']:
+                    index = item['dso']
+                    digest = row['digests'][index] if 0 <= index < len(row['digests']) else 'unmapped'
+                    name = row['names'][index] if 0 <= index < len(row['names']) else 'unmapped'
+                    locations[digest, name, item['line'], item['classification']] += item['samples'] * scale
+            assert abs(sum(age_events.values()) - sum(weighted.values())) < 1e-7
             residual_groups.append(dict(group=group, kind=kind, counts=dict(counts),
                 sample_pct={key: 100 * value / sum(counts.values()) for key, value in counts.items()},
                 events_per_request=dict(weighted),
-                age_classes=[dict(bin=i, classification=key, samples=value) for (i, key), value in sorted(ages.items())]))
+                age_classes=[dict(bin=i, classification=key, samples=value,
+                                  events_per_request=age_events[i, key]) for (i, key), value in sorted(ages.items())],
+                branch_association_sample_pct={key: 100 * value / sum(counts.values()) for key, value in branches.items()},
+                instruction_classes=dict(instructions),
+                top_locations=[dict(sha256=sha, image=image, line_address=hex(line * 64), classification=cls,
+                                    estimated_events_per_request=value)
+                               for (sha, image, line, cls), value in locations.most_common(16)]))
     builds = prepared[best]['builds']
     result = dict(selected=best, confirmation=e2e, pmu=pmu_changes, pmu_absolute=pmu['arms'],
         cpu_us_per_request=cpu, temporal=time_groups, residual=residual_groups,
@@ -129,6 +148,26 @@ def figures(root, data):
     fig.text(.5, .015, 'C4, 8 CPUs, 2 GHz; clean 60-second ROI after 50-second warmup; no PMU in timing.', ha='center', fontsize=9)
     fig.tight_layout(rect=(0, .06, 1, .95))
     savefig(root, fig, 'final_endpoint')
+    contrasts = data['confirmation']['e2e'][best]
+    controls = list(contrasts)
+    fig, axes = plt.subplots(1, 4, figsize=(14, 4.5))
+    for ax, key, title in zip(axes, ('inverse_rps', 'mean_ms', 'p99_ms', 'stack_cpu'),
+                              ('Throughput gain', 'Mean latency reduction', 'p99 latency reduction', 'CPU/request reduction')):
+        for i, control in enumerate(controls):
+            row = contrasts[control][key]
+            value = 100 * (row['speedup']-1) if key == 'inverse_rps' else row['cost_reduction_pct']
+            lo, hi = [100 * (v-1) for v in row['speedup_ci95']] if key == 'inverse_rps' else row['ci95_pct']
+            ax.errorbar(value, i, xerr=[[value-lo], [hi-value]], fmt='o', color='#2372a1', capsize=4)
+        ax.axvline(0, color='#777777', linewidth=1)
+        ax.set_yticks(range(len(controls)), ['vs ' + name.replace('pathwide_', '') for name in controls], fontsize=8)
+        ax.invert_yaxis()
+        ax.set_title(title)
+        ax.set_xlabel('Improvement (%)')
+        ax.grid(axis='x', alpha=.2)
+    fig.suptitle(best + ' — independent paired contrasts', y=.98)
+    fig.text(.5, .02, 'Points: paired log-ratios. Bars: individual t95 intervals, without multiplicity adjustment. Right of zero is better.', ha='center', fontsize=9)
+    fig.tight_layout(rect=(0, .07, 1, .93))
+    savefig(root, fig, 'final_endpoint_effects')
     fig, axes = plt.subplots(2, 3, figsize=(14, 7))
     for row_index, group in enumerate(('native', 'mongo')):
         limit = 100 if group == 'native' else 500
@@ -153,6 +192,46 @@ def figures(root, data):
     fig.text(.5, .008, 'Separate diagnostic captures. Samples retire after fetch; scheduler age includes kernel time. Later bins remain in JSON.', ha='center', fontsize=8)
     fig.tight_layout(rect=(0, .075, 1, .91))
     savefig(root, fig, 'final_temporal_overview')
+    fig, axes = plt.subplots(1, 2, figsize=(13, 4.8))
+    classes = [('line_not_statically_targeted', 'Not statically targeted', '#d68c45'),
+               ('targeted_line_without_matching_stub_in_bounded_lbr', 'Targeted; no bounded-LBR witness', '#c75356'),
+               ('added_hint_stub_fetch', 'Added hint stub', '#8c6bb1'),
+               ('matching', 'Matching stub observed', '#3c9b95'),
+               ('other', 'Other / unmodified image', '#a4adb5')]
+    for ax, group in zip(axes, ('native', 'mongo')):
+        limit = 100 if group == 'native' else 500
+        indices = [i for i in range(len(EDGES)-1) if EDGES[i+1] <= limit]
+        edges = np.array(EDGES[:len(indices)+1])
+        residual_row = next(row for row in data['residual'] if row['group'] == group and row['kind'] == 'l2')
+        bins = collections.defaultdict(lambda: np.zeros(len(indices)))
+        for item in residual_row['age_classes']:
+            if item['bin'] not in indices:
+                continue
+            cls = item['classification']
+            cls = 'matching' if cls.startswith('matching_stub_observed_') else cls
+            if cls not in {key for key, _, _ in classes}:
+                cls = 'other'
+            i = item['bin']
+            bins[cls][i] += item['events_per_request'] / (EDGES[i+1]-EDGES[i])
+        bottom = np.zeros(len(indices))
+        for key, label, color in classes:
+            top = bottom + bins[key]
+            ax.stairs(top, edges, baseline=bottom, fill=True, color=color, alpha=.85, label=label)
+            bottom = top
+        baseline = next(row for row in data['temporal'] if row['group'] == group and row['kind'] == 'l2')
+        old = np.array(baseline['baseline2']['bins'][:len(indices)]) / np.diff(edges)
+        ax.stairs(old, edges, color='#233647', linewidth=1.5, label='Original total')
+        ax.set_title(group + ' — remaining retired L2 misses')
+        ax.set_xlim(0, limit)
+        ax.set_ylim(bottom=0)
+        ax.set_xlabel('Retirement age after schedule-in (µs)')
+        ax.set_ylabel('Estimated events / request / age-bin µs')
+        ax.grid(alpha=.2)
+    handles, labels = axes[0].get_legend_handles_labels()
+    fig.legend(handles, labels, loc='upper center', ncol=3, fontsize=9)
+    fig.text(.5, .015, 'Stacked areas are final residuals; the line is original. A bounded-LBR witness does not establish hint acceptance or completion.', ha='center', fontsize=8)
+    fig.tight_layout(rect=(0, .05, 1, .85))
+    savefig(root, fig, 'final_residual_time')
     valid = [row for row in data['endpoint_windows'] if row.get('valid')]
     if valid:
         fig, axes = plt.subplots(1, 3, figsize=(13, 3.8))
@@ -269,6 +348,14 @@ def tables(root, data):
                   pct.get('unmodified_image', 0)]
         lines.append(f"| {row['group']} / {row['kind']} | " + ' | '.join(f'{value:.2f}%' for value in values) + ' |')
     lines += ['', 'LBR는 최근 32개 분기로 제한된다. 대응 힌트가 보이지 않는다고 발행되지 않았다고 단정할 수 없고, 보인다고 캐시 채움이 완료됐다는 뜻도 아니다. 잔여 미스의 구성 비율과 원본 대비 절대 미스 감소율은 다른 지표다.', '']
+    lines += ['| 잔여 샘플과 직전 taken branch의 관계 | 타깃 이후 64B 안 | 직전 분기가 mispredicted | 직전 분기가 correctly predicted |',
+              '|---|---:|---:|---:|']
+    for row in data['residual']:
+        pct = row['branch_association_sample_pct']
+        values = [pct.get(key, 0) for key in ('within_64B_after_taken_target',
+                  'preceding_mispredicted_taken_branch', 'preceding_correctly_predicted_taken_branch')]
+        lines.append(f"| {row['group']} / {row['kind']} | " + ' | '.join(f'{value:.2f}%' for value in values) + ' |')
+    lines += ['', '분모는 해당 그룹의 전체 잔여 샘플이다. 뒤 두 열은 첫 열의 부분집합이며, 미스 원인의 배타적 분해나 BTB miss 비율이 아니다. 실제 미스 명령 종류와 ELF 주소별 잔여 위치도 final_summary.json에 보존했다.', '']
     (root / 'analysis/final_tables.md').write_text('\n'.join(lines))
 
 
