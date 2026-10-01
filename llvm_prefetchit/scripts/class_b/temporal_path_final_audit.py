@@ -17,6 +17,8 @@ def read(path):
 
 def audit(root):
     assert read(root / 'confirmation_and_diagnostics_complete.json')['valid']
+    alignment = read(root / 'analysis/retained_alignment_sources.json')
+    assert alignment['valid'] and alignment['no_generated_elf']
     comparisons = []
     settings = {}
     for name in ('platform_before.json', 'hwp_before.json'):
@@ -89,6 +91,8 @@ def audit(root):
         retention_reason='Keep the final policy, its same-layout NOP control, and the pathwide reference/NOP for the next iteration. Original inputs, packages and shared dependencies are untouched.',
         rejected_elf_residue=unexpected, raw_or_decoded_trace_residue=generated,
         endpoint_quality=endpoint_quality,
+        privileged_test_source_audit=dict(path='analysis/retained_alignment_sources.json',
+            sha256=b.sha(root / 'analysis/retained_alignment_sources.json'), files=len(alignment['records'])),
         free_bytes={str(path):shutil.disk_usage(path).free for path in (Path('/'),root)},
         source_sha256=b.sha(__file__))
     b.save(root / 'final_restoration_audit.json', result)

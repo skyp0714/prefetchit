@@ -11,6 +11,24 @@ import dense_build as b
 
 
 def summarize(root):
+    # Pytest's root-owned basetemp is mode 0700. Preserve its remaining source
+    # records here while the post-measurement controller still has read access.
+    # Executables were removed immediately after those tests completed.
+    test_root = root / 'tests_alignment'
+    if test_root.exists():
+        assert os.access(test_root, os.R_OK | os.X_OK), test_root
+        cleanup = json.loads((root / 'tests_alignment_cleanup.json').read_text())
+        assert cleanup['status'] == 'complete'
+        sources = []
+        for path in sorted(test_root.rglob('*')):
+            if path.is_symlink() or not path.is_file():
+                continue
+            value = path.read_bytes()
+            assert value[:4] != b'\x7fELF', path
+            sources.append(dict(path=str(path.relative_to(test_root)), bytes=len(value),
+                                sha256=hashlib.sha256(value).hexdigest(), text=value.decode()))
+        b.save(root / 'analysis/retained_alignment_sources.json', dict(valid=True, source=str(test_root),
+            no_generated_elf=True, cleanup_sha256=b.sha(root / 'tests_alignment_cleanup.json'), records=sources))
     watch = root / 'background_cpu_watch.jsonl'
     observations = []
     source = watch.read_bytes()

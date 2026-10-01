@@ -14,6 +14,7 @@ TAG = 'class_b_temporal_20261001'
 EXCLUDED_NAMES = {'perf.data', 'events.txt', 'samples.txt', 'requests.json.gz',
                   'observations.json.gz', 'request_traces.json.gz', 'request_path_traces.json',
                   'background_environment.json'}
+LOCAL_DERIVED_NAMES = {'locations.json', 'observed_callgraph.json'}
 
 
 def publish(root):
@@ -38,6 +39,11 @@ def publish(root):
         relative = str(path.relative_to(root))
         if path.name.startswith(('external_cpu_', 'background_cpu_watch')) or path.name == 'background_environment.json':
             continue  # The aggregate environment amendment is published instead.
+        if relative.startswith('plans/') or path.name in LOCAL_DERIVED_NAMES or (
+                path.name.endswith('_selection.json') and path.stat().st_size > 2**20):
+            omitted.append(dict(path=relative, bytes=path.stat().st_size, sha256=b.sha(path),
+                                reason='Derived planning/location detail remains local; decisions, patch records, aggregate results and source hashes are published.'))
+            continue
         if path.name in EXCLUDED_NAMES:
             # Keep compact training observations locally for future work.
             if path.name == 'observations.json.gz':
@@ -78,7 +84,7 @@ def publish(root):
         assert archive_path.stat().st_size < 90 * 2**20, 'Split before publishing a large Git object'
         archives.append(name)
     b.save(destination / 'records_manifest.json', records)
-    b.save(destination / 'local_reusable_observations.json', dict(root=str(root), files=omitted))
+    b.save(destination / 'local_derived_records.json', dict(root=str(root), files=omitted))
     figures = b.REPO / 'docs/figures'
     figures.mkdir(exist_ok=True)
     for path in sorted((root / 'analysis').glob('*')):
@@ -90,7 +96,7 @@ def publish(root):
                 for path in sorted(destination.rglob('*')) if path.is_file()}
     b.save(destination / 'manifest.json', dict(files=manifest, source=str(root), archives=archives,
         archived_records=len(records), verified_archive=True,
-        exclusions='No ELF/object/build tree, raw perf recording, decoded trace copies, full HTTP request list, original datasets, or identifying details of unrelated host processes. Reusable compact observations remain local with hashes.'))
+        exclusions='No ELF/object/build tree, generated plan/callgraph/location index, raw perf recording, decoded trace copies, full HTTP request list, original datasets, or identifying details of unrelated host processes. Reusable compact observations and derived planning records remain local with hashes.'))
     print(json.dumps(dict(evidence=str(destination), archives=archives, compact_files=len(manifest),
                           archived_records=len(records), bytes=sum(row['bytes'] for row in manifest.values()))))
 
