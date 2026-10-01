@@ -26,6 +26,7 @@ def summarize(root):
     if (root/'resumption.json').exists():
         report['resumption']=load(root/'resumption.json')
     if (root/'training_classification.json').exists():report['training_classification']=load(root/'training_classification.json')
+    if (root/'training_stub_audit.json').exists():report['training_stub_audit']=load(root/'training_stub_audit.json')
     phases=['screen','screen2','confirmation']
     if (root/'same_line_predeclared.json').exists():
         assert load(root/'same_line_complete.json')['valid']
@@ -129,8 +130,12 @@ def write_report(root,report,nominee,combined):
     labels={'original':'원본','full_dso':'기존 DSO 포함','no_dso':'DSO 제거',nominee:'DSO 제거 + 작업 스레드 '+hint,
             combined:'기존 정책 + 작업 스레드 '+hint}
     final=report['phases']['confirmation'];c=final['comparisons'];decision=report['decision']
+    extra=report['phases'].get('same_line')
+    followup=(f"별도 두 블록의 동일 배치 비교에서 23-hint / NOP 처리량 차이는 {interval(extra['comparisons']['full_rpc_worker']['full_rpc_worker_nop'],'inverse_rps')}, "
+              f"3개를 제거한 20-hint / 기존 정책 차이는 {interval(extra['comparisons']['full_rpc_worker_pruned']['full_dso'],'inverse_rps')}였다. "
+              '이 확인도 기존 정책을 넘는 추가 이득을 확정하지 못했다.' if extra else '')
     lines=['# RPC 타입·실행 단계·비동기 작업을 활용한 프리패치', '',
-        ('2026-10-01 후속 캠페인. 호스트 재부팅으로 오전 확인 실험이 중단되어, 사용자의 재개 요청 후 같은 후보로 새 독립 확인을 수행했다. '
+        ('2026-10-01 후속 캠페인. 오전 확인 실험 중단 후 호스트 재부팅을 확인했고, 사용자의 재개 요청에 따라 같은 후보로 새 독립 확인을 수행했다. '
          if 'resumption' in report else '2026-10-01 오전 10시 CDT(15:00 UTC)까지의 후속 캠페인. ')+
         '전체 Media compose-review 처리량·평균·p99·CPU/request를 기준으로 평가했다. '
         '아래 독립 확인값은 두 탐색 단계와 별도로 얻었다.', '',
@@ -138,7 +143,7 @@ def write_report(root,report,nominee,combined):
         f"기존 정책 대비 **{interval(c[combined]['full_dso'],'inverse_rps')}**다. "
         f"DSO 제거판에 같은 힌트를 더한 변화는 DSO 제거 대조군 대비 **{interval(c[nominee]['no_dso'],'inverse_rps')}**다.", '',
         ('독립 확인에서 추가 이득이 확인된 새 정책을 보존했다.' if decision['retained_new_references'] else
-         '이번 RPC 추가의 처리량 이득은 독립 확인에서 확정되지 않아 기존 정책을 유지한다.'), '',
+         '기존 정책을 넘는 RPC 추가 이득은 확정되지 않아 기존 정책을 유지한다.'), '',followup,'',
         '| 정책 | RPS | 평균 ms | p99 ms | CPU µs/request | CPU util |','|---|---:|---:|---:|---:|---:|']
     for name in ['original','full_dso','no_dso',nominee,combined]:
         v=final['absolute'][name]
@@ -202,8 +207,14 @@ def write_report(root,report,nominee,combined):
                           ('main_unclassified','main ELF이지만 RPC 문맥 미분류'),('context_decoder','RPC decoder 문맥'),
                           ('context_handler','handler 문맥'),('context_worker','typed worker 문맥')]:
             lines.append(f"| {label} | {training['categories'][key]['pct']:.2f}% |")
-        lines+=['','원본 명령어로 해석되지 않은 주소를 전부 주입 stub이라고 단정하지 않았다. '
+        lines+=['','원본 명령어로 해석되지 않은 주소의 실제 위치는 추가 주소 감사로 확인했다. '
             '이 분류와 최종 타깃의 2.08% 주소 겹침은 타깃 선정 범위가 좁다는 증거이며, BTB miss 비중이나 속도 개선 상한은 아니다.']
+    if 'training_stub_audit' in report:
+        stub=report['training_stub_audit']
+        lines+=['',f"추가 주소 범위 감사에서는 훈련 표본의 {stub['stub_pct']:.2f}%가 기존 정책이 생성한 prefetch stub 안에 있었다. "
+            f"그중 prefetch 명령 IP에 잡힌 비중은 전체의 {stub['hint_instruction_pct']:.2f}%다. "
+            '기존 stub의 코드 fetch도 잔여 표본에 포함됨을 확인했으며, 이를 target prefetch가 유발한 miss 수나 동등한 성능 손실로 환산하지 않는다. '
+            '원본 압축 trace를 읽어 patch 기록의 정확한 stub 범위와 비교했고 별도 decoded trace는 생성하지 않았다.']
     lines+=['','## 이번 추가가 겨냥한 CPU 비용', '',
         'Clean E2E 실행의 cgroup CPU 회계다. 변경한 세 앱의 사용자 시간에는 프리패치로 줄일 수 없는 명령 실행도 포함된다. '
         '커널 시간에는 해당 프로세스가 실행한 커널 코드가 포함되며, 아래 비중을 latency 개선 상한으로 해석하지 않는다.', '',
@@ -376,7 +387,7 @@ def publish(root):
                  'prepared_summary.json','combined_prepared.json','it0_encoding_validation.json','footprint_summary.json']:
         shutil.copyfile(root/name,destination/name)
     if (root/'resumption.json').exists():shutil.copyfile(root/'resumption.json',destination/'resumption.json')
-    for name in ['same_line_predeclared.json','same_line_encoding_validation.json','same_line_decision.json','training_classification.json']:
+    for name in ['same_line_predeclared.json','same_line_encoding_validation.json','same_line_decision.json','training_classification.json','training_stub_audit.json']:
         if (root/name).exists():shutil.copyfile(root/name,destination/name)
     shutil.copyfile(root/'analysis/report.json',destination/'report.json')
     for path in Path(__file__).parent.glob('rpc_route_*.py'):
