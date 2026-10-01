@@ -29,6 +29,11 @@ def report(root):
                  if (root / campaign / 'rows.json').exists())
     code = data['footprint']
     hints = sum(row['hints'] for row in prepared['builds'].values())
+    nop = data['confirmation']['e2e'][best + '_nop']['original']['inverse_rps']
+    hint_effect = data['confirmation']['e2e'][best][best + '_nop']['inverse_rps']
+    native = data['pmu_absolute'][best]['native']['ratios']
+    mongo = data['pmu_absolute'][best]['mongo']['ratios']
+    cpu = data['cpu_us_per_request'][best]
     lines = [
         '# DSB Media: schedule-in 이후 코드 미스와 전체 요청 성능', '',
         f'2026-10-01, 01:52–08:52 UTC의 7시간 캠페인. 최종 정책은 `{best}`다. '
@@ -78,6 +83,10 @@ def report(root):
         '아래 잔여 미스 그래프는 타깃 밖 코드, 대응 힌트가 최근 LBR에 보이지 않는 코드, '
         '삽입한 stub 자체, 대응 힌트가 보이는 코드를 구분한다.', '',
         f'![남은 L2 미스의 위치별 시간 분포](figures/{TAG}_final_residual_time.png)', '',
+        f'[서비스별 L2 시간 그래프](figures/{TAG}_matched_miss_age_per_request.png)와 '
+        f'[실제 schedule 시간으로 정규화한 그래프](figures/{TAG}_matched_miss_age_exposure.png), '
+        f'[L1I](figures/{TAG}_matched_l1_age_per_request.png), '
+        f'[128-cycle 이상 delivery gap](figures/{TAG}_matched_lat128_age_per_request.png)도 함께 보존했다.', '',
         'retired L2 true-miss 태그는 해당 미스를 겪은 retired 명령을 센다. '
         'L2 code-read miss는 speculative instruction-fetch 요청도 포함하는 별도 이벤트다. '
         '하나의 감소율을 다른 이벤트 전체의 감소율로 바꿔 말하지 않는다. '
@@ -91,6 +100,16 @@ def report(root):
         '같이 줄어든다고 보장되지 않는다. 분기 복구, target을 다시 찾는 시간, ITLB 변환, '
         '삽입 코드 fetch 비용도 구별해야 한다. NOP 대비는 같은 코드 배치에서 prefetch 자체의 순효과를 '
         '보며, 원본 대비는 삽입 비용까지 포함한 시스템 이득을 본다.', '',
+        f'최종 정책의 NOP 대비 처리량 변화는 {100*(hint_effect["speedup"]-1):+.2f}%이고, '
+        f'NOP 자체의 원본 대비 처리량 변화는 {100*(nop["speedup"]-1):+.2f}%다. '
+        '각 대비의 오차 범위는 위 표와 원자료에 있다.', '',
+        f'최종 사용자 코드의 frontend/backend-bound slots는 앱 '
+        f'{native["fe-bound_pct"]:.2f}%/{native["be-bound_pct"]:.2f}%, MongoDB '
+        f'{mongo["fe-bound_pct"]:.2f}%/{mongo["be-bound_pct"]:.2f}%다. '
+        f'별도로 전체 cgroup CPU/request 중 커널 시간은 '
+        f'{100*cpu["all:system_us"]/cpu["all:cpu_us"]:.2f}%다. '
+        '사용자 코드 PMU의 비율과 전체 요청의 CPU 구성은 분모가 다르다. '
+        '커널 시간은 이번 사용자 코드 힌트로 직접 최적화한 대상이 아니다.', '',
         'IT0 교체 진단에서는 T1 중간 정책보다 앱의 ITLB page walk 완료가 약 51%, '
         'clear-to-first-uop cycle이 약 20% 늘었고 L1I 미스도 줄지 않았다. '
         '그때 MongoDB는 T1을 그대로 유지했으며 해당 수치가 거의 변하지 않았다. '

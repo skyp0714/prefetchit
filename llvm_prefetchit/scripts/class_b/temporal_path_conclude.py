@@ -105,6 +105,7 @@ def summarize(root):
     builds = prepared[best]['builds']
     result = dict(selected=best, confirmation=e2e, pmu=pmu_changes, pmu_absolute=pmu['arms'],
         cpu_us_per_request=cpu, temporal=time_groups, residual=residual_groups,
+        representative_unknown_branch=[row for row in residual['records'] if row['kind'] == 'unknown'],
         endpoint_windows=windows, source_sha256=b.sha(__file__),
         footprint=dict(elf_count=len(builds), sites=sum(row['sites'] for row in builds.values()),
                        appended_code_bytes=sum(row['extra_instruction_bytes'] for row in builds.values())),
