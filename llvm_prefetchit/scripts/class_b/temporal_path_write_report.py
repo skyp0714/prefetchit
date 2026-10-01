@@ -191,6 +191,12 @@ def report(root):
         f'최종 정책의 NOP 대비 처리량 변화는 {100*(hint_effect["speedup"]-1):+.2f}%이고, '
         f'NOP 자체의 원본 대비 처리량 변화는 {100*(nop["speedup"]-1):+.2f}%다. '
         '각 대비의 오차 범위는 위 표와 원자료에 있다.', '',
+        f'추가 명령의 실행 빈도도 작지 않다. T1/T2 실행 카운터는 요청당 앱 '
+        f'{data["pmu_absolute"][best]["native"]["per_request"]["prefetch:T1_T2_EXECUTED"]:,.0f}회, MongoDB '
+        f'{data["pmu_absolute"][best]["mongo"]["per_request"]["prefetch:T1_T2_EXECUTED"]:,.0f}회다. '
+        '동일 이벤트의 원본·NOP 값은 0이었다. 힌트 수를 더 늘리는 정책보다, '
+        '반복 발행과 새 stub fetch를 줄이면서 실제로 남은 경로를 커버하는 정책이 다음 우선순위다. '
+        '이는 다음 탐색 방향이며, 아직 측정하지 않은 정책의 성능을 예측한 수치는 아니다.', '',
         f'최종 사용자 코드의 frontend/backend-bound slots는 앱 '
         f'{native["fe-bound_pct"]:.2f}%/{native["be-bound_pct"]:.2f}%, MongoDB '
         f'{mongo["fe-bound_pct"]:.2f}%/{mongo["be-bound_pct"]:.2f}%다. '

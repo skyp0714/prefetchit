@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Aggregate coarse shared-host placement observations without process identities."""
 import argparse
+import base64
 import hashlib
 import json
 import os
@@ -25,8 +26,13 @@ def summarize(root):
                 continue
             value = path.read_bytes()
             assert value[:4] != b'\x7fELF', path
-            sources.append(dict(path=str(path.relative_to(test_root)), bytes=len(value),
-                                sha256=hashlib.sha256(value).hexdigest(), text=value.decode()))
+            record = dict(path=str(path.relative_to(test_root)), bytes=len(value),
+                          sha256=hashlib.sha256(value).hexdigest())
+            try:
+                record['text'] = value.decode()
+            except UnicodeDecodeError:
+                record['base64'] = base64.b64encode(value).decode('ascii')
+            sources.append(record)
         b.save(root / 'analysis/retained_alignment_sources.json', dict(valid=True, source=str(test_root),
             no_generated_elf=True, cleanup_sha256=b.sha(root / 'tests_alignment_cleanup.json'), records=sources))
     watch = root / 'background_cpu_watch.jsonl'
