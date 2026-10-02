@@ -23,6 +23,13 @@ def main(root):
         assert load(root/'diagnostics'/label/'result.json')['valid']
     run(root,'pmu_summary',['python3',SCRIPTS/'temporal_path_metrics.py',root])
     assert load(root/'profiles'/candidate/'complete.json')['valid']
+    import media_system_study as system
+    for name in ('full',candidate):
+        spec=root/('profile_mongo_'+name+'.json')
+        b.save(spec,dict(arms[name],root=str(root),out=str(root/'mongo_profiles'/name),services=list(system.MONGO),
+            kinds=['l2'],capture_s=8,seed=1020401,phase='mongo_residual',arm=name))
+        run(root,'profile_mongo_'+name,['python3',SCRIPTS/'temporal_path_study.py','platform_capture',spec])
+        assert load(root/'mongo_profiles'/name/'complete.json')['valid']
     b.save(root/'diagnostics_complete.json',dict(valid=True,epoch=time.time()))
 
 

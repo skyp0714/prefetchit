@@ -36,16 +36,20 @@ def analyze(root):
     wide_selected={s:{t//64 for c in row['choices'] for t in c['targets']} for s,row in load(root/'wide_model.json').items()} if (root/'wide_model.json').exists() else {}
     reply_selected={s:{t//64 for c in row['choices'] for t in c['targets']} for s,row in load(root/'reply_model.json').items()} if (root/'reply_model.json').exists() else {}
     output={};sources={}
-    for phase in sorted((root/'profiles').iterdir()):
+    phases=[(p,'apps') for p in sorted((root/'profiles').iterdir())]
+    if (root/'mongo_profiles').exists():phases += [(p,'mongo') for p in sorted((root/'mongo_profiles').iterdir())]
+    for phase,scope in phases:
         if not phase.is_dir() or not (phase/'complete.json').exists():continue
-        name=phase.name;aggregate=collections.Counter();locations=collections.Counter();targeted=collections.Counter()
+        name=load(phase/'protocol.json')['arm'];key=name if scope=='apps' else 'mongo_'+name
+        aggregate=collections.Counter();locations=collections.Counter();targeted=collections.Counter()
         ages=[collections.Counter() for _ in range(len(EDGES))];exposures=[0.0]*len(EDGES);events=[0.0]*len(EDGES)
         services={};branch=collections.Counter();origins=collections.Counter()
         origin_ages=collections.defaultdict(lambda:[collections.Counter() for _ in EDGES])
         selected_ages=[0.0]*len(EDGES)
         for path in sorted(phase.glob('*/l2/observations.json.gz')):
             data=read(path);service=data['service'];weight=data['period']/data['requests']
-            main=data['names'].index(next(n for n in data['names'] if Path(n).name==Path(arms[name]['overrides'][service]).name))
+            executable=arms[name]['mongo_binary'] if scope=='mongo' else arms[name]['overrides'][service]
+            main=data['names'].index(next(n for n in data['names'] if Path(n).name==Path(executable).name))
             origins_by_sha={canonical(d):i for i,d in enumerate(data['digests'])}
             lines=collections.defaultdict(set);ranges=collections.defaultdict(list);jumps={}
             for i,digest in enumerate(data['digests']):
@@ -79,7 +83,7 @@ def analyze(root):
                 if i<0:cls='unmapped'
                 counts[cls]+=weight;counts['all']+=weight;counts['image_'+segment]+=weight
                 local_ages[age][cls]+=weight;sample_locations[segment,i,line,cls]+=weight
-                if i==main and line in selected[service]:
+                if i==main and line in selected.get(service,set()):
                     targets['selected_lines']+=weight;selected_ages[age]+=weight
                 if i==main and line in wide_selected.get(service,set()):targets['wide_selected_lines']+=weight
                 if i==main and line in reply_selected.get(service,set()):targets['reply_selected_lines']+=weight
@@ -102,7 +106,7 @@ def analyze(root):
             sources[str(path)]=b.sha(path)
             for (segment,i,line,cls),value in sample_locations.items():
                 locations[service,segment,data['names'][i] if i>=0 else 'unknown',line,cls]+=value
-        output[name]=dict(services=services,per_request=dict(aggregate),selected_target_events_per_request=dict(targeted),
+        output[key]=dict(scope=scope,policy=name,services=services,per_request=dict(aggregate),selected_target_events_per_request=dict(targeted),
             branch_association_per_request=dict(branch),origin_events_per_request=dict(origins),
             origin_age_bins={origin:[dict(lo_us=EDGES[i],hi_us=EDGES[i+1] if i+1<len(EDGES) else None,**dict(v))
                 for i,v in enumerate(values)] for origin,values in origin_ages.items()},
@@ -112,7 +116,7 @@ def analyze(root):
             top_locations=[dict(service=s,segment=seg,image=im,line=line,classification=cls,events_per_request=n)
                 for (s,seg,im,line,cls),n in locations.most_common(100)])
     result=dict(arms=output,sources=sources,source_sha256=b.sha(__file__),
-        scope='Nine application process cgroups, their mapped DSOs included. MongoDB and kernel are excluded from these PEBS captures; use separate PMU for their totals.',
+        scope='Application and MongoDB process captures are separate named groups, each including mapped DSOs. Kernel is excluded from PEBS; separate pool PMU covers kernel totals.',
         limitations='Retired L2-miss samples, not all speculative L2 code reads. Each service has a separate eight-second window. One capture per arm, descriptive only. Bounded retired LBR can witness execution of a hint stub, not acceptance or completion. No witness is not proof of no issue. Taken-target proximity is not BTB attribution. Switch-in age starts at scheduler selection, not first user instruction. Straddling instructions are not adjusted here; this classifier uses the sampled IP cache line consistently in every arm.')
     b.save(root/'analysis/residuals.json',result)
     for name,row in output.items():print(name,row['per_request'],row['selected_target_events_per_request'])
