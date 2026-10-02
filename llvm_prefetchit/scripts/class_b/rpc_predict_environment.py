@@ -17,7 +17,8 @@ def cpus():
 
 def main(root):
     rows=[];before=cpus();started=time.time();previous=started
-    protocol=dict(start_epoch=started,interval_s=30,screen_trials_already_complete=len(json.loads((root/'screen/rows.json').read_text())),
+    initial=root/'screen/rows.json'
+    protocol=dict(start_epoch=started,interval_s=30,screen_trials_already_complete=len(json.loads(initial.read_text())) if initial.exists() else 0,
         purpose='Aggregate observational context only; cannot describe conditions before observer start or justify timing exclusions.',
         privacy='CPU counters and MemAvailable only; no process names, command lines or PIDs.')
     (root/'aggregate_environment_protocol.json').write_text(json.dumps(protocol,indent=2)+'\n')
