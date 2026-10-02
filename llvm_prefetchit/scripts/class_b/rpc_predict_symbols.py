@@ -79,7 +79,8 @@ def analyze(root):
     for scope,directory in [('apps','profiles'),('mongo','mongo_profiles')]:
         for name in ('full',nominee):
             functions=collections.Counter();segments=collections.Counter();stubs=collections.Counter()
-            for path in sorted((root/directory/name).glob('*/l2/observations.json.gz')):
+            profile='full_quiet' if scope=='apps' and name=='full' and (root/directory/'full_quiet').exists() else name
+            for path in sorted((root/directory/profile).glob('*/l2/observations.json.gz')):
                 data=read(path);weight=data['period']/data['requests'];catalog=data['catalog']
                 for entry in catalog.values():lookup.bind(Path(entry['binary']),entry['sha256'])
                 for row in data['rows']:

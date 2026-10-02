@@ -12,7 +12,8 @@ from rpc_route_study import load
 from rpc_predict_results import TAG
 
 LABELS = {'original': '원본', 'full': '기존 정책', 'early': '인자 해석 전 T1',
-          'late': '핸들러 진입 T1', 'split': '두 단계 분산 T1', 'nop': '동일 배치 NOP',
+          'late': '핸들러 진입 T1', 'split': '두 단계 분산 T1',
+          'full_quiet': '기존 정책·부하 제거 후', 'nop': '동일 배치 NOP',
           'lean': '분산 T1·불필요 슬롯 제거', 'wide': 'RPC별 타깃 확대',
           'wide_span': '타깃 확대·라인 경계 보정',
           'reply': '응답 헤더 후 T1 추가', 'reply_it0': '응답 헤더 후 IT0/T1 추가'}
@@ -85,7 +86,8 @@ def plots(root, report):
     fig, axes = plt.subplots(1, 2, figsize=(12, 4.7), sharey=False)
     for ax, prefix, title in zip(axes, ['', 'mongo_'], ['앱 서버 9개 · 공유 라이브러리 포함', 'MongoDB 3개 · 공유 라이브러리 포함']):
         for name, style in [('full', '-'), (nominee, '--')]:
-            points = [v for v in arms[prefix + name]['age_bins'] if v['lo_us'] < 100]
+            key='full_quiet' if not prefix and name=='full' else prefix+name
+            points = [v for v in arms[key]['age_bins'] if v['lo_us'] < 100]
             edges = [v['lo_us'] for v in points] + [100]
             values = [v['events_per_scheduled_us'] if v['events_per_scheduled_us'] is not None else np.nan for v in points]
             ax.stairs(values, edges, label=label(name), linestyle=style, linewidth=1.8)
@@ -102,7 +104,8 @@ def plots(root, report):
         for row_index, (origin, origin_label) in enumerate([('new_thread_first_run', '새 스레드 첫 실행'), ('resume', '기존 스레드 실행 재개')]):
             ax=axes[row_index,column]
             for name,style in [('full','-'),(nominee,'--')]:
-                points=[v for v in arms[prefix+name]['origin_age_bins'].get(origin,[]) if v['lo_us']<100]
+                key='full_quiet' if not prefix and name=='full' else prefix+name
+                points=[v for v in arms[key]['origin_age_bins'].get(origin,[]) if v['lo_us']<100]
                 if not points:continue
                 values=[v.get('estimated_events',0)/v['exposure_us'] if v.get('exposure_us') else np.nan for v in points]
                 ax.stairs(values,[v['lo_us'] for v in points]+[100],label=label(name),linestyle=style,linewidth=1.8)
@@ -114,7 +117,7 @@ def plots(root, report):
     fig.text(.5,-.01,'관측 시작 전에 실행되던 스레드 등 기원을 확정할 수 없는 구간은 이 그림에서 제외. 노출 시간이 없는 구간은 결측.',ha='center',fontsize=9)
     fig.tight_layout();save(fig,root,'miss_by_thread_origin')
 
-    names = ['full', 'nop', 'early', 'late', 'split', 'lean', 'wide', 'wide_span', 'reply', 'reply_it0']
+    names = ['full_quiet', 'lean', 'wide', 'wide_span', 'reply', 'reply_it0']
     fig, axes = plt.subplots(1, 2, figsize=(14, 6))
     bottom = np.zeros(len(names))
     colors = ['#526c91', '#cf9262', '#ba4f4f', '#8199aa', '#51a99c', '#bbbbbb']
@@ -174,7 +177,7 @@ def report_text(root, report):
             f'최종 NOP의 범위: {"새 응답 힌트만 끄며 입력 RPC 힌트는 유지한다" if nominee.startswith("reply") else "이번에 추가한 입력 RPC 힌트를 끄며 기존 정책 힌트는 유지한다"}.', '',
             '## 구현별 탐색 결과', '']
     for phase, title in [('screen', '동일 배치의 발행 시점 비교'), ('confirmation', '발행 시점 후보의 독립 확인'),
-                         ('coverage_screen', '슬롯 축소·커버리지·응답 시점 탐색')]:
+                         ('quiet_coverage_screen', '외부 부하 제거 후 전체 후보 재탐색')]:
         p=report['phases'][phase]
         text += [f'### {title}', '', table(['정책', 'RPS', '기존 대비 처리량', '평균 ms', 'p99 ms', 'CPU µs/request'],
             [[label(n), f'{v["rps"]:.2f}', '기준' if n=='full' else formatted(p['comparisons'][n]['full'], 'inverse_rps'),
@@ -193,13 +196,13 @@ def report_text(root, report):
              '상세 patch·타깃·소스 해시는 보존했다.', '', '## 남은 L2 미스', '',
              f'![잔여 미스와 고정 주소의 미스](figures/{TAG}_residual_coverage.png)', '']
     residual=report['residuals']['arms']
-    text += ['타깃 주소 집합을 고정한 비교다. 각 열은 모든 정책에서 똑같은 원래 코드 주소를 세며, 세 주소 집합은 서로 중복될 수 있다.', '',
+    text += ['타깃 주소 집합을 고정한 비교다. 각 열은 모든 정책에서 똑같은 원래 코드 주소를 세며, 네 주소 집합은 서로 중복될 수 있다.', '',
              table(['정책','처음 고른 주소 miss/request','확대한 주소 miss/request','경계 보정 주소 miss/request','응답용 주소 miss/request'],
                    [[label(n)]+[f'{residual[n]["selected_target_events_per_request"].get(key,0):.2f}'
                                 for key in ('selected_lines','wide_selected_lines','span_selected_lines','reply_selected_lines')]
-                    for n in ('full','nop','early','late','split','lean','wide','wide_span','reply','reply_it0')]),'']
+                    for n in ('full_quiet','lean','wide','wide_span','reply','reply_it0')]),'']
     geometry_rows=[]
-    for n in ('full','wide','wide_span',nominee):
+    for n in ('full_quiet','wide','wide_span',nominee):
         if any(v[0]==label(n) for v in geometry_rows):continue
         v=residual[n];g=v['continuation_line_model']['geometry_per_request'];total=v['per_request']['all']
         geometry_rows.append([label(n),f'{100*g.get("straddling",0)/total:.2f}%',
@@ -212,7 +215,8 @@ def report_text(root, report):
              '따라서 시작 라인 분류와 마지막 바이트가 있는 라인으로 옮긴 민감도 분석을 함께 보존한다. 전체 L2 미스 수는 바뀌지 않는다. '
              '아래 위치 표는 시작 주소 기준이며, 이 분류 변경을 실제 미스 감소로 계산하지 않는다.', '']
     for prefix,title in [('', '앱 서버 9개'), ('mongo_', 'MongoDB 3개')]:
-        f=residual[prefix+'full']['per_request'];c=residual[prefix+nominee]['per_request']
+        reference='full_quiet' if not prefix else 'mongo_full'
+        f=residual[reference]['per_request'];c=residual[prefix+nominee]['per_request']
         text += [f'### {title} · 공유 라이브러리 포함', '',
                  table(['위치', '기존 miss/request', '후보 miss/request', '후보 내 비중'],
                        [[title, f'{f.get(key,0):.2f}', f'{c.get(key,0):.2f}', f'{100*c.get(key,0)/c["all"]:.2f}%'] for key,title in CLASSES]+
@@ -221,6 +225,18 @@ def report_text(root, report):
         share=100*associated.get('within_64B_after_taken',0)/c['all']
         text += [f'후보 표본 중 최근 taken branch의 타깃 뒤 64바이트 안에 잡힌 비중은 {share:.2f}%다. '
                  '실행되는 코드의 위치 관계이며 BTB miss 비율이 아니다.', '']
+        kinds=residual[prefix+nominee]['sample_instruction_kind_per_request']
+        branch_kinds=('direct_call','indirect_call','direct_jump','indirect_jump','conditional_branch','return')
+        text += [f'표본 명령 자체가 분기인 비중은 {100*sum(kinds.get(k,0) for k in branch_kinds)/c["all"]:.2f}%, '
+                 f'prefetch 명령인 비중은 {100*kinds.get("prefetch",0)/c["all"]:.2f}%, 명령 종류 미분류는 {100*kinds.get("unknown",0)/c["all"]:.2f}%다. '
+                 '분기 명령의 코드 fetch 미스와 분기 예측 실패는 다른 사건이다.', '']
+        gaps=residual[prefix+nominee]['targeted_retired_lbr_gap_per_request']
+        text += [table(['타깃 코드의 최근 발행 분기와 거리','miss/request'],
+                       [[key,f'{gaps.get(key,0):.2f}'] for key in
+                        ('0_64','64_256','256_1024','1024_4096','4096_16384','16384_plus','unavailable_cycles','no_bounded_witness')]), '',
+                 '거리 숫자는 최근 retired branch들 사이의 유효한 cycle 필드 합계다. 단위는 cycles이며 prefetch와 fetch 사이의 실제 lead time이 아니다. '
+                 '마지막 분기부터 표본까지의 간격과 prefetch부터 stub 끝 분기까지의 간격은 빠져 있고 fetch·retirement도 겹친다. '
+                 'cycle 필드가 없거나 포화된 경우, 최근 32분기에 발행 분기가 없는 경우를 따로 보존했다.', '']
         group='mongo_' if prefix else 'apps_'
         details=report['residual_symbols']['groups'][group+nominee]
         text += [table(['주요 잔여 위치', '이미지', '영역', 'miss/request'],
@@ -247,11 +263,14 @@ def report_text(root, report):
              ('ITLB walks completed/request','per_request','l1:ITLB_WALK_COMPLETED'),
              ('Instructions/request (cache 창)','per_request','cache:instructions:u'),
              ('T1/T2 executed/request','per_request','prefetch:T1_T2_EXECUTED'),
-             ('Software-prefetch L2 misses/request','per_request','prefetch:SWPF_MISS'),
-             ('Software-prefetch L2 hits/request','per_request','prefetch:SWPF_HIT'),
+             ('NTA/T0/T1/T2 L2 misses/request','per_request','prefetch:SWPF_MISS'),
+             ('NTA/T0/T1/T2 L2 hits/request','per_request','prefetch:SWPF_HIT'),
              ('Late IT-prefetch retired tags/request','per_request','recovery:FE_LATE_SWPF'),
+             ('DSB uops/request','per_request','front:DSB_UOPS'),
+             ('MITE uops/request','per_request','front:MITE_UOPS'),
              ('L2 code-read MPKI','ratios','code_read_mpki'), ('Retired L2 MPKI','ratios','retired_l2_mpki'),
              ('Retired L1I MPKI','ratios','retired_l1_mpki'), ('Frontend-bound %','ratios','fe-bound_pct'),
+             ('Fetch-latency-bound %','ratios','fetch-lat_pct'),
              ('Backend-bound %','ratios','be-bound_pct'), ('Unknown-branch cycles %','ratios','unknown_branch_cycles_pct'),
              ('Recovery cycles %','ratios','recovery_cycles_pct'), ('Clear-resteer cycles %','ratios','clear_resteer_cycles_pct')]
     for scope,title in [('native','앱 서버 9개'),('mongo','MongoDB 3개')]:
@@ -279,16 +298,29 @@ def report_text(root, report):
     text += ['Raw L2 code-read miss와 retired L2 miss는 서로 다른 이벤트 집합이다. 둘의 차를 잘못 예측한 경로의 미스 수로 환산하지 않는다. '
              'Frontend/backend는 슬롯 비율이며 전체 요청 지연의 비율이 아니다. Unknown-branch와 분기 직후 표본도 BTB miss 점유율을 직접 측정하지 않는다. '
              '스톨 지표끼리는 중첩되므로 합산하지 않는다. LATE_SWPF는 PREFETCHIT에 관한 이벤트이며 일반 T1 데이터 힌트의 지연 지표로 쓰지 않는다. '
+             'SWPF HIT/MISS는 fill buffer가 가득 차지 않은 경우의 NTA/T0/T1/T2 요청 카운트이며 IT0 수용·완료 횟수로 쓰지 않는다. '
              '[Intel Granite Rapids 이벤트 정의](https://perfmon-events.intel.com/platforms/graniterapids/core-events/core/).', '',
              '## 해석과 다음 수정의 근거', '', '<!-- Add measured interpretation after inspecting every final result. -->', '',
              '## 측정과 보존', '',
              '서버 CPU32–39, 부하 CPU16–19, 제어 CPU84–85, 2GHz, balanced C4 지속 연결, tracing100%, 매회 새 스택·데이터, '
              '50초 warmup·60초 clean ROI다. MovieId를 포함한 compose-review 경로를 평가했으며 다른 Media API 전체를 검증한 것은 아니다. '
              '타이밍 탐색 후 구조를 확장한 각 정책은 해당 실행 전에 기록했다. 최종 후보는 커버리지 탐색에서 고정하고 독립 확인 결과로 재선택하지 않았다. '
-             '유효 실행은 성능에 따라 제외하거나 재시도하지 않았다.', '']
+             '유효 실행은 성능에 따라 제외하거나 재시도하지 않았다. 외부 부하가 발생한 단계는 전부 별도 보존하고 전체 후보를 새 단계에서 다시 측정했다.', '']
     text += ['경계 보정판 추가를 위해 후속 코디네이터만 기능 검사 사이에서 교체했다. 진행 중이던 wide 기능 검사는 정상 종료와 설정 복원을 기다렸으며, '
              '완료된 lean·lean NOP·wide 검사는 보존하고 반복하지 않았다. 이때 커버리지 성능 측정은 아직 시작하지 않았다. '
              '수정된 탐색은 6개 정책×4블록이며, 최종 독립 확인 4개 정책×6블록은 유지했다. 교체 전 코디네이터 로그와 변경 사유를 모두 보존했다.', '']
+    text += ['### 외부 부하와 재측정', '',
+             '후속 탐색 중 다른 작업으로 서버 밖 CPU가 거의 100% 사용되고 클라이언트 CPU도 포화됐다. 사용자 지시에 따라 외부 계산 작업과 재실행 배치를 종료했다. '
+             '진행 중인 실험 회차는 정상 종료·설정 복원까지 기다렸다. 기존 탐색의 완료된 19회는 외부 부하 및 전환 조건의 보조 자료로 모두 보존했다. '
+             '후보 선택에는 사용하지 않았으며, 여섯 정책 모두 새 seed로 4블록을 다시 수행했다. 최종 확인은 별도 6블록이다.', '',
+             '초기 split PEBS 9개는 외부 부하와 겹친다. 앞서 언급한 특정 타깃 미스 41% 감소는 같은 조건의 인과 비교로 사용할 수 없어 철회한다. '
+             '초기 full·early·late·NOP 표본과 이 split 표본을 묶어 감소율을 계산하지 않는다. '
+             '최종 앱 그래프는 새 full_quiet 표본과 같은 외부 부하 제거 조건의 후보 표본만 비교한다. '
+             '관측 조건 분류는 사후 환경 주석이며 사전 성능 제외 규칙이 아니다. 최초 탐색 일부에는 관측 기록이 부족해 조용했다고 단정하지 않는다.', '',
+             table(['단계','관측 조건','회차 수'],
+                   [[phase,condition,sum(v['descriptive_condition']==condition for v in rows)]
+                    for phase,rows in report['conditions']['endpoints'].items()
+                    for condition in sorted({v['descriptive_condition'] for v in rows})]), '']
     for phase,values in report['baseline_variation'].items():
         text += [f'{phase}: '+', '.join(f'{label(n)} RPS 변동계수 {v["cv_pct"]:.2f}%' for n,v in values.items())+'.', '']
     text += ['단계별 불필요 ELF·임시 object·decoded trace를 수치·명령·소스·patch·해시 보존 후 정리했다. '

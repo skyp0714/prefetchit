@@ -58,7 +58,7 @@ def prepare(root):
     print(result)
 
 
-def measure(root):
+def measure(root,quiet=False):
     assert load(root/'lean_prepared.json')['valid'];arms=load(root/'arms.json')
     for name,script,extra in [('wide','rpc_predict_wide.py',[]),('reply','rpc_predict_reply.py',[]),
                               ('reply_it0','rpc_predict_reply_it0.py',[]),('wide_span','rpc_predict_wide.py',['--span'])]:
@@ -80,18 +80,22 @@ def measure(root):
     for offset in (0,3):
         order=names[offset:]+names[:offset];orders.extend([order,list(reversed(order))])
     assert all(sum(order.index(n) for order in orders)==10 for n in names)
-    campaign(root,'coverage_screen',arms,names,4,1020601,orders=orders)
-    decision=select(load(root/'coverage_screen/rows.json'),'full',candidates,4)
+    screen='quiet_coverage_screen' if quiet else 'coverage_screen'
+    if quiet:
+        assert load(root/'quiet_recovery_protocol.json')['valid']
+    campaign(root,screen,arms,names,4,1021601 if quiet else 1020601,orders=orders)
+    decision=select(load(root/screen/'rows.json'),'full',candidates,4)
     nominee=max(decision['eligible'] or candidates,key=lambda n:decision['means'][n]['geometric_rps'])
-    decision.update(nominee=nominee,promoted=False,epoch=time.time(),blocks=6)
+    decision.update(nominee=nominee,promoted=False,epoch=time.time(),blocks=6,selection_phase=screen)
     b.save(root/'production_selection.json',decision)
     # Extract residual evidence before retiring the rejected implementation.
-    for name in candidates:
-        spec=root/('profile_'+name+'.json')
-        b.save(spec,dict(arms[name],root=str(root),out=str(root/'profiles'/name),services=list(arms[name]['overrides']),
-            kinds=['l2'],capture_s=8,seed=1020401,phase='coverage',arm=name))
-        run(root,'profile_'+name,['python3',SCRIPTS/'temporal_path_study.py','platform_capture',spec])
-        assert load(root/'profiles'/name/'complete.json')['valid']
+    for name in (['full',*candidates] if quiet else candidates):
+        label='full_quiet' if quiet and name=='full' else name
+        spec=root/('profile_'+label+'.json')
+        b.save(spec,dict(arms[name],root=str(root),out=str(root/'profiles'/label),services=list(arms[name]['overrides']),
+            kinds=['l2'],capture_s=8,seed=1020401,phase=screen,arm=name,analysis_label=label))
+        run(root,'profile_'+label,['python3',SCRIPTS/'temporal_path_study.py','platform_capture',spec])
+        assert load(root/'profiles'/label/'complete.json')['valid']
     run(root,'coverage_residual_analysis',['python3',SCRIPTS/'rpc_predict_analysis.py',root])
     cleanup(root,[n for n in candidates if n!=nominee],
         [arms[n] for n in ('full','original',nominee,nominee+'_nop')], 'coverage_screen_cleanup.json')
@@ -105,4 +109,7 @@ def measure(root):
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('action',choices=['prepare','measure']);parser.add_argument('root',type=Path)
-    args=parser.parse_args();globals()[args.action](args.root)
+    parser.add_argument('--quiet',action='store_true')
+    args=parser.parse_args()
+    if args.action=='measure':measure(args.root,quiet=args.quiet)
+    else:prepare(args.root)

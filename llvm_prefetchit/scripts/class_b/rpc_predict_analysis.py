@@ -9,7 +9,7 @@ import dense_build as b
 from rpc_route_study import load
 from temporal_path_analysis import read
 from temporal_path_common import EDGES
-from dense_cause_analysis import Code
+from dense_cause_analysis import Code, category
 
 
 def analyze(root):
@@ -37,21 +37,22 @@ def analyze(root):
     # incumbent stubs remain identical in the newly appended variants.
     decode_sources={canonical(load(Path(p+'.json'))['sha256']):Path(p) for p in paths}
     decoded={}
-    def instruction_length(data,index,ip):
-        if index<0:return 0
+    def instruction_info(data,index,ip):
+        if index<0:return 0,'unknown'
         digest=data['digests'][index]
         path=decode_sources.get(canonical(digest),Path(data['catalog'][data['names'][index]]['binary']))
         if path not in decoded:decoded[path]=Code(path)
-        length=decoded[path].get(ip)[0]
-        if length:return length
+        length,asm,_=decoded[path].get(ip)
+        if length:return length,category(asm)
         # The newly appended regions may already have been retired. Recognize
         # their fixed-size hint/NOP slots and jumps from retained patch records.
         for record in chain(digest):
             if 'variant' not in record:continue
             for patch in record['patches']:
-                if ip in patch['terminal_jumps']:return 5
-                if any(ip==patch['stub']+7*rank for rank in range(len(patch['targets']))):return 7
-        return 0
+                if ip in patch['terminal_jumps']:return 5,'direct_jump'
+                if any(ip==patch['stub']+7*rank for rank in range(len(patch['targets']))):
+                    return 7,'prefetch' if ip in {h['va'] for h in record['hints']} else 'other'
+        return 0,'unknown'
     selected={s:{t//64 for c in row['choices'] for t in c['targets']} for s,row in load(root/'model.json').items()}
     wide_selected={s:{t//64 for c in row['choices'] for t in c['targets']} for s,row in load(root/'wide_model.json').items()} if (root/'wide_model.json').exists() else {}
     span_selected={s:{t//64 for c in row['choices'] for t in c['targets']} for s,row in load(root/'wide_span_model.json').items()} if (root/'wide_span_model.json').exists() else {}
@@ -61,9 +62,12 @@ def analyze(root):
     if (root/'mongo_profiles').exists():phases += [(p,'mongo') for p in sorted((root/'mongo_profiles').iterdir())]
     for phase,scope in phases:
         if not phase.is_dir() or not (phase/'complete.json').exists():continue
-        name=load(phase/'protocol.json')['arm'];phase_key=name if scope=='apps' else 'mongo_'+name
+        protocol=load(phase/'protocol.json');name=protocol['arm']
+        label=protocol.get('analysis_label',name);phase_key=label if scope=='apps' else 'mongo_'+label
+        assert phase_key not in output, ('duplicate profile key',phase_key)
         aggregate=collections.Counter();locations=collections.Counter();targeted=collections.Counter()
         span_counts=collections.Counter();span_fixed=collections.Counter();span_geometry=collections.Counter()
+        instruction_kinds=collections.Counter();witness_gaps=collections.Counter();witness_recovery=collections.Counter()
         ages=[collections.Counter() for _ in range(len(EDGES))];exposures=[0.0]*len(EDGES);events=[0.0]*len(EDGES)
         services={};branch=collections.Counter();origins=collections.Counter()
         origin_ages=collections.defaultdict(lambda:[collections.Counter() for _ in EDGES])
@@ -99,6 +103,21 @@ def analyze(root):
                 history=row['edges']
                 if history and tuple(history[0][:2])==(i,ip):history=history[1:]
                 witnessed=any((i,line) in jumps.get(tuple(edge[:2]),set()) for edge in history)
+                if line in lines[i] and not in_stub:
+                    gap=0;usable=True;mispredicted=False;found=False
+                    for edge in history:
+                        if (i,line) in jumps.get(tuple(edge[:2]),set()):
+                            key='unavailable_cycles'
+                            if usable:
+                                key=next((f'{lo}_{hi}' for lo,hi in zip((0,64,256,1024,4096),(64,256,1024,4096,16384)) if lo<=gap<hi),'16384_plus')
+                            witness_gaps[key]+=weight
+                            witness_recovery['mispredicted_branch_in_between' if mispredicted else 'no_misprediction_flag_in_between']+=weight
+                            found=True;break
+                        mispredicted |= edge[4]=='M'
+                        cycles=edge[5]
+                        if cycles is None or cycles>=65535:usable=False
+                        elif usable:gap+=cycles
+                    if not found:witness_gaps['no_bounded_witness']+=weight
                 if in_stub:cls=in_stub
                 elif line in lines[i]:cls='targeted_with_lbr_witness' if witnessed else 'targeted_no_bounded_witness'
                 else:cls='not_targeted'
@@ -111,7 +130,8 @@ def analyze(root):
                 if i==main and line in span_selected.get(service,set()):targets['span_selected_lines']+=weight
                 if i==main and line in reply_selected.get(service,set()):targets['reply_selected_lines']+=weight
                 if i==main:targets['main_all']+=weight
-                length=instruction_length(data,i,ip);last=(ip+length-1)//64 if length else line
+                length,kind=instruction_info(data,i,ip);instruction_kinds[kind]+=weight
+                last=(ip+length-1)//64 if length else line
                 span_geometry['decoded' if length else 'undecoded']+=weight
                 if last!=line:
                     span_geometry['straddling']+=weight
@@ -148,6 +168,10 @@ def analyze(root):
             for (segment,i,line,cls),value in sample_locations.items():
                 locations[service,segment,data['names'][i] if i>=0 else 'unknown',line,cls]+=value
         output[phase_key]=dict(scope=scope,policy=name,services=services,per_request=dict(aggregate),selected_target_events_per_request=dict(targeted),
+            sample_instruction_kind_per_request=dict(instruction_kinds),
+            targeted_retired_lbr_gap_per_request=dict(witness_gaps),
+            targeted_witness_recovery_per_request=dict(witness_recovery),
+            lbr_gap_limitation='Sum of available, nonsaturated retired LBR cycle fields between the witnessed stub terminal branch and the newest retired branch. The newest branch-to-sample gap and prefetch-to-terminal-branch gap are unknown; fetch/retirement overlap prevents interpreting this as hardware prefetch lead time. No bounded witness and unusable cycle fields are explicit. Only statically targeted non-stub sampled starting lines are included.',
             continuation_line_model=dict(per_request=dict(span_counts),selected_target_events_per_request=dict(span_fixed),geometry_per_request=dict(span_geometry),
                 interpretation='Sensitivity model: if an instruction straddles 64B, classify its last-byte line. The event does not expose which line actually missed; starting-IP and continuation-line classifications are both retained. Unknown lengths remain on the starting line. Static bounded LBR witnesses do not require usable cycle-distance fields.'),
             branch_association_per_request=dict(branch),origin_events_per_request=dict(origins),

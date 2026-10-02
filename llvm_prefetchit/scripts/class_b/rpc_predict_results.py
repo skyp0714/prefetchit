@@ -16,7 +16,8 @@ from rpc_route_study import load
 from temporal_path_confirm import cleanup, arm_paths
 
 TAG='class_b_rpc_predict_20261002'
-PHASES=('screen','confirmation','coverage_screen','production_confirmation')
+PHASES=('screen','confirmation','quiet_coverage_screen','production_confirmation')
+SUPPLEMENTAL=('coverage_screen',)
 
 
 def dedup_references(root):
@@ -67,8 +68,11 @@ def summarize(root):
     report=dict(candidate=candidate,decision=decision,phases=phases,baseline_variation=baseline,
         pmu=load(root/'analysis/pmu_summary.json'),residuals=load(root/'analysis/residuals.json'),
         residual_symbols=load(root/'analysis/residual_symbols.json'),
+        conditions=load(root/'analysis/conditions.json'),
+        supplemental_external_load=dict(rows=load(root/'coverage_screen/rows.json'),stopped=load(root/'coverage_screen/stopped.json')),
+        app_reference_profile='full_quiet',
         prepared={n:load(root/'prepared_candidates.json')[n]['builds'] for n in ('lean','wide','wide_span','reply','reply_it0')},
-        limits='All endpoint effects use fresh stacks and clean ROIs. Phases are not pooled. PMU windows and PEBS profiles are descriptive independent diagnostics; raw L2 code reads and retired L2 misses are different populations. No BTB occupancy, prefetch completion, or exact hint-to-fetch latency is measured.')
+        limits='Primary endpoint effects use fresh stacks and unprofiled ROIs. An interrupted externally co-loaded stage is retained separately and does not nominate candidates. Phases are not pooled. PMU windows and PEBS profiles are descriptive independent diagnostics; raw L2 code reads and retired L2 misses are different populations. No BTB occupancy, prefetch completion, or exact hint-to-fetch latency is measured.')
     b.save(root/'final_decision.json',decision);b.save(root/'analysis/report.json',report)
     arms=load(root/'arms.json');keep=[arms['original'],arms['full']]
     if promoted:keep += [arms[candidate],arms[candidate+'_nop']]
@@ -101,7 +105,7 @@ def audit(root):
     assert not any(owned.values())
     modules={n:Path('/sys/module',n).exists() for n in ('wake_prefetch','prefetchit')};assert not any(modules.values())
     quality=[]
-    for phase in PHASES:
+    for phase in PHASES+SUPPLEMENTAL:
         for row in load(root/phase/'rows.json'):
             result=load(Path(row['output'])/'result.json');info=load(Path(row['output'])/'load/load.json')
             assert row['valid'] and result['valid'] and info['mapping_preserved'] and not info['steady_errors']
@@ -135,7 +139,7 @@ def audit(root):
         endpoint_quality=quality,smokes=smoke,profile_captures=profiles,retained_generated_elves=retained,
         unchanged_previously_tested_native_sources=previous,
         free_bytes={'root':shutil.disk_usage('/').free,'storage':shutil.disk_usage(root).free}))
-    print(dict(clean_trials=len(quality),smokes=len(smoke),captures=len(profiles),restored_records=len(checks),retained_elves=len(retained)))
+    print(dict(retained_endpoint_trials=len(quality),smokes=len(smoke),captures=len(profiles),restored_records=len(checks),retained_elves=len(retained)))
 
 
 def publish(root):
@@ -150,6 +154,7 @@ def publish(root):
     for path in sorted(root.rglob('*')):
         if path.is_symlink() or not path.is_file():continue
         rel=str(path.relative_to(root))
+        if path.name=='external_load_termination.json':continue  # Local authorization audit contains unrelated process IDs.
         if path.name in excluded:
             if path.name=='observations.json.gz':local.append(dict(path=rel,bytes=path.stat().st_size,sha256=b.sha(path)))
             continue
@@ -167,7 +172,7 @@ def publish(root):
             assert hashlib.sha256(data).hexdigest()==records[member.name]['sha256']
     assert archive.stat().st_size<90*2**20
     b.save(destination/'records_manifest.json',records);b.save(destination/'local_profiles.json',dict(root=str(root),files=local))
-    for name in ('final_decision.json','final_restoration_audit.json','reply_it0_predeclared.json','reply_predeclared.json','wide_predeclared.json','straddle_amendment.json'):
+    for name in ('final_decision.json','final_restoration_audit.json','reply_it0_predeclared.json','reply_predeclared.json','wide_predeclared.json','straddle_amendment.json','quiet_recovery_protocol.json'):
         shutil.copyfile(root/name,destination/name)
     shutil.copyfile(root/'analysis/report.json',destination/'report.json')
     figures={}
