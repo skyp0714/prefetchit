@@ -23,10 +23,10 @@ def run(root,label,command):
         subprocess.run(command,stdout=log,stderr=subprocess.STDOUT,check=True)
 
 
-def campaign(root,label,arms,names,blocks,seed):
+def campaign(root,label,arms,names,blocks,seed,orders=None):
     controls={n:dict(copy.deepcopy(arms[n]),controls=[v for v in names if v!=n]) for n in names}
     # Odd block counts: cyclic rotation avoids one fixed arm always running last.
-    orders=[names[i%len(names):]+names[:i%len(names)] for i in range(blocks)]
+    if orders is None:orders=[names[i%len(names):]+names[:i%len(names)] for i in range(blocks)]
     spec=dict(root=str(root),out=str(root/label),arms=controls,blocks=blocks,orders=orders,
         seedbase=seed,order_seed=seed-1,trial_script=str(SCRIPTS/'temporal_path_trial.py'),no_adaptive_stopping=True)
     b.save(root/(label+'_spec.json'),spec)

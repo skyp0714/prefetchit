@@ -12,20 +12,17 @@ import fullset as h
 
 
 def main(root):
-    assert load(root/'lean_complete.json')['valid'];arms=load(root/'arms.json')
+    assert load(root/'production_complete.json')['valid'];arms=load(root/'arms.json')
+    candidate=load(root/'production_selection.json')['nominee']
     run(root,'pmu_preflight',['python3',SCRIPTS/'temporal_path_final_pmu.py','preflight',root])
-    for index,(name,suite) in enumerate([('full','core'),('lean','core'),('lean','extra'),('full','extra')]):
+    for index,(name,suite) in enumerate([('full','core'),(candidate,'core'),(candidate,'extra'),('full','extra')]):
         label=name+'_'+suite;spec=root/('pmu_'+label+'.json')
         b.save(spec,dict(arms[name],root=str(root),out=str(root/'diagnostics'/label),arm=name,suite=suite,
             seed=1020701,reverse_pmu=bool(index%2)))
         run(root,'pmu_'+label,['python3',SCRIPTS/'temporal_path_final_pmu.py','platform_trial',spec])
         assert load(root/'diagnostics'/label/'result.json')['valid']
     run(root,'pmu_summary',['python3',SCRIPTS/'temporal_path_metrics.py',root])
-    spec=root/'profile_lean.json'
-    b.save(spec,dict(arms['lean'],root=str(root),out=str(root/'profiles'/'lean'),services=list(arms['lean']['overrides']),
-        kinds=['l2'],capture_s=8,seed=1020401,phase='lean',arm='lean'))
-    run(root,'profile_lean',['python3',SCRIPTS/'temporal_path_study.py','platform_capture',spec])
-    assert load(root/'profiles'/'lean'/'complete.json')['valid']
+    assert load(root/'profiles'/candidate/'complete.json')['valid']
     b.save(root/'diagnostics_complete.json',dict(valid=True,epoch=time.time()))
 
 
