@@ -21,7 +21,7 @@ def prepare(root):
     arms=load(root/'arms.json');inventory=load(root/'rpc_inventory.json');old_model=load(root/'model.json')
     base=arms['full'];arm=copy.deepcopy(base);nop=copy.deepcopy(base);builds={};model={}
     for service,info in inventory.items():
-        b.space(root);source=Path(base['overrides'][service]);code=Code(Path(info['source']))
+        b.space(root);source=Path(base['overrides'][service]);code=Code(Path(info['source']));emitted=Code(source)
         old=load(Path(str(source)+'.json'));raw=source.read_bytes();elf=stubs.Elf(raw)
         ranges=sorted((p['stub'],max(p['terminal_jumps'])+5,p['site']) for p in old['patches']);starts=[r[0] for r in ranges]
         contexts={};pre_functions=set();anchors={c['method']:c for c in old_model[service]['choices']}
@@ -39,7 +39,7 @@ def prepare(root):
         for row in data['rows']:
             if row['dso']!=main:continue
             ip=row['ip'];mapped,is_stub=origin(ip);fn=code.get(mapped)[2]
-            if (not is_stub and not code.get(ip)[0]) or fn in pre_functions:continue
+            if not emitted.get(ip)[0] or fn in pre_functions:continue
             label=context(ip)
             if label is None:
                 for sd,fr,td,to,*_ in row['edges']:
@@ -56,7 +56,12 @@ def prepare(root):
         for method,anchor in anchors.items():
             selected=[(line,n) for line,n in counts[method].most_common() if n>=3][:16]
             targets=[addresses[line] for line,n in selected]
-            assert targets[:len(anchor['targets'])]==anchor['targets'],(service,method,'Training prefix changed')
+            count=len(anchor['targets'])
+            assert [t//64 for t in targets[:count]]==[t//64 for t in anchor['targets']],(service,method,'Training prefix changed')
+            # The first model included inactive RPC contexts when choosing a
+            # representative instruction within each line. Keep those exact
+            # frozen instruction addresses for the common prefix.
+            targets[:count]=anchor['targets']
             choices.append(dict(method=method,early=anchor['early'],late=anchor['late'],targets=targets,
                 counts=[n for line,n in selected],kinds=[kinds[line] for line,n in selected]))
             for parity,phase in enumerate(('early','late')):
