@@ -52,7 +52,9 @@ def short_symbol(name):
 
 def save(fig, root, name):
     for suffix in ('png', 'svg'):
-        fig.savefig(root / 'analysis' / (name + '.' + suffix), dpi=170, bbox_inches='tight')
+        output=root / 'analysis' / (name + '.' + suffix)
+        fig.savefig(output, dpi=170, bbox_inches='tight')
+        if suffix=='svg':output.write_text('\n'.join(line.rstrip() for line in output.read_text().splitlines())+'\n')
     plt.close(fig)
 
 
@@ -366,7 +368,7 @@ def report_text(root, report):
             f'{100*g.get("undecoded",0)/total:.2f}%'])
     text += ['### 명령이 캐시라인 경계에 걸치는 경우', '',
              table(['정책','경계 표본 비중','시작 라인 미타깃','끝 라인 가정 미타깃','발행 분기 관측·시작 라인','발행 분기 관측·끝 라인','길이 미분류'],geometry_rows),'',
-             '비중 외의 수치는 miss/request다. 시작 라인에 대한 발행 분기가 있어도 경계를 넘어선 라인까지 가져왔다는 뜻은 아니다. ', '',
+             '비중 외의 수치는 miss/request다. 시작 라인에 대한 발행 분기가 있어도 경계를 넘어선 라인까지 가져왔다는 뜻은 아니다.', '',
              '표본 IP는 명령의 시작 주소다. 두 라인에 걸친 명령에서 어느 라인이 실제로 미스했는지는 이 이벤트만으로 확정할 수 없다. '
              '따라서 시작 라인 분류와 마지막 바이트가 있는 라인으로 옮긴 민감도 분석을 함께 보존한다. 전체 L2 미스 수는 바뀌지 않는다. '
              '아래 위치 표는 시작 주소 기준이며, 이 분류 변경을 실제 미스 감소로 계산하지 않는다.', '']
