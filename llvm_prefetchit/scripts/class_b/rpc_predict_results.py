@@ -47,6 +47,10 @@ def dedup_references(root):
 
 def summarize(root):
     assert load(root/'all_measurements_complete.json')['valid']
+    assert load(root/'callchain/full/complete.json')['valid']
+    follow=root/'stack_followup'
+    assert load(follow/'all_measurements_complete.json')['valid']
+    assert load(follow/'reference_deduplication.json')['complete']
     candidate=load(root/'production_selection.json')['nominee'];phases={}
     for phase in PHASES:
         e=load(root/phase/'evaluation.json')
@@ -59,6 +63,18 @@ def summarize(root):
         prefetch_increment_positive_ci=nop['inverse_rps']['speedup_ci95'][0]>1,
         epoch=time.time(),rule='Frozen nominee only: positive lower individual paired-log t95 throughput bound versus full plus CPU <=+0.5%, p99 <=+2%. Exact-layout NOP is a separate attribution test.',
         nop_scope='Additional reply hints only; incoming RPC hints remain active.' if candidate.startswith('reply') else 'All newly added incoming-RPC hints; incumbent hints remain active.')
+    followup={name:load(follow/(name+'.json')) for name in
+              ('protocol','prepared','model','decision','profile_summary','target_analysis')}
+    followup['evaluation']=load(follow/'confirmation/evaluation.json')
+    from rpc_predict_conditions import annotate
+    annotate(follow)
+    followup['conditions']=load(follow/'analysis/conditions.json')
+    followup['baseline_variation']={}
+    for name in ('full','stack','stack_nop'):
+        values=[r['achieved_rps'] for r in load(follow/'confirmation/rows.json') if r['arm']==name]
+        followup['baseline_variation'][name]=dict(values=values,cv_pct=100*statistics.stdev(values)/statistics.mean(values))
+    decision.update(stack_followup=followup['decision'],overall_selected=followup['decision']['selected'],
+                    primary_phase='production_confirmation',latest_phase='stack_followup/confirmation')
     baseline={}
     for phase in PHASES:
         rows=load(root/phase/'rows.json');baseline[phase]={}
@@ -71,6 +87,13 @@ def summarize(root):
         conditions=load(root/'analysis/conditions.json'),
         supplemental_external_load=dict(rows=load(root/'coverage_screen/rows.json'),stopped=load(root/'coverage_screen/stopped.json')),
         app_reference_profile='full_quiet',
+        training_rpc_selection={n:v['events_per_request'] for n,v in load(root/'model.json').items()},
+        callchain_diagnosis=load(root/'callchain/full/summary.json'),
+        corrected_callchain=load(root/'callchain/unwind_probe/summary.json'),
+        unwind_normalization=load(root/'callchain/unwind_probe/normalization_comparison.json'),
+        stack_followup=followup,
+        shared_stub_attribution=load(root/'callchain/full/shared_stub_audit.json'),
+        diagnostic_rejections=[dict(path=str(p.parent),**load(p)) for p in sorted((root/'diagnostics').glob('*/retirement.json'))],
         prepared={n:load(root/'prepared_candidates.json')[n]['builds'] for n in ('lean','wide','wide_span','reply','reply_it0')},
         limits='Primary endpoint effects use fresh stacks and unprofiled ROIs. An interrupted externally co-loaded stage is retained separately and does not nominate candidates. Phases are not pooled. PMU windows and PEBS profiles are descriptive independent diagnostics; raw L2 code reads and retired L2 misses are different populations. No BTB occupancy, prefetch completion, or exact hint-to-fetch latency is measured.')
     b.save(root/'final_decision.json',decision);b.save(root/'analysis/report.json',report)
@@ -79,13 +102,16 @@ def summarize(root):
     rejected=[n for n in ('early','late','split','nop','lean','wide','wide_span','reply','reply_it0') if not promoted or n!=candidate]
     # Some winning variants reference binaries stored in a parent variant's
     # folder. Protection is by resolved measured path, never just folder name.
-    cleanup(root,rejected,keep,'final_rejected_cleanup.json')
-    dedup_references(root)
+    if (root/'final_rejected_cleanup.json').exists():assert load(root/'final_rejected_cleanup.json')['complete']
+    else:cleanup(root,rejected,keep,'final_rejected_cleanup.json')
+    if (root/'reference_deduplication.json').exists():assert load(root/'reference_deduplication.json')['complete']
+    else:dedup_references(root)
     print(json.dumps(dict(decision=decision,absolute=phases['production_confirmation']['absolute']),indent=2))
 
 
 def audit(root):
     assert load(root/'all_measurements_complete.json')['valid'];decision=load(root/'final_decision.json')
+    follow=root/'stack_followup';assert load(follow/'all_measurements_complete.json')['valid']
     checks=[];platforms=[]
     for name in ('platform_before.json','hwp_before.json'):
         for before in sorted(root.rglob(name)):
@@ -105,22 +131,50 @@ def audit(root):
     assert not any(owned.values())
     modules={n:Path('/sys/module',n).exists() for n in ('wake_prefetch','prefetchit')};assert not any(modules.values())
     quality=[]
-    for phase in PHASES+SUPPLEMENTAL:
+    for phase in PHASES+SUPPLEMENTAL+('stack_followup/confirmation',):
         for row in load(root/phase/'rows.json'):
             result=load(Path(row['output'])/'result.json');info=load(Path(row['output'])/'load/load.json')
             assert row['valid'] and result['valid'] and info['mapping_preserved'] and not info['steady_errors']
             quality.append(dict(phase=phase,block=row['block'],arm=row['arm'],steady_errors=info['steady_errors'],mapping_preserved=True))
     smoke=[]
-    for path in sorted((root/'smoke').glob('*/result.json')):
+    for path in sorted((root/'smoke').glob('*/result.json'))+sorted((follow/'smoke').glob('*/result.json')):
         result=load(path);assert result['valid'];smoke.append(str(path.relative_to(root)))
     profiles=[]
-    for directory in ('profiles','mongo_profiles'):
+    for directory in ('profiles','mongo_profiles','stack_followup/profiles'):
         for path in sorted((root/directory).glob('*/complete.json')):
             result=load(path);assert result['valid'];profiles.extend(result['captures'])
     for capture in profiles:
         path=Path(capture);assert (path/'observations.json.gz').exists()
         assert not (path/'perf.data').exists() and not (path/'events.txt').exists()
         quality_row=load(path/'timeline.json')['quality'];assert quality_row['complete_sample_pct']>99
+    callchain=root/'callchain/full';callchain_complete=load(callchain/'complete.json')
+    assert callchain_complete['valid'] and callchain_complete['summary_sha256']==b.sha(callchain/'summary.json')
+    assert (callchain/'observations.json.gz').is_file()
+    assert all(not (callchain/name).exists() for name in ('perf.data','events.txt','symfs'))
+    assert load(callchain/'extraction_cleanup.json')['status']=='complete'
+    assert load(callchain/'symfs_cleanup.json')['complete']
+    probe=root/'callchain/unwind_probe';probe_complete=load(probe/'complete.json')
+    assert probe_complete['valid'] and probe_complete['summary_sha256']==b.sha(probe/'summary.json')
+    normalization=load(probe/'normalization_comparison.json')
+    assert normalization['valid'] and normalization['same_sample_identities_and_leaf_addresses']
+    assert load(probe/'normalization_manifest.json')['unchanged_except_recorded_mmap_offsets']
+    assert (probe/'observations.json.gz').is_file()
+    assert all(not (probe/name).exists() for name in ('perf.data','normalized.perf.data','events.txt','symfs'))
+    for name in ('extraction_cleanup','normalization_cleanup','exact_decoded_cleanup','debug_cleanup'):
+        record=load(probe/(name+'.json'));assert record.get('status')=='complete' or record.get('complete') is True
+        for row in record.get('files',[]):assert not Path(row['path']).exists(),row
+    assert load(probe/'symfs_cleanup.json')['complete']
+    diagnostic_rejections=[]
+    for path in sorted((root/'diagnostics').glob('*/failure.json')):
+        retirement=load(path.parent/'retirement.json');assert retirement['complete']
+        assert not (path.parent/'result.json').exists()
+        base=path.parent.name.split('_retry')[0]
+        retries=[p for p in (root/'diagnostics').glob(base+'_retry*/result.json') if load(p)['valid']]
+        assert len(retries)==1,(path,retries)
+        before=load(path.parent/'protocol.json');after=load(retries[0].parent/'protocol.json')
+        assert {k:v for k,v in before.items() if k!='out'}=={k:v for k,v in after.items() if k!='out'}
+        diagnostic_rejections.append(dict(path=str(path.parent),retirement=retirement,
+            accepted_retry=str(retries[0].parent),same_protocol_except_output=True))
     arms=load(root/'arms.json');keep=[arms['original'],arms['full']]
     if decision['promoted']:keep += [arms[decision['candidate']],arms[decision['candidate']+'_nop']]
     protected=set().union(*(arm_paths(a) for a in keep))
@@ -132,11 +186,29 @@ def audit(root):
             assert path.resolve() in protected,path
             digest=b.sha(path);assert hashes[str(path)]==digest
             retained.append(dict(path=str(path),bytes=path.stat().st_size,sha256=digest))
+    follow_arms=load(follow/'arms.json');follow_decision=load(follow/'decision.json')
+    follow_keep=[follow_arms['original'],follow_arms['full']]
+    if follow_decision['promoted']:follow_keep += [follow_arms['stack'],follow_arms['stack_nop']]
+    else:assert load(follow/'rejected_cleanup.json')['complete']
+    follow_protected=set().union(*(arm_paths(a) for a in follow_keep))
+    follow_hashes=load(follow/'confirmation/protocol.json')['binary_hashes']
+    for path in (follow/'builds').rglob('*'):
+        if path.is_symlink() or not path.is_file():continue
+        with path.open('rb') as stream:elf=stream.read(4)==b'\x7fELF'
+        if elf:
+            assert path.resolve() in follow_protected,path
+            digest=b.sha(path);assert follow_hashes[str(path)]==digest
+            retained.append(dict(path=str(path),bytes=path.stat().st_size,sha256=digest))
+    assert load(follow/'reference_deduplication.json')['complete']
     previous=load(Path('/storage/prefetchit/class_b_rpc_future_20261001/tests_nested.json'))
     for path,digest in previous['sources'].items():assert b.sha(b.REPO/path)==digest
     b.save(root/'final_restoration_audit.json',dict(valid=True,epoch=time.time(),platform_comparisons=checks,
         latest_platform=str(latest),current_sysfs=current,owned_resources=owned,modules=modules,
         endpoint_quality=quality,smokes=smoke,profile_captures=profiles,retained_generated_elves=retained,
+        callchain_diagnosis=callchain_complete,
+        corrected_callchain_diagnosis=probe_complete,unwind_normalization=normalization,
+        stack_followup_decision=follow_decision,
+        diagnostic_rejections=diagnostic_rejections,
         unchanged_previously_tested_native_sources=previous,
         free_bytes={'root':shutil.disk_usage('/').free,'storage':shutil.disk_usage(root).free}))
     print(dict(retained_endpoint_trials=len(quality),smokes=len(smoke),captures=len(profiles),restored_records=len(checks),retained_elves=len(retained)))
@@ -162,7 +234,9 @@ def publish(root):
         with path.open('rb') as stream:
             if stream.read(4)==b'\x7fELF':continue
         selected.append(path);records[rel]=dict(bytes=path.stat().st_size,sha256=b.sha(path))
-    archive=destination/'records.tar.gz'
+    # Repository hook caps individual blobs at 10 MiB. Keep the complete compact
+    # log archive local, while publishing measurements, source and hash manifests.
+    archive=root/'compact_records.tar.gz'
     with tarfile.open(archive,'w:gz') as output:
         for path in selected:output.add(path,arcname=str(path.relative_to(root)),recursive=False)
     with tarfile.open(archive) as source:
@@ -181,8 +255,14 @@ def publish(root):
         figures[str(target.relative_to(b.REPO))]=dict(bytes=target.stat().st_size,sha256=b.sha(target))
     report=b.REPO/'docs'/(TAG+'.md');shutil.copyfile(root/'report.md',report)
     b.save(destination/'manifest.json',dict(source=str(root),archived_records=len(records),archive_bytes=archive.stat().st_size,
-        archive_sha256=b.sha(archive),verified_archive=True,figures=figures,report_sha256=b.sha(report),
+        archive_sha256=b.sha(archive),archive_local_path=str(archive),archive_committed=False,
+        verified_archive=True,figures=figures,report_sha256=b.sha(report),
         exclusions='No generated ELF/object/build bulk, benchmark datasets, raw/decoded trace text, request lists, credentials or unrelated process identities. Compact PEBS observations remain local with hashes.'))
+    if os.geteuid()==0:
+        owner=b.REPO.stat()
+        for path in [destination,*destination.rglob('*'),report,*[b.REPO/p for p in figures]]:
+            assert not path.is_symlink()
+            os.chown(path,owner.st_uid,owner.st_gid)
     print(dict(evidence=str(destination),archived_records=len(records),archive_bytes=archive.stat().st_size))
 
 

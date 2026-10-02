@@ -1,0 +1,7 @@
+{
+  "epoch": 1790905173.7198446,
+  "change": "Add reply_it0: same reply T1 targets and layout, first up to two new hints at each reply-header anchor changed to IT0, remaining hints stay T1. Same additional-hint NOP control as reply T1.",
+  "purpose": "Test whether instruction-cache-directed hints at the newly identified post-header phase outperform T1, without assuming fetch-queue occupancy. Late-SWPF PMU interpretation is limited to IT hints.",
+  "screen": "Four blocks full/lean/wide/reply/reply_it0, two order/reverse-order pairs; each arm mean ordinal position two. Final independent six-block original/full/nominee/nominee_nop stays fixed.",
+  "rule": "All models still use only retained original training. No candidate has started its new confirmation. Candidate nomination rule/guards unchanged. No further variant expansion planned before final assessment."
+}

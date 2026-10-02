@@ -1,0 +1,40 @@
+{
+  "valid": true,
+  "epoch": 1790913053.3007681,
+  "authorization": "User authorized stopping all external compute load during exclusive benchmark time.",
+  "external_termination": "external_load_termination.json",
+  "supplemental": "coverage_screen",
+  "retained_trials": 19,
+  "quiet_observations": [
+    {
+      "start_epoch": 1790912990.1639178,
+      "end_epoch": 1790913020.1704884,
+      "cpu_busy_pct": {
+        "server": 75.86266390614217,
+        "client": 7.746831220813877,
+        "other_host": 0.24519119351100738
+      },
+      "MemAvailable": 659035029504
+    },
+    {
+      "start_epoch": 1790913020.1704884,
+      "end_epoch": 1790913050.1734216,
+      "cpu_busy_pct": {
+        "server": 0.4920972517619582,
+        "client": 0.2917882451021314,
+        "other_host": 0.43825919371427435
+      },
+      "MemAvailable": 660647931904
+    }
+  ],
+  "selection_phase": "quiet_coverage_screen",
+  "rule": "Rerun entire six-arm four-block stage with fresh recorded seed schedule. No pooling, selective performance exclusions, or retries. Preserve every completed external-load trial and transition trial. Fresh full app profile in full_quiet preserves old full and contaminated split profiles.",
+  "sequence": [
+    "six-arm four-block quiet screen",
+    "full plus five candidate app profiles",
+    "residual extraction and rejected build cleanup",
+    "four-arm six-block independent confirmation",
+    "separate PMU and Mongo profiles",
+    "final analysis"
+  ]
+}

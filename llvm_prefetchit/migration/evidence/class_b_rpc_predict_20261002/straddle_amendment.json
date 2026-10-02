@@ -1,0 +1,15 @@
+{
+  "epoch": 1790909035.9824536,
+  "reason": "Static review found baseline target_for handles cache-line-straddling instructions, while new RPC target selection used starting IP lines. This can misidentify the required line. Add a continuation-line-aware wide_span policy trained only from the original frozen prior trace; keep all existing variants and measurements.",
+  "state": "Paused only RPC measurement coordinator PID 484672 while its current smoke finishes normally; no clean coverage trials have started. Will preserve completed smoke evidence and continue unrun cases with amended coordinator.",
+  "screen": "Four balanced order/reverse blocks of full/lean/wide/wide_span/reply/reply_it0 (24 clean trials). Final independent six-block original/full/nominee/NOP confirmation unchanged.",
+  "analysis": "Retain IP-based classification explicitly and add a decoded instruction-span sensitivity analysis. Actual missed line for a straddling instruction is not directly exposed by this event; continuation is a hypothesis, not certainty.",
+  "guard": "No fresh evaluation trace is used to rank targets; existing byte controls and target-prefix policies stay intact.",
+  "coordinator_retired_epoch": 1790909218.0622537,
+  "completed_smokes_retained": [
+    "lean",
+    "lean_nop",
+    "wide"
+  ],
+  "verification": "Current wide smoke result valid; owned Docker container list empty before terminating paused coordinator. No clean coverage trial started or discarded. Original continuation log retains intentional coordinator termination."
+}

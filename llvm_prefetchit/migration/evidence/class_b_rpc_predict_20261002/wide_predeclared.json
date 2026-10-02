@@ -1,0 +1,10 @@
+{
+  "epoch": 1790903782.6245995,
+  "screen_rows_available": 11,
+  "rationale": "Remaining training misses are mostly outside existing targets; four targets per RPC may be too narrow even if timing is useful. Test greater RPC-known coverage without exceeding eight new hints at either anchor.",
+  "wide_policy": "Same original training and context/target filters as first policy, up to 16 targets per method with >=3 supporting samples. Even ranks before args decoding, odd ranks at handler first call; compact stubs with only active hints. No new DSO targets or future evaluation data.",
+  "selection": "After initial timing study and traces, three exploratory blocks full/lean/wide. Nominate highest RPS among lean/wide satisfying CPU <= full+0.5% and p99 <= full+2%; if neither qualifies still independently test highest RPS as non-promoted nominee.",
+  "confirmation": "Five fixed fresh blocks of original/full/nominee/nominee_nop. Keep phases separate. Promote only nominee whose paired-log 95% RPS interval lower bound vs full exceeds zero and CPU/p99 guards hold. Attribute benefit specifically to hints only when exact-layout NOP comparison supports it.",
+  "diagnostics": "Capture lean and wide L2 traces after selection but before retiring rejected ELF; freeze choice before traces. Separate final all-service PMU vs full. No overlap with timing.",
+  "supersedes": "Three-arm lean-only confirmation from initial lean_predeclared.json. Retain original timing-pair campaign unchanged."
+}
