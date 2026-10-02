@@ -99,7 +99,7 @@ def analyze(root):
             top=functions.most_common(50)
             names=[k[-1] for k,v in top]
             demangled=subprocess.check_output(['c++filt'],input='\n'.join(names)+'\n',text=True).splitlines()
-            outputs[scope+'_'+name]=dict(per_request=dict(segments),top_functions=[
+            outputs[scope+'_'+name]=dict(source_profile=str(root/directory/profile),per_request=dict(segments),top_functions=[
                 dict(service=key[0],segment=key[1],location=key[2],image=key[3],symbol=key[4],
                      demangled=pretty,events_per_request=value,share_pct=100*value/segments['all'])
                 for (key,value),pretty in zip(top,demangled)],top_stub_origins=[

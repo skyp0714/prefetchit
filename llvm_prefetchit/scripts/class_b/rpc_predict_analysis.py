@@ -57,6 +57,7 @@ def analyze(root):
     wide_selected={s:{t//64 for c in row['choices'] for t in c['targets']} for s,row in load(root/'wide_model.json').items()} if (root/'wide_model.json').exists() else {}
     span_selected={s:{t//64 for c in row['choices'] for t in c['targets']} for s,row in load(root/'wide_span_model.json').items()} if (root/'wide_span_model.json').exists() else {}
     reply_selected={s:{t//64 for c in row['choices'] for t in c['targets']} for s,row in load(root/'reply_model.json').items()} if (root/'reply_model.json').exists() else {}
+    reply_union={s:selected.get(s,set())|reply_selected.get(s,set()) for s in set(selected)|set(reply_selected)}
     output={};sources={}
     phases=[(p,'apps') for p in sorted((root/'profiles').iterdir())]
     if (root/'mongo_profiles').exists():phases += [(p,'mongo') for p in sorted((root/'mongo_profiles').iterdir())]
@@ -129,6 +130,7 @@ def analyze(root):
                 if i==main and line in wide_selected.get(service,set()):targets['wide_selected_lines']+=weight
                 if i==main and line in span_selected.get(service,set()):targets['span_selected_lines']+=weight
                 if i==main and line in reply_selected.get(service,set()):targets['reply_selected_lines']+=weight
+                if i==main and line in reply_union.get(service,set()):targets['incoming_and_reply_lines']+=weight
                 if i==main:targets['main_all']+=weight
                 length,kind=instruction_info(data,i,ip);instruction_kinds[kind]+=weight
                 last=(ip+length-1)//64 if length else line
@@ -147,7 +149,8 @@ def analyze(root):
                 span_counts[span_class]+=weight;span_counts['all']+=weight
                 if i==main:
                     for key,sets in [('selected_lines',selected),('wide_selected_lines',wide_selected),
-                                     ('span_selected_lines',span_selected),('reply_selected_lines',reply_selected)]:
+                                     ('span_selected_lines',span_selected),('reply_selected_lines',reply_selected),
+                                     ('incoming_and_reply_lines',reply_union)]:
                         if last in sets.get(service,set()):span_fixed[key]+=weight
                 if history and history[0][2]==i and 0<=ip-history[0][3]<64:
                     branch['within_64B_after_taken']+=weight
@@ -167,7 +170,20 @@ def analyze(root):
             sources[str(path)]=b.sha(path)
             for (segment,i,line,cls),value in sample_locations.items():
                 locations[service,segment,data['names'][i] if i>=0 else 'unknown',line,cls]+=value
+        address_counts=collections.Counter()
+        for (service,segment,image,line,classification),value in locations.items():
+            address_counts[service,image,line]+=value
+        ranked=address_counts.most_common();cumulative=0;coverage_counts={}
+        for index,(_,value) in enumerate(ranked,1):
+            cumulative+=value
+            for fraction in (.5,.9):
+                if cumulative>=fraction*aggregate['all']:coverage_counts.setdefault(str(fraction),index)
+        concentration=dict(observed_service_image_lines=len(address_counts),
+            top_line_share_pct={str(k):100*sum(v for _,v in ranked[:k])/aggregate['all'] for k in (1,10,50,100,500)},
+            lines_for_observed_mass=coverage_counts,
+            interpretation='Request-normalized sample weights; each service/image/starting cache line counted once after merging witness classes. Sampling concentration, not a true full-run footprint or prefetch performance ceiling.')
         output[phase_key]=dict(scope=scope,policy=name,services=services,per_request=dict(aggregate),selected_target_events_per_request=dict(targeted),
+            sampled_address_concentration=concentration,
             sample_instruction_kind_per_request=dict(instruction_kinds),
             targeted_retired_lbr_gap_per_request=dict(witness_gaps),
             targeted_witness_recovery_per_request=dict(witness_recovery),
