@@ -166,7 +166,8 @@ def analyze(root):
             aggregate.update(counts);targeted.update(targets)
             for i,c in enumerate(local_ages):ages[i].update(c)
             services[service]=dict(samples=len(data['rows']),per_request=dict(counts),selected_target_events_per_request=dict(targets),
-                quality=timeline['quality'],requests=data['requests'],profile_sha256=b.sha(path))
+                quality=timeline['quality'],requests=data['requests'],profile_sha256=b.sha(path),
+                schedule={k:timeline.get(k) for k in ('runs_with_prior_out','migrated_pct','median_run_us','median_off_us')})
             sources[str(path)]=b.sha(path)
             for (segment,i,line,cls),value in sample_locations.items():
                 locations[service,segment,data['names'][i] if i>=0 else 'unknown',line,cls]+=value

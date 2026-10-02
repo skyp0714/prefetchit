@@ -14,9 +14,27 @@ import fullset as h
 def main(root):
     assert load(root/'production_complete.json')['valid'];arms=load(root/'arms.json')
     candidate=load(root/'production_selection.json')['nominee']
-    run(root,'pmu_preflight',['python3',SCRIPTS/'temporal_path_final_pmu.py','preflight',root])
+    preflight=root/'final_pmu_preflight/complete.json'
+    if preflight.exists():
+        assert load(preflight)['valid']
+        assert load(preflight.parent/'protocol.json')['source_sha256']==b.sha(SCRIPTS/'temporal_path_final_pmu.py')
+    else:run(root,'pmu_preflight',['python3',SCRIPTS/'temporal_path_final_pmu.py','preflight',root])
     for index,(name,suite) in enumerate([('full','core'),(candidate,'core'),(candidate,'extra'),('full','extra')]):
-        label=name+'_'+suite;spec=root/('pmu_'+label+'.json')
+        base=name+'_'+suite;label=base;attempt=0
+        while (root/'diagnostics'/label).exists():
+            previous=root/'diagnostics'/label
+            if (previous/'result.json').exists() and load(previous/'result.json')['valid']:
+                assert load(previous/'protocol.json')['seed']==1020701
+                assert load(previous/'protocol.json')['reverse_pmu']==bool(index%2)
+                break
+            assert (previous/'failure.json').exists(),('Unfinished diagnostic',previous)
+            assert load(previous/'retirement.json')['complete'],('Retain and clean rejected diagnostic before retry',previous)
+            attempt+=1;assert attempt<=2,'Inspect repeated technical failures before further retries'
+            label=base+'_retry'+str(attempt)
+        else:previous=None
+        if previous is not None and (previous/'result.json').exists() and load(previous/'result.json')['valid']:continue
+        spec=root/('pmu_'+label+'.json')
+        assert not spec.exists(),spec
         b.save(spec,dict(arms[name],root=str(root),out=str(root/'diagnostics'/label),arm=name,suite=suite,
             seed=1020701,reverse_pmu=bool(index%2)))
         run(root,'pmu_'+label,['python3',SCRIPTS/'temporal_path_final_pmu.py','platform_trial',spec])
@@ -25,6 +43,8 @@ def main(root):
     assert load(root/'profiles'/candidate/'complete.json')['valid']
     import media_system_study as system
     for name in ('full',candidate):
+        if (root/'mongo_profiles'/name/'complete.json').exists():
+            assert load(root/'mongo_profiles'/name/'complete.json')['valid'];continue
         spec=root/('profile_mongo_'+name+'.json')
         b.save(spec,dict(arms[name],root=str(root),out=str(root/'mongo_profiles'/name),services=list(system.MONGO),
             kinds=['l2'],capture_s=8,seed=1020401,phase='mongo_residual',arm=name))
