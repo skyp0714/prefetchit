@@ -16,8 +16,23 @@ from temporal_path_analysis import read
 
 
 class Symbols:
-    def __init__(self):
-        self.tables={};self.records={}
+    def __init__(self,root):
+        self.tables={};self.records={};self.by_digest={}
+        paths=set()
+        for arm in load(root/'arms.json').values():
+            paths.update(arm['overrides'].values());paths.add(arm['mongo_binary'])
+            for libraries in arm.get('libraries',{}).values():paths.update(libraries.values())
+        metadata={Path(p+'.json') for p in paths}
+        metadata.update((root/'builds').rglob('*.json'))
+        for path in metadata:
+            if not path.exists():continue
+            record=load(path)
+            if 'patches' in record:self.by_digest[record['sha256']]=record
+
+    def bind(self,path,digest):
+        # The recorder may retain a same-SHA local reference copy without the
+        # builder's adjacent metadata. Identity follows SHA, not that copy path.
+        if digest in self.by_digest:self.records[path]=self.by_digest[digest]
 
     def original(self, path, ip):
         seen=set();layers=[]
@@ -60,12 +75,13 @@ class Symbols:
 
 def analyze(root):
     assert load(root/'all_measurements_complete.json')['valid']
-    nominee=load(root/'production_selection.json')['nominee'];lookup=Symbols();outputs={}
+    nominee=load(root/'production_selection.json')['nominee'];lookup=Symbols(root);outputs={}
     for scope,directory in [('apps','profiles'),('mongo','mongo_profiles')]:
         for name in ('full',nominee):
-            functions=collections.Counter();segments=collections.Counter();classes=collections.Counter();stubs=collections.Counter()
+            functions=collections.Counter();segments=collections.Counter();stubs=collections.Counter()
             for path in sorted((root/directory/name).glob('*/l2/observations.json.gz')):
                 data=read(path);weight=data['period']/data['requests'];catalog=data['catalog']
+                for entry in catalog.values():lookup.bind(Path(entry['binary']),entry['sha256'])
                 for row in data['rows']:
                     index=row['dso'];segments['all']+=weight
                     if index<0:segments['unmapped']+=weight;continue

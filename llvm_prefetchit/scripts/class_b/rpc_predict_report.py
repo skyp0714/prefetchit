@@ -86,7 +86,7 @@ def plots(root, report):
         for name, style in [('full', '-'), (nominee, '--')]:
             points = [v for v in arms[prefix + name]['age_bins'] if v['lo_us'] < 100]
             edges = [v['lo_us'] for v in points] + [100]
-            values = [v['events_per_scheduled_us'] or 0 for v in points]
+            values = [v['events_per_scheduled_us'] if v['events_per_scheduled_us'] is not None else np.nan for v in points]
             ax.stairs(values, edges, label=label(name), linestyle=style, linewidth=1.8)
         ax.axvspan(10, 20, color='#f6b54c', alpha=.2, label='10–20 µs')
         ax.set(xlabel='스케줄러가 태스크를 선택한 후 경과 시간 (µs)',
@@ -96,7 +96,24 @@ def plots(root, report):
     fig.text(.5, -.02, '서비스별 별도 8초 PEBS 표본. 커널 제외. 첫 사용자 명령 시점이나 prefetch lead-time을 직접 측정한 그래프가 아님.', ha='center', fontsize=9)
     fig.tight_layout(); save(fig, root, 'miss_over_time')
 
-    names = ['full', 'early', 'late', 'split', 'lean', 'wide', 'reply', 'reply_it0']
+    fig, axes = plt.subplots(2, 2, figsize=(12, 8))
+    for column, (prefix, title) in enumerate([('', '앱 서버 9개'), ('mongo_', 'MongoDB 3개')]):
+        for row_index, (origin, origin_label) in enumerate([('new_thread_first_run', '새 스레드 첫 실행'), ('resume', '기존 스레드 실행 재개')]):
+            ax=axes[row_index,column]
+            for name,style in [('full','-'),(nominee,'--')]:
+                points=[v for v in arms[prefix+name]['origin_age_bins'].get(origin,[]) if v['lo_us']<100]
+                if not points:continue
+                values=[v.get('estimated_events',0)/v['exposure_us'] if v.get('exposure_us') else np.nan for v in points]
+                ax.stairs(values,[v['lo_us'] for v in points]+[100],label=label(name),linestyle=style,linewidth=1.8)
+            ax.axvspan(10,20,color='#f6b54c',alpha=.2)
+            ax.set(title=title+' · '+origin_label,xlim=(0,100),xlabel='태스크 선택 후 경과 시간 (µs)',
+                   ylabel='실행 CPU 시간 1 µs당 retired L2 miss')
+            ax.grid(alpha=.2);ax.legend(fontsize=9)
+    fig.suptitle('스레드 첫 실행과 재개를 분리한 미스 발생률',y=1.01)
+    fig.text(.5,-.01,'관측 시작 전에 실행되던 스레드 등 기원을 확정할 수 없는 구간은 이 그림에서 제외. 노출 시간이 없는 구간은 결측.',ha='center',fontsize=9)
+    fig.tight_layout();save(fig,root,'miss_by_thread_origin')
+
+    names = ['full', 'nop', 'early', 'late', 'split', 'lean', 'wide', 'reply', 'reply_it0']
     fig, axes = plt.subplots(1, 2, figsize=(14, 6))
     bottom = np.zeros(len(names))
     colors = ['#526c91', '#cf9262', '#ba4f4f', '#8199aa', '#51a99c', '#bbbbbb']
@@ -157,6 +174,11 @@ def report_text(root, report):
         text += [f'### {title}', '', table(['정책', 'RPS', '기존 대비 처리량', '평균 ms', 'p99 ms', 'CPU µs/request'],
             [[label(n), f'{v["rps"]:.2f}', '기준' if n=='full' else formatted(p['comparisons'][n]['full'], 'inverse_rps'),
               f'{v["mean_ms"]:.4f}', f'{v["p99_ms"]:.4f}', f'{v["stack_cpu"]:.2f}'] for n,v in p['absolute'].items()]), '']
+    timing=report['phases']['screen']['comparisons']
+    text += ['동일 배치 비교는 다음과 같다. 기존 정책과의 비교에는 추가 stub의 실행 비용도 포함되며, 아래 NOP 비교는 새 힌트의 효과를 분리한다.', '',
+             table(['동일 배치 비교','처리량 증가','CPU/request 절감'],
+                   [[f'{label(a)} / {label(c)}',formatted(timing[a][c],'inverse_rps'),formatted(timing[a][c],'stack_cpu')]
+                    for a,c in [('early','late'),('early','nop'),('late','nop'),('split','nop')]]),'']
     build_rows=[]
     for name, builds in report['prepared'].items():
         build_rows.append([label(name), len(builds), sum(v.get('active_hints',v.get('it0_hints',0)+v.get('t1_hints',0)) for v in builds.values()),
@@ -166,16 +188,34 @@ def report_text(root, report):
              '상세 patch·타깃·소스 해시는 보존했다.', '', '## 남은 L2 미스', '',
              f'![잔여 미스와 고정 주소의 미스](figures/{TAG}_residual_coverage.png)', '']
     residual=report['residuals']['arms']
+    text += ['타깃 주소 집합을 고정한 비교다. 각 열은 모든 정책에서 똑같은 원래 코드 주소를 세며, 세 주소 집합은 서로 중복될 수 있다.', '',
+             table(['정책','처음 고른 주소 miss/request','확대한 주소 miss/request','응답용 주소 miss/request'],
+                   [[label(n)]+[f'{residual[n]["selected_target_events_per_request"].get(key,0):.2f}'
+                                for key in ('selected_lines','wide_selected_lines','reply_selected_lines')]
+                    for n in ('full','nop','early','late','split','lean','wide','reply','reply_it0')]),'']
     for prefix,title in [('', '앱 서버 9개'), ('mongo_', 'MongoDB 3개')]:
         f=residual[prefix+'full']['per_request'];c=residual[prefix+nominee]['per_request']
         text += [f'### {title} · 공유 라이브러리 포함', '',
                  table(['위치', '기존 miss/request', '후보 miss/request', '후보 내 비중'],
                        [[title, f'{f.get(key,0):.2f}', f'{c.get(key,0):.2f}', f'{100*c.get(key,0)/c["all"]:.2f}%'] for key,title in CLASSES]+
                        [['전체', f'{f["all"]:.2f}', f'{c["all"]:.2f}', '100%']]), '']
+        associated=residual[prefix+nominee]['branch_association_per_request']
+        share=100*associated.get('within_64B_after_taken',0)/c['all']
+        text += [f'후보 표본 중 최근 taken branch의 타깃 뒤 64바이트 안에 잡힌 비중은 {share:.2f}%다. '
+                 '실행되는 코드의 위치 관계이며 BTB miss 비율이 아니다.', '']
+        group='mongo_' if prefix else 'apps_'
+        details=report['residual_symbols']['groups'][group+nominee]
+        text += [table(['주요 잔여 위치', '이미지', '영역', 'miss/request'],
+            [[v['demangled'].replace('|','\\|'), v['image'],
+              '삽입 코드 → 원 호출 함수' if v['location']=='inserted_stub' else '기존 함수',
+              f'{v["events_per_request"]:.2f}'] for v in details['top_functions'][:10]]), '',
+            '심볼은 실제 표본 IP가 ELF 심볼 크기 범위에 포함될 때만 붙였다. 삽입 코드 표본은 patch 기록을 따라 원래 호출 지점의 함수로 연결했다. '
+            '같은 stub을 여러 호출 지점이 공유하면 특정 함수 하나로 추정하지 않았다.', '']
     text += ['위 표는 retired L2 miss PEBS 표본의 위치 분류다. 삽입 코드 내부 미스도 실제 코드 fetch의 일부이지만, '
              '그 숫자를 prefetch가 새로 유발한 미스 수로 해석하지 않는다. LBR에 stub 실행 분기가 있으면 발행 경로 실행의 증거가 되지만 '
              '하드웨어의 prefetch 수용·완료를 뜻하지 않는다. 최근 32분기에 발행이 없다는 것만으로 미발행을 확정하지 않는다.', '',
              f'![실행 재개 후 미스](figures/{TAG}_miss_over_time.png)', '',
+             f'![새 스레드와 실행 재개 분리](figures/{TAG}_miss_by_thread_origin.png)', '',
              '시간 그래프는 각 구간의 스케줄된 CPU 시간으로 나눈 발생률이다. 구간 길이가 다른 원시 표본 수를 직접 비교하지 않았다. '
              '시간 0은 스케줄러의 태스크 선택 시점이며 첫 사용자 명령 실행 시점이 아니다. 서비스별 8초 표본 1회이므로 작은 차이는 기술적 관측값이다.', '',
              '## 별도 PMU 진단', '',
@@ -197,6 +237,20 @@ def report_text(root, report):
             change=f'{c-a:+.2f}%p' if key.endswith('_pct') else f'{100*(c/a-1):+.2f}%' if a else '—'
             rows.append([title_metric,f'{a:,.2f}',f'{c:,.2f}',change])
         text += [f'### {title} · 사용자 코드와 공유 라이브러리', '',table(['지표','기존','후보','변화'],rows),'']
+    from media_system_study import NATIVE, MONGO
+    cpu_rows=[]
+    for name in ('original','full',nominee):
+        values=final['absolute'][name];counts=values['service_cpu']
+        app_user=sum(counts[v[0]+':user_us/request'] for v in NATIVE.values())
+        app_kernel=sum(counts[v[0]+':system_us/request'] for v in NATIVE.values())
+        mongo_user=sum(counts[v+':user_us/request'] for v in MONGO.values())
+        mongo_kernel=sum(counts[v+':system_us/request'] for v in MONGO.values())
+        remaining=values['stack_cpu']-app_user-app_kernel-mongo_user-mongo_kernel
+        cpu_rows.append([label(name)]+[f'{v:.2f}' for v in (app_user,app_kernel,mongo_user,mongo_kernel,remaining)])
+    text += ['### 전체 요청에서의 CPU 시간', '',
+             table(['정책','앱 9개 user µs','앱 9개 kernel µs','Mongo 3개 user µs','Mongo 3개 kernel µs','나머지 µs'],cpu_rows),'',
+             '모두 요청당 clean 실행의 cgroup CPU 회계다. 사용자 코드의 frontend 슬롯 비율을 전체 요청 시간 비율로 곱하지 않는다. '
+             '여러 서비스가 병렬로 실행되므로 CPU 합계의 비중도 요청 지연의 비중이나 speedup 상한이 아니다.', '']
     text += ['Raw L2 code-read miss와 retired L2 miss는 서로 다른 이벤트 집합이다. 둘의 차를 잘못 예측한 경로의 미스 수로 환산하지 않는다. '
              'Frontend/backend는 슬롯 비율이며 전체 요청 지연의 비율이 아니다. Unknown-branch와 분기 직후 표본도 BTB miss 점유율을 직접 측정하지 않는다. '
              '스톨 지표끼리는 중첩되므로 합산하지 않는다. LATE_SWPF는 PREFETCHIT에 관한 이벤트이며 일반 T1 데이터 힌트의 지연 지표로 쓰지 않는다. '

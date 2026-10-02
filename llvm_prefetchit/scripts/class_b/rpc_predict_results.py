@@ -3,6 +3,7 @@
 import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
 import shutil
 import statistics
@@ -18,13 +19,38 @@ TAG='class_b_rpc_predict_20261002'
 PHASES=('screen','confirmation','coverage_screen','production_confirmation')
 
 
+def dedup_references(root):
+    """Preserve capture paths while retiring verified duplicate local ELF copies."""
+    assert load(root/'all_measurements_complete.json')['valid']
+    arms=load(root/'arms.json');canonical={}
+    for path in sorted(arm_paths(arms['original'])|arm_paths(arms['full'])):
+        assert path.is_file() and not str(path).startswith('/fast-lab-share/')
+        canonical.setdefault(b.sha(path),path)
+    copies=[]
+    for path in sorted((root/'references').glob('*/*')):
+        if path.is_symlink() or not path.is_file():continue
+        digest=path.parent.name;source=canonical.get(digest)
+        if source is None or path.resolve()==source:continue
+        assert b.sha(path)==digest
+        copies.append(dict(path=str(path),canonical=str(source),sha256=digest,bytes=path.stat().st_size))
+    result=dict(files=copies,bytes_removed=sum(v['bytes'] for v in copies),complete=False,
+        free_before=shutil.disk_usage(root).free,
+        reason='All captures and analyses extracted; these recorder-owned copies have identical SHA to retained local original/incumbent artifacts. Replace only duplicate copies with local symlinks, preserving catalog access paths. No NAS I/O.')
+    destination=root/'reference_deduplication.json';assert not destination.exists();b.save(destination,result)
+    for row in copies:
+        path=Path(row['path']);temporary=path.with_name(path.name+'.reference-link')
+        assert not temporary.exists() and not temporary.is_symlink()
+        temporary.symlink_to(row['canonical']);os.replace(temporary,path)
+    result.update(complete=True,free_after=shutil.disk_usage(root).free);b.save(destination,result)
+
+
 def summarize(root):
     assert load(root/'all_measurements_complete.json')['valid']
     candidate=load(root/'production_selection.json')['nominee'];phases={}
     for phase in PHASES:
         e=load(root/phase/'evaluation.json')
         phases[phase]=dict(trials=e['trials'],comparisons=e['e2e'],
-            absolute={n:dict(rps=v['rps'],util_pct=v['util_pct'],**v['e2e']) for n,v in e['absolute'].items()})
+            absolute={n:dict(rps=v['rps'],util_pct=v['util_pct'],service_cpu=v['service_cpu'],**v['e2e']) for n,v in e['absolute'].items()})
     c=phases['production_confirmation']['comparisons'][candidate]['full']
     promoted=c['inverse_rps']['speedup_ci95'][0]>1 and c['stack_cpu']['cost_reduction_pct']>=-.5 and c['p99_ms']['cost_reduction_pct']>=-2
     nop=phases['production_confirmation']['comparisons'][candidate][candidate+'_nop']
@@ -40,6 +66,7 @@ def summarize(root):
             if values:baseline[phase][name]=dict(values=values,cv_pct=100*statistics.stdev(values)/statistics.mean(values))
     report=dict(candidate=candidate,decision=decision,phases=phases,baseline_variation=baseline,
         pmu=load(root/'analysis/pmu_summary.json'),residuals=load(root/'analysis/residuals.json'),
+        residual_symbols=load(root/'analysis/residual_symbols.json'),
         prepared={n:load(root/'prepared_candidates.json')[n]['builds'] for n in ('lean','wide','reply','reply_it0')},
         limits='All endpoint effects use fresh stacks and clean ROIs. Phases are not pooled. PMU windows and PEBS profiles are descriptive independent diagnostics; raw L2 code reads and retired L2 misses are different populations. No BTB occupancy, prefetch completion, or exact hint-to-fetch latency is measured.')
     b.save(root/'final_decision.json',decision);b.save(root/'analysis/report.json',report)
@@ -49,6 +76,7 @@ def summarize(root):
     # Some winning variants reference binaries stored in a parent variant's
     # folder. Protection is by resolved measured path, never just folder name.
     cleanup(root,rejected,keep,'final_rejected_cleanup.json')
+    dedup_references(root)
     print(json.dumps(dict(decision=decision,absolute=phases['production_confirmation']['absolute']),indent=2))
 
 
@@ -112,6 +140,7 @@ def audit(root):
 
 def publish(root):
     assert load(root/'final_restoration_audit.json')['valid'];assert (root/'report.md').exists()
+    assert '<!-- Add measured interpretation' not in (root/'report.md').read_text(), 'Inspect results and finish the interpretation before publication'
     destination=b.REPO/'llvm_prefetchit/migration/evidence'/TAG;destination.mkdir(parents=True,exist_ok=False)
     for path in Path(__file__).parent.glob('rpc_predict_*.py'):
         snapshot=root/'source_versions'/(b.sha(path)+'.py')
