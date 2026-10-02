@@ -51,6 +51,10 @@ def prepare(root):
     result=dict(valid=True,nominee=nominee,restored_sites=total_restored,builds=builds,epoch=time.time(),source_sha256=b.sha(__file__),
         interpretation='Only active hints rebuilt on intact incumbent: same target list, relative target order and RPC phase. Inactive sites and disabled slots are omitted. Appended stub addresses/layout change; all preexisting code and hint addresses are preserved. Fresh exact-layout NOP twin controls the compact build; do not pool its results with the timing-pair build.')
     b.save(root/'lean_prepared.json',result)
+    # All timing-pair measurements and residual extraction are complete, and
+    # the compact build has retained their target lists and source hashes.
+    # Retire the superseded ELFs now, before building or smoking later variants.
+    cleanup(root,['early','late','split','nop'],[arms[n] for n in ('full','original','lean','lean_nop')], 'timing_pair_cleanup.json')
     print(result)
 
 
@@ -64,9 +68,6 @@ def measure(root):
         b.save(spec,dict(arms[name],root=str(root),out=str(root/'smoke'/name),seed=1020501+index))
         run(root,'smoke_'+name,['python3',SCRIPTS/'rpc_route_followup.py','platform_smoke',spec])
         assert load(root/'smoke'/name/'result.json')['valid']
-    # Timing pairs have finished all required captures. Retire their generated
-    # executables immediately; keep their patches, measurements and source.
-    cleanup(root,['early','late','split','nop'],[arms[n] for n in ('full','original','lean','lean_nop','wide','wide_nop','reply','reply_nop','reply_it0')], 'timing_pair_cleanup.json')
     names=['full','lean','wide','reply','reply_it0'];orders=[]
     for offset in (0,2):
         order=names[offset:]+names[:offset];orders.extend([order,list(reversed(order))])
