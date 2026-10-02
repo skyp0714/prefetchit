@@ -9,6 +9,7 @@ import dense_build as b
 from rpc_route_study import load
 from temporal_path_analysis import read
 from temporal_path_common import EDGES
+from dense_cause_analysis import Code
 
 
 def analyze(root):
@@ -32,16 +33,37 @@ def analyze(root):
         while digest in known:
             assert digest not in seen;seen.add(digest)
             record=known[digest];yield record;digest=record['source_sha256']
+    # Decode retained incumbent images: original instruction lengths and all
+    # incumbent stubs remain identical in the newly appended variants.
+    decode_sources={canonical(load(Path(p+'.json'))['sha256']):Path(p) for p in paths}
+    decoded={}
+    def instruction_length(data,index,ip):
+        if index<0:return 0
+        digest=data['digests'][index]
+        path=decode_sources.get(canonical(digest),Path(data['catalog'][data['names'][index]]['binary']))
+        if path not in decoded:decoded[path]=Code(path)
+        length=decoded[path].get(ip)[0]
+        if length:return length
+        # The newly appended regions may already have been retired. Recognize
+        # their fixed-size hint/NOP slots and jumps from retained patch records.
+        for record in chain(digest):
+            if 'variant' not in record:continue
+            for patch in record['patches']:
+                if ip in patch['terminal_jumps']:return 5
+                if any(ip==patch['stub']+7*rank for rank in range(len(patch['targets']))):return 7
+        return 0
     selected={s:{t//64 for c in row['choices'] for t in c['targets']} for s,row in load(root/'model.json').items()}
     wide_selected={s:{t//64 for c in row['choices'] for t in c['targets']} for s,row in load(root/'wide_model.json').items()} if (root/'wide_model.json').exists() else {}
+    span_selected={s:{t//64 for c in row['choices'] for t in c['targets']} for s,row in load(root/'wide_span_model.json').items()} if (root/'wide_span_model.json').exists() else {}
     reply_selected={s:{t//64 for c in row['choices'] for t in c['targets']} for s,row in load(root/'reply_model.json').items()} if (root/'reply_model.json').exists() else {}
     output={};sources={}
     phases=[(p,'apps') for p in sorted((root/'profiles').iterdir())]
     if (root/'mongo_profiles').exists():phases += [(p,'mongo') for p in sorted((root/'mongo_profiles').iterdir())]
     for phase,scope in phases:
         if not phase.is_dir() or not (phase/'complete.json').exists():continue
-        name=load(phase/'protocol.json')['arm'];key=name if scope=='apps' else 'mongo_'+name
+        name=load(phase/'protocol.json')['arm'];phase_key=name if scope=='apps' else 'mongo_'+name
         aggregate=collections.Counter();locations=collections.Counter();targeted=collections.Counter()
+        span_counts=collections.Counter();span_fixed=collections.Counter();span_geometry=collections.Counter()
         ages=[collections.Counter() for _ in range(len(EDGES))];exposures=[0.0]*len(EDGES);events=[0.0]*len(EDGES)
         services={};branch=collections.Counter();origins=collections.Counter()
         origin_ages=collections.defaultdict(lambda:[collections.Counter() for _ in EDGES])
@@ -86,8 +108,27 @@ def analyze(root):
                 if i==main and line in selected.get(service,set()):
                     targets['selected_lines']+=weight;selected_ages[age]+=weight
                 if i==main and line in wide_selected.get(service,set()):targets['wide_selected_lines']+=weight
+                if i==main and line in span_selected.get(service,set()):targets['span_selected_lines']+=weight
                 if i==main and line in reply_selected.get(service,set()):targets['reply_selected_lines']+=weight
                 if i==main:targets['main_all']+=weight
+                length=instruction_length(data,i,ip);last=(ip+length-1)//64 if length else line
+                span_geometry['decoded' if length else 'undecoded']+=weight
+                if last!=line:
+                    span_geometry['straddling']+=weight
+                    first_targeted=line in lines[i];last_targeted=last in lines[i]
+                    key='both_targeted' if first_targeted and last_targeted else 'first_only_targeted' if first_targeted else 'last_only_targeted' if last_targeted else 'neither_targeted'
+                    span_geometry[key]+=weight
+                if i<0:span_class='unmapped'
+                elif in_stub:span_class=in_stub
+                elif last not in lines[i]:span_class='not_targeted'
+                else:
+                    span_witness=any((i,last) in jumps.get(tuple(edge[:2]),set()) for edge in history)
+                    span_class='targeted_with_lbr_witness' if span_witness else 'targeted_no_bounded_witness'
+                span_counts[span_class]+=weight;span_counts['all']+=weight
+                if i==main:
+                    for key,sets in [('selected_lines',selected),('wide_selected_lines',wide_selected),
+                                     ('span_selected_lines',span_selected),('reply_selected_lines',reply_selected)]:
+                        if last in sets.get(service,set()):span_fixed[key]+=weight
                 if history and history[0][2]==i and 0<=ip-history[0][3]<64:
                     branch['within_64B_after_taken']+=weight
                     branch['prediction_'+history[0][4]]+=weight
@@ -106,7 +147,9 @@ def analyze(root):
             sources[str(path)]=b.sha(path)
             for (segment,i,line,cls),value in sample_locations.items():
                 locations[service,segment,data['names'][i] if i>=0 else 'unknown',line,cls]+=value
-        output[key]=dict(scope=scope,policy=name,services=services,per_request=dict(aggregate),selected_target_events_per_request=dict(targeted),
+        output[phase_key]=dict(scope=scope,policy=name,services=services,per_request=dict(aggregate),selected_target_events_per_request=dict(targeted),
+            continuation_line_model=dict(per_request=dict(span_counts),selected_target_events_per_request=dict(span_fixed),geometry_per_request=dict(span_geometry),
+                interpretation='Sensitivity model: if an instruction straddles 64B, classify its last-byte line. The event does not expose which line actually missed; starting-IP and continuation-line classifications are both retained. Unknown lengths remain on the starting line. Static bounded LBR witnesses do not require usable cycle-distance fields.'),
             branch_association_per_request=dict(branch),origin_events_per_request=dict(origins),
             origin_age_bins={origin:[dict(lo_us=EDGES[i],hi_us=EDGES[i+1] if i+1<len(EDGES) else None,**dict(v))
                 for i,v in enumerate(values)] for origin,values in origin_ages.items()},
@@ -117,8 +160,13 @@ def analyze(root):
                 for (s,seg,im,line,cls),n in locations.most_common(100)])
     result=dict(arms=output,sources=sources,source_sha256=b.sha(__file__),
         scope='Application and MongoDB process captures are separate named groups, each including mapped DSOs. Kernel is excluded from PEBS; separate pool PMU covers kernel totals.',
-        limitations='Retired L2-miss samples, not all speculative L2 code reads. Each service has a separate eight-second window. One capture per arm, descriptive only. Bounded retired LBR can witness execution of a hint stub, not acceptance or completion. No witness is not proof of no issue. Taken-target proximity is not BTB attribution. Switch-in age starts at scheduler selection, not first user instruction. Straddling instructions are not adjusted here; this classifier uses the sampled IP cache line consistently in every arm.')
-    b.save(root/'analysis/residuals.json',result)
+        limitations='Retired L2-miss samples, not all speculative L2 code reads. Each service has a separate eight-second window. One capture per arm, descriptive only. Bounded retired LBR can witness execution of a hint stub, not acceptance or completion. No witness is not proof of no issue. Taken-target proximity is not BTB attribution. Switch-in age starts at scheduler selection, not first user instruction. Primary counts use the sampled starting-IP line; the decoded continuation-line sensitivity model is recorded separately and does not prove which line missed.')
+    destination=root/'analysis/residuals.json'
+    if destination.exists():
+        snapshot=root/'analysis/history'/('residuals_'+b.sha(destination)+'.json')
+        snapshot.parent.mkdir(exist_ok=True)
+        if not snapshot.exists():snapshot.write_bytes(destination.read_bytes())
+    b.save(destination,result)
     for name,row in output.items():print(name,row['per_request'],row['selected_target_events_per_request'])
 
 

@@ -15,8 +15,10 @@ from rpc_route_study import load
 from temporal_path_analysis import read
 
 
-def prepare(root):
+def prepare(root,span=False):
     assert (root/'wide_predeclared.json').exists()
+    if span:assert (root/'straddle_amendment.json').exists()
+    variant='wide_span' if span else 'wide'
     assert load(root/'measurement_complete.json')['valid']
     arms=load(root/'arms.json');inventory=load(root/'rpc_inventory.json');old_model=load(root/'model.json')
     base=arms['full'];arm=copy.deepcopy(base);nop=copy.deepcopy(base);builds={};model={}
@@ -35,7 +37,7 @@ def prepare(root):
         trace=Path(old_model[service]['training']);assert b.sha(trace)==old_model[service]['training_sha256']
         data=read(trace);main=data['digests'].index(old['sha256'])
         targeted={t//64 for p in old['patches'] for t in p['targets']};counts=collections.defaultdict(collections.Counter)
-        addresses={};kinds={}
+        addresses={};kinds={};geometry=collections.Counter()
         for row in data['rows']:
             if row['dso']!=main:continue
             ip=row['ip'];mapped,is_stub=origin(ip);fn=code.get(mapped)[2]
@@ -47,21 +49,30 @@ def prepare(root):
                     if label is None and td==main:label=context(to)
                     if label is not None:break
             if label not in anchors:continue
-            a=anchors[label];line=ip//64
-            if line in targeted or line in {a['early']//64,a['late']//64}:continue
+            a=anchors[label];target=ip;length=emitted.get(ip)[0]
+            geometry['associated_samples']+=1
+            if ip//64!=(ip+length-1)//64:
+                geometry['straddling_samples']+=1
+                if emitted.get(ip+length)[0]:
+                    geometry['continuation_decoded_samples']+=1
+                    if span:target=ip+length
+                else:geometry['no_decoded_continuation_samples']+=1
+            line=target//64
+            issuing={a['early']//64,a['late']//64}
+            if span:issuing.update({(a['early']+4)//64,(a['late']+4)//64})
+            if line in targeted or line in issuing:continue
             if fn==code.get(a['handler'])[2] and mapped<a['late']:continue
-            counts[label][line]+=1;addresses[line]=min(addresses.get(line,ip),ip)
+            counts[label][line]+=1;addresses[line]=min(addresses.get(line,target),target)
             kinds[line]='incumbent_stub' if is_stub else 'original_main'
         choices=[];calls=[]
         for method,anchor in anchors.items():
             selected=[(line,n) for line,n in counts[method].most_common() if n>=3][:16]
             targets=[addresses[line] for line,n in selected]
-            count=len(anchor['targets'])
-            assert [t//64 for t in targets[:count]]==[t//64 for t in anchor['targets']],(service,method,'Training prefix changed')
-            # The first model included inactive RPC contexts when choosing a
-            # representative instruction within each line. Keep those exact
-            # frozen instruction addresses for the common prefix.
-            targets[:count]=anchor['targets']
+            if not span:
+                count=len(anchor['targets'])
+                assert [t//64 for t in targets[:count]]==[t//64 for t in anchor['targets']],(service,method,'Training prefix changed')
+                # Preserve exact frozen instruction addresses for the common prefix.
+                targets[:count]=anchor['targets']
             choices.append(dict(method=method,early=anchor['early'],late=anchor['late'],targets=targets,
                 counts=[n for line,n in selected],kinds=[kinds[line] for line,n in selected]))
             for parity,phase in enumerate(('early','late')):
@@ -70,26 +81,30 @@ def prepare(root):
                 site=anchor[phase];offset=elf.offset(site,5,True);assert raw[offset]==0xe8
                 calls.append(dict(site=site,callee=site+5+struct.unpack_from('<i',raw,offset+1)[0],
                     expected=raw[offset:offset+5].hex(),targets=phase_targets))
-        plan=dict(sha256=b.sha(source),calls=calls);output=root/'builds'/'wide'/service/source.name
-        b.save(root/'plans'/'wide'/(service+'.json'),dict(source=str(source),plan=plan,choices=choices))
+        model[service]=dict(training=str(trace),training_sha256=b.sha(trace),choices=choices,geometry=dict(geometry),
+            target_rule='Decoded continuation instruction for straddling IPs; otherwise sampled IP' if span else 'Sampled starting IP; frozen prefix retained')
+        if not calls:continue
+        plan=dict(sha256=b.sha(source),calls=calls);output=root/'builds'/variant/service/source.name
+        b.save(root/'plans'/variant/(service+'.json'),dict(source=str(source),plan=plan,choices=choices))
         built=stubs.build(source,plan,output)
         after=stubs.Elf(output.read_bytes())
         for hint in old['hints']:
             instruction=bytes.fromhex(hint['original']);offset=after.offset(hint['va'],len(instruction),True)
             assert after.data[offset:offset+len(instruction)]==instruction
-        twin=Path(str(output)+'.nop');built.update(variant='wide',nop_path=str(twin))
+        twin=Path(str(output)+'.nop');built.update(variant=variant,nop_path=str(twin))
         b.save(Path(str(output)+'.json'),built)
-        b.save(Path(str(twin)+'.json'),dict(built,sha256=b.sha(twin),hints=[],variant='wide_nop'))
+        b.save(Path(str(twin)+'.json'),dict(built,sha256=b.sha(twin),hints=[],variant=variant+'_nop'))
         arm['overrides'][service]=str(output);nop['overrides'][service]=str(twin)
         builds[service]=dict(binary=str(output),sha256=b.sha(output),nop=str(twin),nop_sha256=b.sha(twin),
             active_hints=len(built['hints']),extra_instruction_bytes=built['extra_instruction_bytes'])
-        model[service]=dict(training=str(trace),training_sha256=b.sha(trace),choices=choices)
         print(service,len(built['hints']),flush=True)
-    arms.update(wide=arm,wide_nop=nop);b.save(root/'arms.json',arms)
-    prepared=load(root/'prepared_candidates.json');prepared['wide']=dict(arm=arm,nop=nop,builds=builds)
-    b.save(root/'prepared_candidates.json',prepared);b.save(root/'wide_model.json',model)
-    b.save(root/'wide_prepared.json',dict(valid=True,builds=builds,epoch=time.time(),source_sha256=b.sha(__file__)))
+    assert builds,'No usable continuation-aware targets'
+    arms.update({variant:arm,variant+'_nop':nop});b.save(root/'arms.json',arms)
+    prepared=load(root/'prepared_candidates.json');prepared[variant]=dict(arm=arm,nop=nop,builds=builds)
+    b.save(root/'prepared_candidates.json',prepared);b.save(root/(variant+'_model.json'),model)
+    b.save(root/(variant+'_prepared.json'),dict(valid=True,builds=builds,epoch=time.time(),source_sha256=b.sha(__file__)))
 
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('root',type=Path);prepare(parser.parse_args().root)
+    parser=argparse.ArgumentParser();parser.add_argument('root',type=Path);parser.add_argument('--span',action='store_true')
+    args=parser.parse_args();prepare(args.root,args.span)

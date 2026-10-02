@@ -60,32 +60,40 @@ def prepare(root):
 
 def measure(root):
     assert load(root/'lean_prepared.json')['valid'];arms=load(root/'arms.json')
-    run(root,'wide_prepare',['python3',SCRIPTS/'rpc_predict_wide.py',root]);arms=load(root/'arms.json')
-    run(root,'reply_prepare',['python3',SCRIPTS/'rpc_predict_reply.py',root]);arms=load(root/'arms.json')
-    run(root,'reply_it0_prepare',['python3',SCRIPTS/'rpc_predict_reply_it0.py',root]);arms=load(root/'arms.json')
-    for index,name in enumerate(('lean','lean_nop','wide','wide_nop','reply','reply_nop','reply_it0')):
+    for name,script,extra in [('wide','rpc_predict_wide.py',[]),('reply','rpc_predict_reply.py',[]),
+                              ('reply_it0','rpc_predict_reply_it0.py',[]),('wide_span','rpc_predict_wide.py',['--span'])]:
+        marker=root/(name+'_prepared.json')
+        if marker.exists():assert load(marker)['valid']
+        else:run(root,name+'_prepare',['python3',SCRIPTS/script,root,*extra])
+    arms=load(root/'arms.json')
+    for index,name in enumerate(('lean','lean_nop','wide','wide_nop','reply','reply_nop','reply_it0','wide_span','wide_span_nop')):
+        marker=root/'smoke'/name/'result.json'
+        if marker.exists():
+            assert load(marker)['valid']
+            continue
         spec=root/('smoke_'+name+'.json')
         b.save(spec,dict(arms[name],root=str(root),out=str(root/'smoke'/name),seed=1020501+index))
         run(root,'smoke_'+name,['python3',SCRIPTS/'rpc_route_followup.py','platform_smoke',spec])
         assert load(root/'smoke'/name/'result.json')['valid']
-    names=['full','lean','wide','reply','reply_it0'];orders=[]
-    for offset in (0,2):
+    candidates=['lean','wide','wide_span','reply','reply_it0']
+    names=['full',*candidates];orders=[]
+    for offset in (0,3):
         order=names[offset:]+names[:offset];orders.extend([order,list(reversed(order))])
-    assert all(sum(order.index(n) for order in orders)==8 for n in names)
+    assert all(sum(order.index(n) for order in orders)==10 for n in names)
     campaign(root,'coverage_screen',arms,names,4,1020601,orders=orders)
-    decision=select(load(root/'coverage_screen/rows.json'),'full',['lean','wide','reply','reply_it0'],4)
-    nominee=max(decision['eligible'] or ['lean','wide','reply','reply_it0'],key=lambda n:decision['means'][n]['geometric_rps'])
+    decision=select(load(root/'coverage_screen/rows.json'),'full',candidates,4)
+    nominee=max(decision['eligible'] or candidates,key=lambda n:decision['means'][n]['geometric_rps'])
     decision.update(nominee=nominee,promoted=False,epoch=time.time(),blocks=6)
     b.save(root/'production_selection.json',decision)
     # Extract residual evidence before retiring the rejected implementation.
-    for name in ('lean','wide','reply','reply_it0'):
+    for name in candidates:
         spec=root/('profile_'+name+'.json')
         b.save(spec,dict(arms[name],root=str(root),out=str(root/'profiles'/name),services=list(arms[name]['overrides']),
             kinds=['l2'],capture_s=8,seed=1020401,phase='coverage',arm=name))
         run(root,'profile_'+name,['python3',SCRIPTS/'temporal_path_study.py','platform_capture',spec])
         assert load(root/'profiles'/name/'complete.json')['valid']
     run(root,'coverage_residual_analysis',['python3',SCRIPTS/'rpc_predict_analysis.py',root])
-    cleanup(root,[n for n in ('lean','wide','reply','reply_it0') if n!=nominee],
+    cleanup(root,[n for n in candidates if n!=nominee],
         [arms[n] for n in ('full','original',nominee,nominee+'_nop')], 'coverage_screen_cleanup.json')
     names=['original','full',nominee,nominee+'_nop'];orders=[]
     for offset in range(3):

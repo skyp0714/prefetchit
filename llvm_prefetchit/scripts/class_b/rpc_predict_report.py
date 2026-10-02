@@ -14,6 +14,7 @@ from rpc_predict_results import TAG
 LABELS = {'original': '원본', 'full': '기존 정책', 'early': '인자 해석 전 T1',
           'late': '핸들러 진입 T1', 'split': '두 단계 분산 T1', 'nop': '동일 배치 NOP',
           'lean': '분산 T1·불필요 슬롯 제거', 'wide': 'RPC별 타깃 확대',
+          'wide_span': '타깃 확대·라인 경계 보정',
           'reply': '응답 헤더 후 T1 추가', 'reply_it0': '응답 헤더 후 IT0/T1 추가'}
 CLASSES = [('not_targeted', '타깃에 없는 코드'), ('incumbent_stub', '기존 삽입 코드'),
            ('new_stub', '이번 삽입 코드'), ('targeted_no_bounded_witness', '타깃·최근 발행 확인 안 됨'),
@@ -113,7 +114,7 @@ def plots(root, report):
     fig.text(.5,-.01,'관측 시작 전에 실행되던 스레드 등 기원을 확정할 수 없는 구간은 이 그림에서 제외. 노출 시간이 없는 구간은 결측.',ha='center',fontsize=9)
     fig.tight_layout();save(fig,root,'miss_by_thread_origin')
 
-    names = ['full', 'nop', 'early', 'late', 'split', 'lean', 'wide', 'reply', 'reply_it0']
+    names = ['full', 'nop', 'early', 'late', 'split', 'lean', 'wide', 'wide_span', 'reply', 'reply_it0']
     fig, axes = plt.subplots(1, 2, figsize=(14, 6))
     bottom = np.zeros(len(names))
     colors = ['#526c91', '#cf9262', '#ba4f4f', '#8199aa', '#51a99c', '#bbbbbb']
@@ -122,12 +123,13 @@ def plots(root, report):
         axes[0].barh(range(len(names)), values, left=bottom, label=title, color=color)
         bottom += values
     axes[0].set_yticks(range(len(names)), [label(n) for n in names]); axes[0].invert_yaxis()
-    axes[0].set(xlabel='요청당 retired L2 miss 추정', title='앱 9개 잔여 미스의 위치')
+    axes[0].set(xlabel='요청당 retired L2 miss 추정', title='앱 9개 잔여 미스 · 표본 시작 주소 기준')
     axes[0].legend(fontsize=8, loc='upper center', bbox_to_anchor=(.5, -.14), ncol=2)
-    x = np.arange(len(names)); width=.24
+    x = np.arange(len(names)); width=.19
     for index, (key, title) in enumerate([('selected_lines', '처음 고른 주소'),
-                                        ('wide_selected_lines', '확대한 주소'), ('reply_selected_lines', '응답용 주소')]):
-        axes[1].bar(x + (index-1)*width, [arms[n]['selected_target_events_per_request'].get(key, 0) for n in names], width, label=title)
+                                        ('wide_selected_lines', '확대한 주소'), ('span_selected_lines', '경계 보정 주소'),
+                                        ('reply_selected_lines', '응답용 주소')]):
+        axes[1].bar(x + (index-1.5)*width, [arms[n]['selected_target_events_per_request'].get(key, 0) for n in names], width, label=title)
     axes[1].set_xticks(x, [label(n) for n in names], rotation=55, ha='right')
     axes[1].set(ylabel='요청당 retired L2 miss 추정', title='모든 정책에서 같은 타깃 주소 집합을 비교')
     axes[1].legend(fontsize=8); axes[1].grid(axis='y', alpha=.2)
@@ -166,6 +168,9 @@ def report_text(root, report):
             '모든 타깃은 별도 과거 PEBS/LBR 훈련 자료에서 선택했다. 이번 검증 trace로 타깃을 다시 고르지 않았다. '
             '새 힌트는 9개 앱의 main ELF에만 추가했고 기존 MongoDB·DSO 정책은 유지했다. 커널이나 schedule-in hook은 바꾸지 않았다. '
             '직접 호출 stub을 사용하므로 RPC 이름이나 간접 함수 포인터를 요청마다 검색하는 런타임 코드는 추가하지 않았다.', '',
+            '정적 검토에서 새 RPC 생성기가 명령의 시작 라인을 골랐고 기존 전체 경로 생성기는 경계에 걸친 명령의 다음 라인을 고려했다는 차이를 발견했다. '
+            '후속 성능 측정이 시작되기 전에 `wide_span`을 추가했다. 동일한 과거 훈련 자료에서 명령 길이를 디코딩하고, 경계에 걸친 경우 다음 명령의 라인으로 타깃을 재선정한다. '
+            'RPC별 최대 16개·최소 표본 3개 규칙은 유지한다. 실제 선택 개수와 타깃도 달라지므로 wide와의 차이를 경계 처리 하나만의 효과로 단정하지 않는다.', '',
             f'최종 NOP의 범위: {"새 응답 힌트만 끄며 입력 RPC 힌트는 유지한다" if nominee.startswith("reply") else "이번에 추가한 입력 RPC 힌트를 끄며 기존 정책 힌트는 유지한다"}.', '',
             '## 구현별 탐색 결과', '']
     for phase, title in [('screen', '동일 배치의 발행 시점 비교'), ('confirmation', '발행 시점 후보의 독립 확인'),
@@ -189,10 +194,23 @@ def report_text(root, report):
              f'![잔여 미스와 고정 주소의 미스](figures/{TAG}_residual_coverage.png)', '']
     residual=report['residuals']['arms']
     text += ['타깃 주소 집합을 고정한 비교다. 각 열은 모든 정책에서 똑같은 원래 코드 주소를 세며, 세 주소 집합은 서로 중복될 수 있다.', '',
-             table(['정책','처음 고른 주소 miss/request','확대한 주소 miss/request','응답용 주소 miss/request'],
+             table(['정책','처음 고른 주소 miss/request','확대한 주소 miss/request','경계 보정 주소 miss/request','응답용 주소 miss/request'],
                    [[label(n)]+[f'{residual[n]["selected_target_events_per_request"].get(key,0):.2f}'
-                                for key in ('selected_lines','wide_selected_lines','reply_selected_lines')]
-                    for n in ('full','nop','early','late','split','lean','wide','reply','reply_it0')]),'']
+                                for key in ('selected_lines','wide_selected_lines','span_selected_lines','reply_selected_lines')]
+                    for n in ('full','nop','early','late','split','lean','wide','wide_span','reply','reply_it0')]),'']
+    geometry_rows=[]
+    for n in ('full','wide','wide_span',nominee):
+        if any(v[0]==label(n) for v in geometry_rows):continue
+        v=residual[n];g=v['continuation_line_model']['geometry_per_request'];total=v['per_request']['all']
+        geometry_rows.append([label(n),f'{100*g.get("straddling",0)/total:.2f}%',
+            f'{v["per_request"].get("not_targeted",0):.2f}',
+            f'{v["continuation_line_model"]["per_request"].get("not_targeted",0):.2f}',
+            f'{100*g.get("undecoded",0)/total:.2f}%'])
+    text += ['### 명령이 캐시라인 경계에 걸치는 경우', '',
+             table(['정책','경계에 걸친 표본 비중','시작 라인 미타깃 miss/request','끝 라인 가정 미타깃 miss/request','길이 미분류'],geometry_rows),'',
+             '표본 IP는 명령의 시작 주소다. 두 라인에 걸친 명령에서 어느 라인이 실제로 미스했는지는 이 이벤트만으로 확정할 수 없다. '
+             '따라서 시작 라인 분류와 마지막 바이트가 있는 라인으로 옮긴 민감도 분석을 함께 보존한다. 전체 L2 미스 수는 바뀌지 않는다. '
+             '아래 위치 표는 시작 주소 기준이며, 이 분류 변경을 실제 미스 감소로 계산하지 않는다.', '']
     for prefix,title in [('', '앱 서버 9개'), ('mongo_', 'MongoDB 3개')]:
         f=residual[prefix+'full']['per_request'];c=residual[prefix+nominee]['per_request']
         text += [f'### {title} · 공유 라이브러리 포함', '',
@@ -268,6 +286,9 @@ def report_text(root, report):
              '50초 warmup·60초 clean ROI다. MovieId를 포함한 compose-review 경로를 평가했으며 다른 Media API 전체를 검증한 것은 아니다. '
              '타이밍 탐색 후 구조를 확장한 각 정책은 해당 실행 전에 기록했다. 최종 후보는 커버리지 탐색에서 고정하고 독립 확인 결과로 재선택하지 않았다. '
              '유효 실행은 성능에 따라 제외하거나 재시도하지 않았다.', '']
+    text += ['경계 보정판 추가를 위해 후속 코디네이터만 기능 검사 사이에서 교체했다. 진행 중이던 wide 기능 검사는 정상 종료와 설정 복원을 기다렸으며, '
+             '완료된 lean·lean NOP·wide 검사는 보존하고 반복하지 않았다. 이때 커버리지 성능 측정은 아직 시작하지 않았다. '
+             '수정된 탐색은 6개 정책×4블록이며, 최종 독립 확인 4개 정책×6블록은 유지했다. 교체 전 코디네이터 로그와 변경 사유를 모두 보존했다.', '']
     for phase,values in report['baseline_variation'].items():
         text += [f'{phase}: '+', '.join(f'{label(n)} RPS 변동계수 {v["cv_pct"]:.2f}%' for n,v in values.items())+'.', '']
     text += ['단계별 불필요 ELF·임시 object·decoded trace를 수치·명령·소스·patch·해시 보존 후 정리했다. '

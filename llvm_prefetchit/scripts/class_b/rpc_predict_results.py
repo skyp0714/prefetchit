@@ -67,12 +67,12 @@ def summarize(root):
     report=dict(candidate=candidate,decision=decision,phases=phases,baseline_variation=baseline,
         pmu=load(root/'analysis/pmu_summary.json'),residuals=load(root/'analysis/residuals.json'),
         residual_symbols=load(root/'analysis/residual_symbols.json'),
-        prepared={n:load(root/'prepared_candidates.json')[n]['builds'] for n in ('lean','wide','reply','reply_it0')},
+        prepared={n:load(root/'prepared_candidates.json')[n]['builds'] for n in ('lean','wide','wide_span','reply','reply_it0')},
         limits='All endpoint effects use fresh stacks and clean ROIs. Phases are not pooled. PMU windows and PEBS profiles are descriptive independent diagnostics; raw L2 code reads and retired L2 misses are different populations. No BTB occupancy, prefetch completion, or exact hint-to-fetch latency is measured.')
     b.save(root/'final_decision.json',decision);b.save(root/'analysis/report.json',report)
     arms=load(root/'arms.json');keep=[arms['original'],arms['full']]
     if promoted:keep += [arms[candidate],arms[candidate+'_nop']]
-    rejected=[n for n in ('early','late','split','nop','lean','wide','reply','reply_it0') if not promoted or n!=candidate]
+    rejected=[n for n in ('early','late','split','nop','lean','wide','wide_span','reply','reply_it0') if not promoted or n!=candidate]
     # Some winning variants reference binaries stored in a parent variant's
     # folder. Protection is by resolved measured path, never just folder name.
     cleanup(root,rejected,keep,'final_rejected_cleanup.json')
@@ -167,7 +167,7 @@ def publish(root):
             assert hashlib.sha256(data).hexdigest()==records[member.name]['sha256']
     assert archive.stat().st_size<90*2**20
     b.save(destination/'records_manifest.json',records);b.save(destination/'local_profiles.json',dict(root=str(root),files=local))
-    for name in ('final_decision.json','final_restoration_audit.json','reply_it0_predeclared.json','reply_predeclared.json','wide_predeclared.json'):
+    for name in ('final_decision.json','final_restoration_audit.json','reply_it0_predeclared.json','reply_predeclared.json','wide_predeclared.json','straddle_amendment.json'):
         shutil.copyfile(root/name,destination/name)
     shutil.copyfile(root/'analysis/report.json',destination/'report.json')
     figures={}
